@@ -125,6 +125,7 @@ describe("job catalog", () => {
         { id: "state", text: "Developer", hostedUrl: "https://acme.test/state", categories: { location: "Karnataka" }, descriptionPlain: "Build" },
         { id: "foreign", text: "Developer", hostedUrl: "https://acme.test/foreign", categories: { location: "New York, US" }, descriptionPlain: "Collaborate with our India office" },
         { id: "excluded", text: "Developer", hostedUrl: "https://acme.test/excluded", categories: { location: "Remote - Global" }, workplaceType: "remote", descriptionPlain: "This role is not available in India or Asia" },
+        { id: "excluded-location", text: "Developer", hostedUrl: "https://acme.test/excluded-location", categories: { location: "Remote - APAC (excluding India)" }, workplaceType: "remote", descriptionPlain: "Build" },
         { id: "us", text: "Developer", hostedUrl: "https://acme.test/us", categories: { location: "New York, US" }, descriptionPlain: "Build" },
       ]),
     });

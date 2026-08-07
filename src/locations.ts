@@ -31,8 +31,9 @@ export function normalizeLocation(value: string): string {
 }
 
 export function isExplicitlyIndiaEligible(job: Job): boolean {
+  if (job.remote && INDIA_EXCLUSION_PATTERN.test(`${job.location}\n${job.description}`)) return false;
   if (INDIA_PATTERN.test(job.location)) return true;
-  if (!job.remote || INDIA_EXCLUSION_PATTERN.test(job.description)) return false;
+  if (!job.remote) return false;
   return INDIA_INCLUSIVE_REGION_PATTERN.test(job.location) || INDIA_ELIGIBILITY_PATTERN.test(job.description);
 }
 
