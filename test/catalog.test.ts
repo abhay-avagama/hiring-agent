@@ -123,6 +123,8 @@ describe("job catalog", () => {
         { id: "in", text: "Developer", hostedUrl: "https://acme.test/in", categories: { location: "Hyderabad" }, descriptionPlain: "Build" },
         { id: "apac", text: "Developer", hostedUrl: "https://acme.test/apac", categories: { location: "Remote - APAC" }, workplaceType: "remote", descriptionPlain: "Build across Asia" },
         { id: "state", text: "Developer", hostedUrl: "https://acme.test/state", categories: { location: "Karnataka" }, descriptionPlain: "Build" },
+        { id: "foreign", text: "Developer", hostedUrl: "https://acme.test/foreign", categories: { location: "New York, US" }, descriptionPlain: "Collaborate with our India office" },
+        { id: "excluded", text: "Developer", hostedUrl: "https://acme.test/excluded", categories: { location: "Remote - Global" }, workplaceType: "remote", descriptionPlain: "This role is not available in India or Asia" },
         { id: "us", text: "Developer", hostedUrl: "https://acme.test/us", categories: { location: "New York, US" }, descriptionPlain: "Build" },
       ]),
     });

@@ -14,6 +14,8 @@ const INDIA_PLACES = [
 
 const INDIA_PATTERN = new RegExp(`\\b(${INDIA_PLACES.map(escapeRegExp).join("|")})\\b`, "i");
 const INDIA_INCLUSIVE_REGION_PATTERN = /\b(apac|asia|asia[ -]pacific|worldwide|anywhere|global)\b/i;
+const INDIA_EXCLUSION_PATTERN = /\b(not available|unavailable|excluding|except|cannot hire|can't hire|unable to hire|do not hire|does not hire)\b.{0,80}\b(india|apac|asia)\b|\b(india|apac|asia)\b.{0,40}\b(excluded|not eligible|not supported)\b/i;
+const INDIA_ELIGIBILITY_PATTERN = /\b(remote (?:in|from)|available (?:in|to)|open to|hiring (?:in|from)|candidates? (?:in|from)|applicants? (?:in|from)|work (?:in|from)|based in)\b.{0,80}\b(india|apac|asia)\b|\b(india|apac|asia)\b.{0,40}\b(remote|candidates?|applicants?|eligible|hiring)\b/i;
 
 export function normalizeLocation(value: string): string {
   const aliases: Record<string, string> = {
@@ -29,8 +31,9 @@ export function normalizeLocation(value: string): string {
 }
 
 export function isExplicitlyIndiaEligible(job: Job): boolean {
-  const evidence = `${job.location}\n${job.description}`;
-  return INDIA_PATTERN.test(evidence) || (job.remote && INDIA_INCLUSIVE_REGION_PATTERN.test(evidence));
+  if (INDIA_PATTERN.test(job.location)) return true;
+  if (!job.remote || INDIA_EXCLUSION_PATTERN.test(job.description)) return false;
+  return INDIA_INCLUSIVE_REGION_PATTERN.test(job.location) || INDIA_ELIGIBILITY_PATTERN.test(job.description);
 }
 
 function escapeRegExp(value: string): string {
