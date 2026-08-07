@@ -1,0 +1,19 @@
+{
+  "name": "openings",
+  "version": "0.1.0",
+  "description": "A free, read-only job-search substrate for AI agents",
+  "type": "module",
+  "bin": {
+    "openings": "./src/cli.ts"
+  },
+  "scripts": {
+    "test": "bun test",
+    "typecheck": "bunx tsc --noEmit",
+    "start": "bun run src/cli.ts",
+    "mcp": "bun run src/mcp.ts"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "typescript": "^5.9.2"
+  }
+}

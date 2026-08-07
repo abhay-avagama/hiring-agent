@@ -1,0 +1,23 @@
+{
+  "name": "openings",
+  "version": "0.1.0",
+  "description": "Search public company job boards from any AI agent without accounts or API keys.",
+  "author": { "name": "Openings contributors" },
+  "license": "MIT",
+  "keywords": ["jobs", "search", "mcp", "greenhouse", "lever", "ashby"],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "Openings",
+    "shortDescription": "Search real jobs on public company boards.",
+    "longDescription": "A free, read-only jobs substrate. Search Greenhouse, Lever, and Ashby boards, inspect full descriptions, and tailor local application materials in your own voice.",
+    "developerName": "Openings contributors",
+    "category": "Productivity",
+    "capabilities": ["Read-only job search", "Local application drafting"],
+    "defaultPrompt": [
+      "Find remote engineering roles that fit my resume.",
+      "Show me the full description for this opening.",
+      "Tailor my resume and draft a letter in my voice."
+    ]
+  }
+}
