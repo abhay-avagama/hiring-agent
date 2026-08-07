@@ -103,4 +103,30 @@ describe("job catalog", () => {
     const [job] = await catalog.search({ query: "engineer data" });
     expect(job).not.toHaveProperty("description");
   });
+
+  test("matches common Indian city name variants", async () => {
+    const catalog = createCatalog({
+      companies: [{ slug: "acme", name: "Acme", ats: "greenhouse", token: "acme" }],
+      fetch: async () => Response.json({ jobs: [{
+        id: 1, title: "Backend Engineer", location: { name: "Bengaluru, Karnataka, India" },
+        absolute_url: "https://acme.test/1", content: "Build systems",
+      }] }),
+    });
+
+    expect(await catalog.search({ location: "Bangalore" })).toHaveLength(1);
+  });
+
+  test("filters India roles even when the ATS omits the country name", async () => {
+    const catalog = createCatalog({
+      companies: [{ slug: "acme", name: "Acme", ats: "lever", token: "acme" }],
+      fetch: async () => Response.json([
+        { id: "in", text: "Developer", hostedUrl: "https://acme.test/in", categories: { location: "Hyderabad" }, descriptionPlain: "Build" },
+        { id: "us", text: "Developer", hostedUrl: "https://acme.test/us", categories: { location: "New York, US" }, descriptionPlain: "Build" },
+      ]),
+    });
+
+    expect(await catalog.search({ country: "IN" })).toEqual([
+      expect.objectContaining({ id: "lever:acme:in" }),
+    ]);
+  });
 });

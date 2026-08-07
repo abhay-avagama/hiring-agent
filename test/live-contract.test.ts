@@ -19,3 +19,13 @@ for (const company of boards) {
     expect(job?.url).toStartWith("https://");
   }, 20_000);
 }
+
+test.skipIf(!enabled)("India filter returns live roles from an India-hiring board", async () => {
+  const catalog = createCatalog({
+    companies: [{ slug: "point72", name: "Point72", ats: "greenhouse", token: "point72" }],
+    cacheTtlMs: 0,
+  });
+  const jobs = await catalog.search({ country: "IN", limit: 10 });
+  expect(jobs.length).toBeGreaterThan(0);
+  expect(jobs.every((job) => /india|bengaluru|bangalore|hyderabad|pune|chennai|mumbai|gurugram|gurgaon|noida|delhi|kolkata/i.test(job.location))).toBe(true);
+}, 20_000);

@@ -11,6 +11,7 @@ Use the `search_jobs` and `get_job` tools to discover and inspect openings. Thes
 
 1. Ask only for missing constraints that materially change the search; otherwise infer them from the conversation.
 2. Call `search_jobs` with useful role words, location, and remote preference.
+   - For a user seeking work in India, pass `country: "IN"`. Add `location` only when they want a particular city; Bangalore/Bengaluru and Gurgaon/Gurugram are treated as equivalents.
 3. Present a short, evidence-based shortlist. Do not claim candidate fit until you have read both the full job and the user's resume.
 4. Call `get_job` before analyzing or tailoring for a selected role.
 

@@ -15,7 +15,7 @@
     "category": "Productivity",
     "capabilities": ["Read-only job search", "Local application drafting"],
     "defaultPrompt": [
-      "Find remote engineering roles that fit my resume.",
+      "Find engineering roles in India that fit my resume.",
       "Show me the full description for this opening.",
       "Tailor my resume and draft a letter in my voice."
     ]

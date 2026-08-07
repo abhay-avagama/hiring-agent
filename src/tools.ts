@@ -17,6 +17,7 @@ export function createToolHandler(catalog: Catalog) {
         properties: {
           query: { type: "string", description: "Words to match in job title or company" },
           location: { type: "string", description: "Case-insensitive location substring" },
+          country: { type: "string", enum: ["IN"], description: "Use IN to focus on jobs available to developers in India" },
           remote: { type: "boolean", description: "True for remote-only; false for non-remote-only" },
           limit: { type: "integer", minimum: 1, maximum: 100, default: 50 },
         },
@@ -42,6 +43,8 @@ export function createToolHandler(catalog: Catalog) {
         const query: SearchQuery = {};
         if (typeof input.query === "string") query.query = input.query;
         if (typeof input.location === "string") query.location = input.location;
+        if (input.country === "IN") query.country = "IN";
+        else if (input.country !== undefined) throw new Error("country currently supports only IN");
         if (typeof input.remote === "boolean") query.remote = input.remote;
         if (typeof input.limit === "number") query.limit = Math.min(100, Math.max(1, Math.trunc(input.limit)));
         return { jobs: await catalog.search(query) };

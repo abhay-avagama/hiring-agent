@@ -13,6 +13,8 @@ The initial release supports Greenhouse, Lever, and Ashby. The bundled index is 
 ```sh
 bun install
 bun run src/cli.ts search "platform engineer" --remote --limit 10
+bun run src/cli.ts search "backend engineer" --india --limit 20
+bun run src/cli.ts search developer --india --location Bangalore
 bun run src/cli.ts get greenhouse:anthropic:12345
 ```
 
@@ -30,7 +32,7 @@ For a client that accepts MCP configuration, point a stdio server at `bun` with 
 
 The server exposes only:
 
-- `search_jobs(query?, location?, remote?, limit?)`
+- `search_jobs(query?, location?, country?, remote?, limit?)` — use `country: "IN"` for India
 - `get_job(id)`
 
 It intentionally exposes no write, form-fill, or submit tool.
@@ -43,7 +45,7 @@ Add one entry keyed by a stable lowercase slug:
 "example": { "name": "Example", "ats": "greenhouse", "token": "example" }
 ```
 
-The token is the public board identifier visible in the company's job-board URL. Supported `ats` values are `greenhouse`, `lever`, and `ashby`.
+The token is the public board identifier visible in the company's job-board URL. Supported `ats` values are `greenhouse`, `lever`, and `ashby`. India searches normalize common city variants such as Bangalore/Bengaluru and Gurgaon/Gurugram.
 
 ## Develop
 

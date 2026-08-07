@@ -24,6 +24,7 @@ export interface Job extends JobSummary {
 export interface SearchQuery {
   query?: string;
   location?: string;
+  country?: "IN";
   remote?: boolean;
   limit?: number;
 }

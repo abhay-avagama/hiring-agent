@@ -4,7 +4,7 @@ import { catalog } from "./index.ts";
 const HELP = `Openings — search public company job boards
 
 Usage:
-  openings search [words] [--location PLACE] [--remote|--onsite] [--limit N]
+  openings search [words] [--india] [--location PLACE] [--remote|--onsite] [--limit N]
   openings get JOB_ID
   openings --help
 
@@ -40,6 +40,7 @@ export async function run(args: string[]): Promise<number> {
 function parseSearch(args: string[]) {
   const queryWords: string[] = [];
   let location: string | undefined;
+  let country: "IN" | undefined;
   let remote: boolean | undefined;
   let limit: number | undefined;
 
@@ -49,6 +50,7 @@ function parseSearch(args: string[]) {
       location = args[++index];
       if (!location) return "--location requires a value";
     } else if (arg === "--remote") remote = true;
+    else if (arg === "--india") country = "IN";
     else if (arg === "--onsite") remote = false;
     else if (arg === "--limit") {
       limit = Number(args[++index]);
@@ -57,7 +59,7 @@ function parseSearch(args: string[]) {
     else if (arg) queryWords.push(arg);
   }
 
-  return { query: queryWords.join(" ") || undefined, location, remote, limit };
+  return { query: queryWords.join(" ") || undefined, location, country, remote, limit };
 }
 
 function fail(message: string, code = 1): number {
