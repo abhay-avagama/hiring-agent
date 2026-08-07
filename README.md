@@ -50,6 +50,7 @@ The token is the public board identifier visible in the company's job-board URL.
 ```sh
 bun test
 bun run typecheck
+bun run test:live # verifies one real board per ATS; requires internet access
 ```
 
 ## Privacy and application safety

@@ -49,9 +49,14 @@ export function createCatalog(options: CatalogOptions): Catalog {
   async function fetchJobs(company: Company): Promise<Job[]> {
     const cached = cache.get(company.slug);
     if (cached && cached.expiresAt > Date.now()) return cached.jobs;
-    const jobs = fetchBoard(company).catch(() => []);
+    const jobs = fetchBoard(company);
     cache.set(company.slug, { expiresAt: Date.now() + (options.cacheTtlMs ?? 5 * 60_000), jobs });
-    return jobs;
+    try {
+      return await jobs;
+    } catch (error) {
+      cache.delete(company.slug);
+      throw error;
+    }
   }
 
   async function fetchBoard(company: Company): Promise<Job[]> {
@@ -60,8 +65,8 @@ export function createCatalog(options: CatalogOptions): Catalog {
       : company.ats === "lever"
         ? `https://api.lever.co/v0/postings/${encodeURIComponent(company.token)}?mode=json`
         : `https://api.ashbyhq.com/posting-api/job-board/${encodeURIComponent(company.token)}`;
-    const response = await fetcher(url, company.ats === "ashby" ? { method: "POST" } : undefined);
-    if (!response.ok) return [];
+    const response = await fetcher(url);
+    if (!response.ok) throw new Error(`${company.name} job board returned HTTP ${response.status}`);
     const body = await response.json();
     return company.ats === "greenhouse"
       ? (body as { jobs: GreenhouseJob[] }).jobs.map((job) => normalizeGreenhouse(company, job))
@@ -72,15 +77,17 @@ export function createCatalog(options: CatalogOptions): Catalog {
 
   return {
     async search(query) {
-      const jobs = (await Promise.all(options.companies.map(fetchJobs))).flat();
+      const jobs = (await Promise.all(options.companies.map((company) => fetchJobs(company).catch(() => [])))).flat();
 
-      return jobs.filter((job) => matches(job, query)).slice(0, query.limit ?? 50);
+      return jobs.filter((job) => matches(job, query)).slice(0, query.limit ?? 50).map(toSummary);
     },
     async get(id) {
       const [ats, slug] = id.split(":", 3);
       const company = options.companies.find((candidate) => candidate.ats === ats && candidate.slug === slug);
       if (!company) return null;
-      return (await fetchJobs(company)).find((job) => job.id === id) ?? null;
+      const job = (await fetchJobs(company)).find((candidate) => candidate.id === id) ?? null;
+      if (job && !job.description.trim()) throw new Error(`Full description unavailable for job: ${id}`);
+      return job;
     },
   };
 }
@@ -128,11 +135,17 @@ function normalizeGreenhouse(company: Company, job: GreenhouseJob): Job {
 }
 
 function matches(job: JobSummary, query: SearchQuery): boolean {
-  const needle = query.query?.trim().toLocaleLowerCase();
+  const terms = query.query?.trim().toLocaleLowerCase().split(/\s+/).filter(Boolean) ?? [];
   const location = query.location?.trim().toLocaleLowerCase();
-  return (!needle || `${job.title} ${job.company}`.toLocaleLowerCase().includes(needle))
+  const searchable = `${job.title} ${job.company}`.toLocaleLowerCase();
+  return (terms.length === 0 || terms.every((term) => searchable.includes(term)))
     && (!location || job.location.toLocaleLowerCase().includes(location))
     && (query.remote === undefined || job.remote === query.remote);
+}
+
+function toSummary(job: Job): JobSummary {
+  const { description: _description, ...summary } = job;
+  return summary;
 }
 
 function stripHtml(value: string): string {

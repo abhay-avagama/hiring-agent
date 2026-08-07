@@ -1,8 +1,5 @@
 {
   "anthropic": { "name": "Anthropic", "ats": "greenhouse", "token": "anthropic" },
-  "cloudflare": { "name": "Cloudflare", "ats": "greenhouse", "token": "cloudflare" },
-  "figma": { "name": "Figma", "ats": "greenhouse", "token": "figma" },
-  "netlify": { "name": "Netlify", "ats": "lever", "token": "netlify" },
-  "sourcegraph": { "name": "Sourcegraph", "ats": "lever", "token": "sourcegraph" },
+  "flex": { "name": "Flex", "ats": "lever", "token": "Flex" },
   "posthog": { "name": "PostHog", "ats": "ashby", "token": "posthog" }
 }

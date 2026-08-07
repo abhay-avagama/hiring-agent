@@ -36,7 +36,7 @@ describe("job catalog", () => {
     expect(await catalog.search({ location: "berlin" })).toEqual([]);
   });
 
-  test("searches Ashby with its POST board protocol", async () => {
+  test("searches Ashby with its public GET board protocol", async () => {
     let request: [string, RequestInit?] | undefined;
     const catalog = createCatalog({
       companies: [{ slug: "gamma", name: "Gamma", ats: "ashby", token: "gamma" }],
@@ -55,7 +55,7 @@ describe("job catalog", () => {
     ]);
     expect(request).toEqual([
       "https://api.ashbyhq.com/posting-api/job-board/gamma",
-      expect.objectContaining({ method: "POST" }),
+      undefined,
     ]);
   });
 
@@ -92,5 +92,15 @@ describe("job catalog", () => {
     });
 
     expect(await catalog.search({ query: "engineer" })).toHaveLength(1);
+  });
+
+  test("search returns summaries without full descriptions", async () => {
+    const catalog = createCatalog({
+      companies: [{ slug: "acme", name: "Acme", ats: "lever", token: "acme" }],
+      fetch: async () => Response.json([{ id: "1", text: "Senior Data Engineer", hostedUrl: "https://acme.test/1", categories: { location: "Remote" }, descriptionPlain: "A very long description" }]),
+    });
+
+    const [job] = await catalog.search({ query: "engineer data" });
+    expect(job).not.toHaveProperty("description");
   });
 });
