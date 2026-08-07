@@ -5,6 +5,7 @@ export interface Company {
   name: string;
   ats: Ats;
   token: string;
+  markets?: Array<"IN">;
 }
 
 export interface JobSummary {

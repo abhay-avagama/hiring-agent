@@ -1,4 +1,5 @@
 import type { Company, Job, JobSummary, SearchQuery } from "./types.ts";
+import { isExplicitlyIndiaEligible, normalizeLocation } from "./locations.ts";
 
 type Fetch = (input: string | URL, init?: RequestInit) => Promise<Response>;
 
@@ -134,30 +135,14 @@ function normalizeGreenhouse(company: Company, job: GreenhouseJob): Job {
   };
 }
 
-function matches(job: JobSummary, query: SearchQuery): boolean {
+function matches(job: Job, query: SearchQuery): boolean {
   const terms = query.query?.trim().toLocaleLowerCase().split(/\s+/).filter(Boolean) ?? [];
   const location = query.location ? normalizeLocation(query.location) : undefined;
   const searchable = `${job.title} ${job.company}`.toLocaleLowerCase();
   return (terms.length === 0 || terms.every((term) => searchable.includes(term)))
     && (!location || normalizeLocation(job.location).includes(location))
-    && (!query.country || matchesCountry(job.location, query.country))
+    && (!query.country || isExplicitlyIndiaEligible(job))
     && (query.remote === undefined || job.remote === query.remote);
-}
-
-function matchesCountry(location: string, country: "IN"): boolean {
-  if (country !== "IN") return false;
-  return /\b(india|bengaluru|bangalore|hyderabad|pune|chennai|mumbai|gurugram|gurgaon|noida|delhi|kolkata|ahmedabad|kochi|cochin|jaipur|chandigarh|coimbatore|indore|thiruvananthapuram|goa)\b/i.test(location);
-}
-
-function normalizeLocation(value: string): string {
-  const aliases: Record<string, string> = {
-    bangalore: "bengaluru",
-    gurgaon: "gurugram",
-    bombay: "mumbai",
-    calcutta: "kolkata",
-    madras: "chennai",
-  };
-  return value.trim().toLocaleLowerCase().replace(/\b(bangalore|gurgaon|bombay|calcutta|madras)\b/g, (name) => aliases[name] ?? name);
 }
 
 function toSummary(job: Job): JobSummary {

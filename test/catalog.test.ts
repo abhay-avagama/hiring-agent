@@ -121,12 +121,16 @@ describe("job catalog", () => {
       companies: [{ slug: "acme", name: "Acme", ats: "lever", token: "acme" }],
       fetch: async () => Response.json([
         { id: "in", text: "Developer", hostedUrl: "https://acme.test/in", categories: { location: "Hyderabad" }, descriptionPlain: "Build" },
+        { id: "apac", text: "Developer", hostedUrl: "https://acme.test/apac", categories: { location: "Remote - APAC" }, workplaceType: "remote", descriptionPlain: "Build across Asia" },
+        { id: "state", text: "Developer", hostedUrl: "https://acme.test/state", categories: { location: "Karnataka" }, descriptionPlain: "Build" },
         { id: "us", text: "Developer", hostedUrl: "https://acme.test/us", categories: { location: "New York, US" }, descriptionPlain: "Build" },
       ]),
     });
 
     expect(await catalog.search({ country: "IN" })).toEqual([
       expect.objectContaining({ id: "lever:acme:in" }),
+      expect.objectContaining({ id: "lever:acme:apac" }),
+      expect.objectContaining({ id: "lever:acme:state" }),
     ]);
   });
 });

@@ -1,14 +1,14 @@
 {
   "anthropic": { "name": "Anthropic", "ats": "greenhouse", "token": "anthropic" },
-  "britive": { "name": "Britive", "ats": "greenhouse", "token": "britive" },
-  "dialpad": { "name": "Dialpad", "ats": "greenhouse", "token": "dialpad" },
+  "britive": { "name": "Britive", "ats": "greenhouse", "token": "britive", "markets": ["IN"] },
+  "dialpad": { "name": "Dialpad", "ats": "greenhouse", "token": "dialpad", "markets": ["IN"] },
   "flex": { "name": "Flex", "ats": "lever", "token": "Flex" },
-  "forward-networks": { "name": "Forward Networks", "ats": "greenhouse", "token": "forwardnetworks" },
-  "graphcore": { "name": "Graphcore", "ats": "greenhouse", "token": "graphcore" },
-  "karat": { "name": "Karat", "ats": "greenhouse", "token": "karat" },
-  "knowbe4": { "name": "KnowBe4", "ats": "greenhouse", "token": "knowbe4" },
-  "onetrust": { "name": "OneTrust", "ats": "greenhouse", "token": "onetrust" },
-  "point72": { "name": "Point72", "ats": "greenhouse", "token": "point72" },
+  "forward-networks": { "name": "Forward Networks", "ats": "greenhouse", "token": "forwardnetworks", "markets": ["IN"] },
+  "graphcore": { "name": "Graphcore", "ats": "greenhouse", "token": "graphcore", "markets": ["IN"] },
+  "karat": { "name": "Karat", "ats": "greenhouse", "token": "karat", "markets": ["IN"] },
+  "knowbe4": { "name": "KnowBe4", "ats": "greenhouse", "token": "knowbe4", "markets": ["IN"] },
+  "onetrust": { "name": "OneTrust", "ats": "greenhouse", "token": "onetrust", "markets": ["IN"] },
+  "point72": { "name": "Point72", "ats": "greenhouse", "token": "point72", "markets": ["IN"] },
   "posthog": { "name": "PostHog", "ats": "ashby", "token": "posthog" },
-  "prophecy": { "name": "Prophecy", "ats": "greenhouse", "token": "prophecysimpledatalabs" }
+  "prophecy": { "name": "Prophecy", "ats": "greenhouse", "token": "prophecysimpledatalabs", "markets": ["IN"] }
 }

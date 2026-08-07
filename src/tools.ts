@@ -17,7 +17,7 @@ export function createToolHandler(catalog: Catalog) {
         properties: {
           query: { type: "string", description: "Words to match in job title or company" },
           location: { type: "string", description: "Case-insensitive location substring" },
-          country: { type: "string", enum: ["IN"], description: "Use IN to focus on jobs available to developers in India" },
+          country: { type: "string", enum: ["IN"], description: "Use IN for roles explicitly located in India or remote across India/APAC/Asia/global" },
           remote: { type: "boolean", description: "True for remote-only; false for non-remote-only" },
           limit: { type: "integer", minimum: 1, maximum: 100, default: 50 },
         },

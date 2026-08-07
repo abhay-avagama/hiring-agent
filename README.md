@@ -32,7 +32,7 @@ For a client that accepts MCP configuration, point a stdio server at `bun` with 
 
 The server exposes only:
 
-- `search_jobs(query?, location?, country?, remote?, limit?)` — use `country: "IN"` for India
+- `search_jobs(query?, location?, country?, remote?, limit?)` — use `country: "IN"` for roles explicitly located in India or remote across India/APAC/Asia/global
 - `get_job(id)`
 
 It intentionally exposes no write, form-fill, or submit tool.
@@ -42,10 +42,10 @@ It intentionally exposes no write, form-fill, or submit tool.
 Add one entry keyed by a stable lowercase slug:
 
 ```json
-"example": { "name": "Example", "ats": "greenhouse", "token": "example" }
+"example": { "name": "Example", "ats": "greenhouse", "token": "example", "markets": ["IN"] }
 ```
 
-The token is the public board identifier visible in the company's job-board URL. Supported `ats` values are `greenhouse`, `lever`, and `ashby`. India searches normalize common city variants such as Bangalore/Bengaluru and Gurgaon/Gurugram.
+The token is the public board identifier visible in the company's job-board URL. Supported `ats` values are `greenhouse`, `lever`, and `ashby`. Add `markets: ["IN"]` only after verifying that a board currently carries India-eligible roles; live index-freshness tests check every marked board. India searches normalize common city and state variants such as Bangalore/Bengaluru, Gurgaon/Gurugram, Mysore/Mysuru, and Orissa/Odisha.
 
 ## Develop
 
