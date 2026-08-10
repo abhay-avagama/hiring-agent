@@ -136,4 +136,30 @@ describe("job catalog", () => {
       expect.objectContaining({ id: "lever:acme:state" }),
     ]);
   });
+
+  test("maps regional remote eligibility to countries beyond India", async () => {
+    const catalog = createCatalog({
+      companies: [{ slug: "acme", name: "Acme", ats: "lever", token: "acme" }],
+      fetch: async () => Response.json([
+        { id: "apac", text: "Engineer", hostedUrl: "https://acme.test/apac", categories: { location: "Remote - APAC" }, workplaceType: "remote", descriptionPlain: "Build" },
+        { id: "emea", text: "Engineer", hostedUrl: "https://acme.test/emea", categories: { location: "Remote - EMEA" }, workplaceType: "remote", descriptionPlain: "Build" },
+      ]),
+    });
+
+    expect((await catalog.search({ country: "JP" })).map((job) => job.id)).toEqual(["lever:acme:apac"]);
+    expect((await catalog.search({ country: "DE" })).map((job) => job.id)).toEqual(["lever:acme:emea"]);
+  });
+
+  test("uses bounded eligibility language without treating generic global prose as worldwide", async () => {
+    const catalog = createCatalog({
+      companies: [{ slug: "acme", name: "Acme", ats: "lever", token: "acme" }],
+      fetch: async () => Response.json([
+        { id: "germany", text: "Engineer", hostedUrl: "https://acme.test/germany", categories: { location: "Remote" }, workplaceType: "remote", descriptionPlain: "Open to candidates in Germany." },
+        { id: "us", text: "Engineer", hostedUrl: "https://acme.test/us", categories: { location: "Remote - United States" }, workplaceType: "remote", descriptionPlain: "Join our global company." },
+      ]),
+    });
+
+    expect((await catalog.search({ country: "DE" })).map((job) => job.id)).toEqual(["lever:acme:germany"]);
+    expect((await catalog.search({ country: "IN" })).map((job) => job.id)).toEqual([]);
+  });
 });

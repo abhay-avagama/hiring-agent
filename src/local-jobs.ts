@@ -5,8 +5,9 @@ import type { Company, CrawlReport, Job, JobSnapshot, JobSummary, SearchQuery } 
 interface LocalJobsOptions {
   sources: Company[];
   store: SnapshotStore;
-  fetchJobs(source: Company): Promise<Job[]>;
+  fetchJobs(source: Company, signal?: AbortSignal): Promise<Job[]>;
   concurrency?: number;
+  timeoutMs?: number;
   now?: () => Date;
 }
 
@@ -32,7 +33,7 @@ export function createLocalJobs(options: LocalJobsOptions) {
 
   async function crawl(scope: CrawlScope = {}): Promise<CrawlReport> {
     const selected = selectSources(options.sources, scope);
-    return crawler.crawl(selected);
+    return crawler.crawl(selected, { prune: !scope.country && !scope.slugs });
   }
 
   async function ensureFresh(offline: boolean, staleDays: number): Promise<{ snapshot: JobSnapshot; refreshed: boolean }> {

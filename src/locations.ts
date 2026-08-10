@@ -41,18 +41,20 @@ export function classifyJob(job: Job): Job {
   const workMode = inferWorkMode(job.location, job.workMode);
   const evidence = `${job.location}\n${job.description}`;
   const excludedCountries = detectExcludedCountries(evidence);
-  const eligibleCountries = detectCountries(job.location).filter((code) => !excludedCountries.includes(code));
-  const eligibleRegions = workMode === "remote" ? detectRegions(`${job.location}\n${job.description}`) : [];
+  const eligibleCountries = detectCountries(job.location);
+  if (workMode === "remote") eligibleCountries.push(...detectEligibleCountries(job.description));
+  const uniqueEligibleCountries = [...new Set(eligibleCountries)].filter((code) => !excludedCountries.includes(code));
+  const eligibleRegions = workMode === "remote" ? detectRegions(job.location, job.description) : [];
   const withMode = { ...job, remote: workMode === "remote", workMode };
   const indiaLocation = INDIA_PATTERN.test(job.location);
   const indiaDescription = workMode === "remote" && INDIA_ELIGIBILITY_PATTERN.test(job.description);
-  if ((indiaLocation || indiaDescription) && !excludedCountries.includes("IN") && !eligibleCountries.includes("IN")) eligibleCountries.push("IN");
+  if ((indiaLocation || indiaDescription) && !excludedCountries.includes("IN") && !uniqueEligibleCountries.includes("IN")) uniqueEligibleCountries.push("IN");
   return {
     ...withMode,
-    eligibleCountries: eligibleCountries.sort(),
+    eligibleCountries: uniqueEligibleCountries.sort(),
     excludedCountries,
     eligibleRegions,
-    eligibilityConfidence: eligibleCountries.length > 0 ? "explicit" : eligibleRegions.length > 0 ? "inferred" : "unknown",
+    eligibilityConfidence: uniqueEligibleCountries.length > 0 ? "explicit" : eligibleRegions.length > 0 ? "inferred" : "unknown",
   };
 }
 
@@ -61,16 +63,13 @@ export function isEligibleForCountry(job: Job, country: string): boolean {
   if (job.excludedCountries.includes(code)) return false;
   if (job.eligibleCountries.includes(code)) return true;
   if (job.eligibleRegions.includes("worldwide")) return true;
-  if (code === "IN" && job.eligibleRegions.some((region) => region === "APAC" || region === "Asia")) return true;
-  return false;
+  return job.eligibleRegions.some((region) => regionIncludes(region, code));
 }
 
 function detectExcludedCountries(value: string): string[] {
   const excluded: string[] = [];
-  for (const [code, name] of countryNames()) {
-    const escaped = escapeRegExp(name);
-    const pattern = new RegExp(`\\b(not available|unavailable|excluding|except|cannot hire|can't hire|unable to hire|do not hire|does not hire)\\b.{0,80}\\b${escaped}\\b|\\b${escaped}\\b.{0,40}\\b(excluded|not eligible|not supported)\\b`, "i");
-    if (pattern.test(value)) excluded.push(code);
+  for (const rule of countryRules()) {
+    if (rule.exclusion.test(value)) excluded.push(rule.code);
   }
   return excluded.sort();
 }
@@ -83,7 +82,7 @@ function inferWorkMode(location: string, supplied: Job["workMode"]): Job["workMo
   return "unknown";
 }
 
-function detectRegions(value: string): string[] {
+function detectRegions(location: string, description: string): string[] {
   const regions: Array<[string, RegExp]> = [
     ["worldwide", /\b(worldwide|anywhere|global)\b/i],
     ["APAC", /\b(APAC|Asia[ -]Pacific)\b/i],
@@ -91,13 +90,29 @@ function detectRegions(value: string): string[] {
     ["EMEA", /\bEMEA\b/i],
     ["LATAM", /\b(LATAM|Latin America)\b/i],
   ];
-  return regions.filter(([, pattern]) => pattern.test(value)).map(([name]) => name);
+  const fromLocation = regions.filter(([, pattern]) => pattern.test(location)).map(([name]) => name);
+  const eligibilityPhrase = /\b(remote|open to|hiring|candidates?|applicants?|eligible|work from)\b.{0,60}\b(worldwide|anywhere|global|APAC|Asia[ -]Pacific|Asia|EMEA|LATAM|Latin America)\b/gi;
+  const fromDescription: string[] = [];
+  for (const match of description.matchAll(eligibilityPhrase)) {
+    const value = match[2] ?? "";
+    const region = regions.find(([, pattern]) => pattern.test(value))?.[0];
+    if (region) fromDescription.push(region);
+  }
+  return [...new Set([...fromLocation, ...fromDescription])];
 }
 
 function detectCountries(location: string): string[] {
   const matches: string[] = [];
-  for (const [code, name] of countryNames()) {
-    if (new RegExp(`\\b${escapeRegExp(name)}\\b`, "i").test(location)) matches.push(code);
+  for (const rule of countryRules()) {
+    if (rule.location.test(location)) matches.push(rule.code);
+  }
+  return matches;
+}
+
+function detectEligibleCountries(description: string): string[] {
+  const matches: string[] = [];
+  for (const rule of countryRules()) {
+    if (rule.eligibility.test(description)) matches.push(rule.code);
   }
   return matches;
 }
@@ -116,6 +131,42 @@ function countryNames(): Array<[string, string]> {
   }
   cachedCountryNames = names;
   return names;
+}
+
+let cachedCountryMatchers: Array<[string, string]> | undefined;
+function countryMatchers(): Array<[string, string]> {
+  if (cachedCountryMatchers) return cachedCountryMatchers;
+  const aliases: Record<string, string[]> = { US: ["United States", "USA", "U\\.S\\.A\\."], GB: ["United Kingdom", "UK", "U\\.K\\."], AE: ["United Arab Emirates", "UAE"] };
+  cachedCountryMatchers = countryNames().map(([code, name]) => [code, `\\b(?:${[name, ...(aliases[code] ?? [])].map(escapeRegExpUnlessPattern).join("|")})\\b`]);
+  return cachedCountryMatchers;
+}
+
+interface CountryRule { code: string; location: RegExp; exclusion: RegExp; eligibility: RegExp }
+let cachedCountryRules: CountryRule[] | undefined;
+function countryRules(): CountryRule[] {
+  if (cachedCountryRules) return cachedCountryRules;
+  cachedCountryRules = countryMatchers().map(([code, country]) => ({
+    code,
+    location: new RegExp(country, "i"),
+    exclusion: new RegExp(`\\b(not available|unavailable|excluding|except|cannot hire|can't hire|unable to hire|do not hire|does not hire)\\b.{0,80}(?:${country})|(?:${country}).{0,40}\\b(excluded|not eligible|not supported)\\b`, "i"),
+    eligibility: new RegExp(`\\b(open to|hiring|candidates?|applicants?|eligible|remote (?:in|from)|work (?:in|from)|based in|available (?:in|to))\\b.{0,80}(?:${country})`, "i"),
+  }));
+  return cachedCountryRules;
+}
+
+function regionIncludes(region: string, code: string): boolean {
+  if (region === "worldwide") return true;
+  const groups: Record<string, string> = {
+    APAC: "AU BN CN FJ HK ID IN JP KH KR LA MM MN MO MY NP NZ PH PK SG TH TW VN",
+    Asia: "AE AF AM AZ BD BH BN BT CN CY GE HK ID IL IN IQ IR JO JP KG KH KP KR KW KZ LA LB LK MM MN MO MV MY NP OM PH PK PS QA SA SG SY TH TJ TL TM TR TW UZ VN YE",
+    EMEA: "AD AE AF AL AM AO AT AZ BA BE BF BG BH BI BJ BW BY CD CF CG CH CI CM CV CY CZ DE DJ DK DZ EE EG ER ES ET FI FR GA GB GE GH GM GN GQ GR GW HR HU IE IL IQ IR IS IT JO KE KG KM KW KZ LB LI LR LS LT LU LV LY MA MC MD ME MG MK ML MR MT MU MW MZ NA NE NG NL NO OM PL PS PT QA RO RS RU RW SA SC SD SE SI SK SL SM SN SO SS ST SY SZ TD TG TJ TM TN TR TZ UA UG UZ VA YE ZA ZM ZW",
+    LATAM: "AR BO BR BZ CL CO CR CU DO EC GT GY HN HT MX NI PA PE PR PY SR SV UY VE",
+  };
+  return (` ${groups[region] ?? ""} `).includes(` ${code} `);
+}
+
+function escapeRegExpUnlessPattern(value: string): string {
+  return value.includes("\\") ? value : escapeRegExp(value);
 }
 
 function escapeRegExp(value: string): string {

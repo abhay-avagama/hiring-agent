@@ -38,3 +38,35 @@ test("a scoped crawl replaces successes, removes failures, and preserves unselec
   expect(report).toEqual(expect.objectContaining({ selected: 2, succeeded: 1 }));
   expect(report.failed).toEqual([{ source: "failing", error: "HTTP 503" }]);
 });
+
+test("a full crawl prunes partitions no longer in the verified catalog", async () => {
+  const healthy: Company = { slug: "healthy", name: "Healthy", ats: "greenhouse", token: "healthy" };
+  const snapshot: JobSnapshot = {
+    version: 1, updatedAt: "2026-01-01T00:00:00.000Z",
+    partitions: {
+      healthy: { fetchedAt: "2026-01-01T00:00:00.000Z", jobs: [] },
+      retired: { fetchedAt: "2026-01-01T00:00:00.000Z", jobs: [job("old:retired:1", "Retired")] },
+    },
+    lastCrawl: { startedAt: "2026-01-01T00:00:00.000Z", finishedAt: "2026-01-01T00:00:00.000Z", selected: 2, succeeded: 2, failed: [] },
+  };
+  let written: JobSnapshot | undefined;
+  const store = {
+    read: async () => snapshot,
+    write: async (next: JobSnapshot) => { written = next; },
+  };
+  const crawler = createCrawler({ store, fetchJobs: async () => [] });
+  await crawler.crawl([healthy], { prune: true });
+  expect(Object.keys(written!.partitions)).toEqual(["healthy"]);
+});
+
+test("a source that exceeds its timeout is aborted and reported", async () => {
+  let written: JobSnapshot | undefined;
+  const store = { read: async () => null, write: async (next: JobSnapshot) => { written = next; } };
+  const crawler = createCrawler({
+    store, timeoutMs: 5,
+    fetchJobs: async (_source, signal) => new Promise((_resolve, reject) => signal?.addEventListener("abort", () => reject(signal.reason))),
+  });
+  const report = await crawler.crawl([{ slug: "slow", name: "Slow", ats: "lever", token: "slow" }]);
+  expect(report.failed[0]).toEqual(expect.objectContaining({ source: "slow", error: "Timed out after 5ms" }));
+  expect(written?.partitions).toEqual({});
+});

@@ -7,24 +7,30 @@ export interface SnapshotStore {
 
 interface CrawlerOptions {
   store: SnapshotStore;
-  fetchJobs(source: Company): Promise<Job[]>;
+  fetchJobs(source: Company, signal?: AbortSignal): Promise<Job[]>;
   concurrency?: number;
+  timeoutMs?: number;
   now?: () => Date;
 }
 
 export interface Crawler {
-  crawl(sources: Company[]): Promise<CrawlReport>;
+  crawl(sources: Company[], settings?: { prune?: boolean }): Promise<CrawlReport>;
 }
 
 export function createCrawler(options: CrawlerOptions): Crawler {
   const concurrency = Math.max(1, Math.trunc(options.concurrency ?? 10));
+  const timeoutMs = Math.max(1, Math.trunc(options.timeoutMs ?? 30_000));
   const now = options.now ?? (() => new Date());
 
   return {
-    async crawl(sources) {
+    async crawl(sources, settings) {
       const startedAt = now().toISOString();
       const previous = await options.store.read();
       const partitions = { ...(previous?.partitions ?? {}) };
+      if (settings?.prune) {
+        const current = new Set(sources.map((source) => source.slug));
+        for (const slug of Object.keys(partitions)) if (!current.has(slug)) delete partitions[slug];
+      }
       const failed: CrawlFailure[] = [];
       let succeeded = 0;
       let cursor = 0;
@@ -33,13 +39,17 @@ export function createCrawler(options: CrawlerOptions): Crawler {
         while (cursor < sources.length) {
           const source = sources[cursor++];
           if (!source) continue;
+          const controller = new AbortController();
+          const timer = setTimeout(() => controller.abort(new Error(`Timed out after ${timeoutMs}ms`)), timeoutMs);
           try {
-            const jobs = await options.fetchJobs(source);
+            const jobs = await options.fetchJobs(source, controller.signal);
             partitions[source.slug] = { fetchedAt: now().toISOString(), jobs };
             succeeded += 1;
           } catch (error) {
             delete partitions[source.slug];
             failed.push({ source: source.slug, error: error instanceof Error ? error.message : String(error) });
+          } finally {
+            clearTimeout(timer);
           }
         }
       }

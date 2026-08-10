@@ -81,13 +81,13 @@ export function searchJobs(jobs: Job[], query: SearchQuery): JobSummary[] {
   return jobs.filter((job) => matches(job, query)).slice(0, query.limit ?? 50).map(toSummary);
 }
 
-export async function fetchSourceJobs(company: Company, fetcher: Fetch = globalThis.fetch): Promise<Job[]> {
+export async function fetchSourceJobs(company: Company, fetcher: Fetch = globalThis.fetch, signal?: AbortSignal): Promise<Job[]> {
   const url = company.ats === "greenhouse"
     ? `https://boards-api.greenhouse.io/v1/boards/${encodeURIComponent(company.token)}/jobs?content=true`
     : company.ats === "lever"
       ? `https://api.lever.co/v0/postings/${encodeURIComponent(company.token)}?mode=json`
       : `https://api.ashbyhq.com/posting-api/job-board/${encodeURIComponent(company.token)}`;
-  const response = await fetcher(url);
+  const response = await fetcher(url, signal ? { signal } : undefined);
   if (!response.ok) throw new Error(`${company.name} job board returned HTTP ${response.status}`);
   const body = await response.json();
   return company.ats === "greenhouse"
