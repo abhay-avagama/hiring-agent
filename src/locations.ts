@@ -114,6 +114,7 @@ function detectEligibleCountries(description: string): string[] {
   for (const rule of countryRules()) {
     if (rule.eligibility.test(description)) matches.push(rule.code);
   }
+  if (/\b(open to|hiring|candidates?|applicants?|eligible|remote (?:in|from)|work (?:in|from)|based in|available (?:in|to))\b.{0,80}\bGeorgia\b/i.test(description)) matches.push("GE");
   return matches;
 }
 
@@ -138,7 +139,7 @@ function countryMatchers(): Array<[string, string]> {
   if (cachedCountryMatchers) return cachedCountryMatchers;
   const aliases: Record<string, string[]> = { US: ["United States", "USA", "U\\.S\\.A\\.?", "U\\.S\\.?"], GB: ["United Kingdom", "UK", "U\\.K\\.?"], AE: ["United Arab Emirates", "UAE"] };
   cachedCountryMatchers = countryNames().map(([code, name]) => {
-    if (code === "GE") return [code, "(?:\\bTbilisi,?\\s+Georgia\\b|^Georgia$|\\bGeorgia,?\\s+(?:Country|Europe)\\b)"];
+    if (code === "GE") return [code, "(?:\\b(?:Tbilisi|Batumi|Kutaisi|Rustavi|Gori|Zugdidi),?\\s+Georgia\\b|^Georgia$|\\bGeorgia,?\\s+(?:Country|Europe)\\b)"];
     const names = [name, ...(aliases[code] ?? [])];
     return [code, names.length ? `\\b(?:${names.map(escapeRegExpUnlessPattern).join("|")})\\b` : "(?!)"];
   });

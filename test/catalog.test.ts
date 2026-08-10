@@ -159,6 +159,8 @@ describe("job catalog", () => {
         { id: "usa", text: "Engineer", hostedUrl: "https://acme.test/usa", categories: { location: "Remote - U.S.A." }, workplaceType: "remote", descriptionPlain: "Build" },
         { id: "georgia", text: "Engineer", hostedUrl: "https://acme.test/georgia", categories: { location: "Atlanta, Georgia" }, descriptionPlain: "Build" },
         { id: "country-georgia", text: "Engineer", hostedUrl: "https://acme.test/country-georgia", categories: { location: "Tbilisi, Georgia" }, descriptionPlain: "Build" },
+        { id: "batumi", text: "Engineer", hostedUrl: "https://acme.test/batumi", categories: { location: "Batumi, Georgia" }, descriptionPlain: "Build" },
+        { id: "remote-georgia", text: "Engineer", hostedUrl: "https://acme.test/remote-georgia", categories: { location: "Remote" }, workplaceType: "remote", descriptionPlain: "Open to candidates in Georgia." },
         { id: "lowercase-de", text: "Engineer", hostedUrl: "https://acme.test/lowercase-de", categories: { location: "Berlin, de" }, descriptionPlain: "Build" },
         { id: "generic-global", text: "Engineer", hostedUrl: "https://acme.test/generic-global", categories: { location: "Remote - United States" }, workplaceType: "remote", descriptionPlain: "Successful candidates collaborate with global customers." },
       ]),
@@ -167,6 +169,6 @@ describe("job catalog", () => {
     expect((await catalog.search({ country: "DE" })).map((job) => job.id)).toEqual(["lever:acme:germany", "lever:acme:lowercase-de"]);
     expect((await catalog.search({ country: "IN" })).map((job) => job.id)).toEqual([]);
     expect((await catalog.search({ country: "US" })).map((job) => job.id)).toEqual(["lever:acme:us", "lever:acme:usa", "lever:acme:generic-global"]);
-    expect((await catalog.search({ country: "GE" })).map((job) => job.id)).toEqual(["lever:acme:country-georgia"]);
+    expect((await catalog.search({ country: "GE" })).map((job) => job.id)).toEqual(["lever:acme:country-georgia", "lever:acme:batumi", "lever:acme:remote-georgia"]);
   });
 });
