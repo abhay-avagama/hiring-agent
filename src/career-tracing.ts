@@ -1,16 +1,15 @@
 import { mkdir, readFile, rename, writeFile } from "node:fs/promises";
-import { lookup } from "node:dns/promises";
-import { isIP } from "node:net";
 import { dirname } from "node:path";
 import { mergeSourceCandidates } from "./source-discovery.ts";
 import { resolveSource } from "./source-verification.ts";
+import { fetchSafeHead, type HeadTransport, type ResolveHost } from "./safe-head.ts";
 import type { SourceCandidate } from "./types.ts";
 
 type Fetch = (input: string | URL, init?: RequestInit) => Promise<Response>;
 
 interface CompanySeed { companyName: string; companyDomain: string; careerUrl?: string }
 interface TraceIssue { companyName?: string; companyDomain?: string; careerUrls?: string[]; reason: string; detail: string }
-interface TraceOptions { country?: string; fetch?: Fetch; concurrency?: number; timeoutMs?: number; searchKey?: string; commonCrawlReportPath?: string; resolveHost?: (hostname: string) => Promise<string[]> }
+interface TraceOptions { country?: string; fetch?: Fetch; concurrency?: number; timeoutMs?: number; searchKey?: string; commonCrawlReportPath?: string; resolveHost?: ResolveHost; headTransport?: HeadTransport }
 
 export interface CareerTraceReport {
   companiesChecked: number;
@@ -29,7 +28,6 @@ export interface CareerTraceReport {
 export async function traceCareerSources(inputPath: string, candidatesPath: string, reportPath: string, options: TraceOptions = {}): Promise<CareerTraceReport> {
   const seeds = await readSeeds(inputPath);
   const fetcher = options.fetch ?? globalThis.fetch;
-  const resolveHost = options.resolveHost ?? resolvePublicAddresses;
   const concurrency = Math.max(1, Math.trunc(options.concurrency ?? 10));
   const timeoutMs = Math.max(1, Math.trunc(options.timeoutMs ?? 15_000));
   const country = options.country?.toUpperCase();
@@ -62,9 +60,9 @@ export async function traceCareerSources(inputPath: string, candidatesPath: stri
       if (!found) {
         for (const careerUrl of careerUrls) {
           try {
-            const response = await fetchHead(careerUrl, fetcher, resolveHost, timeoutMs);
-            if (!response.ok) continue;
-            const source = resolveSource(response.url);
+            const result = await fetchSafeHead(careerUrl, { resolveHost: options.resolveHost, transport: options.headTransport, timeoutMs });
+            if (!result.response.ok) continue;
+            const source = resolveSource(result.finalUrl);
             if (source) { found = source; reference = careerUrl; break; }
           } catch (error) {
             failures.push({ index, issue: { ...identity(seed), careerUrls: [careerUrl], reason: "career_request_failed", detail: error instanceof Error ? error.message : String(error) } });
@@ -129,47 +127,6 @@ async function searchForSource(seed: CompanySeed, key: string, fetcher: Fetch, c
     if (source && sourceMatchesCompany(source.token, seed)) return { source, reference: result.url };
   }
   return null;
-}
-
-async function fetchHead(url: string, fetcher: Fetch, resolveHost: (hostname: string) => Promise<string[]>, timeoutMs: number): Promise<Response> {
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(new Error(`Timed out after ${timeoutMs}ms`)), timeoutMs);
-  try {
-    let current = new URL(url);
-    for (let redirects = 0; redirects <= 5; redirects += 1) {
-      await assertPublicDestination(current, resolveHost);
-      const response = await fetcher(current, { method: "HEAD", redirect: "manual", signal: controller.signal });
-      if (![301, 302, 303, 307, 308].includes(response.status)) return response;
-      const location = response.headers.get("location");
-      if (!location) return response;
-      current = new URL(location, current);
-      if (current.protocol !== "https:") throw new Error("Career redirect must use HTTPS");
-    }
-    throw new Error("Career redirect limit exceeded");
-  }
-  finally { clearTimeout(timer); }
-}
-
-async function resolvePublicAddresses(hostname: string): Promise<string[]> {
-  return (await lookup(hostname, { all: true, verbatim: true })).map((result) => result.address);
-}
-
-async function assertPublicDestination(url: URL, resolveHost: (hostname: string) => Promise<string[]>): Promise<void> {
-  if (url.protocol !== "https:") throw new Error("Career URL must use HTTPS");
-  const addresses = isIP(url.hostname) ? [url.hostname] : await resolveHost(url.hostname);
-  if (!addresses.length || addresses.some((address) => !isPublicAddress(address))) throw new Error(`Career URL resolves to a non-public address: ${url.hostname}`);
-}
-
-function isPublicAddress(address: string): boolean {
-  if (isIP(address) === 4) {
-    const [a, b] = address.split(".").map(Number);
-    return !(a === 0 || a === 10 || a === 127 || (a === 169 && b === 254) || (a === 172 && b! >= 16 && b! <= 31) || (a === 192 && b === 168) || (a === 100 && b! >= 64 && b! <= 127) || a! >= 224);
-  }
-  if (isIP(address) === 6) {
-    const value = address.toLowerCase();
-    return !(value === "::" || value === "::1" || value.startsWith("fe8") || value.startsWith("fe9") || value.startsWith("fea") || value.startsWith("feb") || value.startsWith("fc") || value.startsWith("fd") || value.startsWith("ff") || value.startsWith("::ffff:127.") || value.startsWith("::ffff:10.") || value.startsWith("::ffff:192.168."));
-  }
-  return false;
 }
 
 async function readSeeds(path: string): Promise<CompanySeed[]> {

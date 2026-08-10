@@ -9,6 +9,8 @@ interface PipelineOptions {
   now?: () => Date;
   concurrency?: number;
   timeoutMs?: number;
+  requireCountry?: string;
+  countryGateTimeoutMs?: number;
 }
 
 export interface SourcePipelineReport {
@@ -33,7 +35,7 @@ async function runSourceVerificationUnlocked(candidatesPath: string, catalogPath
   const verifiedDomains = new Set(result.verified.map((company) => company.companyDomain));
   const verifiedSources = new Set(result.verified.map((company) => `${company.ats}:${company.token.toLocaleLowerCase()}`));
   const preserved = result.rejected.flatMap((candidate) => {
-    if (!(["unreachable", "invalid_payload", "empty_board"] as string[]).includes(candidate.reason)) return [];
+    if (!(["unreachable", "invalid_payload", "empty_board", "no_country_jobs"] as string[]).includes(candidate.reason)) return [];
     const slug = candidate.slug ?? slugFromDomain(candidate.companyDomain);
     if (freshlyVerified.has(slug)) return [];
     const previous = prior[slug];

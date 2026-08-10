@@ -7,7 +7,7 @@ export interface SnapshotStore {
 
 interface CrawlerOptions {
   store: SnapshotStore;
-  fetchJobs(source: Company, signal?: AbortSignal): Promise<Job[]>;
+  fetchJobs(source: Company, signal?: AbortSignal, observer?: { onBackoff(event: { status: number; delayMs: number }): void }): Promise<Job[]>;
   concurrency?: number;
   timeoutMs?: number;
   maxAttempts?: number;
@@ -37,7 +37,7 @@ export function createCrawler(options: CrawlerOptions): Crawler {
       let finalFailures: CrawlFailure[] = [];
       let succeeded = 0;
       const metrics = new Map<string, CrawlSourceResult>();
-      for (const source of sources) metrics.set(source.slug, { source: source.slug, status: "failed", attempts: 0, durationMs: 0, jobs: 0, countryJobs: {} });
+      for (const source of sources) metrics.set(source.slug, { source: source.slug, status: "failed", attempts: 0, durationMs: 0, jobs: 0, countryJobs: {}, throttles: 0, backoffMs: 0 });
 
       for (let attempt = 1; attempt <= maxAttempts && pending.length; attempt += 1) {
         let cursor = 0;
@@ -54,7 +54,7 @@ export function createCrawler(options: CrawlerOptions): Crawler {
             const controller = new AbortController();
             const timer = setTimeout(() => controller.abort(new Error(`Timed out after ${timeoutMs}ms`)), timeoutMs);
             try {
-              const jobs = await options.fetchJobs(source, controller.signal);
+              const jobs = await options.fetchJobs(source, controller.signal, { onBackoff: ({ status, delayMs }) => { metric.backoffMs += delayMs; if (status === 429) metric.throttles += 1; } });
               partitions[source.slug] = { fetchedAt: now().toISOString(), jobs };
               succeeded += 1;
               metric.status = "succeeded";

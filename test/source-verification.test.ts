@@ -25,11 +25,37 @@ test("verifies Lever and Ashby boards discovered through company-owned redirects
     { companyName: "Beta", companyDomain: "beta.test", sourceUrl: "https://jobs.ashbyhq.com/beta", discoveredFrom: { ...discoveredFrom, reference: "https://beta.test/jobs" }, domainEvidence: { ...domainEvidence, reference: "https://beta.test/jobs" } },
   ], { fetch: async (input) => String(input).includes("lever")
     ? Response.json([{ id: "l1", text: "Engineer", hostedUrl: "https://jobs.lever.co/acme/l1" }])
-    : Response.json({ jobs: [{ id: "a1", title: "Engineer", jobUrl: "https://jobs.ashbyhq.com/beta/a1" }] }) });
+    : Response.json({ jobs: [{ id: "a1", title: "Engineer", jobUrl: "https://jobs.ashbyhq.com/beta/a1" }] }),
+    resolveHost: async () => ["93.184.216.34"],
+    headTransport: async (url) => url.hostname === "acme.test"
+      ? new Response(null, { status: 302, headers: { location: "https://jobs.lever.co/acme" } })
+      : url.hostname === "beta.test"
+        ? new Response(null, { status: 302, headers: { location: "https://jobs.ashbyhq.com/beta" } })
+        : new Response(null, { status: 200 }),
+  });
 
   expect(result.rejected).toEqual([]);
   expect(result.verified.map((source) => source.ats)).toEqual(["lever", "ashby"]);
   expect(result.verified.map((source) => source.verification.identityEvidence)).toEqual(["company_redirect", "company_redirect"]);
+});
+
+test("rejects forged redirect evidence that does not land on the exact board", async () => {
+  const result = await verifyCandidates([{
+    companyName: "Acme", companyDomain: "acme.test", sourceUrl: "https://jobs.lever.co/acme",
+    discoveredFrom: { channel: "career_page", reference: "https://acme.test/careers" },
+    domainEvidence: { kind: "company_redirect", reference: "https://acme.test/careers" },
+  }], {
+    fetch: async () => Response.json([{ id: "1", text: "Engineer", hostedUrl: "https://jobs.lever.co/acme/1" }]),
+    resolveHost: async () => ["93.184.216.34"],
+    headTransport: async (url) => url.hostname === "acme.test" ? new Response(null, { status: 302, headers: { location: "https://jobs.lever.co/other" } }) : new Response(null, { status: 200 }),
+  });
+  expect(result.rejected[0]?.reason).toBe("identity_mismatch");
+});
+
+test("country retention checks the normalized complete feed", async () => {
+  const candidate = { companyName: "Acme", companyDomain: "acme.test", sourceUrl: "https://job-boards.greenhouse.io/acme", cohorts: ["IN"], discoveredFrom: { channel: "dataset" as const, reference: "seed" } };
+  const result = await verifyCandidates([candidate], { requireCountry: "IN", fetch: async () => Response.json({ jobs: [{ id: 1, company_name: "Acme", title: "Engineer", location: { name: "Berlin, Germany" }, absolute_url: "https://job-boards.greenhouse.io/acme/jobs/1", content: "Build" }] }) });
+  expect(result.rejected[0]?.reason).toBe("no_country_jobs");
 });
 
 const candidates: SourceCandidate[] = [

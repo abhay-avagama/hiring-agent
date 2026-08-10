@@ -91,3 +91,14 @@ test("transient source failures are retried after the initial crawl wave", async
   expect(report.sources).toEqual([expect.objectContaining({ source: "transient", status: "succeeded", attempts: 2, jobs: 1 })]);
   expect(written?.partitions.transient?.jobs).toHaveLength(1);
 });
+
+test("reports provider throttling and backoff per source", async () => {
+  const store = { read: async () => null, write: async (_next: JobSnapshot) => undefined };
+  const crawler = createCrawler({ store, fetchJobs: async (_source, _signal, observer) => {
+    observer?.onBackoff({ status: 429, delayMs: 750 });
+    observer?.onBackoff({ status: 503, delayMs: 500 });
+    return [];
+  } });
+  const report = await crawler.crawl([{ slug: "limited", name: "Limited", ats: "workday", token: "example.test/example/jobs" }]);
+  expect(report.sources?.[0]).toEqual(expect.objectContaining({ throttles: 1, backoffMs: 1250 }));
+});

@@ -52,7 +52,7 @@ export interface VerifiedCompany extends Company {
   verification: SourceVerification;
 }
 
-export type SourceRejectionReason = "invalid_candidate" | "unsupported_source" | "duplicate_source" | "duplicate_company" | "duplicate_slug" | "unreachable" | "invalid_payload" | "empty_board" | "identity_mismatch";
+export type SourceRejectionReason = "invalid_candidate" | "unsupported_source" | "duplicate_source" | "duplicate_company" | "duplicate_slug" | "unreachable" | "invalid_payload" | "empty_board" | "identity_mismatch" | "no_country_jobs";
 
 export interface RejectedSource extends SourceCandidate {
   reason: SourceRejectionReason;
@@ -115,6 +115,8 @@ export interface CrawlSourceResult {
   durationMs: number;
   jobs: number;
   countryJobs: Record<string, number>;
+  throttles: number;
+  backoffMs: number;
   error?: string;
 }
 

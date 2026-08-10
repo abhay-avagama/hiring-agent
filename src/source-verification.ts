@@ -1,4 +1,7 @@
 import type { Ats, RejectedSource, SourceCandidate, SourceRejectionReason, SourceVerificationResult, VerifiedCompany } from "./types.ts";
+import { fetchSafeHead, type HeadTransport, type ResolveHost } from "./safe-head.ts";
+import { fetchSourceJobs } from "./catalog.ts";
+import { isEligibleForCountry } from "./locations.ts";
 
 type Fetch = (input: string | URL, init?: RequestInit) => Promise<Response>;
 
@@ -7,6 +10,10 @@ interface VerificationOptions {
   now?: () => Date;
   concurrency?: number;
   timeoutMs?: number;
+  resolveHost?: ResolveHost;
+  headTransport?: HeadTransport;
+  requireCountry?: string;
+  countryGateTimeoutMs?: number;
 }
 
 export interface ResolvedSource { ats: Ats; token: string; canonicalSourceUrl: string }
@@ -16,6 +23,7 @@ export async function verifyCandidates(candidates: SourceCandidate[], options: V
   const now = options.now ?? (() => new Date());
   const concurrency = Math.max(1, Math.trunc(options.concurrency ?? 10));
   const timeoutMs = Math.max(1, Math.trunc(options.timeoutMs ?? 30_000));
+  const countryGateTimeoutMs = Math.max(1, Math.trunc(options.countryGateTimeoutMs ?? 120_000));
   const probed: Array<{ index: number; candidate: SourceCandidate; sourceKey: string; value: VerifiedCompany }> = [];
   const rejected: Array<{ index: number; value: RejectedSource }> = [];
   let cursor = 0;
@@ -34,18 +42,30 @@ export async function verifyCandidates(candidates: SourceCandidate[], options: V
       const slug = candidate.slug ?? slugFromDomain(candidate.companyDomain);
 
       try {
-        const evidence = await probe(candidate, source, fetcher, timeoutMs);
+        const evidence = await probe(candidate, source, fetcher, timeoutMs, options.resolveHost, options.headTransport);
         if (!identityMatches(candidate.companyName, candidate.companyDomain, evidence.observedCompanyName, source.token)) {
           rejected.push({ index, value: rejection(candidate, "identity_mismatch", `Expected ${candidate.companyName}; observed ${evidence.observedCompanyName}`) });
           continue;
         }
-        probed.push({ index, candidate, sourceKey, value: {
+        const value: VerifiedCompany = {
           slug, name: candidate.companyName.trim(), ats: source.ats, token: source.token,
           cohorts: normalizeCohorts(candidate.cohorts), companyDomain: companyKey, sourceUrl: source.canonicalSourceUrl,
           discoveredFrom: candidate.discoveredFrom,
           domainEvidence: candidate.domainEvidence,
           verification: { ...evidence, checkedAt: now().toISOString(), canonicalSourceUrl: source.canonicalSourceUrl },
-        } });
+        };
+        if (options.requireCountry) {
+          const controller = new AbortController();
+          const timer = setTimeout(() => controller.abort(new Error(`Country gate timed out after ${countryGateTimeoutMs}ms`)), countryGateTimeoutMs);
+          try {
+            const jobs = await fetchSourceJobs(value, fetcher, controller.signal);
+            if (!jobs.some((job) => isEligibleForCountry(job, options.requireCountry!))) {
+              rejected.push({ index, value: rejection(candidate, "no_country_jobs", `Complete source feed has no jobs eligible for ${options.requireCountry}`) });
+              continue;
+            }
+          } finally { clearTimeout(timer); }
+        }
+        probed.push({ index, candidate, sourceKey, value });
       } catch (error) {
         const reason = error instanceof VerificationError ? error.reason : "unreachable";
         rejected.push({ index, value: rejection(candidate, reason, error instanceof Error ? error.message : String(error)) });
@@ -74,7 +94,7 @@ export async function verifyCandidates(candidates: SourceCandidate[], options: V
   };
 }
 
-async function probe(candidate: SourceCandidate, source: ResolvedSource, fetcher: Fetch, timeoutMs: number) {
+async function probe(candidate: SourceCandidate, source: ResolvedSource, fetcher: Fetch, timeoutMs: number, resolveHost?: ResolveHost, headTransport?: HeadTransport) {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(new Error(`Timed out after ${timeoutMs}ms`)), timeoutMs);
   const workday = source.ats === "workday" ? parseWorkdayToken(source.token) : undefined;
@@ -96,7 +116,7 @@ async function probe(candidate: SourceCandidate, source: ResolvedSource, fetcher
     if (jobs.length === 0) throw new VerificationError("empty_board", "Source has no jobs, so identity cannot be verified");
     const providerName = source.ats === "greenhouse" ? majority(jobs.map((job) => stringField(job, "company_name")).filter(Boolean)) : source.ats === "workday" ? workday!.tenant : "";
     const hasDomainLink = !["greenhouse", "workday"].includes(source.ats) && structuredIdentityLinksDomain(jobs, candidate.companyDomain);
-    const hasRedirectEvidence = !["greenhouse", "workday"].includes(source.ats) && companyRedirectLinksDomain(candidate);
+    const hasRedirectEvidence = !["greenhouse", "workday"].includes(source.ats) && await verifiedCompanyRedirect(candidate, source, resolveHost, headTransport, timeoutMs);
     if (!["greenhouse", "workday"].includes(source.ats) && !hasDomainLink && !hasRedirectEvidence) throw new VerificationError("identity_mismatch", `Neither structured identity fields nor a verified company redirect link to ${candidate.companyDomain}`);
     const observedCompanyName = providerName || candidate.companyName;
     return {
@@ -181,12 +201,15 @@ function structuredIdentityLinksDomain(jobs: Record<string, unknown>[], domain: 
   return jobs.some((job) => fields.some((field) => typeof job[field] === "string" && pattern.test(job[field])));
 }
 
-function companyRedirectLinksDomain(candidate: SourceCandidate): boolean {
+async function verifiedCompanyRedirect(candidate: SourceCandidate, expected: ResolvedSource, resolveHost?: ResolveHost, headTransport?: HeadTransport, timeoutMs?: number): Promise<boolean> {
   if (candidate.domainEvidence?.kind !== "company_redirect") return false;
   try {
     const host = new URL(candidate.domainEvidence.reference).hostname.toLowerCase().replace(/^www\./, "");
     const domain = candidate.companyDomain.toLowerCase().replace(/^www\./, "");
-    return host === domain || host.endsWith(`.${domain}`);
+    if (host !== domain && !host.endsWith(`.${domain}`)) return false;
+    const result = await fetchSafeHead(candidate.domainEvidence.reference, { resolveHost, transport: headTransport, timeoutMs });
+    const observed = resolveSource(result.finalUrl);
+    return result.response.ok && observed?.ats === expected.ats && observed.token.toLowerCase() === expected.token.toLowerCase();
   } catch { return false; }
 }
 

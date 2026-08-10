@@ -9,7 +9,7 @@ export function createRuntime(options: { dataDir?: string; concurrency?: number 
   return createLocalJobs({
     sources: companies,
     store: createFileSnapshotStore(join(dataDir, "snapshot.json")),
-    fetchJobs: (source, signal) => fetchSourceJobs(source, globalThis.fetch, signal),
+    fetchJobs: (source, signal, observer) => fetchSourceJobs(source, globalThis.fetch, signal, observer),
     concurrency: options.concurrency,
   });
 }

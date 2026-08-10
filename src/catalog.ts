@@ -93,8 +93,9 @@ export function searchJobs(jobs: Job[], query: SearchQuery): JobSummary[] {
   return jobs.filter((job) => matches(job, query)).slice(0, query.limit ?? 50).map(toSummary);
 }
 
-export async function fetchSourceJobs(company: Company, fetcher: Fetch = globalThis.fetch, signal?: AbortSignal): Promise<Job[]> {
-  if (company.ats === "workday") return fetchWorkdayJobs(company, fetcher, signal);
+export interface FetchJobsObserver { onBackoff?(event: { status: number; delayMs: number }): void }
+export async function fetchSourceJobs(company: Company, fetcher: Fetch = globalThis.fetch, signal?: AbortSignal, observer?: FetchJobsObserver): Promise<Job[]> {
+  if (company.ats === "workday") return fetchWorkdayJobs(company, fetcher, signal, observer);
   const url = company.ats === "greenhouse"
     ? `https://boards-api.greenhouse.io/v1/boards/${encodeURIComponent(company.token)}/jobs?content=true`
     : company.ats === "lever"
@@ -110,7 +111,7 @@ export async function fetchSourceJobs(company: Company, fetcher: Fetch = globalT
       : (body as { jobs: AshbyJob[] }).jobs.map((job) => normalizeAshby(company, job));
 }
 
-async function fetchWorkdayJobs(company: Company, fetcher: Fetch, signal?: AbortSignal): Promise<Job[]> {
+async function fetchWorkdayJobs(company: Company, fetcher: Fetch, signal?: AbortSignal, observer?: FetchJobsObserver): Promise<Job[]> {
   const source = parseWorkdayToken(company.token);
   const endpoint = `https://${source.host}/wday/cxs/${encodeURIComponent(source.tenant)}/${encodeURIComponent(source.site)}/jobs`;
   const limit = 20;
@@ -123,7 +124,9 @@ async function fetchWorkdayJobs(company: Company, fetcher: Fetch, signal?: Abort
         return { total: body.total as number, jobs: body.jobPostings as WorkdayJob[] };
       }
       if (!isTransientStatus(response.status) || attempt === 2) throw new Error(`${company.name} job board returned HTTP ${response.status}`);
-      await abortableDelay(retryDelayMs(response, attempt), signal);
+      const delayMs = retryDelayMs(response, attempt);
+      observer?.onBackoff?.({ status: response.status, delayMs });
+      await abortableDelay(delayMs, signal);
     }
     throw new Error(`${company.name} Workday source exhausted retries`);
   }

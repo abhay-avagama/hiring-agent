@@ -17,12 +17,11 @@ test("company career redirects become structured source candidates without readi
   const report = await traceCareerSources(inputPath, candidatesPath, reportPath, {
     country: "IN",
     resolveHost: async () => ["93.184.216.34"],
-    fetch: async () => {
+    headTransport: async (url) => {
       const response = new Response("<html>must not be read</html>");
-      Object.defineProperty(response, "url", { value: "https://job-boards.greenhouse.io/acme" });
       const originalText = response.text.bind(response);
       response.text = async () => { bodyRead = true; return originalText(); };
-      return response;
+      return url.hostname === "acme.test" ? new Response(null, { status: 302, headers: { location: "https://job-boards.greenhouse.io/acme" } }) : response;
     },
   });
 
@@ -108,11 +107,7 @@ test("an already-known source gains the new discovery campaign cohort", async ()
   const report = await traceCareerSources(inputPath, candidatesPath, join(directory, "report.json"), {
     country: "IN",
     resolveHost: async () => ["93.184.216.34"],
-    fetch: async () => {
-      const response = new Response(null, { status: 200 });
-      Object.defineProperty(response, "url", { value: "https://job-boards.greenhouse.io/acme" });
-      return response;
-    },
+    headTransport: async (url) => url.hostname === "acme.test" ? new Response(null, { status: 302, headers: { location: "https://job-boards.greenhouse.io/acme" } }) : new Response(null, { status: 200 }),
   });
 
   expect(report).toEqual(expect.objectContaining({ ready: 0, alreadyKnown: 1 }));
@@ -131,6 +126,7 @@ test("career tracing reports optional search failures while continuing", async (
     fetch: async (input) => String(input).includes("api.search.brave.com")
       ? new Response("unauthorized", { status: 401 })
       : new Response(null, { status: 200 }),
+    headTransport: async () => new Response(null, { status: 200 }),
   });
 
   expect(report).toEqual(expect.objectContaining({ ready: 0, unresolved: 1, failures: 1 }));
@@ -145,7 +141,7 @@ test("career tracing blocks domains that resolve to private infrastructure", asy
 
   const report = await traceCareerSources(inputPath, join(directory, "candidates.json"), join(directory, "report.json"), {
     resolveHost: async () => ["169.254.169.254"],
-    fetch: async () => { fetched = true; return new Response(null, { status: 200 }); },
+    headTransport: async () => { fetched = true; return new Response(null, { status: 200 }); },
   });
 
   expect(fetched).toBeFalse();
@@ -160,8 +156,8 @@ test("career tracing validates every redirect destination before requesting it",
 
   const report = await traceCareerSources(inputPath, join(directory, "candidates.json"), join(directory, "report.json"), {
     resolveHost: async (hostname) => hostname === "acme.test" ? ["93.184.216.34"] : ["127.0.0.1"],
-    fetch: async (input) => {
-      fetched.push(String(input));
+    headTransport: async (url) => {
+      fetched.push(String(url));
       return new Response(null, { status: 302, headers: { location: "https://internal.test/admin" } });
     },
   });

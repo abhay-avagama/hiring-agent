@@ -5,7 +5,7 @@ import type { Company, CrawlReport, Job, JobSnapshot, JobSummary, SearchQuery } 
 interface LocalJobsOptions {
   sources: Company[];
   store: SnapshotStore;
-  fetchJobs(source: Company, signal?: AbortSignal): Promise<Job[]>;
+  fetchJobs(source: Company, signal?: AbortSignal, observer?: { onBackoff(event: { status: number; delayMs: number }): void }): Promise<Job[]>;
   concurrency?: number;
   timeoutMs?: number;
   now?: () => Date;

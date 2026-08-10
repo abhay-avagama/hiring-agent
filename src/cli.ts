@@ -14,7 +14,7 @@ const HELP = `Openings — search public company job boards
 Usage:
   openings crawl [--country CODE | --companies FILE] [--concurrency N] [--data-dir PATH]
   openings snapshot export [--input FILE] [--output-dir PATH]
-  openings sources verify CANDIDATES.json [--output FILE] [--concurrency N]
+  openings sources verify CANDIDATES.json [--output FILE] [--concurrency N] [--require-country CODE]
   openings sources discover FEED.json [--country CODE] [--output FILE] [--catalog FILE] [--report FILE]
   openings sources discover-yc --country CODE [--output FILE] [--catalog FILE] [--report FILE]
   openings sources seed-companies-yc --country CODE [--output FILE]
@@ -102,7 +102,7 @@ export async function run(args: string[]): Promise<number> {
     if (rest[0] !== "verify") return fail("sources requires a discovery, tracing, or `verify` subcommand");
     const parsed = parseSourceVerification(rest.slice(1));
     if (typeof parsed === "string") return fail(parsed);
-    console.log(JSON.stringify(await runSourceVerification(parsed.candidatesPath, parsed.output, { concurrency: parsed.concurrency }), null, 2));
+    console.log(JSON.stringify(await runSourceVerification(parsed.candidatesPath, parsed.output, { concurrency: parsed.concurrency, requireCountry: parsed.requireCountry }), null, 2));
     return 0;
   }
 
@@ -345,6 +345,7 @@ function parseSourceVerification(args: string[]) {
   if (!candidatesPath || candidatesPath.startsWith("--")) return "sources verify requires a candidate JSON file";
   let output = "data/companies.json";
   let concurrency = 10;
+  let requireCountry: string | undefined;
   for (let index = 1; index < args.length; index += 1) {
     const arg = args[index];
     if (arg === "--output") {
@@ -353,9 +354,12 @@ function parseSourceVerification(args: string[]) {
     } else if (arg === "--concurrency") {
       concurrency = Number(args[++index]);
       if (!Number.isInteger(concurrency) || concurrency < 1 || concurrency > 100) return "--concurrency must be an integer from 1 to 100";
+    } else if (arg === "--require-country") {
+      requireCountry = parseCountry(args[++index]);
+      if (!requireCountry) return "--require-country requires a two-letter country code";
     } else return `Unknown option: ${arg}`;
   }
-  return { candidatesPath, output, concurrency };
+  return { candidatesPath, output, concurrency, requireCountry };
 }
 
 function fail(message: string, code = 1): number {

@@ -30,7 +30,7 @@ async function lockIsStale(path: string): Promise<boolean> {
   try {
     const value: unknown = JSON.parse(await readFile(path, "utf8"));
     if (typeof value === "object" && value !== null && "pid" in value && typeof value.pid === "number") {
-      // PID reuse can delay reclamation until the mtime fallback, but never permits concurrent writers.
+      // PID reuse can defer reclamation; it preserves mutual exclusion and is preferable to reclaiming a live writer.
       try { process.kill(value.pid, 0); return false; }
       catch (error) { if (error instanceof Error && "code" in error && error.code === "ESRCH") return true; }
     }
