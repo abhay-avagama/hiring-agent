@@ -1,5 +1,10 @@
 export type Ats = "greenhouse" | "lever" | "ashby";
 
+export interface DomainEvidence {
+  kind: "authoritative_dataset" | "company_registry";
+  reference: string;
+}
+
 export interface Company {
   slug: string;
   name: string;
@@ -10,6 +15,7 @@ export interface Company {
   sourceUrl?: string;
   discoveredFrom?: DiscoveryProvenance;
   verification?: SourceVerification;
+  domainEvidence?: DomainEvidence;
 }
 
 export type DiscoveryChannel = "search" | "career_page" | "provider_directory" | "community" | "dataset" | "legacy";
@@ -26,6 +32,7 @@ export interface SourceCandidate {
   sourceUrl: string;
   cohorts?: string[];
   discoveredFrom: DiscoveryProvenance;
+  domainEvidence?: DomainEvidence;
 }
 
 export interface SourceVerification {

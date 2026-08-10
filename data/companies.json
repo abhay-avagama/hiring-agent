@@ -12,13 +12,17 @@
       "channel": "dataset",
       "reference": "https://www.ycombinator.com/companies/able"
     },
+    "domainEvidence": {
+      "kind": "authoritative_dataset",
+      "reference": "https://www.ycombinator.com/companies/able"
+    },
     "verification": {
       "observedCompanyName": "Able",
       "identityEvidence": "provider_company_name",
       "contentType": "application/json",
       "payloadVersion": "greenhouse-job-board:v1",
       "jobCount": 5,
-      "checkedAt": "2026-08-10T08:26:56.997Z",
+      "checkedAt": "2026-08-10T08:36:03.290Z",
       "canonicalSourceUrl": "https://job-boards.greenhouse.io/able"
     }
   },
@@ -38,7 +42,7 @@
       "contentType": "application/json",
       "payloadVersion": "greenhouse-job-board:v1",
       "jobCount": 391,
-      "checkedAt": "2026-08-10T08:26:58.263Z",
+      "checkedAt": "2026-08-10T08:36:04.106Z",
       "canonicalSourceUrl": "https://job-boards.greenhouse.io/anthropic"
     }
   },
@@ -61,7 +65,7 @@
       "contentType": "application/json",
       "payloadVersion": "greenhouse-job-board:v1",
       "jobCount": 14,
-      "checkedAt": "2026-08-10T08:26:57.241Z",
+      "checkedAt": "2026-08-10T08:36:03.311Z",
       "canonicalSourceUrl": "https://job-boards.greenhouse.io/britive"
     }
   },
@@ -84,7 +88,7 @@
       "contentType": "application/json",
       "payloadVersion": "greenhouse-job-board:v1",
       "jobCount": 91,
-      "checkedAt": "2026-08-10T08:26:57.074Z",
+      "checkedAt": "2026-08-10T08:36:03.350Z",
       "canonicalSourceUrl": "https://job-boards.greenhouse.io/dialpad"
     }
   },
@@ -107,7 +111,7 @@
       "contentType": "application/json",
       "payloadVersion": "greenhouse-job-board:v1",
       "jobCount": 15,
-      "checkedAt": "2026-08-10T08:26:57.011Z",
+      "checkedAt": "2026-08-10T08:36:03.303Z",
       "canonicalSourceUrl": "https://job-boards.greenhouse.io/forwardnetworks"
     }
   },
@@ -130,7 +134,7 @@
       "contentType": "application/json",
       "payloadVersion": "greenhouse-job-board:v1",
       "jobCount": 215,
-      "checkedAt": "2026-08-10T08:26:57.099Z",
+      "checkedAt": "2026-08-10T08:36:04.257Z",
       "canonicalSourceUrl": "https://job-boards.greenhouse.io/graphcore"
     }
   },
@@ -147,13 +151,17 @@
       "channel": "dataset",
       "reference": "https://www.ycombinator.com/companies/groww"
     },
+    "domainEvidence": {
+      "kind": "authoritative_dataset",
+      "reference": "https://www.ycombinator.com/companies/groww"
+    },
     "verification": {
       "observedCompanyName": "Groww",
       "identityEvidence": "provider_company_name",
       "contentType": "application/json",
       "payloadVersion": "greenhouse-job-board:v1",
       "jobCount": 8,
-      "checkedAt": "2026-08-10T08:26:56.999Z",
+      "checkedAt": "2026-08-10T08:36:03.306Z",
       "canonicalSourceUrl": "https://job-boards.greenhouse.io/groww"
     }
   },
@@ -176,7 +184,7 @@
       "contentType": "application/json",
       "payloadVersion": "greenhouse-job-board:v1",
       "jobCount": 4,
-      "checkedAt": "2026-08-10T08:26:57.010Z",
+      "checkedAt": "2026-08-10T08:36:03.293Z",
       "canonicalSourceUrl": "https://job-boards.greenhouse.io/karat"
     }
   },
@@ -199,7 +207,7 @@
       "contentType": "application/json",
       "payloadVersion": "greenhouse-job-board:v1",
       "jobCount": 81,
-      "checkedAt": "2026-08-10T08:26:57.036Z",
+      "checkedAt": "2026-08-10T08:36:03.991Z",
       "canonicalSourceUrl": "https://job-boards.greenhouse.io/knowbe4"
     }
   },
@@ -222,7 +230,7 @@
       "contentType": "application/json",
       "payloadVersion": "greenhouse-job-board:v1",
       "jobCount": 90,
-      "checkedAt": "2026-08-10T08:26:57.108Z",
+      "checkedAt": "2026-08-10T08:36:21.380Z",
       "canonicalSourceUrl": "https://job-boards.greenhouse.io/onetrust"
     }
   },
@@ -245,7 +253,7 @@
       "contentType": "application/json",
       "payloadVersion": "greenhouse-job-board:v1",
       "jobCount": 231,
-      "checkedAt": "2026-08-10T08:26:57.068Z",
+      "checkedAt": "2026-08-10T08:36:03.369Z",
       "canonicalSourceUrl": "https://job-boards.greenhouse.io/point72"
     }
   },
@@ -268,7 +276,7 @@
       "contentType": "application/json",
       "payloadVersion": "greenhouse-job-board:v1",
       "jobCount": 10,
-      "checkedAt": "2026-08-10T08:26:56.998Z",
+      "checkedAt": "2026-08-10T08:36:03.523Z",
       "canonicalSourceUrl": "https://job-boards.greenhouse.io/prophecysimpledatalabs"
     }
   },
@@ -285,13 +293,17 @@
       "channel": "dataset",
       "reference": "https://www.ycombinator.com/companies/raven"
     },
+    "domainEvidence": {
+      "kind": "authoritative_dataset",
+      "reference": "https://www.ycombinator.com/companies/raven"
+    },
     "verification": {
       "observedCompanyName": "Raven",
       "identityEvidence": "provider_company_name",
       "contentType": "application/json",
       "payloadVersion": "greenhouse-job-board:v1",
       "jobCount": 6,
-      "checkedAt": "2026-08-10T08:26:56.997Z",
+      "checkedAt": "2026-08-10T08:36:03.282Z",
       "canonicalSourceUrl": "https://job-boards.greenhouse.io/raven"
     }
   }

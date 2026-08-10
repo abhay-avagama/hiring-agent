@@ -145,6 +145,10 @@
     "discoveredFrom": {
       "channel": "dataset",
       "reference": "https://www.ycombinator.com/companies/groww"
+    },
+    "domainEvidence": {
+      "kind": "authoritative_dataset",
+      "reference": "https://www.ycombinator.com/companies/groww"
     }
   },
   {
@@ -157,6 +161,10 @@
     "discoveredFrom": {
       "channel": "dataset",
       "reference": "https://www.ycombinator.com/companies/able"
+    },
+    "domainEvidence": {
+      "kind": "authoritative_dataset",
+      "reference": "https://www.ycombinator.com/companies/able"
     }
   },
   {
@@ -168,6 +176,10 @@
     ],
     "discoveredFrom": {
       "channel": "dataset",
+      "reference": "https://www.ycombinator.com/companies/raven"
+    },
+    "domainEvidence": {
+      "kind": "authoritative_dataset",
       "reference": "https://www.ycombinator.com/companies/raven"
     }
   }

@@ -43,6 +43,7 @@ export async function verifyCandidates(candidates: SourceCandidate[], options: V
           slug, name: candidate.companyName.trim(), ats: source.ats, token: source.token,
           cohorts: normalizeCohorts(candidate.cohorts), companyDomain: companyKey, sourceUrl: source.canonicalSourceUrl,
           discoveredFrom: candidate.discoveredFrom,
+          domainEvidence: candidate.domainEvidence,
           verification: { ...evidence, checkedAt: now().toISOString(), canonicalSourceUrl: source.canonicalSourceUrl },
         } });
       } catch (error) {

@@ -1,4 +1,4 @@
-import { mkdir, readFile, rename, writeFile } from "node:fs/promises";
+import { mkdir, open, readFile, rename, unlink, writeFile } from "node:fs/promises";
 import { dirname } from "node:path";
 import { resolveSource } from "./source-verification.ts";
 import type { DiscoveryChannel, SourceCandidate } from "./types.ts";
@@ -12,7 +12,7 @@ interface DiscoveryOptions {
   timeoutMs?: number;
 }
 
-interface FeedEntry { sourceUrl: string; companyDomain?: string; reference?: string; channel?: DiscoveryChannel }
+interface FeedEntry { sourceUrl: string; companyDomain?: string; reference?: string; channel?: DiscoveryChannel; domainEvidence?: "authoritative_dataset" | "company_registry" }
 interface DiscoveryIssue { sourceUrl: string; reason: string; detail: string; companyName?: string; reference?: string }
 
 export interface SourceDiscoveryReport {
@@ -49,6 +49,7 @@ export async function runYcSourceDiscovery(candidatesPath: string, reportPath: s
       sourceUrl: `https://job-boards.greenhouse.io/${company.slug}`,
       companyDomain,
       reference: `https://www.ycombinator.com/companies/${company.slug}`,
+      domainEvidence: "authoritative_dataset",
     }];
   });
   return discoverEntries(feed, candidatesPath, reportPath, { ...options, fetch: fetcher, country }, "YC public company API");
@@ -64,7 +65,7 @@ async function discoverEntries(feed: FeedEntry[], candidatesPath: string, report
   const ready: Array<{ index: number; candidate: SourceCandidate }> = [];
   const unresolved: Array<{ index: number; issue: DiscoveryIssue }> = [];
   const rejected: Array<{ index: number; issue: DiscoveryIssue }> = [];
-  const seen = new Set(existing.map((candidate) => sourceKey(candidate.sourceUrl)).filter(Boolean));
+  const existingSources = new Set(existing.map((candidate) => sourceKey(candidate.sourceUrl)).filter(Boolean));
   let cursor = 0;
 
   async function worker() {
@@ -73,6 +74,14 @@ async function discoverEntries(feed: FeedEntry[], candidatesPath: string, report
       const entry = feed[index];
       if (!entry || typeof entry.sourceUrl !== "string") {
         rejected.push({ index, issue: { sourceUrl: "", reason: "invalid_entry", detail: "sourceUrl must be a string" } });
+        continue;
+      }
+      if (entry.companyDomain !== undefined && (typeof entry.companyDomain !== "string" || !/^[a-z0-9.-]+\.[a-z]{2,}$/i.test(entry.companyDomain))) {
+        rejected.push({ index, issue: issue({ sourceUrl: entry.sourceUrl }, "invalid_domain", "companyDomain must be a hostname") });
+        continue;
+      }
+      if (entry.reference !== undefined && typeof entry.reference !== "string") {
+        rejected.push({ index, issue: issue({ sourceUrl: entry.sourceUrl }, "invalid_reference", "reference must be a string") });
         continue;
       }
       const source = resolveSource(entry.sourceUrl);
@@ -84,16 +93,23 @@ async function discoverEntries(feed: FeedEntry[], candidatesPath: string, report
         rejected.push({ index, issue: issue(entry, "invalid_channel", `Unsupported discovery channel: ${entry.channel}`) });
         continue;
       }
+      if (entry.domainEvidence !== undefined && !["authoritative_dataset", "company_registry"].includes(entry.domainEvidence)) {
+        rejected.push({ index, issue: issue(entry, "invalid_domain_evidence", `Unsupported domain evidence: ${entry.domainEvidence}`) });
+        continue;
+      }
       const key = `${source.ats}:${source.token.toLocaleLowerCase()}`;
-      if (seen.has(key)) {
+      if (existingSources.has(key)) {
         rejected.push({ index, issue: issue(entry, "duplicate_source", `Duplicate of ${key}`) });
         continue;
       }
-      seen.add(key);
       try {
         const companyName = await observeGreenhouseName(source.token, fetcher, timeoutMs);
         if (!entry.companyDomain) {
           unresolved.push({ index, issue: { ...issue(entry, "needs_domain", "A company domain is required before verification"), companyName } });
+          continue;
+        }
+        if (!entry.domainEvidence) {
+          unresolved.push({ index, issue: { ...issue(entry, "needs_domain_evidence", "Generic feeds require authoritative domain evidence before verification"), companyName } });
           continue;
         }
         if (!domainMatchesName(entry.companyDomain, companyName)) {
@@ -104,6 +120,7 @@ async function discoverEntries(feed: FeedEntry[], candidatesPath: string, report
           companyName, companyDomain: entry.companyDomain.toLocaleLowerCase(), sourceUrl: source.canonicalSourceUrl,
           cohorts: country ? [country] : undefined,
           discoveredFrom: { channel: entry.channel ?? "dataset", reference: entry.reference?.trim() || feedReference },
+          domainEvidence: { kind: entry.domainEvidence, reference: entry.reference?.trim() || feedReference },
         } });
       } catch (error) {
         rejected.push({ index, issue: issue(entry, "probe_failed", error instanceof Error ? error.message : String(error)) });
@@ -112,12 +129,24 @@ async function discoverEntries(feed: FeedEntry[], candidatesPath: string, report
   }
 
   await Promise.all(Array.from({ length: Math.min(concurrency, feed.length) }, worker));
-  const additions = ready.sort((a, b) => a.index - b.index).map((row) => row.candidate);
-  await atomicJson(candidatesPath, [...existing, ...additions]);
+  const additions: SourceCandidate[] = [];
+  const acceptedSources = new Set<string>();
+  for (const row of ready.sort((a, b) => a.index - b.index)) {
+    const key = sourceKey(row.candidate.sourceUrl)!;
+    if (acceptedSources.has(key)) rejected.push({ index: row.index, issue: issue({ sourceUrl: row.candidate.sourceUrl, reference: row.candidate.discoveredFrom.reference }, "duplicate_source", `Duplicate of ${key}`) });
+    else { acceptedSources.add(key); additions.push(row.candidate); }
+  }
+  const filteredUnresolved = unresolved.filter((row) => {
+    const key = sourceKey(row.issue.sourceUrl);
+    if (!key || !acceptedSources.has(key)) return true;
+    rejected.push({ index: row.index, issue: { ...row.issue, reason: "duplicate_source", detail: `Duplicate of ${key}` } });
+    return false;
+  });
+  const appended = await mergeCandidates(candidatesPath, additions);
   const report: SourceDiscoveryReport = {
-    discovered: feed.length, ready: additions.length, needsDomain: unresolved.length, rejected: rejected.length,
+    discovered: feed.length, ready: appended, needsDomain: filteredUnresolved.length, rejected: rejected.length,
     candidatesPath, reportPath,
-    unresolved: unresolved.sort((a, b) => a.index - b.index).map((row) => row.issue),
+    unresolved: filteredUnresolved.sort((a, b) => a.index - b.index).map((row) => row.issue),
     rejections: rejected.sort((a, b) => a.index - b.index).map((row) => row.issue),
   };
   await atomicJson(reportPath, report);
@@ -160,6 +189,37 @@ async function atomicJson(path: string, value: unknown): Promise<void> {
   const temporary = `${path}.${process.pid}.tmp`;
   await writeFile(temporary, `${JSON.stringify(value, null, 2)}\n`);
   await rename(temporary, path);
+}
+
+async function mergeCandidates(path: string, additions: SourceCandidate[]): Promise<number> {
+  await mkdir(dirname(path), { recursive: true });
+  return withFileLock(path, async () => {
+    const current = await readCandidates(path);
+    const seen = new Set(current.map((candidate) => sourceKey(candidate.sourceUrl)).filter(Boolean));
+    const unique = additions.filter((candidate) => {
+      const key = sourceKey(candidate.sourceUrl);
+      if (!key || seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+    await atomicJson(path, [...current, ...unique]);
+    return unique.length;
+  });
+}
+
+async function withFileLock<T>(path: string, operation: () => Promise<T>): Promise<T> {
+  const lockPath = `${path}.lock`;
+  const deadline = Date.now() + 30_000;
+  while (true) {
+    try {
+      const handle = await open(lockPath, "wx");
+      try { return await operation(); }
+      finally { await handle.close(); await unlink(lockPath).catch(() => undefined); }
+    } catch (error) {
+      if (!(error instanceof Error && "code" in error && error.code === "EEXIST") || Date.now() >= deadline) throw error;
+      await new Promise((resolve) => setTimeout(resolve, 25));
+    }
+  }
 }
 
 function sourceKey(value: string): string | undefined { const source = resolveSource(value); return source ? `${source.ats}:${source.token.toLocaleLowerCase()}` : undefined; }

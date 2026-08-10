@@ -12,6 +12,7 @@ export const companies: Company[] = Object.entries(companyData).map(([slug, valu
   sourceUrl: "sourceUrl" in value ? value.sourceUrl as string : undefined,
   discoveredFrom: "discoveredFrom" in value ? value.discoveredFrom as Company["discoveredFrom"] : undefined,
   verification: "verification" in value ? value.verification as Company["verification"] : undefined,
+  domainEvidence: "domainEvidence" in value ? value.domainEvidence as Company["domainEvidence"] : undefined,
 }));
 
 export const catalog = createCatalog({ companies });
