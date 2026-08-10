@@ -314,5 +314,365 @@
       "channel": "career_page",
       "reference": "https://careers.salesforce.com/"
     }
+  },
+  {
+    "companyName": "ABB",
+    "companyDomain": "abb.com",
+    "sourceUrl": "https://abb.wd3.myworkdayjobs.com/en-US/External_Career_Page",
+    "cohorts": [
+      "IN"
+    ],
+    "discoveredFrom": {
+      "channel": "search",
+      "reference": "Workday tenant probe"
+    }
+  },
+  {
+    "companyName": "Agilent",
+    "companyDomain": "agilent.com",
+    "sourceUrl": "https://agilent.wd5.myworkdayjobs.com/en-US/Agilent_Careers",
+    "cohorts": [
+      "IN"
+    ],
+    "discoveredFrom": {
+      "channel": "search",
+      "reference": "Workday tenant probe"
+    }
+  },
+  {
+    "companyName": "Allegion",
+    "companyDomain": "allegion.com",
+    "sourceUrl": "https://allegion.wd5.myworkdayjobs.com/en-US/careers",
+    "cohorts": [
+      "IN"
+    ],
+    "discoveredFrom": {
+      "channel": "search",
+      "reference": "public Workday search result"
+    }
+  },
+  {
+    "companyName": "Amgen",
+    "companyDomain": "amgen.com",
+    "sourceUrl": "https://amgen.wd1.myworkdayjobs.com/en-US/Careers",
+    "cohorts": [
+      "IN"
+    ],
+    "discoveredFrom": {
+      "channel": "search",
+      "reference": "public Workday search result"
+    }
+  },
+  {
+    "companyName": "Assurant",
+    "companyDomain": "assurant.com",
+    "sourceUrl": "https://assurant.wd1.myworkdayjobs.com/en-US/Assurant_Careers",
+    "cohorts": [
+      "IN"
+    ],
+    "discoveredFrom": {
+      "channel": "search",
+      "reference": "public Workday search result"
+    }
+  },
+  {
+    "companyName": "Blackbaud",
+    "companyDomain": "blackbaud.com",
+    "sourceUrl": "https://blackbaud.wd1.myworkdayjobs.com/en-US/ExternalCareers",
+    "cohorts": [
+      "IN"
+    ],
+    "discoveredFrom": {
+      "channel": "search",
+      "reference": "public Workday search result"
+    }
+  },
+  {
+    "companyName": "Boeing",
+    "companyDomain": "boeing.com",
+    "sourceUrl": "https://boeing.wd1.myworkdayjobs.com/en-US/EXTERNAL_CAREERS",
+    "cohorts": [
+      "IN"
+    ],
+    "discoveredFrom": {
+      "channel": "search",
+      "reference": "Workday tenant probe"
+    }
+  },
+  {
+    "companyName": "Cadence",
+    "companyDomain": "cadence.com",
+    "sourceUrl": "https://cadence.wd1.myworkdayjobs.com/en-US/External_Careers",
+    "cohorts": [
+      "IN"
+    ],
+    "discoveredFrom": {
+      "channel": "search",
+      "reference": "public Workday India job result"
+    }
+  },
+  {
+    "companyName": "Carrier",
+    "companyDomain": "carrier.com",
+    "sourceUrl": "https://carrier.wd5.myworkdayjobs.com/en-US/jobs",
+    "cohorts": [
+      "IN"
+    ],
+    "discoveredFrom": {
+      "channel": "search",
+      "reference": "Workday tenant probe"
+    }
+  },
+  {
+    "companyName": "Expedia",
+    "companyDomain": "expediagroup.com",
+    "sourceUrl": "https://expedia.wd108.myworkdayjobs.com/en-US/search",
+    "cohorts": [
+      "IN"
+    ],
+    "discoveredFrom": {
+      "channel": "search",
+      "reference": "public Workday search result"
+    }
+  },
+  {
+    "companyName": "Fiserv",
+    "companyDomain": "fiserv.com",
+    "sourceUrl": "https://fiserv.wd5.myworkdayjobs.com/en-US/EXT",
+    "cohorts": [
+      "IN"
+    ],
+    "discoveredFrom": {
+      "channel": "search",
+      "reference": "public Workday India job result"
+    }
+  },
+  {
+    "companyName": "Gartner",
+    "companyDomain": "gartner.com",
+    "sourceUrl": "https://gartner.wd5.myworkdayjobs.com/en-US/EXT",
+    "cohorts": [
+      "IN"
+    ],
+    "discoveredFrom": {
+      "channel": "search",
+      "reference": "public Workday India job result"
+    }
+  },
+  {
+    "companyName": "Intel",
+    "companyDomain": "intel.com",
+    "sourceUrl": "https://intel.wd1.myworkdayjobs.com/en-US/External",
+    "cohorts": [
+      "IN"
+    ],
+    "discoveredFrom": {
+      "channel": "search",
+      "reference": "public Workday India job result"
+    }
+  },
+  {
+    "companyName": "Kimberly-Clark",
+    "companyDomain": "kimberly-clark.com",
+    "sourceUrl": "https://kimberlyclark.wd1.myworkdayjobs.com/en-US/GLOBAL",
+    "cohorts": [
+      "IN"
+    ],
+    "discoveredFrom": {
+      "channel": "search",
+      "reference": "public Workday India job result"
+    }
+  },
+  {
+    "companyName": "Maersk",
+    "companyDomain": "maersk.com",
+    "sourceUrl": "https://maersk.wd3.myworkdayjobs.com/en-US/Maersk_Careers",
+    "cohorts": [
+      "IN"
+    ],
+    "discoveredFrom": {
+      "channel": "search",
+      "reference": "public Workday search result"
+    }
+  },
+  {
+    "companyName": "Medtronic",
+    "companyDomain": "medtronic.com",
+    "sourceUrl": "https://medtronic.wd1.myworkdayjobs.com/en-US/MedtronicCareers",
+    "cohorts": [
+      "IN"
+    ],
+    "discoveredFrom": {
+      "channel": "search",
+      "reference": "public Workday search result"
+    }
+  },
+  {
+    "companyName": "PayPal",
+    "companyDomain": "paypal.com",
+    "sourceUrl": "https://paypal.wd1.myworkdayjobs.com/en-US/jobs",
+    "cohorts": [
+      "IN"
+    ],
+    "discoveredFrom": {
+      "channel": "search",
+      "reference": "public Workday search result"
+    }
+  },
+  {
+    "companyName": "Philips",
+    "companyDomain": "philips.com",
+    "sourceUrl": "https://philips.wd3.myworkdayjobs.com/en-US/jobs-and-careers",
+    "cohorts": [
+      "IN"
+    ],
+    "discoveredFrom": {
+      "channel": "search",
+      "reference": "Workday tenant probe"
+    }
+  },
+  {
+    "companyName": "Pitney Bowes",
+    "companyDomain": "pitneybowes.com",
+    "sourceUrl": "https://pitneybowes.wd1.myworkdayjobs.com/en-US/PBCareers",
+    "cohorts": [
+      "IN"
+    ],
+    "discoveredFrom": {
+      "channel": "search",
+      "reference": "public Workday search result"
+    }
+  },
+  {
+    "companyName": "Qualys",
+    "companyDomain": "qualys.com",
+    "sourceUrl": "https://qualys.wd5.myworkdayjobs.com/en-US/Careers",
+    "cohorts": [
+      "IN"
+    ],
+    "discoveredFrom": {
+      "channel": "search",
+      "reference": "public Workday search result"
+    }
+  },
+  {
+    "companyName": "Red Hat",
+    "companyDomain": "redhat.com",
+    "sourceUrl": "https://redhat.wd5.myworkdayjobs.com/en-US/jobs",
+    "cohorts": [
+      "IN"
+    ],
+    "discoveredFrom": {
+      "channel": "search",
+      "reference": "Workday tenant probe"
+    }
+  },
+  {
+    "companyName": "Rockwell Automation",
+    "companyDomain": "rockwellautomation.com",
+    "sourceUrl": "https://rockwellautomation.wd1.myworkdayjobs.com/en-US/External_Rockwell_Automation",
+    "cohorts": [
+      "IN"
+    ],
+    "discoveredFrom": {
+      "channel": "search",
+      "reference": "public Workday India job result"
+    }
+  },
+  {
+    "companyName": "Stryker",
+    "companyDomain": "stryker.com",
+    "sourceUrl": "https://stryker.wd1.myworkdayjobs.com/en-US/StrykerCareers",
+    "cohorts": [
+      "IN"
+    ],
+    "discoveredFrom": {
+      "channel": "search",
+      "reference": "Workday tenant probe"
+    }
+  },
+  {
+    "companyName": "Target",
+    "companyDomain": "target.com",
+    "sourceUrl": "https://target.wd5.myworkdayjobs.com/en-US/targetcareers",
+    "cohorts": [
+      "IN"
+    ],
+    "discoveredFrom": {
+      "channel": "search",
+      "reference": "public Workday search result"
+    }
+  },
+  {
+    "companyName": "Thermo Fisher",
+    "companyDomain": "thermofisher.com",
+    "sourceUrl": "https://thermofisher.wd5.myworkdayjobs.com/en-US/ThermoFisherCareers",
+    "cohorts": [
+      "IN"
+    ],
+    "discoveredFrom": {
+      "channel": "search",
+      "reference": "Workday tenant probe"
+    }
+  },
+  {
+    "companyName": "TransUnion",
+    "companyDomain": "transunion.com",
+    "sourceUrl": "https://transunion.wd5.myworkdayjobs.com/en-US/TransUnion",
+    "cohorts": [
+      "IN"
+    ],
+    "discoveredFrom": {
+      "channel": "search",
+      "reference": "public Workday India job result"
+    }
+  },
+  {
+    "companyName": "Visa",
+    "companyDomain": "visa.com",
+    "sourceUrl": "https://visa.wd5.myworkdayjobs.com/en-US/Visa",
+    "cohorts": [
+      "IN"
+    ],
+    "discoveredFrom": {
+      "channel": "search",
+      "reference": "public Workday search result"
+    }
+  },
+  {
+    "companyName": "Warner Bros",
+    "companyDomain": "warnerbros.com",
+    "sourceUrl": "https://warnerbros.wd5.myworkdayjobs.com/en-US/global",
+    "cohorts": [
+      "IN"
+    ],
+    "discoveredFrom": {
+      "channel": "search",
+      "reference": "public Workday India job result"
+    }
+  },
+  {
+    "companyName": "Zelis",
+    "companyDomain": "zelis.com",
+    "sourceUrl": "https://zelis.wd1.myworkdayjobs.com/en-US/ZelisCareers",
+    "cohorts": [
+      "IN"
+    ],
+    "discoveredFrom": {
+      "channel": "search",
+      "reference": "public Workday search result"
+    }
+  },
+  {
+    "companyName": "Zoom",
+    "companyDomain": "zoom.us",
+    "sourceUrl": "https://zoom.wd5.myworkdayjobs.com/en-US/Zoom",
+    "cohorts": [
+      "IN"
+    ],
+    "discoveredFrom": {
+      "channel": "search",
+      "reference": "Workday tenant probe"
+    }
   }
 ]
