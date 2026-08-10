@@ -13,6 +13,11 @@ The initial release supports Greenhouse, Lever, and Ashby. Jobs are crawled from
 ```sh
 bun install
 bun run src/cli.ts sources discover-yc --country IN
+bun run src/cli.ts sources discover-common-crawl --country IN
+bun run src/cli.ts sources trace-careers company-domains.json --country IN --common-crawl-report .openings/common-crawl-discovery-report.json
+bun run src/cli.ts sources trace-careers company-domains.json --country IN
+# Optional: search known ATS hosts before trying keyless career redirects and datasets
+BRAVE_SEARCH_API_KEY=... bun run src/cli.ts sources trace-careers company-domains.json --country IN --search-key-env BRAVE_SEARCH_API_KEY
 bun run src/cli.ts sources discover discovery-feed.json --country IN
 bun run src/cli.ts sources verify data/source-candidates.json
 bun run src/cli.ts crawl
@@ -32,7 +37,7 @@ Commands return JSON so the same interface works for people, shell scripts, and 
 
 ## Verify and promote sources
 
-Discovery is keyless and separate from verification. Two inputs are available:
+Discovery is keyless and separate from verification. Four inputs are available:
 
 ```sh
 # Probe country-filtered company seeds from the public YC company API
@@ -40,6 +45,26 @@ bun run src/cli.ts sources discover-yc --country IN
 
 # Ingest a static, community, search-result, or public-dataset feed
 bun run src/cli.ts sources discover discovery-feed.json --country IN
+
+# Discover canonical ATS URL leads from the latest Common Crawl URL index
+bun run src/cli.ts sources discover-common-crawl --country IN
+
+# Follow company-owned career redirects, then verify and promote resolved sources
+bun run src/cli.ts sources trace-careers company-domains.json --country IN
+```
+
+`discover-common-crawl` queries only Common Crawl's URL index for Greenhouse, Lever, and Ashby URL patterns, capped at 10,000 records per pattern to keep the public-index workload bounded. It does not download archived pages. Known sources are counted separately; new URLs remain unresolved leads in `.openings/common-crawl-discovery-report.json` until a trustworthy company name and domain can be linked to them. `--country` records the campaign target but cannot assign a country to an unidentified source; job eligibility remains job-derived after verification and crawling.
+
+`trace-careers` accepts a JSON array of company identity seeds. `careerUrl` is optional; without it Openings checks the conventional HTTPS `/careers`, `/career`, and `/jobs` paths. With `--search-key-env NAME`, it first uses Brave Search to look for matching results on known ATS hosts; the key is read from the named environment variable rather than exposed as a command argument. It then sends `HEAD` requests to company-owned career paths, follows redirects, and never reads career-page HTML. Finally, `--common-crawl-report FILE` joins durable ATS leads whose token exactly matches the normalized company name or domain. The default remains keyless and simply skips the search step. Resolved candidates enter the normal verifier automatically: Greenhouse must expose a matching provider name, while Lever and Ashby still require a structured company-domain link. Redirects, URL-index leads, and search results resolve sources but do not weaken identity verification.
+
+```json
+[
+  {
+    "companyName": "Example",
+    "companyDomain": "example.com",
+    "careerUrl": "https://example.com/careers"
+  }
+]
 ```
 
 The YC campaign uses published company names, domains, locations, and slugs to probe possible Greenhouse boards. The generic feed accepts objects containing `sourceUrl`, optional `companyDomain`, `channel`, and `reference`, but feed authors cannot self-assert authoritative domain evidence: generic matches remain unresolved until a trusted enrichment adapter validates the domain. Discovery canonicalizes and probes sources, safely merges trusted matches into `data/source-candidates.json`, writes every unresolved/rejected record to `.openings/*-discovery-report.json`, then automatically runs verification and regenerates `data/companies.json`. Candidate and catalog updates are serialized so concurrent user-scheduled campaigns cannot overwrite one another. A country option adds discovery-cohort provenance; it never claims that the company or every job belongs to that country.

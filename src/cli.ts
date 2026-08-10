@@ -4,6 +4,8 @@ import { createRuntime } from "./runtime.ts";
 import { runSourceVerification } from "./source-pipeline.ts";
 import { runSourceDiscovery, runYcSourceDiscovery } from "./source-discovery.ts";
 import { discoverAndPromote } from "./source-discovery-pipeline.ts";
+import { traceCareerSources } from "./career-tracing.ts";
+import { discoverCommonCrawlSources } from "./common-crawl-discovery.ts";
 
 const HELP = `Openings — search public company job boards
 
@@ -12,6 +14,8 @@ Usage:
   openings sources verify CANDIDATES.json [--output FILE] [--concurrency N]
   openings sources discover FEED.json [--country CODE] [--output FILE] [--catalog FILE] [--report FILE]
   openings sources discover-yc --country CODE [--output FILE] [--catalog FILE] [--report FILE]
+  openings sources discover-common-crawl [--country CODE] [--output FILE] [--report FILE] [--index-url URL]
+  openings sources trace-careers COMPANIES.json [--country CODE] [--common-crawl-report FILE] [--search-key-env NAME] [--output FILE] [--catalog FILE] [--report FILE]
   openings search [words] [--country CODE|--india] [--location PLACE] [--remote|--onsite]
                   [--limit N] [--stale-days N] [--offline] [--data-dir PATH]
   openings get JOB_ID [--stale-days N] [--offline] [--data-dir PATH]
@@ -47,6 +51,20 @@ export async function run(args: string[]): Promise<number> {
   }
 
   if (command === "sources") {
+    if (rest[0] === "trace-careers") {
+      const parsed = parseCareerTracing(rest.slice(1));
+      if (typeof parsed === "string") return fail(parsed);
+      const discovery = await traceCareerSources(parsed.inputPath, parsed.output, parsed.report, parsed);
+      const promotion = await runSourceVerification(parsed.output, parsed.catalog, parsed);
+      console.log(JSON.stringify({ discovery: compactCareerTraceReport(discovery), promotion }, null, 2));
+      return 0;
+    }
+    if (rest[0] === "discover-common-crawl") {
+      const parsed = parseCommonCrawlDiscovery(rest.slice(1));
+      if (typeof parsed === "string") return fail(parsed);
+      console.log(JSON.stringify(compactCommonCrawlReport(await discoverCommonCrawlSources(parsed.output, parsed.report, parsed)), null, 2));
+      return 0;
+    }
     if (rest[0] === "discover-yc") {
       const parsed = parseYcDiscovery(rest.slice(1));
       if (typeof parsed === "string") return fail(parsed);
@@ -63,7 +81,7 @@ export async function run(args: string[]): Promise<number> {
       )), null, 2));
       return 0;
     }
-    if (rest[0] !== "verify") return fail("sources requires the `discover`, `discover-yc`, or `verify` subcommand");
+    if (rest[0] !== "verify") return fail("sources requires a discovery, tracing, or `verify` subcommand");
     const parsed = parseSourceVerification(rest.slice(1));
     if (typeof parsed === "string") return fail(parsed);
     console.log(JSON.stringify(await runSourceVerification(parsed.candidatesPath, parsed.output, { concurrency: parsed.concurrency }), null, 2));
@@ -80,6 +98,59 @@ export async function run(args: string[]): Promise<number> {
   }
 
   return fail(`Unknown command: ${command}`);
+}
+
+function parseCareerTracing(args: string[]) {
+  const inputPath = args[0];
+  if (!inputPath || inputPath.startsWith("--")) return "sources trace-careers requires a company JSON file";
+  const parsed = parseDiscoveryOutputs(args.slice(1), ".openings/career-trace-report.json", true);
+  return typeof parsed === "string" ? parsed : { inputPath, ...parsed };
+}
+
+function parseCommonCrawlDiscovery(args: string[]) {
+  let output = "data/source-candidates.json";
+  let report = ".openings/common-crawl-discovery-report.json";
+  let country: string | undefined;
+  let indexUrl: string | undefined;
+  for (let index = 0; index < args.length; index += 1) {
+    const arg = args[index];
+    if (arg === "--country") { country = parseCountry(args[++index]); if (!country) return "--country requires a two-letter country code"; }
+    else if (arg === "--output") { output = args[++index] ?? ""; if (!output) return "--output requires a file"; }
+    else if (arg === "--report") { report = args[++index] ?? ""; if (!report) return "--report requires a file"; }
+    else if (arg === "--index-url") { indexUrl = args[++index]; if (!indexUrl) return "--index-url requires a URL"; try { new URL(indexUrl); } catch { return "--index-url requires a valid URL"; } }
+    else return `Unknown option: ${arg}`;
+  }
+  return { output, report, country, indexUrl };
+}
+
+function parseDiscoveryOutputs(args: string[], defaultReport: string, requireCatalog: boolean) {
+  let output = "data/source-candidates.json";
+  let report = defaultReport;
+  let catalog = "data/companies.json";
+  let country: string | undefined;
+  let concurrency = 10;
+  let searchKey: string | undefined;
+  let commonCrawlReportPath: string | undefined;
+  for (let index = 0; index < args.length; index += 1) {
+    const arg = args[index];
+    if (arg === "--country") { country = parseCountry(args[++index]); if (!country) return "--country requires a two-letter country code"; }
+    else if (arg === "--output") { output = args[++index] ?? ""; if (!output) return "--output requires a file"; }
+    else if (arg === "--report") { report = args[++index] ?? ""; if (!report) return "--report requires a file"; }
+    else if (arg === "--catalog" && requireCatalog) { catalog = args[++index] ?? ""; if (!catalog) return "--catalog requires a file"; }
+    else if (arg === "--search-key-env") {
+      const name = args[++index];
+      if (!name) return "--search-key-env requires an environment variable name";
+      searchKey = process.env[name];
+      if (!searchKey) return `Environment variable ${name} is not set`;
+    }
+    else if (arg === "--common-crawl-report") {
+      commonCrawlReportPath = args[++index];
+      if (!commonCrawlReportPath) return "--common-crawl-report requires a file";
+    }
+    else if (arg === "--concurrency") { concurrency = Number(args[++index]); if (!Number.isInteger(concurrency) || concurrency < 1 || concurrency > 100) return "--concurrency must be an integer from 1 to 100"; }
+    else return `Unknown option: ${arg}`;
+  }
+  return { output, report, catalog, country, concurrency, searchKey, commonCrawlReportPath };
 }
 
 function parseYcDiscovery(args: string[]) {
@@ -256,6 +327,16 @@ function compactDiscoveryReport(report: import("./source-discovery.ts").SourceDi
 
 function compactDiscoveryPromotion(result: import("./source-discovery-pipeline.ts").DiscoveryPromotionResult) {
   return { discovery: compactDiscoveryReport(result.discovery), promotion: result.promotion };
+}
+
+function compactCareerTraceReport(report: import("./career-tracing.ts").CareerTraceReport) {
+  const { unresolvedCompanies: _unresolved, rejections: _rejections, failureDetails: _failures, ...summary } = report;
+  return summary;
+}
+
+function compactCommonCrawlReport(report: import("./common-crawl-discovery.ts").CommonCrawlDiscoveryReport) {
+  const { leads: _leads, rejections: _rejections, ...summary } = report;
+  return summary;
 }
 
 if (import.meta.main) process.exitCode = await run(Bun.argv.slice(2));

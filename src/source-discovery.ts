@@ -152,7 +152,7 @@ async function discoverEntries(feed: FeedEntry[], candidatesPath: string, report
     rejected.push({ index: row.index, issue: { ...row.issue, reason: "duplicate_source", detail: `Duplicate of ${key}` } });
     return false;
   });
-  const appended = await mergeCandidates(candidatesPath, additions);
+  const appended = await mergeSourceCandidates(candidatesPath, additions);
   const report: SourceDiscoveryReport = {
     discovered: feed.length, ready: appended, alreadyKnown, needsDomain: uniqueUnresolved.length, rejected: rejected.length,
     candidatesPath, reportPath,
@@ -201,14 +201,26 @@ async function atomicJson(path: string, value: unknown): Promise<void> {
   await rename(temporary, path);
 }
 
-async function mergeCandidates(path: string, additions: SourceCandidate[]): Promise<number> {
+export async function mergeSourceCandidates(path: string, additions: SourceCandidate[]): Promise<number> {
   await mkdir(dirname(path), { recursive: true });
   return withFileLock(path, async () => {
     const current = await readCandidates(path);
-    const seen = new Set(current.map((candidate) => sourceKey(candidate.sourceUrl)).filter(Boolean));
+    const positions = new Map(current.flatMap((candidate, index) => {
+      const key = sourceKey(candidate.sourceUrl);
+      return key ? [[key, index] as const] : [];
+    }));
+    const seen = new Set(positions.keys());
     const unique = additions.filter((candidate) => {
       const key = sourceKey(candidate.sourceUrl);
-      if (!key || seen.has(key)) return false;
+      if (!key) return false;
+      const existingIndex = positions.get(key);
+      if (existingIndex !== undefined) {
+        const existing = current[existingIndex]!;
+        const cohorts = [...new Set([...(existing.cohorts ?? []), ...(candidate.cohorts ?? [])])].sort();
+        if (cohorts.length) current[existingIndex] = { ...existing, cohorts };
+        return false;
+      }
+      if (seen.has(key)) return false;
       seen.add(key);
       return true;
     });

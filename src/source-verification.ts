@@ -129,6 +129,9 @@ function validateCandidate(candidate: SourceCandidate): string | null {
   const channels = new Set(["search", "career_page", "provider_directory", "community", "dataset", "legacy"]);
   if (!isRecord(candidate.discoveredFrom) || typeof candidate.discoveredFrom.channel !== "string" || !channels.has(candidate.discoveredFrom.channel) || typeof candidate.discoveredFrom.reference !== "string" || !candidate.discoveredFrom.reference.trim()) return "discoveredFrom must contain a supported channel and reference";
   if (candidate.cohorts !== undefined && (!Array.isArray(candidate.cohorts) || !candidate.cohorts.every((code) => typeof code === "string"))) return "cohorts must be an array of country codes";
+  if (candidate.domainEvidence !== undefined) {
+    if (!isRecord(candidate.domainEvidence) || !["authoritative_dataset", "company_registry"].includes(String(candidate.domainEvidence.kind)) || typeof candidate.domainEvidence.reference !== "string" || !candidate.domainEvidence.reference) return "domainEvidence must contain a supported kind and reference";
+  }
   return null;
 }
 
@@ -161,5 +164,6 @@ function structuredIdentityLinksDomain(jobs: Record<string, unknown>[], domain: 
   const fields = ["companyUrl", "companyWebsite", "organizationUrl", "organizationWebsite", "website"];
   return jobs.some((job) => fields.some((field) => typeof job[field] === "string" && pattern.test(job[field])));
 }
+
 
 class VerificationError extends Error { constructor(readonly reason: SourceRejectionReason, message: string) { super(message); } }
