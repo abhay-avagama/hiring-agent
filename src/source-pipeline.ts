@@ -1,5 +1,6 @@
 import { mkdir, readFile, rename, writeFile } from "node:fs/promises";
 import { dirname } from "node:path";
+import { withFileLock } from "./file-lock.ts";
 import { verifyCandidates } from "./source-verification.ts";
 import type { RejectedSource, SourceCandidate, VerifiedCompany } from "./types.ts";
 
@@ -20,6 +21,11 @@ export interface SourcePipelineReport {
 }
 
 export async function runSourceVerification(candidatesPath: string, catalogPath: string, options: PipelineOptions = {}): Promise<SourcePipelineReport> {
+  await mkdir(dirname(catalogPath), { recursive: true });
+  return withFileLock(catalogPath, () => runSourceVerificationUnlocked(candidatesPath, catalogPath, options));
+}
+
+async function runSourceVerificationUnlocked(candidatesPath: string, catalogPath: string, options: PipelineOptions): Promise<SourcePipelineReport> {
   const candidates = await readCandidates(candidatesPath);
   const result = await verifyCandidates(candidates, options);
   const prior = await readPriorCatalog(catalogPath);

@@ -1,5 +1,6 @@
-import { mkdir, open, readFile, rename, unlink, writeFile } from "node:fs/promises";
+import { mkdir, readFile, rename, writeFile } from "node:fs/promises";
 import { dirname } from "node:path";
+import { withFileLock } from "./file-lock.ts";
 import { resolveSource } from "./source-verification.ts";
 import type { DiscoveryChannel, SourceCandidate } from "./types.ts";
 
@@ -28,7 +29,7 @@ export interface SourceDiscoveryReport {
 
 export async function runSourceDiscovery(feedPath: string, candidatesPath: string, reportPath: string, options: DiscoveryOptions = {}): Promise<SourceDiscoveryReport> {
   const feed = await readFeed(feedPath);
-  return discoverEntries(feed, candidatesPath, reportPath, options, feedPath);
+  return discoverEntries(feed, candidatesPath, reportPath, options, feedPath, false);
 }
 
 export async function runYcSourceDiscovery(candidatesPath: string, reportPath: string, options: DiscoveryOptions & { country: string }): Promise<SourceDiscoveryReport> {
@@ -52,10 +53,10 @@ export async function runYcSourceDiscovery(candidatesPath: string, reportPath: s
       domainEvidence: "authoritative_dataset",
     }];
   });
-  return discoverEntries(feed, candidatesPath, reportPath, { ...options, fetch: fetcher, country }, "YC public company API");
+  return discoverEntries(feed, candidatesPath, reportPath, { ...options, fetch: fetcher, country }, "YC public company API", true);
 }
 
-async function discoverEntries(feed: FeedEntry[], candidatesPath: string, reportPath: string, options: DiscoveryOptions, feedReference: string): Promise<SourceDiscoveryReport> {
+async function discoverEntries(feed: FeedEntry[], candidatesPath: string, reportPath: string, options: DiscoveryOptions, feedReference: string, trustDomainEvidence: boolean): Promise<SourceDiscoveryReport> {
   const existing = await readCandidates(candidatesPath);
   const fetcher = options.fetch ?? globalThis.fetch;
   const concurrency = Math.max(1, Math.trunc(options.concurrency ?? 10));
@@ -108,7 +109,7 @@ async function discoverEntries(feed: FeedEntry[], candidatesPath: string, report
           unresolved.push({ index, issue: { ...issue(entry, "needs_domain", "A company domain is required before verification"), companyName } });
           continue;
         }
-        if (!entry.domainEvidence) {
+        if (!trustDomainEvidence || !entry.domainEvidence) {
           unresolved.push({ index, issue: { ...issue(entry, "needs_domain_evidence", "Generic feeds require authoritative domain evidence before verification"), companyName } });
           continue;
         }
@@ -142,11 +143,18 @@ async function discoverEntries(feed: FeedEntry[], candidatesPath: string, report
     rejected.push({ index: row.index, issue: { ...row.issue, reason: "duplicate_source", detail: `Duplicate of ${key}` } });
     return false;
   });
+  const unresolvedSources = new Set<string>();
+  const uniqueUnresolved = filteredUnresolved.filter((row) => {
+    const key = sourceKey(row.issue.sourceUrl);
+    if (!key || !unresolvedSources.has(key)) { if (key) unresolvedSources.add(key); return true; }
+    rejected.push({ index: row.index, issue: { ...row.issue, reason: "duplicate_source", detail: `Duplicate of ${key}` } });
+    return false;
+  });
   const appended = await mergeCandidates(candidatesPath, additions);
   const report: SourceDiscoveryReport = {
-    discovered: feed.length, ready: appended, needsDomain: filteredUnresolved.length, rejected: rejected.length,
+    discovered: feed.length, ready: appended, needsDomain: uniqueUnresolved.length, rejected: rejected.length,
     candidatesPath, reportPath,
-    unresolved: filteredUnresolved.sort((a, b) => a.index - b.index).map((row) => row.issue),
+    unresolved: uniqueUnresolved.sort((a, b) => a.index - b.index).map((row) => row.issue),
     rejections: rejected.sort((a, b) => a.index - b.index).map((row) => row.issue),
   };
   await atomicJson(reportPath, report);
@@ -207,20 +215,6 @@ async function mergeCandidates(path: string, additions: SourceCandidate[]): Prom
   });
 }
 
-async function withFileLock<T>(path: string, operation: () => Promise<T>): Promise<T> {
-  const lockPath = `${path}.lock`;
-  const deadline = Date.now() + 30_000;
-  while (true) {
-    try {
-      const handle = await open(lockPath, "wx");
-      try { return await operation(); }
-      finally { await handle.close(); await unlink(lockPath).catch(() => undefined); }
-    } catch (error) {
-      if (!(error instanceof Error && "code" in error && error.code === "EEXIST") || Date.now() >= deadline) throw error;
-      await new Promise((resolve) => setTimeout(resolve, 25));
-    }
-  }
-}
 
 function sourceKey(value: string): string | undefined { const source = resolveSource(value); return source ? `${source.ats}:${source.token.toLocaleLowerCase()}` : undefined; }
 function issue(entry: FeedEntry, reason: string, detail: string): DiscoveryIssue { return { sourceUrl: entry.sourceUrl, reference: entry.reference, reason, detail }; }

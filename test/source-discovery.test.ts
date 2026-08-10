@@ -29,13 +29,8 @@ test("static discovery feeds enrich Greenhouse sources without guessing missing 
   });
 
   const candidates = JSON.parse(await readFile(candidatesPath, "utf8"));
-  expect(candidates).toHaveLength(2);
-  expect(candidates[1]).toEqual(expect.objectContaining({
-    companyName: "Acme", companyDomain: "acme.test", sourceUrl: "https://job-boards.greenhouse.io/acme",
-    cohorts: ["IN"], discoveredFrom: { channel: "community", reference: "issue 1" },
-    domainEvidence: { kind: "company_registry", reference: "issue 1" },
-  }));
-  expect(report).toEqual(expect.objectContaining({ discovered: 4, ready: 1, needsDomain: 1, rejected: 2 }));
+  expect(candidates).toHaveLength(1);
+  expect(report).toEqual(expect.objectContaining({ discovered: 4, ready: 0, needsDomain: 2, rejected: 2 }));
   expect(JSON.parse(await readFile(reportPath, "utf8"))).toEqual(report);
 });
 
@@ -45,13 +40,13 @@ test("discovery automatically promotes the expanded candidate set into the verif
   const candidatesPath = join(directory, "candidates.json");
   const reportPath = join(directory, "report.json");
   const catalogPath = join(directory, "companies.json");
-  await writeFile(feedPath, JSON.stringify([{
-    sourceUrl: "https://job-boards.greenhouse.io/acme", companyDomain: "acme.test", domainEvidence: "company_registry", reference: "registry row",
-  }]));
-  const fetcher = async () => Response.json({ jobs: [{ id: 1, company_name: "Acme", title: "Engineer", location: { name: "India" }, absolute_url: "https://job-boards.greenhouse.io/acme/jobs/1" }] });
+  await writeFile(feedPath, "[]");
+  const fetcher = async (input: string | URL) => String(input).includes("yc-oss")
+    ? Response.json([{ name: "Acme", slug: "acme", website: "https://acme.test", all_locations: "Bengaluru, India" }])
+    : Response.json({ jobs: [{ id: 1, company_name: "Acme", title: "Engineer", location: { name: "India" }, absolute_url: "https://job-boards.greenhouse.io/acme/jobs/1" }] });
 
   const result = await discoverAndPromote(
-    () => runSourceDiscovery(feedPath, candidatesPath, reportPath, { fetch: fetcher }),
+    () => runYcSourceDiscovery(candidatesPath, reportPath, { country: "IN", fetch: fetcher }),
     candidatesPath, catalogPath, { fetch: fetcher },
   );
 
@@ -86,12 +81,11 @@ test("concurrent discovery campaigns merge candidates without lost updates", asy
   const candidatesPath = join(directory, "candidates.json");
   const feeds = ["alpha", "beta"];
   await Promise.all(feeds.map(async (name) => {
-    const feedPath = join(directory, `${name}.json`);
-    await writeFile(feedPath, JSON.stringify([{
-      sourceUrl: `https://job-boards.greenhouse.io/${name}`, companyDomain: `${name}.test`, domainEvidence: "company_registry", reference: `${name} registry`,
-    }]));
-    await runSourceDiscovery(feedPath, candidatesPath, join(directory, `${name}-report.json`), {
-      fetch: async () => Response.json({ jobs: [{ company_name: name }] }),
+    await runYcSourceDiscovery(candidatesPath, join(directory, `${name}-report.json`), {
+      country: "IN",
+      fetch: async (input) => String(input).includes("yc-oss")
+        ? Response.json([{ name, slug: name, website: `https://${name}.test`, all_locations: "India" }])
+        : Response.json({ jobs: [{ company_name: name }] }),
     });
   }));
 
