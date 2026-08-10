@@ -14,10 +14,11 @@ The initial release supports Greenhouse, Lever, and Ashby. Jobs are crawled from
 bun install
 bun run src/cli.ts sources discover-yc --country IN
 bun run src/cli.ts sources discover-common-crawl --country IN
-bun run src/cli.ts sources trace-careers company-domains.json --country IN --common-crawl-report .openings/common-crawl-discovery-report.json
-bun run src/cli.ts sources trace-careers company-domains.json --country IN
+bun run src/cli.ts sources seed-companies-yc --country IN
+bun run src/cli.ts sources trace-careers .openings/company-domains.json --country IN --common-crawl-report .openings/common-crawl-discovery-report.json
+bun run src/cli.ts sources trace-careers .openings/company-domains.json --country IN
 # Optional: search known ATS hosts before trying keyless career redirects and datasets
-BRAVE_SEARCH_API_KEY=... bun run src/cli.ts sources trace-careers company-domains.json --country IN --search-key-env BRAVE_SEARCH_API_KEY
+BRAVE_SEARCH_API_KEY=... bun run src/cli.ts sources trace-careers .openings/company-domains.json --country IN --search-key-env BRAVE_SEARCH_API_KEY
 bun run src/cli.ts sources discover discovery-feed.json --country IN
 bun run src/cli.ts sources verify data/source-candidates.json
 bun run src/cli.ts crawl
@@ -49,9 +50,14 @@ bun run src/cli.ts sources discover discovery-feed.json --country IN
 # Discover canonical ATS URL leads from the latest Common Crawl URL index
 bun run src/cli.ts sources discover-common-crawl --country IN
 
+# Generate the company identity seeds required by career tracing
+bun run src/cli.ts sources seed-companies-yc --country IN
+
 # Follow company-owned career redirects, then verify and promote resolved sources
-bun run src/cli.ts sources trace-careers company-domains.json --country IN
+bun run src/cli.ts sources trace-careers .openings/company-domains.json --country IN --common-crawl-report .openings/common-crawl-discovery-report.json
 ```
+
+`seed-companies-yc` writes a deduplicated country-focused `{ companyName, companyDomain }` seed file to `.openings/company-domains.json` by default. This is the required identity input for `trace-careers`; the file is generated rather than assumed to exist.
 
 `discover-common-crawl` queries only Common Crawl's URL index for Greenhouse, Lever, and Ashby URL patterns, capped at 10,000 records per pattern to keep the public-index workload bounded. It does not download archived pages. Known sources are counted separately; new URLs remain unresolved leads in `.openings/common-crawl-discovery-report.json` until a trustworthy company name and domain can be linked to them. `--country` records the campaign target but cannot assign a country to an unidentified source; job eligibility remains job-derived after verification and crawling.
 

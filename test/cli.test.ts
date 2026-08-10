@@ -10,6 +10,7 @@ test("CLI documents its read-only commands", async () => {
   expect(output).toContain("sources verify");
   expect(output).toContain("sources discover");
   expect(output).toContain("sources discover-yc");
+  expect(output).toContain("sources seed-companies-yc");
   expect(output).toContain("sources discover-common-crawl");
   expect(output).toContain("sources trace-careers");
   expect(output).toContain("--country");

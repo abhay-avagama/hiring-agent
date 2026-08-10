@@ -6,6 +6,7 @@ import { runSourceDiscovery, runYcSourceDiscovery } from "./source-discovery.ts"
 import { discoverAndPromote } from "./source-discovery-pipeline.ts";
 import { traceCareerSources } from "./career-tracing.ts";
 import { discoverCommonCrawlSources } from "./common-crawl-discovery.ts";
+import { generateYcCompanySeeds } from "./company-seeds.ts";
 
 const HELP = `Openings — search public company job boards
 
@@ -14,6 +15,7 @@ Usage:
   openings sources verify CANDIDATES.json [--output FILE] [--concurrency N]
   openings sources discover FEED.json [--country CODE] [--output FILE] [--catalog FILE] [--report FILE]
   openings sources discover-yc --country CODE [--output FILE] [--catalog FILE] [--report FILE]
+  openings sources seed-companies-yc --country CODE [--output FILE]
   openings sources discover-common-crawl [--country CODE] [--output FILE] [--report FILE] [--index-url URL]
   openings sources trace-careers COMPANIES.json [--country CODE] [--common-crawl-report FILE] [--search-key-env NAME] [--output FILE] [--catalog FILE] [--report FILE]
   openings search [words] [--country CODE|--india] [--location PLACE] [--remote|--onsite]
@@ -51,6 +53,12 @@ export async function run(args: string[]): Promise<number> {
   }
 
   if (command === "sources") {
+    if (rest[0] === "seed-companies-yc") {
+      const parsed = parseYcCompanySeeds(rest.slice(1));
+      if (typeof parsed === "string") return fail(parsed);
+      console.log(JSON.stringify(await generateYcCompanySeeds(parsed.output, parsed), null, 2));
+      return 0;
+    }
     if (rest[0] === "trace-careers") {
       const parsed = parseCareerTracing(rest.slice(1));
       if (typeof parsed === "string") return fail(parsed);
@@ -98,6 +106,19 @@ export async function run(args: string[]): Promise<number> {
   }
 
   return fail(`Unknown command: ${command}`);
+}
+
+function parseYcCompanySeeds(args: string[]) {
+  let output = ".openings/company-domains.json";
+  let country: string | undefined;
+  for (let index = 0; index < args.length; index += 1) {
+    const arg = args[index];
+    if (arg === "--country") { country = parseCountry(args[++index]); if (!country) return "--country requires a two-letter country code"; }
+    else if (arg === "--output") { output = args[++index] ?? ""; if (!output) return "--output requires a file"; }
+    else return `Unknown option: ${arg}`;
+  }
+  if (!country) return "sources seed-companies-yc requires --country CODE";
+  return { country, output };
 }
 
 function parseCareerTracing(args: string[]) {
