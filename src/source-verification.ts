@@ -91,8 +91,8 @@ async function probe(candidate: SourceCandidate, source: ResolvedSource, fetcher
     if (!jobs) throw new VerificationError("invalid_payload", "Payload does not contain the expected jobs array");
     if (jobs.length === 0) throw new VerificationError("empty_board", "Source has no jobs, so identity cannot be verified");
     const providerName = source.ats === "greenhouse" ? majority(jobs.map((job) => stringField(job, "company_name")).filter(Boolean)) : "";
-    const hasDomainLink = source.ats !== "greenhouse" && structuredPayloadLinksDomain(jobs, candidate.companyDomain);
-    if (source.ats !== "greenhouse" && !hasDomainLink) throw new VerificationError("identity_mismatch", `Structured jobs do not link to ${candidate.companyDomain}`);
+    const hasDomainLink = source.ats !== "greenhouse" && structuredIdentityLinksDomain(jobs, candidate.companyDomain);
+    if (source.ats !== "greenhouse" && !hasDomainLink) throw new VerificationError("identity_mismatch", `Structured identity fields do not link to ${candidate.companyDomain}`);
     const observedCompanyName = providerName || candidate.companyName;
     return {
       observedCompanyName,
@@ -125,7 +125,8 @@ function validateCandidate(candidate: SourceCandidate): string | null {
   if (candidate.slug !== undefined && (typeof candidate.slug !== "string" || !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(candidate.slug))) return "slug must contain lowercase letters, numbers, and single hyphens";
   if (typeof candidate.companyDomain !== "string" || !/^[a-z0-9.-]+\.[a-z]{2,}$/i.test(candidate.companyDomain)) return "companyDomain must be a hostname";
   if (typeof candidate.sourceUrl !== "string" || !candidate.sourceUrl) return "sourceUrl is required";
-  if (!isRecord(candidate.discoveredFrom) || typeof candidate.discoveredFrom.channel !== "string" || typeof candidate.discoveredFrom.reference !== "string" || !candidate.discoveredFrom.reference.trim()) return "discoveredFrom channel and reference are required";
+  const channels = new Set(["search", "career_page", "provider_directory", "community", "dataset", "legacy"]);
+  if (!isRecord(candidate.discoveredFrom) || typeof candidate.discoveredFrom.channel !== "string" || !channels.has(candidate.discoveredFrom.channel) || typeof candidate.discoveredFrom.reference !== "string" || !candidate.discoveredFrom.reference.trim()) return "discoveredFrom must contain a supported channel and reference";
   if (candidate.cohorts !== undefined && (!Array.isArray(candidate.cohorts) || !candidate.cohorts.every((code) => typeof code === "string"))) return "cohorts must be an array of country codes";
   return null;
 }
@@ -148,11 +149,16 @@ function array(value: unknown): Record<string, unknown>[] | null { return Array.
 function recordArray(value: unknown, key: string): Record<string, unknown>[] | null { return isRecord(value) ? array(value[key]) : null; }
 function isRecord(value: unknown): value is Record<string, unknown> { return typeof value === "object" && value !== null && !Array.isArray(value); }
 function stringField(value: Record<string, unknown>, key: string): string { return typeof value[key] === "string" ? value[key] : ""; }
-function majority(values: string[]): string { return values.sort((a, b) => values.filter((v) => v === b).length - values.filter((v) => v === a).length)[0] ?? ""; }
-function structuredPayloadLinksDomain(jobs: Record<string, unknown>[], domain: string): boolean {
+function majority(values: string[]): string {
+  const counts = new Map<string, number>();
+  for (const value of values) counts.set(value, (counts.get(value) ?? 0) + 1);
+  return [...counts].sort((a, b) => b[1] - a[1])[0]?.[0] ?? "";
+}
+function structuredIdentityLinksDomain(jobs: Record<string, unknown>[], domain: string): boolean {
   const escaped = domain.toLocaleLowerCase().replace(/^www\./, "").replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  const pattern = new RegExp(`https?://(?:www\\.)?${escaped}(?:[/"'\\s]|$)`, "i");
-  return jobs.some((job) => pattern.test(JSON.stringify(job)));
+  const pattern = new RegExp(`^https?://(?:www\\.)?${escaped}(?:/|$)`, "i");
+  const fields = ["companyUrl", "companyWebsite", "organizationUrl", "organizationWebsite", "website"];
+  return jobs.some((job) => fields.some((field) => typeof job[field] === "string" && pattern.test(job[field])));
 }
 
 class VerificationError extends Error { constructor(readonly reason: SourceRejectionReason, message: string) { super(message); } }

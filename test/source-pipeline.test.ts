@@ -15,7 +15,7 @@ test("the verification pipeline writes only verified sources to the generated ca
   ]));
 
   const report = await runSourceVerification(candidatesPath, catalogPath, {
-    fetch: async () => Response.json([{ id: "1", text: "Engineer", hostedUrl: "https://jobs.lever.co/acme/1", description: "See https://acme.test" }]),
+    fetch: async () => Response.json([{ id: "1", text: "Engineer", hostedUrl: "https://jobs.lever.co/acme/1", companyWebsite: "https://acme.test" }]),
   });
 
   const catalog = JSON.parse(await readFile(catalogPath, "utf8"));

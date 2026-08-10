@@ -24,12 +24,16 @@ export async function runSourceVerification(candidatesPath: string, catalogPath:
   const result = await verifyCandidates(candidates, options);
   const prior = await readPriorCatalog(catalogPath);
   const freshlyVerified = new Set(result.verified.map((company) => company.slug));
+  const verifiedDomains = new Set(result.verified.map((company) => company.companyDomain));
+  const verifiedSources = new Set(result.verified.map((company) => `${company.ats}:${company.token.toLocaleLowerCase()}`));
   const preserved = result.rejected.flatMap((candidate) => {
     if (!(["unreachable", "invalid_payload", "empty_board"] as string[]).includes(candidate.reason)) return [];
     const slug = candidate.slug ?? slugFromDomain(candidate.companyDomain);
     if (freshlyVerified.has(slug)) return [];
     const previous = prior[slug];
-    return previous && previous.companyDomain === candidate.companyDomain.toLocaleLowerCase() ? [{ slug, ...previous } as VerifiedCompany] : [];
+    if (!previous || previous.companyDomain !== candidate.companyDomain.toLocaleLowerCase()) return [];
+    if (verifiedDomains.has(previous.companyDomain) || verifiedSources.has(`${previous.ats}:${previous.token.toLocaleLowerCase()}`)) return [];
+    return [{ slug, ...previous } as VerifiedCompany];
   });
   await writeCatalog(catalogPath, [...result.verified, ...preserved]);
   return {

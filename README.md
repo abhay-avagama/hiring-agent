@@ -36,7 +36,7 @@ Commands return JSON so the same interface works for people, shell scripts, and 
 bun run src/cli.ts sources verify data/source-candidates.json
 ```
 
-The verifier resolves the canonical Greenhouse, Lever, or Ashby endpoint, validates its structured payload, checks source/name/domain identity, deduplicates sources and companies, and atomically regenerates [`data/companies.json`](data/companies.json). Greenhouse supplies a provider company name; Lever and Ashby must expose a company-domain link inside their structured job payload. Only verified candidates are written. The JSON report includes every rejected candidate and a machine-readable reason. Previously verified records survive transient endpoint failures, but permanent identity or schema failures remove them. Verification requires no search key; optional keys will belong only to future discovery adapters.
+The verifier resolves the canonical Greenhouse, Lever, or Ashby endpoint, validates its structured payload, checks source/name/domain identity, deduplicates sources and companies, and atomically regenerates [`data/companies.json`](data/companies.json). Greenhouse supplies a provider company name; Lever and Ashby must expose a company-domain link in a dedicated structured identity field—URLs in free-form descriptions never count. Only verified candidates are written. The JSON report includes every rejected candidate and a machine-readable reason. Previously verified records survive transient endpoint failures, but permanent identity or schema failures remove them. Verification requires no search key; optional keys will belong only to future discovery adapters.
 
 Candidate example:
 
