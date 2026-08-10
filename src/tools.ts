@@ -11,13 +11,13 @@ export function createToolHandler(catalog: Catalog) {
   const definitions: ToolDefinition[] = [
     {
       name: "search_jobs",
-      description: "Search live public company job boards by role, location, and remote status.",
+      description: "Search the local job snapshot by role, location, country eligibility, and work mode.",
       inputSchema: {
         type: "object",
         properties: {
           query: { type: "string", description: "Words to match in job title or company" },
           location: { type: "string", description: "Case-insensitive location substring" },
-          country: { type: "string", enum: ["IN"], description: "Use IN for roles explicitly located in India or remote across India/APAC/Asia/global" },
+          country: { type: "string", pattern: "^[A-Za-z]{2}$", description: "Two-letter country code for job eligibility, such as IN or DE" },
           remote: { type: "boolean", description: "True for remote-only; false for non-remote-only" },
           limit: { type: "integer", minimum: 1, maximum: 100, default: 50 },
         },
@@ -43,8 +43,8 @@ export function createToolHandler(catalog: Catalog) {
         const query: SearchQuery = {};
         if (typeof input.query === "string") query.query = input.query;
         if (typeof input.location === "string") query.location = input.location;
-        if (input.country === "IN") query.country = "IN";
-        else if (input.country !== undefined) throw new Error("country currently supports only IN");
+        if (typeof input.country === "string" && /^[a-z]{2}$/i.test(input.country)) query.country = input.country.toUpperCase();
+        else if (input.country !== undefined) throw new Error("country must be a two-letter code");
         if (typeof input.remote === "boolean") query.remote = input.remote;
         if (typeof input.limit === "number") query.limit = Math.min(100, Math.max(1, Math.trunc(input.limit)));
         return { jobs: await catalog.search(query) };

@@ -5,8 +5,11 @@ export interface Company {
   name: string;
   ats: Ats;
   token: string;
-  markets?: Array<"IN">;
+  cohorts?: string[];
 }
+
+export type WorkMode = "remote" | "hybrid" | "onsite" | "unknown";
+export type EligibilityConfidence = "explicit" | "inferred" | "unknown";
 
 export interface JobSummary {
   id: string;
@@ -14,6 +17,11 @@ export interface JobSummary {
   title: string;
   location: string;
   remote: boolean;
+  workMode: WorkMode;
+  eligibleCountries: string[];
+  excludedCountries: string[];
+  eligibleRegions: string[];
+  eligibilityConfidence: EligibilityConfidence;
   url: string;
   updatedAt?: string;
 }
@@ -25,7 +33,32 @@ export interface Job extends JobSummary {
 export interface SearchQuery {
   query?: string;
   location?: string;
-  country?: "IN";
+  country?: string;
   remote?: boolean;
   limit?: number;
+}
+
+export interface CrawlFailure {
+  source: string;
+  error: string;
+}
+
+export interface CrawlReport {
+  startedAt: string;
+  finishedAt: string;
+  selected: number;
+  succeeded: number;
+  failed: CrawlFailure[];
+}
+
+export interface JobPartition {
+  fetchedAt: string;
+  jobs: Job[];
+}
+
+export interface JobSnapshot {
+  version: 1;
+  updatedAt: string;
+  partitions: Record<string, JobPartition>;
+  lastCrawl: CrawlReport;
 }

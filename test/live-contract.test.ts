@@ -21,7 +21,7 @@ for (const company of boards) {
   }, 20_000);
 }
 
-for (const company of companies.filter((candidate) => candidate.markets?.includes("IN"))) {
+for (const company of companies.filter((candidate) => candidate.cohorts?.includes("IN"))) {
   test.skipIf(!enabled)(`${company.name} India index entry is live and has India-eligible roles`, async () => {
     const catalog = createCatalog({ companies: [company], cacheTtlMs: 0 });
     expect((await catalog.search({ country: "IN", limit: 1 })).length).toBeGreaterThan(0);

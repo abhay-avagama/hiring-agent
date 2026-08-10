@@ -1,5 +1,5 @@
 #!/usr/bin/env bun
-import { catalog } from "./index.ts";
+import { createRuntime } from "./runtime.ts";
 import { createToolHandler } from "./tools.ts";
 
 interface RpcRequest {
@@ -43,6 +43,11 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 }
 
 async function serve() {
+  const runtime = createRuntime();
+  const catalog = {
+    search: async (query: import("./types.ts").SearchQuery) => (await runtime.search(query, { offline: false, staleDays: 14 })).jobs,
+    get: async (id: string) => (await runtime.get(id, { offline: false, staleDays: 14 })).job,
+  };
   const handle = createMcpHandler(createToolHandler(catalog));
   const decoder = new TextDecoder();
   let buffer = "";

@@ -1,14 +1,14 @@
 {
   "anthropic": { "name": "Anthropic", "ats": "greenhouse", "token": "anthropic" },
-  "britive": { "name": "Britive", "ats": "greenhouse", "token": "britive", "markets": ["IN"] },
-  "dialpad": { "name": "Dialpad", "ats": "greenhouse", "token": "dialpad", "markets": ["IN"] },
+  "britive": { "name": "Britive", "ats": "greenhouse", "token": "britive", "cohorts": ["IN"] },
+  "dialpad": { "name": "Dialpad", "ats": "greenhouse", "token": "dialpad", "cohorts": ["IN"] },
   "flex": { "name": "Flex", "ats": "lever", "token": "Flex" },
-  "forward-networks": { "name": "Forward Networks", "ats": "greenhouse", "token": "forwardnetworks", "markets": ["IN"] },
-  "graphcore": { "name": "Graphcore", "ats": "greenhouse", "token": "graphcore", "markets": ["IN"] },
-  "karat": { "name": "Karat", "ats": "greenhouse", "token": "karat", "markets": ["IN"] },
-  "knowbe4": { "name": "KnowBe4", "ats": "greenhouse", "token": "knowbe4", "markets": ["IN"] },
-  "onetrust": { "name": "OneTrust", "ats": "greenhouse", "token": "onetrust", "markets": ["IN"] },
-  "point72": { "name": "Point72", "ats": "greenhouse", "token": "point72", "markets": ["IN"] },
+  "forward-networks": { "name": "Forward Networks", "ats": "greenhouse", "token": "forwardnetworks", "cohorts": ["IN"] },
+  "graphcore": { "name": "Graphcore", "ats": "greenhouse", "token": "graphcore", "cohorts": ["IN"] },
+  "karat": { "name": "Karat", "ats": "greenhouse", "token": "karat", "cohorts": ["IN"] },
+  "knowbe4": { "name": "KnowBe4", "ats": "greenhouse", "token": "knowbe4", "cohorts": ["IN"] },
+  "onetrust": { "name": "OneTrust", "ats": "greenhouse", "token": "onetrust", "cohorts": ["IN"] },
+  "point72": { "name": "Point72", "ats": "greenhouse", "token": "point72", "cohorts": ["IN"] },
   "posthog": { "name": "PostHog", "ats": "ashby", "token": "posthog" },
-  "prophecy": { "name": "Prophecy", "ats": "greenhouse", "token": "prophecysimpledatalabs", "markets": ["IN"] }
+  "prophecy": { "name": "Prophecy", "ats": "greenhouse", "token": "prophecysimpledatalabs", "cohorts": ["IN"] }
 }

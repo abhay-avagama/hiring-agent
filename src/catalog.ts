@@ -1,5 +1,5 @@
 import type { Company, Job, JobSummary, SearchQuery } from "./types.ts";
-import { isExplicitlyIndiaEligible, normalizeLocation } from "./locations.ts";
+import { classifyJob, isEligibleForCountry, normalizeLocation } from "./locations.ts";
 
 type Fetch = (input: string | URL, init?: RequestInit) => Promise<Response>;
 
@@ -50,7 +50,7 @@ export function createCatalog(options: CatalogOptions): Catalog {
   async function fetchJobs(company: Company): Promise<Job[]> {
     const cached = cache.get(company.slug);
     if (cached && cached.expiresAt > Date.now()) return cached.jobs;
-    const jobs = fetchBoard(company);
+    const jobs = fetchSourceJobs(company, fetcher);
     cache.set(company.slug, { expiresAt: Date.now() + (options.cacheTtlMs ?? 5 * 60_000), jobs });
     try {
       return await jobs;
@@ -60,27 +60,11 @@ export function createCatalog(options: CatalogOptions): Catalog {
     }
   }
 
-  async function fetchBoard(company: Company): Promise<Job[]> {
-    const url = company.ats === "greenhouse"
-      ? `https://boards-api.greenhouse.io/v1/boards/${encodeURIComponent(company.token)}/jobs?content=true`
-      : company.ats === "lever"
-        ? `https://api.lever.co/v0/postings/${encodeURIComponent(company.token)}?mode=json`
-        : `https://api.ashbyhq.com/posting-api/job-board/${encodeURIComponent(company.token)}`;
-    const response = await fetcher(url);
-    if (!response.ok) throw new Error(`${company.name} job board returned HTTP ${response.status}`);
-    const body = await response.json();
-    return company.ats === "greenhouse"
-      ? (body as { jobs: GreenhouseJob[] }).jobs.map((job) => normalizeGreenhouse(company, job))
-      : company.ats === "lever"
-        ? (body as LeverJob[]).map((job) => normalizeLever(company, job))
-        : (body as { jobs: AshbyJob[] }).jobs.map((job) => normalizeAshby(company, job));
-  }
-
   return {
     async search(query) {
       const jobs = (await Promise.all(options.companies.map((company) => fetchJobs(company).catch(() => [])))).flat();
 
-      return jobs.filter((job) => matches(job, query)).slice(0, query.limit ?? 50).map(toSummary);
+      return searchJobs(jobs, query);
     },
     async get(id) {
       const [ats, slug] = id.split(":", 3);
@@ -93,46 +77,81 @@ export function createCatalog(options: CatalogOptions): Catalog {
   };
 }
 
+export function searchJobs(jobs: Job[], query: SearchQuery): JobSummary[] {
+  return jobs.filter((job) => matches(job, query)).slice(0, query.limit ?? 50).map(toSummary);
+}
+
+export async function fetchSourceJobs(company: Company, fetcher: Fetch = globalThis.fetch): Promise<Job[]> {
+  const url = company.ats === "greenhouse"
+    ? `https://boards-api.greenhouse.io/v1/boards/${encodeURIComponent(company.token)}/jobs?content=true`
+    : company.ats === "lever"
+      ? `https://api.lever.co/v0/postings/${encodeURIComponent(company.token)}?mode=json`
+      : `https://api.ashbyhq.com/posting-api/job-board/${encodeURIComponent(company.token)}`;
+  const response = await fetcher(url);
+  if (!response.ok) throw new Error(`${company.name} job board returned HTTP ${response.status}`);
+  const body = await response.json();
+  return company.ats === "greenhouse"
+    ? (body as { jobs: GreenhouseJob[] }).jobs.map((job) => normalizeGreenhouse(company, job))
+    : company.ats === "lever"
+      ? (body as LeverJob[]).map((job) => normalizeLever(company, job))
+      : (body as { jobs: AshbyJob[] }).jobs.map((job) => normalizeAshby(company, job));
+}
+
 function normalizeAshby(company: Company, job: AshbyJob): Job {
   const location = job.location ?? "Unspecified";
-  return {
+  return classifyJob({
     id: `ashby:${company.slug}:${job.id}`,
     company: company.name,
     title: job.title,
     location,
     remote: job.isRemote ?? /remote/i.test(location),
+    workMode: job.isRemote ? "remote" : "unknown",
+    eligibleCountries: [],
+    excludedCountries: [],
+    eligibleRegions: [],
+    eligibilityConfidence: "unknown",
     url: job.jobUrl,
     updatedAt: job.publishedAt,
     description: job.descriptionPlain ?? "",
-  };
+  });
 }
 
 function normalizeLever(company: Company, job: LeverJob): Job {
   const location = job.categories?.location ?? "Unspecified";
-  return {
+  return classifyJob({
     id: `lever:${company.slug}:${job.id}`,
     company: company.name,
     title: job.text,
     location,
     remote: job.workplaceType === "remote" || /remote/i.test(location),
+    workMode: job.workplaceType === "remote" ? "remote" : job.workplaceType === "hybrid" ? "hybrid" : job.workplaceType === "onsite" ? "onsite" : "unknown",
+    eligibleCountries: [],
+    excludedCountries: [],
+    eligibleRegions: [],
+    eligibilityConfidence: "unknown",
     url: job.hostedUrl,
     updatedAt: job.createdAt ? new Date(job.createdAt).toISOString() : undefined,
     description: job.descriptionPlain ?? "",
-  };
+  });
 }
 
 function normalizeGreenhouse(company: Company, job: GreenhouseJob): Job {
   const location = job.location?.name ?? "Unspecified";
-  return {
+  return classifyJob({
     id: `greenhouse:${company.slug}:${job.id}`,
     company: company.name,
     title: job.title,
     location,
     remote: /remote/i.test(location),
+    workMode: "unknown",
+    eligibleCountries: [],
+    excludedCountries: [],
+    eligibleRegions: [],
+    eligibilityConfidence: "unknown",
     url: job.absolute_url,
     updatedAt: job.updated_at,
     description: stripHtml(job.content ?? ""),
-  };
+  });
 }
 
 function matches(job: Job, query: SearchQuery): boolean {
@@ -141,7 +160,7 @@ function matches(job: Job, query: SearchQuery): boolean {
   const searchable = `${job.title} ${job.company}`.toLocaleLowerCase();
   return (terms.length === 0 || terms.every((term) => searchable.includes(term)))
     && (!location || normalizeLocation(job.location).includes(location))
-    && (!query.country || isExplicitlyIndiaEligible(job))
+    && (!query.country || isEligibleForCountry(job, query.country))
     && (query.remote === undefined || job.remote === query.remote);
 }
 

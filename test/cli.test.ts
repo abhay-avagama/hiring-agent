@@ -6,6 +6,9 @@ test("CLI documents its read-only commands", async () => {
   expect(await process.exited).toBe(0);
   expect(output).toContain("search");
   expect(output).toContain("get");
+  expect(output).toContain("crawl");
+  expect(output).toContain("--country");
+  expect(output).toContain("--offline");
   expect(output).toContain("--india");
   expect(output).not.toContain("apply");
 });

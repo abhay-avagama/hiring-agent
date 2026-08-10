@@ -7,7 +7,7 @@ export const companies: Company[] = Object.entries(companyData).map(([slug, valu
   name: value.name,
   ats: value.ats as Ats,
   token: value.token,
-  markets: "markets" in value ? value.markets as Array<"IN"> : undefined,
+  cohorts: "cohorts" in value ? value.cohorts as string[] : undefined,
 }));
 
 export const catalog = createCatalog({ companies });
