@@ -1,5 +1,5 @@
-import { mkdir, readFile, rename, writeFile } from "node:fs/promises";
-import { dirname } from "node:path";
+import { readFile } from "node:fs/promises";
+import { atomicJson } from "./atomic-file.ts";
 import { mergeSourceCandidates } from "./source-discovery.ts";
 import { resolveSource } from "./source-verification.ts";
 import { fetchSafeHead, type HeadTransport, type ResolveHost } from "./safe-head.ts";
@@ -162,9 +162,3 @@ function sourceMatchesCompany(token: string, seed: CompanySeed): boolean {
 }
 function identity(seed: Partial<CompanySeed>) { return { companyName: seed.companyName, companyDomain: seed.companyDomain }; }
 function isRecord(value: unknown): value is Record<string, unknown> { return typeof value === "object" && value !== null && !Array.isArray(value); }
-async function atomicJson(path: string, value: unknown): Promise<void> {
-  await mkdir(dirname(path), { recursive: true });
-  const temporary = `${path}.${process.pid}.tmp`;
-  await writeFile(temporary, `${JSON.stringify(value, null, 2)}\n`);
-  await rename(temporary, path);
-}

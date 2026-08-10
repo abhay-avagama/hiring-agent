@@ -1,5 +1,4 @@
-import { mkdir, rename, writeFile } from "node:fs/promises";
-import { dirname } from "node:path";
+import { atomicJson } from "./atomic-file.ts";
 import { withFileLock } from "./file-lock.ts";
 
 type Fetch = (input: string | URL, init?: RequestInit) => Promise<Response>;
@@ -36,15 +35,8 @@ export async function generateYcCompanySeeds(outputPath: string, options: Option
     seen.add(companyDomain);
     seeds.push({ companyName: company.name.trim(), companyDomain });
   }
-  await mkdir(dirname(outputPath), { recursive: true });
   await withFileLock(outputPath, () => atomicJson(outputPath, seeds));
   return { country, matched: matched.length, written: seeds.length, skipped: matched.length - seeds.length, outputPath };
-}
-
-async function atomicJson(path: string, value: unknown): Promise<void> {
-  const temporary = `${path}.${process.pid}.tmp`;
-  await writeFile(temporary, `${JSON.stringify(value, null, 2)}\n`);
-  await rename(temporary, path);
 }
 
 function escapeRegExp(value: string): string { return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); }

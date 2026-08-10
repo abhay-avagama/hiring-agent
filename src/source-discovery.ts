@@ -1,5 +1,6 @@
-import { mkdir, readFile, rename, writeFile } from "node:fs/promises";
+import { mkdir, readFile } from "node:fs/promises";
 import { dirname } from "node:path";
+import { atomicJson } from "./atomic-file.ts";
 import { withFileLock } from "./file-lock.ts";
 import { resolveSource } from "./source-verification.ts";
 import type { DiscoveryChannel, SourceCandidate } from "./types.ts";
@@ -192,13 +193,6 @@ async function readCandidates(path: string): Promise<SourceCandidate[]> {
     if (error instanceof Error && "code" in error && error.code === "ENOENT") return [];
     throw error;
   }
-}
-
-async function atomicJson(path: string, value: unknown): Promise<void> {
-  await mkdir(dirname(path), { recursive: true });
-  const temporary = `${path}.${process.pid}.tmp`;
-  await writeFile(temporary, `${JSON.stringify(value, null, 2)}\n`);
-  await rename(temporary, path);
 }
 
 export async function mergeSourceCandidates(path: string, additions: SourceCandidate[]): Promise<number> {

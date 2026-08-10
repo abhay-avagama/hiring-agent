@@ -1,5 +1,5 @@
-import { mkdir, readFile, rename, writeFile } from "node:fs/promises";
-import { dirname } from "node:path";
+import { readFile } from "node:fs/promises";
+import { atomicJson } from "./atomic-file.ts";
 import { resolveSource } from "./source-verification.ts";
 
 type Fetch = (input: string | URL, init?: RequestInit) => Promise<Response>;
@@ -103,9 +103,3 @@ async function readExistingKeys(path: string): Promise<Set<string>> {
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> { return typeof value === "object" && value !== null && !Array.isArray(value); }
-async function atomicJson(path: string, value: unknown): Promise<void> {
-  await mkdir(dirname(path), { recursive: true });
-  const temporary = `${path}.${process.pid}.tmp`;
-  await writeFile(temporary, `${JSON.stringify(value, null, 2)}\n`);
-  await rename(temporary, path);
-}

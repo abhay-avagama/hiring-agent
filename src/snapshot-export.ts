@@ -1,6 +1,7 @@
 import { createHash } from "node:crypto";
-import { mkdir, readFile, rename, unlink, writeFile } from "node:fs/promises";
+import { mkdir, readFile, unlink } from "node:fs/promises";
 import { join } from "node:path";
+import { atomicWrite } from "./atomic-file.ts";
 import type { JobSnapshot } from "./types.ts";
 
 export interface SnapshotExportReport {
@@ -63,8 +64,3 @@ async function previousPartitionFiles(outputDir: string): Promise<string[]> {
 
 function stableJson(value: unknown): string { return `${JSON.stringify(value, null, 2)}\n`; }
 function sha256(value: string): string { return createHash("sha256").update(value).digest("hex"); }
-async function atomicWrite(path: string, content: string): Promise<void> {
-  const temporary = `${path}.${process.pid}.tmp`;
-  await writeFile(temporary, content, "utf8");
-  await rename(temporary, path);
-}
