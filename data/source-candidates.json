@@ -1,0 +1,14 @@
+[
+  { "companyName": "Anthropic", "companyDomain": "anthropic.com", "sourceUrl": "https://job-boards.greenhouse.io/anthropic", "discoveredFrom": { "channel": "legacy", "reference": "initial seed catalog" } },
+  { "companyName": "Britive", "companyDomain": "britive.com", "sourceUrl": "https://job-boards.greenhouse.io/britive", "cohorts": ["IN"], "discoveredFrom": { "channel": "legacy", "reference": "initial India campaign" } },
+  { "companyName": "Dialpad", "companyDomain": "dialpad.com", "sourceUrl": "https://job-boards.greenhouse.io/dialpad", "cohorts": ["IN"], "discoveredFrom": { "channel": "legacy", "reference": "initial India campaign" } },
+  { "companyName": "Flex", "companyDomain": "flex.one", "sourceUrl": "https://jobs.lever.co/Flex", "discoveredFrom": { "channel": "legacy", "reference": "initial seed catalog" } },
+  { "slug": "forward-networks", "companyName": "Forward Networks", "companyDomain": "forwardnetworks.com", "sourceUrl": "https://job-boards.greenhouse.io/forwardnetworks", "cohorts": ["IN"], "discoveredFrom": { "channel": "legacy", "reference": "initial India campaign" } },
+  { "companyName": "Graphcore", "companyDomain": "graphcore.ai", "sourceUrl": "https://job-boards.greenhouse.io/graphcore", "cohorts": ["IN"], "discoveredFrom": { "channel": "legacy", "reference": "initial India campaign" } },
+  { "companyName": "Karat", "companyDomain": "karat.com", "sourceUrl": "https://job-boards.greenhouse.io/karat", "cohorts": ["IN"], "discoveredFrom": { "channel": "legacy", "reference": "initial India campaign" } },
+  { "companyName": "KnowBe4", "companyDomain": "knowbe4.com", "sourceUrl": "https://job-boards.greenhouse.io/knowbe4", "cohorts": ["IN"], "discoveredFrom": { "channel": "legacy", "reference": "initial India campaign" } },
+  { "companyName": "OneTrust", "companyDomain": "onetrust.com", "sourceUrl": "https://job-boards.greenhouse.io/onetrust", "cohorts": ["IN"], "discoveredFrom": { "channel": "legacy", "reference": "initial India campaign" } },
+  { "companyName": "Point72", "companyDomain": "point72.com", "sourceUrl": "https://job-boards.greenhouse.io/point72", "cohorts": ["IN"], "discoveredFrom": { "channel": "legacy", "reference": "initial India campaign" } },
+  { "companyName": "PostHog", "companyDomain": "posthog.com", "sourceUrl": "https://jobs.ashbyhq.com/posthog", "discoveredFrom": { "channel": "legacy", "reference": "initial seed catalog" } },
+  { "companyName": "Prophecy", "companyDomain": "prophecy.io", "sourceUrl": "https://job-boards.greenhouse.io/prophecysimpledatalabs", "cohorts": ["IN"], "discoveredFrom": { "channel": "legacy", "reference": "initial India campaign" } }
+]

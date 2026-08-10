@@ -82,7 +82,7 @@ What minimal source record supports automatic verification, deduplication, disco
 
 ### Answer
 
-Open. Prototype candidate-to-verified transitions and generated catalog output using representative sources from #5.
+Resolved for the first provider set. Candidate records contain company identity, domain, structured source URL, optional stable slug and discovery cohort, plus channel/reference provenance. Verification resolves a canonical provider/token, validates the live structured payload, checks provider/name/domain identity, and records checked time, content type, observed name, evidence type, job count, and canonical URL. The generated catalog is deterministic by slug.
 
 ## #7: How Should Job Geography Be Classified Across Providers?
 
@@ -121,7 +121,7 @@ Can discovered candidates be identity-checked, normalized, deduplicated, and aut
 
 ### Answer
 
-Open. Report rejected candidates and reasons; never silently import unverified bulk datasets.
+Resolved for Greenhouse, Lever, and Ashby. `openings sources verify` verifies candidates concurrently without credentials, deduplicates source/company/slug identities, atomically replaces the generated catalog with verified records, and reports every rejection with a reason and detail. Unsupported, unreachable, malformed, empty, mismatched, and duplicate candidates are never promoted. The 12 seed candidates pass the pipeline; scaling the candidate set is now a discovery task rather than a catalog-trust gap.
 
 ## #10: How Do We Reach And Measure The First Country Campaign?
 

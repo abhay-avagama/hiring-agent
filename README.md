@@ -12,6 +12,7 @@ The initial release supports Greenhouse, Lever, and Ashby. Jobs are crawled from
 
 ```sh
 bun install
+bun run src/cli.ts sources verify data/source-candidates.json
 bun run src/cli.ts crawl
 bun run src/cli.ts crawl --country IN
 bun run src/cli.ts crawl --companies companies.txt
@@ -26,6 +27,28 @@ bun run src/cli.ts get greenhouse:anthropic:12345
 Commands return JSON so the same interface works for people, shell scripts, and agents. Search refreshes a missing or stale snapshot automatically; the default freshness window is 14 days. Use `--stale-days N` to change it or `--offline` to guarantee that no network request is made. Openings does not install a scheduler—run `crawl` using whichever scheduler you prefer.
 
 `crawl` updates every source by default. `--country CODE` selects the maintained discovery cohort for that country; it does not label companies as country-specific. `--companies FILE` accepts one catalog slug per line. Successful selected sources replace their partitions, failures are removed and reported, and unselected partitions remain intact.
+
+## Verify and promote sources
+
+[`data/source-candidates.json`](data/source-candidates.json) is the candidate source of truth. Each candidate records the company name and domain, a supported public ATS URL, optional discovery cohorts, and how it was discovered. Run:
+
+```sh
+bun run src/cli.ts sources verify data/source-candidates.json
+```
+
+The verifier resolves the canonical Greenhouse, Lever, or Ashby endpoint, validates its structured payload, checks source/name/domain identity, deduplicates sources and companies, and atomically regenerates [`data/companies.json`](data/companies.json). Only verified candidates are written. The JSON report includes every rejected candidate and a machine-readable reason. Verification requires no search key; optional keys will belong only to future discovery adapters.
+
+Candidate example:
+
+```json
+{
+  "companyName": "Example",
+  "companyDomain": "example.com",
+  "sourceUrl": "https://job-boards.greenhouse.io/example",
+  "cohorts": ["IN"],
+  "discoveredFrom": { "channel": "community", "reference": "issue-123" }
+}
+```
 
 ## Use the MCP server
 
@@ -44,15 +67,15 @@ The server exposes only:
 
 It intentionally exposes no write, form-fill, or submit tool.
 
-## Add a company
+## Add a candidate
 
-Add one entry keyed by a stable lowercase slug:
+Add an object to `data/source-candidates.json`; do not edit the generated company catalog directly. An optional stable `slug` preserves existing job IDs when it differs from the first part of the company domain.
 
 ```json
-"example": { "name": "Example", "ats": "greenhouse", "token": "example", "cohorts": ["IN"] }
+{ "companyName": "Example", "companyDomain": "example.com", "sourceUrl": "https://job-boards.greenhouse.io/example", "cohorts": ["IN"], "discoveredFrom": { "channel": "community", "reference": "issue-123" } }
 ```
 
-The token is the public board identifier visible in the company's job-board URL. Supported `ats` values are `greenhouse`, `lever`, and `ashby`. `cohorts` records how a source was selected for focused crawling; eligibility is always classified on each job. India searches normalize common city and state variants such as Bangalore/Bengaluru, Gurgaon/Gurugram, Mysore/Mysuru, and Orissa/Odisha.
+Supported sources are Greenhouse, Lever, and Ashby public job-board URLs. `cohorts` records how a source was selected for focused crawling; eligibility is always classified on each job. India searches normalize common city and state variants such as Bangalore/Bengaluru, Gurgaon/Gurugram, Mysore/Mysuru, and Orissa/Odisha.
 
 ## Develop
 

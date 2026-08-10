@@ -1,11 +1,13 @@
 #!/usr/bin/env bun
 import { readFile } from "node:fs/promises";
 import { createRuntime } from "./runtime.ts";
+import { runSourceVerification } from "./source-pipeline.ts";
 
 const HELP = `Openings — search public company job boards
 
 Usage:
   openings crawl [--country CODE | --companies FILE] [--concurrency N] [--data-dir PATH]
+  openings sources verify CANDIDATES.json [--output FILE] [--concurrency N]
   openings search [words] [--country CODE|--india] [--location PLACE] [--remote|--onsite]
                   [--limit N] [--stale-days N] [--offline] [--data-dir PATH]
   openings get JOB_ID [--stale-days N] [--offline] [--data-dir PATH]
@@ -37,6 +39,14 @@ export async function run(args: string[]): Promise<number> {
     const runtime = createRuntime({ dataDir: parsed.dataDir, concurrency: parsed.concurrency });
     const slugs = parsed.companiesFile ? await readCompanyFile(parsed.companiesFile) : undefined;
     console.log(JSON.stringify(await runtime.crawl({ country: parsed.country, slugs }), null, 2));
+    return 0;
+  }
+
+  if (command === "sources") {
+    if (rest[0] !== "verify") return fail("sources requires the `verify` subcommand");
+    const parsed = parseSourceVerification(rest.slice(1));
+    if (typeof parsed === "string") return fail(parsed);
+    console.log(JSON.stringify(await runSourceVerification(parsed.candidatesPath, parsed.output, { concurrency: parsed.concurrency }), null, 2));
     return 0;
   }
 
@@ -138,6 +148,24 @@ function parseCountry(value: string | undefined): string | undefined {
 
 async function readCompanyFile(path: string): Promise<string[]> {
   return (await readFile(path, "utf8")).split(/\r?\n/).map((line) => line.trim()).filter((line) => line && !line.startsWith("#"));
+}
+
+function parseSourceVerification(args: string[]) {
+  const candidatesPath = args[0];
+  if (!candidatesPath || candidatesPath.startsWith("--")) return "sources verify requires a candidate JSON file";
+  let output = "data/companies.json";
+  let concurrency = 10;
+  for (let index = 1; index < args.length; index += 1) {
+    const arg = args[index];
+    if (arg === "--output") {
+      output = args[++index] ?? "";
+      if (!output) return "--output requires a file";
+    } else if (arg === "--concurrency") {
+      concurrency = Number(args[++index]);
+      if (!Number.isInteger(concurrency) || concurrency < 1 || concurrency > 100) return "--concurrency must be an integer from 1 to 100";
+    } else return `Unknown option: ${arg}`;
+  }
+  return { candidatesPath, output, concurrency };
 }
 
 function fail(message: string, code = 1): number {

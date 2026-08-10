@@ -6,6 +6,54 @@ export interface Company {
   ats: Ats;
   token: string;
   cohorts?: string[];
+  companyDomain?: string;
+  sourceUrl?: string;
+  discoveredFrom?: DiscoveryProvenance;
+  verification?: SourceVerification;
+}
+
+export type DiscoveryChannel = "search" | "career_page" | "provider_directory" | "community" | "dataset" | "legacy";
+
+export interface DiscoveryProvenance {
+  channel: DiscoveryChannel;
+  reference: string;
+}
+
+export interface SourceCandidate {
+  slug?: string;
+  companyName: string;
+  companyDomain: string;
+  sourceUrl: string;
+  cohorts?: string[];
+  discoveredFrom: DiscoveryProvenance;
+}
+
+export interface SourceVerification {
+  checkedAt: string;
+  canonicalSourceUrl: string;
+  observedCompanyName: string;
+  identityEvidence: "provider_company_name" | "token_name_match";
+  contentType: string;
+  jobCount: number;
+}
+
+export interface VerifiedCompany extends Company {
+  companyDomain: string;
+  sourceUrl: string;
+  discoveredFrom: DiscoveryProvenance;
+  verification: SourceVerification;
+}
+
+export type SourceRejectionReason = "invalid_candidate" | "unsupported_source" | "duplicate_source" | "duplicate_company" | "duplicate_slug" | "unreachable" | "invalid_payload" | "empty_board" | "identity_mismatch";
+
+export interface RejectedSource extends SourceCandidate {
+  reason: SourceRejectionReason;
+  detail: string;
+}
+
+export interface SourceVerificationResult {
+  verified: VerifiedCompany[];
+  rejected: RejectedSource[];
 }
 
 export type WorkMode = "remote" | "hybrid" | "onsite" | "unknown";
