@@ -76,6 +76,19 @@ test("YC discovery creates country-focused Greenhouse seeds from the keyless com
   }));
 });
 
+test("rerunning discovery reports existing sources as already known rather than rejected", async () => {
+  const directory = await mkdtemp(join(tmpdir(), "openings-yc-rerun-"));
+  const candidatesPath = join(directory, "candidates.json");
+  const fetcher = async (input: string | URL) => String(input).includes("yc-oss")
+    ? Response.json([{ name: "Acme", slug: "acme", website: "https://acme.test", all_locations: "India" }])
+    : Response.json({ jobs: [{ company_name: "Acme" }] });
+
+  await runYcSourceDiscovery(candidatesPath, join(directory, "first.json"), { country: "IN", fetch: fetcher });
+  const rerun = await runYcSourceDiscovery(candidatesPath, join(directory, "second.json"), { country: "IN", fetch: fetcher });
+
+  expect(rerun).toEqual(expect.objectContaining({ discovered: 1, ready: 0, alreadyKnown: 1, rejected: 0 }));
+});
+
 test("concurrent discovery campaigns merge candidates without lost updates", async () => {
   const directory = await mkdtemp(join(tmpdir(), "openings-concurrent-discovery-"));
   const candidatesPath = join(directory, "candidates.json");

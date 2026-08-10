@@ -19,6 +19,7 @@ interface DiscoveryIssue { sourceUrl: string; reason: string; detail: string; co
 export interface SourceDiscoveryReport {
   discovered: number;
   ready: number;
+  alreadyKnown: number;
   needsDomain: number;
   rejected: number;
   candidatesPath: string;
@@ -67,6 +68,7 @@ async function discoverEntries(feed: FeedEntry[], candidatesPath: string, report
   const unresolved: Array<{ index: number; issue: DiscoveryIssue }> = [];
   const rejected: Array<{ index: number; issue: DiscoveryIssue }> = [];
   const existingSources = new Set(existing.map((candidate) => sourceKey(candidate.sourceUrl)).filter(Boolean));
+  let alreadyKnown = 0;
   let cursor = 0;
 
   async function worker() {
@@ -100,7 +102,7 @@ async function discoverEntries(feed: FeedEntry[], candidatesPath: string, report
       }
       const key = `${source.ats}:${source.token.toLocaleLowerCase()}`;
       if (existingSources.has(key)) {
-        rejected.push({ index, issue: issue(entry, "duplicate_source", `Duplicate of ${key}`) });
+        alreadyKnown++;
         continue;
       }
       try {
@@ -152,7 +154,7 @@ async function discoverEntries(feed: FeedEntry[], candidatesPath: string, report
   });
   const appended = await mergeCandidates(candidatesPath, additions);
   const report: SourceDiscoveryReport = {
-    discovered: feed.length, ready: appended, needsDomain: uniqueUnresolved.length, rejected: rejected.length,
+    discovered: feed.length, ready: appended, alreadyKnown, needsDomain: uniqueUnresolved.length, rejected: rejected.length,
     candidatesPath, reportPath,
     unresolved: uniqueUnresolved.sort((a, b) => a.index - b.index).map((row) => row.issue),
     rejections: rejected.sort((a, b) => a.index - b.index).map((row) => row.issue),
