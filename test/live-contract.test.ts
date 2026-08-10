@@ -22,8 +22,8 @@ for (const company of boards) {
 }
 
 for (const company of companies.filter((candidate) => candidate.cohorts?.includes("IN"))) {
-  test.skipIf(!enabled)(`${company.name} India index entry is live and has India-eligible roles`, async () => {
+  test.skipIf(!enabled)(`${company.name} India discovery-cohort source is live`, async () => {
     const catalog = createCatalog({ companies: [company], cacheTtlMs: 0 });
-    expect((await catalog.search({ country: "IN", limit: 1 })).length).toBeGreaterThan(0);
+    expect((await catalog.search({ limit: 1 })).length).toBeGreaterThan(0);
   }, 20_000);
 }

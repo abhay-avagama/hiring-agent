@@ -2,12 +2,15 @@
 import { readFile } from "node:fs/promises";
 import { createRuntime } from "./runtime.ts";
 import { runSourceVerification } from "./source-pipeline.ts";
+import { runSourceDiscovery, runYcSourceDiscovery } from "./source-discovery.ts";
 
 const HELP = `Openings — search public company job boards
 
 Usage:
   openings crawl [--country CODE | --companies FILE] [--concurrency N] [--data-dir PATH]
   openings sources verify CANDIDATES.json [--output FILE] [--concurrency N]
+  openings sources discover FEED.json [--country CODE] [--output FILE] [--report FILE]
+  openings sources discover-yc --country CODE [--output FILE] [--report FILE]
   openings search [words] [--country CODE|--india] [--location PLACE] [--remote|--onsite]
                   [--limit N] [--stale-days N] [--offline] [--data-dir PATH]
   openings get JOB_ID [--stale-days N] [--offline] [--data-dir PATH]
@@ -43,7 +46,19 @@ export async function run(args: string[]): Promise<number> {
   }
 
   if (command === "sources") {
-    if (rest[0] !== "verify") return fail("sources requires the `verify` subcommand");
+    if (rest[0] === "discover-yc") {
+      const parsed = parseYcDiscovery(rest.slice(1));
+      if (typeof parsed === "string") return fail(parsed);
+      console.log(JSON.stringify(compactDiscoveryReport(await runYcSourceDiscovery(parsed.output, parsed.report, parsed)), null, 2));
+      return 0;
+    }
+    if (rest[0] === "discover") {
+      const parsed = parseSourceDiscovery(rest.slice(1));
+      if (typeof parsed === "string") return fail(parsed);
+      console.log(JSON.stringify(compactDiscoveryReport(await runSourceDiscovery(parsed.feedPath, parsed.output, parsed.report, parsed)), null, 2));
+      return 0;
+    }
+    if (rest[0] !== "verify") return fail("sources requires the `discover`, `discover-yc`, or `verify` subcommand");
     const parsed = parseSourceVerification(rest.slice(1));
     if (typeof parsed === "string") return fail(parsed);
     console.log(JSON.stringify(await runSourceVerification(parsed.candidatesPath, parsed.output, { concurrency: parsed.concurrency }), null, 2));
@@ -60,6 +75,55 @@ export async function run(args: string[]): Promise<number> {
   }
 
   return fail(`Unknown command: ${command}`);
+}
+
+function parseYcDiscovery(args: string[]) {
+  let output = "data/source-candidates.json";
+  let report = ".openings/yc-discovery-report.json";
+  let country: string | undefined;
+  let concurrency = 10;
+  for (let index = 0; index < args.length; index += 1) {
+    const arg = args[index];
+    if (arg === "--country") {
+      country = parseCountry(args[++index]);
+      if (!country) return "--country requires a two-letter country code";
+    } else if (arg === "--output") output = args[++index] ?? "";
+    else if (arg === "--report") report = args[++index] ?? "";
+    else if (arg === "--concurrency") {
+      concurrency = Number(args[++index]);
+      if (!Number.isInteger(concurrency) || concurrency < 1 || concurrency > 100) return "--concurrency must be an integer from 1 to 100";
+    } else return `Unknown option: ${arg}`;
+  }
+  if (!country) return "sources discover-yc requires --country CODE";
+  if (!output) return "--output requires a file";
+  if (!report) return "--report requires a file";
+  return { output, report, country, concurrency };
+}
+
+function parseSourceDiscovery(args: string[]) {
+  const feedPath = args[0];
+  if (!feedPath || feedPath.startsWith("--")) return "sources discover requires a feed JSON file";
+  let output = "data/source-candidates.json";
+  let report = ".openings/discovery-report.json";
+  let country: string | undefined;
+  let concurrency = 10;
+  for (let index = 1; index < args.length; index += 1) {
+    const arg = args[index];
+    if (arg === "--country") {
+      country = parseCountry(args[++index]);
+      if (!country) return "--country requires a two-letter country code";
+    } else if (arg === "--output") {
+      output = args[++index] ?? "";
+      if (!output) return "--output requires a file";
+    } else if (arg === "--report") {
+      report = args[++index] ?? "";
+      if (!report) return "--report requires a file";
+    } else if (arg === "--concurrency") {
+      concurrency = Number(args[++index]);
+      if (!Number.isInteger(concurrency) || concurrency < 1 || concurrency > 100) return "--concurrency must be an integer from 1 to 100";
+    } else return `Unknown option: ${arg}`;
+  }
+  return { feedPath, output, report, country, concurrency };
 }
 
 function parseSearch(args: string[]) {
@@ -171,6 +235,11 @@ function parseSourceVerification(args: string[]) {
 function fail(message: string, code = 1): number {
   console.error(message);
   return code;
+}
+
+function compactDiscoveryReport(report: import("./source-discovery.ts").SourceDiscoveryReport) {
+  const { unresolved: _unresolved, rejections: _rejections, ...summary } = report;
+  return summary;
 }
 
 if (import.meta.main) process.exitCode = await run(Bun.argv.slice(2));

@@ -136,6 +136,8 @@ How many sources must an India-focused campaign discover to produce useful India
 
 Open. Begin with 1,000 verified sources, then publish current eligible-job count, distinct-employer count, source success rate, classification-confidence distribution, and discovery yield. Expand toward 10,000 global sources based on observed coverage rather than assuming 1,000 companies currently hire in India.
 
+First measured campaign: the keyless YC company-seed adapter filtered 6,139 public company records to 218 with India locations, probed their published slugs as Greenhouse tokens, found three valid name/domain/source matches (Groww, Able, Raven), and rejected 215 guesses. All three passed independent verification and the expanded 12-source India cohort crawled successfully. The resulting snapshot contains 770 jobs, including 118 currently classified as India-eligible across 10 employers; Groww contributed eight, while Able and Raven currently contribute none. That distinction is expected because cohort is discovery provenance and eligibility belongs to jobs. Discovery yield is 1.4%, confirming that reaching 1,000 verified sources requires higher-yield ATS URL feeds/Common Crawl discovery rather than slug guessing alone.
+
 ## #11: Can Workable Become A Trusted Provider?
 
 Blocked by: #5

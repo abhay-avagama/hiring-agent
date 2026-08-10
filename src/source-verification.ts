@@ -9,7 +9,7 @@ interface VerificationOptions {
   timeoutMs?: number;
 }
 
-interface ResolvedSource { ats: Ats; token: string; canonicalSourceUrl: string }
+export interface ResolvedSource { ats: Ats; token: string; canonicalSourceUrl: string }
 
 export async function verifyCandidates(candidates: SourceCandidate[], options: VerificationOptions = {}): Promise<SourceVerificationResult> {
   const fetcher = options.fetch ?? globalThis.fetch;
@@ -104,7 +104,7 @@ async function probe(candidate: SourceCandidate, source: ResolvedSource, fetcher
   } finally { clearTimeout(timer); }
 }
 
-function resolveSource(value: string): ResolvedSource | null {
+export function resolveSource(value: string): ResolvedSource | null {
   let url: URL;
   try { url = new URL(value); } catch { return null; }
   const parts = url.pathname.split("/").filter(Boolean);

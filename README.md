@@ -12,6 +12,8 @@ The initial release supports Greenhouse, Lever, and Ashby. Jobs are crawled from
 
 ```sh
 bun install
+bun run src/cli.ts sources discover-yc --country IN
+bun run src/cli.ts sources discover discovery-feed.json --country IN
 bun run src/cli.ts sources verify data/source-candidates.json
 bun run src/cli.ts crawl
 bun run src/cli.ts crawl --country IN
@@ -29,6 +31,20 @@ Commands return JSON so the same interface works for people, shell scripts, and 
 `crawl` updates every source by default. `--country CODE` selects the maintained discovery cohort for that country; it does not label companies as country-specific. `--companies FILE` accepts one catalog slug per line. Successful selected sources replace their partitions, failures are removed and reported, and unselected partitions remain intact.
 
 ## Verify and promote sources
+
+Discovery is keyless and separate from verification. Two inputs are available:
+
+```sh
+# Probe country-filtered company seeds from the public YC company API
+bun run src/cli.ts sources discover-yc --country IN
+
+# Ingest a static, community, search-result, or public-dataset feed
+bun run src/cli.ts sources discover discovery-feed.json --country IN
+```
+
+The YC campaign uses published company names, domains, locations, and slugs to probe possible Greenhouse boards. The generic feed accepts objects containing `sourceUrl`, optional `companyDomain`, `channel`, and `reference`. Discovery canonicalizes and probes sources, appends only domain-backed matches to `data/source-candidates.json`, and writes every unresolved/rejected record to `.openings/*-discovery-report.json`. A country option adds discovery-cohort provenance; it never claims that the company or every job belongs to that country.
+
+The first live India YC campaign examined 218 seeds, discovered and independently verified Groww, Able, and Raven, and expanded the India crawl cohort from 9 to 12 sources. Seed-token probing has deliberately low yield but no search key, guessed domain, HTML scraping, or silent import.
 
 [`data/source-candidates.json`](data/source-candidates.json) is the candidate source of truth. Each candidate records the company name and domain, a supported public ATS URL, optional discovery cohorts, and how it was discovered. Run:
 
