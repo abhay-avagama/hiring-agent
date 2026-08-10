@@ -230,5 +230,53 @@
       "channel": "career_page",
       "reference": "https://www.micron.com/about/careers"
     }
+  },
+  {
+    "companyName": "Analog Devices",
+    "companyDomain": "analog.com",
+    "sourceUrl": "https://analogdevices.wd1.myworkdayjobs.com/en-US/External",
+    "cohorts": [
+      "IN"
+    ],
+    "discoveredFrom": {
+      "channel": "career_page",
+      "reference": "https://www.analog.com/en/careers.html"
+    }
+  },
+  {
+    "companyName": "Motorola Solutions",
+    "companyDomain": "motorolasolutions.com",
+    "sourceUrl": "https://motorolasolutions.wd5.myworkdayjobs.com/en-US/Careers",
+    "cohorts": [
+      "IN"
+    ],
+    "discoveredFrom": {
+      "channel": "career_page",
+      "reference": "https://www.motorolasolutions.com/en_us/about/careers.html"
+    }
+  },
+  {
+    "companyName": "Broadcom",
+    "companyDomain": "broadcom.com",
+    "sourceUrl": "https://broadcom.wd1.myworkdayjobs.com/en-US/External_Career",
+    "cohorts": [
+      "IN"
+    ],
+    "discoveredFrom": {
+      "channel": "career_page",
+      "reference": "https://www.broadcom.com/company/careers"
+    }
+  },
+  {
+    "companyName": "CrowdStrike",
+    "companyDomain": "crowdstrike.com",
+    "sourceUrl": "https://crowdstrike.wd5.myworkdayjobs.com/en-US/crowdstrikecareers",
+    "cohorts": [
+      "IN"
+    ],
+    "discoveredFrom": {
+      "channel": "career_page",
+      "reference": "https://www.crowdstrike.com/en-us/careers/"
+    }
   }
 ]
