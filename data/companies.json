@@ -13,8 +13,9 @@
       "observedCompanyName": "Anthropic",
       "identityEvidence": "provider_company_name",
       "contentType": "application/json",
+      "payloadVersion": "greenhouse-job-board:v1",
       "jobCount": 391,
-      "checkedAt": "2026-08-10T08:08:00.178Z",
+      "checkedAt": "2026-08-10T08:14:02.524Z",
       "canonicalSourceUrl": "https://job-boards.greenhouse.io/anthropic"
     }
   },
@@ -35,8 +36,9 @@
       "observedCompanyName": "Britive",
       "identityEvidence": "provider_company_name",
       "contentType": "application/json",
+      "payloadVersion": "greenhouse-job-board:v1",
       "jobCount": 14,
-      "checkedAt": "2026-08-10T08:07:59.852Z",
+      "checkedAt": "2026-08-10T08:14:02.199Z",
       "canonicalSourceUrl": "https://job-boards.greenhouse.io/britive"
     }
   },
@@ -57,28 +59,10 @@
       "observedCompanyName": "Dialpad",
       "identityEvidence": "provider_company_name",
       "contentType": "application/json",
+      "payloadVersion": "greenhouse-job-board:v1",
       "jobCount": 91,
-      "checkedAt": "2026-08-10T08:07:59.875Z",
+      "checkedAt": "2026-08-10T08:14:02.227Z",
       "canonicalSourceUrl": "https://job-boards.greenhouse.io/dialpad"
-    }
-  },
-  "flex": {
-    "name": "Flex",
-    "ats": "lever",
-    "token": "Flex",
-    "companyDomain": "flex.one",
-    "sourceUrl": "https://jobs.lever.co/Flex",
-    "discoveredFrom": {
-      "channel": "legacy",
-      "reference": "initial seed catalog"
-    },
-    "verification": {
-      "observedCompanyName": "Flex",
-      "identityEvidence": "token_name_match",
-      "contentType": "application/json; charset=utf-8",
-      "jobCount": 36,
-      "checkedAt": "2026-08-10T08:08:01.795Z",
-      "canonicalSourceUrl": "https://jobs.lever.co/Flex"
     }
   },
   "forward-networks": {
@@ -98,8 +82,9 @@
       "observedCompanyName": "Forward ",
       "identityEvidence": "provider_company_name",
       "contentType": "application/json",
+      "payloadVersion": "greenhouse-job-board:v1",
       "jobCount": 15,
-      "checkedAt": "2026-08-10T08:08:00.123Z",
+      "checkedAt": "2026-08-10T08:14:02.471Z",
       "canonicalSourceUrl": "https://job-boards.greenhouse.io/forwardnetworks"
     }
   },
@@ -120,8 +105,9 @@
       "observedCompanyName": "Graphcore",
       "identityEvidence": "provider_company_name",
       "contentType": "application/json",
+      "payloadVersion": "greenhouse-job-board:v1",
       "jobCount": 215,
-      "checkedAt": "2026-08-10T08:08:00.238Z",
+      "checkedAt": "2026-08-10T08:14:02.771Z",
       "canonicalSourceUrl": "https://job-boards.greenhouse.io/graphcore"
     }
   },
@@ -142,8 +128,9 @@
       "observedCompanyName": "Karat",
       "identityEvidence": "provider_company_name",
       "contentType": "application/json",
+      "payloadVersion": "greenhouse-job-board:v1",
       "jobCount": 4,
-      "checkedAt": "2026-08-10T08:08:00.398Z",
+      "checkedAt": "2026-08-10T08:14:02.736Z",
       "canonicalSourceUrl": "https://job-boards.greenhouse.io/karat"
     }
   },
@@ -164,8 +151,9 @@
       "observedCompanyName": "KnowBe4",
       "identityEvidence": "provider_company_name",
       "contentType": "application/json",
+      "payloadVersion": "greenhouse-job-board:v1",
       "jobCount": 81,
-      "checkedAt": "2026-08-10T08:08:00.690Z",
+      "checkedAt": "2026-08-10T08:14:02.811Z",
       "canonicalSourceUrl": "https://job-boards.greenhouse.io/knowbe4"
     }
   },
@@ -186,8 +174,9 @@
       "observedCompanyName": "OneTrust",
       "identityEvidence": "provider_company_name",
       "contentType": "application/json",
+      "payloadVersion": "greenhouse-job-board:v1",
       "jobCount": 90,
-      "checkedAt": "2026-08-10T08:08:00.772Z",
+      "checkedAt": "2026-08-10T08:14:03.080Z",
       "canonicalSourceUrl": "https://job-boards.greenhouse.io/onetrust"
     }
   },
@@ -208,8 +197,9 @@
       "observedCompanyName": "Point72 ",
       "identityEvidence": "provider_company_name",
       "contentType": "application/json",
+      "payloadVersion": "greenhouse-job-board:v1",
       "jobCount": 231,
-      "checkedAt": "2026-08-10T08:08:00.714Z",
+      "checkedAt": "2026-08-10T08:14:03.102Z",
       "canonicalSourceUrl": "https://job-boards.greenhouse.io/point72"
     }
   },
@@ -224,11 +214,12 @@
       "reference": "initial seed catalog"
     },
     "verification": {
-      "observedCompanyName": "posthog",
-      "identityEvidence": "token_name_match",
+      "observedCompanyName": "PostHog",
+      "identityEvidence": "structured_domain_link",
       "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "ashby-job-board:1",
       "jobCount": 11,
-      "checkedAt": "2026-08-10T08:08:01.009Z",
+      "checkedAt": "2026-08-10T08:14:03.113Z",
       "canonicalSourceUrl": "https://jobs.ashbyhq.com/posthog"
     }
   },
@@ -249,8 +240,9 @@
       "observedCompanyName": "Prophecy",
       "identityEvidence": "provider_company_name",
       "contentType": "application/json",
+      "payloadVersion": "greenhouse-job-board:v1",
       "jobCount": 10,
-      "checkedAt": "2026-08-10T08:08:00.987Z",
+      "checkedAt": "2026-08-10T08:14:03.355Z",
       "canonicalSourceUrl": "https://job-boards.greenhouse.io/prophecysimpledatalabs"
     }
   }

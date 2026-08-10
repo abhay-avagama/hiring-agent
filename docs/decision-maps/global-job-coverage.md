@@ -121,7 +121,7 @@ Can discovered candidates be identity-checked, normalized, deduplicated, and aut
 
 ### Answer
 
-Resolved for Greenhouse, Lever, and Ashby. `openings sources verify` verifies candidates concurrently without credentials, deduplicates source/company/slug identities, atomically replaces the generated catalog with verified records, and reports every rejection with a reason and detail. Unsupported, unreachable, malformed, empty, mismatched, and duplicate candidates are never promoted. The 12 seed candidates pass the pipeline; scaling the candidate set is now a discovery task rather than a catalog-trust gap.
+Resolved for Greenhouse, Lever, and Ashby. `openings sources verify` verifies candidates concurrently without credentials, then deterministically deduplicates successful source/company/slug identities, atomically replaces the generated catalog, and reports every rejection with a reason and detail. Greenhouse identity uses its provider-supplied company name; Lever and Ashby require a company-domain link in the structured payload. Previously verified records survive transient endpoint failures, while permanent failures are removed. Eleven of the 12 seed candidates pass this stricter policy; Flex remains quarantined because its current Lever payload lacks independent `flex.one` domain evidence. Scaling the candidate set is now a discovery task rather than a catalog-trust gap.
 
 ## #10: How Do We Reach And Measure The First Country Campaign?
 

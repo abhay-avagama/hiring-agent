@@ -14,6 +14,7 @@ export interface SourcePipelineReport {
   candidates: number;
   verified: number;
   rejected: number;
+  preserved: number;
   catalogPath: string;
   rejections: RejectedSource[];
 }
@@ -21,14 +22,31 @@ export interface SourcePipelineReport {
 export async function runSourceVerification(candidatesPath: string, catalogPath: string, options: PipelineOptions = {}): Promise<SourcePipelineReport> {
   const candidates = await readCandidates(candidatesPath);
   const result = await verifyCandidates(candidates, options);
-  await writeCatalog(catalogPath, result.verified);
+  const prior = await readPriorCatalog(catalogPath);
+  const freshlyVerified = new Set(result.verified.map((company) => company.slug));
+  const preserved = result.rejected.flatMap((candidate) => {
+    if (!(["unreachable", "invalid_payload", "empty_board"] as string[]).includes(candidate.reason)) return [];
+    const slug = candidate.slug ?? slugFromDomain(candidate.companyDomain);
+    if (freshlyVerified.has(slug)) return [];
+    const previous = prior[slug];
+    return previous && previous.companyDomain === candidate.companyDomain.toLocaleLowerCase() ? [{ slug, ...previous } as VerifiedCompany] : [];
+  });
+  await writeCatalog(catalogPath, [...result.verified, ...preserved]);
   return {
     candidates: candidates.length,
     verified: result.verified.length,
     rejected: result.rejected.length,
+    preserved: preserved.length,
     catalogPath,
     rejections: result.rejected,
   };
+}
+
+async function readPriorCatalog(path: string): Promise<Record<string, Omit<VerifiedCompany, "slug">>> {
+  try {
+    const value: unknown = JSON.parse(await readFile(path, "utf8"));
+    return typeof value === "object" && value !== null && !Array.isArray(value) ? value as Record<string, Omit<VerifiedCompany, "slug">> : {};
+  } catch { return {}; }
 }
 
 async function readCandidates(path: string): Promise<SourceCandidate[]> {
@@ -48,3 +66,5 @@ async function writeCatalog(path: string, companies: VerifiedCompany[]): Promise
   await writeFile(temporary, `${JSON.stringify(catalog, null, 2)}\n`);
   await rename(temporary, path);
 }
+
+function slugFromDomain(domain: string): string { return domain.toLocaleLowerCase().replace(/^www\./, "").split(".")[0]!.replace(/[^a-z0-9-]/g, "-"); }

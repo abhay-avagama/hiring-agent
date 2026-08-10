@@ -32,8 +32,9 @@ export interface SourceVerification {
   checkedAt: string;
   canonicalSourceUrl: string;
   observedCompanyName: string;
-  identityEvidence: "provider_company_name" | "token_name_match";
+  identityEvidence: "provider_company_name" | "structured_domain_link";
   contentType: string;
+  payloadVersion: string;
   jobCount: number;
 }
 

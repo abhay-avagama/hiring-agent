@@ -16,11 +16,8 @@ export async function verifyCandidates(candidates: SourceCandidate[], options: V
   const now = options.now ?? (() => new Date());
   const concurrency = Math.max(1, Math.trunc(options.concurrency ?? 10));
   const timeoutMs = Math.max(1, Math.trunc(options.timeoutMs ?? 30_000));
-  const verified: Array<{ index: number; value: VerifiedCompany }> = [];
+  const probed: Array<{ index: number; candidate: SourceCandidate; sourceKey: string; value: VerifiedCompany }> = [];
   const rejected: Array<{ index: number; value: RejectedSource }> = [];
-  const seenSources = new Set<string>();
-  const seenCompanies = new Set<string>();
-  const seenSlugs = new Set<string>();
   let cursor = 0;
 
   async function worker() {
@@ -33,14 +30,8 @@ export async function verifyCandidates(candidates: SourceCandidate[], options: V
       const source = resolveSource(candidate.sourceUrl);
       if (!source) { rejected.push({ index, value: rejection(candidate, "unsupported_source", "URL is not a supported Greenhouse, Lever, or Ashby job source") }); continue; }
       const sourceKey = `${source.ats}:${source.token.toLocaleLowerCase()}`;
-      if (seenSources.has(sourceKey)) { rejected.push({ index, value: rejection(candidate, "duplicate_source", `Duplicate of ${sourceKey}`) }); continue; }
-      seenSources.add(sourceKey);
       const companyKey = candidate.companyDomain.toLocaleLowerCase();
-      if (seenCompanies.has(companyKey)) { rejected.push({ index, value: rejection(candidate, "duplicate_company", `Duplicate company domain: ${companyKey}`) }); continue; }
       const slug = candidate.slug ?? slugFromDomain(candidate.companyDomain);
-      if (seenSlugs.has(slug)) { rejected.push({ index, value: rejection(candidate, "duplicate_slug", `Generated catalog slug is already used: ${slug}`) }); continue; }
-      seenCompanies.add(companyKey);
-      seenSlugs.add(slug);
 
       try {
         const evidence = await probe(candidate, source, fetcher, timeoutMs);
@@ -48,7 +39,7 @@ export async function verifyCandidates(candidates: SourceCandidate[], options: V
           rejected.push({ index, value: rejection(candidate, "identity_mismatch", `Expected ${candidate.companyName}; observed ${evidence.observedCompanyName}`) });
           continue;
         }
-        verified.push({ index, value: {
+        probed.push({ index, candidate, sourceKey, value: {
           slug, name: candidate.companyName.trim(), ats: source.ats, token: source.token,
           cohorts: normalizeCohorts(candidate.cohorts), companyDomain: companyKey, sourceUrl: source.canonicalSourceUrl,
           discoveredFrom: candidate.discoveredFrom,
@@ -62,6 +53,20 @@ export async function verifyCandidates(candidates: SourceCandidate[], options: V
   }
 
   await Promise.all(Array.from({ length: Math.min(concurrency, candidates.length) }, worker));
+  const verified: Array<{ index: number; value: VerifiedCompany }> = [];
+  const seenSources = new Set<string>();
+  const seenCompanies = new Set<string>();
+  const seenSlugs = new Set<string>();
+  for (const row of probed.sort((a, b) => a.index - b.index)) {
+    const companyKey = row.value.companyDomain;
+    if (seenSources.has(row.sourceKey)) rejected.push({ index: row.index, value: rejection(row.candidate, "duplicate_source", `Duplicate of ${row.sourceKey}`) });
+    else if (seenCompanies.has(companyKey)) rejected.push({ index: row.index, value: rejection(row.candidate, "duplicate_company", `Duplicate company domain: ${companyKey}`) });
+    else if (seenSlugs.has(row.value.slug)) rejected.push({ index: row.index, value: rejection(row.candidate, "duplicate_slug", `Generated catalog slug is already used: ${row.value.slug}`) });
+    else {
+      seenSources.add(row.sourceKey); seenCompanies.add(companyKey); seenSlugs.add(row.value.slug);
+      verified.push({ index: row.index, value: row.value });
+    }
+  }
   return {
     verified: verified.sort((a, b) => a.index - b.index).map((row) => row.value),
     rejected: rejected.sort((a, b) => a.index - b.index).map((row) => row.value),
@@ -86,11 +91,14 @@ async function probe(candidate: SourceCandidate, source: ResolvedSource, fetcher
     if (!jobs) throw new VerificationError("invalid_payload", "Payload does not contain the expected jobs array");
     if (jobs.length === 0) throw new VerificationError("empty_board", "Source has no jobs, so identity cannot be verified");
     const providerName = source.ats === "greenhouse" ? majority(jobs.map((job) => stringField(job, "company_name")).filter(Boolean)) : "";
-    const observedCompanyName = providerName || source.token;
+    const hasDomainLink = source.ats !== "greenhouse" && structuredPayloadLinksDomain(jobs, candidate.companyDomain);
+    if (source.ats !== "greenhouse" && !hasDomainLink) throw new VerificationError("identity_mismatch", `Structured jobs do not link to ${candidate.companyDomain}`);
+    const observedCompanyName = providerName || candidate.companyName;
     return {
       observedCompanyName,
-      identityEvidence: (providerName ? "provider_company_name" : "token_name_match") as "provider_company_name" | "token_name_match",
+      identityEvidence: (providerName ? "provider_company_name" : "structured_domain_link") as "provider_company_name" | "structured_domain_link",
       contentType,
+      payloadVersion: source.ats === "greenhouse" ? "greenhouse-job-board:v1" : source.ats === "lever" ? "lever-postings:v0" : `ashby-job-board:${isRecord(body) && typeof body.apiVersion === "string" ? body.apiVersion : "unknown"}`,
       jobCount: jobs.length,
     };
   } finally { clearTimeout(timer); }
@@ -113,11 +121,12 @@ function resolveSource(value: string): ResolvedSource | null {
 }
 
 function validateCandidate(candidate: SourceCandidate): string | null {
-  if (!candidate.companyName?.trim()) return "companyName is required";
-  if (candidate.slug !== undefined && !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(candidate.slug)) return "slug must contain lowercase letters, numbers, and single hyphens";
-  if (!candidate.companyDomain || !/^[a-z0-9.-]+\.[a-z]{2,}$/i.test(candidate.companyDomain)) return "companyDomain must be a hostname";
-  if (!candidate.sourceUrl) return "sourceUrl is required";
-  if (!candidate.discoveredFrom?.channel || !candidate.discoveredFrom.reference?.trim()) return "discoveredFrom channel and reference are required";
+  if (typeof candidate.companyName !== "string" || !candidate.companyName.trim()) return "companyName is required and must be a string";
+  if (candidate.slug !== undefined && (typeof candidate.slug !== "string" || !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(candidate.slug))) return "slug must contain lowercase letters, numbers, and single hyphens";
+  if (typeof candidate.companyDomain !== "string" || !/^[a-z0-9.-]+\.[a-z]{2,}$/i.test(candidate.companyDomain)) return "companyDomain must be a hostname";
+  if (typeof candidate.sourceUrl !== "string" || !candidate.sourceUrl) return "sourceUrl is required";
+  if (!isRecord(candidate.discoveredFrom) || typeof candidate.discoveredFrom.channel !== "string" || typeof candidate.discoveredFrom.reference !== "string" || !candidate.discoveredFrom.reference.trim()) return "discoveredFrom channel and reference are required";
+  if (candidate.cohorts !== undefined && (!Array.isArray(candidate.cohorts) || !candidate.cohorts.every((code) => typeof code === "string"))) return "cohorts must be an array of country codes";
   return null;
 }
 
@@ -140,5 +149,10 @@ function recordArray(value: unknown, key: string): Record<string, unknown>[] | n
 function isRecord(value: unknown): value is Record<string, unknown> { return typeof value === "object" && value !== null && !Array.isArray(value); }
 function stringField(value: Record<string, unknown>, key: string): string { return typeof value[key] === "string" ? value[key] : ""; }
 function majority(values: string[]): string { return values.sort((a, b) => values.filter((v) => v === b).length - values.filter((v) => v === a).length)[0] ?? ""; }
+function structuredPayloadLinksDomain(jobs: Record<string, unknown>[], domain: string): boolean {
+  const escaped = domain.toLocaleLowerCase().replace(/^www\./, "").replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const pattern = new RegExp(`https?://(?:www\\.)?${escaped}(?:[/"'\\s]|$)`, "i");
+  return jobs.some((job) => pattern.test(JSON.stringify(job)));
+}
 
 class VerificationError extends Error { constructor(readonly reason: SourceRejectionReason, message: string) { super(message); } }
