@@ -10,6 +10,7 @@ interface CrawlerOptions {
   fetchJobs(source: Company, signal?: AbortSignal): Promise<Job[]>;
   concurrency?: number;
   timeoutMs?: number;
+  maxAttempts?: number;
   now?: () => Date;
 }
 
@@ -19,7 +20,8 @@ export interface Crawler {
 
 export function createCrawler(options: CrawlerOptions): Crawler {
   const concurrency = Math.max(1, Math.trunc(options.concurrency ?? 10));
-  const timeoutMs = Math.max(1, Math.trunc(options.timeoutMs ?? 30_000));
+  const timeoutMs = Math.max(1, Math.trunc(options.timeoutMs ?? 120_000));
+  const maxAttempts = Math.max(1, Math.trunc(options.maxAttempts ?? 2));
   const now = options.now ?? (() => new Date());
 
   return {
@@ -31,32 +33,42 @@ export function createCrawler(options: CrawlerOptions): Crawler {
         const current = new Set(sources.map((source) => source.slug));
         for (const slug of Object.keys(partitions)) if (!current.has(slug)) delete partitions[slug];
       }
-      const failed: CrawlFailure[] = [];
+      let pending = sources;
+      let finalFailures: CrawlFailure[] = [];
       let succeeded = 0;
-      let cursor = 0;
 
-      async function worker() {
-        while (cursor < sources.length) {
-          const source = sources[cursor++];
-          if (!source) continue;
-          const controller = new AbortController();
-          const timer = setTimeout(() => controller.abort(new Error(`Timed out after ${timeoutMs}ms`)), timeoutMs);
-          try {
-            const jobs = await options.fetchJobs(source, controller.signal);
-            partitions[source.slug] = { fetchedAt: now().toISOString(), jobs };
-            succeeded += 1;
-          } catch (error) {
-            delete partitions[source.slug];
-            failed.push({ source: source.slug, error: error instanceof Error ? error.message : String(error) });
-          } finally {
-            clearTimeout(timer);
+      for (let attempt = 1; attempt <= maxAttempts && pending.length; attempt += 1) {
+        let cursor = 0;
+        const retry: Company[] = [];
+        const failures: CrawlFailure[] = [];
+
+        async function worker() {
+          while (cursor < pending.length) {
+            const source = pending[cursor++];
+            if (!source) continue;
+            const controller = new AbortController();
+            const timer = setTimeout(() => controller.abort(new Error(`Timed out after ${timeoutMs}ms`)), timeoutMs);
+            try {
+              const jobs = await options.fetchJobs(source, controller.signal);
+              partitions[source.slug] = { fetchedAt: now().toISOString(), jobs };
+              succeeded += 1;
+            } catch (error) {
+              retry.push(source);
+              failures.push({ source: source.slug, error: error instanceof Error ? error.message : String(error) });
+            } finally {
+              clearTimeout(timer);
+            }
           }
         }
+
+        await Promise.all(Array.from({ length: Math.min(concurrency, pending.length) }, worker));
+        pending = retry;
+        finalFailures = failures;
       }
 
-      await Promise.all(Array.from({ length: Math.min(concurrency, sources.length) }, worker));
+      for (const failure of finalFailures) delete partitions[failure.source];
       const finishedAt = now().toISOString();
-      const report: CrawlReport = { startedAt, finishedAt, selected: sources.length, succeeded, failed };
+      const report: CrawlReport = { startedAt, finishedAt, selected: sources.length, succeeded, failed: finalFailures };
       await options.store.write({ version: 1, updatedAt: finishedAt, partitions, lastCrawl: report });
       return report;
     },

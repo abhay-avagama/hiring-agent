@@ -27,6 +27,21 @@ describe("job catalog", () => {
     ]);
     expect(await catalog.get("workday:mastercard:R-20")).toEqual(expect.objectContaining({ description: "Build payment systems." }));
   });
+
+  test("retries transient Workday page throttling", async () => {
+    let requests = 0;
+    const catalog = createCatalog({
+      companies: [{ slug: "acme", name: "Acme", ats: "workday", token: "acme.wd1.myworkdayjobs.com/acme/External" }],
+      fetch: async () => {
+        requests += 1;
+        if (requests === 1) return new Response("throttled", { status: 429, headers: { "retry-after": "0" } });
+        return Response.json({ total: 1, jobPostings: [{ title: "Engineer", externalPath: "/job/Engineer_R-1", locationsText: "Pune, India", bulletFields: ["R-1"] }] });
+      },
+    });
+
+    expect(await catalog.search({ country: "IN" })).toHaveLength(1);
+    expect(requests).toBe(2);
+  });
   test("searches Greenhouse jobs through the public catalog interface", async () => {
     const catalog = createCatalog({
       companies: [{ slug: "acme", name: "Acme", ats: "greenhouse", token: "acme" }],

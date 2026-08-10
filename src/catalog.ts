@@ -115,11 +115,17 @@ async function fetchWorkdayJobs(company: Company, fetcher: Fetch, signal?: Abort
   const endpoint = `https://${source.host}/wday/cxs/${encodeURIComponent(source.tenant)}/${encodeURIComponent(source.site)}/jobs`;
   const limit = 20;
   async function page(offset: number): Promise<{ total: number; jobs: WorkdayJob[] }> {
-    const response = await fetcher(endpoint, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ appliedFacets: {}, limit, offset, searchText: "" }), signal });
-    if (!response.ok) throw new Error(`${company.name} job board returned HTTP ${response.status}`);
-    const body = await response.json() as { total?: unknown; jobPostings?: unknown };
-    if (!Number.isInteger(body.total) || !Array.isArray(body.jobPostings)) throw new Error(`${company.name} Workday source returned an invalid payload`);
-    return { total: body.total as number, jobs: body.jobPostings as WorkdayJob[] };
+    for (let attempt = 0; attempt < 3; attempt += 1) {
+      const response = await fetcher(endpoint, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ appliedFacets: {}, limit, offset, searchText: "" }), signal });
+      if (response.ok) {
+        const body = await response.json() as { total?: unknown; jobPostings?: unknown };
+        if (!Number.isInteger(body.total) || !Array.isArray(body.jobPostings)) throw new Error(`${company.name} Workday source returned an invalid payload`);
+        return { total: body.total as number, jobs: body.jobPostings as WorkdayJob[] };
+      }
+      if (!isTransientStatus(response.status) || attempt === 2) throw new Error(`${company.name} job board returned HTTP ${response.status}`);
+      await abortableDelay(retryDelayMs(response, attempt), signal);
+    }
+    throw new Error(`${company.name} Workday source exhausted retries`);
   }
   const first = await page(0);
   if (first.total < first.jobs.length || first.total > 100_000) throw new Error(`${company.name} Workday source reported an invalid total`);
@@ -135,10 +141,34 @@ async function fetchWorkdayJobs(company: Company, fetcher: Fetch, signal?: Abort
       pages[index] = result.jobs;
     }
   }
-  await Promise.all(Array.from({ length: Math.min(8, offsets.length) }, worker));
+  await Promise.all(Array.from({ length: Math.min(4, offsets.length) }, worker));
   const jobs = [first.jobs, ...pages].flat().slice(0, first.total);
   if (jobs.length !== first.total) throw new Error(`${company.name} Workday source returned ${jobs.length} of ${first.total} jobs`);
   return jobs.map((job) => normalizeWorkday(company, source, job));
+}
+
+function isTransientStatus(status: number): boolean {
+  return status === 429 || status === 502 || status === 503 || status === 504 || status === 520;
+}
+
+function retryDelayMs(response: Response, attempt: number): number {
+  const retryAfter = Number(response.headers.get("retry-after"));
+  return Number.isFinite(retryAfter) && retryAfter >= 0 ? retryAfter * 1_000 : 500 * 2 ** attempt;
+}
+
+function abortableDelay(ms: number, signal?: AbortSignal): Promise<void> {
+  if (!ms) return Promise.resolve();
+  return new Promise((resolve, reject) => {
+    const onAbort = () => {
+      clearTimeout(timer);
+      reject(signal?.reason ?? new Error("Aborted"));
+    };
+    const timer = setTimeout(() => {
+      signal?.removeEventListener("abort", onAbort);
+      resolve();
+    }, ms);
+    signal?.addEventListener("abort", onAbort, { once: true });
+  });
 }
 
 function normalizeWorkday(company: Company, source: ReturnType<typeof parseWorkdayToken>, job: WorkdayJob): Job {

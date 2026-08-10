@@ -70,3 +70,23 @@ test("a source that exceeds its timeout is aborted and reported", async () => {
   expect(report.failed[0]).toEqual(expect.objectContaining({ source: "slow", error: "Timed out after 5ms" }));
   expect(written?.partitions).toEqual({});
 });
+
+test("transient source failures are retried after the initial crawl wave", async () => {
+  let attempts = 0;
+  let written: JobSnapshot | undefined;
+  const store = { read: async () => null, write: async (next: JobSnapshot) => { written = next; } };
+  const crawler = createCrawler({
+    store,
+    fetchJobs: async (source) => {
+      attempts += 1;
+      if (attempts === 1) throw new Error("job board returned HTTP 520");
+      return [job("workday:transient:1", source.name)];
+    },
+  });
+
+  const report = await crawler.crawl([{ slug: "transient", name: "Transient", ats: "workday", token: "example.test/example/jobs" }]);
+
+  expect(attempts).toBe(2);
+  expect(report).toEqual(expect.objectContaining({ selected: 1, succeeded: 1, failed: [] }));
+  expect(written?.partitions.transient?.jobs).toHaveLength(1);
+});
