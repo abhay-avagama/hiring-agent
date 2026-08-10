@@ -8,12 +8,13 @@ test("Common Crawl URL discovery canonicalizes ATS leads without promoting unkno
   const directory = await mkdtemp(join(tmpdir(), "openings-common-crawl-"));
   const candidatesPath = join(directory, "candidates.json");
   const reportPath = join(directory, "report.json");
+  const registryPath = join(directory, "enrichment-leads.json");
   await writeFile(candidatesPath, JSON.stringify([
     { companyName: "Known", companyDomain: "known.test", sourceUrl: "https://jobs.lever.co/known", discoveredFrom: { channel: "legacy", reference: "seed" } },
   ]));
 
   const report = await discoverCommonCrawlSources(candidatesPath, reportPath, {
-    country: "IN",
+    country: "IN", registryPath,
     fetch: async (input) => {
       const url = String(input);
       if (url.endsWith("collinfo.json")) return Response.json([{ id: "CC-MAIN-TEST", "cdx-api": "https://index.test/CC-MAIN-TEST-index" }]);
@@ -27,11 +28,12 @@ test("Common Crawl URL discovery canonicalizes ATS leads without promoting unkno
     },
   });
 
-  expect(report).toEqual(expect.objectContaining({ country: "IN", urlsSeen: 5, sourcesFound: 4, alreadyKnown: 1, unresolved: 3, rejected: 0, truncated: false }));
+  expect(report).toEqual(expect.objectContaining({ country: "IN", urlsSeen: 5, sourcesFound: 4, alreadyKnown: 1, unresolved: 3, rejected: 0, truncated: false, registryAdded: 3 }));
   expect(report.leads.map((lead) => lead.sourceUrl).sort()).toEqual([
     "https://job-boards.greenhouse.io/acme",
     "https://jobs.lever.co/newco",
     "https://mastercard.wd1.myworkdayjobs.com/en-US/CorporateCareers",
   ]);
   expect(JSON.parse(await readFile(reportPath, "utf8"))).toEqual(report);
+  expect(JSON.parse(await readFile(registryPath, "utf8")).leads).toHaveLength(3);
 });

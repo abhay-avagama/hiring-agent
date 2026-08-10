@@ -5,6 +5,7 @@ import { stampReport, type ReportMeta } from "./report-meta.ts";
 import { withFileLock } from "./file-lock.ts";
 import { resolveSource } from "./source-verification.ts";
 import type { DiscoveryChannel, SourceCandidate } from "./types.ts";
+import { mergeEnrichmentLeads, type EnrichmentLead, type IdentityEvidence } from "./enrichment-registry.ts";
 
 type Fetch = (input: string | URL, init?: RequestInit) => Promise<Response>;
 
@@ -13,9 +14,10 @@ interface DiscoveryOptions {
   fetch?: Fetch;
   concurrency?: number;
   timeoutMs?: number;
+  registryPath?: string;
 }
 
-interface FeedEntry { sourceUrl: string; companyDomain?: string; reference?: string; channel?: DiscoveryChannel; domainEvidence?: "authoritative_dataset" | "company_registry" }
+interface FeedEntry { sourceUrl: string; companyName?: string; companyDomain?: string; reference?: string; channel?: DiscoveryChannel; domainEvidence?: "authoritative_dataset" | "company_registry" | "company_redirect" }
 interface DiscoveryIssue { sourceUrl: string; reason: string; detail: string; companyName?: string; reference?: string }
 
 export interface SourceDiscoveryReport extends ReportMeta {
@@ -28,6 +30,8 @@ export interface SourceDiscoveryReport extends ReportMeta {
   reportPath: string;
   unresolved: DiscoveryIssue[];
   rejections: DiscoveryIssue[];
+  registryPath?: string;
+  registryAdded: number;
 }
 
 export async function runSourceDiscovery(feedPath: string, candidatesPath: string, reportPath: string, options: DiscoveryOptions = {}): Promise<SourceDiscoveryReport> {
@@ -51,6 +55,7 @@ export async function runYcSourceDiscovery(candidatesPath: string, reportPath: s
     try { companyDomain = new URL(company.website).hostname.replace(/^www\./, ""); } catch { return []; }
     return [{
       sourceUrl: `https://job-boards.greenhouse.io/${company.slug}`,
+      companyName: typeof company.name === "string" ? company.name : company.slug,
       companyDomain,
       reference: `https://www.ycombinator.com/companies/${company.slug}`,
       domainEvidence: "authoritative_dataset",
@@ -61,14 +66,13 @@ export async function runYcSourceDiscovery(candidatesPath: string, reportPath: s
 
 async function discoverEntries(feed: FeedEntry[], candidatesPath: string, reportPath: string, options: DiscoveryOptions, feedReference: string, trustDomainEvidence: boolean): Promise<SourceDiscoveryReport> {
   const existing = await readCandidates(candidatesPath);
-  const fetcher = options.fetch ?? globalThis.fetch;
   const concurrency = Math.max(1, Math.trunc(options.concurrency ?? 10));
-  const timeoutMs = Math.max(1, Math.trunc(options.timeoutMs ?? 30_000));
   const country = options.country?.toUpperCase();
   if (country && !/^[A-Z]{2}$/.test(country)) throw new Error("country must be a two-letter code");
   const ready: Array<{ index: number; candidate: SourceCandidate }> = [];
   const unresolved: Array<{ index: number; issue: DiscoveryIssue }> = [];
   const rejected: Array<{ index: number; issue: DiscoveryIssue }> = [];
+  const registryRows: EnrichmentLead[] = [];
   const existingSources = new Set(existing.map((candidate) => sourceKey(candidate.sourceUrl)).filter(Boolean));
   let alreadyKnown = 0;
   let cursor = 0;
@@ -85,55 +89,59 @@ async function discoverEntries(feed: FeedEntry[], candidatesPath: string, report
         rejected.push({ index, issue: issue({ sourceUrl: entry.sourceUrl }, "invalid_domain", "companyDomain must be a hostname") });
         continue;
       }
+      if (entry.companyName !== undefined && (typeof entry.companyName !== "string" || !entry.companyName.trim())) {
+        rejected.push({ index, issue: issue({ sourceUrl: entry.sourceUrl }, "invalid_name", "companyName must be a non-empty string") });
+        continue;
+      }
       if (entry.reference !== undefined && typeof entry.reference !== "string") {
         rejected.push({ index, issue: issue({ sourceUrl: entry.sourceUrl }, "invalid_reference", "reference must be a string") });
         continue;
       }
       const source = resolveSource(entry.sourceUrl);
-      if (!source || source.ats !== "greenhouse") {
-        rejected.push({ index, issue: issue(entry, "unsupported_source", "Discovery currently accepts Greenhouse source URLs") });
+      if (!source) {
+        rejected.push({ index, issue: issue(entry, "unsupported_source", "Discovery accepts Greenhouse, Lever, Ashby, and Workday source URLs") });
         continue;
       }
       if (entry.channel !== undefined && !["search", "career_page", "provider_directory", "community", "dataset"].includes(entry.channel)) {
         rejected.push({ index, issue: issue(entry, "invalid_channel", `Unsupported discovery channel: ${entry.channel}`) });
         continue;
       }
-      if (entry.domainEvidence !== undefined && !["authoritative_dataset", "company_registry"].includes(entry.domainEvidence)) {
+      if (entry.domainEvidence !== undefined && !["authoritative_dataset", "company_registry", "company_redirect"].includes(entry.domainEvidence)) {
         rejected.push({ index, issue: issue(entry, "invalid_domain_evidence", `Unsupported domain evidence: ${entry.domainEvidence}`) });
         continue;
       }
       const key = `${source.ats}:${source.token.toLocaleLowerCase()}`;
+      const companyName = typeof entry.companyName === "string" ? entry.companyName.trim() : "";
+      const reference = entry.reference?.trim() || feedReference;
+      const match = entry.companyDomain && companyName ? [{ companyName, companyDomain: entry.companyDomain.toLowerCase(), method: "normalized_token" as const, reference }] : [];
+      const redirectTrusted = entry.domainEvidence === "company_redirect" && entry.companyDomain && referenceBelongsToDomain(reference, entry.companyDomain);
+      const datasetTrusted = trustDomainEvidence && entry.domainEvidence && entry.domainEvidence !== "company_redirect";
+      const evidence: IdentityEvidence[] = (redirectTrusted || datasetTrusted) && entry.companyDomain && companyName ? [{ companyName, companyDomain: entry.companyDomain.toLowerCase(), kind: entry.domainEvidence!, reference, observedAt: new Date().toISOString() }] : [];
+      registryRows.push({ sourceKey: key, sourceUrl: source.canonicalSourceUrl, ats: source.ats, token: source.token,
+        discoveredFrom: [{ channel: entry.channel ?? "dataset", reference }], companyMatches: match, identityEvidence: evidence, attempts: [] });
       if (existingSources.has(key)) {
         alreadyKnown++;
         continue;
       }
-      try {
-        const companyName = await observeGreenhouseName(source.token, fetcher, timeoutMs);
-        if (!entry.companyDomain) {
-          unresolved.push({ index, issue: { ...issue(entry, "needs_domain", "A company domain is required before verification"), companyName } });
-          continue;
-        }
-        if (!trustDomainEvidence || !entry.domainEvidence) {
-          unresolved.push({ index, issue: { ...issue(entry, "needs_domain_evidence", "Generic feeds require authoritative domain evidence before verification"), companyName } });
-          continue;
-        }
-        if (!domainMatchesName(entry.companyDomain, companyName)) {
-          rejected.push({ index, issue: { ...issue(entry, "domain_name_mismatch", `Observed ${companyName}, which does not match ${entry.companyDomain}`), companyName } });
-          continue;
-        }
-        ready.push({ index, candidate: {
-          companyName, companyDomain: entry.companyDomain.toLocaleLowerCase(), sourceUrl: source.canonicalSourceUrl,
-          cohorts: country ? [country] : undefined,
-          discoveredFrom: { channel: entry.channel ?? "dataset", reference: entry.reference?.trim() || feedReference },
-          domainEvidence: { kind: entry.domainEvidence, reference: entry.reference?.trim() || feedReference },
-        } });
-      } catch (error) {
-        rejected.push({ index, issue: issue(entry, "probe_failed", error instanceof Error ? error.message : String(error)) });
+      if (!entry.companyDomain || !companyName) {
+        unresolved.push({ index, issue: { ...issue(entry, "needs_identity", "companyName and companyDomain are required before verification"), companyName: companyName || undefined } });
+        continue;
       }
+      if (!redirectTrusted && !datasetTrusted) {
+        unresolved.push({ index, issue: { ...issue(entry, "needs_domain_evidence", "The entry needs trusted dataset evidence or a company-owned redirect"), companyName } });
+        continue;
+      }
+      ready.push({ index, candidate: {
+        companyName, companyDomain: entry.companyDomain.toLocaleLowerCase(), sourceUrl: source.canonicalSourceUrl,
+        cohorts: country ? [country] : undefined,
+        discoveredFrom: { channel: entry.channel ?? "dataset", reference },
+        domainEvidence: { kind: entry.domainEvidence!, reference },
+      } });
     }
   }
 
   await Promise.all(Array.from({ length: Math.min(concurrency, feed.length) }, worker));
+  const registry = options.registryPath ? await mergeEnrichmentLeads(options.registryPath, registryRows) : { added: 0 };
   const additions: SourceCandidate[] = [];
   const acceptedSources = new Set<string>();
   for (const row of ready.sort((a, b) => a.index - b.index)) {
@@ -157,26 +165,12 @@ async function discoverEntries(feed: FeedEntry[], candidatesPath: string, report
   const appended = await mergeSourceCandidates(candidatesPath, additions);
   const report: SourceDiscoveryReport = stampReport("source-discovery:1", 1, {
     discovered: feed.length, ready: appended, alreadyKnown, needsDomain: uniqueUnresolved.length, rejected: rejected.length,
-    candidatesPath, reportPath,
+    candidatesPath, reportPath, registryPath: options.registryPath, registryAdded: registry.added,
     unresolved: uniqueUnresolved.sort((a, b) => a.index - b.index).map((row) => row.issue),
     rejections: rejected.sort((a, b) => a.index - b.index).map((row) => row.issue),
   });
   await atomicJson(reportPath, report);
   return report;
-}
-
-async function observeGreenhouseName(token: string, fetcher: Fetch, timeoutMs: number): Promise<string> {
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(new Error(`Timed out after ${timeoutMs}ms`)), timeoutMs);
-  try {
-    const response = await fetcher(`https://boards-api.greenhouse.io/v1/boards/${encodeURIComponent(token)}/jobs`, { signal: controller.signal });
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    const body: unknown = await response.json();
-    if (!isRecord(body) || !Array.isArray(body.jobs) || body.jobs.length === 0) throw new Error("Board has no jobs to identify the company");
-    const names = body.jobs.flatMap((job) => isRecord(job) && typeof job.company_name === "string" ? [job.company_name.trim()] : []);
-    if (!names.length) throw new Error("Board jobs do not expose company_name");
-    return majority(names);
-  } finally { clearTimeout(timer); }
 }
 
 async function readFeed(path: string): Promise<FeedEntry[]> {
@@ -231,8 +225,6 @@ export async function mergeSourceCandidates(path: string, additions: SourceCandi
 
 function sourceKey(value: string): string | undefined { const source = resolveSource(value); return source ? `${source.ats}:${source.token.toLocaleLowerCase()}` : undefined; }
 function issue(entry: FeedEntry, reason: string, detail: string): DiscoveryIssue { return { sourceUrl: entry.sourceUrl, reference: entry.reference, reason, detail }; }
-function domainMatchesName(domain: string, name: string): boolean { const label = normalize(domain.replace(/^www\./, "").split(".")[0] ?? ""); const company = normalize(name); return label.length >= 3 && (label.includes(company) || company.includes(label)); }
-function normalize(value: string): string { return value.toLocaleLowerCase().replace(/\b(inc|llc|ltd|limited|corp|corporation|company)\b/g, "").replace(/[^a-z0-9]/g, ""); }
-function majority(values: string[]): string { const counts = new Map<string, number>(); for (const value of values) counts.set(value, (counts.get(value) ?? 0) + 1); return [...counts].sort((a, b) => b[1] - a[1])[0]?.[0] ?? ""; }
+function referenceBelongsToDomain(reference: string, domain: string): boolean { try { const host = new URL(reference).hostname.toLowerCase().replace(/^www\./, ""); const expected = domain.toLowerCase().replace(/^www\./, ""); return host === expected || host.endsWith(`.${expected}`); } catch { return false; } }
 function isRecord(value: unknown): value is Record<string, unknown> { return typeof value === "object" && value !== null && !Array.isArray(value); }
 function escapeRegExp(value: string): string { return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); }

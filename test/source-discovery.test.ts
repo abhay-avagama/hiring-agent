@@ -54,6 +54,25 @@ test("discovery automatically promotes the expanded candidate set into the verif
   expect(JSON.parse(await readFile(catalogPath, "utf8")).acme.name).toBe("Acme");
 });
 
+test("generic discovery accepts every supported provider without probing ATS endpoints", async () => {
+  const directory = await mkdtemp(join(tmpdir(), "openings-discovery-providers-"));
+  const feedPath = join(directory, "feed.json");
+  const candidatesPath = join(directory, "candidates.json");
+  const registryPath = join(directory, "leads.json");
+  await writeFile(feedPath, JSON.stringify([
+    ["https://job-boards.greenhouse.io/acme", "Acme"],
+    ["https://jobs.lever.co/beta", "Beta"],
+    ["https://jobs.ashbyhq.com/gamma", "Gamma"],
+    ["https://delta.wd1.myworkdayjobs.com/en-US/External", "Delta"],
+  ].map(([sourceUrl, companyName]) => ({ sourceUrl, companyName, companyDomain: `${companyName!.toLowerCase()}.test`, reference: `https://${companyName!.toLowerCase()}.test/careers`, channel: "career_page", domainEvidence: "company_redirect" }))));
+  let fetched = false;
+  const report = await runSourceDiscovery(feedPath, candidatesPath, join(directory, "report.json"), { registryPath, fetch: async () => { fetched = true; return new Response(); } });
+  expect(report.ready).toBe(4);
+  expect(JSON.parse(await readFile(candidatesPath, "utf8")).map((candidate: { sourceUrl: string }) => candidate.sourceUrl)).toHaveLength(4);
+  expect(fetched).toBeFalse();
+  expect(JSON.parse(await readFile(registryPath, "utf8")).leads).toHaveLength(4);
+});
+
 test("YC discovery creates country-focused Greenhouse seeds from the keyless company API", async () => {
   const directory = await mkdtemp(join(tmpdir(), "openings-yc-discovery-"));
   const candidatesPath = join(directory, "candidates.json");

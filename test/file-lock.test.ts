@@ -2,7 +2,7 @@ import { expect, test } from "bun:test";
 import { join } from "node:path";
 import { access, mkdtemp, utimes, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { withFileLock } from "../src/file-lock.ts";
+import { forceReleaseFileLock, inspectFileLock, withFileLock } from "../src/file-lock.ts";
 
 test("a lock left by a dead process is reclaimed", async () => {
   const directory = await mkdtemp(join(tmpdir(), "openings-lock-"));
@@ -52,4 +52,13 @@ test("waiting for a live lock has an acquisition-only timeout with holder detail
   await writeFile(`${target}.lock`, JSON.stringify({ pid: process.pid, createdAt: "2026-08-10T00:00:00.000Z", operation: "verify sources" }));
 
   await expect(withFileLock(target, async () => "never", { acquireTimeoutMs: 5 })).rejects.toThrow(/Timed out waiting.*verify sources.*pid/u);
+});
+
+test("operators can inspect and explicitly release a wedged lock", async () => {
+  const directory = await mkdtemp(join(tmpdir(), "openings-lock-"));
+  const target = join(directory, "catalog.json");
+  await writeFile(`${target}.lock`, JSON.stringify({ pid: 123, operation: "verify sources", createdAt: "2026-08-10T00:00:00.000Z" }));
+  expect(await inspectFileLock(target)).toEqual(expect.objectContaining({ locked: true, pid: 123, operation: "verify sources" }));
+  expect(await forceReleaseFileLock(target)).toEqual(expect.objectContaining({ locked: true, pid: 123 }));
+  expect(await inspectFileLock(target)).toEqual(expect.objectContaining({ locked: false }));
 });

@@ -1,10 +1,11 @@
 import { readFile } from "node:fs/promises";
 import { atomicJson } from "./atomic-file.ts";
 import { stampReport, type ReportMeta } from "./report-meta.ts";
+import { mergeEnrichmentLeads, type EnrichmentLead } from "./enrichment-registry.ts";
 import { resolveSource } from "./source-verification.ts";
 
 type Fetch = (input: string | URL, init?: RequestInit) => Promise<Response>;
-interface Options { country?: string; fetch?: Fetch; indexUrl?: string }
+interface Options { country?: string; fetch?: Fetch; indexUrl?: string; registryPath?: string }
 interface Lead { sourceUrl: string; ats: string; token: string; discoveredFrom: { channel: "dataset"; reference: string } }
 interface Collection { id?: unknown; "cdx-api"?: unknown }
 
@@ -20,6 +21,10 @@ export interface CommonCrawlDiscoveryReport extends ReportMeta {
   truncatedPatterns: string[];
   candidatesPath: string;
   reportPath: string;
+  registryPath?: string;
+  registryAdded: number;
+  registryBytes?: number;
+  registryLockHeldMs?: number;
   leads: Lead[];
   rejections: Array<{ value: string; reason: string }>;
 }
@@ -62,6 +67,7 @@ export async function discoverCommonCrawlSources(candidatesPath: string, reportP
   }
 
   const leads: Lead[] = [];
+  const registryLeads: EnrichmentLead[] = [];
   let alreadyKnown = 0;
   for (const [key, source] of [...found].sort(([a], [b]) => a.localeCompare(b))) {
     if (!source) continue;
@@ -70,11 +76,14 @@ export async function discoverCommonCrawlSources(candidatesPath: string, reportP
       sourceUrl: source.canonicalSourceUrl, ats: source.ats, token: source.token,
       discoveredFrom: { channel: "dataset", reference: index },
     });
+    registryLeads.push({ sourceKey: key, sourceUrl: source.canonicalSourceUrl, ats: source.ats, token: source.token,
+      discoveredFrom: [{ channel: "dataset", reference: index }], companyMatches: [], identityEvidence: [], attempts: [] });
   }
+  const registry = options.registryPath ? await mergeEnrichmentLeads(options.registryPath, registryLeads) : { added: 0, bytes: undefined, lockHeldMs: undefined };
   const report: CommonCrawlDiscoveryReport = stampReport("common-crawl-discovery:1", 1, {
     country, index, urlsSeen: seenUrls.size, sourcesFound: found.size, alreadyKnown, unresolved: leads.length, rejected: rejections.length,
     truncated: truncatedPatterns.length > 0, truncatedPatterns,
-    candidatesPath, reportPath, leads, rejections,
+    candidatesPath, reportPath, registryPath: options.registryPath, registryAdded: registry.added, registryBytes: registry.bytes, registryLockHeldMs: registry.lockHeldMs, leads, rejections,
   });
   await atomicJson(reportPath, report);
   return report;

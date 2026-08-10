@@ -3,6 +3,7 @@ import { join } from "node:path";
 import { mkdtemp, readFile, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { runSourceVerification } from "../src/source-pipeline.ts";
+import { mergeEnrichmentLeads, readEnrichmentRegistry, deriveLeadState } from "../src/enrichment-registry.ts";
 
 test("the verification pipeline writes only verified sources to the generated catalog", async () => {
   const directory = await mkdtemp(join(tmpdir(), "openings-sources-"));
@@ -42,4 +43,27 @@ test("transient verification failures preserve the previously verified catalog e
   const report = await runSourceVerification(candidatesPath, catalogPath, { fetch: async () => new Response("down", { status: 503 }) });
   expect(report.preserved).toBe(1);
   expect(JSON.parse(await readFile(catalogPath, "utf8")).acme.name).toBe("Acme");
+});
+
+test("verification records success and transient retry facts in the enrichment registry", async () => {
+  const directory = await mkdtemp(join(tmpdir(), "openings-pipeline-registry-"));
+  const candidatesPath = join(directory, "candidates.json");
+  const catalogPath = join(directory, "companies.json");
+  const registryPath = join(directory, "leads.json");
+  const candidates = [
+    { companyName: "Acme", companyDomain: "acme.test", sourceUrl: "https://job-boards.greenhouse.io/acme", discoveredFrom: { channel: "dataset", reference: "yc" } },
+    { companyName: "Down", companyDomain: "down.test", sourceUrl: "https://job-boards.greenhouse.io/down", discoveredFrom: { channel: "dataset", reference: "yc" } },
+  ];
+  await writeFile(candidatesPath, JSON.stringify(candidates));
+  await mergeEnrichmentLeads(registryPath, candidates.map((candidate) => ({ sourceKey: `greenhouse:${candidate.companyName.toLowerCase()}`, sourceUrl: candidate.sourceUrl, ats: "greenhouse" as const, token: candidate.companyName.toLowerCase(), discoveredFrom: [candidate.discoveredFrom as { channel: "dataset"; reference: string }], companyMatches: [{ companyName: candidate.companyName, companyDomain: candidate.companyDomain, method: "normalized_token" as const, reference: "yc" }], identityEvidence: [{ companyName: candidate.companyName, companyDomain: candidate.companyDomain, kind: "authoritative_dataset" as const, reference: "yc", observedAt: "2026-08-09T00:00:00.000Z" }], attempts: [] })));
+  await runSourceVerification(candidatesPath, catalogPath, { registryPath, now: () => new Date("2026-08-10T00:00:00.000Z"), fetch: async (input) => String(input).includes("/down/") ? new Response("down", { status: 503 }) : Response.json({ jobs: [{ company_name: "Acme" }] }) });
+  const registry = await readEnrichmentRegistry(registryPath);
+  expect(deriveLeadState(registry.leads.find((lead) => lead.token === "acme")!)).toBe("verified");
+  expect(registry.leads.find((lead) => lead.token === "down")?.attempts[0]).toEqual(expect.objectContaining({ outcome: "transient_failure", nextEligibleAt: "2026-08-10T00:01:00.000Z" }));
+  let downRequests = 0;
+  await runSourceVerification(candidatesPath, catalogPath, { registryPath, now: () => new Date("2026-08-10T00:00:30.000Z"), fetch: async (input) => { if (String(input).includes("/down/")) downRequests += 1; return Response.json({ jobs: [{ company_name: "Acme" }] }); } });
+  expect(downRequests).toBe(0);
+  expect((await readEnrichmentRegistry(registryPath)).leads.find((lead) => lead.token === "down")?.attempts).toHaveLength(1);
+  await runSourceVerification(candidatesPath, catalogPath, { registryPath, retryDeferred: true, now: () => new Date("2026-08-10T00:00:31.000Z"), fetch: async (input) => { if (String(input).includes("/down/")) downRequests += 1; return Response.json({ jobs: [{ company_name: String(input).includes("/down/") ? "Down" : "Acme" }] }); } });
+  expect(downRequests).toBe(1);
 });

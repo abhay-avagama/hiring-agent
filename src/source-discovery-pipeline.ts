@@ -6,6 +6,7 @@ interface PromotionOptions {
   concurrency?: number;
   timeoutMs?: number;
   now?: () => Date;
+  registryPath?: string;
 }
 
 export interface DiscoveryPromotionResult {

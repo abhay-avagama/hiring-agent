@@ -80,6 +80,14 @@ _Avoid_: Job source
 The process of resolving a company or career page to a supported public structured job source before verification.
 _Avoid_: Career-page scraping, job scraping
 
+**Enrichment lead**:
+A durable, canonical ATS source record that accumulates discovery provenance, possible company matches, identity evidence, and verification attempts. Its workflow state is derived from those facts rather than stored as a mutable label.
+_Avoid_: Candidate source, verified source
+
+**Verification-ready evidence**:
+Identity evidence strong enough to send a matched lead to live verification. Weak name, token, domain, and search matches never accumulate into verification-ready evidence. Lever and Ashby specifically require provider-structured identity or a safely replayed company-owned redirect.
+_Avoid_: Confidence score, corroborating guesses
+
 **Discovery ladder**:
 Candidate sources are sought in this order: known-ATS search results, career-page ATS links, ATS showcases or directories, community submissions, then independently reverified public datasets. Discovery may propose a source but cannot index it without verification.
 _Avoid_: Unverified bulk import

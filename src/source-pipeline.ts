@@ -1,7 +1,8 @@
 import { mkdir, readFile, rename, writeFile } from "node:fs/promises";
 import { dirname } from "node:path";
 import { withFileLock } from "./file-lock.ts";
-import { verifyCandidates } from "./source-verification.ts";
+import { resolveSource, verifyCandidates } from "./source-verification.ts";
+import { deriveLeadState, mergeEnrichmentLeads, readEnrichmentRegistry, retryDisposition, strongestEvidenceRank, transientAttempt, type EnrichmentLead, type IdentityEvidence, type LeadAttempt } from "./enrichment-registry.ts";
 import type { RejectedSource, SourceCandidate, VerifiedCompany } from "./types.ts";
 
 interface PipelineOptions {
@@ -11,6 +12,8 @@ interface PipelineOptions {
   timeoutMs?: number;
   requireCountry?: string;
   countryGateTimeoutMs?: number;
+  registryPath?: string;
+  retryDeferred?: boolean;
 }
 
 export interface SourcePipelineReport {
@@ -29,13 +32,30 @@ export async function runSourceVerification(candidatesPath: string, catalogPath:
 
 async function runSourceVerificationUnlocked(candidatesPath: string, catalogPath: string, options: PipelineOptions): Promise<SourcePipelineReport> {
   const candidates = await readCandidates(candidatesPath);
-  const result = await verifyCandidates(candidates, options);
+  let eligible = candidates;
+  const deferred: RejectedSource[] = [];
+  if (options.registryPath) {
+    const registry = await readEnrichmentRegistry(options.registryPath);
+    const byKey = new Map(registry.leads.map((lead) => [lead.sourceKey, lead]));
+    eligible = candidates.filter((candidate) => {
+      const source = resolveSource(candidate.sourceUrl);
+      const lead = source ? byKey.get(`${source.ats}:${source.token.toLowerCase()}`) : undefined;
+      if (!lead) return true;
+      const state = deriveLeadState(lead);
+      const retry = retryDisposition(lead, options.now?.() ?? new Date());
+      if (["evidence_ready", "verified"].includes(state) && (options.retryDeferred || !["cooling_down", "repeatedly_failing"].includes(retry))) return true;
+      deferred.push({ ...candidate, reason: "unreachable", detail: `Verification deferred by enrichment policy (${state}, ${retry})` });
+      return false;
+    });
+  }
+  const result = await verifyCandidates(eligible, options);
+  result.rejected.push(...deferred);
   const prior = await readPriorCatalog(catalogPath);
   const freshlyVerified = new Set(result.verified.map((company) => company.slug));
   const verifiedDomains = new Set(result.verified.map((company) => company.companyDomain));
   const verifiedSources = new Set(result.verified.map((company) => `${company.ats}:${company.token.toLocaleLowerCase()}`));
   const preserved = result.rejected.flatMap((candidate) => {
-    if (!(["unreachable", "invalid_payload", "empty_board", "no_country_jobs"] as string[]).includes(candidate.reason)) return [];
+    if (!preservableRejection(candidate.reason)) return [];
     const slug = candidate.slug ?? slugFromDomain(candidate.companyDomain);
     if (freshlyVerified.has(slug)) return [];
     const previous = prior[slug];
@@ -44,6 +64,7 @@ async function runSourceVerificationUnlocked(candidatesPath: string, catalogPath
     return [{ slug, ...previous } as VerifiedCompany];
   });
   await writeCatalog(catalogPath, [...result.verified, ...preserved]);
+  if (options.registryPath) await recordRegistryOutcomes(options.registryPath, result, options.now?.() ?? new Date());
   return {
     candidates: candidates.length,
     verified: result.verified.length,
@@ -53,6 +74,40 @@ async function runSourceVerificationUnlocked(candidatesPath: string, catalogPath
     rejections: result.rejected,
   };
 }
+
+async function recordRegistryOutcomes(registryPath: string, result: Awaited<ReturnType<typeof verifyCandidates>>, now: Date): Promise<void> {
+  const registry = await readEnrichmentRegistry(registryPath);
+  const byKey = new Map(registry.leads.map((lead) => [lead.sourceKey, lead]));
+  const additions: EnrichmentLead[] = [];
+  for (const company of result.verified) {
+    const lead = byKey.get(`${company.ats}:${company.token.toLowerCase()}`);
+    if (!lead) continue;
+    const attempt: LeadAttempt = { attemptedAt: now.toISOString(), outcome: "success" };
+    const evidence: IdentityEvidence[] = company.verification.identityEvidence === "structured_domain_link"
+      ? [{ companyName: company.name, companyDomain: company.companyDomain, kind: "provider_structured_domain", reference: company.sourceUrl, observedAt: now.toISOString() }]
+      : company.verification.identityEvidence === "company_redirect" && company.domainEvidence?.kind === "company_redirect"
+        ? [{ companyName: company.name, companyDomain: company.companyDomain, kind: "company_redirect", reference: company.domainEvidence.reference, observedAt: now.toISOString() }]
+        : [];
+    additions.push({ ...lead, identityEvidence: evidence, attempts: [attempt], promotedAt: now.toISOString() });
+  }
+  for (const rejection of result.rejected) {
+    if (rejection.detail.startsWith("Verification deferred by enrichment policy")) continue;
+    const source = resolveSource(rejection.sourceUrl);
+    if (!source) continue;
+    const lead = byKey.get(`${source.ats}:${source.token.toLowerCase()}`);
+    if (!lead) continue;
+    const transient = retryableRejection(rejection.reason);
+    const consecutive = [...lead.attempts].reverse().findIndex((attempt) => attempt.outcome !== "transient_failure");
+    const attempt: LeadAttempt = transient
+      ? transientAttempt(now, consecutive < 0 ? lead.attempts.length + 1 : consecutive + 1, rejection.reason, rejection.detail)
+      : { attemptedAt: now.toISOString(), outcome: "permanent_failure", category: rejection.reason, detail: rejection.detail, evidenceRank: strongestEvidenceRank(lead) };
+    additions.push({ ...lead, attempts: [attempt] });
+  }
+  if (additions.length) await mergeEnrichmentLeads(registryPath, additions, now);
+}
+
+function preservableRejection(reason: RejectedSource["reason"]): boolean { return ["unreachable", "invalid_payload", "empty_board", "no_country_jobs"].includes(reason); }
+function retryableRejection(reason: RejectedSource["reason"]): boolean { return reason === "unreachable"; }
 
 async function readPriorCatalog(path: string): Promise<Record<string, Omit<VerifiedCompany, "slug">>> {
   try {

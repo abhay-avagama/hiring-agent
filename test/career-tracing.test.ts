@@ -59,7 +59,7 @@ test("an optional Brave key resolves non-redirecting career pages through ATS se
   let searchAuthenticated = false;
 
   const report = await traceCareerSources(inputPath, join(directory, "candidates.json"), join(directory, "report.json"), {
-    country: "IN", searchKey: "secret",
+    country: "IN", searchKey: "secret", registryPath: join(directory, "leads.json"),
     fetch: async (input, init) => {
       if (String(input).includes("api.search.brave.com")) {
         searchAuthenticated = new Headers(init?.headers).get("X-Subscription-Token") === "secret";
@@ -69,9 +69,9 @@ test("an optional Brave key resolves non-redirecting career pages through ATS se
     },
   });
 
-  expect(report).toEqual(expect.objectContaining({ ready: 1, unresolved: 0, rejected: 0 }));
+  expect(report).toEqual(expect.objectContaining({ ready: 0, matched: 1, unresolved: 0, rejected: 0, registryAdded: 1 }));
   expect(searchAuthenticated).toBeTrue();
-  expect(JSON.parse(await readFile(join(directory, "candidates.json"), "utf8"))[0].discoveredFrom.channel).toBe("search");
+  expect(JSON.parse(await readFile(join(directory, "leads.json"), "utf8")).leads[0].discoveredFrom[0].channel).toBe("search");
 });
 
 test("career tracing joins company identities to durable Common Crawl ATS leads", async () => {
@@ -82,16 +82,14 @@ test("career tracing joins company identities to durable Common Crawl ATS leads"
   await writeFile(leadsPath, JSON.stringify({ schemaVersion: 1, pipelineVersion: "common-crawl-discovery:1", generatedAt: "2026-08-10T00:00:00.000Z", leads: [{ sourceUrl: "https://job-boards.greenhouse.io/acme", token: "acme", ats: "greenhouse", discoveredFrom: { channel: "dataset", reference: "cc-index" } }] }));
 
   const report = await traceCareerSources(inputPath, join(directory, "candidates.json"), join(directory, "report.json"), {
-    commonCrawlReportPath: leadsPath,
+    commonCrawlReportPath: leadsPath, registryPath: join(directory, "leads.json"),
     resolveHost: async () => ["93.184.216.34"],
     fetch: async () => new Response(null, { status: 200 }),
+    headTransport: async () => new Response(null, { status: 200 }),
   });
 
-  expect(report).toEqual(expect.objectContaining({ ready: 1, unresolved: 0, rejected: 0 }));
-  expect(JSON.parse(await readFile(join(directory, "candidates.json"), "utf8"))[0]).toEqual(expect.objectContaining({
-    sourceUrl: "https://job-boards.greenhouse.io/acme",
-    discoveredFrom: { channel: "dataset", reference: "cc-index" },
-  }));
+  expect(report).toEqual(expect.objectContaining({ ready: 0, matched: 1, unresolved: 0, rejected: 0, registryAdded: 1 }));
+  expect(JSON.parse(await readFile(join(directory, "leads.json"), "utf8")).leads[0]).toEqual(expect.objectContaining({ sourceUrl: "https://job-boards.greenhouse.io/acme" }));
 });
 
 test("career tracing refuses stale Common Crawl reports", async () => {

@@ -5,12 +5,13 @@ import { mergeSourceCandidates } from "./source-discovery.ts";
 import { resolveSource } from "./source-verification.ts";
 import { fetchSafeHead, type HeadTransport, type ResolveHost } from "./safe-head.ts";
 import type { SourceCandidate } from "./types.ts";
+import { deriveLeadState, mergeEnrichmentLeads, type EnrichmentLead, type IdentityEvidence } from "./enrichment-registry.ts";
 
 type Fetch = (input: string | URL, init?: RequestInit) => Promise<Response>;
 
 interface CompanySeed { companyName: string; companyDomain: string; careerUrl?: string }
 interface TraceIssue { companyName?: string; companyDomain?: string; careerUrls?: string[]; reason: string; detail: string }
-interface TraceOptions { country?: string; fetch?: Fetch; concurrency?: number; timeoutMs?: number; searchKey?: string; commonCrawlReportPath?: string; resolveHost?: ResolveHost; headTransport?: HeadTransport }
+interface TraceOptions { country?: string; fetch?: Fetch; concurrency?: number; timeoutMs?: number; searchKey?: string; commonCrawlReportPath?: string; resolveHost?: ResolveHost; headTransport?: HeadTransport; registryPath?: string }
 
 export interface CareerTraceReport extends ReportMeta {
   companiesChecked: number;
@@ -24,6 +25,9 @@ export interface CareerTraceReport extends ReportMeta {
   unresolvedCompanies: TraceIssue[];
   rejections: TraceIssue[];
   failureDetails: TraceIssue[];
+  matched: number;
+  registryPath?: string;
+  registryAdded: number;
 }
 
 export async function traceCareerSources(inputPath: string, candidatesPath: string, reportPath: string, options: TraceOptions = {}): Promise<CareerTraceReport> {
@@ -38,6 +42,8 @@ export async function traceCareerSources(inputPath: string, candidatesPath: stri
   const unresolved: Array<{ index: number; issue: TraceIssue }> = [];
   const rejected: Array<{ index: number; issue: TraceIssue }> = [];
   const failures: Array<{ index: number; issue: TraceIssue }> = [];
+  const registryRows: EnrichmentLead[] = [];
+  let matched = 0;
   let cursor = 0;
 
   async function worker() {
@@ -78,8 +84,16 @@ export async function traceCareerSources(inputPath: string, candidatesPath: stri
         unresolved.push({ index, issue: { ...identity(seed), careerUrls, reason: "ats_not_resolved", detail: "Career URLs did not redirect to a supported structured job source" } });
         continue;
       }
+      const companyName = seed.companyName.trim();
+      const companyDomain = normalizeDomain(seed.companyDomain);
+      const companyMatch = { companyName, companyDomain, method: "normalized_token" as const, reference };
+      const identityEvidence: IdentityEvidence[] = channel === "career_page" ? [{ companyName, companyDomain, kind: "company_redirect", reference, observedAt: new Date().toISOString() }] : [];
+      const lead: EnrichmentLead = { sourceKey: `${found.ats}:${found.token.toLowerCase()}`, sourceUrl: found.canonicalSourceUrl, ats: found.ats, token: found.token,
+        discoveredFrom: [{ channel, reference }], companyMatches: [companyMatch], identityEvidence, attempts: [] };
+      registryRows.push(lead);
+      if (deriveLeadState(lead) !== "evidence_ready") { matched += 1; continue; }
       candidates.push({ index, candidate: {
-        companyName: seed.companyName.trim(), companyDomain: normalizeDomain(seed.companyDomain), sourceUrl: found.canonicalSourceUrl,
+        companyName, companyDomain, sourceUrl: found.canonicalSourceUrl,
         cohorts: country ? [country] : undefined,
         discoveredFrom: { channel, reference },
         domainEvidence: channel === "career_page" ? { kind: "company_redirect", reference } : undefined,
@@ -88,11 +102,12 @@ export async function traceCareerSources(inputPath: string, candidatesPath: stri
   }
 
   await Promise.all(Array.from({ length: Math.min(concurrency, seeds.length) }, worker));
+  const registry = options.registryPath ? await mergeEnrichmentLeads(options.registryPath, registryRows) : { added: 0 };
   const additions = candidates.sort((a, b) => a.index - b.index).map((row) => row.candidate);
   const appended = await mergeSourceCandidates(candidatesPath, additions);
   const report: CareerTraceReport = stampReport("career-tracing:1", 1, {
     companiesChecked: seeds.length, ready: appended, alreadyKnown: additions.length - appended,
-    unresolved: unresolved.length, rejected: rejected.length, failures: failures.length, candidatesPath, reportPath,
+    unresolved: unresolved.length, rejected: rejected.length, failures: failures.length, matched, candidatesPath, reportPath, registryPath: options.registryPath, registryAdded: registry.added,
     unresolvedCompanies: unresolved.sort((a, b) => a.index - b.index).map((row) => row.issue),
     rejections: rejected.sort((a, b) => a.index - b.index).map((row) => row.issue),
     failureDetails: failures.sort((a, b) => a.index - b.index).map((row) => row.issue),

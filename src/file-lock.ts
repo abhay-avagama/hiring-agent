@@ -2,6 +2,7 @@ import { mkdir, open, readFile, stat, unlink } from "node:fs/promises";
 import { dirname } from "node:path";
 
 interface FileLockOptions { acquireTimeoutMs?: number; operation?: string }
+export interface FileLockStatus { locked: boolean; lockPath: string; pid?: number; operation?: string; createdAt?: string }
 
 export async function withFileLock<T>(path: string, operation: () => Promise<T>, options: FileLockOptions = {}): Promise<T> {
   await mkdir(dirname(path), { recursive: true });
@@ -14,6 +15,28 @@ export async function withFileLock<T>(path: string, operation: () => Promise<T>,
     await handle.close().catch(() => undefined);
     await unlink(lockPath).catch(() => undefined);
   }
+}
+
+export async function inspectFileLock(path: string): Promise<FileLockStatus> {
+  const lockPath = `${path}.lock`;
+  try {
+    const value: unknown = JSON.parse(await readFile(lockPath, "utf8"));
+    if (!value || typeof value !== "object") return { locked: true, lockPath };
+    return { locked: true, lockPath,
+      ...( "pid" in value && typeof value.pid === "number" ? { pid: value.pid } : {}),
+      ...( "operation" in value && typeof value.operation === "string" ? { operation: value.operation } : {}),
+      ...( "createdAt" in value && typeof value.createdAt === "string" ? { createdAt: value.createdAt } : {}),
+    };
+  } catch (error) {
+    if (error instanceof Error && "code" in error && error.code === "ENOENT") return { locked: false, lockPath };
+    return { locked: true, lockPath };
+  }
+}
+
+export async function forceReleaseFileLock(path: string): Promise<FileLockStatus> {
+  const status = await inspectFileLock(path);
+  if (status.locked) await unlink(status.lockPath);
+  return status;
 }
 
 function configuredTimeout(): number {

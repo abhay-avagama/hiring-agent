@@ -15,12 +15,13 @@ bun install
 bun run src/cli.ts sources discover-yc --country IN
 bun run src/cli.ts sources discover-common-crawl --country IN
 bun run src/cli.ts sources seed-companies-yc --country IN
+bun run src/cli.ts sources enrich .openings/company-domains.json --evidence-kind authoritative_dataset
 bun run src/cli.ts sources trace-careers .openings/company-domains.json --country IN --common-crawl-report .openings/common-crawl-discovery-report.json
 bun run src/cli.ts sources trace-careers .openings/company-domains.json --country IN
 # Optional: search known ATS hosts before trying keyless career redirects and datasets
 BRAVE_SEARCH_API_KEY=... bun run src/cli.ts sources trace-careers .openings/company-domains.json --country IN --search-key-env BRAVE_SEARCH_API_KEY
 bun run src/cli.ts sources discover discovery-feed.json --country IN
-bun run src/cli.ts sources verify data/source-candidates.json
+bun run src/cli.ts sources verify data/source-candidates.json --registry data/enrichment-leads.json
 bun run src/cli.ts crawl
 bun run src/cli.ts crawl --country IN
 bun run src/cli.ts crawl --companies companies.txt
@@ -36,6 +37,7 @@ bun run src/cli.ts get greenhouse:anthropic:12345
 Commands return JSON so the same interface works for people, shell scripts, and agents. Search refreshes a missing or stale snapshot automatically; the default freshness window is 14 days. Use `--stale-days N` to change it or `--offline` to guarantee that no network request is made. Openings does not install a scheduler—run `crawl` using whichever scheduler you prefer.
 
 Catalog and candidate writers wait up to 60 seconds to acquire their file lock; this never limits the operation after it acquires the lock. Set `OPENINGS_LOCK_TIMEOUT_MS` to change only that wait ceiling. Timeout errors identify the current holder's PID, operation, and start time.
+Use `lock inspect TARGET` to inspect a blocked writer. `lock force-release TARGET --force` is an explicit operator recovery action; use it only after confirming the recorded holder is no longer performing work.
 
 `crawl` updates every source by default. `--country CODE` selects the maintained discovery cohort for that country; it does not label companies as country-specific. `--companies FILE` accepts one catalog slug per line. Successful selected sources replace their partitions, failures are removed and reported, and unselected partitions remain intact. Reports include each source's attempts, duration, total jobs, country-job counts, and final error. Transient source failures receive one lower-pressure retry; Workday pagination also backs off on throttling and transient gateway responses.
 
@@ -64,7 +66,10 @@ bun run src/cli.ts sources trace-careers .openings/company-domains.json --countr
 
 `seed-companies-yc` writes a deduplicated country-focused `{ companyName, companyDomain }` seed file to `.openings/company-domains.json` by default. This is the required identity input for `trace-careers`; the file is generated rather than assumed to exist.
 
-`discover-common-crawl` queries only Common Crawl's URL index for Greenhouse, Lever, Ashby, and Workday URL patterns, capped at 10,000 records per pattern to keep the public-index workload bounded. It does not download archived pages. Known sources are counted separately; new URLs remain unresolved leads in `.openings/common-crawl-discovery-report.json` until a trustworthy company name and domain can be linked to them. `--country` records the campaign target but cannot assign a country to an unidentified source; job eligibility remains job-derived after verification and crawling.
+`discover-common-crawl` queries only Common Crawl's URL index for Greenhouse, Lever, Ashby, and Workday URL patterns, capped at 10,000 records per pattern to keep the public-index workload bounded. It does not download archived pages. Unknown sources are merged by canonical provider token into `data/enrichment-leads.json`; reports are versioned run artifacts rather than workflow state. `--country` records the campaign target but cannot assign a country to an unidentified source; job eligibility remains job-derived after verification and crawling.
+
+`sources enrich COMPANIES.json` joins the durable lead registry against an authoritative `{ companyName, companyDomain }` seed file and derives state from accumulated facts. Weak token/name/search matches never become identity evidence. Greenhouse and Workday may become verification-ready through authoritative dataset evidence; Lever and Ashby remain matched until provider-structured or safely replayed company-redirect evidence exists. Equal-trust identity conflicts are quarantined, while higher-trust evidence wins deterministically. The registry records verification outcomes, capped retry cooldowns, file size, and lock-held time; use `sources verify ... --registry FILE` to write those outcomes back.
+Cooling, repeatedly failing, unresolved, matched, and rejected registry leads are not re-probed automatically. Use `--retry-deferred` on an explicit verification run to retry only cooling or repeatedly failing leads that already meet the identity-evidence bar; it never bypasses matched, unresolved, or quarantined identity states.
 
 `trace-careers` accepts a JSON array of company identity seeds. `careerUrl` is optional; without it Openings checks the conventional HTTPS `/careers`, `/career`, and `/jobs` paths. With `--search-key-env NAME`, it first uses Brave Search to look for matching results on known ATS hosts; the key is read from the named environment variable rather than exposed as a command argument. It then sends `HEAD` requests to company-owned career paths, follows redirects, and never reads career-page HTML. Every hop is DNS-checked and connected to the validated public address. Finally, `--common-crawl-report FILE` joins durable ATS leads whose token exactly matches the normalized company name or domain. Greenhouse must expose a matching provider name, Workday a matching tenant, and Lever/Ashby either a structured domain link or a company-owned redirect that verification safely replays to the exact board.
 
@@ -80,7 +85,7 @@ Workday CXS is the first enterprise-scale provider. Its adapter walks the comple
 ]
 ```
 
-The YC campaign uses published company names, domains, locations, and slugs to probe possible Greenhouse boards. The generic feed accepts objects containing `sourceUrl`, optional `companyDomain`, `channel`, and `reference`, but feed authors cannot self-assert authoritative domain evidence: generic matches remain unresolved until a trusted enrichment adapter validates the domain. Discovery canonicalizes and probes sources, safely merges trusted matches into `data/source-candidates.json`, writes every unresolved/rejected record to `.openings/*-discovery-report.json`, then automatically runs verification and regenerates `data/companies.json`. Candidate and catalog updates are serialized so concurrent user-scheduled campaigns cannot overwrite one another. A country option adds discovery-cohort provenance; it never claims that the company or every job belongs to that country.
+The YC campaign uses published company names, domains, locations, and slugs to propose possible Greenhouse boards. Generic discovery accepts all four supported ATS providers and performs no live identity probe: it requires `companyName` and `companyDomain`, and only a company-owned redirect may be supplied as replayable evidence by a generic feed. Live provider identity is checked exactly once by verification. Candidate, registry, and catalog updates are serialized so concurrent user-scheduled campaigns cannot overwrite one another. A country option adds discovery-cohort provenance; it never claims that the company or every job belongs to that country.
 
 The first live India YC campaign examined 218 seeds, discovered and independently verified Groww, Able, and Raven, and expanded the India crawl cohort from 9 to 12 sources. Seed-token probing has deliberately low yield but no search key, guessed domain, HTML scraping, or silent import.
 

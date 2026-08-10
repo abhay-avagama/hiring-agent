@@ -8,21 +8,26 @@ import { traceCareerSources } from "./career-tracing.ts";
 import { discoverCommonCrawlSources } from "./common-crawl-discovery.ts";
 import { generateYcCompanySeeds } from "./company-seeds.ts";
 import { exportSnapshot } from "./snapshot-export.ts";
+import { enrichSourcesFromCompanies } from "./source-enrichment.ts";
+import { forceReleaseFileLock, inspectFileLock } from "./file-lock.ts";
 
 const HELP = `Openings — search public company job boards
 
 Usage:
   openings crawl [--country CODE | --companies FILE] [--concurrency N] [--data-dir PATH]
   openings snapshot export [--input FILE] [--output-dir PATH]
-  openings sources verify CANDIDATES.json [--output FILE] [--concurrency N] [--require-country CODE]
-  openings sources discover FEED.json [--country CODE] [--output FILE] [--catalog FILE] [--report FILE]
-  openings sources discover-yc --country CODE [--output FILE] [--catalog FILE] [--report FILE]
+  openings sources verify CANDIDATES.json [--output FILE] [--concurrency N] [--require-country CODE] [--registry FILE] [--retry-deferred]
+  openings sources discover FEED.json [--country CODE] [--registry FILE] [--output FILE] [--catalog FILE] [--report FILE]
+  openings sources discover-yc --country CODE [--registry FILE] [--output FILE] [--catalog FILE] [--report FILE]
   openings sources seed-companies-yc --country CODE [--output FILE]
-  openings sources discover-common-crawl [--country CODE] [--output FILE] [--report FILE] [--index-url URL]
-  openings sources trace-careers COMPANIES.json [--country CODE] [--common-crawl-report FILE] [--search-key-env NAME] [--output FILE] [--catalog FILE] [--report FILE]
+  openings sources discover-common-crawl [--country CODE] [--registry FILE] [--output FILE] [--report FILE] [--index-url URL]
+  openings sources enrich COMPANIES.json [--evidence-kind authoritative_dataset|company_registry] [--registry FILE] [--output FILE] [--report FILE]
+  openings sources trace-careers COMPANIES.json [--country CODE] [--registry FILE] [--common-crawl-report FILE] [--search-key-env NAME] [--output FILE] [--catalog FILE] [--report FILE]
   openings search [words] [--country CODE|--india] [--location PLACE] [--remote|--onsite]
                   [--limit N] [--stale-days N] [--offline] [--data-dir PATH]
   openings get JOB_ID [--stale-days N] [--offline] [--data-dir PATH]
+  openings lock inspect TARGET
+  openings lock force-release TARGET --force
   openings --help
 
 Results are JSON so humans and agents can use the same command.`;
@@ -54,6 +59,15 @@ export async function run(args: string[]): Promise<number> {
     return 0;
   }
 
+  if (command === "lock") {
+    const action = rest[0];
+    const target = rest[1];
+    if (!target) return fail("lock requires an action and target file");
+    if (action === "inspect" && rest.length === 2) { console.log(JSON.stringify(await inspectFileLock(target), null, 2)); return 0; }
+    if (action === "force-release" && rest[2] === "--force" && rest.length === 3) { console.log(JSON.stringify({ released: await forceReleaseFileLock(target) }, null, 2)); return 0; }
+    return fail("lock supports `inspect TARGET` or `force-release TARGET --force`");
+  }
+
   if (command === "snapshot") {
     if (rest[0] !== "export") return fail("snapshot requires the `export` subcommand");
     const parsed = parseSnapshotExport(rest.slice(1));
@@ -63,6 +77,12 @@ export async function run(args: string[]): Promise<number> {
   }
 
   if (command === "sources") {
+    if (rest[0] === "enrich") {
+      const parsed = parseSourceEnrichment(rest.slice(1));
+      if (typeof parsed === "string") return fail(parsed);
+      console.log(JSON.stringify(await enrichSourcesFromCompanies(parsed.registry, parsed.companies, parsed.output, parsed.report, { evidenceKind: parsed.evidenceKind }), null, 2));
+      return 0;
+    }
     if (rest[0] === "seed-companies-yc") {
       const parsed = parseYcCompanySeeds(rest.slice(1));
       if (typeof parsed === "string") return fail(parsed);
@@ -102,7 +122,7 @@ export async function run(args: string[]): Promise<number> {
     if (rest[0] !== "verify") return fail("sources requires a discovery, tracing, or `verify` subcommand");
     const parsed = parseSourceVerification(rest.slice(1));
     if (typeof parsed === "string") return fail(parsed);
-    console.log(JSON.stringify(await runSourceVerification(parsed.candidatesPath, parsed.output, { concurrency: parsed.concurrency, requireCountry: parsed.requireCountry }), null, 2));
+    console.log(JSON.stringify(await runSourceVerification(parsed.candidatesPath, parsed.output, { concurrency: parsed.concurrency, requireCountry: parsed.requireCountry, registryPath: parsed.registryPath, retryDeferred: parsed.retryDeferred }), null, 2));
     return 0;
   }
 
@@ -131,6 +151,24 @@ function parseYcCompanySeeds(args: string[]) {
   return { country, output };
 }
 
+function parseSourceEnrichment(args: string[]) {
+  const companies = args[0];
+  if (!companies || companies.startsWith("--")) return "sources enrich requires a company JSON file";
+  let registry = "data/enrichment-leads.json";
+  let output = "data/source-candidates.json";
+  let report = ".openings/source-enrichment-report.json";
+  let evidenceKind: "authoritative_dataset" | "company_registry" | undefined;
+  for (let index = 1; index < args.length; index += 1) {
+    const arg = args[index];
+    if (arg === "--registry") { registry = args[++index] ?? ""; if (!registry) return "--registry requires a file"; }
+    else if (arg === "--output") { output = args[++index] ?? ""; if (!output) return "--output requires a file"; }
+    else if (arg === "--report") { report = args[++index] ?? ""; if (!report) return "--report requires a file"; }
+    else if (arg === "--evidence-kind") { const value = args[++index]; if (value !== "authoritative_dataset" && value !== "company_registry") return "--evidence-kind requires authoritative_dataset or company_registry"; evidenceKind = value; }
+    else return `Unknown option: ${arg}`;
+  }
+  return { companies, registry, output, report, evidenceKind };
+}
+
 function parseSnapshotExport(args: string[]) {
   let input = ".openings/snapshot.json";
   let outputDir = ".openings/dist";
@@ -155,15 +193,17 @@ function parseCommonCrawlDiscovery(args: string[]) {
   let report = ".openings/common-crawl-discovery-report.json";
   let country: string | undefined;
   let indexUrl: string | undefined;
+  let registryPath = "data/enrichment-leads.json";
   for (let index = 0; index < args.length; index += 1) {
     const arg = args[index];
     if (arg === "--country") { country = parseCountry(args[++index]); if (!country) return "--country requires a two-letter country code"; }
     else if (arg === "--output") { output = args[++index] ?? ""; if (!output) return "--output requires a file"; }
     else if (arg === "--report") { report = args[++index] ?? ""; if (!report) return "--report requires a file"; }
     else if (arg === "--index-url") { indexUrl = args[++index]; if (!indexUrl) return "--index-url requires a URL"; try { new URL(indexUrl); } catch { return "--index-url requires a valid URL"; } }
+    else if (arg === "--registry") { registryPath = args[++index] ?? ""; if (!registryPath) return "--registry requires a file"; }
     else return `Unknown option: ${arg}`;
   }
-  return { output, report, country, indexUrl };
+  return { output, report, country, indexUrl, registryPath };
 }
 
 function parseDiscoveryOutputs(args: string[], defaultReport: string, requireCatalog: boolean) {
@@ -174,6 +214,7 @@ function parseDiscoveryOutputs(args: string[], defaultReport: string, requireCat
   let concurrency = 10;
   let searchKey: string | undefined;
   let commonCrawlReportPath: string | undefined;
+  let registryPath = "data/enrichment-leads.json";
   for (let index = 0; index < args.length; index += 1) {
     const arg = args[index];
     if (arg === "--country") { country = parseCountry(args[++index]); if (!country) return "--country requires a two-letter country code"; }
@@ -190,10 +231,11 @@ function parseDiscoveryOutputs(args: string[], defaultReport: string, requireCat
       commonCrawlReportPath = args[++index];
       if (!commonCrawlReportPath) return "--common-crawl-report requires a file";
     }
+    else if (arg === "--registry") { registryPath = args[++index] ?? ""; if (!registryPath) return "--registry requires a file"; }
     else if (arg === "--concurrency") { concurrency = Number(args[++index]); if (!Number.isInteger(concurrency) || concurrency < 1 || concurrency > 100) return "--concurrency must be an integer from 1 to 100"; }
     else return `Unknown option: ${arg}`;
   }
-  return { output, report, catalog, country, concurrency, searchKey, commonCrawlReportPath };
+  return { output, report, catalog, country, concurrency, searchKey, commonCrawlReportPath, registryPath };
 }
 
 function parseYcDiscovery(args: string[]) {
@@ -202,12 +244,14 @@ function parseYcDiscovery(args: string[]) {
   let catalog = "data/companies.json";
   let country: string | undefined;
   let concurrency = 10;
+  let registryPath = "data/enrichment-leads.json";
   for (let index = 0; index < args.length; index += 1) {
     const arg = args[index];
     if (arg === "--country") {
       country = parseCountry(args[++index]);
       if (!country) return "--country requires a two-letter country code";
     } else if (arg === "--output") output = args[++index] ?? "";
+    else if (arg === "--registry") { registryPath = args[++index] ?? ""; if (!registryPath) return "--registry requires a file"; }
     else if (arg === "--catalog") catalog = args[++index] ?? "";
     else if (arg === "--report") report = args[++index] ?? "";
     else if (arg === "--concurrency") {
@@ -219,7 +263,7 @@ function parseYcDiscovery(args: string[]) {
   if (!output) return "--output requires a file";
   if (!report) return "--report requires a file";
   if (!catalog) return "--catalog requires a file";
-  return { output, report, catalog, country, concurrency };
+  return { output, report, catalog, country, concurrency, registryPath };
 }
 
 function parseSourceDiscovery(args: string[]) {
@@ -230,6 +274,7 @@ function parseSourceDiscovery(args: string[]) {
   let catalog = "data/companies.json";
   let country: string | undefined;
   let concurrency = 10;
+  let registryPath = "data/enrichment-leads.json";
   for (let index = 1; index < args.length; index += 1) {
     const arg = args[index];
     if (arg === "--country") {
@@ -244,12 +289,15 @@ function parseSourceDiscovery(args: string[]) {
     } else if (arg === "--catalog") {
       catalog = args[++index] ?? "";
       if (!catalog) return "--catalog requires a file";
+    } else if (arg === "--registry") {
+      registryPath = args[++index] ?? "";
+      if (!registryPath) return "--registry requires a file";
     } else if (arg === "--concurrency") {
       concurrency = Number(args[++index]);
       if (!Number.isInteger(concurrency) || concurrency < 1 || concurrency > 100) return "--concurrency must be an integer from 1 to 100";
     } else return `Unknown option: ${arg}`;
   }
-  return { feedPath, output, report, catalog, country, concurrency };
+  return { feedPath, output, report, catalog, country, concurrency, registryPath };
 }
 
 function parseSearch(args: string[]) {
@@ -346,6 +394,8 @@ function parseSourceVerification(args: string[]) {
   let output = "data/companies.json";
   let concurrency = 10;
   let requireCountry: string | undefined;
+  let registryPath: string | undefined;
+  let retryDeferred = false;
   for (let index = 1; index < args.length; index += 1) {
     const arg = args[index];
     if (arg === "--output") {
@@ -357,9 +407,14 @@ function parseSourceVerification(args: string[]) {
     } else if (arg === "--require-country") {
       requireCountry = parseCountry(args[++index]);
       if (!requireCountry) return "--require-country requires a two-letter country code";
+    } else if (arg === "--registry") {
+      registryPath = args[++index];
+      if (!registryPath) return "--registry requires a file";
+    } else if (arg === "--retry-deferred") {
+      retryDeferred = true;
     } else return `Unknown option: ${arg}`;
   }
-  return { candidatesPath, output, concurrency, requireCountry };
+  return { candidatesPath, output, concurrency, requireCountry, registryPath, retryDeferred };
 }
 
 function fail(message: string, code = 1): number {
