@@ -2,6 +2,21 @@ import { expect, test } from "bun:test";
 import { verifyCandidates } from "../src/source-verification.ts";
 import type { SourceCandidate } from "../src/types.ts";
 
+test("resolves and verifies a public Workday CXS source", async () => {
+  const result = await verifyCandidates([{
+    companyName: "Mastercard", companyDomain: "mastercard.com",
+    sourceUrl: "https://mastercard.wd1.myworkdayjobs.com/en-US/CorporateCareers",
+    discoveredFrom: { channel: "career_page", reference: "https://careers.mastercard.com" },
+  }], { fetch: async () => Response.json({ total: 1, jobPostings: [{ title: "Engineer", externalPath: "/job/Pune-India/Engineer_R-1", locationsText: "Pune, India" }] }) });
+
+  expect(result.rejected).toEqual([]);
+  expect(result.verified).toEqual([expect.objectContaining({
+    ats: "workday", token: "mastercard.wd1.myworkdayjobs.com/mastercard/CorporateCareers",
+    sourceUrl: "https://mastercard.wd1.myworkdayjobs.com/en-US/CorporateCareers",
+    verification: expect.objectContaining({ observedCompanyName: "mastercard", payloadVersion: "workday-cxs:v1", jobCount: 1 }),
+  })]);
+});
+
 const candidates: SourceCandidate[] = [
   {
     slug: "acme-stable", companyName: "Acme", companyDomain: "acme.test", sourceUrl: "https://job-boards.greenhouse.io/acme",

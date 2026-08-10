@@ -112,7 +112,7 @@ async function readCommonCrawlLeads(path: string) {
 
 async function searchForSource(seed: CompanySeed, key: string, fetcher: Fetch, country?: string) {
   const url = new URL("https://api.search.brave.com/res/v1/web/search");
-  url.searchParams.set("q", `\"${seed.companyName}\" (site:job-boards.greenhouse.io OR site:jobs.lever.co OR site:jobs.ashbyhq.com)`);
+  url.searchParams.set("q", `\"${seed.companyName}\" (site:job-boards.greenhouse.io OR site:jobs.lever.co OR site:jobs.ashbyhq.com OR site:myworkdayjobs.com)`);
   url.searchParams.set("count", "20");
   if (country) url.searchParams.set("country", country);
   const response = await fetcher(url, { headers: { Accept: "application/json", "X-Subscription-Token": key } });
@@ -159,7 +159,8 @@ function validateSeed(seed: CompanySeed): string | null {
 function normalizeDomain(value: string): string { return value.toLowerCase().replace(/^www\./, ""); }
 function sourceMatchesCompany(token: string, seed: CompanySeed): boolean {
   const normalize = (value: string) => value.toLowerCase().replace(/\b(inc|llc|ltd|limited|corp|corporation|company)\b/g, "").replace(/[^a-z0-9]/g, "");
-  const source = normalize(token);
+  const workdayTenant = token.includes("myworkdayjobs.com/") ? token.split("/")[1] : undefined;
+  const source = normalize(workdayTenant ?? token);
   const name = normalize(seed.companyName);
   const domain = normalize(normalizeDomain(seed.companyDomain).split(".")[0] ?? "");
   return source.length >= 3 && (source === name || source === domain);

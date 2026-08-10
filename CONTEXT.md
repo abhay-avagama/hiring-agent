@@ -40,6 +40,10 @@ _Avoid_: Company confidence
 A public, unauthenticated structured endpoint from which Openings reads a company's current roles.
 _Avoid_: Scraped page, listing site
 
+**Enterprise provider adapter**:
+A provider integration, such as Workday CXS, that paginates a public structured job API. Provider scale does not weaken source identity checks or permit career-page HTML extraction.
+_Avoid_: Enterprise scraper, trusted company bypass
+
 **Local crawl**:
 An explicitly invoked, keyless run that fetches jobs from verified structured sources and writes a static local job snapshot. It crawls jobs rather than companies, never extracts jobs from arbitrary career-page HTML, and requires no scheduled infrastructure.
 _Avoid_: Web scraper, hosted crawler, scheduled backend

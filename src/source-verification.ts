@@ -28,7 +28,7 @@ export async function verifyCandidates(candidates: SourceCandidate[], options: V
       const invalid = validateCandidate(candidate);
       if (invalid) { rejected.push({ index, value: rejection(candidate, "invalid_candidate", invalid) }); continue; }
       const source = resolveSource(candidate.sourceUrl);
-      if (!source) { rejected.push({ index, value: rejection(candidate, "unsupported_source", "URL is not a supported Greenhouse, Lever, or Ashby job source") }); continue; }
+      if (!source) { rejected.push({ index, value: rejection(candidate, "unsupported_source", "URL is not a supported Greenhouse, Lever, Ashby, or Workday job source") }); continue; }
       const sourceKey = `${source.ats}:${source.token.toLocaleLowerCase()}`;
       const companyKey = candidate.companyDomain.toLocaleLowerCase();
       const slug = candidate.slug ?? slugFromDomain(candidate.companyDomain);
@@ -77,30 +77,33 @@ export async function verifyCandidates(candidates: SourceCandidate[], options: V
 async function probe(candidate: SourceCandidate, source: ResolvedSource, fetcher: Fetch, timeoutMs: number) {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(new Error(`Timed out after ${timeoutMs}ms`)), timeoutMs);
+  const workday = source.ats === "workday" ? parseWorkdayToken(source.token) : undefined;
   const endpoint = source.ats === "greenhouse"
     ? `https://boards-api.greenhouse.io/v1/boards/${encodeURIComponent(source.token)}/jobs?content=true`
     : source.ats === "lever"
       ? `https://api.lever.co/v0/postings/${encodeURIComponent(source.token)}?mode=json`
-      : `https://api.ashbyhq.com/posting-api/job-board/${encodeURIComponent(source.token)}`;
+      : source.ats === "ashby"
+        ? `https://api.ashbyhq.com/posting-api/job-board/${encodeURIComponent(source.token)}`
+        : `https://${workday!.host}/wday/cxs/${encodeURIComponent(workday!.tenant)}/${encodeURIComponent(workday!.site)}/jobs`;
   try {
-    const response = await fetcher(endpoint, { signal: controller.signal });
+    const response = await fetcher(endpoint, source.ats === "workday" ? { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ appliedFacets: {}, limit: 20, offset: 0, searchText: "" }), signal: controller.signal } : { signal: controller.signal });
     if (!response.ok) throw new VerificationError("unreachable", `HTTP ${response.status}`);
     const contentType = response.headers.get("content-type") ?? "unknown";
     let body: unknown;
     try { body = await response.json(); } catch { throw new VerificationError("invalid_payload", "Endpoint did not return JSON"); }
-    const jobs = source.ats === "greenhouse" ? recordArray(body, "jobs") : source.ats === "lever" ? array(body) : recordArray(body, "jobs");
+    const jobs = source.ats === "greenhouse" ? recordArray(body, "jobs") : source.ats === "lever" ? array(body) : source.ats === "workday" ? recordArray(body, "jobPostings") : recordArray(body, "jobs");
     if (!jobs) throw new VerificationError("invalid_payload", "Payload does not contain the expected jobs array");
     if (jobs.length === 0) throw new VerificationError("empty_board", "Source has no jobs, so identity cannot be verified");
-    const providerName = source.ats === "greenhouse" ? majority(jobs.map((job) => stringField(job, "company_name")).filter(Boolean)) : "";
-    const hasDomainLink = source.ats !== "greenhouse" && structuredIdentityLinksDomain(jobs, candidate.companyDomain);
-    if (source.ats !== "greenhouse" && !hasDomainLink) throw new VerificationError("identity_mismatch", `Structured identity fields do not link to ${candidate.companyDomain}`);
+    const providerName = source.ats === "greenhouse" ? majority(jobs.map((job) => stringField(job, "company_name")).filter(Boolean)) : source.ats === "workday" ? workday!.tenant : "";
+    const hasDomainLink = !["greenhouse", "workday"].includes(source.ats) && structuredIdentityLinksDomain(jobs, candidate.companyDomain);
+    if (!["greenhouse", "workday"].includes(source.ats) && !hasDomainLink) throw new VerificationError("identity_mismatch", `Structured identity fields do not link to ${candidate.companyDomain}`);
     const observedCompanyName = providerName || candidate.companyName;
     return {
       observedCompanyName,
-      identityEvidence: (providerName ? "provider_company_name" : "structured_domain_link") as "provider_company_name" | "structured_domain_link",
+      identityEvidence: source.ats === "workday" ? "provider_tenant" as const : (providerName ? "provider_company_name" as const : "structured_domain_link" as const),
       contentType,
-      payloadVersion: source.ats === "greenhouse" ? "greenhouse-job-board:v1" : source.ats === "lever" ? "lever-postings:v0" : `ashby-job-board:${isRecord(body) && typeof body.apiVersion === "string" ? body.apiVersion : "unknown"}`,
-      jobCount: jobs.length,
+      payloadVersion: source.ats === "greenhouse" ? "greenhouse-job-board:v1" : source.ats === "lever" ? "lever-postings:v0" : source.ats === "workday" ? "workday-cxs:v1" : `ashby-job-board:${isRecord(body) && typeof body.apiVersion === "string" ? body.apiVersion : "unknown"}`,
+      jobCount: source.ats === "workday" && isRecord(body) && typeof body.total === "number" ? body.total : jobs.length,
     };
   } finally { clearTimeout(timer); }
 }
@@ -116,9 +119,21 @@ export function resolveSource(value: string): ResolvedSource | null {
   else if (host === "boards-api.greenhouse.io" && parts[0] === "v1" && parts[1] === "boards") { ats = "greenhouse"; token = parts[2]; }
   else if (host === "jobs.lever.co") { ats = "lever"; token = parts[0]; }
   else if (host === "jobs.ashbyhq.com") { ats = "ashby"; token = parts[0]; }
+  else if (/\.myworkdayjobs\.com$/.test(host)) {
+    const cxs = parts[0] === "wday" && parts[1] === "cxs";
+    const tenant = cxs ? parts[2] : host.split(".")[0];
+    const site = cxs ? parts[3] : parts[0]?.includes("-") ? parts[1] : parts[0];
+    if (tenant && site) { ats = "workday"; token = `${host}/${tenant}/${site}`; }
+  }
   if (!ats || !token) return null;
-  const canonicalSourceUrl = ats === "greenhouse" ? `https://job-boards.greenhouse.io/${token}` : ats === "lever" ? `https://jobs.lever.co/${token}` : `https://jobs.ashbyhq.com/${token}`;
+  const canonicalSourceUrl = ats === "greenhouse" ? `https://job-boards.greenhouse.io/${token}` : ats === "lever" ? `https://jobs.lever.co/${token}` : ats === "ashby" ? `https://jobs.ashbyhq.com/${token}` : (() => { const value = parseWorkdayToken(token); return `https://${value.host}/en-US/${value.site}`; })();
   return { ats, token, canonicalSourceUrl };
+}
+
+function parseWorkdayToken(token: string): { host: string; tenant: string; site: string } {
+  const [host, tenant, site] = token.split("/");
+  if (!host || !tenant || !site) throw new Error("Invalid Workday token");
+  return { host, tenant, site };
 }
 
 function validateCandidate(candidate: SourceCandidate): string | null {

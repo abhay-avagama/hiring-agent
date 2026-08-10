@@ -43,6 +43,14 @@ interface AshbyJob {
   publishedAt?: string;
 }
 
+interface WorkdayJob {
+  title: string;
+  externalPath: string;
+  locationsText?: string;
+  postedOn?: string;
+  bulletFields?: string[];
+}
+
 export function createCatalog(options: CatalogOptions): Catalog {
   const fetcher = options.fetch ?? globalThis.fetch;
   const cache = new Map<string, { expiresAt: number; jobs: Promise<Job[]> }>();
@@ -70,7 +78,11 @@ export function createCatalog(options: CatalogOptions): Catalog {
       const [ats, slug] = id.split(":", 3);
       const company = options.companies.find((candidate) => candidate.ats === ats && candidate.slug === slug);
       if (!company) return null;
-      const job = (await fetchJobs(company)).find((candidate) => candidate.id === id) ?? null;
+      let job = (await fetchJobs(company)).find((candidate) => candidate.id === id) ?? null;
+      if (job && company.ats === "workday" && !job.description.trim()) {
+        const description = await fetchWorkdayDescription(company, job.url, fetcher);
+        job = { ...job, description };
+      }
       if (job && !job.description.trim()) throw new Error(`Full description unavailable for job: ${id}`);
       return job;
     },
@@ -82,6 +94,7 @@ export function searchJobs(jobs: Job[], query: SearchQuery): JobSummary[] {
 }
 
 export async function fetchSourceJobs(company: Company, fetcher: Fetch = globalThis.fetch, signal?: AbortSignal): Promise<Job[]> {
+  if (company.ats === "workday") return fetchWorkdayJobs(company, fetcher, signal);
   const url = company.ats === "greenhouse"
     ? `https://boards-api.greenhouse.io/v1/boards/${encodeURIComponent(company.token)}/jobs?content=true`
     : company.ats === "lever"
@@ -96,6 +109,71 @@ export async function fetchSourceJobs(company: Company, fetcher: Fetch = globalT
       ? (body as LeverJob[]).map((job) => normalizeLever(company, job))
       : (body as { jobs: AshbyJob[] }).jobs.map((job) => normalizeAshby(company, job));
 }
+
+async function fetchWorkdayJobs(company: Company, fetcher: Fetch, signal?: AbortSignal): Promise<Job[]> {
+  const source = parseWorkdayToken(company.token);
+  const endpoint = `https://${source.host}/wday/cxs/${encodeURIComponent(source.tenant)}/${encodeURIComponent(source.site)}/jobs`;
+  const limit = 20;
+  async function page(offset: number): Promise<{ total: number; jobs: WorkdayJob[] }> {
+    const response = await fetcher(endpoint, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ appliedFacets: {}, limit, offset, searchText: "" }), signal });
+    if (!response.ok) throw new Error(`${company.name} job board returned HTTP ${response.status}`);
+    const body = await response.json() as { total?: unknown; jobPostings?: unknown };
+    if (!Number.isInteger(body.total) || !Array.isArray(body.jobPostings)) throw new Error(`${company.name} Workday source returned an invalid payload`);
+    return { total: body.total as number, jobs: body.jobPostings as WorkdayJob[] };
+  }
+  const first = await page(0);
+  if (first.total < first.jobs.length || first.total > 100_000) throw new Error(`${company.name} Workday source reported an invalid total`);
+  const offsets = Array.from({ length: Math.ceil(first.total / limit) - 1 }, (_, index) => (index + 1) * limit);
+  const pages = new Array<WorkdayJob[]>(offsets.length);
+  let cursor = 0;
+  async function worker() {
+    while (cursor < offsets.length) {
+      const index = cursor++;
+      const offset = offsets[index]!;
+      const result = await page(offset);
+      if (result.jobs.length === 0 && offset < first.total) throw new Error(`${company.name} Workday source truncated at offset ${offset} of ${first.total}`);
+      pages[index] = result.jobs;
+    }
+  }
+  await Promise.all(Array.from({ length: Math.min(8, offsets.length) }, worker));
+  const jobs = [first.jobs, ...pages].flat().slice(0, first.total);
+  if (jobs.length !== first.total) throw new Error(`${company.name} Workday source returned ${jobs.length} of ${first.total} jobs`);
+  return jobs.map((job) => normalizeWorkday(company, source, job));
+}
+
+function normalizeWorkday(company: Company, source: ReturnType<typeof parseWorkdayToken>, job: WorkdayJob): Job {
+  const location = job.locationsText ?? "Unspecified";
+  const requisition = job.bulletFields?.[0] ?? job.externalPath.split("_").at(-1) ?? job.externalPath;
+  return classifyJob({
+    id: `workday:${company.slug}:${requisition}`,
+    company: company.name,
+    title: job.title,
+    location,
+    remote: /remote/i.test(location),
+    workMode: /remote/i.test(location) ? "remote" : "unknown",
+    eligibleCountries: [], excludedCountries: [], eligibleRegions: [], eligibilityConfidence: "unknown",
+    url: `https://${source.host}/en-US/${source.site}${job.externalPath}`,
+    description: "",
+  });
+}
+
+async function fetchWorkdayDescription(company: Company, jobUrl: string, fetcher: Fetch): Promise<string> {
+  const source = parseWorkdayToken(company.token);
+  const path = new URL(jobUrl).pathname.replace(new RegExp(`^/en-US/${escapeRegExp(source.site)}`), "");
+  const response = await fetcher(`https://${source.host}/wday/cxs/${encodeURIComponent(source.tenant)}/${encodeURIComponent(source.site)}${path}`);
+  if (!response.ok) throw new Error(`${company.name} job detail returned HTTP ${response.status}`);
+  const body = await response.json() as { jobPostingInfo?: { jobDescription?: unknown } };
+  if (typeof body.jobPostingInfo?.jobDescription !== "string") throw new Error(`${company.name} job detail returned an invalid payload`);
+  return stripHtml(body.jobPostingInfo.jobDescription);
+}
+
+function parseWorkdayToken(token: string): { host: string; tenant: string; site: string } {
+  const [host, tenant, site, ...rest] = token.split("/");
+  if (!host || !tenant || !site || rest.length) throw new Error(`Invalid Workday source token: ${token}`);
+  return { host, tenant, site };
+}
+
+function escapeRegExp(value: string): string { return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); }
 
 function normalizeAshby(company: Company, job: AshbyJob): Job {
   const location = job.location ?? "Unspecified";

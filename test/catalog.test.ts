@@ -2,6 +2,31 @@ import { describe, expect, test } from "bun:test";
 import { createCatalog } from "../src/catalog.ts";
 
 describe("job catalog", () => {
+  test("paginates Workday JSON and loads a description on get", async () => {
+    const requests: Array<{ url: string; body?: unknown }> = [];
+    const catalog = createCatalog({
+      companies: [{ slug: "mastercard", name: "Mastercard", ats: "workday", token: "mastercard.wd1.myworkdayjobs.com/mastercard/CorporateCareers" }],
+      fetch: async (input, init) => {
+        const url = String(input);
+        requests.push({ url, body: init?.body ? JSON.parse(String(init.body)) : undefined });
+        if (url.endsWith("/jobs")) {
+          const offset = (requests.at(-1)?.body as { offset: number }).offset;
+          return Response.json({ total: 21, jobPostings: offset === 0
+            ? Array.from({ length: 20 }, (_, index) => ({ title: `Engineer ${index}`, externalPath: `/job/Pune-India/Engineer-${index}_R-${index}`, locationsText: "Pune, India", postedOn: "Posted Today", bulletFields: [`R-${index}`] }))
+            : [{ title: "Backend Engineer", externalPath: "/job/Pune-India/Backend-Engineer_R-20", locationsText: "Pune, India", postedOn: "Posted Yesterday", bulletFields: ["R-20"] }],
+            ...(offset === 0 ? {} : { total: 0 }),
+          });
+        }
+        return Response.json({ jobPostingInfo: { jobDescription: "<p>Build payment systems.</p>" } });
+      },
+    });
+
+    expect(await catalog.search({ query: "backend" })).toEqual([expect.objectContaining({ id: "workday:mastercard:R-20", eligibleCountries: ["IN"] })]);
+    expect(requests.filter((request) => request.url.endsWith("/jobs")).map((request) => request.body)).toEqual([
+      expect.objectContaining({ offset: 0, limit: 20 }), expect.objectContaining({ offset: 20, limit: 20 }),
+    ]);
+    expect(await catalog.get("workday:mastercard:R-20")).toEqual(expect.objectContaining({ description: "Build payment systems." }));
+  });
   test("searches Greenhouse jobs through the public catalog interface", async () => {
     const catalog = createCatalog({
       companies: [{ slug: "acme", name: "Acme", ats: "greenhouse", token: "acme" }],

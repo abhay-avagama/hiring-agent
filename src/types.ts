@@ -1,4 +1,4 @@
-export type Ats = "greenhouse" | "lever" | "ashby";
+export type Ats = "greenhouse" | "lever" | "ashby" | "workday";
 
 export interface DomainEvidence {
   kind: "authoritative_dataset" | "company_registry";
@@ -39,7 +39,7 @@ export interface SourceVerification {
   checkedAt: string;
   canonicalSourceUrl: string;
   observedCompanyName: string;
-  identityEvidence: "provider_company_name" | "structured_domain_link";
+  identityEvidence: "provider_company_name" | "provider_tenant" | "structured_domain_link";
   contentType: string;
   payloadVersion: string;
   jobCount: number;

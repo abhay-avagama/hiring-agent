@@ -182,5 +182,17 @@
       "kind": "authoritative_dataset",
       "reference": "https://www.ycombinator.com/companies/raven"
     }
+  },
+  {
+    "companyName": "Mastercard",
+    "companyDomain": "mastercard.com",
+    "sourceUrl": "https://mastercard.wd1.myworkdayjobs.com/en-US/CorporateCareers",
+    "cohorts": [
+      "IN"
+    ],
+    "discoveredFrom": {
+      "channel": "career_page",
+      "reference": "https://careers.mastercard.com/us/en/mumbai-india"
+    }
   }
 ]
