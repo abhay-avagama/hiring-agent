@@ -278,5 +278,41 @@
       "channel": "career_page",
       "reference": "https://www.crowdstrike.com/en-us/careers/"
     }
+  },
+  {
+    "companyName": "KLA",
+    "companyDomain": "kla.com",
+    "sourceUrl": "https://kla.wd1.myworkdayjobs.com/en-US/Search",
+    "cohorts": [
+      "IN"
+    ],
+    "discoveredFrom": {
+      "channel": "career_page",
+      "reference": "https://www.kla.com/careers"
+    }
+  },
+  {
+    "companyName": "Cisco",
+    "companyDomain": "cisco.com",
+    "sourceUrl": "https://cisco.wd5.myworkdayjobs.com/en-US/Cisco_Careers",
+    "cohorts": [
+      "IN"
+    ],
+    "discoveredFrom": {
+      "channel": "career_page",
+      "reference": "https://jobs.cisco.com/"
+    }
+  },
+  {
+    "companyName": "Salesforce",
+    "companyDomain": "salesforce.com",
+    "sourceUrl": "https://salesforce.wd12.myworkdayjobs.com/en-US/External_Career_Site",
+    "cohorts": [
+      "IN"
+    ],
+    "discoveredFrom": {
+      "channel": "career_page",
+      "reference": "https://careers.salesforce.com/"
+    }
   }
 ]
