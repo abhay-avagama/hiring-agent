@@ -674,5 +674,233 @@
       "channel": "search",
       "reference": "Workday tenant probe"
     }
+  },
+  {
+    "companyName": "ADTRAN",
+    "companyDomain": "adtran.com",
+    "sourceUrl": "https://adtran.wd3.myworkdayjobs.com/en-US/ADTRAN",
+    "cohorts": [
+      "IN"
+    ],
+    "discoveredFrom": {
+      "channel": "search",
+      "reference": "public Workday India job result"
+    }
+  },
+  {
+    "companyName": "Baker Hughes",
+    "companyDomain": "bakerhughes.com",
+    "sourceUrl": "https://bakerhughes.wd5.myworkdayjobs.com/en-US/BakerHughes",
+    "cohorts": [
+      "IN"
+    ],
+    "discoveredFrom": {
+      "channel": "search",
+      "reference": "public Workday India job result"
+    }
+  },
+  {
+    "companyName": "Clarivate",
+    "companyDomain": "clarivate.com",
+    "sourceUrl": "https://clarivate.wd3.myworkdayjobs.com/en-US/Clarivate_Careers",
+    "cohorts": [
+      "IN"
+    ],
+    "discoveredFrom": {
+      "channel": "search",
+      "reference": "public Workday India job result"
+    }
+  },
+  {
+    "companyName": "Danaher",
+    "companyDomain": "danaher.com",
+    "sourceUrl": "https://danaher.wd1.myworkdayjobs.com/en-US/DanaherJobs",
+    "cohorts": [
+      "IN"
+    ],
+    "discoveredFrom": {
+      "channel": "search",
+      "reference": "public Workday India job result"
+    }
+  },
+  {
+    "companyName": "FactSet",
+    "companyDomain": "factset.com",
+    "sourceUrl": "https://factset.wd108.myworkdayjobs.com/en-US/FactSetCareers",
+    "cohorts": [
+      "IN"
+    ],
+    "discoveredFrom": {
+      "channel": "search",
+      "reference": "public Workday India job result"
+    }
+  },
+  {
+    "companyName": "FICO",
+    "companyDomain": "fico.com",
+    "sourceUrl": "https://fico.wd1.myworkdayjobs.com/en-US/External",
+    "cohorts": [
+      "IN"
+    ],
+    "discoveredFrom": {
+      "channel": "search",
+      "reference": "public Workday India job result"
+    }
+  },
+  {
+    "companyName": "Guidehouse",
+    "companyDomain": "guidehouse.com",
+    "sourceUrl": "https://guidehouse.wd1.myworkdayjobs.com/en-US/External",
+    "cohorts": [
+      "IN"
+    ],
+    "discoveredFrom": {
+      "channel": "search",
+      "reference": "public Workday India job result"
+    }
+  },
+  {
+    "companyName": "Hitachi",
+    "companyDomain": "hitachi.com",
+    "sourceUrl": "https://hitachi.wd1.myworkdayjobs.com/en-US/hitachi",
+    "cohorts": [
+      "IN"
+    ],
+    "discoveredFrom": {
+      "channel": "search",
+      "reference": "public Workday India job result"
+    }
+  },
+  {
+    "companyName": "JLL",
+    "companyDomain": "jll.com",
+    "sourceUrl": "https://jll.wd1.myworkdayjobs.com/en-US/jllcareers",
+    "cohorts": [
+      "IN"
+    ],
+    "discoveredFrom": {
+      "channel": "search",
+      "reference": "public Workday India job result"
+    }
+  },
+  {
+    "companyName": "Kyndryl",
+    "companyDomain": "kyndryl.com",
+    "sourceUrl": "https://kyndryl.wd5.myworkdayjobs.com/en-US/KyndrylProfessionalCareers",
+    "cohorts": [
+      "IN"
+    ],
+    "discoveredFrom": {
+      "channel": "search",
+      "reference": "public Workday India job result"
+    }
+  },
+  {
+    "companyName": "Marmon",
+    "companyDomain": "marmon.com",
+    "sourceUrl": "https://marmon.wd501.myworkdayjobs.com/en-US/Marmon_Careers",
+    "cohorts": [
+      "IN"
+    ],
+    "discoveredFrom": {
+      "channel": "search",
+      "reference": "public Workday India job result"
+    }
+  },
+  {
+    "companyName": "Morningstar",
+    "companyDomain": "morningstar.com",
+    "sourceUrl": "https://morningstar.wd5.myworkdayjobs.com/en-US/Americas",
+    "cohorts": [
+      "IN"
+    ],
+    "discoveredFrom": {
+      "channel": "search",
+      "reference": "public Workday India job result"
+    }
+  },
+  {
+    "companyName": "Nasdaq",
+    "companyDomain": "nasdaq.com",
+    "sourceUrl": "https://nasdaq.wd1.myworkdayjobs.com/en-US/Global_External_Site",
+    "cohorts": [
+      "IN"
+    ],
+    "discoveredFrom": {
+      "channel": "search",
+      "reference": "public Workday India job result"
+    }
+  },
+  {
+    "companyName": "Priceline",
+    "companyDomain": "priceline.com",
+    "sourceUrl": "https://priceline.wd1.myworkdayjobs.com/en-US/Priceline",
+    "cohorts": [
+      "IN"
+    ],
+    "discoveredFrom": {
+      "channel": "search",
+      "reference": "public Workday India job result"
+    }
+  },
+  {
+    "companyName": "Shell",
+    "companyDomain": "shell.com",
+    "sourceUrl": "https://shell.wd3.myworkdayjobs.com/en-US/ShellCareers",
+    "cohorts": [
+      "IN"
+    ],
+    "discoveredFrom": {
+      "channel": "search",
+      "reference": "public Workday India job result"
+    }
+  },
+  {
+    "companyName": "State Street",
+    "companyDomain": "statestreet.com",
+    "sourceUrl": "https://statestreet.wd1.myworkdayjobs.com/en-US/Global",
+    "cohorts": [
+      "IN"
+    ],
+    "discoveredFrom": {
+      "channel": "search",
+      "reference": "public Workday India job result"
+    }
+  },
+  {
+    "companyName": "Trimble",
+    "companyDomain": "trimble.com",
+    "sourceUrl": "https://trimble.wd1.myworkdayjobs.com/en-US/TrimbleCareers",
+    "cohorts": [
+      "IN"
+    ],
+    "discoveredFrom": {
+      "channel": "search",
+      "reference": "public Workday India job result"
+    }
+  },
+  {
+    "companyName": "US Bank",
+    "companyDomain": "usbank.com",
+    "sourceUrl": "https://usbank.wd1.myworkdayjobs.com/en-US/US_Bank_Careers",
+    "cohorts": [
+      "IN"
+    ],
+    "discoveredFrom": {
+      "channel": "search",
+      "reference": "public Workday India job result"
+    }
+  },
+  {
+    "companyName": "Vanguard",
+    "companyDomain": "vanguard.com",
+    "sourceUrl": "https://vanguard.wd5.myworkdayjobs.com/en-US/vanguard_external",
+    "cohorts": [
+      "IN"
+    ],
+    "discoveredFrom": {
+      "channel": "search",
+      "reference": "public Workday India job result"
+    }
   }
 ]

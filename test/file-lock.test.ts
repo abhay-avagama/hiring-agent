@@ -1,6 +1,6 @@
 import { expect, test } from "bun:test";
 import { join } from "node:path";
-import { mkdtemp, utimes, writeFile } from "node:fs/promises";
+import { access, mkdtemp, utimes, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { withFileLock } from "../src/file-lock.ts";
 
@@ -19,4 +19,29 @@ test("an old truncated lock is reclaimed", async () => {
   const old = new Date(Date.now() - 120_000);
   await utimes(lock, old, old);
   expect(await withFileLock(target, async () => "recovered")).toBe("recovered");
+});
+
+test("concurrent operations queue until the active writer finishes", async () => {
+  const directory = await mkdtemp(join(tmpdir(), "openings-lock-"));
+  const target = join(directory, "catalog.json");
+  const order: string[] = [];
+  const first = withFileLock(target, async () => {
+    order.push("first-start");
+    await new Promise((resolve) => setTimeout(resolve, 40));
+    order.push("first-end");
+  });
+  await new Promise((resolve) => setTimeout(resolve, 5));
+  const second = withFileLock(target, async () => { order.push("second"); });
+
+  await Promise.all([first, second]);
+  expect(order).toEqual(["first-start", "first-end", "second"]);
+});
+
+test("operation errors do not orphan the lock", async () => {
+  const directory = await mkdtemp(join(tmpdir(), "openings-lock-"));
+  const target = join(directory, "catalog.json");
+  const error = Object.assign(new Error("operation collision"), { code: "EEXIST" });
+
+  await expect(withFileLock(target, async () => { throw error; })).rejects.toBe(error);
+  await expect(access(`${target}.lock`)).rejects.toBeDefined();
 });

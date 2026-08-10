@@ -1,7 +1,7 @@
 export type Ats = "greenhouse" | "lever" | "ashby" | "workday";
 
 export interface DomainEvidence {
-  kind: "authoritative_dataset" | "company_registry";
+  kind: "authoritative_dataset" | "company_registry" | "company_redirect";
   reference: string;
 }
 
@@ -39,7 +39,7 @@ export interface SourceVerification {
   checkedAt: string;
   canonicalSourceUrl: string;
   observedCompanyName: string;
-  identityEvidence: "provider_company_name" | "provider_tenant" | "structured_domain_link";
+  identityEvidence: "provider_company_name" | "provider_tenant" | "structured_domain_link" | "company_redirect";
   contentType: string;
   payloadVersion: string;
   jobCount: number;
@@ -105,6 +105,17 @@ export interface CrawlReport {
   selected: number;
   succeeded: number;
   failed: CrawlFailure[];
+  sources?: CrawlSourceResult[];
+}
+
+export interface CrawlSourceResult {
+  source: string;
+  status: "succeeded" | "failed";
+  attempts: number;
+  durationMs: number;
+  jobs: number;
+  countryJobs: Record<string, number>;
+  error?: string;
 }
 
 export interface JobPartition {

@@ -96,11 +96,12 @@ async function probe(candidate: SourceCandidate, source: ResolvedSource, fetcher
     if (jobs.length === 0) throw new VerificationError("empty_board", "Source has no jobs, so identity cannot be verified");
     const providerName = source.ats === "greenhouse" ? majority(jobs.map((job) => stringField(job, "company_name")).filter(Boolean)) : source.ats === "workday" ? workday!.tenant : "";
     const hasDomainLink = !["greenhouse", "workday"].includes(source.ats) && structuredIdentityLinksDomain(jobs, candidate.companyDomain);
-    if (!["greenhouse", "workday"].includes(source.ats) && !hasDomainLink) throw new VerificationError("identity_mismatch", `Structured identity fields do not link to ${candidate.companyDomain}`);
+    const hasRedirectEvidence = !["greenhouse", "workday"].includes(source.ats) && companyRedirectLinksDomain(candidate);
+    if (!["greenhouse", "workday"].includes(source.ats) && !hasDomainLink && !hasRedirectEvidence) throw new VerificationError("identity_mismatch", `Neither structured identity fields nor a verified company redirect link to ${candidate.companyDomain}`);
     const observedCompanyName = providerName || candidate.companyName;
     return {
       observedCompanyName,
-      identityEvidence: source.ats === "workday" ? "provider_tenant" as const : (providerName ? "provider_company_name" as const : "structured_domain_link" as const),
+      identityEvidence: source.ats === "workday" ? "provider_tenant" as const : (providerName ? "provider_company_name" as const : hasDomainLink ? "structured_domain_link" as const : "company_redirect" as const),
       contentType,
       payloadVersion: source.ats === "greenhouse" ? "greenhouse-job-board:v1" : source.ats === "lever" ? "lever-postings:v0" : source.ats === "workday" ? "workday-cxs:v1" : `ashby-job-board:${isRecord(body) && typeof body.apiVersion === "string" ? body.apiVersion : "unknown"}`,
       jobCount: source.ats === "workday" && isRecord(body) && typeof body.total === "number" ? body.total : jobs.length,
@@ -145,7 +146,7 @@ function validateCandidate(candidate: SourceCandidate): string | null {
   if (!isRecord(candidate.discoveredFrom) || typeof candidate.discoveredFrom.channel !== "string" || !channels.has(candidate.discoveredFrom.channel) || typeof candidate.discoveredFrom.reference !== "string" || !candidate.discoveredFrom.reference.trim()) return "discoveredFrom must contain a supported channel and reference";
   if (candidate.cohorts !== undefined && (!Array.isArray(candidate.cohorts) || !candidate.cohorts.every((code) => typeof code === "string"))) return "cohorts must be an array of country codes";
   if (candidate.domainEvidence !== undefined) {
-    if (!isRecord(candidate.domainEvidence) || !["authoritative_dataset", "company_registry"].includes(String(candidate.domainEvidence.kind)) || typeof candidate.domainEvidence.reference !== "string" || !candidate.domainEvidence.reference) return "domainEvidence must contain a supported kind and reference";
+    if (!isRecord(candidate.domainEvidence) || !["authoritative_dataset", "company_registry", "company_redirect"].includes(String(candidate.domainEvidence.kind)) || typeof candidate.domainEvidence.reference !== "string" || !candidate.domainEvidence.reference) return "domainEvidence must contain a supported kind and reference";
   }
   return null;
 }
@@ -178,6 +179,15 @@ function structuredIdentityLinksDomain(jobs: Record<string, unknown>[], domain: 
   const pattern = new RegExp(`^https?://(?:www\\.)?${escaped}(?:/|$)`, "i");
   const fields = ["companyUrl", "companyWebsite", "organizationUrl", "organizationWebsite", "website"];
   return jobs.some((job) => fields.some((field) => typeof job[field] === "string" && pattern.test(job[field])));
+}
+
+function companyRedirectLinksDomain(candidate: SourceCandidate): boolean {
+  if (candidate.domainEvidence?.kind !== "company_redirect") return false;
+  try {
+    const host = new URL(candidate.domainEvidence.reference).hostname.toLowerCase().replace(/^www\./, "");
+    const domain = candidate.companyDomain.toLowerCase().replace(/^www\./, "");
+    return host === domain || host.endsWith(`.${domain}`);
+  } catch { return false; }
 }
 
 

@@ -16,6 +16,7 @@ test("company career redirects become structured source candidates without readi
 
   const report = await traceCareerSources(inputPath, candidatesPath, reportPath, {
     country: "IN",
+    resolveHost: async () => ["93.184.216.34"],
     fetch: async () => {
       const response = new Response("<html>must not be read</html>");
       Object.defineProperty(response, "url", { value: "https://job-boards.greenhouse.io/acme" });
@@ -83,6 +84,7 @@ test("career tracing joins company identities to durable Common Crawl ATS leads"
 
   const report = await traceCareerSources(inputPath, join(directory, "candidates.json"), join(directory, "report.json"), {
     commonCrawlReportPath: leadsPath,
+    resolveHost: async () => ["93.184.216.34"],
     fetch: async () => new Response(null, { status: 200 }),
   });
 
@@ -105,6 +107,7 @@ test("an already-known source gains the new discovery campaign cohort", async ()
 
   const report = await traceCareerSources(inputPath, candidatesPath, join(directory, "report.json"), {
     country: "IN",
+    resolveHost: async () => ["93.184.216.34"],
     fetch: async () => {
       const response = new Response(null, { status: 200 });
       Object.defineProperty(response, "url", { value: "https://job-boards.greenhouse.io/acme" });
@@ -114,6 +117,7 @@ test("an already-known source gains the new discovery campaign cohort", async ()
 
   expect(report).toEqual(expect.objectContaining({ ready: 0, alreadyKnown: 1 }));
   expect(JSON.parse(await readFile(candidatesPath, "utf8"))[0].cohorts).toEqual(["IN"]);
+  expect(JSON.parse(await readFile(candidatesPath, "utf8"))[0].domainEvidence).toEqual({ kind: "company_redirect", reference: "https://acme.test/careers" });
 });
 
 test("career tracing reports optional search failures while continuing", async () => {
@@ -123,6 +127,7 @@ test("career tracing reports optional search failures while continuing", async (
 
   const report = await traceCareerSources(inputPath, join(directory, "candidates.json"), join(directory, "report.json"), {
     searchKey: "invalid",
+    resolveHost: async () => ["93.184.216.34"],
     fetch: async (input) => String(input).includes("api.search.brave.com")
       ? new Response("unauthorized", { status: 401 })
       : new Response(null, { status: 200 }),
@@ -130,4 +135,37 @@ test("career tracing reports optional search failures while continuing", async (
 
   expect(report).toEqual(expect.objectContaining({ ready: 0, unresolved: 1, failures: 1 }));
   expect(report.failureDetails[0]).toEqual(expect.objectContaining({ reason: "search_failed", detail: "Brave Search returned HTTP 401" }));
+});
+
+test("career tracing blocks domains that resolve to private infrastructure", async () => {
+  const directory = await mkdtemp(join(tmpdir(), "openings-careers-ssrf-"));
+  const inputPath = join(directory, "companies.json");
+  await writeFile(inputPath, JSON.stringify([{ companyName: "Metadata", companyDomain: "metadata.internal" }]));
+  let fetched = false;
+
+  const report = await traceCareerSources(inputPath, join(directory, "candidates.json"), join(directory, "report.json"), {
+    resolveHost: async () => ["169.254.169.254"],
+    fetch: async () => { fetched = true; return new Response(null, { status: 200 }); },
+  });
+
+  expect(fetched).toBeFalse();
+  expect(report.failureDetails[0]).toEqual(expect.objectContaining({ reason: "career_request_failed", detail: expect.stringContaining("non-public address") }));
+});
+
+test("career tracing validates every redirect destination before requesting it", async () => {
+  const directory = await mkdtemp(join(tmpdir(), "openings-careers-redirect-ssrf-"));
+  const inputPath = join(directory, "companies.json");
+  await writeFile(inputPath, JSON.stringify([{ companyName: "Acme", companyDomain: "acme.test", careerUrl: "https://acme.test/careers" }]));
+  const fetched: string[] = [];
+
+  const report = await traceCareerSources(inputPath, join(directory, "candidates.json"), join(directory, "report.json"), {
+    resolveHost: async (hostname) => hostname === "acme.test" ? ["93.184.216.34"] : ["127.0.0.1"],
+    fetch: async (input) => {
+      fetched.push(String(input));
+      return new Response(null, { status: 302, headers: { location: "https://internal.test/admin" } });
+    },
+  });
+
+  expect(fetched).toEqual(["https://acme.test/careers"]);
+  expect(report.failureDetails[0]?.detail).toContain("non-public address");
 });

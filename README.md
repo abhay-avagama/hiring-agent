@@ -24,6 +24,7 @@ bun run src/cli.ts sources verify data/source-candidates.json
 bun run src/cli.ts crawl
 bun run src/cli.ts crawl --country IN
 bun run src/cli.ts crawl --companies companies.txt
+bun run src/cli.ts snapshot export
 bun run src/cli.ts search "platform engineer" --remote --limit 10
 bun run src/cli.ts search "backend engineer" --india --limit 20
 bun run src/cli.ts search "backend engineer" --country DE --stale-days 7
@@ -34,7 +35,9 @@ bun run src/cli.ts get greenhouse:anthropic:12345
 
 Commands return JSON so the same interface works for people, shell scripts, and agents. Search refreshes a missing or stale snapshot automatically; the default freshness window is 14 days. Use `--stale-days N` to change it or `--offline` to guarantee that no network request is made. Openings does not install a scheduler—run `crawl` using whichever scheduler you prefer.
 
-`crawl` updates every source by default. `--country CODE` selects the maintained discovery cohort for that country; it does not label companies as country-specific. `--companies FILE` accepts one catalog slug per line. Successful selected sources replace their partitions, failures are removed and reported, and unselected partitions remain intact.
+`crawl` updates every source by default. `--country CODE` selects the maintained discovery cohort for that country; it does not label companies as country-specific. `--companies FILE` accepts one catalog slug per line. Successful selected sources replace their partitions, failures are removed and reported, and unselected partitions remain intact. Reports include each source's attempts, duration, total jobs, country-job counts, and final error. Transient source failures receive one lower-pressure retry; Workday pagination also backs off on throttling and transient gateway responses.
+
+`snapshot export` reads `.openings/snapshot.json` by default and writes a distributable manifest plus deterministic per-source partitions under `.openings/dist`. Every partition carries a SHA-256 checksum in the manifest, along with compact source, job, and country-count summaries. Use `--input FILE` and `--output-dir PATH` to select other locations.
 
 ## Verify and promote sources
 
@@ -63,7 +66,7 @@ bun run src/cli.ts sources trace-careers .openings/company-domains.json --countr
 
 `trace-careers` accepts a JSON array of company identity seeds. `careerUrl` is optional; without it Openings checks the conventional HTTPS `/careers`, `/career`, and `/jobs` paths. With `--search-key-env NAME`, it first uses Brave Search to look for matching results on known ATS hosts; the key is read from the named environment variable rather than exposed as a command argument. It then sends `HEAD` requests to company-owned career paths, follows redirects, and never reads career-page HTML. Finally, `--common-crawl-report FILE` joins durable ATS leads whose token exactly matches the normalized company name or domain. The default remains keyless and simply skips the search step. Resolved candidates enter the normal verifier automatically: Greenhouse must expose a matching provider name, Workday must expose a matching public tenant and valid CXS jobs payload, while Lever and Ashby still require a structured company-domain link. Redirects, URL-index leads, and search results resolve sources but do not weaken identity verification.
 
-Workday CXS is the first enterprise-scale provider. Its adapter walks the complete public JSON result set and normalizes summaries without scraping rendered career pages; a job detail is fetched from the structured endpoint only when requested. The maintained India discovery cohort now includes 53 verified sources, including major engineering employers such as Mastercard, NVIDIA, Cisco, Salesforce, Intel, Visa, PayPal, Fiserv, Cadence, ABB, Philips, Medtronic, and Thermo Fisher. A bulk source is retained only after its complete feed contributes India-eligible jobs; a first-page identity check alone is insufficient. iCIMS is not enabled because its official API requires credentials, and tenant-specific SuccessFactors RSS feeds are accepted only after they demonstrate complete, correctly filtered results.
+Workday CXS is the first enterprise-scale provider. Its adapter walks the complete public JSON result set and normalizes summaries without scraping rendered career pages; a job detail is fetched from the structured endpoint only when requested. The maintained India discovery cohort now includes 72 verified sources, including major engineering employers such as Mastercard, NVIDIA, Cisco, Salesforce, Intel, Visa, PayPal, Fiserv, Cadence, ABB, Philips, Medtronic, Thermo Fisher, Hitachi, JLL, State Street, Danaher, and Kyndryl. A bulk source is retained only after its complete feed contributes India-eligible jobs; a first-page identity check alone is insufficient. iCIMS is not enabled because its official API requires credentials, and tenant-specific SuccessFactors RSS feeds are accepted only after they demonstrate complete, correctly filtered results.
 
 ```json
 [
@@ -85,7 +88,7 @@ The first live India YC campaign examined 218 seeds, discovered and independentl
 bun run src/cli.ts sources verify data/source-candidates.json
 ```
 
-The verifier resolves the canonical Greenhouse, Lever, or Ashby endpoint, validates its structured payload, checks source/name/domain identity, deduplicates sources and companies, and atomically regenerates [`data/companies.json`](data/companies.json). Greenhouse supplies a provider company name; Lever and Ashby must expose a company-domain link in a dedicated structured identity field—URLs in free-form descriptions never count. Only verified candidates are written. The JSON report includes every rejected candidate and a machine-readable reason. Previously verified records survive transient endpoint failures, but permanent identity or schema failures remove them. Verification requires no search key; optional keys will belong only to future discovery adapters.
+The verifier resolves canonical Greenhouse, Lever, Ashby, and Workday endpoints, validates their structured payloads, checks source/name/domain identity, deduplicates sources and companies, and atomically regenerates [`data/companies.json`](data/companies.json). Greenhouse supplies a provider company name and Workday supplies a tenant identity. Lever and Ashby may use either a dedicated structured company-domain field or company-owned redirect evidence produced by the hardened career tracer; board slugs or free-form job descriptions never count alone. Only verified candidates are written. The JSON report includes every rejected candidate and a machine-readable reason. Previously verified records survive transient endpoint failures, but permanent identity or schema failures remove them. Verification requires no search key; optional keys belong only to discovery adapters.
 
 The current public Lever and Ashby payloads do not provide an authoritative company-domain identity field for the seed candidates, so Flex and PostHog are intentionally quarantined. Their job adapters remain supported, but automatic identity verification for those providers is still open. We will not parse career-page HTML or weaken identity checks merely to increase the verified count.
 
@@ -126,7 +129,7 @@ Add an object to `data/source-candidates.json`; do not edit the generated compan
 { "companyName": "Example", "companyDomain": "example.com", "sourceUrl": "https://job-boards.greenhouse.io/example", "cohorts": ["IN"], "discoveredFrom": { "channel": "community", "reference": "issue-123" } }
 ```
 
-Supported sources are Greenhouse, Lever, and Ashby public job-board URLs. `cohorts` records how a source was selected for focused crawling; eligibility is always classified on each job. India searches normalize common city and state variants such as Bangalore/Bengaluru, Gurgaon/Gurugram, Mysore/Mysuru, and Orissa/Odisha.
+Supported sources are Greenhouse, Lever, Ashby, and Workday public job-board URLs. `cohorts` records how a source was selected for focused crawling; eligibility is always classified on each job. India searches normalize common city and state variants such as Bangalore/Bengaluru, Gurgaon/Gurugram, Mysore/Mysuru, and Orissa/Odisha.
 
 ## Develop
 

@@ -217,7 +217,11 @@ export async function mergeSourceCandidates(path: string, additions: SourceCandi
       if (existingIndex !== undefined) {
         const existing = current[existingIndex]!;
         const cohorts = [...new Set([...(existing.cohorts ?? []), ...(candidate.cohorts ?? [])])].sort();
-        if (cohorts.length) current[existingIndex] = { ...existing, cohorts };
+        current[existingIndex] = {
+          ...existing,
+          ...(cohorts.length ? { cohorts } : {}),
+          ...(candidate.domainEvidence && !existing.domainEvidence ? { domainEvidence: candidate.domainEvidence, discoveredFrom: candidate.discoveredFrom } : {}),
+        };
         return false;
       }
       if (seen.has(key)) return false;

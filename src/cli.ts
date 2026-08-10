@@ -7,11 +7,13 @@ import { discoverAndPromote } from "./source-discovery-pipeline.ts";
 import { traceCareerSources } from "./career-tracing.ts";
 import { discoverCommonCrawlSources } from "./common-crawl-discovery.ts";
 import { generateYcCompanySeeds } from "./company-seeds.ts";
+import { exportSnapshot } from "./snapshot-export.ts";
 
 const HELP = `Openings — search public company job boards
 
 Usage:
   openings crawl [--country CODE | --companies FILE] [--concurrency N] [--data-dir PATH]
+  openings snapshot export [--input FILE] [--output-dir PATH]
   openings sources verify CANDIDATES.json [--output FILE] [--concurrency N]
   openings sources discover FEED.json [--country CODE] [--output FILE] [--catalog FILE] [--report FILE]
   openings sources discover-yc --country CODE [--output FILE] [--catalog FILE] [--report FILE]
@@ -49,6 +51,14 @@ export async function run(args: string[]): Promise<number> {
     const runtime = createRuntime({ dataDir: parsed.dataDir, concurrency: parsed.concurrency });
     const slugs = parsed.companiesFile ? await readCompanyFile(parsed.companiesFile) : undefined;
     console.log(JSON.stringify(await runtime.crawl({ country: parsed.country, slugs }), null, 2));
+    return 0;
+  }
+
+  if (command === "snapshot") {
+    if (rest[0] !== "export") return fail("snapshot requires the `export` subcommand");
+    const parsed = parseSnapshotExport(rest.slice(1));
+    if (typeof parsed === "string") return fail(parsed);
+    console.log(JSON.stringify(await exportSnapshot(parsed.input, parsed.outputDir), null, 2));
     return 0;
   }
 
@@ -119,6 +129,18 @@ function parseYcCompanySeeds(args: string[]) {
   }
   if (!country) return "sources seed-companies-yc requires --country CODE";
   return { country, output };
+}
+
+function parseSnapshotExport(args: string[]) {
+  let input = ".openings/snapshot.json";
+  let outputDir = ".openings/dist";
+  for (let index = 0; index < args.length; index += 1) {
+    const arg = args[index];
+    if (arg === "--input") { input = args[++index] ?? ""; if (!input) return "--input requires a file"; }
+    else if (arg === "--output-dir") { outputDir = args[++index] ?? ""; if (!outputDir) return "--output-dir requires a path"; }
+    else return `Unknown option: ${arg}`;
+  }
+  return { input, outputDir };
 }
 
 function parseCareerTracing(args: string[]) {

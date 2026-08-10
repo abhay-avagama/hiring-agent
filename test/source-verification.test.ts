@@ -17,6 +17,21 @@ test("resolves and verifies a public Workday CXS source", async () => {
   })]);
 });
 
+test("verifies Lever and Ashby boards discovered through company-owned redirects", async () => {
+  const discoveredFrom = { channel: "career_page" as const, reference: "https://acme.test/careers" };
+  const domainEvidence = { kind: "company_redirect" as const, reference: "https://acme.test/careers" };
+  const result = await verifyCandidates([
+    { companyName: "Acme", companyDomain: "acme.test", sourceUrl: "https://jobs.lever.co/acme", discoveredFrom, domainEvidence },
+    { companyName: "Beta", companyDomain: "beta.test", sourceUrl: "https://jobs.ashbyhq.com/beta", discoveredFrom: { ...discoveredFrom, reference: "https://beta.test/jobs" }, domainEvidence: { ...domainEvidence, reference: "https://beta.test/jobs" } },
+  ], { fetch: async (input) => String(input).includes("lever")
+    ? Response.json([{ id: "l1", text: "Engineer", hostedUrl: "https://jobs.lever.co/acme/l1" }])
+    : Response.json({ jobs: [{ id: "a1", title: "Engineer", jobUrl: "https://jobs.ashbyhq.com/beta/a1" }] }) });
+
+  expect(result.rejected).toEqual([]);
+  expect(result.verified.map((source) => source.ats)).toEqual(["lever", "ashby"]);
+  expect(result.verified.map((source) => source.verification.identityEvidence)).toEqual(["company_redirect", "company_redirect"]);
+});
+
 const candidates: SourceCandidate[] = [
   {
     slug: "acme-stable", companyName: "Acme", companyDomain: "acme.test", sourceUrl: "https://job-boards.greenhouse.io/acme",

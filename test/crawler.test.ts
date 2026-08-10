@@ -88,5 +88,6 @@ test("transient source failures are retried after the initial crawl wave", async
 
   expect(attempts).toBe(2);
   expect(report).toEqual(expect.objectContaining({ selected: 1, succeeded: 1, failed: [] }));
+  expect(report.sources).toEqual([expect.objectContaining({ source: "transient", status: "succeeded", attempts: 2, jobs: 1 })]);
   expect(written?.partitions.transient?.jobs).toHaveLength(1);
 });
