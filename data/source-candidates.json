@@ -194,5 +194,41 @@
       "channel": "career_page",
       "reference": "https://careers.mastercard.com/us/en/mumbai-india"
     }
+  },
+  {
+    "companyName": "NVIDIA",
+    "companyDomain": "nvidia.com",
+    "sourceUrl": "https://nvidia.wd5.myworkdayjobs.com/en-US/NVIDIAExternalCareerSite",
+    "cohorts": [
+      "IN"
+    ],
+    "discoveredFrom": {
+      "channel": "career_page",
+      "reference": "https://www.nvidia.com/en-us/about-nvidia/careers/"
+    }
+  },
+  {
+    "companyName": "Autodesk",
+    "companyDomain": "autodesk.com",
+    "sourceUrl": "https://autodesk.wd1.myworkdayjobs.com/en-US/Ext",
+    "cohorts": [
+      "IN"
+    ],
+    "discoveredFrom": {
+      "channel": "career_page",
+      "reference": "https://www.autodesk.com/careers/"
+    }
+  },
+  {
+    "companyName": "Micron Technology",
+    "companyDomain": "micron.com",
+    "sourceUrl": "https://micron.wd1.myworkdayjobs.com/en-US/External",
+    "cohorts": [
+      "IN"
+    ],
+    "discoveredFrom": {
+      "channel": "career_page",
+      "reference": "https://www.micron.com/about/careers"
+    }
   }
 ]
