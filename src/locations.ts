@@ -91,7 +91,7 @@ function detectRegions(location: string, description: string): string[] {
     ["LATAM", /\b(LATAM|Latin America)\b/i],
   ];
   const fromLocation = regions.filter(([, pattern]) => pattern.test(location)).map(([name]) => name);
-  const eligibilityPhrase = /\b(open to|hiring|candidates?|applicants?|eligible|work from|available (?:in|to))\b.{0,60}\b(worldwide|anywhere|global|APAC|Asia[ -]Pacific|Asia|EMEA|LATAM|Latin America)\b/gi;
+  const eligibilityPhrase = /\b(open to|hiring (?:in|from|across)|(?:candidates?|applicants?) (?:in|from|across)|eligible (?:in|for|across)|work from|available (?:in|to))\b.{0,60}\b(worldwide|anywhere|global|APAC|Asia[ -]Pacific|Asia|EMEA|LATAM|Latin America)\b/gi;
   const fromDescription: string[] = [];
   for (const match of description.matchAll(eligibilityPhrase)) {
     const value = match[2] ?? "";
@@ -137,9 +137,9 @@ let cachedCountryMatchers: Array<[string, string]> | undefined;
 function countryMatchers(): Array<[string, string]> {
   if (cachedCountryMatchers) return cachedCountryMatchers;
   const aliases: Record<string, string[]> = { US: ["United States", "USA", "U\\.S\\.A\\.?", "U\\.S\\.?"], GB: ["United Kingdom", "UK", "U\\.K\\.?"], AE: ["United Arab Emirates", "UAE"] };
-  const ambiguousNames = new Set(["Georgia"]);
   cachedCountryMatchers = countryNames().map(([code, name]) => {
-    const names = [...(ambiguousNames.has(name) ? [] : [name]), ...(aliases[code] ?? [])];
+    if (code === "GE") return [code, "(?:\\bTbilisi,?\\s+Georgia\\b|^Georgia$|\\bGeorgia,?\\s+(?:Country|Europe)\\b)"];
+    const names = [name, ...(aliases[code] ?? [])];
     return [code, names.length ? `\\b(?:${names.map(escapeRegExpUnlessPattern).join("|")})\\b` : "(?!)"];
   });
   return cachedCountryMatchers;
@@ -152,7 +152,7 @@ function countryRules(): CountryRule[] {
   cachedCountryRules = countryMatchers().map(([code, country]) => ({
     code,
     location: new RegExp(country, "i"),
-    codeLocation: new RegExp(`(?:^|[,(/-]\\s*)${code}(?=\\s*(?:$|[,)/-]))`),
+    codeLocation: new RegExp(`(?:^|[,(/-]\\s*)${code}(?=\\s*(?:$|[,)/-]))`, "i"),
     exclusion: new RegExp(`\\b(not available|unavailable|excluding|except|cannot hire|can't hire|unable to hire|do not hire|does not hire)\\b.{0,80}(?:${country})|(?:${country}).{0,40}\\b(excluded|not eligible|not supported)\\b`, "i"),
     eligibility: new RegExp(`\\b(open to|hiring|candidates?|applicants?|eligible|remote (?:in|from)|work (?:in|from)|based in|available (?:in|to))\\b.{0,80}(?:${country})`, "i"),
   }));
