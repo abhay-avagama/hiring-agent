@@ -82,7 +82,7 @@ What minimal source record supports automatic verification, deduplication, disco
 
 ### Answer
 
-Resolved for the first provider set. Candidate records contain company identity, domain, structured source URL, optional stable slug and discovery cohort, plus channel/reference provenance. Verification resolves a canonical provider/token, validates the live structured payload, checks provider/name/domain identity, and records checked time, content type, observed name, evidence type, job count, and canonical URL. The generated catalog is deterministic by slug.
+Partially resolved. Candidate records contain company identity, domain, structured source URL, optional stable slug and discovery cohort, plus channel/reference provenance. Verification resolves a canonical provider/token, validates the live structured payload, checks provider/name/domain identity, and records checked time, content type, payload/adapter version, observed name, evidence type, job count, and canonical URL. The generated catalog is deterministic by slug. Greenhouse exposes authoritative company names; provider-specific identity evidence for normal Lever and Ashby payloads remains open.
 
 ## #7: How Should Job Geography Be Classified Across Providers?
 
@@ -121,7 +121,7 @@ Can discovered candidates be identity-checked, normalized, deduplicated, and aut
 
 ### Answer
 
-Resolved for Greenhouse, Lever, and Ashby. `openings sources verify` verifies candidates concurrently without credentials, then deterministically deduplicates successful source/company/slug identities, atomically replaces the generated catalog, and reports every rejection with a reason and detail. Greenhouse identity uses its provider-supplied company name; Lever and Ashby require a company-domain URL in a dedicated structured identity field, excluding free-form descriptions. Previously verified records survive transient endpoint failures, while permanent failures are removed. Ten of the 12 seed candidates pass this stricter policy; Flex and PostHog remain quarantined because their current public payloads lack independent structured domain evidence. Scaling the candidate set is now a discovery task rather than a catalog-trust gap.
+Resolved for automatic Greenhouse maintenance; partially resolved across the full provider set. `openings sources verify` verifies candidates concurrently without credentials, then deterministically deduplicates successful source/company/slug identities, atomically replaces the generated catalog, and reports every rejection with a reason and detail. Greenhouse identity uses its provider-supplied company name. Lever and Ashby would require a company-domain URL in a dedicated structured identity field, excluding free-form descriptions, but their normal seed payloads do not expose one. Previously verified records survive transient endpoint failures, while permanent failures are removed. Ten of the 12 seed candidates pass; Flex and PostHog remain quarantined. Automatic Lever/Ashby identity verification remains an explicit follow-up rather than being papered over with HTML scraping or weak token matching.
 
 ## #10: How Do We Reach And Measure The First Country Campaign?
 
