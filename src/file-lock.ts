@@ -27,5 +27,8 @@ async function lockIsStale(path: string): Promise<boolean> {
       catch (error) { if (error instanceof Error && "code" in error && error.code === "ESRCH") return true; }
     }
     return Date.now() - (await stat(path)).mtimeMs > 60_000;
-  } catch { return false; }
+  } catch {
+    try { return Date.now() - (await stat(path)).mtimeMs > 60_000; }
+    catch (error) { return error instanceof Error && "code" in error && error.code === "ENOENT"; }
+  }
 }
