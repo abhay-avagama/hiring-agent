@@ -1,6 +1,7 @@
 import { mkdir, readFile } from "node:fs/promises";
 import { dirname } from "node:path";
 import { atomicJson } from "./atomic-file.ts";
+import { stampReport, type ReportMeta } from "./report-meta.ts";
 import { withFileLock } from "./file-lock.ts";
 import { resolveSource } from "./source-verification.ts";
 import type { DiscoveryChannel, SourceCandidate } from "./types.ts";
@@ -17,7 +18,7 @@ interface DiscoveryOptions {
 interface FeedEntry { sourceUrl: string; companyDomain?: string; reference?: string; channel?: DiscoveryChannel; domainEvidence?: "authoritative_dataset" | "company_registry" }
 interface DiscoveryIssue { sourceUrl: string; reason: string; detail: string; companyName?: string; reference?: string }
 
-export interface SourceDiscoveryReport {
+export interface SourceDiscoveryReport extends ReportMeta {
   discovered: number;
   ready: number;
   alreadyKnown: number;
@@ -154,12 +155,12 @@ async function discoverEntries(feed: FeedEntry[], candidatesPath: string, report
     return false;
   });
   const appended = await mergeSourceCandidates(candidatesPath, additions);
-  const report: SourceDiscoveryReport = {
+  const report: SourceDiscoveryReport = stampReport("source-discovery:1", 1, {
     discovered: feed.length, ready: appended, alreadyKnown, needsDomain: uniqueUnresolved.length, rejected: rejected.length,
     candidatesPath, reportPath,
     unresolved: uniqueUnresolved.sort((a, b) => a.index - b.index).map((row) => row.issue),
     rejections: rejected.sort((a, b) => a.index - b.index).map((row) => row.issue),
-  };
+  });
   await atomicJson(reportPath, report);
   return report;
 }
@@ -224,7 +225,7 @@ export async function mergeSourceCandidates(path: string, additions: SourceCandi
     });
     await atomicJson(path, [...current, ...unique]);
     return unique.length;
-  });
+  }, { operation: "merge source candidates" });
 }
 
 

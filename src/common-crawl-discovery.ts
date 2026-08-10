@@ -1,5 +1,6 @@
 import { readFile } from "node:fs/promises";
 import { atomicJson } from "./atomic-file.ts";
+import { stampReport, type ReportMeta } from "./report-meta.ts";
 import { resolveSource } from "./source-verification.ts";
 
 type Fetch = (input: string | URL, init?: RequestInit) => Promise<Response>;
@@ -7,7 +8,7 @@ interface Options { country?: string; fetch?: Fetch; indexUrl?: string }
 interface Lead { sourceUrl: string; ats: string; token: string; discoveredFrom: { channel: "dataset"; reference: string } }
 interface Collection { id?: unknown; "cdx-api"?: unknown }
 
-export interface CommonCrawlDiscoveryReport {
+export interface CommonCrawlDiscoveryReport extends ReportMeta {
   country?: string;
   index: string;
   urlsSeen: number;
@@ -70,11 +71,11 @@ export async function discoverCommonCrawlSources(candidatesPath: string, reportP
       discoveredFrom: { channel: "dataset", reference: index },
     });
   }
-  const report: CommonCrawlDiscoveryReport = {
+  const report: CommonCrawlDiscoveryReport = stampReport("common-crawl-discovery:1", 1, {
     country, index, urlsSeen: seenUrls.size, sourcesFound: found.size, alreadyKnown, unresolved: leads.length, rejected: rejections.length,
     truncated: truncatedPatterns.length > 0, truncatedPatterns,
     candidatesPath, reportPath, leads, rejections,
-  };
+  });
   await atomicJson(reportPath, report);
   return report;
 }

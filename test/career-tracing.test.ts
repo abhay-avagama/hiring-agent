@@ -79,7 +79,7 @@ test("career tracing joins company identities to durable Common Crawl ATS leads"
   const inputPath = join(directory, "companies.json");
   const leadsPath = join(directory, "common-crawl.json");
   await writeFile(inputPath, JSON.stringify([{ companyName: "Acme", companyDomain: "acme.test" }]));
-  await writeFile(leadsPath, JSON.stringify({ leads: [{ sourceUrl: "https://job-boards.greenhouse.io/acme", token: "acme", ats: "greenhouse", discoveredFrom: { channel: "dataset", reference: "cc-index" } }] }));
+  await writeFile(leadsPath, JSON.stringify({ schemaVersion: 1, pipelineVersion: "common-crawl-discovery:1", generatedAt: "2026-08-10T00:00:00.000Z", leads: [{ sourceUrl: "https://job-boards.greenhouse.io/acme", token: "acme", ats: "greenhouse", discoveredFrom: { channel: "dataset", reference: "cc-index" } }] }));
 
   const report = await traceCareerSources(inputPath, join(directory, "candidates.json"), join(directory, "report.json"), {
     commonCrawlReportPath: leadsPath,
@@ -92,6 +92,15 @@ test("career tracing joins company identities to durable Common Crawl ATS leads"
     sourceUrl: "https://job-boards.greenhouse.io/acme",
     discoveredFrom: { channel: "dataset", reference: "cc-index" },
   }));
+});
+
+test("career tracing refuses stale Common Crawl reports", async () => {
+  const directory = await mkdtemp(join(tmpdir(), "openings-careers-stale-report-"));
+  const inputPath = join(directory, "companies.json");
+  const leadsPath = join(directory, "common-crawl.json");
+  await writeFile(inputPath, JSON.stringify([{ companyName: "Acme", companyDomain: "acme.test" }]));
+  await writeFile(leadsPath, JSON.stringify({ leads: [] }));
+  await expect(traceCareerSources(inputPath, join(directory, "candidates.json"), join(directory, "report.json"), { commonCrawlReportPath: leadsPath })).rejects.toThrow(/regenerate it with the current CLI/);
 });
 
 test("an already-known source gains the new discovery campaign cohort", async () => {

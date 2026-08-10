@@ -101,8 +101,8 @@ export async function fetchSourceJobs(company: Company, fetcher: Fetch = globalT
     : company.ats === "lever"
       ? `https://api.lever.co/v0/postings/${encodeURIComponent(company.token)}?mode=json`
       : `https://api.ashbyhq.com/posting-api/job-board/${encodeURIComponent(company.token)}`;
-  const response = await fetcher(url, signal ? { signal } : undefined);
-  if (!response.ok) throw new Error(`${company.name} job board returned HTTP ${response.status}`);
+  const response = await fetchWithRetry(fetcher, url, signal ? { signal } : undefined, company.name, observer);
+  if (!response.ok) { await response.body?.cancel().catch(() => undefined); throw new Error(`${company.name} job board returned HTTP ${response.status}`); }
   const body = await response.json();
   return company.ats === "greenhouse"
     ? (body as { jobs: GreenhouseJob[] }).jobs.map((job) => normalizeGreenhouse(company, job))
@@ -123,9 +123,10 @@ async function fetchWorkdayJobs(company: Company, fetcher: Fetch, signal?: Abort
         if (!Number.isInteger(body.total) || !Array.isArray(body.jobPostings)) throw new Error(`${company.name} Workday source returned an invalid payload`);
         return { total: body.total as number, jobs: body.jobPostings as WorkdayJob[] };
       }
-      if (!isTransientStatus(response.status) || attempt === 2) throw new Error(`${company.name} job board returned HTTP ${response.status}`);
+      if (!isTransientStatus(response.status) || attempt === 2) { await response.body?.cancel().catch(() => undefined); throw new Error(`${company.name} job board returned HTTP ${response.status}`); }
       const delayMs = retryDelayMs(response, attempt);
       observer?.onBackoff?.({ status: response.status, delayMs });
+      await response.body?.cancel().catch(() => undefined);
       await abortableDelay(delayMs, signal);
     }
     throw new Error(`${company.name} Workday source exhausted retries`);
@@ -150,17 +151,40 @@ async function fetchWorkdayJobs(company: Company, fetcher: Fetch, signal?: Abort
   return jobs.map((job) => normalizeWorkday(company, source, job));
 }
 
+async function fetchWithRetry(fetcher: Fetch, input: string | URL, init: RequestInit | undefined, companyName: string, observer?: FetchJobsObserver): Promise<Response> {
+  for (let attempt = 0; attempt < 3; attempt += 1) {
+    const response = await fetcher(input, init);
+    if (response.ok || !isTransientStatus(response.status)) return response;
+    if (attempt === 2) {
+      await response.body?.cancel().catch(() => undefined);
+      throw new Error(`${companyName} job board returned HTTP ${response.status}`);
+    }
+    const delayMs = retryDelayMs(response, attempt);
+    observer?.onBackoff?.({ status: response.status, delayMs });
+    await response.body?.cancel().catch(() => undefined);
+    await abortableDelay(delayMs, init?.signal ?? undefined);
+  }
+  throw new Error(`${companyName} job source exhausted retries`);
+}
+
 function isTransientStatus(status: number): boolean {
   return status === 429 || status === 502 || status === 503 || status === 504 || status === 520;
 }
 
 function retryDelayMs(response: Response, attempt: number): number {
-  const retryAfter = Number(response.headers.get("retry-after"));
-  return Number.isFinite(retryAfter) && retryAfter >= 0 ? retryAfter * 1_000 : 500 * 2 ** attempt;
+  const value = response.headers.get("retry-after");
+  if (value !== null) {
+    const seconds = Number(value);
+    if (Number.isFinite(seconds) && seconds >= 0) return Math.min(30_000, seconds * 1_000);
+    const date = Date.parse(value);
+    if (Number.isFinite(date)) return Math.min(30_000, Math.max(0, date - Date.now()));
+  }
+  return 500 * 2 ** attempt;
 }
 
 function abortableDelay(ms: number, signal?: AbortSignal): Promise<void> {
   if (!ms) return Promise.resolve();
+  if (signal?.aborted) return Promise.reject(signal.reason ?? new Error("Aborted"));
   return new Promise((resolve, reject) => {
     const onAbort = () => {
       clearTimeout(timer);

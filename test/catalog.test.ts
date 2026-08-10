@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { createCatalog } from "../src/catalog.ts";
+import { createCatalog, fetchSourceJobs } from "../src/catalog.ts";
 
 describe("job catalog", () => {
   test("paginates Workday JSON and loads a description on get", async () => {
@@ -41,6 +41,52 @@ describe("job catalog", () => {
 
     expect(await catalog.search({ country: "IN" })).toHaveLength(1);
     expect(requests).toBe(2);
+  });
+
+  test("retries transient Greenhouse, Lever, and Ashby failures with the shared backoff policy", async () => {
+    for (const ats of ["greenhouse", "lever", "ashby"] as const) {
+      let requests = 0;
+      let cancelled = false;
+      const catalog = createCatalog({
+        companies: [{ slug: "acme", name: "Acme", ats, token: "acme" }],
+        fetch: async () => {
+          requests += 1;
+          if (requests === 1) return new Response(new ReadableStream({ cancel: () => { cancelled = true; } }), { status: 503, headers: { "retry-after": "0" } });
+          if (ats === "lever") return Response.json([{ id: "1", text: "Engineer", hostedUrl: "https://jobs.lever.co/acme/1", categories: { location: "Pune, India" } }]);
+          if (ats === "ashby") return Response.json({ jobs: [{ id: "1", title: "Engineer", location: "Pune, India", jobUrl: "https://jobs.ashbyhq.com/acme/1" }] });
+          return Response.json({ jobs: [{ id: 1, title: "Engineer", location: { name: "Pune, India" }, absolute_url: "https://example.test/1" }] });
+        },
+      });
+
+      expect(await catalog.search({ country: "IN" })).toHaveLength(1);
+      expect(requests).toBe(2);
+      expect(cancelled).toBeTrue();
+    }
+  });
+
+  test("caps numeric and HTTP-date Retry-After delays", async () => {
+    for (const retryAfter of ["31536000", "Wed, 21 Oct 2099 07:28:00 GMT"]) {
+      const delays: number[] = [];
+      const controller = new AbortController();
+      controller.abort(new Error("stop after observing policy"));
+      await expect(fetchSourceJobs(
+        { slug: "acme", name: "Acme", ats: "greenhouse", token: "acme" },
+        async () => new Response("busy", { status: 429, headers: { "retry-after": retryAfter } }),
+        controller.signal,
+        { onBackoff: ({ delayMs }) => delays.push(delayMs) },
+      )).rejects.toThrow("stop after observing policy");
+      expect(delays).toEqual([30_000]);
+    }
+  });
+
+  test("disposes every response when transient failures exhaust retries", async () => {
+    let cancelled = 0;
+    const catalog = createCatalog({
+      companies: [{ slug: "acme", name: "Acme", ats: "lever", token: "acme" }],
+      fetch: async () => new Response(new ReadableStream({ cancel: () => { cancelled += 1; } }), { status: 503, headers: { "retry-after": "0" } }),
+    });
+    expect(await catalog.search({})).toEqual([]);
+    expect(cancelled).toBe(3);
   });
   test("searches Greenhouse jobs through the public catalog interface", async () => {
     const catalog = createCatalog({

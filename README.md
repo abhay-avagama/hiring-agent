@@ -35,6 +35,8 @@ bun run src/cli.ts get greenhouse:anthropic:12345
 
 Commands return JSON so the same interface works for people, shell scripts, and agents. Search refreshes a missing or stale snapshot automatically; the default freshness window is 14 days. Use `--stale-days N` to change it or `--offline` to guarantee that no network request is made. Openings does not install a scheduler—run `crawl` using whichever scheduler you prefer.
 
+Catalog and candidate writers wait up to 60 seconds to acquire their file lock; this never limits the operation after it acquires the lock. Set `OPENINGS_LOCK_TIMEOUT_MS` to change only that wait ceiling. Timeout errors identify the current holder's PID, operation, and start time.
+
 `crawl` updates every source by default. `--country CODE` selects the maintained discovery cohort for that country; it does not label companies as country-specific. `--companies FILE` accepts one catalog slug per line. Successful selected sources replace their partitions, failures are removed and reported, and unselected partitions remain intact. Reports include each source's attempts, duration, total jobs, country-job counts, and final error. Transient source failures receive one lower-pressure retry; Workday pagination also backs off on throttling and transient gateway responses.
 
 `snapshot export` reads `.openings/snapshot.json` by default and writes a distributable manifest plus deterministic per-source partitions under `.openings/dist`. Every partition carries a SHA-256 checksum in the manifest, along with compact source, job, and country-count summaries. Use `--input FILE` and `--output-dir PATH` to select other locations.

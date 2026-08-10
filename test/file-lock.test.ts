@@ -45,3 +45,11 @@ test("operation errors do not orphan the lock", async () => {
   await expect(withFileLock(target, async () => { throw error; })).rejects.toBe(error);
   await expect(access(`${target}.lock`)).rejects.toBeDefined();
 });
+
+test("waiting for a live lock has an acquisition-only timeout with holder details", async () => {
+  const directory = await mkdtemp(join(tmpdir(), "openings-lock-"));
+  const target = join(directory, "catalog.json");
+  await writeFile(`${target}.lock`, JSON.stringify({ pid: process.pid, createdAt: "2026-08-10T00:00:00.000Z", operation: "verify sources" }));
+
+  await expect(withFileLock(target, async () => "never", { acquireTimeoutMs: 5 })).rejects.toThrow(/Timed out waiting.*verify sources.*pid/u);
+});

@@ -1,5 +1,6 @@
 import { readFile } from "node:fs/promises";
 import { atomicJson } from "./atomic-file.ts";
+import { assertCompatibleReport, stampReport, type ReportMeta } from "./report-meta.ts";
 import { mergeSourceCandidates } from "./source-discovery.ts";
 import { resolveSource } from "./source-verification.ts";
 import { fetchSafeHead, type HeadTransport, type ResolveHost } from "./safe-head.ts";
@@ -11,7 +12,7 @@ interface CompanySeed { companyName: string; companyDomain: string; careerUrl?: 
 interface TraceIssue { companyName?: string; companyDomain?: string; careerUrls?: string[]; reason: string; detail: string }
 interface TraceOptions { country?: string; fetch?: Fetch; concurrency?: number; timeoutMs?: number; searchKey?: string; commonCrawlReportPath?: string; resolveHost?: ResolveHost; headTransport?: HeadTransport }
 
-export interface CareerTraceReport {
+export interface CareerTraceReport extends ReportMeta {
   companiesChecked: number;
   ready: number;
   alreadyKnown: number;
@@ -89,19 +90,20 @@ export async function traceCareerSources(inputPath: string, candidatesPath: stri
   await Promise.all(Array.from({ length: Math.min(concurrency, seeds.length) }, worker));
   const additions = candidates.sort((a, b) => a.index - b.index).map((row) => row.candidate);
   const appended = await mergeSourceCandidates(candidatesPath, additions);
-  const report: CareerTraceReport = {
+  const report: CareerTraceReport = stampReport("career-tracing:1", 1, {
     companiesChecked: seeds.length, ready: appended, alreadyKnown: additions.length - appended,
     unresolved: unresolved.length, rejected: rejected.length, failures: failures.length, candidatesPath, reportPath,
     unresolvedCompanies: unresolved.sort((a, b) => a.index - b.index).map((row) => row.issue),
     rejections: rejected.sort((a, b) => a.index - b.index).map((row) => row.issue),
     failureDetails: failures.sort((a, b) => a.index - b.index).map((row) => row.issue),
-  };
+  });
   await atomicJson(reportPath, report);
   return report;
 }
 
 async function readCommonCrawlLeads(path: string) {
   const value: unknown = JSON.parse(await readFile(path, "utf8"));
+  assertCompatibleReport(value, "common-crawl-discovery:1", 1);
   if (!isRecord(value) || !Array.isArray(value.leads)) throw new Error("Common Crawl report must contain a leads array");
   return value.leads.flatMap((lead) => {
     if (!isRecord(lead) || typeof lead.sourceUrl !== "string") return [];

@@ -24,7 +24,7 @@ export interface SourcePipelineReport {
 
 export async function runSourceVerification(candidatesPath: string, catalogPath: string, options: PipelineOptions = {}): Promise<SourcePipelineReport> {
   await mkdir(dirname(catalogPath), { recursive: true });
-  return withFileLock(catalogPath, () => runSourceVerificationUnlocked(candidatesPath, catalogPath, options));
+  return withFileLock(catalogPath, () => runSourceVerificationUnlocked(candidatesPath, catalogPath, options), { operation: "verify sources" });
 }
 
 async function runSourceVerificationUnlocked(candidatesPath: string, catalogPath: string, options: PipelineOptions): Promise<SourcePipelineReport> {

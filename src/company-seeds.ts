@@ -35,7 +35,7 @@ export async function generateYcCompanySeeds(outputPath: string, options: Option
     seen.add(companyDomain);
     seeds.push({ companyName: company.name.trim(), companyDomain });
   }
-  await withFileLock(outputPath, () => atomicJson(outputPath, seeds));
+  await withFileLock(outputPath, () => atomicJson(outputPath, seeds), { operation: "write company seeds" });
   return { country, matched: matched.length, written: seeds.length, skipped: matched.length - seeds.length, outputPath };
 }
 
