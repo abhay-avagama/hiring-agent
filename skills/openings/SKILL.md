@@ -1,9 +1,11 @@
 ---
 name: openings
-description: Search a locally refreshed index of public company job boards, inspect a role, and tailor application materials from the user's local resume and genuine writing samples. Use when the user wants to find jobs or prepare a truthful application.
+description: Legacy transitional workflow for searching jobs and tailoring local application materials. Use only until the MCP-native recommendation and resume-optimization tools replace this flow.
 ---
 
 # Openings
+
+> **Legacy transitional workflow:** This skill predates the MCP-native v1 workflow specified in `docs/PRD.md`. It remains for backwards compatibility while only `search_jobs` and `get_job` exist. Once `recommend_jobs` and `optimize_resume` ship, replace the parsing, matching, and tailoring instructions below with a thin wrapper around those tools. Do not extend this skill with a second recommendation or resume-optimization implementation.
 
 Use the `search_jobs` and `get_job` tools to discover and inspect openings. These tools are read-only and must never be used to submit an application.
 
