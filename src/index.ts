@@ -19,3 +19,5 @@ export const catalog = createCatalog({ companies });
 export { createCatalog } from "./catalog.ts";
 export type { Catalog } from "./catalog.ts";
 export type { Ats, Company, Job, JobSummary, SearchQuery } from "./types.ts";
+export { parseCandidateProfile, ResumeInputError, validateCandidateProfileEvidence } from "./candidate-profile.ts";
+export type { CandidateFact, CandidateFactKind, CandidateInference, CandidateProfile, EvidenceSpan, EvidenceValidationResult, NormalizedResume, ResumeFormat, ResumeInput } from "./candidate-profile.ts";
