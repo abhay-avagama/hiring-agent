@@ -1,6 +1,7 @@
 import { expect, test } from "bun:test";
 import { createMcpHandler } from "../src/mcp.ts";
 import { createJobRecommender } from "../src/job-recommendations.ts";
+import { createJobFitAnalyzer } from "../src/job-fit-analysis.ts";
 import { createToolHandler } from "../src/tools.ts";
 import type { Catalog } from "../src/catalog.ts";
 import type { Company, Job, JobSnapshot } from "../src/types.ts";
@@ -66,7 +67,8 @@ test("recommend_jobs runs parsing and matching through MCP while refresh never p
     crawl: async () => { crawls += 1; return snapshot.lastCrawl; }, now: () => new Date("2026-08-11T00:00:00Z"),
   });
   const catalog: Catalog = { search: async () => [], get: async () => null };
-  const handler = createMcpHandler(createToolHandler(catalog, recommender));
+  const analyzer = createJobFitAnalyzer({ getJob: async (id) => id === job.id ? job : null });
+  const handler = createMcpHandler(createToolHandler(catalog, { ...recommender, analyzeJobFit: analyzer.analyze }));
   const response = await handler({
     jsonrpc: "2.0", id: 4, method: "tools/call",
     params: { name: "recommend_jobs", arguments: { resume: { content: "Skills\nJava", format: "text" }, intent: { countries: ["IN"] }, refresh: { policy: "never" } } },
@@ -93,4 +95,35 @@ test("recommend_jobs runs parsing and matching through MCP while refresh never p
     expect(JSON.parse(invalidResult.content[0]!.text).error.code).toBe(invalid.code);
   }
   expect(crawls).toBe(0);
+});
+
+test("analyze_job_fit runs selected-job evidence analysis through MCP without crawling", async () => {
+  const job: Job = {
+    id: "greenhouse:acme:2", company: "Acme", title: "Backend Engineer", location: "Bengaluru, India", remote: false, workMode: "onsite",
+    eligibleCountries: ["IN"], excludedCountries: [], eligibleRegions: [], eligibilityConfidence: "explicit", url: "https://example.test/2",
+    description: "Java and AWS are required. Candidates must be authorized to work in India.",
+  };
+  let lookups = 0;
+  const analyzer = createJobFitAnalyzer({ getJob: async (id) => { lookups += 1; return id === job.id ? job : null; } });
+  const catalog: Catalog = { search: async () => [], get: async () => null };
+  const workflows = { recommend: async () => { throw new Error("recommend should not run"); }, analyzeJobFit: analyzer.analyze };
+  const handler = createMcpHandler(createToolHandler(catalog, workflows));
+  const response = await handler({
+    jsonrpc: "2.0", id: 30, method: "tools/call",
+    params: { name: "analyze_job_fit", arguments: { jobId: job.id, resume: { content: "Skills\nJava", format: "text" }, intent: { countries: ["IN"] } } },
+  });
+  if (!response || !("result" in response)) throw new Error("Expected MCP result");
+  const result = response.result as { content: Array<{ text: string }>; isError: boolean };
+  const payload = JSON.parse(result.content[0]!.text) as { supported: Array<{ requirement: string }>; unsupported: string[]; screeningRisks: string[] };
+  expect(result.isError).toBe(false);
+  expect(payload.supported).toContainEqual(expect.objectContaining({ requirement: "Java" }));
+  expect(payload.unsupported).toEqual(expect.arrayContaining(["AWS", "Work authorization in India"]));
+  expect(payload.screeningRisks).toContain("Work authorization is required but cannot be inferred from resume silence or geographic intent: India");
+  expect(lookups).toBe(1);
+
+  const missing = await handler({ jsonrpc: "2.0", id: 31, method: "tools/call", params: { name: "analyze_job_fit", arguments: { jobId: "missing", resume: { content: "Skills\nJava", format: "text" } } } });
+  if (!missing || !("result" in missing)) throw new Error("Expected MCP tool error");
+  const errorResult = missing.result as { content: Array<{ text: string }>; isError: boolean };
+  expect(errorResult.isError).toBe(true);
+  expect(JSON.parse(errorResult.content[0]!.text).error).toEqual(expect.objectContaining({ code: "job_not_found", field: "jobId" }));
 });

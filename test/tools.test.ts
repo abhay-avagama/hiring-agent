@@ -19,9 +19,10 @@ describe("agent tools", () => {
         recommendationInput = input;
         return { matches: [] } as unknown as RecommendJobsResult;
       },
+      analyzeJobFit: async () => ({ job: { id: "job" } }) as never,
     });
 
-    expect(tools.list().map((tool) => tool.name)).toEqual(["recommend_jobs", "search_jobs", "get_job"]);
+    expect(tools.list().map((tool) => tool.name)).toEqual(["recommend_jobs", "analyze_job_fit", "search_jobs", "get_job"]);
     expect(tools.list()[0]!.inputSchema).toEqual(expect.objectContaining({ required: ["resume", "intent"], additionalProperties: false }));
     expect(await tools.call("search_jobs", { query: "Engineer", country: "de", remote: true })).toEqual({
       jobs: [expect.objectContaining({ title: "Engineer" })],
@@ -31,6 +32,7 @@ describe("agent tools", () => {
       resume: { content: "Skills\nJava", format: "text" }, intent: { countries: ["IN"], excludedRoles: ["manager"] }, refresh: { policy: "never" },
     })).toEqual(expect.objectContaining({ matches: [] }));
     expect(recommendationInput).toEqual(expect.objectContaining({ intent: expect.objectContaining({ excludedRoles: ["manager"] }), refresh: { policy: "never" } }));
+    expect(await tools.call("analyze_job_fit", { jobId: "job", resume: { content: "Skills\nJava", format: "text" } })).toEqual(expect.objectContaining({ job: expect.objectContaining({ id: "job" }) }));
     await expect(tools.call("search_jobs", { remote: "true" })).rejects.toThrow("remote must be a boolean");
     await expect(tools.call("search_jobs", { limit: 101 })).rejects.toThrow("limit must be an integer between 1 and 100");
     await expect(tools.call("get_job", { id: "job", extra: true })).rejects.toThrow("get_job does not accept field: extra");

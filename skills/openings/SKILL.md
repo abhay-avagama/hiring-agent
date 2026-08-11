@@ -7,14 +7,15 @@ description: Use the MCP-native recommendation tool to find evidence-grounded jo
 
 > **Transitional workflow:** `recommend_jobs` is the sole recommendation and matching implementation. The local tailoring section remains legacy-only until `optimize_resume` ships. Do not reproduce parsing, matching, fit classification, or evidence validation in this skill.
 
-Use `recommend_jobs` for resume-based discovery and `get_job` for a selected job's complete description. Keep `search_jobs` for direct lower-level searches that do not need resume matching. These tools are read-only and must never be used to submit an application.
+Use `recommend_jobs` for resume-based discovery, `analyze_job_fit` for evidence-grounded analysis of a selected job, and `get_job` for its complete description. Keep `search_jobs` for direct lower-level searches that do not need resume matching. These tools are read-only and must never be used to submit an application.
 
 ## Search
 
 1. Ask only for missing constraints that materially change the recommendation.
 2. Supply the user's resume content and explicit intent to `recommend_jobs`; never pass an arbitrary filesystem path.
 3. Present the returned shortlist, assumptions, evidence, gaps, refresh status, and failures without recalculating fit.
-4. Call `get_job` before discussing the complete description of a selected role.
+4. Call `analyze_job_fit` before explaining a selected role's fit; present its evidence and gaps without independently recalculating them.
+5. Call `get_job` before discussing the complete description of a selected role.
 
 ## Tailor an application
 

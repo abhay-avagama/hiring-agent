@@ -1,16 +1,20 @@
 import type { Catalog } from "./catalog.ts";
 import type { RecommendJobsResult } from "./job-recommendations.ts";
+import type { AnalyzeJobFitResult } from "./job-fit-analysis.ts";
 import type { SearchQuery } from "./types.ts";
 
 export interface ToolDefinition {
-  name: "recommend_jobs" | "search_jobs" | "get_job";
+  name: "recommend_jobs" | "analyze_job_fit" | "search_jobs" | "get_job";
   description: string;
   inputSchema: Record<string, unknown>;
 }
 
-interface JobRecommender { recommend(input: unknown): Promise<RecommendJobsResult> }
+interface JobWorkflows {
+  recommend(input: unknown): Promise<RecommendJobsResult>;
+  analyzeJobFit(input: unknown): Promise<AnalyzeJobFitResult>;
+}
 
-export function createToolHandler(catalog: Catalog, recommender: JobRecommender) {
+export function createToolHandler(catalog: Catalog, workflows: JobWorkflows) {
   const definitions: ToolDefinition[] = [
     {
       name: "recommend_jobs",
@@ -18,23 +22,8 @@ export function createToolHandler(catalog: Catalog, recommender: JobRecommender)
       inputSchema: {
         type: "object",
         properties: {
-          resume: {
-            type: "object",
-            properties: {
-              content: { type: "string", minLength: 1, description: "Resume content supplied directly; filesystem paths are not accepted" },
-              format: { type: "string", enum: ["text", "markdown", "pdf_base64", "docx_base64"] },
-            },
-            required: ["content", "format"], additionalProperties: false,
-          },
-          intent: {
-            type: "object",
-            properties: {
-              roles: stringArray(), countries: countryArray(), locations: stringArray(), remote: { type: "boolean" }, seniority: stringArray(),
-              requiredSkills: stringArray(), excludedTerms: stringArray(),
-              excludedCountries: countryArray(), excludedLocations: stringArray(), excludedRoles: stringArray(),
-            },
-            additionalProperties: false,
-          },
+          resume: resumeSchema(),
+          intent: intentSchema(),
           refresh: {
             type: "object",
             properties: {
@@ -47,6 +36,15 @@ export function createToolHandler(catalog: Catalog, recommender: JobRecommender)
           limit: { type: "integer", minimum: 1, maximum: 100, default: 20 },
         },
         required: ["resume", "intent"], additionalProperties: false,
+      },
+    },
+    {
+      name: "analyze_job_fit",
+      description: "Analyze one stable job id against explicit, verbatim resume evidence; report support, gaps, screening risks, and interview preparation without inventing candidate facts.",
+      inputSchema: {
+        type: "object",
+        properties: { jobId: { type: "string", minLength: 1 }, resume: resumeSchema(), intent: intentSchema() },
+        required: ["jobId", "resume"], additionalProperties: false,
       },
     },
     {
@@ -79,7 +77,8 @@ export function createToolHandler(catalog: Catalog, recommender: JobRecommender)
   return {
     list: () => definitions,
     async call(name: string, input: Record<string, unknown>) {
-      if (name === "recommend_jobs") return recommender.recommend(input);
+      if (name === "recommend_jobs") return workflows.recommend(input);
+      if (name === "analyze_job_fit") return workflows.analyzeJobFit(input);
       if (name === "search_jobs") {
         assertToolKeys(input, ["query", "location", "country", "remote", "limit"], "search_jobs");
         if (input.query !== undefined && typeof input.query !== "string") throw new Error("query must be a string");
@@ -102,6 +101,29 @@ export function createToolHandler(catalog: Catalog, recommender: JobRecommender)
       }
       throw new Error(`Unknown tool: ${name}`);
     },
+  };
+}
+
+function resumeSchema(): Record<string, unknown> {
+  return {
+    type: "object",
+    properties: {
+      content: { type: "string", minLength: 1, description: "Resume content supplied directly; filesystem paths are not accepted" },
+      format: { type: "string", enum: ["text", "markdown", "pdf_base64", "docx_base64"] },
+    },
+    required: ["content", "format"], additionalProperties: false,
+  };
+}
+
+function intentSchema(): Record<string, unknown> {
+  return {
+    type: "object",
+    properties: {
+      roles: stringArray(), countries: countryArray(), locations: stringArray(), remote: { type: "boolean" }, seniority: stringArray(),
+      requiredSkills: stringArray(), excludedTerms: stringArray(),
+      excludedCountries: countryArray(), excludedLocations: stringArray(), excludedRoles: stringArray(),
+    },
+    additionalProperties: false,
   };
 }
 

@@ -3,6 +3,7 @@ import { fetchSourceJobs } from "./catalog.ts";
 import { companies } from "./index.ts";
 import { createLocalJobs } from "./local-jobs.ts";
 import { createJobRecommender } from "./job-recommendations.ts";
+import { createJobFitAnalyzer } from "./job-fit-analysis.ts";
 import { createFileSnapshotStore } from "./snapshot-store.ts";
 
 export function createRuntime(options: { dataDir?: string; concurrency?: number } = {}) {
@@ -15,5 +16,6 @@ export function createRuntime(options: { dataDir?: string; concurrency?: number 
     concurrency: options.concurrency,
   });
   const recommender = createJobRecommender({ sources: companies, store, crawl: local.crawl });
-  return { ...local, recommend: recommender.recommend };
+  const analyzer = createJobFitAnalyzer({ getJob: async (id) => (await local.get(id, { offline: true, staleDays: 14 })).job });
+  return { ...local, recommend: recommender.recommend, analyzeJobFit: analyzer.analyze };
 }
