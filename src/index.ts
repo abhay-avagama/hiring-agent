@@ -21,3 +21,5 @@ export type { Catalog } from "./catalog.ts";
 export type { Ats, Company, Job, JobSummary, SearchQuery } from "./types.ts";
 export { parseCandidateProfile, ResumeInputError, validateCandidateProfileEvidence } from "./candidate-profile.ts";
 export type { CandidateFact, CandidateFactKind, CandidateInference, CandidateProfile, EvidenceSpan, EvidenceValidationResult, NormalizedResume, ResumeFormat, ResumeInput } from "./candidate-profile.ts";
+export { matchJobs } from "./job-matching.ts";
+export type { CandidateIntent, FilteredJob, JobMatch, JobMatchingResult, SupportedRequirement, TransferableRequirement } from "./job-matching.ts";
