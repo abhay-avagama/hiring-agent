@@ -1,5 +1,6 @@
 import { mkdir, readFile, rename, writeFile } from "node:fs/promises";
-import { dirname } from "node:path";
+import { dirname, resolve } from "node:path";
+import { atomicJson } from "./atomic-file.ts";
 import { withFileLock } from "./file-lock.ts";
 import { resolveSource, verifyCandidates } from "./source-verification.ts";
 import { deriveLeadState, mergeEnrichmentLeads, readEnrichmentRegistry, retryDisposition, strongestEvidenceRank, transientAttempt, type EnrichmentLead, type IdentityEvidence, type LeadAttempt } from "./enrichment-registry.ts";
@@ -17,6 +18,7 @@ interface PipelineOptions {
   retryDeferred?: boolean;
   limit?: number;
   providerConcurrency?: Partial<Record<Ats, number>>;
+  batchStatePath?: string;
 }
 
 export interface SourcePipelineReport {
@@ -30,18 +32,25 @@ export interface SourcePipelineReport {
   retryableFailures: number;
   preserved: number;
   carriedForward: number;
+  batchStatePath: string;
   catalogPath: string;
   rejections: RejectedSource[];
 }
 
 export async function runSourceVerification(candidatesPath: string, catalogPath: string, options: PipelineOptions = {}): Promise<SourcePipelineReport> {
   await mkdir(dirname(catalogPath), { recursive: true });
-  return withFileLock(catalogPath, () => runSourceVerificationUnlocked(candidatesPath, catalogPath, options), { operation: "verify sources" });
+  const batchStatePath = options.batchStatePath ?? `${catalogPath}.verification-state.json`;
+  if (resolve(batchStatePath) === resolve(catalogPath)) throw new Error("Source verification batch state must not overwrite the catalog");
+  return withFileLock(batchStatePath,
+    () => withFileLock(catalogPath, () => runSourceVerificationUnlocked(candidatesPath, catalogPath, { ...options, batchStatePath }), { operation: "verify sources" }),
+    { operation: "schedule source verification batch" });
 }
 
 async function runSourceVerificationUnlocked(candidatesPath: string, catalogPath: string, options: PipelineOptions): Promise<SourcePipelineReport> {
   const candidates = await readCandidates(candidatesPath);
   const prior = await readPriorCatalog(catalogPath);
+  const batchStatePath = options.batchStatePath ?? `${catalogPath}.verification-state.json`;
+  const batchState = await readBatchState(batchStatePath);
   const newCandidates = candidates.filter((candidate) => !candidateInCatalog(candidate, prior)).length;
   let eligible = candidates;
   const deferred: RejectedSource[] = [];
@@ -60,7 +69,7 @@ async function runSourceVerificationUnlocked(candidatesPath: string, catalogPath
     });
   }
   const limit = options.limit === undefined ? eligible.length : Math.max(1, Math.trunc(options.limit));
-  const selected = [...eligible].sort((left, right) => Number(candidateInCatalog(left, prior)) - Number(candidateInCatalog(right, prior))).slice(0, limit);
+  const selected = [...eligible].sort((left, right) => compareVerificationPriority(left, right, prior, batchState)).slice(0, limit);
   const conflicts = selected.filter((candidate) => candidateConflictsCatalog(candidate, prior));
   const verifiable = selected.filter((candidate) => !candidateConflictsCatalog(candidate, prior));
   const result = await verifyCandidates(verifiable, options);
@@ -80,6 +89,10 @@ async function runSourceVerificationUnlocked(candidatesPath: string, catalogPath
   });
   const selectedSlugs = new Set(verifiable.flatMap((candidate) => { const slug = candidateSlug(candidate); return slug ? [slug] : []; }));
   const untouched = Object.entries(prior).flatMap(([slug, company]) => selectedSlugs.has(slug) ? [] : [{ slug, ...company } as VerifiedCompany]);
+  const attemptedAt = (options.now?.() ?? new Date()).toISOString();
+  for (const candidate of selected) batchState.attempts[sourceKeyForCandidate(candidate)] = attemptedAt;
+  batchState.updatedAt = attemptedAt;
+  await atomicJson(batchStatePath, batchState);
   await writeCatalog(catalogPath, [...result.verified, ...preserved, ...untouched]);
   if (options.registryPath) await recordRegistryOutcomes(options.registryPath, result, options.now?.() ?? new Date());
   return {
@@ -93,6 +106,7 @@ async function runSourceVerificationUnlocked(candidatesPath: string, catalogPath
     retryableFailures,
     preserved: preserved.length,
     carriedForward: untouched.length,
+    batchStatePath,
     catalogPath,
     rejections: result.rejected,
   };
@@ -106,6 +120,30 @@ function candidateInCatalog(candidate: SourceCandidate, catalog: Record<string, 
   return previous?.companyDomain === candidate.companyDomain.toLowerCase() && previous.sourceUrl === resolveSource(candidate.sourceUrl)?.canonicalSourceUrl;
 }
 
+interface VerificationBatchState { version: 1; updatedAt: string; attempts: Record<string, string> }
+
+function compareVerificationPriority(left: SourceCandidate, right: SourceCandidate, catalog: Record<string, Omit<VerifiedCompany, "slug">>, state: VerificationBatchState): number {
+  const leftAttempt = attemptTime(left, state);
+  const rightAttempt = attemptTime(right, state);
+  if (leftAttempt !== rightAttempt) return leftAttempt - rightAttempt;
+  const leftKnown = candidateInCatalog(left, catalog);
+  const rightKnown = candidateInCatalog(right, catalog);
+  if (leftKnown !== rightKnown) return Number(leftKnown) - Number(rightKnown);
+  if (!leftKnown) return 0;
+  return verificationTime(left, catalog) - verificationTime(right, catalog);
+}
+
+function attemptTime(candidate: SourceCandidate, state: VerificationBatchState): number {
+  const value = Date.parse(state.attempts[sourceKeyForCandidate(candidate)] ?? "");
+  return Number.isFinite(value) ? value : Number.NEGATIVE_INFINITY;
+}
+
+function verificationTime(candidate: SourceCandidate, catalog: Record<string, Omit<VerifiedCompany, "slug">>): number {
+  const slug = candidateSlug(candidate);
+  const value = slug ? Date.parse(catalog[slug]?.verification.checkedAt ?? "") : Number.NaN;
+  return Number.isFinite(value) ? value : Number.NEGATIVE_INFINITY;
+}
+
 function candidateConflictsCatalog(candidate: SourceCandidate, catalog: Record<string, Omit<VerifiedCompany, "slug">>): boolean {
   if (typeof candidate.companyDomain !== "string" || typeof candidate.sourceUrl !== "string") return false;
   const slug = candidateSlug(candidate);
@@ -116,6 +154,32 @@ function candidateConflictsCatalog(candidate: SourceCandidate, catalog: Record<s
 function candidateSlug(candidate: SourceCandidate): string | undefined {
   if (typeof candidate.slug === "string" && candidate.slug) return candidate.slug;
   return typeof candidate.companyDomain === "string" && candidate.companyDomain ? slugFromDomain(candidate.companyDomain) : undefined;
+}
+
+function sourceKeyForCandidate(candidate: SourceCandidate): string {
+  if (typeof candidate.sourceUrl === "string") {
+    const source = resolveSource(candidate.sourceUrl);
+    if (source) return `${source.ats}:${source.token.toLowerCase()}`;
+  }
+  return `candidate:${String(candidate.companyDomain ?? "").toLowerCase()}|${String(candidate.sourceUrl ?? "")}`;
+}
+
+async function readBatchState(path: string): Promise<VerificationBatchState> {
+  try {
+    const value: unknown = JSON.parse(await readFile(path, "utf8"));
+    if (typeof value === "object" && value !== null && !Array.isArray(value) && (value as { version?: unknown }).version === 1 && typeof (value as { attempts?: unknown }).attempts === "object" && (value as { attempts?: unknown }).attempts !== null && !Array.isArray((value as { attempts?: unknown }).attempts)) {
+      const updatedAt = (value as { updatedAt?: unknown }).updatedAt;
+      const entries = Object.entries((value as { attempts: Record<string, unknown> }).attempts);
+      if (typeof updatedAt === "string" && Number.isFinite(Date.parse(updatedAt)) && entries.every((entry): entry is [string, string] => entry[0].length > 0 && typeof entry[1] === "string" && Number.isFinite(Date.parse(entry[1])))) {
+        return { version: 1, updatedAt, attempts: Object.fromEntries(entries) };
+      }
+    }
+    throw new Error(`Invalid source verification batch state: ${path}`);
+  } catch (error) {
+    if (error instanceof Error && "code" in error && error.code === "ENOENT") return { version: 1, updatedAt: new Date(0).toISOString(), attempts: {} };
+    if (error instanceof SyntaxError) throw new Error(`Invalid source verification batch state JSON: ${path}`);
+    throw error;
+  }
 }
 
 async function recordRegistryOutcomes(registryPath: string, result: Awaited<ReturnType<typeof verifyCandidates>>, now: Date): Promise<void> {

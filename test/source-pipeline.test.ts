@@ -117,3 +117,44 @@ test("a batch candidate cannot overwrite an unrelated verified catalog slug", as
   expect(report.rejections[0]?.reason).toBe("duplicate_slug");
   expect(JSON.parse(await readFile(catalogPath, "utf8")).acme.companyDomain).toBe("acme.test");
 });
+
+test("successive one-item batches rotate past failures and refresh the oldest catalog sources", async () => {
+  const directory = await mkdtemp(join(tmpdir(), "openings-sources-rotation-"));
+  const candidatesPath = join(directory, "candidates.json");
+  const catalogPath = join(directory, "companies.json");
+  const known = [
+    { name: "Newest", checkedAt: "2026-08-03T00:00:00.000Z" },
+    { name: "Oldest", checkedAt: "2026-08-01T00:00:00.000Z" },
+    { name: "Middle", checkedAt: "2026-08-02T00:00:00.000Z" },
+  ];
+  await writeFile(candidatesPath, JSON.stringify([
+    { companyName: "Quarantined", companyDomain: "quarantined.test", sourceUrl: "https://example.test/jobs", discoveredFrom: { channel: "legacy", reference: "known rejection" } },
+    ...known.map(({ name }) => ({ companyName: name, companyDomain: `${name.toLowerCase()}.test`, sourceUrl: `https://job-boards.greenhouse.io/${name.toLowerCase()}`, discoveredFrom: { channel: "dataset", reference: "campaign" } })),
+  ]));
+  await writeFile(catalogPath, JSON.stringify(Object.fromEntries(known.map(({ name, checkedAt }) => [name.toLowerCase(), {
+    name, ats: "greenhouse", token: name.toLowerCase(), companyDomain: `${name.toLowerCase()}.test`, sourceUrl: `https://job-boards.greenhouse.io/${name.toLowerCase()}`,
+    discoveredFrom: { channel: "dataset", reference: "campaign" }, verification: { checkedAt, canonicalSourceUrl: `https://job-boards.greenhouse.io/${name.toLowerCase()}`, observedCompanyName: name, identityEvidence: "provider_company_name", contentType: "application/json", payloadVersion: "greenhouse-job-board:v1", jobCount: 1 },
+  }]))));
+  const requested: string[] = [];
+  const fetch = async (input: string | URL) => {
+    const token = String(input).split("/boards/")[1]?.split("/")[0] ?? "unknown";
+    requested.push(token);
+    return Response.json({ jobs: [{ company_name: token }] });
+  };
+
+  await runSourceVerification(candidatesPath, catalogPath, { limit: 1, now: () => new Date("2026-08-10T00:00:00.000Z"), fetch });
+  await runSourceVerification(candidatesPath, catalogPath, { limit: 1, now: () => new Date("2026-08-11T00:00:00.000Z"), fetch });
+  await runSourceVerification(candidatesPath, catalogPath, { limit: 1, now: () => new Date("2026-08-12T00:00:00.000Z"), fetch });
+
+  expect(requested).toEqual(["oldest", "middle"]);
+});
+
+test("a corrupt batch ledger fails closed instead of silently resetting rotation", async () => {
+  const directory = await mkdtemp(join(tmpdir(), "openings-sources-ledger-"));
+  const candidatesPath = join(directory, "candidates.json");
+  const catalogPath = join(directory, "companies.json");
+  await writeFile(candidatesPath, "[]");
+  await writeFile(`${catalogPath}.verification-state.json`, JSON.stringify({ version: 1, updatedAt: "invalid", attempts: {} }));
+
+  await expect(runSourceVerification(candidatesPath, catalogPath)).rejects.toThrow("Invalid source verification batch state");
+});

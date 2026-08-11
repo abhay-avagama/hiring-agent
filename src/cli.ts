@@ -16,7 +16,7 @@ const HELP = `Openings — search public company job boards
 Usage:
   openings crawl [--country CODE | --companies FILE] [--concurrency N] [--data-dir PATH]
   openings snapshot export [--input FILE] [--output-dir PATH]
-  openings sources verify CANDIDATES.json [--output FILE] [--concurrency N] [--workday-concurrency N] [--limit N] [--require-country CODE] [--registry FILE] [--retry-deferred]
+  openings sources verify CANDIDATES.json [--output FILE] [--state-file FILE] [--concurrency N] [--workday-concurrency N] [--limit N] [--require-country CODE] [--registry FILE] [--retry-deferred]
   openings sources discover FEED.json [--country CODE] [--registry FILE] [--output FILE] [--catalog FILE] [--report FILE]
   openings sources discover-yc --country CODE [--registry FILE] [--output FILE] [--catalog FILE] [--report FILE]
   openings sources seed-companies-yc --country CODE [--output FILE]
@@ -122,7 +122,7 @@ export async function run(args: string[]): Promise<number> {
     if (rest[0] !== "verify") return fail("sources requires a discovery, tracing, or `verify` subcommand");
     const parsed = parseSourceVerification(rest.slice(1));
     if (typeof parsed === "string") return fail(parsed);
-    console.log(JSON.stringify(await runSourceVerification(parsed.candidatesPath, parsed.output, { concurrency: parsed.concurrency, providerConcurrency: { workday: parsed.workdayConcurrency }, limit: parsed.limit, requireCountry: parsed.requireCountry, registryPath: parsed.registryPath, retryDeferred: parsed.retryDeferred }), null, 2));
+    console.log(JSON.stringify(await runSourceVerification(parsed.candidatesPath, parsed.output, { concurrency: parsed.concurrency, providerConcurrency: { workday: parsed.workdayConcurrency }, limit: parsed.limit, requireCountry: parsed.requireCountry, registryPath: parsed.registryPath, retryDeferred: parsed.retryDeferred, batchStatePath: parsed.batchStatePath }), null, 2));
     return 0;
   }
 
@@ -394,6 +394,7 @@ function parseSourceVerification(args: string[]) {
   const candidatesPath = args[0];
   if (!candidatesPath || candidatesPath.startsWith("--")) return "sources verify requires a candidate JSON file";
   let output = "data/companies.json";
+  let batchStatePath: string | undefined;
   let concurrency = 10;
   let workdayConcurrency = 2;
   let requireCountry: string | undefined;
@@ -405,6 +406,9 @@ function parseSourceVerification(args: string[]) {
     if (arg === "--output") {
       output = args[++index] ?? "";
       if (!output) return "--output requires a file";
+    } else if (arg === "--state-file") {
+      batchStatePath = args[++index] ?? "";
+      if (!batchStatePath) return "--state-file requires a file";
     } else if (arg === "--concurrency") {
       concurrency = Number(args[++index]);
       if (!Number.isInteger(concurrency) || concurrency < 1 || concurrency > 100) return "--concurrency must be an integer from 1 to 100";
@@ -424,7 +428,7 @@ function parseSourceVerification(args: string[]) {
       retryDeferred = true;
     } else return `Unknown option: ${arg}`;
   }
-  return { candidatesPath, output, concurrency, workdayConcurrency, limit, requireCountry, registryPath, retryDeferred };
+  return { candidatesPath, output, batchStatePath, concurrency, workdayConcurrency, limit, requireCountry, registryPath, retryDeferred };
 }
 
 function fail(message: string, code = 1): number {
