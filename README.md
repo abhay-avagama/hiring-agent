@@ -157,6 +157,19 @@ bun run test:live # verifies one real board per ATS; requires internet access
 
 Job data comes directly from public ATS endpoints and is stored under `.openings/` by default. Openings does not scrape arbitrary career-page HTML. The MCP host reads any source resume file and sends only its content to `recommend_jobs`, `analyze_job_fit`, or `optimize_resume`; Openings never receives or reads the filesystem path and never persists the resume content or derived profile. Every proposed revision remains subject to human review, and Openings never submits an application.
 
+### Expand the corpus
+
+Run the complete country campaign against a local Markdown list of company career-page links:
+
+```sh
+bun run expand:corpus -- \
+  --country IN \
+  --input data/companies-career-page.md \
+  --common-crawl-report .openings/common-crawl-discovery-report.json
+```
+
+The campaign extracts company-owned HTTPS career URLs, traces them with HEAD requests in isolated batches, verifies every evidence-ready ATS source once, crawls the verified country cohort once, and prints before/after company and job counts. Weak name or Common Crawl matches remain in the enrichment registry and are never promoted without qualifying identity evidence. Use `--batch-size`, `--trace-concurrency`, `--verify-concurrency`, `--workday-concurrency`, or `--crawl-concurrency` to tune a campaign; `--skip-verify` and `--skip-crawl` are available for staged runs.
+
 ## License
 
 MIT

@@ -11,7 +11,8 @@
     "test:live": "OPENINGS_LIVE_TESTS=1 bun test test/live-contract.test.ts",
     "typecheck": "bunx tsc --noEmit",
     "start": "bun run src/cli.ts",
-    "mcp": "bun run src/mcp.ts"
+    "mcp": "bun run src/mcp.ts",
+    "expand:corpus": "bun run scripts/expand-corpus.ts"
   },
   "devDependencies": {
     "@types/bun": "latest",
