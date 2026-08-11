@@ -218,6 +218,12 @@ test("repeated resume keywords never count as repeated competence evidence", () 
   expect(result.matches[0]!.fit).toBe("stretch");
 });
 
+test("matching rejects a candidate profile whose evidence has been tampered with", () => {
+  const profile = parseCandidateProfile({ content: "Skills\nJava", format: "text" });
+  profile.facts[0]!.evidence[0]!.quote = "Rust";
+  expect(() => matchJobs(profile, {}, [job({ description: "Java is required." })])).toThrow("invalid_candidate_profile");
+});
+
 function job(overrides: Partial<Job>): Job {
   return {
     id: "job", company: "Example", title: "Engineer", location: "Bengaluru, India", remote: false, workMode: "onsite",

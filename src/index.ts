@@ -23,3 +23,5 @@ export { parseCandidateProfile, ResumeInputError, validateCandidateProfileEviden
 export type { CandidateFact, CandidateFactKind, CandidateInference, CandidateProfile, EvidenceSpan, EvidenceValidationResult, NormalizedResume, ResumeFormat, ResumeInput } from "./candidate-profile.ts";
 export { matchJobs } from "./job-matching.ts";
 export type { CandidateIntent, FilteredJob, JobMatch, JobMatchingResult, SupportedRequirement, TransferableRequirement } from "./job-matching.ts";
+export { createJobRecommender, RecommendationError } from "./job-recommendations.ts";
+export type { JobRecommenderOptions, RecommendJobsInput, RecommendJobsResult, RecommendationRefreshInput, RecommendationRefreshResult, RefreshPolicy } from "./job-recommendations.ts";

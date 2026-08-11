@@ -13,6 +13,7 @@ interface LocalJobsOptions {
 
 export interface CrawlScope {
   country?: string;
+  countries?: string[];
   slugs?: string[];
 }
 
@@ -33,7 +34,7 @@ export function createLocalJobs(options: LocalJobsOptions) {
 
   async function crawl(scope: CrawlScope = {}): Promise<CrawlReport> {
     const selected = selectSources(options.sources, scope);
-    return crawler.crawl(selected, { prune: !scope.country && !scope.slugs });
+    return crawler.crawl(selected, { prune: !scope.country && !scope.countries && !scope.slugs });
   }
 
   async function ensureFresh(offline: boolean, staleDays: number): Promise<{ snapshot: JobSnapshot; refreshed: boolean }> {
@@ -53,11 +54,11 @@ export function createLocalJobs(options: LocalJobsOptions) {
     crawl,
     async search(query: SearchQuery, settings: { offline: boolean; staleDays: number }): Promise<{ jobs: JobSummary[]; snapshot: SnapshotStatus }> {
       const ready = await ensureFresh(settings.offline, settings.staleDays);
-      return { jobs: await catalog.search(query), snapshot: status(ready.snapshot, settings.staleDays, now(), ready.refreshed) };
+      return { jobs: await catalog.search(query), snapshot: snapshotStatus(ready.snapshot, settings.staleDays, now(), ready.refreshed) };
     },
     async get(id: string, settings: { offline: boolean; staleDays: number }): Promise<{ job: Job | null; snapshot: SnapshotStatus }> {
       const ready = await ensureFresh(settings.offline, settings.staleDays);
-      return { job: await catalog.get(id), snapshot: status(ready.snapshot, settings.staleDays, now(), ready.refreshed) };
+      return { job: await catalog.get(id), snapshot: snapshotStatus(ready.snapshot, settings.staleDays, now(), ready.refreshed) };
     },
     ensureFresh,
     catalog,
@@ -76,17 +77,21 @@ function selectSources(sources: Company[], scope: CrawlScope): Company[] {
     const country = scope.country.toUpperCase();
     return sources.filter((source) => source.cohorts?.includes(country));
   }
+  if (scope.countries) {
+    const countries = new Set(scope.countries.map((country) => country.toUpperCase()));
+    return sources.filter((source) => source.cohorts?.some((country) => countries.has(country)));
+  }
   return sources;
 }
 
-function snapshotIsStale(snapshot: JobSnapshot, staleDays: number, now: Date): boolean {
+export function snapshotIsStale(snapshot: JobSnapshot, staleDays: number, now: Date): boolean {
   const timestamps = Object.values(snapshot.partitions).map((partition) => Date.parse(partition.fetchedAt));
   if (timestamps.length === 0) return true;
   const oldest = Math.min(...timestamps);
   return now.getTime() - oldest > staleDays * 86_400_000;
 }
 
-function status(snapshot: JobSnapshot, staleDays: number, now: Date, refreshed: boolean): SnapshotStatus {
+export function snapshotStatus(snapshot: JobSnapshot, staleDays: number, now: Date, refreshed: boolean): SnapshotStatus {
   const timestamps = Object.values(snapshot.partitions).map((partition) => Date.parse(partition.fetchedAt));
   const oldest = timestamps.length ? Math.min(...timestamps) : Date.parse(snapshot.updatedAt);
   return {

@@ -46,5 +46,8 @@ test("crawl scopes select all sources, a country cohort, or explicit slugs", asy
   fetched.length = 0;
   await local.crawl({ slugs: ["global", "germany"] });
   expect(fetched.sort()).toEqual(["germany", "global"]);
+  fetched.length = 0;
+  await local.crawl({ countries: ["IN", "DE"] });
+  expect(fetched.sort()).toEqual(["acme", "germany"]);
   expect(() => local.crawl({ slugs: ["missing"] })).toThrow("Unknown company source");
 });
