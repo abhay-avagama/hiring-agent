@@ -1,6 +1,7 @@
 import { lookup } from "node:dns/promises";
 import { request } from "node:https";
 import { isIP } from "node:net";
+import { connect as connectTls } from "node:tls";
 
 export type ResolveHost = (hostname: string) => Promise<string[]>;
 export type HeadTransport = (url: URL, address: string, signal: AbortSignal) => Promise<Response>;
@@ -12,8 +13,8 @@ export async function fetchSafeHead(url: string, options: { resolveHost?: Resolv
   try {
     let current = new URL(url);
     for (let redirects = 0; redirects <= 5; redirects += 1) {
-      const address = await publicAddress(current, options.resolveHost ?? resolveAddresses);
-      const response = await (options.transport ?? pinnedHead)(current, address, controller.signal);
+      const address = await withAbort(publicAddress(current, options.resolveHost ?? resolveAddresses), controller.signal);
+      const response = await withAbort((options.transport ?? pinnedHead)(current, address, controller.signal), controller.signal);
       if (![301, 302, 303, 307, 308].includes(response.status)) return { response, finalUrl: current.href };
       const location = response.headers.get("location");
       if (!location) return { response, finalUrl: current.href };
@@ -22,6 +23,18 @@ export async function fetchSafeHead(url: string, options: { resolveHost?: Resolv
     }
     throw new Error("Career redirect limit exceeded");
   } finally { clearTimeout(timer); }
+}
+
+function withAbort<T>(operation: Promise<T>, signal: AbortSignal): Promise<T> {
+  if (signal.aborted) return Promise.reject(signal.reason);
+  return new Promise((resolve, reject) => {
+    const abort = () => reject(signal.reason);
+    signal.addEventListener("abort", abort, { once: true });
+    operation.then(
+      (value) => { signal.removeEventListener("abort", abort); resolve(value); },
+      (error) => { signal.removeEventListener("abort", abort); reject(error); },
+    );
+  });
 }
 
 async function resolveAddresses(hostname: string): Promise<string[]> {
@@ -39,8 +52,14 @@ async function publicAddress(url: URL, resolveHost: ResolveHost): Promise<string
 function pinnedHead(url: URL, address: string, signal: AbortSignal): Promise<Response> {
   return new Promise((resolve, reject) => {
     const req = request(url, {
-      method: "HEAD", signal, servername: url.hostname,
-      lookup: (_hostname, _options, callback) => callback(null, address, isIP(address)),
+      method: "HEAD", signal, servername: url.hostname, agent: false,
+      createConnection: () => {
+        const socket = connectTls({ host: address, port: Number(url.port || 443), servername: url.hostname });
+        const destroy = () => socket.destroy(signal.reason instanceof Error ? signal.reason : undefined);
+        if (signal.aborted) destroy();
+        else signal.addEventListener("abort", destroy, { once: true });
+        return socket;
+      },
     }, (response) => resolve(new Response(null, { status: response.statusCode ?? 500, headers: response.headers as HeadersInit })));
     req.once("error", reject);
     req.end();
