@@ -1,10 +1,11 @@
 import type { Catalog } from "./catalog.ts";
 import type { RecommendJobsResult } from "./job-recommendations.ts";
 import type { AnalyzeJobFitResult } from "./job-fit-analysis.ts";
+import type { OptimizeResumeResult } from "./resume-optimization.ts";
 import type { SearchQuery } from "./types.ts";
 
 export interface ToolDefinition {
-  name: "recommend_jobs" | "analyze_job_fit" | "search_jobs" | "get_job";
+  name: "recommend_jobs" | "analyze_job_fit" | "optimize_resume" | "search_jobs" | "get_job";
   description: string;
   inputSchema: Record<string, unknown>;
 }
@@ -12,6 +13,7 @@ export interface ToolDefinition {
 interface JobWorkflows {
   recommend(input: unknown): Promise<RecommendJobsResult>;
   analyzeJobFit(input: unknown): Promise<AnalyzeJobFitResult>;
+  optimizeResume(input: unknown): Promise<OptimizeResumeResult>;
 }
 
 export function createToolHandler(catalog: Catalog, workflows: JobWorkflows) {
@@ -48,6 +50,19 @@ export function createToolHandler(catalog: Catalog, workflows: JobWorkflows) {
       },
     },
     {
+      name: "optimize_resume",
+      description: "Propose an evidence-grounded resume revision for one selected job without overwriting the original or inserting unsupported claims.",
+      inputSchema: {
+        type: "object",
+        properties: {
+          jobId: { type: "string", minLength: 1 },
+          resume: resumeSchema(),
+          output: { type: "string", enum: ["suggestions", "unified_diff", "revised_markdown"] },
+        },
+        required: ["jobId", "resume", "output"], additionalProperties: false,
+      },
+    },
+    {
       name: "search_jobs",
       description: "Search the local job snapshot by role, location, country eligibility, and work mode.",
       inputSchema: {
@@ -79,6 +94,7 @@ export function createToolHandler(catalog: Catalog, workflows: JobWorkflows) {
     async call(name: string, input: Record<string, unknown>) {
       if (name === "recommend_jobs") return workflows.recommend(input);
       if (name === "analyze_job_fit") return workflows.analyzeJobFit(input);
+      if (name === "optimize_resume") return workflows.optimizeResume(input);
       if (name === "search_jobs") {
         assertToolKeys(input, ["query", "location", "country", "remote", "limit"], "search_jobs");
         if (input.query !== undefined && typeof input.query !== "string") throw new Error("query must be a string");

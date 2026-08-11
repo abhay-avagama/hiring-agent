@@ -2,6 +2,7 @@ import { expect, test } from "bun:test";
 import { createMcpHandler } from "../src/mcp.ts";
 import { createJobRecommender } from "../src/job-recommendations.ts";
 import { createJobFitAnalyzer } from "../src/job-fit-analysis.ts";
+import { createResumeOptimizer } from "../src/resume-optimization.ts";
 import { createToolHandler } from "../src/tools.ts";
 import type { Catalog } from "../src/catalog.ts";
 import type { Company, Job, JobSnapshot } from "../src/types.ts";
@@ -68,7 +69,8 @@ test("recommend_jobs runs parsing and matching through MCP while refresh never p
   });
   const catalog: Catalog = { search: async () => [], get: async () => null };
   const analyzer = createJobFitAnalyzer({ getJob: async (id) => id === job.id ? job : null });
-  const handler = createMcpHandler(createToolHandler(catalog, { ...recommender, analyzeJobFit: analyzer.analyze }));
+  const optimizer = createResumeOptimizer({ analyzeJobFit: analyzer.analyze });
+  const handler = createMcpHandler(createToolHandler(catalog, { ...recommender, analyzeJobFit: analyzer.analyze, optimizeResume: optimizer.optimize }));
   const response = await handler({
     jsonrpc: "2.0", id: 4, method: "tools/call",
     params: { name: "recommend_jobs", arguments: { resume: { content: "Skills\nJava", format: "text" }, intent: { countries: ["IN"] }, refresh: { policy: "never" } } },
@@ -106,7 +108,8 @@ test("analyze_job_fit runs selected-job evidence analysis through MCP without cr
   let lookups = 0;
   const analyzer = createJobFitAnalyzer({ getJob: async (id) => { lookups += 1; return id === job.id ? job : null; } });
   const catalog: Catalog = { search: async () => [], get: async () => null };
-  const workflows = { recommend: async () => { throw new Error("recommend should not run"); }, analyzeJobFit: analyzer.analyze };
+  const optimizer = createResumeOptimizer({ analyzeJobFit: analyzer.analyze });
+  const workflows = { recommend: async () => { throw new Error("recommend should not run"); }, analyzeJobFit: analyzer.analyze, optimizeResume: optimizer.optimize };
   const handler = createMcpHandler(createToolHandler(catalog, workflows));
   const response = await handler({
     jsonrpc: "2.0", id: 30, method: "tools/call",
@@ -126,4 +129,28 @@ test("analyze_job_fit runs selected-job evidence analysis through MCP without cr
   const errorResult = missing.result as { content: Array<{ text: string }>; isError: boolean };
   expect(errorResult.isError).toBe(true);
   expect(JSON.parse(errorResult.content[0]!.text).error).toEqual(expect.objectContaining({ code: "job_not_found", field: "jobId" }));
+});
+
+test("optimize_resume returns a grounded revision through MCP without overwriting the input", async () => {
+  const job: Job = {
+    id: "greenhouse:acme:3", company: "Acme", title: "Backend Engineer", location: "Bengaluru, India", remote: false, workMode: "onsite",
+    eligibleCountries: ["IN"], excludedCountries: [], eligibleRegions: [], eligibilityConfidence: "explicit", url: "https://example.test/3",
+    description: "Java and Kubernetes are required.",
+  };
+  const analyzer = createJobFitAnalyzer({ getJob: async (id) => id === job.id ? job : null });
+  const optimizer = createResumeOptimizer({ analyzeJobFit: analyzer.analyze });
+  const catalog: Catalog = { search: async () => [], get: async () => null };
+  const workflows = { recommend: async () => { throw new Error("recommend should not run"); }, analyzeJobFit: analyzer.analyze, optimizeResume: optimizer.optimize };
+  const handler = createMcpHandler(createToolHandler(catalog, workflows));
+  const original = "Skills\nJava";
+  const response = await handler({ jsonrpc: "2.0", id: 40, method: "tools/call", params: { name: "optimize_resume", arguments: { jobId: job.id, resume: { content: original, format: "text" }, output: "revised_markdown" } } });
+  if (!response || !("result" in response)) throw new Error("Expected MCP result");
+  const rpc = response.result as { content: Array<{ text: string }>; isError: boolean };
+  const payload = JSON.parse(rpc.content[0]!.text) as { content: string; suggestions: Array<{ proposedText: string }>; gaps: string[]; originalOverwritten: boolean };
+  expect(rpc.isError).toBe(false);
+  expect(payload.content).toContain("- Java");
+  expect(payload.content).toEndWith(original);
+  expect(payload.content).not.toContain("Kubernetes");
+  expect(payload.gaps).toContain("Kubernetes");
+  expect(payload.originalOverwritten).toBe(false);
 });

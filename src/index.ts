@@ -27,3 +27,7 @@ export { createJobRecommender, RecommendationError } from "./job-recommendations
 export type { JobRecommenderOptions, RecommendJobsInput, RecommendJobsResult, RecommendationRefreshInput, RecommendationRefreshResult, RefreshPolicy } from "./job-recommendations.ts";
 export { createJobFitAnalyzer, JobFitAnalysisError } from "./job-fit-analysis.ts";
 export type { AnalyzeJobFitInput, AnalyzeJobFitResult, JobFitAnalyzerOptions, JobFitAssessment, JobFitReason, PartiallySupportedRequirement } from "./job-fit-analysis.ts";
+export { createResumeOptimizer, ResumeOptimizationError } from "./resume-optimization.ts";
+export type { OptimizeResumeInput, OptimizeResumeResult, ResumeOptimizationOutput, ResumeOptimizerOptions, ResumeSuggestion } from "./resume-optimization.ts";
+export { createSelectedJobLookup } from "./selected-job-lookup.ts";
+export type { SelectedJobLookupOptions } from "./selected-job-lookup.ts";
