@@ -37,16 +37,27 @@ export function createResumeOptimizer(options: ResumeOptimizerOptions) {
       const suggestions: ResumeSuggestion[] = [];
       const used = new Set<string>();
       for (const support of analysis.supported) {
-        for (const factId of support.factIds) {
-          const fact = facts.get(factId);
-          if (!fact || !editableFactKinds.has(fact.kind) || used.has(fact.id)) continue;
+        const jobReason = analysis.assessment.reasons.find((candidate) => candidate.candidateFactIds?.some((id) => support.factIds.includes(id)));
+        for (const fact of analysis.profile.facts.filter((candidate) => achievementFactKinds.has(candidate.kind) && includesPhrase(candidate.value, support.requirement))) {
+          if (used.has(fact.id)) continue;
           used.add(fact.id);
-          const reason = analysis.assessment.reasons.find((candidate) => candidate.candidateFactIds?.includes(fact.id));
           suggestions.push({
             action: "elevate",
             proposedText: fact.value,
             factIds: [fact.id],
-            jobEvidence: reason?.jobEvidence ?? { field: "description", quote: analysis.job.description },
+            jobEvidence: jobReason?.jobEvidence ?? { field: "description", quote: analysis.job.description },
+            rationale: `Elevate this complete existing achievement because it demonstrates ${support.requirement}`,
+          });
+        }
+        for (const factId of support.factIds) {
+          const fact = facts.get(factId);
+          if (!fact || !editableFactKinds.has(fact.kind) || used.has(fact.id)) continue;
+          used.add(fact.id);
+          suggestions.push({
+            action: "elevate",
+            proposedText: fact.value,
+            factIds: [fact.id],
+            jobEvidence: jobReason?.jobEvidence ?? { field: "description", quote: analysis.job.description },
             rationale: `Elevate this existing resume fact because it directly supports ${support.requirement}`,
           });
         }
@@ -67,6 +78,12 @@ export function createResumeOptimizer(options: ResumeOptimizerOptions) {
 }
 
 const editableFactKinds = new Set(["skill", "outcome", "experience_statement", "project", "project_statement", "education", "certification"]);
+const achievementFactKinds = new Set(["outcome", "experience_statement", "project_statement"]);
+
+function includesPhrase(value: string, phrase: string): boolean {
+  const escaped = phrase.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  return new RegExp(`(^|[^A-Za-z0-9+.#])${escaped}(?=$|[^A-Za-z0-9+.#])`, "i").test(value);
+}
 
 function revisedMarkdown(original: string, suggestions: ResumeSuggestion[]): string {
   if (!suggestions.length) return original;

@@ -54,13 +54,13 @@ export function matchJobs(profile: CandidateProfile, intent: CandidateIntent, jo
       !hasExplicitSkill(profile, requirement) && !transferable.some((item) => equalSkill(item.requirement, requirement)),
     );
     const roleTargets = intent.roles?.length ? intent.roles : inferredRoleTargets(profile);
-    const roleMatch = roleTargets.some((role) => tokenOverlap(role, job.title) >= 0.5);
+    const role = roleAlignment(roleTargets, job.title, Boolean(intent.roles?.length));
     const seniority = seniorityAlignment(profile, intent, job);
     const screeningShortfalls = screeningRequirements.filter((item) => item.status !== "supported").length;
-    const score = (roleMatch ? 4 : 0) + supported.length * 2 + transferable.length + skillFocus.length * 3 + seniority.score - gaps.length * 2 - screeningShortfalls * 6;
+    const score = role.score + supported.length * 2 + transferable.length + skillFocus.length * 3 + seniority.score - gaps.length * 2 - screeningShortfalls * 6;
     const fit = screeningRequirements.some((item) => item.status !== "supported") ? "stretch" : classifyFit(score, gaps.length);
     const reasons = [
-      ...(roleMatch ? [intent.roles?.length ? "title matches explicit role intent" : "title aligns with resume role evidence"] : []),
+      ...(role.reason ? [role.reason] : []),
       ...(seniority.reason ? [seniority.reason] : []),
       ...supported.map((item) => `${item.requirement} is supported by resume evidence`),
       ...transferable.map((item) => `${item.requirement} has related ${item.via} evidence but is not an explicit resume skill`),
@@ -87,6 +87,37 @@ export function matchJobs(profile: CandidateProfile, intent: CandidateIntent, jo
       ...(typeof intent.remote === "boolean" ? [] : ["No work-mode preference was requested"]),
     ],
   };
+}
+
+function roleAlignment(targets: string[], title: string, explicit: boolean): { score: number; reason?: string } {
+  if (!targets.length) return { score: 0 };
+  if (!explicit) {
+    const matched = targets.some((target) => tokenOverlap(target, title) >= 0.5);
+    return matched
+      ? { score: 4, reason: "title aligns with resume role evidence" }
+      : { score: 0 };
+  }
+  let best = targets.some((target) => includesPhrase(target, "backend")) ? -6 : 0;
+  let kind: "exact" | "adjacent" | "mismatch" = "mismatch";
+  for (const target of targets) {
+    const backendTarget = includesPhrase(target, "backend");
+    if (!backendTarget) {
+      if (tokenOverlap(target, title) >= 0.5 && best < 4) { best = 4; kind = "exact"; }
+      continue;
+    }
+    const conflictingSpecialist = /\b(?:product manager|qa|quality assurance|test|support|site reliability|sre|devops|front(?:end|-end)|data|machine learning|ai|ml)\b/i.test(title);
+    const compatibleEngineer = /\b(?:engineer|developer)\b/i.test(title);
+    if (!conflictingSpecialist && compatibleEngineer && (includesPhrase(title, target) || tokenOverlap(target, title) === 1 || includesPhrase(title, "backend"))) {
+      if (best < 6) { best = 6; kind = "exact"; }
+      continue;
+    }
+    const genericSoftware = /\b(?:software engineer|software developer|application developer|full[- ]stack developer)\b/i.test(title);
+    const adjacent = genericSoftware && !conflictingSpecialist;
+    if (adjacent && best < 3) { best = 3; kind = "adjacent"; }
+  }
+  if (kind === "exact") return { score: best, reason: explicit ? "title matches explicit role intent" : "title aligns with resume role evidence" };
+  if (kind === "adjacent") return { score: best, reason: explicit ? "title is adjacent to explicit role intent" : "title is adjacent to resume role evidence" };
+  return { score: best };
 }
 
 function hardFilterReasons(job: Job, intent: CandidateIntent): string[] {

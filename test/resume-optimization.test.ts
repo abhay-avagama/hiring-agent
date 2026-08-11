@@ -84,6 +84,21 @@ test("embedded instructions cannot smuggle an unsupported claim into any output 
   }
 });
 
+test("job-specific optimization elevates complete supported achievement bullets before skill labels", async () => {
+  const job = makeJob({ description: "Java is required." });
+  const fit = createJobFitAnalyzer({ getJob: async () => job });
+  const optimizer = createResumeOptimizer({ analyzeJobFit: fit.analyze });
+  const achievement = "Reduced backend response time by 40% using Java and Spring Boot";
+  const result = await optimizer.optimize({
+    jobId: job.id,
+    resume: { content: `Skills\nJava\nExperience\nBackend Engineer — Acme\n${achievement}`, format: "text" },
+    output: "suggestions",
+  });
+  expect(result.suggestions.map((item) => item.proposedText)).toEqual([achievement, "Java"]);
+  expect(result.suggestions[0]!.factIds).toEqual([expect.stringContaining("fact_outcome_")]);
+  expect(result.suggestions[0]!.rationale).toContain("complete existing achievement");
+});
+
 function makeJob(overrides: Partial<Job> = {}): Job {
   return {
     id: "greenhouse:acme:1", company: "Acme", title: "Backend Engineer", location: "Bengaluru, India", remote: false, workMode: "onsite",

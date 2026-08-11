@@ -253,6 +253,39 @@ test("preferred qualification sections do not demote an otherwise strong match",
   expect(match.gaps).toEqual([]);
 });
 
+test("explicit backend intent ranks backend and software roles above adjacent specialist titles", () => {
+  const profile = parseCandidateProfile({ content: "Skills\nJava, Python", format: "text" });
+  const description = "Java and Python are required.";
+  const result = matchJobs(profile, { roles: ["backend engineer"] }, [
+    job({ id: "ai", title: "AI/ML - Investment Services", description }),
+    job({ id: "qa", title: "QA Automation Engineer", description }),
+    job({ id: "support", title: "Support Engineer", description }),
+    job({ id: "software", title: "Software Engineer, Technology", description }),
+    job({ id: "backend", title: "Backend Engineer III", description }),
+    job({ id: "sre", title: "Senior Site Reliability Engineer", description }),
+    job({ id: "backend-product", title: "Backend Product Manager", description }),
+    job({ id: "backend-qa", title: "Backend QA Engineer", description }),
+    job({ id: "software-qa", title: "Software QA Engineer", description }),
+  ]);
+  expect(result.matches.map((match) => match.job.id)).toEqual([
+    "backend", "software", "ai", "qa", "support", "sre", "backend-product", "backend-qa", "software-qa",
+  ]);
+  expect(result.matches[0]!.reasons).toContain("title matches explicit role intent");
+  expect(result.matches[1]!.reasons).toContain("title is adjacent to explicit role intent");
+  expect(result.matches.slice(2).every((match) => !match.reasons.some((reason) => reason.includes("role intent")))).toBe(true);
+});
+
+test("mixed explicit role targets retain exact matches outside the backend family", () => {
+  const profile = parseCandidateProfile({ content: "Skills\nJava", format: "text" });
+  const result = matchJobs(profile, { roles: ["backend engineer", "data engineer"] }, [
+    job({ id: "data", title: "Data Engineer" }),
+    job({ id: "qa", title: "Backend QA Engineer" }),
+  ]);
+  expect(result.matches.map((match) => match.job.id)).toEqual(["data", "qa"]);
+  expect(result.matches[0]!.reasons).toContain("title matches explicit role intent");
+  expect(result.matches[1]!.reasons).not.toContain("title matches explicit role intent");
+});
+
 function job(overrides: Partial<Job>): Job {
   return {
     id: "job", company: "Example", title: "Engineer", location: "Bengaluru, India", remote: false, workMode: "onsite",
