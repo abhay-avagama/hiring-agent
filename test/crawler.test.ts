@@ -103,13 +103,32 @@ test("reports provider throttling and backoff per source", async () => {
   expect(report.sources?.[0]).toEqual(expect.objectContaining({ throttles: 1, backoffMs: 1250 }));
 });
 
-test("paces source starts globally across concurrent workers", async () => {
-  const starts: number[] = [];
+test("paces concurrent source starts and retries through one global gate", async () => {
+  let clock = 0;
+  const starts: string[] = [];
+  const delays: number[] = [];
+  const attempts = new Map<string, number>();
   const store = { read: async () => null, write: async (_next: JobSnapshot) => undefined };
-  const crawler = createCrawler({ store, concurrency: 3, sourceStartDelayMs: 15, fetchJobs: async () => { starts.push(Date.now()); return []; } });
-  const sources: Company[] = Array.from({ length: 3 }, (_, index) => ({ slug: `paced-${index}`, name: `Paced ${index}`, ats: "lever", token: `paced-${index}` }));
+  const crawler = createCrawler({
+    store, concurrency: 2, sourceStartDelayMs: 500, pacingNow: () => clock, pacingSleep: async (delayMs) => { delays.push(delayMs); clock += delayMs; },
+    fetchJobs: async (source) => {
+      starts.push(source.slug);
+      const attempt = (attempts.get(source.slug) ?? 0) + 1;
+      attempts.set(source.slug, attempt);
+      if (source.slug === "paced-0" && attempt === 1) throw new Error("HTTP 503");
+      return [];
+    },
+  });
+  const sources: Company[] = Array.from({ length: 2 }, (_, index) => ({ slug: `paced-${index}`, name: `Paced ${index}`, ats: "lever", token: `paced-${index}` }));
   await crawler.crawl(sources);
-  expect(starts).toHaveLength(3);
-  expect(starts[1]! - starts[0]!).toBeGreaterThanOrEqual(10);
-  expect(starts[2]! - starts[1]!).toBeGreaterThanOrEqual(10);
+  expect(starts).toEqual(["paced-0", "paced-1", "paced-0"]);
+  expect(delays).toEqual([500, 500]);
+});
+
+test("zero source delay preserves concurrent crawl behavior without sleeping", async () => {
+  let sleeps = 0;
+  const store = { read: async () => null, write: async (_next: JobSnapshot) => undefined };
+  const crawler = createCrawler({ store, sourceStartDelayMs: 0, pacingSleep: async () => { sleeps += 1; }, fetchJobs: async () => [] });
+  await crawler.crawl([{ slug: "immediate", name: "Immediate", ats: "lever", token: "immediate" }]);
+  expect(sleeps).toBe(0);
 });

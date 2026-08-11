@@ -12,6 +12,8 @@ interface CrawlerOptions {
   timeoutMs?: number;
   maxAttempts?: number;
   sourceStartDelayMs?: number;
+  pacingNow?: () => number;
+  pacingSleep?: (delayMs: number) => Promise<void>;
   now?: () => Date;
 }
 
@@ -25,7 +27,9 @@ export function createCrawler(options: CrawlerOptions): Crawler {
   const maxAttempts = Math.max(1, Math.trunc(options.maxAttempts ?? 2));
   const sourceStartDelayMs = Math.max(0, Math.trunc(options.sourceStartDelayMs ?? 0));
   const now = options.now ?? (() => new Date());
-  let previousStart = 0;
+  const pacingNow = options.pacingNow ?? Date.now;
+  const pacingSleep = options.pacingSleep ?? ((delayMs: number) => new Promise<void>((resolve) => setTimeout(resolve, delayMs)));
+  let previousStart: number | undefined;
   let pacingGate = Promise.resolve();
 
   async function paceSourceStart() {
@@ -35,9 +39,9 @@ export function createCrawler(options: CrawlerOptions): Crawler {
     pacingGate = new Promise<void>((resolve) => { release = resolve; });
     await previous;
     try {
-      const remaining = previousStart + sourceStartDelayMs - Date.now();
-      if (remaining > 0) await new Promise<void>((resolve) => setTimeout(resolve, remaining));
-      previousStart = Date.now();
+      const remaining = previousStart === undefined ? 0 : previousStart + sourceStartDelayMs - pacingNow();
+      if (remaining > 0) await pacingSleep(remaining);
+      previousStart = pacingNow();
     } finally { release(); }
   }
 

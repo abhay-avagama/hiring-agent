@@ -20,3 +20,10 @@ test("CLI documents its read-only commands", async () => {
   expect(output).toContain("--india");
   expect(output).not.toContain("apply");
 });
+
+test("CLI rejects an invalid crawl delay before starting network work", async () => {
+  const process = Bun.spawn(["bun", "run", "src/cli.ts", "crawl", "--delay-ms", "-1"], { stdout: "pipe", stderr: "pipe" });
+  const error = await new Response(process.stderr).text();
+  expect(await process.exited).toBe(1);
+  expect(error).toContain("--delay-ms must be an integer from 0 to 60000");
+});
