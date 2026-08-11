@@ -58,6 +58,68 @@ test("country retention checks the normalized complete feed", async () => {
   expect(result.rejected[0]?.reason).toBe("no_country_jobs");
 });
 
+test("verification limits concurrent Workday sources independently of global concurrency", async () => {
+  let active = 0;
+  let maximum = 0;
+  const candidates = ["alpha", "beta", "gamma", "delta"].map((name) => ({
+    companyName: name, companyDomain: `${name}.test`,
+    sourceUrl: `https://${name}.wd1.myworkdayjobs.com/en-US/Careers`,
+    discoveredFrom: { channel: "dataset" as const, reference: "enterprise-seed" },
+  }));
+
+  const result = await verifyCandidates(candidates, {
+    concurrency: 4,
+    providerConcurrency: { workday: 2 },
+    fetch: async () => {
+      active += 1;
+      maximum = Math.max(maximum, active);
+      await new Promise((resolve) => setTimeout(resolve, 5));
+      active -= 1;
+      return Response.json({ total: 1, jobPostings: [{ title: "Engineer", externalPath: "/job/Engineer_R-1", locationsText: "India" }] });
+    },
+  });
+
+  expect(result.verified).toHaveLength(4);
+  expect(maximum).toBe(2);
+});
+
+test("verification retries a throttled provider response using Retry-After", async () => {
+  let requests = 0;
+  const result = await verifyCandidates([{
+    companyName: "Acme", companyDomain: "acme.test",
+    sourceUrl: "https://acme.wd1.myworkdayjobs.com/en-US/Careers",
+    discoveredFrom: { channel: "dataset", reference: "enterprise-seed" },
+  }], {
+    fetch: async () => {
+      requests += 1;
+      if (requests === 1) return new Response("slow down", { status: 429, headers: { "retry-after": "0" } });
+      return Response.json({ total: 1, jobPostings: [{ title: "Engineer", externalPath: "/job/Engineer_R-1", locationsText: "India" }] });
+    },
+  });
+
+  expect(result.verified).toHaveLength(1);
+  expect(requests).toBe(2);
+});
+
+test("a Workday-heavy input does not block other providers behind its provider limit", async () => {
+  const started: string[] = [];
+  const workday = ["one", "two", "three"].map((name) => ({ companyName: name, companyDomain: `${name}.test`, sourceUrl: `https://${name}.wd1.myworkdayjobs.com/en-US/Careers`, discoveredFrom: { channel: "dataset" as const, reference: "campaign" } }));
+  const greenhouse = { companyName: "Fast", companyDomain: "fast.test", sourceUrl: "https://job-boards.greenhouse.io/fast", discoveredFrom: { channel: "dataset" as const, reference: "campaign" } };
+
+  await verifyCandidates([...workday, greenhouse], {
+    concurrency: 3, providerConcurrency: { workday: 1 },
+    fetch: async (input) => {
+      const url = String(input);
+      started.push(url);
+      if (url.includes("myworkdayjobs")) await new Promise((resolve) => setTimeout(resolve, 5));
+      return url.includes("myworkdayjobs") ? Response.json({ total: 1, jobPostings: [{ title: "Engineer", externalPath: "/job/R-1" }] }) : Response.json({ jobs: [{ company_name: "Fast" }] });
+    },
+  });
+
+  const lastWorkday = started.reduce((last, url, index) => url.includes("myworkdayjobs") ? index : last, -1);
+  expect(started.findIndex((url) => url.includes("greenhouse"))).toBeLessThan(lastWorkday);
+});
+
 const candidates: SourceCandidate[] = [
   {
     slug: "acme-stable", companyName: "Acme", companyDomain: "acme.test", sourceUrl: "https://job-boards.greenhouse.io/acme",

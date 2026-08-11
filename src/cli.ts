@@ -16,12 +16,12 @@ const HELP = `Openings — search public company job boards
 Usage:
   openings crawl [--country CODE | --companies FILE] [--concurrency N] [--data-dir PATH]
   openings snapshot export [--input FILE] [--output-dir PATH]
-  openings sources verify CANDIDATES.json [--output FILE] [--concurrency N] [--require-country CODE] [--registry FILE] [--retry-deferred]
+  openings sources verify CANDIDATES.json [--output FILE] [--concurrency N] [--workday-concurrency N] [--limit N] [--require-country CODE] [--registry FILE] [--retry-deferred]
   openings sources discover FEED.json [--country CODE] [--registry FILE] [--output FILE] [--catalog FILE] [--report FILE]
   openings sources discover-yc --country CODE [--registry FILE] [--output FILE] [--catalog FILE] [--report FILE]
   openings sources seed-companies-yc --country CODE [--output FILE]
   openings sources discover-common-crawl [--country CODE] [--registry FILE] [--output FILE] [--report FILE] [--index-url URL]
-  openings sources enrich COMPANIES.json [--evidence-kind authoritative_dataset|company_registry] [--registry FILE] [--output FILE] [--report FILE]
+  openings sources enrich COMPANIES.json [--companies FILE]... [--evidence-kind authoritative_dataset|company_registry] [--registry FILE] [--output FILE] [--report FILE]
   openings sources trace-careers COMPANIES.json [--country CODE] [--registry FILE] [--common-crawl-report FILE] [--search-key-env NAME] [--output FILE] [--catalog FILE] [--report FILE]
   openings search [words] [--country CODE|--india] [--location PLACE] [--remote|--onsite]
                   [--limit N] [--stale-days N] [--offline] [--data-dir PATH]
@@ -122,7 +122,7 @@ export async function run(args: string[]): Promise<number> {
     if (rest[0] !== "verify") return fail("sources requires a discovery, tracing, or `verify` subcommand");
     const parsed = parseSourceVerification(rest.slice(1));
     if (typeof parsed === "string") return fail(parsed);
-    console.log(JSON.stringify(await runSourceVerification(parsed.candidatesPath, parsed.output, { concurrency: parsed.concurrency, requireCountry: parsed.requireCountry, registryPath: parsed.registryPath, retryDeferred: parsed.retryDeferred }), null, 2));
+    console.log(JSON.stringify(await runSourceVerification(parsed.candidatesPath, parsed.output, { concurrency: parsed.concurrency, providerConcurrency: { workday: parsed.workdayConcurrency }, limit: parsed.limit, requireCountry: parsed.requireCountry, registryPath: parsed.registryPath, retryDeferred: parsed.retryDeferred }), null, 2));
     return 0;
   }
 
@@ -152,8 +152,9 @@ function parseYcCompanySeeds(args: string[]) {
 }
 
 function parseSourceEnrichment(args: string[]) {
-  const companies = args[0];
-  if (!companies || companies.startsWith("--")) return "sources enrich requires a company JSON file";
+  const firstCompanyInput = args[0];
+  if (!firstCompanyInput || firstCompanyInput.startsWith("--")) return "sources enrich requires a company JSON file";
+  const companies = [firstCompanyInput];
   let registry = "data/enrichment-leads.json";
   let output = "data/source-candidates.json";
   let report = ".openings/source-enrichment-report.json";
@@ -161,6 +162,7 @@ function parseSourceEnrichment(args: string[]) {
   for (let index = 1; index < args.length; index += 1) {
     const arg = args[index];
     if (arg === "--registry") { registry = args[++index] ?? ""; if (!registry) return "--registry requires a file"; }
+    else if (arg === "--companies") { const value = args[++index] ?? ""; if (!value) return "--companies requires a file"; companies.push(value); }
     else if (arg === "--output") { output = args[++index] ?? ""; if (!output) return "--output requires a file"; }
     else if (arg === "--report") { report = args[++index] ?? ""; if (!report) return "--report requires a file"; }
     else if (arg === "--evidence-kind") { const value = args[++index]; if (value !== "authoritative_dataset" && value !== "company_registry") return "--evidence-kind requires authoritative_dataset or company_registry"; evidenceKind = value; }
@@ -393,9 +395,11 @@ function parseSourceVerification(args: string[]) {
   if (!candidatesPath || candidatesPath.startsWith("--")) return "sources verify requires a candidate JSON file";
   let output = "data/companies.json";
   let concurrency = 10;
+  let workdayConcurrency = 2;
   let requireCountry: string | undefined;
   let registryPath: string | undefined;
   let retryDeferred = false;
+  let limit: number | undefined;
   for (let index = 1; index < args.length; index += 1) {
     const arg = args[index];
     if (arg === "--output") {
@@ -404,9 +408,15 @@ function parseSourceVerification(args: string[]) {
     } else if (arg === "--concurrency") {
       concurrency = Number(args[++index]);
       if (!Number.isInteger(concurrency) || concurrency < 1 || concurrency > 100) return "--concurrency must be an integer from 1 to 100";
+    } else if (arg === "--workday-concurrency") {
+      workdayConcurrency = Number(args[++index]);
+      if (!Number.isInteger(workdayConcurrency) || workdayConcurrency < 1 || workdayConcurrency > 10) return "--workday-concurrency must be an integer from 1 to 10";
     } else if (arg === "--require-country") {
       requireCountry = parseCountry(args[++index]);
       if (!requireCountry) return "--require-country requires a two-letter country code";
+    } else if (arg === "--limit") {
+      limit = Number(args[++index]);
+      if (!Number.isInteger(limit) || limit < 1) return "--limit must be a positive integer";
     } else if (arg === "--registry") {
       registryPath = args[++index];
       if (!registryPath) return "--registry requires a file";
@@ -414,7 +424,7 @@ function parseSourceVerification(args: string[]) {
       retryDeferred = true;
     } else return `Unknown option: ${arg}`;
   }
-  return { candidatesPath, output, concurrency, requireCountry, registryPath, retryDeferred };
+  return { candidatesPath, output, concurrency, workdayConcurrency, limit, requireCountry, registryPath, retryDeferred };
 }
 
 function fail(message: string, code = 1): number {

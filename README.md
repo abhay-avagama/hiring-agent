@@ -15,13 +15,13 @@ bun install
 bun run src/cli.ts sources discover-yc --country IN
 bun run src/cli.ts sources discover-common-crawl --country IN
 bun run src/cli.ts sources seed-companies-yc --country IN
-bun run src/cli.ts sources enrich .openings/company-domains.json --evidence-kind authoritative_dataset
+bun run src/cli.ts sources enrich .openings/company-domains.json --companies another-authoritative-dataset.json --evidence-kind authoritative_dataset
 bun run src/cli.ts sources trace-careers .openings/company-domains.json --country IN --common-crawl-report .openings/common-crawl-discovery-report.json
 bun run src/cli.ts sources trace-careers .openings/company-domains.json --country IN
 # Optional: search known ATS hosts before trying keyless career redirects and datasets
 BRAVE_SEARCH_API_KEY=... bun run src/cli.ts sources trace-careers .openings/company-domains.json --country IN --search-key-env BRAVE_SEARCH_API_KEY
 bun run src/cli.ts sources discover discovery-feed.json --country IN
-bun run src/cli.ts sources verify data/source-candidates.json --registry data/enrichment-leads.json
+bun run src/cli.ts sources verify data/source-candidates.json --registry data/enrichment-leads.json --require-country IN --limit 50
 bun run src/cli.ts crawl
 bun run src/cli.ts crawl --country IN
 bun run src/cli.ts crawl --companies companies.txt
@@ -68,8 +68,10 @@ bun run src/cli.ts sources trace-careers .openings/company-domains.json --countr
 
 `discover-common-crawl` queries only Common Crawl's URL index for Greenhouse, Lever, Ashby, and Workday URL patterns, capped at 10,000 records per pattern to keep the public-index workload bounded. It does not download archived pages. Unknown sources are merged by canonical provider token into `data/enrichment-leads.json`; reports are versioned run artifacts rather than workflow state. `--country` records the campaign target but cannot assign a country to an unidentified source; job eligibility remains job-derived after verification and crawling.
 
-`sources enrich COMPANIES.json` joins the durable lead registry against an authoritative `{ companyName, companyDomain }` seed file and derives state from accumulated facts. Weak token/name/search matches never become identity evidence. Greenhouse and Workday may become verification-ready through authoritative dataset evidence; Lever and Ashby remain matched until provider-structured or safely replayed company-redirect evidence exists. Equal-trust identity conflicts are quarantined, while higher-trust evidence wins deterministically. The registry records verification outcomes, capped retry cooldowns, file size, and lock-held time; use `sources verify ... --registry FILE` to write those outcomes back.
+`sources enrich COMPANIES.json` joins the durable lead registry against authoritative company-domain data and derives state from accumulated facts. Add repeatable `--companies FILE` inputs to combine datasets. Inputs may be `{ companyName, companyDomain }` arrays or verified catalog objects such as `data/companies.json`; every fact retains its input-file provenance. Weak token/name/search matches never become identity evidence. Greenhouse and Workday may become verification-ready through authoritative dataset evidence; Lever and Ashby remain matched until provider-structured or safely replayed company-redirect evidence exists. Equal-trust identity conflicts are quarantined, while higher-trust evidence wins deterministically. The registry records verification outcomes, capped retry cooldowns, file size, and lock-held time; use `sources verify ... --registry FILE` to write those outcomes back.
 Cooling, repeatedly failing, unresolved, matched, and rejected registry leads are not re-probed automatically. Use `--retry-deferred` on an explicit verification run to retry only cooling or repeatedly failing leads that already meet the identity-evidence bar; it never bypasses matched, unresolved, or quarantined identity states.
+
+Verification limits Workday to two concurrent boards by default, shares provider cooldowns after HTTP 429 responses, and honors bounded `Retry-After` delays. Override the Workday ceiling with `--workday-concurrency N` only when the endpoint tolerates it. `--limit N` selects never-indexed candidates before catalog refreshes and preserves every source outside the batch. Reports separate total/new/selected/deferred candidates, retryable failures, transiently preserved sources, and untouched catalog entries carried forward.
 
 `trace-careers` accepts a JSON array of company identity seeds. `careerUrl` is optional; without it Openings checks the conventional HTTPS `/careers`, `/career`, and `/jobs` paths. With `--search-key-env NAME`, it first uses Brave Search to look for matching results on known ATS hosts; the key is read from the named environment variable rather than exposed as a command argument. It then sends `HEAD` requests to company-owned career paths, follows redirects, and never reads career-page HTML. Every hop is DNS-checked and connected to the validated public address. Finally, `--common-crawl-report FILE` joins durable ATS leads whose token exactly matches the normalized company name or domain. Greenhouse must expose a matching provider name, Workday a matching tenant, and Lever/Ashby either a structured domain link or a company-owned redirect that verification safely replays to the exact board.
 

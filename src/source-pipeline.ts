@@ -4,6 +4,7 @@ import { withFileLock } from "./file-lock.ts";
 import { resolveSource, verifyCandidates } from "./source-verification.ts";
 import { deriveLeadState, mergeEnrichmentLeads, readEnrichmentRegistry, retryDisposition, strongestEvidenceRank, transientAttempt, type EnrichmentLead, type IdentityEvidence, type LeadAttempt } from "./enrichment-registry.ts";
 import type { RejectedSource, SourceCandidate, VerifiedCompany } from "./types.ts";
+import type { Ats } from "./types.ts";
 
 interface PipelineOptions {
   fetch?: (input: string | URL, init?: RequestInit) => Promise<Response>;
@@ -14,13 +15,21 @@ interface PipelineOptions {
   countryGateTimeoutMs?: number;
   registryPath?: string;
   retryDeferred?: boolean;
+  limit?: number;
+  providerConcurrency?: Partial<Record<Ats, number>>;
 }
 
 export interface SourcePipelineReport {
   candidates: number;
+  newCandidates: number;
+  selected: number;
+  selectedNew: number;
+  deferred: number;
   verified: number;
   rejected: number;
+  retryableFailures: number;
   preserved: number;
+  carriedForward: number;
   catalogPath: string;
   rejections: RejectedSource[];
 }
@@ -32,6 +41,8 @@ export async function runSourceVerification(candidatesPath: string, catalogPath:
 
 async function runSourceVerificationUnlocked(candidatesPath: string, catalogPath: string, options: PipelineOptions): Promise<SourcePipelineReport> {
   const candidates = await readCandidates(candidatesPath);
+  const prior = await readPriorCatalog(catalogPath);
+  const newCandidates = candidates.filter((candidate) => !candidateInCatalog(candidate, prior)).length;
   let eligible = candidates;
   const deferred: RejectedSource[] = [];
   if (options.registryPath) {
@@ -48,9 +59,13 @@ async function runSourceVerificationUnlocked(candidatesPath: string, catalogPath
       return false;
     });
   }
-  const result = await verifyCandidates(eligible, options);
-  result.rejected.push(...deferred);
-  const prior = await readPriorCatalog(catalogPath);
+  const limit = options.limit === undefined ? eligible.length : Math.max(1, Math.trunc(options.limit));
+  const selected = [...eligible].sort((left, right) => Number(candidateInCatalog(left, prior)) - Number(candidateInCatalog(right, prior))).slice(0, limit);
+  const conflicts = selected.filter((candidate) => candidateConflictsCatalog(candidate, prior));
+  const verifiable = selected.filter((candidate) => !candidateConflictsCatalog(candidate, prior));
+  const result = await verifyCandidates(verifiable, options);
+  result.rejected.unshift(...conflicts.map((candidate) => ({ ...candidate, reason: "duplicate_slug" as const, detail: `Catalog slug ${candidateSlug(candidate)} belongs to a different verified company` })));
+  const retryableFailures = result.rejected.filter((candidate) => retryableRejection(candidate.reason)).length;
   const freshlyVerified = new Set(result.verified.map((company) => company.slug));
   const verifiedDomains = new Set(result.verified.map((company) => company.companyDomain));
   const verifiedSources = new Set(result.verified.map((company) => `${company.ats}:${company.token.toLocaleLowerCase()}`));
@@ -63,16 +78,44 @@ async function runSourceVerificationUnlocked(candidatesPath: string, catalogPath
     if (verifiedDomains.has(previous.companyDomain) || verifiedSources.has(`${previous.ats}:${previous.token.toLocaleLowerCase()}`)) return [];
     return [{ slug, ...previous } as VerifiedCompany];
   });
-  await writeCatalog(catalogPath, [...result.verified, ...preserved]);
+  const selectedSlugs = new Set(verifiable.flatMap((candidate) => { const slug = candidateSlug(candidate); return slug ? [slug] : []; }));
+  const untouched = Object.entries(prior).flatMap(([slug, company]) => selectedSlugs.has(slug) ? [] : [{ slug, ...company } as VerifiedCompany]);
+  await writeCatalog(catalogPath, [...result.verified, ...preserved, ...untouched]);
   if (options.registryPath) await recordRegistryOutcomes(options.registryPath, result, options.now?.() ?? new Date());
   return {
     candidates: candidates.length,
+    newCandidates,
+    selected: selected.length,
+    selectedNew: selected.filter((candidate) => !candidateInCatalog(candidate, prior)).length,
+    deferred: deferred.length + Math.max(0, eligible.length - selected.length),
     verified: result.verified.length,
     rejected: result.rejected.length,
+    retryableFailures,
     preserved: preserved.length,
+    carriedForward: untouched.length,
     catalogPath,
     rejections: result.rejected,
   };
+}
+
+function candidateInCatalog(candidate: SourceCandidate, catalog: Record<string, Omit<VerifiedCompany, "slug">>): boolean {
+  if (typeof candidate.companyDomain !== "string" || typeof candidate.sourceUrl !== "string") return false;
+  const slug = candidateSlug(candidate);
+  if (!slug) return false;
+  const previous = catalog[slug];
+  return previous?.companyDomain === candidate.companyDomain.toLowerCase() && previous.sourceUrl === resolveSource(candidate.sourceUrl)?.canonicalSourceUrl;
+}
+
+function candidateConflictsCatalog(candidate: SourceCandidate, catalog: Record<string, Omit<VerifiedCompany, "slug">>): boolean {
+  if (typeof candidate.companyDomain !== "string" || typeof candidate.sourceUrl !== "string") return false;
+  const slug = candidateSlug(candidate);
+  if (!slug || !catalog[slug]) return false;
+  return !candidateInCatalog(candidate, catalog);
+}
+
+function candidateSlug(candidate: SourceCandidate): string | undefined {
+  if (typeof candidate.slug === "string" && candidate.slug) return candidate.slug;
+  return typeof candidate.companyDomain === "string" && candidate.companyDomain ? slugFromDomain(candidate.companyDomain) : undefined;
 }
 
 async function recordRegistryOutcomes(registryPath: string, result: Awaited<ReturnType<typeof verifyCandidates>>, now: Date): Promise<void> {

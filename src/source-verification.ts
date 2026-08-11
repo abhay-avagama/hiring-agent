@@ -1,6 +1,6 @@
 import type { Ats, RejectedSource, SourceCandidate, SourceRejectionReason, SourceVerificationResult, VerifiedCompany } from "./types.ts";
 import { fetchSafeHead, type HeadTransport, type ResolveHost } from "./safe-head.ts";
-import { fetchSourceJobs } from "./catalog.ts";
+import { abortableDelay, fetchSourceJobs, isTransientStatus, retryDelayMs } from "./catalog.ts";
 import { isEligibleForCountry } from "./locations.ts";
 
 type Fetch = (input: string | URL, init?: RequestInit) => Promise<Response>;
@@ -14,6 +14,7 @@ interface VerificationOptions {
   headTransport?: HeadTransport;
   requireCountry?: string;
   countryGateTimeoutMs?: number;
+  providerConcurrency?: Partial<Record<Ats, number>>;
 }
 
 export interface ResolvedSource { ats: Ats; token: string; canonicalSourceUrl: string }
@@ -26,12 +27,21 @@ export async function verifyCandidates(candidates: SourceCandidate[], options: V
   const countryGateTimeoutMs = Math.max(1, Math.trunc(options.countryGateTimeoutMs ?? 120_000));
   const probed: Array<{ index: number; candidate: SourceCandidate; sourceKey: string; value: VerifiedCompany }> = [];
   const rejected: Array<{ index: number; value: RejectedSource }> = [];
+  const providerLimits = new Map<Ats, Semaphore>();
+  const providerCooldowns = new Map<Ats, ProviderCooldown>();
+  for (const ats of ["greenhouse", "lever", "ashby", "workday"] as const) {
+    const fallback = ats === "workday" ? 2 : concurrency;
+    providerLimits.set(ats, new Semaphore(Math.max(1, Math.trunc(options.providerConcurrency?.[ats] ?? fallback))));
+    providerCooldowns.set(ats, new ProviderCooldown());
+  }
+  const scheduled = scheduleCandidates(candidates);
   let cursor = 0;
 
   async function worker() {
-    while (cursor < candidates.length) {
-      const index = cursor++;
-      const candidate = candidates[index];
+    while (cursor < scheduled.length) {
+      const row = scheduled[cursor++];
+      const index = row?.index ?? -1;
+      const candidate = row?.candidate;
       if (!candidate) continue;
       const invalid = validateCandidate(candidate);
       if (invalid) { rejected.push({ index, value: rejection(candidate, "invalid_candidate", invalid) }); continue; }
@@ -41,8 +51,10 @@ export async function verifyCandidates(candidates: SourceCandidate[], options: V
       const companyKey = candidate.companyDomain.toLocaleLowerCase();
       const slug = candidate.slug ?? slugFromDomain(candidate.companyDomain);
 
+      const release = await providerLimits.get(source.ats)!.acquire();
+      const providerFetch = providerCooldowns.get(source.ats)!.wrap(fetcher);
       try {
-        const evidence = await probe(candidate, source, fetcher, timeoutMs, options.resolveHost, options.headTransport);
+        const evidence = await probe(candidate, source, providerFetch, timeoutMs, options.resolveHost, options.headTransport);
         if (!identityMatches(candidate.companyName, candidate.companyDomain, evidence.observedCompanyName, source.token)) {
           rejected.push({ index, value: rejection(candidate, "identity_mismatch", `Expected ${candidate.companyName}; observed ${evidence.observedCompanyName}`) });
           continue;
@@ -58,7 +70,7 @@ export async function verifyCandidates(candidates: SourceCandidate[], options: V
           const controller = new AbortController();
           const timer = setTimeout(() => controller.abort(new Error(`Country gate timed out after ${countryGateTimeoutMs}ms`)), countryGateTimeoutMs);
           try {
-            const jobs = await fetchSourceJobs(value, fetcher, controller.signal);
+            const jobs = await fetchSourceJobs(value, providerFetch, controller.signal);
             if (!jobs.some((job) => isEligibleForCountry(job, options.requireCountry!))) {
               rejected.push({ index, value: rejection(candidate, "no_country_jobs", `Complete source feed has no jobs eligible for ${options.requireCountry}`) });
               continue;
@@ -69,7 +81,7 @@ export async function verifyCandidates(candidates: SourceCandidate[], options: V
       } catch (error) {
         const reason = error instanceof VerificationError ? error.reason : "unreachable";
         rejected.push({ index, value: rejection(candidate, reason, error instanceof Error ? error.message : String(error)) });
-      }
+      } finally { release(); }
     }
   }
 
@@ -94,6 +106,47 @@ export async function verifyCandidates(candidates: SourceCandidate[], options: V
   };
 }
 
+function scheduleCandidates(candidates: SourceCandidate[]): Array<{ index: number; candidate: SourceCandidate }> {
+  const groups = new Map<string, Array<{ index: number; candidate: SourceCandidate }>>();
+  candidates.forEach((candidate, index) => {
+    const provider = typeof candidate.sourceUrl === "string" ? resolveSource(candidate.sourceUrl)?.ats ?? "other" : "other";
+    const group = groups.get(provider) ?? [];
+    group.push({ index, candidate });
+    groups.set(provider, group);
+  });
+  const scheduled: Array<{ index: number; candidate: SourceCandidate }> = [];
+  while ([...groups.values()].some((group) => group.length)) {
+    for (const group of groups.values()) { const row = group.shift(); if (row) scheduled.push(row); }
+  }
+  return scheduled;
+}
+
+class Semaphore {
+  private active = 0;
+  private readonly waiters: Array<() => void> = [];
+  constructor(private readonly limit: number) {}
+  async acquire(): Promise<() => void> {
+    if (this.active >= this.limit) await new Promise<void>((resolve) => this.waiters.push(resolve));
+    this.active += 1;
+    return () => {
+      this.active -= 1;
+      this.waiters.shift()?.();
+    };
+  }
+}
+
+class ProviderCooldown {
+  private nextAllowedAt = 0;
+  wrap(fetcher: Fetch): Fetch {
+    return async (input, init) => {
+      await abortableDelay(Math.max(0, this.nextAllowedAt - Date.now()), init?.signal ?? undefined);
+      const response = await fetcher(input, init);
+      if (response.status === 429) this.nextAllowedAt = Math.max(this.nextAllowedAt, Date.now() + retryDelayMs(response, 0));
+      return response;
+    };
+  }
+}
+
 async function probe(candidate: SourceCandidate, source: ResolvedSource, fetcher: Fetch, timeoutMs: number, resolveHost?: ResolveHost, headTransport?: HeadTransport) {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(new Error(`Timed out after ${timeoutMs}ms`)), timeoutMs);
@@ -106,8 +159,12 @@ async function probe(candidate: SourceCandidate, source: ResolvedSource, fetcher
         ? `https://api.ashbyhq.com/posting-api/job-board/${encodeURIComponent(source.token)}`
         : `https://${workday!.host}/wday/cxs/${encodeURIComponent(workday!.tenant)}/${encodeURIComponent(workday!.site)}/jobs`;
   try {
-    const response = await fetcher(endpoint, source.ats === "workday" ? { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ appliedFacets: {}, limit: 20, offset: 0, searchText: "" }), signal: controller.signal } : { signal: controller.signal });
-    if (!response.ok) throw new VerificationError("unreachable", `HTTP ${response.status}`);
+    const init = source.ats === "workday" ? { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ appliedFacets: {}, limit: 20, offset: 0, searchText: "" }), signal: controller.signal } : { signal: controller.signal };
+    const response = await fetchProbeWithRetry(fetcher, endpoint, init);
+    if (!response.ok) {
+      await response.body?.cancel().catch(() => undefined);
+      throw new VerificationError("unreachable", `HTTP ${response.status}`);
+    }
     const contentType = response.headers.get("content-type") ?? "unknown";
     let body: unknown;
     try { body = await response.json(); } catch { throw new VerificationError("invalid_payload", "Endpoint did not return JSON"); }
@@ -127,6 +184,17 @@ async function probe(candidate: SourceCandidate, source: ResolvedSource, fetcher
       jobCount: source.ats === "workday" && isRecord(body) && typeof body.total === "number" ? body.total : jobs.length,
     };
   } finally { clearTimeout(timer); }
+}
+
+async function fetchProbeWithRetry(fetcher: Fetch, endpoint: string, init: RequestInit): Promise<Response> {
+  for (let attempt = 0; attempt < 3; attempt += 1) {
+    const response = await fetcher(endpoint, init);
+    if (response.ok || !isTransientStatus(response.status) || attempt === 2) return response;
+    const delayMs = retryDelayMs(response, attempt);
+    await response.body?.cancel().catch(() => undefined);
+    await abortableDelay(delayMs, init.signal ?? undefined);
+  }
+  throw new Error("Verification probe exhausted retries");
 }
 
 export function resolveSource(value: string): ResolvedSource | null {

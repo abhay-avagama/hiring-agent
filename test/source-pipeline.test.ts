@@ -42,6 +42,7 @@ test("transient verification failures preserve the previously verified catalog e
 
   const report = await runSourceVerification(candidatesPath, catalogPath, { fetch: async () => new Response("down", { status: 503 }) });
   expect(report.preserved).toBe(1);
+  expect(report.retryableFailures).toBe(1);
   expect(JSON.parse(await readFile(catalogPath, "utf8")).acme.name).toBe("Acme");
 });
 
@@ -61,9 +62,58 @@ test("verification records success and transient retry facts in the enrichment r
   expect(deriveLeadState(registry.leads.find((lead) => lead.token === "acme")!)).toBe("verified");
   expect(registry.leads.find((lead) => lead.token === "down")?.attempts[0]).toEqual(expect.objectContaining({ outcome: "transient_failure", nextEligibleAt: "2026-08-10T00:01:00.000Z" }));
   let downRequests = 0;
-  await runSourceVerification(candidatesPath, catalogPath, { registryPath, now: () => new Date("2026-08-10T00:00:30.000Z"), fetch: async (input) => { if (String(input).includes("/down/")) downRequests += 1; return Response.json({ jobs: [{ company_name: "Acme" }] }); } });
+  const deferredReport = await runSourceVerification(candidatesPath, catalogPath, { registryPath, now: () => new Date("2026-08-10T00:00:30.000Z"), fetch: async (input) => { if (String(input).includes("/down/")) downRequests += 1; return Response.json({ jobs: [{ company_name: "Acme" }] }); } });
   expect(downRequests).toBe(0);
+  expect(deferredReport).toEqual(expect.objectContaining({ deferred: 1, rejected: 0, preserved: 0, carriedForward: 0 }));
   expect((await readEnrichmentRegistry(registryPath)).leads.find((lead) => lead.token === "down")?.attempts).toHaveLength(1);
   await runSourceVerification(candidatesPath, catalogPath, { registryPath, retryDeferred: true, now: () => new Date("2026-08-10T00:00:31.000Z"), fetch: async (input) => { if (String(input).includes("/down/")) downRequests += 1; return Response.json({ jobs: [{ company_name: String(input).includes("/down/") ? "Down" : "Acme" }] }); } });
   expect(downRequests).toBe(1);
+});
+
+test("verification limits select new candidates first and preserve sources outside the batch", async () => {
+  const directory = await mkdtemp(join(tmpdir(), "openings-sources-batch-"));
+  const candidatesPath = join(directory, "candidates.json");
+  const catalogPath = join(directory, "companies.json");
+  const candidates = ["old", "newone", "newtwo"].map((name) => ({
+    companyName: name, companyDomain: `${name}.test`, sourceUrl: `https://job-boards.greenhouse.io/${name}`,
+    discoveredFrom: { channel: "dataset", reference: "campaign" },
+  }));
+  await writeFile(candidatesPath, JSON.stringify(candidates));
+  await writeFile(catalogPath, JSON.stringify({ old: {
+    name: "old", ats: "greenhouse", token: "old", companyDomain: "old.test", sourceUrl: "https://job-boards.greenhouse.io/old",
+    discoveredFrom: { channel: "dataset", reference: "campaign" },
+    verification: { checkedAt: "2026-08-01T00:00:00.000Z", canonicalSourceUrl: "https://job-boards.greenhouse.io/old", observedCompanyName: "old", identityEvidence: "provider_company_name", contentType: "application/json", payloadVersion: "greenhouse-job-board:v1", jobCount: 1 },
+  } }));
+  const requested: string[] = [];
+
+  const report = await runSourceVerification(candidatesPath, catalogPath, {
+    limit: 1,
+    fetch: async (input) => {
+      requested.push(String(input));
+      const token = String(input).split("/boards/")[1]?.split("/")[0] ?? "unknown";
+      return Response.json({ jobs: [{ company_name: token }] });
+    },
+  });
+
+  expect(requested[0]).toContain("/newone/");
+  expect(report).toEqual(expect.objectContaining({ candidates: 3, newCandidates: 2, selected: 1, selectedNew: 1, deferred: 2, retryableFailures: 0, carriedForward: 1 }));
+  expect(Object.keys(JSON.parse(await readFile(catalogPath, "utf8")))).toEqual(["newone", "old"]);
+});
+
+test("a batch candidate cannot overwrite an unrelated verified catalog slug", async () => {
+  const directory = await mkdtemp(join(tmpdir(), "openings-sources-collision-"));
+  const candidatesPath = join(directory, "candidates.json");
+  const catalogPath = join(directory, "companies.json");
+  await writeFile(candidatesPath, JSON.stringify([{ slug: "acme", companyName: "Attacker", companyDomain: "attacker.test", sourceUrl: "https://job-boards.greenhouse.io/attacker", discoveredFrom: { channel: "dataset", reference: "campaign" } }]));
+  await writeFile(catalogPath, JSON.stringify({ acme: {
+    name: "Acme", ats: "greenhouse", token: "acme", companyDomain: "acme.test", sourceUrl: "https://job-boards.greenhouse.io/acme",
+    discoveredFrom: { channel: "dataset", reference: "trusted" }, verification: { checkedAt: "2026-08-01T00:00:00.000Z", canonicalSourceUrl: "https://job-boards.greenhouse.io/acme", observedCompanyName: "Acme", identityEvidence: "provider_company_name", contentType: "application/json", payloadVersion: "greenhouse-job-board:v1", jobCount: 1 },
+  } }));
+  let requests = 0;
+
+  const report = await runSourceVerification(candidatesPath, catalogPath, { limit: 1, fetch: async () => { requests += 1; return Response.json({ jobs: [{ company_name: "Attacker" }] }); } });
+
+  expect(requests).toBe(0);
+  expect(report.rejections[0]?.reason).toBe("duplicate_slug");
+  expect(JSON.parse(await readFile(catalogPath, "utf8")).acme.companyDomain).toBe("acme.test");
 });

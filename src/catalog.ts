@@ -167,11 +167,11 @@ async function fetchWithRetry(fetcher: Fetch, input: string | URL, init: Request
   throw new Error(`${companyName} job source exhausted retries`);
 }
 
-function isTransientStatus(status: number): boolean {
+export function isTransientStatus(status: number): boolean {
   return status === 429 || status === 502 || status === 503 || status === 504 || status === 520;
 }
 
-function retryDelayMs(response: Response, attempt: number): number {
+export function retryDelayMs(response: Response, attempt: number): number {
   const value = response.headers.get("retry-after");
   if (value !== null) {
     const seconds = Number(value);
@@ -182,7 +182,7 @@ function retryDelayMs(response: Response, attempt: number): number {
   return 500 * 2 ** attempt;
 }
 
-function abortableDelay(ms: number, signal?: AbortSignal): Promise<void> {
+export function abortableDelay(ms: number, signal?: AbortSignal): Promise<void> {
   if (!ms) return Promise.resolve();
   if (signal?.aborted) return Promise.reject(signal.reason ?? new Error("Aborted"));
   return new Promise((resolve, reject) => {
