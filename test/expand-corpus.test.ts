@@ -2,7 +2,7 @@ import { describe, expect, test } from "bun:test";
 import { mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { chunkSeeds, corpusMetrics, parseCareerPageMarkdown, parseOptions } from "../scripts/expand-corpus.ts";
+import { chunkSeeds, corpusMetrics, parseCareerPageMarkdown, parseOptions, runPhase } from "../scripts/expand-corpus.ts";
 
 describe("corpus expansion campaign", () => {
   test("extracts unique company-owned HTTPS career pages", () => {
@@ -35,6 +35,17 @@ describe("corpus expansion campaign", () => {
     expect(options.skipVerify).toBe(true);
     expect(options.skipCrawl).toBe(false);
     expect(options.crawlDelayMs).toBe(1000);
+  });
+
+  test("long phases always emit a machine-readable terminal status", async () => {
+    const completed: Array<Record<string, unknown>> = [];
+    await runPhase("crawl", async () => 0, (event) => completed.push(event));
+    expect(completed.map((event) => event.status)).toEqual(["starting", "completed"]);
+
+    const failed: Array<Record<string, unknown>> = [];
+    await expect(runPhase("verify", async () => 7, (event) => failed.push(event))).rejects.toThrow("verify command failed with exit code 7");
+    expect(failed.map((event) => event.status)).toEqual(["starting", "failed"]);
+    expect(failed[1]).toEqual(expect.objectContaining({ phase: "verify", exitCode: 7 }));
   });
 
   test("counts regional eligibility and rejects malformed state", async () => {

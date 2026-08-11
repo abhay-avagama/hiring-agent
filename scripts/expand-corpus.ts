@@ -8,7 +8,7 @@ import type { Job } from "../src/types.ts";
 
 export interface CareerSeed { companyName: string; companyDomain: string; careerUrl: string }
 
-interface Options {
+export interface Options {
   country: string;
   input: string;
   candidates: string;
@@ -188,12 +188,25 @@ async function run(command: string, args: string[]): Promise<number> {
 }
 
 async function requireSuccess(command: string, args: string[], phase: "verify" | "crawl") {
+  return runPhase(phase, () => run(command, args));
+}
+
+export async function runPhase(phase: "verify" | "crawl", operation: () => Promise<number>, write: (event: Record<string, unknown>) => void = (event) => console.log(JSON.stringify(event))) {
   const startedAt = Date.now();
-  console.log(JSON.stringify({ phase, status: "starting" }));
-  const heartbeat = setInterval(() => console.log(JSON.stringify({ phase, status: "running", elapsedSeconds: Math.floor((Date.now() - startedAt) / 1000) })), 15_000);
-  const status = await run(command, args).finally(() => clearInterval(heartbeat));
-  if (status !== 0) throw new Error(`Command failed (${status}): ${command} ${args.join(" ")}`);
-  console.log(JSON.stringify({ phase, status: "completed", elapsedSeconds: Math.floor((Date.now() - startedAt) / 1000) }));
+  write({ phase, status: "starting" });
+  const heartbeat = setInterval(() => write({ phase, status: "running", elapsedSeconds: Math.floor((Date.now() - startedAt) / 1000) }), 15_000);
+  let status: number;
+  try { status = await operation(); }
+  catch (error) {
+    write({ phase, status: "failed", elapsedSeconds: Math.floor((Date.now() - startedAt) / 1000), error: error instanceof Error ? error.message : String(error) });
+    throw error;
+  } finally { clearInterval(heartbeat); }
+  const elapsedSeconds = Math.floor((Date.now() - startedAt) / 1000);
+  if (status !== 0) {
+    write({ phase, status: "failed", elapsedSeconds, exitCode: status });
+    throw new Error(`${phase} command failed with exit code ${status}`);
+  }
+  write({ phase, status: "completed", elapsedSeconds });
 }
 
 export async function corpusMetrics(catalogPath: string, snapshotPath: string, country: string): Promise<{ companies: number; jobs: number; countryJobs: number }> {
