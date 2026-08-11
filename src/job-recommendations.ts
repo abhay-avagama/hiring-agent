@@ -98,22 +98,36 @@ export function createJobRecommender(options: JobRecommenderOptions) {
 
 function validateRecommendationInput(value: unknown): RecommendJobsInput {
   if (!isRecord(value)) throw invalidInput("input", "Recommendation input must be an object");
+  assertKnownKeys(value, ["resume", "intent", "refresh", "limit"], "input");
   if (!isRecord(value.resume)) throw invalidInput("resume", "Resume input must be an object");
+  assertKnownKeys(value.resume, ["content", "format"], "resume");
   if (!isRecord(value.intent)) throw invalidInput("intent", "Candidate intent must be an object");
   const intentArrays = ["roles", "countries", "locations", "seniority", "requiredSkills", "excludedTerms", "excludedCountries", "excludedLocations", "excludedRoles"];
+  assertKnownKeys(value.intent, [...intentArrays, "remote"], "intent");
   for (const field of intentArrays) {
     const candidate = value.intent[field];
     if (candidate !== undefined && (!Array.isArray(candidate) || !candidate.every((item) => typeof item === "string" && item.trim().length > 0))) throw invalidInput(`intent.${field}`, `${field} must be an array of non-empty strings`);
+    if (Array.isArray(candidate) && new Set(candidate).size !== candidate.length) throw invalidInput(`intent.${field}`, `${field} must not contain duplicate values`);
+  }
+  for (const field of ["countries", "excludedCountries"]) {
+    const countries = value.intent[field];
+    if (Array.isArray(countries) && !countries.every((country) => typeof country === "string" && /^[A-Za-z]{2}$/.test(country))) throw invalidInput(`intent.${field}`, `${field} must contain two-letter country codes`);
   }
   if (value.intent.remote !== undefined && typeof value.intent.remote !== "boolean") throw invalidInput("intent.remote", "remote must be a boolean");
   if (value.refresh !== undefined) {
     if (!isRecord(value.refresh)) throw invalidInput("refresh", "Refresh settings must be an object");
+    assertKnownKeys(value.refresh, ["policy", "minimumMatches", "staleDays"], "refresh");
     if (value.refresh.policy !== undefined && !["auto", "never", "always"].includes(value.refresh.policy as string)) throw invalidInput("refresh.policy", "Unknown refresh policy");
     validateNonNegativeInteger(value.refresh.minimumMatches, "refresh.minimumMatches");
     validateNonNegativeFinite(value.refresh.staleDays, "refresh.staleDays");
   }
-  if (value.limit !== undefined && (!Number.isInteger(value.limit) || (value.limit as number) <= 0)) throw invalidInput("limit", "limit must be a positive integer");
+  if (value.limit !== undefined && (!Number.isInteger(value.limit) || (value.limit as number) <= 0 || (value.limit as number) > 100)) throw invalidInput("limit", "limit must be an integer between 1 and 100");
   return value as unknown as RecommendJobsInput;
+}
+
+function assertKnownKeys(value: Record<string, unknown>, allowed: string[], field: string): void {
+  const unknown = Object.keys(value).find((key) => !allowed.includes(key));
+  if (unknown) throw invalidInput(`${field}.${unknown}`, `Unknown field: ${field}.${unknown}`);
 }
 
 function validateNonNegativeFinite(value: unknown, field: string): void {

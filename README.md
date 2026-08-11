@@ -1,6 +1,6 @@
 # Openings
 
-Openings is a free, read-only job-search substrate for AI agents. It indexes public company job boards and exposes two tools: `search_jobs` and `get_job`. There are no accounts, hosted services, API keys, model calls, resume uploads, or application submission paths.
+Openings is a free, read-only job-search substrate for AI agents. It indexes public company job boards and exposes three tools: `recommend_jobs`, `search_jobs`, and `get_job`. There are no accounts, hosted services, Openings API keys, model calls, or application submission paths. Resume content supplied to `recommend_jobs` is processed locally in memory and is never persisted.
 
 Openings supports Greenhouse, Lever, Ashby, and Workday. Jobs are crawled from their public structured endpoints into a local, source-partitioned snapshot.
 
@@ -127,6 +127,7 @@ For a client that accepts MCP configuration, point a stdio server at `bun` with 
 
 The server exposes only:
 
+- `recommend_jobs(resume, intent, refresh?, limit?)` — parses text or Markdown resume content, applies job-level eligibility constraints, returns explained evidence-grounded matches, and performs at most one scoped refresh; `refresh.policy: "never"` guarantees no crawl
 - `search_jobs(query?, location?, country?, remote?, limit?)` — `country` accepts a two-letter country code such as `IN` or `DE`
 - `get_job(id)`
 
@@ -152,7 +153,7 @@ bun run test:live # verifies one real board per ATS; requires internet access
 
 ## Privacy and application safety
 
-Job data comes directly from public ATS endpoints and is stored under `.openings/` by default. Openings does not scrape arbitrary career-page HTML. `resume.md` and `voice.md` are read only by the user's own agent through the included skill; this package never receives them. The skill forbids fabricated claims and requires a human to review and submit every application.
+Job data comes directly from public ATS endpoints and is stored under `.openings/` by default. Openings does not scrape arbitrary career-page HTML. The MCP host reads any source resume file and sends only its content to `recommend_jobs`; Openings never receives or reads the filesystem path and never persists the resume content or derived profile. The remaining legacy tailoring flow requires a human to review and submit every application.
 
 ## License
 

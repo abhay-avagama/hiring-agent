@@ -261,7 +261,9 @@ test("invalid recommendation controls fail before reading or crawling", async ()
   const base = { resume: { content: "Skills\nJava", format: "text" }, intent: {} };
   for (const input of [
     null, {}, { ...base, intent: "anywhere" }, { ...base, refresh: { policy: "sometimes" } },
-    { ...base, refresh: { staleDays: -1 } }, { ...base, refresh: { minimumMatches: Number.NaN } }, { ...base, limit: 0 },
+    { ...base, refresh: { staleDays: -1 } }, { ...base, refresh: { minimumMatches: Number.NaN } }, { ...base, limit: 0 }, { ...base, limit: 101 },
+    { ...base, extra: true }, { ...base, resume: { ...base.resume, path: "/tmp/resume" } }, { ...base, intent: { countries: ["IND"] } },
+    { ...base, intent: { roles: ["backend", "backend"] } },
   ]) {
     await expect(recommender.recommend(input)).rejects.toEqual(expect.objectContaining({ code: "invalid_recommendation_input" }));
   }

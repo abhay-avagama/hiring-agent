@@ -1,21 +1,20 @@
 ---
 name: openings
-description: Legacy transitional workflow for searching jobs and tailoring local application materials. Use only until the MCP-native recommendation and resume-optimization tools replace this flow.
+description: Use the MCP-native recommendation tool to find evidence-grounded jobs; legacy local tailoring remains only until optimize_resume ships.
 ---
 
 # Openings
 
-> **Legacy transitional workflow:** This skill predates the MCP-native v1 workflow specified in `docs/PRD.md`. It remains for backwards compatibility while only `search_jobs` and `get_job` exist. Once `recommend_jobs` and `optimize_resume` ship, replace the parsing, matching, and tailoring instructions below with a thin wrapper around those tools. Do not extend this skill with a second recommendation or resume-optimization implementation.
+> **Transitional workflow:** `recommend_jobs` is the sole recommendation and matching implementation. The local tailoring section remains legacy-only until `optimize_resume` ships. Do not reproduce parsing, matching, fit classification, or evidence validation in this skill.
 
-Use the `search_jobs` and `get_job` tools to discover and inspect openings. These tools are read-only and must never be used to submit an application.
+Use `recommend_jobs` for resume-based discovery and `get_job` for a selected job's complete description. Keep `search_jobs` for direct lower-level searches that do not need resume matching. These tools are read-only and must never be used to submit an application.
 
 ## Search
 
-1. Ask only for missing constraints that materially change the search; otherwise infer them from the conversation.
-2. Call `search_jobs` with useful role words, location, and remote preference.
-   - Pass the user's two-letter country code (for example, `IN` or `DE`) when country eligibility matters. Add `location` only when they want a particular city; Bangalore/Bengaluru and Gurgaon/Gurugram are treated as equivalents.
-3. Present a short, evidence-based shortlist. Do not claim candidate fit until you have read both the full job and the user's resume.
-4. Call `get_job` before analyzing or tailoring for a selected role.
+1. Ask only for missing constraints that materially change the recommendation.
+2. Supply the user's resume content and explicit intent to `recommend_jobs`; never pass an arbitrary filesystem path.
+3. Present the returned shortlist, assumptions, evidence, gaps, refresh status, and failures without recalculating fit.
+4. Call `get_job` before discussing the complete description of a selected role.
 
 ## Tailor an application
 
