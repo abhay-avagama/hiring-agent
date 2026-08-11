@@ -22,6 +22,7 @@ interface Options {
   workdayConcurrency: number;
   crawlConcurrency: number;
   crawlDelayMs: number;
+  skipTrace: boolean;
   skipVerify: boolean;
   skipCrawl: boolean;
 }
@@ -62,40 +63,42 @@ async function main() {
   if (process.argv[2] === "--trace-batch") return traceBatch(process.argv.slice(3));
   const options = parseOptions(process.argv.slice(2));
   const before = await corpusMetrics(options.catalog, join(options.dataDir, "snapshot.json"), options.country);
-  const input = await readFile(options.input, "utf8");
-  const parsed = parseCareerPageMarkdown(input);
-  if (input.trim() && !parsed.seeds.length) throw new Error(`No usable company-owned HTTPS career links found in ${options.input}`);
-  const campaignDir = join(options.dataDir, "expansion", `${options.country.toLowerCase()}-career-pages`);
-  await mkdir(campaignDir, { recursive: true });
-  const batches = chunkSeeds(parsed.seeds, options.batchSize);
-  console.log(JSON.stringify({ phase: "seed", input: options.input, accepted: parsed.seeds.length, skipped: parsed.skipped, batches: batches.length }));
-
   let crashedBatches = 0;
   let traceRequestFailures = 0;
-  for (const [index, batch] of batches.entries()) {
-    const batchPath = join(campaignDir, `batch-${String(index).padStart(3, "0")}.json`);
-    const reportPath = join(campaignDir, `batch-${String(index).padStart(3, "0")}-report.json`);
-    await atomicJson(batchPath, batch);
-    const args = ["run", import.meta.path, "--trace-batch", batchPath, reportPath, options.candidates, options.registry, options.country, String(options.traceConcurrency)];
-    if (options.commonCrawlReport) args.push(options.commonCrawlReport);
-    const status = await run(process.execPath, args);
-    if (status !== 0) { crashedBatches += 1; console.error(JSON.stringify({ phase: "trace", batch: index, status: "failed", exitCode: status })); }
-    else {
-      const report = JSON.parse(await readFile(reportPath, "utf8")) as { failures?: unknown };
-      if (!Number.isInteger(report.failures) || (report.failures as number) < 0) throw new Error(`Invalid trace report: ${reportPath}`);
-      traceRequestFailures += report.failures as number;
+  if (options.skipTrace) console.log(JSON.stringify({ phase: "trace", status: "skipped" }));
+  else {
+    const input = await readFile(options.input, "utf8");
+    const parsed = parseCareerPageMarkdown(input);
+    if (input.trim() && !parsed.seeds.length) throw new Error(`No usable company-owned HTTPS career links found in ${options.input}`);
+    const campaignDir = join(options.dataDir, "expansion", `${options.country.toLowerCase()}-career-pages`);
+    await mkdir(campaignDir, { recursive: true });
+    const batches = chunkSeeds(parsed.seeds, options.batchSize);
+    console.log(JSON.stringify({ phase: "seed", input: options.input, accepted: parsed.seeds.length, skipped: parsed.skipped, batches: batches.length }));
+    for (const [index, batch] of batches.entries()) {
+      const batchPath = join(campaignDir, `batch-${String(index).padStart(3, "0")}.json`);
+      const reportPath = join(campaignDir, `batch-${String(index).padStart(3, "0")}-report.json`);
+      await atomicJson(batchPath, batch);
+      const args = ["run", import.meta.path, "--trace-batch", batchPath, reportPath, options.candidates, options.registry, options.country, String(options.traceConcurrency)];
+      if (options.commonCrawlReport) args.push(options.commonCrawlReport);
+      const status = await run(process.execPath, args);
+      if (status !== 0) { crashedBatches += 1; console.error(JSON.stringify({ phase: "trace", batch: index, status: "failed", exitCode: status })); }
+      else {
+        const report = JSON.parse(await readFile(reportPath, "utf8")) as { failures?: unknown };
+        if (!Number.isInteger(report.failures) || (report.failures as number) < 0) throw new Error(`Invalid trace report: ${reportPath}`);
+        traceRequestFailures += report.failures as number;
+      }
     }
   }
 
   if (!options.skipVerify) {
     await requireSuccess(process.execPath, ["run", "src/cli.ts", "sources", "verify", options.candidates,
       "--output", options.catalog, "--registry", options.registry, "--require-country", options.country,
-      "--limit", "100000", "--concurrency", String(options.verifyConcurrency), "--workday-concurrency", String(options.workdayConcurrency), "--retry-deferred"]);
-  }
+      "--limit", "100000", "--concurrency", String(options.verifyConcurrency), "--workday-concurrency", String(options.workdayConcurrency), "--retry-deferred"], "verify");
+  } else console.log(JSON.stringify({ phase: "verify", status: "skipped" }));
   if (!options.skipCrawl) {
     await requireSuccess(process.execPath, ["run", "src/cli.ts", "crawl", "--country", options.country,
-      "--concurrency", String(options.crawlConcurrency), "--delay-ms", String(options.crawlDelayMs), "--data-dir", options.dataDir]);
-  }
+      "--concurrency", String(options.crawlConcurrency), "--delay-ms", String(options.crawlDelayMs), "--data-dir", options.dataDir], "crawl");
+  } else console.log(JSON.stringify({ phase: "crawl", status: "skipped" }));
   const after = await corpusMetrics(options.catalog, join(options.dataDir, "snapshot.json"), options.country);
   console.log(JSON.stringify({ phase: "complete", country: options.country, crashedBatches, traceRequestFailures, before, after,
     delta: { companies: after.companies - before.companies, jobs: after.jobs - before.jobs, countryJobs: after.countryJobs - before.countryJobs } }, null, 2));
@@ -114,16 +117,17 @@ async function traceBatch(args: string[]) {
   process.exit(0);
 }
 
-function parseOptions(args: string[]): Options {
+export function parseOptions(args: string[]): Options {
   const options: Options = {
     country: "IN", input: "data/companies-career-page.md", candidates: "data/source-candidates.json",
     catalog: "data/companies.json", registry: "data/enrichment-leads.json", dataDir: ".openings",
     batchSize: 10, traceConcurrency: 10, verifyConcurrency: 10, workdayConcurrency: 5, crawlConcurrency: 10, crawlDelayMs: 500,
-    skipVerify: false, skipCrawl: false,
+    skipTrace: false, skipVerify: false, skipCrawl: false,
   };
   for (let index = 0; index < args.length; index += 1) {
     const flag = args[index]!;
-    if (flag === "--skip-verify") options.skipVerify = true;
+    if (flag === "--skip-trace") options.skipTrace = true;
+    else if (flag === "--skip-verify") options.skipVerify = true;
     else if (flag === "--skip-crawl") options.skipCrawl = true;
     else {
       const value = args[++index];
@@ -183,9 +187,13 @@ async function run(command: string, args: string[]): Promise<number> {
   return child.exited;
 }
 
-async function requireSuccess(command: string, args: string[]) {
-  const status = await run(command, args);
+async function requireSuccess(command: string, args: string[], phase: "verify" | "crawl") {
+  const startedAt = Date.now();
+  console.log(JSON.stringify({ phase, status: "starting" }));
+  const heartbeat = setInterval(() => console.log(JSON.stringify({ phase, status: "running", elapsedSeconds: Math.floor((Date.now() - startedAt) / 1000) })), 15_000);
+  const status = await run(command, args).finally(() => clearInterval(heartbeat));
   if (status !== 0) throw new Error(`Command failed (${status}): ${command} ${args.join(" ")}`);
+  console.log(JSON.stringify({ phase, status: "completed", elapsedSeconds: Math.floor((Date.now() - startedAt) / 1000) }));
 }
 
 export async function corpusMetrics(catalogPath: string, snapshotPath: string, country: string): Promise<{ companies: number; jobs: number; countryJobs: number }> {

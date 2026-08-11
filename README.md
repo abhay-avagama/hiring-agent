@@ -169,7 +169,15 @@ bun run expand:corpus -- \
   --common-crawl-report .openings/common-crawl-discovery-report.json
 ```
 
-The campaign extracts company-owned HTTPS career URLs from HTML or ordinary Markdown links, traces them with HEAD requests in isolated batches, verifies every evidence-ready ATS source once, crawls the verified country cohort once, and prints before/after company and job counts plus crashed-batch and individual-request failure totals. `--crawl-delay-ms` (default: `500`) spaces source starts globally to reduce request bursts and 429 responses while retaining bounded concurrency. Weak name or Common Crawl matches remain in the enrichment registry and are never promoted without qualifying identity evidence. Use `--batch-size`, `--trace-concurrency`, `--verify-concurrency`, `--workday-concurrency`, or `--crawl-concurrency` to tune a campaign; `--skip-verify` and `--skip-crawl` are available for staged runs.
+The campaign extracts company-owned HTTPS career URLs from HTML or ordinary Markdown links, traces them with HEAD requests in isolated batches, verifies every evidence-ready ATS source once, crawls the verified country cohort once, and prints machine-readable phase heartbeats plus before/after company and job counts. `--crawl-delay-ms` (default: `500`) spaces source starts globally to reduce request bursts and 429 responses while retaining bounded concurrency. Weak matches are never promoted without qualifying identity evidence. Use `--batch-size`, `--trace-concurrency`, `--verify-concurrency`, `--workday-concurrency`, or `--crawl-concurrency` to tune a campaign.
+
+If a run is interrupted after tracing or verification, resume only the remaining phases rather than repeating completed work:
+
+```sh
+bun run expand:corpus -- --country IN --skip-trace --skip-verify --crawl-delay-ms 1000
+```
+
+`--skip-trace`, `--skip-verify`, and `--skip-crawl` are explicit operator controls; skipped phases are reported in the JSON output.
 
 ## License
 

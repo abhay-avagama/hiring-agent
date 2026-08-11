@@ -2,7 +2,7 @@ import { describe, expect, test } from "bun:test";
 import { mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { chunkSeeds, corpusMetrics, parseCareerPageMarkdown } from "../scripts/expand-corpus.ts";
+import { chunkSeeds, corpusMetrics, parseCareerPageMarkdown, parseOptions } from "../scripts/expand-corpus.ts";
 
 describe("corpus expansion campaign", () => {
   test("extracts unique company-owned HTTPS career pages", () => {
@@ -27,6 +27,14 @@ describe("corpus expansion campaign", () => {
     const seeds = Array.from({ length: 5 }, (_, index) => ({ companyName: `Company ${index}`, companyDomain: `c${index}.test`, careerUrl: `https://c${index}.test/careers` }));
     expect(chunkSeeds(seeds, 2).map((batch) => batch.length)).toEqual([2, 2, 1]);
     expect(chunkSeeds(seeds, 2)[1]![0]!.companyName).toBe("Company 2");
+  });
+
+  test("supports explicit phase skipping for interrupted campaigns", () => {
+    const options = parseOptions(["--country", "IN", "--skip-trace", "--skip-verify", "--crawl-delay-ms", "1000"]);
+    expect(options.skipTrace).toBe(true);
+    expect(options.skipVerify).toBe(true);
+    expect(options.skipCrawl).toBe(false);
+    expect(options.crawlDelayMs).toBe(1000);
   });
 
   test("counts regional eligibility and rejects malformed state", async () => {
