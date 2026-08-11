@@ -1,5 +1,8 @@
 import { describe, expect, test } from "bun:test";
-import { chunkSeeds, parseCareerPageMarkdown } from "../scripts/expand-corpus.ts";
+import { mkdtemp, rm, writeFile } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
+import { chunkSeeds, corpusMetrics, parseCareerPageMarkdown } from "../scripts/expand-corpus.ts";
 
 describe("corpus expansion campaign", () => {
   test("extracts unique company-owned HTTPS career pages", () => {
@@ -14,9 +17,31 @@ describe("corpus expansion campaign", () => {
     expect(result.skipped).toBe(3);
   });
 
+  test("accepts ordinary Markdown career links", () => {
+    expect(parseCareerPageMarkdown("- [Acme](https://careers.acme.com/openings)").seeds).toEqual([
+      { companyName: "Acme", companyDomain: "acme.com", careerUrl: "https://careers.acme.com/openings" },
+    ]);
+  });
+
   test("keeps campaign batches small and deterministic", () => {
     const seeds = Array.from({ length: 5 }, (_, index) => ({ companyName: `Company ${index}`, companyDomain: `c${index}.test`, careerUrl: `https://c${index}.test/careers` }));
     expect(chunkSeeds(seeds, 2).map((batch) => batch.length)).toEqual([2, 2, 1]);
     expect(chunkSeeds(seeds, 2)[1]![0]!.companyName).toBe("Company 2");
+  });
+
+  test("counts regional eligibility and rejects malformed state", async () => {
+    const directory = await mkdtemp(join(tmpdir(), "openings-expansion-"));
+    const catalog = join(directory, "companies.json");
+    const snapshot = join(directory, "snapshot.json");
+    try {
+      await writeFile(catalog, JSON.stringify({ acme: {}, global: {} }));
+      await writeFile(snapshot, JSON.stringify({ partitions: { acme: { jobs: [
+        { eligibleCountries: [], excludedCountries: [], eligibleRegions: ["APAC"] },
+        { eligibleCountries: [], excludedCountries: ["IN"], eligibleRegions: ["worldwide"] },
+      ] } } }));
+      expect(await corpusMetrics(catalog, snapshot, "IN")).toEqual({ companies: 2, jobs: 2, countryJobs: 1 });
+      await writeFile(snapshot, "not json");
+      await expect(corpusMetrics(catalog, snapshot, "IN")).rejects.toThrow();
+    } finally { await rm(directory, { recursive: true, force: true }); }
   });
 });

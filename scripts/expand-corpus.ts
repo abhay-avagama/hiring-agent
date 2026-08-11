@@ -1,7 +1,10 @@
 #!/usr/bin/env bun
-import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { mkdir, readFile } from "node:fs/promises";
 import { basename, join, resolve } from "node:path";
+import { atomicJson } from "../src/atomic-file.ts";
 import { traceCareerSources } from "../src/career-tracing.ts";
+import { isEligibleForCountry } from "../src/locations.ts";
+import type { Job } from "../src/types.ts";
 
 export interface CareerSeed { companyName: string; companyDomain: string; careerUrl: string }
 
@@ -30,8 +33,11 @@ const THIRD_PARTY_HOSTS = [
 export function parseCareerPageMarkdown(markdown: string): { seeds: CareerSeed[]; skipped: number } {
   const seeds = new Map<string, CareerSeed>();
   let skipped = 0;
-  for (const match of markdown.matchAll(/<a\s+[^>]*href=["']([^"']+)["'][^>]*>([^<]+)<\/a>/giu)) {
-    const [, href, label] = match;
+  const links = [
+    ...[...markdown.matchAll(/<a\s+[^>]*href=["']([^"']+)["'][^>]*>([^<]+)<\/a>/giu)].map((match) => [match[1]!, match[2]!] as const),
+    ...[...markdown.matchAll(/(?<!!)\[([^\]\n]+)\]\((https?:\/\/[^\s)]+)\)/giu)].map((match) => [match[2]!, match[1]!] as const),
+  ];
+  for (const [href, label] of links) {
     try {
       const url = new URL(href!);
       if (url.protocol !== "https:" || isThirdParty(url.hostname)) { skipped += 1; continue; }
@@ -55,21 +61,29 @@ async function main() {
   if (process.argv[2] === "--trace-batch") return traceBatch(process.argv.slice(3));
   const options = parseOptions(process.argv.slice(2));
   const before = await corpusMetrics(options.catalog, join(options.dataDir, "snapshot.json"), options.country);
-  const parsed = parseCareerPageMarkdown(await readFile(options.input, "utf8"));
+  const input = await readFile(options.input, "utf8");
+  const parsed = parseCareerPageMarkdown(input);
+  if (input.trim() && !parsed.seeds.length) throw new Error(`No usable company-owned HTTPS career links found in ${options.input}`);
   const campaignDir = join(options.dataDir, "expansion", `${options.country.toLowerCase()}-career-pages`);
   await mkdir(campaignDir, { recursive: true });
   const batches = chunkSeeds(parsed.seeds, options.batchSize);
   console.log(JSON.stringify({ phase: "seed", input: options.input, accepted: parsed.seeds.length, skipped: parsed.skipped, batches: batches.length }));
 
-  let traceFailures = 0;
+  let crashedBatches = 0;
+  let traceRequestFailures = 0;
   for (const [index, batch] of batches.entries()) {
     const batchPath = join(campaignDir, `batch-${String(index).padStart(3, "0")}.json`);
     const reportPath = join(campaignDir, `batch-${String(index).padStart(3, "0")}-report.json`);
-    await writeFile(batchPath, `${JSON.stringify(batch, null, 2)}\n`, "utf8");
+    await atomicJson(batchPath, batch);
     const args = ["run", import.meta.path, "--trace-batch", batchPath, reportPath, options.candidates, options.registry, options.country, String(options.traceConcurrency)];
     if (options.commonCrawlReport) args.push(options.commonCrawlReport);
     const status = await run(process.execPath, args);
-    if (status !== 0) { traceFailures += 1; console.error(JSON.stringify({ phase: "trace", batch: index, status: "failed", exitCode: status })); }
+    if (status !== 0) { crashedBatches += 1; console.error(JSON.stringify({ phase: "trace", batch: index, status: "failed", exitCode: status })); }
+    else {
+      const report = JSON.parse(await readFile(reportPath, "utf8")) as { failures?: unknown };
+      if (!Number.isInteger(report.failures) || (report.failures as number) < 0) throw new Error(`Invalid trace report: ${reportPath}`);
+      traceRequestFailures += report.failures as number;
+    }
   }
 
   if (!options.skipVerify) {
@@ -82,7 +96,7 @@ async function main() {
       "--concurrency", String(options.crawlConcurrency), "--data-dir", options.dataDir]);
   }
   const after = await corpusMetrics(options.catalog, join(options.dataDir, "snapshot.json"), options.country);
-  console.log(JSON.stringify({ phase: "complete", country: options.country, traceFailures, before, after,
+  console.log(JSON.stringify({ phase: "complete", country: options.country, crashedBatches, traceRequestFailures, before, after,
     delta: { companies: after.companies - before.companies, jobs: after.jobs - before.jobs, countryJobs: after.countryJobs - before.countryJobs } }, null, 2));
 }
 
@@ -95,6 +109,7 @@ async function traceBatch(args: string[]) {
   });
   console.log(JSON.stringify({ phase: "trace", batch: basename(input), ready: result.ready, matched: result.matched,
     unresolved: result.unresolved, failures: result.failures, registryAdded: result.registryAdded }));
+  // Bun can retain aborted DNS/TLS handles after a bounded trace. The batch is already atomically persisted, so terminate this isolated worker explicitly.
   process.exit(0);
 }
 
@@ -165,16 +180,30 @@ async function requireSuccess(command: string, args: string[]) {
   if (status !== 0) throw new Error(`Command failed (${status}): ${command} ${args.join(" ")}`);
 }
 
-async function corpusMetrics(catalogPath: string, snapshotPath: string, country: string): Promise<{ companies: number; jobs: number; countryJobs: number }> {
+export async function corpusMetrics(catalogPath: string, snapshotPath: string, country: string): Promise<{ companies: number; jobs: number; countryJobs: number }> {
   let companies = 0; let jobs = 0; let countryJobs = 0;
-  try { companies = Object.keys(JSON.parse(await readFile(catalogPath, "utf8")) as object).length; } catch {}
-  try {
-    const snapshot = JSON.parse(await readFile(snapshotPath, "utf8")) as { partitions?: Record<string, { jobs?: Array<{ eligibleCountries?: string[] }> }> };
+  const catalog = await readJsonIfPresent(catalogPath);
+  if (catalog !== undefined) companies = Object.keys(catalog as object).length;
+  const value = await readJsonIfPresent(snapshotPath);
+  if (value !== undefined) {
+    const snapshot = value as { partitions?: Record<string, { jobs?: Job[] }> };
     for (const partition of Object.values(snapshot.partitions ?? {})) for (const job of partition.jobs ?? []) {
-      jobs += 1; if (job.eligibleCountries?.includes(country)) countryJobs += 1;
+      jobs += 1; if (isEligibleForCountry(job, country)) countryJobs += 1;
     }
-  } catch {}
+  }
   return { companies, jobs, countryJobs };
+}
+
+async function readJsonIfPresent(path: string): Promise<unknown | undefined> {
+  try { return JSON.parse(await readFile(path, "utf8")); }
+  catch (error) {
+    if (isNodeError(error) && error.code === "ENOENT") return undefined;
+    throw error;
+  }
+}
+
+function isNodeError(error: unknown): error is NodeJS.ErrnoException {
+  return error instanceof Error && "code" in error;
 }
 
 if (import.meta.main) await main();

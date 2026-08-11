@@ -168,7 +168,7 @@ bun run expand:corpus -- \
   --common-crawl-report .openings/common-crawl-discovery-report.json
 ```
 
-The campaign extracts company-owned HTTPS career URLs, traces them with HEAD requests in isolated batches, verifies every evidence-ready ATS source once, crawls the verified country cohort once, and prints before/after company and job counts. Weak name or Common Crawl matches remain in the enrichment registry and are never promoted without qualifying identity evidence. Use `--batch-size`, `--trace-concurrency`, `--verify-concurrency`, `--workday-concurrency`, or `--crawl-concurrency` to tune a campaign; `--skip-verify` and `--skip-crawl` are available for staged runs.
+The campaign extracts company-owned HTTPS career URLs from HTML or ordinary Markdown links, traces them with HEAD requests in isolated batches, verifies every evidence-ready ATS source once, crawls the verified country cohort once, and prints before/after company and job counts plus crashed-batch and individual-request failure totals. Weak name or Common Crawl matches remain in the enrichment registry and are never promoted without qualifying identity evidence. Use `--batch-size`, `--trace-concurrency`, `--verify-concurrency`, `--workday-concurrency`, or `--crawl-concurrency` to tune a campaign; `--skip-verify` and `--skip-crawl` are available for staged runs.
 
 ## License
 
