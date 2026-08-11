@@ -224,6 +224,35 @@ test("matching rejects a candidate profile whose evidence has been tampered with
   expect(() => matchJobs(profile, {}, [job({ description: "Java is required." })])).toThrow("invalid_candidate_profile");
 });
 
+test("mandatory experience and degree shortfalls demote an otherwise strong principal match", () => {
+  const profile = parseCandidateProfile({
+    content: "Skills\nJava, Python, Angular\nExperience\nStaff Software Engineer — Acme\nJan 2023 - Dec 2026\nEducation\nBachelor of Arts — Siliguri College",
+    format: "text",
+  });
+  const result = matchJobs(profile, { roles: ["backend engineer"], countries: ["IN"] }, [
+    job({ id: "principal", title: "Principal Software Engineer - Java Backend", description: "<h3>Your Experience Includes</h3><p>Bachelor’s or master’s degree in computer science, Engineering, or related technical or business field.<br>8+ years of professional software&nbsp;engineering/development experience<br>Java, Python, and Angular are required.</p>" }),
+    job({ id: "senior", title: "Senior Backend Engineer", description: "Java is required." }),
+  ]);
+  const match = result.matches.find((candidate) => candidate.job.id === "principal")!;
+
+  expect(result.matches[0]!.job.id).toBe("senior");
+  expect(match.fit).toBe("stretch");
+  expect(match.gaps).toEqual(expect.arrayContaining([
+    "8+ years of professional software engineering/development experience",
+    "Bachelor’s or master’s degree in computer science, Engineering, or related technical or business field",
+  ]));
+});
+
+test("preferred qualification sections do not demote an otherwise strong match", () => {
+  const profile = parseCandidateProfile({ content: "Skills\nJava, Python", format: "text" });
+  const match = matchJobs(profile, { roles: ["backend engineer"] }, [job({
+    title: "Backend Engineer",
+    description: "Java and Python are required.\nBachelor's degree is not required.\nPreferred Qualifications\n8+ years of experience\nBachelor’s degree in computer science",
+  })]).matches[0]!;
+  expect(match.fit).toBe("strong");
+  expect(match.gaps).toEqual([]);
+});
+
 function job(overrides: Partial<Job>): Job {
   return {
     id: "job", company: "Example", title: "Engineer", location: "Bengaluru, India", remote: false, workMode: "onsite",

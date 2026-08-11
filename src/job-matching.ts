@@ -1,6 +1,7 @@
 import { validateCandidateProfileEvidence, type CandidateProfile } from "./candidate-profile.ts";
 import { isEligibleForCountry, normalizeLocation } from "./locations.ts";
 import type { Job } from "./types.ts";
+import { evaluateScreeningRequirements } from "./screening-requirements.ts";
 
 export interface CandidateIntent {
   roles?: string[];
@@ -44,18 +45,20 @@ export function matchJobs(profile: CandidateProfile, intent: CandidateIntent, jo
       continue;
     }
     const jobRequirements = detectedRequirements(job);
+    const screeningRequirements = evaluateScreeningRequirements(profile, job);
     const supported = supportedRequirements(profile, jobRequirements);
     const transferable = transferableRequirements(profile, jobRequirements, supported);
     const skillFocus = uniqueTerms(intent.requiredSkills ?? []).filter((skill) => includesPhrase(`${job.title}\n${job.description}`, skill));
-    const gapCandidates = [...jobRequirements, ...skillFocus];
+    const gapCandidates = [...jobRequirements, ...skillFocus, ...screeningRequirements.filter((item) => item.status !== "supported").map((item) => item.requirement)];
     const gaps = [...new Set(gapCandidates)].filter((requirement) =>
       !hasExplicitSkill(profile, requirement) && !transferable.some((item) => equalSkill(item.requirement, requirement)),
     );
     const roleTargets = intent.roles?.length ? intent.roles : inferredRoleTargets(profile);
     const roleMatch = roleTargets.some((role) => tokenOverlap(role, job.title) >= 0.5);
     const seniority = seniorityAlignment(profile, intent, job);
-    const score = (roleMatch ? 4 : 0) + supported.length * 2 + transferable.length + skillFocus.length * 3 + seniority.score - gaps.length * 2;
-    const fit = classifyFit(score, gaps.length);
+    const screeningShortfalls = screeningRequirements.filter((item) => item.status !== "supported").length;
+    const score = (roleMatch ? 4 : 0) + supported.length * 2 + transferable.length + skillFocus.length * 3 + seniority.score - gaps.length * 2 - screeningShortfalls * 6;
+    const fit = screeningRequirements.some((item) => item.status !== "supported") ? "stretch" : classifyFit(score, gaps.length);
     const reasons = [
       ...(roleMatch ? [intent.roles?.length ? "title matches explicit role intent" : "title aligns with resume role evidence"] : []),
       ...(seniority.reason ? [seniority.reason] : []),

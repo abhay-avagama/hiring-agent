@@ -2,6 +2,7 @@ import { parseCandidateProfile, type CandidateProfile, type ResumeInput } from "
 import { matchJobs, type CandidateIntent, type SupportedRequirement, type TransferableRequirement } from "./job-matching.ts";
 import { assertKnownKeys, isRecord, validateCandidateIntent } from "./intent-validation.ts";
 import type { Job } from "./types.ts";
+import { evaluateScreeningRequirements, type ScreeningRequirement } from "./screening-requirements.ts";
 
 export interface AnalyzeJobFitInput { jobId: string; resume: ResumeInput; intent?: CandidateIntent }
 export interface JobFitReason {
@@ -40,7 +41,8 @@ export function createJobFitAnalyzer(options: JobFitAnalyzerOptions) {
       const intent = input.intent ?? {};
       const filtered = matchJobs(profile, intent, [job], 1);
       const relevance = filtered.matches[0] ?? matchJobs(profile, softIntent(intent), [job], 1).matches[0]!;
-      const structured = structuredRequirements(job, profile);
+      const screening = evaluateScreeningRequirements(profile, job);
+      const structured = structuredRequirements(job, profile, screening);
       const supported = mergeSupported(relevance.supported, structured.supported);
       const partiallySupported = mergePartial(relevance.transferable, structured.partial);
       const resolved = new Set([...supported, ...partiallySupported].map((item) => item.requirement.toLocaleLowerCase()));
@@ -54,11 +56,14 @@ export function createJobFitAnalyzer(options: JobFitAnalyzerOptions) {
       const requirementRisks = unsupported.map((requirement) =>
         requirement.startsWith("Work authorization in ")
           ? `Work authorization is required but cannot be inferred from resume silence or geographic intent: ${requirement.slice("Work authorization in ".length)}`
+          : screening.some((item) => item.requirement === requirement)
+            ? `Resume does not provide evidence satisfying mandatory ${screening.find((item) => item.requirement === requirement)!.kind} requirement: ${requirement}`
           : `No explicit or transferable resume evidence supports required skill: ${requirement}`,
       );
+      const partialScreeningRisks = screening.filter((item) => item.status === "partial").map((item) => `Resume evidence does not meet minimum requirement: ${item.requirement}`);
       const seniorityRisks = relevance.reasons.filter((reason) => reason.startsWith("seniority differs"));
-      const screeningRisks = [...hardRisks, ...seniorityRisks, ...requirementRisks];
-      const fit = hardRisks.length || (!supported.length && !partiallySupported.length && unsupported.length)
+      const screeningRisks = [...hardRisks, ...seniorityRisks, ...partialScreeningRisks, ...requirementRisks];
+      const fit = hardRisks.length || screening.some((item) => item.status !== "supported") || (!supported.length && !partiallySupported.length && unsupported.length)
         ? "poor"
         : relevance.fit === "strong" && unsupported.length ? "good" : relevance.fit;
       return {
@@ -81,7 +86,7 @@ export function createJobFitAnalyzer(options: JobFitAnalyzerOptions) {
   };
 }
 
-function structuredRequirements(job: Job, profile: CandidateProfile): {
+function structuredRequirements(job: Job, profile: CandidateProfile, screening: ScreeningRequirement[]): {
   supported: SupportedRequirement[];
   partial: PartiallySupportedRequirement[];
   unsupported: string[];
@@ -91,23 +96,10 @@ function structuredRequirements(job: Job, profile: CandidateProfile): {
   const unsupported: string[] = [];
   const text = job.description;
 
-  const experience = /\b(\d+)\s*\+?\s*years?(?:\s+of)?\s+(?:relevant\s+)?experience\b/i.exec(text);
-  if (experience) {
-    const required = Number(experience[1]);
-    const label = `${required}+ years experience`;
-    const inference = profile.inferences.find((item) => item.kind === "approximate_experience_years");
-    if (!inference) unsupported.push(label);
-    else if (inference.value >= required) supported.push({ requirement: label, factIds: inference.derivedFromFactIds });
-    else partial.push({ requirement: label, via: "experience_below_requirement", factIds: inference.derivedFromFactIds });
-  }
-
-  const education = /\b(bachelor(?:'s)?|master(?:'s)?|ph\.?d\.?|doctorate)\s+(?:degree\s+)?(?:is\s+)?(?:required|minimum|must)\b/i.exec(text)
-    ?? /\b(?:required|minimum|must)[^.!\n]{0,30}\b(bachelor(?:'s)?|master(?:'s)?|ph\.?d\.?|doctorate)(?:'s)?\b/i.exec(text);
-  if (education) {
-    const level = education[1]!.toLocaleLowerCase();
-    const label = level.startsWith("bachelor") ? "Bachelor's degree" : level.startsWith("master") ? "Master's degree" : "Doctoral degree";
-    const fact = profile.facts.find((item) => item.kind === "education" && educationMatches(level, item.value));
-    if (fact) supported.push({ requirement: label, factIds: [fact.id] }); else unsupported.push(label);
+  for (const item of screening) {
+    if (item.status === "supported") supported.push({ requirement: item.requirement, factIds: item.factIds });
+    else if (item.status === "partial") partial.push({ requirement: item.requirement, via: "experience_below_requirement", factIds: item.factIds });
+    else unsupported.push(item.requirement);
   }
 
   for (const match of text.matchAll(/\b(?:authorized|authorization)\s+to\s+work\s+in\s+([A-Za-z][A-Za-z ]{1,30}?)(?=[.,;\n]|\s+(?:is|required|must)\b)/gi)) {
@@ -154,8 +146,10 @@ function assessmentReasons(job: Job, profile: CandidateProfile, matchingReasons:
     result.push({ claim: reason, ...(resumeGroundedIds.length ? { candidateFactIds: unique(resumeGroundedIds) } : {}), jobEvidence: { field: "title", quote: job.title, start: 0, end: job.title.length } });
   }
   for (const risk of risks) {
-    const seniorityIds = risk.startsWith("seniority differs") ? profile.inferences.filter((item) => item.kind === "seniority").flatMap((item) => item.derivedFromFactIds) : [];
-    result.push({ claim: risk, ...(seniorityIds.length ? { candidateFactIds: unique(seniorityIds) } : {}), jobEvidence: evidenceForRisk(job, risk) });
+    const riskFactIds = risk.startsWith("seniority differs")
+      ? profile.inferences.filter((item) => item.kind === "seniority").flatMap((item) => item.derivedFromFactIds)
+      : partial.filter((item) => risk.includes(item.requirement)).flatMap((item) => item.factIds);
+    result.push({ claim: risk, ...(riskFactIds.length ? { candidateFactIds: unique(riskFactIds) } : {}), jobEvidence: evidenceForRisk(job, risk) });
   }
   return result;
 }
@@ -183,12 +177,6 @@ function jobDescriptionEvidence(job: Job, requirement: string): JobFitReason["jo
   const start = requirement ? job.description.toLocaleLowerCase().indexOf(requirement.toLocaleLowerCase()) : -1;
   if (start >= 0) return { field: "description", quote: job.description.slice(start, start + requirement.length), start, end: start + requirement.length };
   return { field: "description", quote: job.description };
-}
-
-function educationMatches(level: string, value: string): boolean {
-  if (level.startsWith("bachelor")) return /\b(?:bachelor|b\.?\s*(?:tech|e|sc|a|com|ba|eng))\b/i.test(value);
-  if (level.startsWith("master")) return /\b(?:master|m\.?\s*(?:tech|e|sc|a|com|ba|eng))\b/i.test(value);
-  return /\b(?:ph\.?d|doctorate)\b/i.test(value);
 }
 
 function includesTerm(value: string, term: string): boolean {

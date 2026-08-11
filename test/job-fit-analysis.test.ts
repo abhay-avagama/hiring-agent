@@ -105,6 +105,35 @@ test("resume-derived title fit and hard-filter risks carry accurate provenance",
   expect(result.assessment.reasons.find((reason) => reason.claim.includes("not explicitly remote"))?.jobEvidence).toEqual({ field: "workMode", quote: "onsite" });
 });
 
+test("OneTrust-style degree and eight-year requirements force a poor fit when the resume falls short", async () => {
+  const job = makeJob({
+    title: "Principal Software Engineer - Java Backend",
+    description: "Requirements\nBachelor’s or master’s degree in computer science, Engineering, or related technical or business field. 8+ years of professional software engineering/development experience. Java, Python, and Angular are required.",
+  });
+  const analyzer = createJobFitAnalyzer({ getJob: async () => job });
+  const result = await analyzer.analyze({
+    jobId: job.id,
+    resume: { content: "Skills\nJava, Python, Angular\nExperience\nStaff Software Engineer — Acme\nJan 2023 - Dec 2026\nEducation\nBachelor of Arts — Siliguri College", format: "text" },
+    intent: { roles: ["backend engineer"], countries: ["IN"] },
+  });
+
+  expect(result.assessment.fit).toBe("poor");
+  expect(result.partiallySupported).toContainEqual(expect.objectContaining({ requirement: "8+ years of professional software engineering/development experience", via: "experience_below_requirement" }));
+  expect(result.unsupported).toContain("Bachelor’s or master’s degree in computer science, Engineering, or related technical or business field");
+  expect(result.screeningRisks).toEqual(expect.arrayContaining([
+    expect.stringContaining("8+ years"),
+    expect.stringContaining("Bachelor’s or master’s degree"),
+  ]));
+});
+
+test("preferred qualification sections never force a poor fit", async () => {
+  const job = makeJob({ description: "Java and Python are required.\nBachelor's degree is not required.\nPreferred Qualifications\n8+ years of experience\nBachelor’s degree in computer science" });
+  const analyzer = createJobFitAnalyzer({ getJob: async () => job });
+  const result = await analyzer.analyze({ jobId: job.id, resume: { content: "Skills\nJava, Python", format: "text" }, intent: { roles: ["backend engineer"] } });
+  expect(result.assessment.fit).toBe("strong");
+  expect(result.unsupported).toEqual([]);
+});
+
 function makeJob(overrides: Partial<Job> = {}): Job {
   return {
     id: "greenhouse:acme:1", company: "Acme", title: "Backend Engineer", location: "Bengaluru, India", remote: false, workMode: "onsite",
