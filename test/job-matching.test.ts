@@ -247,7 +247,7 @@ test("preferred qualification sections do not demote an otherwise strong match",
   const profile = parseCandidateProfile({ content: "Skills\nJava, Python", format: "text" });
   const match = matchJobs(profile, { roles: ["backend engineer"] }, [job({
     title: "Backend Engineer",
-    description: "Java and Python are required.\nBachelor's degree is not required.\nPreferred Qualifications\n8+ years of experience\nBachelor’s degree in computer science",
+    description: "Java and Python are required.\nBachelor's degree is not required.\nPreferred Qualifications\n8+ years of experience\nBachelor’s degree in computer science\nAWS is required.",
   })]).matches[0]!;
   expect(match.fit).toBe("strong");
   expect(match.gaps).toEqual([]);
@@ -284,6 +284,40 @@ test("mixed explicit role targets retain exact matches outside the backend famil
   expect(result.matches.map((match) => match.job.id)).toEqual(["data", "qa"]);
   expect(result.matches[0]!.reasons).toContain("title matches explicit role intent");
   expect(result.matches[1]!.reasons).not.toContain("title matches explicit role intent");
+});
+
+test("required HTML sections expose material domain and platform gaps instead of producing a false strong fit", () => {
+  const profile = parseCandidateProfile({ content: "Skills\nJava, Python, SQL\nExperience\nBackend Engineer — Acme\nBuilt REST APIs with Java", format: "text" });
+  const description = [
+    "<p><strong>WHAT'S REQUIRED</strong></p>",
+    "<ul>",
+    "<li>2–8 years of professional software development experience with solid experience with Java and Java-based technologies.</li>",
+    "<li>Solid knowledge of financial products including fixed income, credit, equities, and derivatives.</li>",
+    "<li>Experience in SQL development and building large-scale data warehouses.</li>",
+    "<li>Proficiency in Python and hands-on experience with Databricks for ETL pipeline development.</li>",
+    "<li>Experience with high volume messaging architectures, streaming platforms, and transaction processing systems.</li>",
+    "<li>Hands-on experience developing microservices on Kubernetes-based platforms and AWS infrastructure.</li>",
+    "</ul>",
+    "<p><strong>WE TAKE CARE OF OUR PEOPLE</strong></p>",
+    "<li>Health care benefits</li>",
+  ].join("\n");
+
+  const match = matchJobs(profile, { roles: ["backend engineer"] }, [job({ title: "Software Engineer, Technology", description })]).matches[0]!;
+
+  expect(match.fit).toBe("stretch");
+  expect(match.gaps).toEqual(expect.arrayContaining([
+    "Financial products", "Databricks", "ETL pipelines", "High-volume messaging", "Streaming platforms", "Transaction processing", "Kubernetes", "AWS",
+  ]));
+  expect(match.gaps).not.toContain("Health care");
+});
+
+test("credible fit tiers rank ahead of skill-heavy jobs with mandatory screening shortfalls", () => {
+  const profile = parseCandidateProfile({ content: "Skills\nJava, Python, SQL, AWS, Docker, React\nExperience\nBackend Engineer — Acme\nJan 2022 - Dec 2025", format: "text" });
+  const result = matchJobs(profile, { roles: ["backend engineer"] }, [
+    job({ id: "stretch", title: "Backend Engineer", description: "Java, Python, SQL, AWS, Docker, and React are required. Minimum 8 years of professional software engineering experience." }),
+    job({ id: "good", title: "Software Engineer", description: "Java is required." }),
+  ]);
+  expect(result.matches.map((match) => [match.job.id, match.fit])).toEqual([["good", "good"], ["stretch", "stretch"]]);
 });
 
 function job(overrides: Partial<Job>): Job {

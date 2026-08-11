@@ -65,8 +65,11 @@ function educationRequirements(profile: CandidateProfile, description: string): 
 function isMandatory(description: string, start: number, value: string): boolean {
   const clauseEnd = description.slice(start).search(/[.\n]/);
   const clause = description.slice(start, clauseEnd < 0 ? undefined : start + clauseEnd);
-  if (/\b(?:preferred|optional|desired|nice to have|not required|up to)\b/i.test(`${value} ${clause}`)) return false;
-  if (/\b(?:required|must|minimum|at least)\b/i.test(`${value} ${clause}`)) return true;
+  const rawPrefix = description.slice(Math.max(0, start - 40), start);
+  const prefix = rawPrefix.slice(Math.max(rawPrefix.lastIndexOf("."), rawPrefix.lastIndexOf("\n")) + 1);
+  const context = `${prefix} ${value} ${clause}`;
+  if (/\b(?:preferred|optional|desired|nice to have|not required|up to)\b/i.test(context)) return false;
+  if (/\b(?:required|must|minimum|at least)\b/i.test(context)) return true;
   return lastSectionKind(description.slice(0, start)) === "required";
 }
 
@@ -75,7 +78,7 @@ function lastSectionKind(value: string): "required" | "optional" | undefined {
   for (const rawLine of value.split("\n")) {
     const line = rawLine.trim().replace(/:$/, "");
     if (/^(?:preferred qualifications?|optional requirements?|nice to have|extra awesome|optional)$/i.test(line)) kind = "optional";
-    else if (/^(?:requirements?|qualifications?|required qualifications|your experience includes)$/i.test(line)) kind = "required";
+    else if (/^(?:what(?:'|’)s required|requirements?|qualifications?|required qualifications|your experience includes)$/i.test(line)) kind = "required";
   }
   return kind;
 }

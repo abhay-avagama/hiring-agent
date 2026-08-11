@@ -27,6 +27,15 @@ test("alternative master's degrees qualify while preferred and negated clauses n
   expect(evaluateScreeningRequirements(profile, job("Bachelor's degree is not required."))).toEqual([]);
 });
 
+test("WHAT'S REQUIRED HTML headings make following degree and experience bullets mandatory", () => {
+  const profile = parseCandidateProfile({ content: "Experience\nEngineer — Acme\nJan 2022 - Dec 2025\nEducation\nBachelor of Arts", format: "text" });
+  const requirements = job("<p>WHAT’S REQUIRED<br>• Bachelor’s degree in computer science or another technical field<br>• Minimum 8 years object-oriented programming experience with C#/.NET</p>");
+  expect(evaluateScreeningRequirements(profile, requirements)).toEqual([
+    expect.objectContaining({ kind: "experience", status: "partial" }),
+    expect.objectContaining({ kind: "education", status: "unsupported" }),
+  ]);
+});
+
 function job(description: string): Job {
   return { id: "job", company: "Acme", title: "Principal Engineer", location: "India", remote: false, workMode: "onsite", eligibleCountries: ["IN"], excludedCountries: [], eligibleRegions: [], eligibilityConfidence: "explicit", url: "https://example.test", description };
 }

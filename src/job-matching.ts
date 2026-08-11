@@ -51,7 +51,7 @@ export function matchJobs(profile: CandidateProfile, intent: CandidateIntent, jo
     const skillFocus = uniqueTerms(intent.requiredSkills ?? []).filter((skill) => includesPhrase(`${job.title}\n${job.description}`, skill));
     const gapCandidates = [...jobRequirements, ...skillFocus, ...screeningRequirements.filter((item) => item.status !== "supported").map((item) => item.requirement)];
     const gaps = [...new Set(gapCandidates)].filter((requirement) =>
-      !hasExplicitSkill(profile, requirement) && !transferable.some((item) => equalSkill(item.requirement, requirement)),
+      !hasExplicitEvidence(profile, requirement) && !transferable.some((item) => equalSkill(item.requirement, requirement)),
     );
     const roleTargets = intent.roles?.length ? intent.roles : inferredRoleTargets(profile);
     const role = roleAlignment(roleTargets, job.title, Boolean(intent.roles?.length));
@@ -77,7 +77,7 @@ export function matchJobs(profile: CandidateProfile, intent: CandidateIntent, jo
       index,
     });
   }
-  ranked.sort((left, right) => right.score - left.score || freshness(right.job) - freshness(left.job) || left.index - right.index);
+  ranked.sort((left, right) => fitRank(right.fit) - fitRank(left.fit) || right.score - left.score || freshness(right.job) - freshness(left.job) || left.index - right.index);
   return {
     matches: ranked.slice(0, Math.max(0, limit)).map(({ score: _score, index: _index, ...match }) => match),
     filteredOut,
@@ -138,11 +138,9 @@ function hardFilterReasons(job: Job, intent: CandidateIntent): string[] {
 
 function supportedRequirements(profile: CandidateProfile, requirements: string[]): SupportedRequirement[] {
   const grouped = new Map<string, SupportedRequirement>();
-  for (const fact of profile.facts.filter((candidate) => candidate.kind === "skill" && requirements.some((requirement) => equalSkill(requirement, candidate.value)))) {
-    const key = fact.value.toLocaleLowerCase();
-    const existing = grouped.get(key);
-    if (existing) existing.factIds.push(fact.id);
-    else grouped.set(key, { requirement: fact.value, factIds: [fact.id] });
+  for (const requirement of requirements) {
+    const facts = explicitEvidence(profile, requirement);
+    if (facts.length) grouped.set(requirement.toLocaleLowerCase(), { requirement, factIds: facts.map((fact) => fact.id) });
   }
   return [...grouped.values()];
 }
@@ -164,14 +162,86 @@ const requirementFamilies = new Map<string, TransferableRequirement["via"]>([
   ["aws", "cloud_infrastructure"], ["azure", "cloud_infrastructure"], ["gcp", "cloud_infrastructure"], ["kubernetes", "cloud_infrastructure"], ["docker", "cloud_infrastructure"], ["terraform", "cloud_infrastructure"],
 ]);
 
+const materialRequirementTerms = [
+  "financial products", "databricks", "data warehouses", "etl pipelines", "high-volume messaging", "streaming platforms", "transaction processing",
+  "restful services", "microservices", "redis", "mongodb",
+] as const;
+
 function detectedRequirements(job: Job): string[] {
   const positive = /\b(?:required?|must|need(?:ed)?|minimum|proficien(?:t|cy)|experience (?:in|with))\b/i;
   const negative = /\b(?:no|not|without|optional|nice to have|preferred)\b/i;
-  const clauses = job.description.split(/[.!?\n;]+|\b(?:while|whereas|but)\b/i).flatMap((segment) =>
+  const clauses = nonOptionalSectionText(job.description).split(/[.!?\n;]+|\b(?:while|whereas|but)\b/i).flatMap((segment) =>
     positive.test(segment) && negative.test(segment) ? splitMixedRequirementClauses(segment, positive, negative) : [segment],
   );
-  const requirementText = clauses.filter((segment) => positive.test(segment) && !negative.test(segment)).join("\n");
-  return [...requirementFamilies.keys()].filter((skill) => includesPhrase(requirementText, skill)).map(displaySkill);
+  const requirementText = [
+    clauses.filter((segment) => positive.test(segment) && !negative.test(segment)).join("\n"),
+    requiredSectionText(job.description),
+  ].join("\n");
+  return [...requirementFamilies.keys(), ...materialRequirementTerms]
+    .filter((requirement) => [requirement, ...(requirementAliases[requirement] ?? [])]
+      .some((term) => includesPhrase(requirementText, term) || hyphenatedPhrase(requirementText, term)))
+    .map(displayRequirement);
+}
+
+const requirementAliases: Record<string, string[]> = {
+  "etl pipelines": ["etl pipeline"],
+  "data warehouses": ["data warehouse"],
+  "streaming platforms": ["streaming platform"],
+  "transaction processing": ["transaction-processing"],
+};
+
+function requiredSectionText(value: string): string {
+  const lines = structuredJobLines(value);
+  let required = false;
+  const selected: string[] = [];
+  for (const line of lines) {
+    const section = sectionHeading(line);
+    if (section) {
+      required = section === "required";
+      continue;
+    }
+    if (required) selected.push(line);
+  }
+  return selected.join("\n");
+}
+
+function nonOptionalSectionText(value: string): string {
+  let optional = false;
+  const selected: string[] = [];
+  for (const line of structuredJobLines(value)) {
+    const section = sectionHeading(line);
+    if (section) {
+      optional = section === "optional";
+      continue;
+    }
+    if (!optional) selected.push(line);
+  }
+  return selected.join("\n");
+}
+
+function structuredJobLines(value: string): string[] {
+  return value
+    .replace(/<br\s*\/?>/gi, "\n")
+    .replace(/<\/(?:p|li|ul|ol|h[1-6])>/gi, "\n")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/&nbsp;|&#160;|\u00a0/gi, " ")
+    .replace(/&#0*39;|&apos;/gi, "'")
+    .replace(/&amp;/gi, "&")
+    .split("\n")
+    .map((line) => line.trim().replace(/\s+/g, " "))
+    .filter(Boolean);
+}
+
+function sectionHeading(value: string): "required" | "optional" | "other" | undefined {
+  const heading = value.replace(/:$/, "").trim();
+  if (/^(?:what(?:'|’)s required|required qualifications?|requirements?|qualifications?|your experience includes)$/i.test(heading)) return "required";
+  if (/^(?:preferred qualifications?|optional requirements?|nice to have)$/i.test(heading)) return "optional";
+  if (/^(?:what you(?:'|’)ll do|responsibilities|we take care of our people|benefits|about .+)$/i.test(heading)) return "other";
+  return undefined;
+}
+
+function hyphenatedPhrase(value: string, phrase: string): boolean {
+  return includesPhrase(value.replace(/-/g, " "), phrase.replace(/-/g, " "));
 }
 
 function splitMixedRequirementClauses(segment: string, positive: RegExp, negative: RegExp): string[] {
@@ -189,8 +259,15 @@ function splitMixedRequirementClauses(segment: string, positive: RegExp, negativ
   return groups;
 }
 
-function hasExplicitSkill(profile: CandidateProfile, requirement: string): boolean {
-  return profile.facts.some((fact) => fact.kind === "skill" && equalSkill(fact.value, requirement));
+function hasExplicitEvidence(profile: CandidateProfile, requirement: string): boolean {
+  return explicitEvidence(profile, requirement).length > 0;
+}
+
+function explicitEvidence(profile: CandidateProfile, requirement: string): CandidateProfile["facts"] {
+  const structuredSkill = requirementFamilies.has(requirement.toLocaleLowerCase()) || ["databricks", "redis", "mongodb"].includes(requirement.toLocaleLowerCase());
+  return profile.facts.filter((fact) => structuredSkill
+    ? fact.kind === "skill" && equalSkill(fact.value, requirement)
+    : fact.kind !== "certification" && includesPhrase(fact.value, requirement));
 }
 
 function inferredRoleTargets(profile: CandidateProfile): string[] {
@@ -215,6 +292,7 @@ function classifyFit(score: number, gapCount: number): JobMatch["fit"] {
   if (score >= 4) return "good";
   return "stretch";
 }
+function fitRank(fit: JobMatch["fit"]): number { return { strong: 3, good: 2, stretch: 1 }[fit]; }
 function uniqueTerms(values: string[]): string[] {
   const seen = new Set<string>();
   return values.filter((value) => {
@@ -224,9 +302,12 @@ function uniqueTerms(values: string[]): string[] {
     return true;
   });
 }
-function displaySkill(skill: string): string {
-  const names: Record<string, string> = { aws: "AWS", gcp: "GCP", sql: "SQL", dbt: "dbt", "node.js": "Node.js", golang: "Golang" };
-  return names[skill] ?? `${skill[0]!.toUpperCase()}${skill.slice(1)}`;
+function displayRequirement(requirement: string): string {
+  const names: Record<string, string> = {
+    aws: "AWS", gcp: "GCP", sql: "SQL", dbt: "dbt", "node.js": "Node.js", golang: "Golang", postgresql: "PostgreSQL", javascript: "JavaScript", typescript: "TypeScript",
+    "etl pipelines": "ETL pipelines", "restful services": "RESTful services", mongodb: "MongoDB", databricks: "Databricks",
+  };
+  return names[requirement] ?? `${requirement[0]!.toUpperCase()}${requirement.slice(1)}`;
 }
 
 function includesPhrase(value: string, phrase: string): boolean {
