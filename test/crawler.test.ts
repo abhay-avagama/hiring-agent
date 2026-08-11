@@ -102,3 +102,14 @@ test("reports provider throttling and backoff per source", async () => {
   const report = await crawler.crawl([{ slug: "limited", name: "Limited", ats: "workday", token: "example.test/example/jobs" }]);
   expect(report.sources?.[0]).toEqual(expect.objectContaining({ throttles: 1, backoffMs: 1250 }));
 });
+
+test("paces source starts globally across concurrent workers", async () => {
+  const starts: number[] = [];
+  const store = { read: async () => null, write: async (_next: JobSnapshot) => undefined };
+  const crawler = createCrawler({ store, concurrency: 3, sourceStartDelayMs: 15, fetchJobs: async () => { starts.push(Date.now()); return []; } });
+  const sources: Company[] = Array.from({ length: 3 }, (_, index) => ({ slug: `paced-${index}`, name: `Paced ${index}`, ats: "lever", token: `paced-${index}` }));
+  await crawler.crawl(sources);
+  expect(starts).toHaveLength(3);
+  expect(starts[1]! - starts[0]!).toBeGreaterThanOrEqual(10);
+  expect(starts[2]! - starts[1]!).toBeGreaterThanOrEqual(10);
+});

@@ -14,7 +14,7 @@ import { forceReleaseFileLock, inspectFileLock } from "./file-lock.ts";
 const HELP = `Openings — search public company job boards
 
 Usage:
-  openings crawl [--country CODE | --companies FILE] [--concurrency N] [--data-dir PATH]
+  openings crawl [--country CODE | --companies FILE] [--concurrency N] [--delay-ms N] [--data-dir PATH]
   openings snapshot export [--input FILE] [--output-dir PATH]
   openings sources verify CANDIDATES.json [--output FILE] [--state-file FILE] [--concurrency N] [--workday-concurrency N] [--limit N] [--require-country CODE] [--registry FILE] [--retry-deferred]
   openings sources discover FEED.json [--country CODE] [--registry FILE] [--output FILE] [--catalog FILE] [--report FILE]
@@ -53,7 +53,7 @@ export async function run(args: string[]): Promise<number> {
   if (command === "crawl") {
     const parsed = parseCrawl(rest);
     if (typeof parsed === "string") return fail(parsed);
-    const runtime = createRuntime({ dataDir: parsed.dataDir, concurrency: parsed.concurrency });
+    const runtime = createRuntime({ dataDir: parsed.dataDir, concurrency: parsed.concurrency, crawlDelayMs: parsed.delayMs });
     const slugs = parsed.companiesFile ? await readCompanyFile(parsed.companiesFile) : undefined;
     console.log(JSON.stringify(await runtime.crawl({ country: parsed.country, slugs }), null, 2));
     return 0;
@@ -364,6 +364,7 @@ function parseCrawl(args: string[]) {
   let companiesFile: string | undefined;
   let dataDir: string | undefined;
   let concurrency = 10;
+  let delayMs = 0;
   for (let index = 0; index < args.length; index += 1) {
     const arg = args[index];
     if (arg === "--country") {
@@ -374,12 +375,15 @@ function parseCrawl(args: string[]) {
     else if (arg === "--concurrency") {
       concurrency = Number(args[++index]);
       if (!Number.isInteger(concurrency) || concurrency < 1 || concurrency > 100) return "--concurrency must be an integer from 1 to 100";
+    } else if (arg === "--delay-ms") {
+      delayMs = Number(args[++index]);
+      if (!Number.isInteger(delayMs) || delayMs < 0 || delayMs > 60_000) return "--delay-ms must be an integer from 0 to 60000";
     } else return `Unknown option: ${arg}`;
   }
   if (country && companiesFile) return "Use either --country or --companies, not both";
   if (args.includes("--companies") && !companiesFile) return "--companies requires a file";
   if (args.includes("--data-dir") && !dataDir) return "--data-dir requires a value";
-  return { country, companiesFile, dataDir, concurrency };
+  return { country, companiesFile, dataDir, concurrency, delayMs };
 }
 
 function parseCountry(value: string | undefined): string | undefined {

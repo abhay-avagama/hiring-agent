@@ -21,6 +21,7 @@ interface Options {
   verifyConcurrency: number;
   workdayConcurrency: number;
   crawlConcurrency: number;
+  crawlDelayMs: number;
   skipVerify: boolean;
   skipCrawl: boolean;
 }
@@ -93,7 +94,7 @@ async function main() {
   }
   if (!options.skipCrawl) {
     await requireSuccess(process.execPath, ["run", "src/cli.ts", "crawl", "--country", options.country,
-      "--concurrency", String(options.crawlConcurrency), "--data-dir", options.dataDir]);
+      "--concurrency", String(options.crawlConcurrency), "--delay-ms", String(options.crawlDelayMs), "--data-dir", options.dataDir]);
   }
   const after = await corpusMetrics(options.catalog, join(options.dataDir, "snapshot.json"), options.country);
   console.log(JSON.stringify({ phase: "complete", country: options.country, crashedBatches, traceRequestFailures, before, after,
@@ -117,7 +118,7 @@ function parseOptions(args: string[]): Options {
   const options: Options = {
     country: "IN", input: "data/companies-career-page.md", candidates: "data/source-candidates.json",
     catalog: "data/companies.json", registry: "data/enrichment-leads.json", dataDir: ".openings",
-    batchSize: 10, traceConcurrency: 10, verifyConcurrency: 10, workdayConcurrency: 5, crawlConcurrency: 10,
+    batchSize: 10, traceConcurrency: 10, verifyConcurrency: 10, workdayConcurrency: 5, crawlConcurrency: 10, crawlDelayMs: 500,
     skipVerify: false, skipCrawl: false,
   };
   for (let index = 0; index < args.length; index += 1) {
@@ -139,6 +140,7 @@ function parseOptions(args: string[]): Options {
       else if (flag === "--verify-concurrency") options.verifyConcurrency = positiveInteger(value, flag, 100);
       else if (flag === "--workday-concurrency") options.workdayConcurrency = positiveInteger(value, flag, 10);
       else if (flag === "--crawl-concurrency") options.crawlConcurrency = positiveInteger(value, flag, 100);
+      else if (flag === "--crawl-delay-ms") options.crawlDelayMs = nonNegativeInteger(value, flag, 60_000);
       else throw new Error(`Unknown option: ${flag}`);
     }
   }
@@ -152,6 +154,12 @@ function parseOptions(args: string[]): Options {
 function positiveInteger(value: string, flag: string, maximum: number): number {
   const number = Number(value);
   if (!Number.isInteger(number) || number < 1 || number > maximum) throw new Error(`${flag} must be an integer from 1 to ${maximum}`);
+  return number;
+}
+
+function nonNegativeInteger(value: string, flag: string, maximum: number): number {
+  const number = Number(value);
+  if (!Number.isInteger(number) || number < 0 || number > maximum) throw new Error(`${flag} must be an integer from 0 to ${maximum}`);
   return number;
 }
 

@@ -15,6 +15,7 @@ test("CLI documents its read-only commands", async () => {
   expect(output).toContain("sources discover-common-crawl");
   expect(output).toContain("sources trace-careers");
   expect(output).toContain("--country");
+  expect(output).toContain("--delay-ms");
   expect(output).toContain("--offline");
   expect(output).toContain("--india");
   expect(output).not.toContain("apply");

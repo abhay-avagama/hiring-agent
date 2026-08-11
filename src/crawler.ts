@@ -11,6 +11,7 @@ interface CrawlerOptions {
   concurrency?: number;
   timeoutMs?: number;
   maxAttempts?: number;
+  sourceStartDelayMs?: number;
   now?: () => Date;
 }
 
@@ -22,7 +23,23 @@ export function createCrawler(options: CrawlerOptions): Crawler {
   const concurrency = Math.max(1, Math.trunc(options.concurrency ?? 10));
   const timeoutMs = Math.max(1, Math.trunc(options.timeoutMs ?? 120_000));
   const maxAttempts = Math.max(1, Math.trunc(options.maxAttempts ?? 2));
+  const sourceStartDelayMs = Math.max(0, Math.trunc(options.sourceStartDelayMs ?? 0));
   const now = options.now ?? (() => new Date());
+  let previousStart = 0;
+  let pacingGate = Promise.resolve();
+
+  async function paceSourceStart() {
+    if (!sourceStartDelayMs) return;
+    let release!: () => void;
+    const previous = pacingGate;
+    pacingGate = new Promise<void>((resolve) => { release = resolve; });
+    await previous;
+    try {
+      const remaining = previousStart + sourceStartDelayMs - Date.now();
+      if (remaining > 0) await new Promise<void>((resolve) => setTimeout(resolve, remaining));
+      previousStart = Date.now();
+    } finally { release(); }
+  }
 
   return {
     async crawl(sources, settings) {
@@ -48,6 +65,7 @@ export function createCrawler(options: CrawlerOptions): Crawler {
           while (cursor < pending.length) {
             const source = pending[cursor++];
             if (!source) continue;
+            await paceSourceStart();
             const metric = metrics.get(source.slug)!;
             metric.attempts += 1;
             const attemptStartedAt = Date.now();

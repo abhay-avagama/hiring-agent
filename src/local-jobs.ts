@@ -8,6 +8,7 @@ interface LocalJobsOptions {
   fetchJobs(source: Company, signal?: AbortSignal, observer?: { onBackoff(event: { status: number; delayMs: number }): void }): Promise<Job[]>;
   concurrency?: number;
   timeoutMs?: number;
+  sourceStartDelayMs?: number;
   now?: () => Date;
 }
 
