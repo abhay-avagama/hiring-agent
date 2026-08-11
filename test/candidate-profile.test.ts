@@ -180,6 +180,24 @@ test("text roles match Markdown structure and experience years merge overlaps co
   expect(openEnded.inferences.some((inference) => inference.kind === "approximate_experience_years")).toBe(false);
 });
 
+test("standalone role titles from PDF-style experience layouts remain verbatim evidence", () => {
+  const profile = parseCandidateProfile({ content: [
+    "Experience",
+    "Northwind Labs                         April 2025 – Present, Pune",
+    "Staff Software Engineer",
+    "Designed REST APIs in Java",
+  ].join("\n"), format: "text" });
+  expect(profile.facts).toContainEqual(expect.objectContaining({ kind: "role", value: "Staff Software Engineer" }));
+  expect(profile.inferences).toContainEqual(expect.objectContaining({ kind: "seniority", value: "staff" }));
+  expect(validateCandidateProfileEvidence(profile)).toEqual({ valid: true, errors: [] });
+
+  for (const prose of ["Partnered closely with the product manager", "Mentored a junior developer"]) {
+    const adversarial = parseCandidateProfile({ content: `Experience\n${prose}`, format: "text" });
+    expect(adversarial.facts.some((fact) => fact.kind === "role")).toBe(false);
+    expect(adversarial.inferences.some((inference) => inference.kind === "seniority")).toBe(false);
+  }
+});
+
 test("every successfully parsed profile satisfies its public evidence invariant", () => {
   for (const content of ["Experience\n### — Acme", "Experience\n### Engineer —", "Projects\n### Ledger", "Skills\nJava, Go"]) {
     expect(validateCandidateProfileEvidence(parseCandidateProfile({ content, format: content.includes("###") ? "markdown" : "text" }))).toEqual({ valid: true, errors: [] });

@@ -1,6 +1,6 @@
 import { parseCandidateProfile, type CandidateProfile, type ResumeInput } from "./candidate-profile.ts";
 import type { SnapshotStore } from "./crawler.ts";
-import { matchJobs, type CandidateIntent, type FilteredJob, type JobMatch } from "./job-matching.ts";
+import { matchJobs, type CandidateIntent, type FilteredJob, type JobMatch, type MatchingOptions } from "./job-matching.ts";
 import { isEligibleForCountry } from "./locations.ts";
 import type { Company, CrawlReport, JobSnapshot } from "./types.ts";
 import { snapshotStatus, type CrawlScope, type SnapshotStatus } from "./local-jobs.ts";
@@ -8,7 +8,7 @@ import { assertKnownKeys, isRecord, validateCandidateIntent } from "./intent-val
 
 export type RefreshPolicy = "auto" | "never" | "always";
 export interface RecommendationRefreshInput { policy?: RefreshPolicy; minimumMatches?: number; staleDays?: number }
-export interface RecommendJobsInput { resume: ResumeInput; intent: CandidateIntent; refresh?: RecommendationRefreshInput; limit?: number }
+export interface RecommendJobsInput { resume: ResumeInput; intent: CandidateIntent; ranking?: MatchingOptions; refresh?: RecommendationRefreshInput; limit?: number }
 export interface RecommendationRefreshResult {
   policy: RefreshPolicy;
   attempted: boolean;
@@ -22,6 +22,7 @@ export interface RecommendJobsResult {
   matches: JobMatch[];
   filteredOut: FilteredJob[];
   assumptions: string[];
+  ranking: { mode: "evidence" | "keyword"; minimumPercent: number };
   snapshot: SnapshotStatus;
   refresh: RecommendationRefreshResult;
   shortfall?: { minimumMatches: number; actualMatches: number; message: string };
@@ -51,10 +52,10 @@ export function createJobRecommender(options: JobRecommenderOptions) {
       let snapshot = await options.store.read();
       const fallbackSnapshot = snapshot;
       const fallbackRevision = snapshotRevision(snapshot);
-      let matching = snapshot ? matchSnapshot(profile, input.intent, snapshot) : undefined;
+      let matching = snapshot ? matchSnapshot(profile, input.intent, snapshot, input.ranking) : undefined;
       const fallbackMatching = matching;
       const relevant = snapshot ? relevantSnapshot(snapshot, input.intent, options.sources) : null;
-      const reason = refreshReason(policy, relevant, matching?.matches.length ?? 0, minimumMatches, staleDays, now());
+      const reason = refreshReason(policy, relevant, matching ? preCutoffMatchCount(matching) : 0, minimumMatches, staleDays, now());
       let report: CrawlReport | undefined;
       let refreshError: RecommendationRefreshResult["error"];
       const attempted = reason !== "policy_never" && reason !== "not_needed";
@@ -64,12 +65,12 @@ export function createJobRecommender(options: JobRecommenderOptions) {
           const refreshedSnapshot = await options.store.read();
           if (!refreshedSnapshot) throw new Error("Refresh completed without producing a snapshot");
           snapshot = refreshedSnapshot;
-          matching = matchSnapshot(profile, input.intent, snapshot);
+          matching = matchSnapshot(profile, input.intent, snapshot, input.ranking);
         } catch (error) {
           refreshError = { code: "refresh_failed", message: error instanceof Error ? error.message : String(error) };
           try {
             snapshot = await options.store.read() ?? fallbackSnapshot;
-            matching = snapshot ? matchSnapshot(profile, input.intent, snapshot) : fallbackMatching;
+            matching = snapshot ? matchSnapshot(profile, input.intent, snapshot, input.ranking) : fallbackMatching;
           } catch {
             snapshot = fallbackSnapshot;
             matching = fallbackMatching;
@@ -88,6 +89,7 @@ export function createJobRecommender(options: JobRecommenderOptions) {
       return {
         profile,
         ...limited,
+        ranking: { mode: input.ranking?.mode ?? "evidence", minimumPercent: input.ranking?.minimumPercent ?? 0 },
         snapshot: snapshotStatus(relevantSnapshot(snapshot, input.intent, options.sources), staleDays, now(), occurred && applied),
         refresh: { policy, attempted, occurred, reason, failures: report?.failed ?? [], ...(refreshError ? { error: refreshError } : {}) },
         ...(shortfall ? { shortfall } : {}),
@@ -99,10 +101,16 @@ export function createJobRecommender(options: JobRecommenderOptions) {
 
 function validateRecommendationInput(value: unknown): RecommendJobsInput {
   if (!isRecord(value)) throw invalidInput("input", "Recommendation input must be an object");
-  assertKnownKeys(value, ["resume", "intent", "refresh", "limit"], "input", invalidInput);
+  assertKnownKeys(value, ["resume", "intent", "ranking", "refresh", "limit"], "input", invalidInput);
   if (!isRecord(value.resume)) throw invalidInput("resume", "Resume input must be an object");
   assertKnownKeys(value.resume, ["content", "format"], "resume", invalidInput);
   validateCandidateIntent(value.intent, invalidInput);
+  if (value.ranking !== undefined) {
+    if (!isRecord(value.ranking)) throw invalidInput("ranking", "Ranking settings must be an object");
+    assertKnownKeys(value.ranking, ["mode", "minimumPercent"], "ranking", invalidInput);
+    if (value.ranking.mode !== undefined && !["evidence", "keyword"].includes(value.ranking.mode as string)) throw invalidInput("ranking.mode", "Ranking mode must be evidence or keyword");
+    if (value.ranking.minimumPercent !== undefined && (typeof value.ranking.minimumPercent !== "number" || !Number.isFinite(value.ranking.minimumPercent) || value.ranking.minimumPercent < 0 || value.ranking.minimumPercent > 100)) throw invalidInput("ranking.minimumPercent", "ranking.minimumPercent must be between 0 and 100");
+  }
   if (value.refresh !== undefined) {
     if (!isRecord(value.refresh)) throw invalidInput("refresh", "Refresh settings must be an object");
     assertKnownKeys(value.refresh, ["policy", "minimumMatches", "staleDays"], "refresh", invalidInput);
@@ -126,13 +134,17 @@ function invalidInput(field: string, message: string): RecommendationError {
   return new RecommendationError("invalid_recommendation_input", message, field);
 }
 
-function matchSnapshot(profile: CandidateProfile, intent: CandidateIntent, snapshot: JobSnapshot) {
+function matchSnapshot(profile: CandidateProfile, intent: CandidateIntent, snapshot: JobSnapshot, ranking?: MatchingOptions) {
   const jobs = Object.values(snapshot.partitions).flatMap((partition) => partition.jobs);
-  return matchJobs(profile, intent, jobs, jobs.length);
+  return matchJobs(profile, intent, jobs, jobs.length, ranking);
 }
 
 function limitMatching<T extends ReturnType<typeof matchSnapshot>>(matching: T, limit = 20): T {
   return { ...matching, matches: matching.matches.slice(0, Math.max(0, limit)) };
+}
+
+function preCutoffMatchCount(matching: ReturnType<typeof matchSnapshot>): number {
+  return matching.matches.length + matching.filteredOut.filter((job) => job.reasons.some((reason) => reason.startsWith("below_minimum_"))).length;
 }
 
 function refreshReason(policy: RefreshPolicy, snapshot: JobSnapshot | null, matchCount: number, minimumMatches: number, staleDays: number, now: Date): RecommendationRefreshResult["reason"] {

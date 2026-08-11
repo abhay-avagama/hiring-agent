@@ -78,7 +78,7 @@ function lastSectionKind(value: string): "required" | "optional" | undefined {
   for (const rawLine of value.split("\n")) {
     const line = rawLine.trim().replace(/:$/, "");
     if (/^(?:preferred qualifications?|optional requirements?|nice to have|extra awesome|optional)$/i.test(line)) kind = "optional";
-    else if (/^(?:what(?:'|’)s required|requirements?|qualifications?|required qualifications|your experience includes)$/i.test(line)) kind = "required";
+    else if (/^(?:what(?:'|’)s required|requirements?|qualifications?|required qualifications|minimum qualifications?|essentials?|essential qualifications?|must haves?|your experience includes)$/i.test(line)) kind = "required";
   }
   return kind;
 }

@@ -73,20 +73,24 @@ test("recommend_jobs runs parsing and matching through MCP while refresh never p
   const handler = createMcpHandler(createToolHandler(catalog, { ...recommender, analyzeJobFit: analyzer.analyze, optimizeResume: optimizer.optimize }));
   const response = await handler({
     jsonrpc: "2.0", id: 4, method: "tools/call",
-    params: { name: "recommend_jobs", arguments: { resume: { content: "Skills\nJava", format: "text" }, intent: { countries: ["IN"] }, refresh: { policy: "never" } } },
+    params: { name: "recommend_jobs", arguments: { resume: { content: "Skills\nJava\nExperience\nBackend Engineer — Acme", format: "text" }, intent: { countries: ["IN"] }, ranking: { mode: "keyword", minimumPercent: 80 }, refresh: { policy: "never" } } },
   });
   if (!response || !("result" in response)) throw new Error("Expected MCP result");
   const rpcResult = response.result as { content: Array<{ type: "text"; text: string }> };
-  const payload = JSON.parse(rpcResult.content[0]!.text) as { matches: Array<{ job: { id: string } }>; profile: { facts: unknown[] }; refresh: { policy: string } };
+  const payload = JSON.parse(rpcResult.content[0]!.text) as { matches: Array<{ job: { id: string }; scores: { evidence: number; keyword: number }; selectedScore: number }>; profile: { facts: unknown[] }; ranking: { mode: string; minimumPercent: number }; refresh: { policy: string } };
   expect(crawls).toBe(0);
   expect(payload.matches[0]!.job.id).toBe(job.id);
   expect(payload.profile.facts.length).toBeGreaterThan(0);
+  expect(payload.ranking).toEqual({ mode: "keyword", minimumPercent: 80 });
+  expect(payload.matches[0]!.selectedScore).toBe(payload.matches[0]!.scores.keyword);
   expect(payload.refresh.policy).toBe("never");
 
   const invalidCalls = [
     { arguments: { resume: { content: "Skills\nJava", format: "text" }, intent: { countries: ["IN"] }, refresh: { policy: "never" }, limit: 101 }, code: "invalid_recommendation_input" },
     { arguments: { resume: { content: "Skills\nJava", format: "text" }, intent: { countries: ["IND"] }, refresh: { policy: "never" } }, code: "invalid_recommendation_input" },
     { arguments: { resume: { content: "Skills\nJava", format: "text" }, intent: {}, unexpected: true }, code: "invalid_recommendation_input" },
+    { arguments: { resume: { content: "Skills\nJava", format: "text" }, intent: {}, ranking: { mode: "popularity" } }, code: "invalid_recommendation_input" },
+    { arguments: { resume: { content: "Skills\nJava", format: "text" }, intent: {}, ranking: { mode: "evidence", minimumPercent: 101 } }, code: "invalid_recommendation_input" },
     { arguments: { resume: { content: "encoded", format: "pdf_base64" }, intent: {}, refresh: { policy: "never" } }, code: "unsupported_resume_format" },
   ];
   for (const [index, invalid] of invalidCalls.entries()) {

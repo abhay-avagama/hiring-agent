@@ -98,6 +98,27 @@ test("auto skips refresh when a fresh snapshot already has enough qualifying mat
   expect(result.refresh).toEqual({ policy: "auto", attempted: false, occurred: false, reason: "not_needed", failures: [] });
 });
 
+test("a relevance cutoff does not trigger refresh when hard-filter-qualified jobs already exist", async () => {
+  const snapshot = makeSnapshot([job("one", "Java is required.")]);
+  let crawls = 0;
+  const recommender = createJobRecommender({
+    sources: [source], store: { read: async () => snapshot, write: async () => undefined },
+    crawl: async () => { crawls += 1; return snapshot.lastCrawl; }, now: () => new Date("2026-08-11T00:00:00Z"),
+  });
+  const result = await recommender.recommend({
+    resume: { content: "Skills\nJava", format: "text" }, intent: { countries: ["IN"] },
+    ranking: { mode: "evidence", minimumPercent: 100 }, refresh: { policy: "auto", minimumMatches: 1 },
+  });
+  expect(crawls).toBe(0);
+  expect(result.matches).toEqual([]);
+  expect(result.refresh.reason).toBe("not_needed");
+  expect(result.shortfall).toEqual({
+    minimumMatches: 1,
+    actualMatches: 0,
+    message: "Found 0 qualifying jobs after applying the requested constraints; 1 were requested",
+  });
+});
+
 test("always refreshes once even when the snapshot is fresh", async () => {
   let snapshot = makeSnapshot([job("old", "Java is required.")]);
   let crawls = 0;
@@ -224,8 +245,13 @@ test("a thrown crawl rereads and uses partitions written before the failure", as
     },
     now: () => new Date("2026-08-11T00:00:00Z"),
   });
-  const result = await recommender.recommend({ resume: { content: "Skills\nJava", format: "text" }, intent: { countries: ["IN"] } });
+  const result = await recommender.recommend({
+    resume: { content: "Skills\nJava\nExperience\nBackend Engineer — Acme", format: "text" }, intent: { countries: ["IN"] },
+    ranking: { mode: "keyword", minimumPercent: 95 },
+  });
   expect(result.matches[0]!.job.id).toBe("written");
+  expect(result.matches[0]!.selectedScore).toBe(result.matches[0]!.scores.keyword);
+  expect(result.matches[0]!.selectedScore).toBeGreaterThanOrEqual(95);
   expect(result.refresh).toEqual(expect.objectContaining({ attempted: true, occurred: true, error: { code: "refresh_failed", message: "later partition failed" } }));
   expect(result.snapshot.refreshed).toBe(true);
 });

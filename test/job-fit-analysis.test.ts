@@ -14,6 +14,7 @@ test("selected-job analysis separates explicit evidence, unsupported requirement
   expect(result.supported).toEqual([{ requirement: "Java", factIds: [expect.stringContaining("fact_skill_")] }]);
   expect(result.partiallySupported).toEqual([]);
   expect(result.unsupported).toEqual(["AWS"]);
+  expect(result.scores).toEqual({ evidence: expect.any(Number), keyword: expect.any(Number) });
   expect(result.screeningRisks).toContain("No explicit or transferable resume evidence supports required skill: AWS");
   expect(result.interviewPreparationGaps).toEqual(["Prepare a truthful response about the unsupported AWS requirement; do not add it to the resume as experience"]);
   expect(result.assessment).toEqual(expect.objectContaining({ fit: "good", reasons: expect.arrayContaining([expect.objectContaining({ claim: "title matches explicit role intent", jobEvidence: expect.objectContaining({ field: "title" }) })]) }));

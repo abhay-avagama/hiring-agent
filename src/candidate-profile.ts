@@ -204,7 +204,11 @@ function factsFromLine(section: ResumeSection, line: string, lineStart: number, 
   const content = section === "skills" && skillLabel && neutralLabels.has(skillLabel[1]!.trim().toLowerCase()) ? withoutPrefix.slice(skillLabel[0].length) : withoutPrefix;
   const roleSeparator = /\s+(?:—|–|-|\bat\b|\|)\s+/i.exec(content);
   const looksLikeRole = /\b(?:engineer|developer|architect|manager|analyst|scientist|designer|consultant|specialist|administrator|lead|director|intern)\b/i.test(content);
-  if (section === "experience" && (isNestedHeading || (roleSeparator && looksLikeRole))) {
+  const standaloneRoleWords = content.trim().split(/\s+/);
+  const standaloneRole = standaloneRoleWords.length <= 7
+    && standaloneRoleWords.every((word) => /^(?:of|and|&)$/i.test(word) || /^[A-Z][A-Za-z0-9+.#/-]*$/.test(word))
+    && /\b(?:engineer|developer|architect|manager|analyst|scientist|designer|consultant|specialist|administrator|lead|director|intern)$/i.test(content.trim());
+  if (section === "experience" && (isNestedHeading || standaloneRole || (roleSeparator && looksLikeRole))) {
     if (roleSeparator) return [
       ...optionalFact("role", content.slice(0, roleSeparator.index).trim(), line, lineStart),
       ...optionalFact("employer", content.slice(roleSeparator.index + roleSeparator[0].length).trim(), line, lineStart),

@@ -92,6 +92,10 @@ Input:
     requiredSkills?: string[];
     excludedTerms?: string[];
   };
+  ranking?: {
+    mode?: "evidence" | "keyword";
+    minimumPercent?: number;
+  };
   refresh?: {
     policy: "auto" | "never" | "always";
     minimumMatches?: number;
@@ -106,6 +110,7 @@ Output includes:
 - A structured candidate profile with resume evidence.
 - Assumptions or missing intent that the user may want to clarify.
 - Ranked jobs labelled `strong`, `good`, or `stretch`.
+- Both an evidence percentage and a raw keyword-overlap percentage for every match, plus the applicant-selected ranking score. Evidence ranking is the default; an optional minimum percentage filters the selected score.
 - Match reasons, supported requirements, and material gaps.
 - Snapshot freshness and whether a refresh occurred.
 - Crawl failures without losing successful results.
@@ -200,7 +205,9 @@ Remaining jobs are ordered using:
 - User preferences.
 - Evidence strength and job freshness.
 
-Internal numeric scores may be used for stable ordering, but MCP output must explain the result using evidence rather than presenting an unexplained percentage. Missing keywords alone must not erase strong transferable evidence, and keyword frequency must not masquerade as competence.
+Applicants may select evidence or keyword ranking and receive both percentages for comparison. Percentages supplement rather than replace supported requirements, gaps, screening risks, and evidence references. Evidence ranking is the default and counts only validated facts and explicitly derived transferable evidence; keyword ranking measures unique term presence in the raw supplied resume and must never be described as competence. Keyword frequency cannot inflate either score. Mandatory experience or education shortfalls cap both percentages below 80, and hard eligibility or exclusion constraints remain filters in every mode.
+
+The evidence percentage uses fixed contributions for role-family alignment, mandatory requirement coverage, and seniority or experience alignment. Unknown job requirements earn no requirement credit; a title-only record therefore cannot claim 100% evidence. Explicit resume titles may establish seniority, while completed date spans provide conservative alignment when no title level exists. Keyword percentage remains intentionally separate and may be high despite weak evidence; the output must make that distinction visible.
 
 ## Conditional refresh
 

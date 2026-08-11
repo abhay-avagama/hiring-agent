@@ -36,6 +36,13 @@ test("WHAT'S REQUIRED HTML headings make following degree and experience bullets
   ]);
 });
 
+test("Essentials headings make minimum experience requirements mandatory", () => {
+  const profile = parseCandidateProfile({ content: "Experience\nSoftware Engineer — Acme\nJan 2022 - Dec 2025", format: "text" });
+  expect(evaluateScreeningRequirements(profile, job("<p><strong>Essentials</strong></p><p>10+ years of experience in low level system testing and integration.</p>"))).toEqual([
+    expect.objectContaining({ kind: "experience", status: "partial" }),
+  ]);
+});
+
 function job(description: string): Job {
   return { id: "job", company: "Acme", title: "Principal Engineer", location: "India", remote: false, workMode: "onsite", eligibleCountries: ["IN"], excludedCountries: [], eligibleRegions: [], eligibilityConfidence: "explicit", url: "https://example.test", description };
 }

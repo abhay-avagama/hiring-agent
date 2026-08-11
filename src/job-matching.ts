@@ -1,7 +1,7 @@
 import { validateCandidateProfileEvidence, type CandidateProfile } from "./candidate-profile.ts";
 import { isEligibleForCountry, normalizeLocation } from "./locations.ts";
 import type { Job } from "./types.ts";
-import { evaluateScreeningRequirements } from "./screening-requirements.ts";
+import { evaluateScreeningRequirements, type ScreeningRequirement } from "./screening-requirements.ts";
 
 export interface CandidateIntent {
   roles?: string[];
@@ -25,6 +25,8 @@ export interface TransferableRequirement extends SupportedRequirement { via: "ba
 export interface JobMatch {
   job: Job;
   fit: "strong" | "good" | "stretch";
+  scores: { evidence: number; keyword: number };
+  selectedScore: number;
   reasons: string[];
   supported: SupportedRequirement[];
   transferable: TransferableRequirement[];
@@ -33,9 +35,11 @@ export interface JobMatch {
 
 export interface FilteredJob { jobId: string; reasons: string[] }
 export interface JobMatchingResult { matches: JobMatch[]; filteredOut: FilteredJob[]; assumptions: string[] }
+export interface MatchingOptions { mode?: "evidence" | "keyword"; minimumPercent?: number }
 
-export function matchJobs(profile: CandidateProfile, intent: CandidateIntent, jobs: Job[], limit = 20): JobMatchingResult {
+export function matchJobs(profile: CandidateProfile, intent: CandidateIntent, jobs: Job[], limit = 20, options: MatchingOptions = {}): JobMatchingResult {
   if (!validateCandidateProfileEvidence(profile).valid) throw new Error("invalid_candidate_profile");
+  const mode = options.mode ?? "evidence";
   const filteredOut: FilteredJob[] = [];
   const ranked: Array<JobMatch & { score: number; index: number }> = [];
   for (const [index, job] of jobs.entries()) {
@@ -59,6 +63,15 @@ export function matchJobs(profile: CandidateProfile, intent: CandidateIntent, jo
     const screeningShortfalls = screeningRequirements.filter((item) => item.status !== "supported").length;
     const score = role.score + supported.length * 2 + transferable.length + skillFocus.length * 3 + seniority.score - gaps.length * 2 - screeningShortfalls * 6;
     const fit = screeningRequirements.some((item) => item.status !== "supported") ? "stretch" : classifyFit(score, gaps.length);
+    const scores = {
+      evidence: evidencePercent(role, roleTargets, seniority, supported, transferable, gaps, screeningRequirements),
+      keyword: keywordPercent(profile, job, screeningRequirements),
+    };
+    const selectedScore = scores[mode];
+    if (options.minimumPercent !== undefined && selectedScore < options.minimumPercent) {
+      filteredOut.push({ jobId: job.id, reasons: [`below_minimum_${mode}_score:${selectedScore}`] });
+      continue;
+    }
     const reasons = [
       ...(role.reason ? [role.reason] : []),
       ...(seniority.reason ? [seniority.reason] : []),
@@ -69,6 +82,8 @@ export function matchJobs(profile: CandidateProfile, intent: CandidateIntent, jo
     ranked.push({
       job,
       fit,
+      scores,
+      selectedScore,
       reasons: reasons.length ? reasons : ["no direct resume evidence matched; retained as a stretch option"],
       supported,
       transferable,
@@ -77,7 +92,7 @@ export function matchJobs(profile: CandidateProfile, intent: CandidateIntent, jo
       index,
     });
   }
-  ranked.sort((left, right) => fitRank(right.fit) - fitRank(left.fit) || right.score - left.score || freshness(right.job) - freshness(left.job) || left.index - right.index);
+  ranked.sort((left, right) => right.selectedScore - left.selectedScore || fitRank(right.fit) - fitRank(left.fit) || right.score - left.score || freshness(right.job) - freshness(left.job) || left.index - right.index);
   return {
     matches: ranked.slice(0, Math.max(0, limit)).map(({ score: _score, index: _index, ...match }) => match),
     filteredOut,
@@ -148,11 +163,23 @@ function supportedRequirements(profile: CandidateProfile, requirements: string[]
 const seniorityTerms = ["manager", "principal", "staff", "lead", "senior", "mid", "junior", "intern"] as const;
 function seniorityAlignment(profile: CandidateProfile, intent: CandidateIntent, job: Job): { score: number; reason?: string } {
   const requested = intent.seniority?.map((value) => value.toLocaleLowerCase()) ?? profile.inferences.filter((inference) => inference.kind === "seniority").map((inference) => inference.value);
-  if (!requested.length) return { score: 0 };
   const jobSeniority = seniorityTerms.find((term) => includesPhrase(job.title, term));
   if (!jobSeniority) return { score: 0 };
+  if (!requested.length) {
+    const years = profile.inferences.find((inference) => inference.kind === "approximate_experience_years")?.value;
+    if (typeof years !== "number") return { score: 0 };
+    const aligned = experienceAlignsWithSeniority(years, jobSeniority);
+    return { score: aligned ? 2 : -2, reason: aligned ? `seniority aligns with resume experience evidence: ${jobSeniority}` : `seniority differs from resume experience evidence: ${jobSeniority}` };
+  }
   if (requested.includes(jobSeniority)) return { score: 2, reason: `${intent.seniority?.length ? "seniority matches explicit intent" : "seniority aligns with resume evidence"}: ${jobSeniority}` };
   return { score: -2, reason: `seniority differs from ${intent.seniority?.length ? "explicit intent" : "resume evidence"}: ${jobSeniority}` };
+}
+
+function experienceAlignsWithSeniority(years: number, seniority: typeof seniorityTerms[number]): boolean {
+  if (seniority === "intern" || seniority === "junior") return years <= 2;
+  if (seniority === "mid") return years >= 2 && years <= 6;
+  const minimums: Partial<Record<typeof seniorityTerms[number], number>> = { senior: 5, lead: 6, staff: 7, principal: 8, manager: 6 };
+  return years >= (minimums[seniority] ?? 0);
 }
 
 const requirementFamilies = new Map<string, TransferableRequirement["via"]>([
@@ -166,6 +193,38 @@ const materialRequirementTerms = [
   "financial products", "databricks", "data warehouses", "etl pipelines", "high-volume messaging", "streaming platforms", "transaction processing",
   "restful services", "microservices", "redis", "mongodb",
 ] as const;
+
+function evidencePercent(
+  role: { score: number }, roleTargets: string[], seniority: { score: number }, supported: SupportedRequirement[], transferable: TransferableRequirement[], gaps: string[], screening: ScreeningRequirement[],
+): number {
+  const requirements = new Set([...supported, ...transferable].map((item) => item.requirement.toLocaleLowerCase()));
+  for (const gap of gaps) requirements.add(gap.toLocaleLowerCase());
+  const rolePoints = !roleTargets.length ? 0 : role.score >= 4 ? 30 : role.score >= 3 ? 22.5 : 0;
+  const requirementPoints = requirements.size
+    ? ((supported.length + transferable.length * 0.5) / requirements.size) * 50
+    : 0;
+  const screeningPoints = screening.length
+    ? ((screening.filter((item) => item.status === "supported").length + screening.filter((item) => item.status === "partial").length * 0.5) / screening.length) * 20
+    : seniority.score > 0 ? 20 : seniority.score < 0 ? 0 : 10;
+  const raw = Math.round(rolePoints + requirementPoints + screeningPoints);
+  return screening.some((item) => item.status !== "supported") ? Math.min(raw, 79) : Math.min(raw, 100);
+}
+
+function keywordPercent(profile: CandidateProfile, job: Job, screening: ScreeningRequirement[]): number {
+  const searchable = profile.normalizedResume.text;
+  const titleKeywords = (job.title.toLocaleLowerCase().match(/[a-z0-9+#.]+/g) ?? [])
+    .filter((token) => token.length > 2 && !keywordStopWords.has(token));
+  const catalogKeywords = [...requirementFamilies.keys(), ...materialRequirementTerms]
+    .filter((term) => includesPhrase(job.description, term) || hyphenatedPhrase(job.description, term));
+  const screeningKeywords = screening.map((item) => item.requirement);
+  const keywords = uniqueTerms([...titleKeywords, ...catalogKeywords, ...screeningKeywords]);
+  if (!keywords.length) return 0;
+  const matched = keywords.filter((keyword) => includesPhrase(searchable, keyword) || hyphenatedPhrase(searchable, keyword)).length;
+  const raw = Math.round((matched / keywords.length) * 100);
+  return screening.some((item) => item.status !== "supported") ? Math.min(raw, 79) : raw;
+}
+
+const keywordStopWords = new Set(["engineer", "engineering", "developer", "development", "senior", "staff", "principal", "lead", "technology"]);
 
 function detectedRequirements(job: Job): string[] {
   const positive = /\b(?:required?|must|need(?:ed)?|minimum|proficien(?:t|cy)|experience (?:in|with))\b/i;
@@ -234,7 +293,7 @@ function structuredJobLines(value: string): string[] {
 
 function sectionHeading(value: string): "required" | "optional" | "other" | undefined {
   const heading = value.replace(/:$/, "").trim();
-  if (/^(?:what(?:'|’)s required|required qualifications?|requirements?|qualifications?|your experience includes)$/i.test(heading)) return "required";
+  if (/^(?:what(?:'|’)s required|required qualifications?|requirements?|qualifications?|minimum qualifications?|essentials?|essential qualifications?|must haves?|your experience includes)$/i.test(heading)) return "required";
   if (/^(?:preferred qualifications?|optional requirements?|nice to have)$/i.test(heading)) return "optional";
   if (/^(?:what you(?:'|’)ll do|responsibilities|we take care of our people|benefits|about .+)$/i.test(heading)) return "other";
   return undefined;

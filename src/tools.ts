@@ -26,6 +26,14 @@ export function createToolHandler(catalog: Catalog, workflows: JobWorkflows) {
         properties: {
           resume: resumeSchema(),
           intent: intentSchema(),
+          ranking: {
+            type: "object",
+            properties: {
+              mode: { type: "string", enum: ["evidence", "keyword"], default: "evidence" },
+              minimumPercent: { type: "number", minimum: 0, maximum: 100, default: 0 },
+            },
+            additionalProperties: false,
+          },
           refresh: {
             type: "object",
             properties: {

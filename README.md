@@ -127,8 +127,8 @@ For a client that accepts MCP configuration, point a stdio server at `bun` with 
 
 The server exposes only:
 
-- `recommend_jobs(resume, intent, refresh?, limit?)` — parses text or Markdown resume content, applies job-level eligibility constraints, returns explained evidence-grounded matches, and performs at most one scoped refresh; `refresh.policy: "never"` guarantees no crawl
-- `analyze_job_fit(jobId, resume, intent?)` — analyzes one selected job against verbatim resume evidence, separating explicit support, transferable evidence, unsupported requirements, screening risks, and interview preparation gaps
+- `recommend_jobs(resume, intent, ranking?, refresh?, limit?)` — parses text or Markdown resume content, applies job-level eligibility constraints, and returns both evidence and keyword percentages with evidence-grounded explanations. `ranking.mode` lets the applicant select `evidence` (default) or `keyword`; `ranking.minimumPercent` filters the selected score. It performs at most one scoped refresh, and `refresh.policy: "never"` guarantees no crawl
+- `analyze_job_fit(jobId, resume, intent?)` — analyzes one selected job against verbatim resume evidence, returning both percentages while separating explicit support, transferable evidence, unsupported requirements, screening risks, and interview preparation gaps
 - `optimize_resume(jobId, resume, output)` — returns grounded suggestions, an additive unified diff, or revised Markdown without overwriting the supplied resume; unsupported requirements remain gaps, and unified diffs identify their deterministic normalized base in `diffBase`
 - `search_jobs(query?, location?, country?, remote?, limit?)` — `country` accepts a two-letter country code such as `IN` or `DE`
 - `get_job(id)`

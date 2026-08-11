@@ -1,5 +1,5 @@
 import { parseCandidateProfile, type CandidateProfile, type ResumeInput } from "./candidate-profile.ts";
-import { matchJobs, type CandidateIntent, type SupportedRequirement, type TransferableRequirement } from "./job-matching.ts";
+import { matchJobs, type CandidateIntent, type JobMatch, type SupportedRequirement, type TransferableRequirement } from "./job-matching.ts";
 import { assertKnownKeys, isRecord, validateCandidateIntent } from "./intent-validation.ts";
 import type { Job } from "./types.ts";
 import { evaluateScreeningRequirements, type ScreeningRequirement } from "./screening-requirements.ts";
@@ -17,6 +17,7 @@ export interface PartiallySupportedRequirement extends SupportedRequirement {
 export interface AnalyzeJobFitResult {
   job: Job;
   profile: CandidateProfile;
+  scores: JobMatch["scores"];
   supported: SupportedRequirement[];
   partiallySupported: PartiallySupportedRequirement[];
   unsupported: string[];
@@ -69,6 +70,7 @@ export function createJobFitAnalyzer(options: JobFitAnalyzerOptions) {
       return {
         job,
         profile,
+        scores: relevance.scores,
         supported,
         partiallySupported,
         unsupported,
