@@ -14,7 +14,7 @@ import { forceReleaseFileLock, inspectFileLock } from "./file-lock.ts";
 const HELP = `Openings — search public company job boards
 
 Usage:
-  openings crawl [--country CODE | --companies FILE] [--concurrency N] [--delay-ms N] [--workday-page-delay-ms N] [--data-dir PATH]
+  openings crawl [--country CODE | --companies FILE] [--concurrency N] [--source-cache-hours N] [--delay-ms N] [--workday-page-delay-ms N] [--data-dir PATH]
   openings snapshot export [--input FILE] [--output-dir PATH]
   openings sources verify CANDIDATES.json [--output FILE] [--state-file FILE] [--concurrency N] [--workday-concurrency N] [--limit N] [--require-country CODE] [--registry FILE] [--retry-deferred]
   openings sources discover FEED.json [--country CODE] [--registry FILE] [--output FILE] [--catalog FILE] [--report FILE]
@@ -53,7 +53,10 @@ export async function run(args: string[]): Promise<number> {
   if (command === "crawl") {
     const parsed = parseCrawl(rest);
     if (typeof parsed === "string") return fail(parsed);
-    const runtime = createRuntime({ dataDir: parsed.dataDir, concurrency: parsed.concurrency, crawlDelayMs: parsed.delayMs, workdayPageDelayMs: parsed.workdayPageDelayMs });
+    const runtime = createRuntime({
+      dataDir: parsed.dataDir, concurrency: parsed.concurrency, sourceCacheHours: parsed.sourceCacheHours,
+      crawlDelayMs: parsed.delayMs, workdayPageDelayMs: parsed.workdayPageDelayMs,
+    });
     const slugs = parsed.companiesFile ? await readCompanyFile(parsed.companiesFile) : undefined;
     console.log(JSON.stringify(await runtime.crawl({ country: parsed.country, slugs }), null, 2));
     return 0;
@@ -366,6 +369,7 @@ function parseCrawl(args: string[]) {
   let concurrency = 10;
   let delayMs = 0;
   let workdayPageDelayMs = 0;
+  let sourceCacheHours = 0;
   for (let index = 0; index < args.length; index += 1) {
     const arg = args[index];
     if (arg === "--country") {
@@ -382,12 +386,15 @@ function parseCrawl(args: string[]) {
     } else if (arg === "--workday-page-delay-ms") {
       workdayPageDelayMs = Number(args[++index]);
       if (!Number.isInteger(workdayPageDelayMs) || workdayPageDelayMs < 0 || workdayPageDelayMs > 60_000) return "--workday-page-delay-ms must be an integer from 0 to 60000";
+    } else if (arg === "--source-cache-hours") {
+      sourceCacheHours = Number(args[++index]);
+      if (!Number.isFinite(sourceCacheHours) || sourceCacheHours < 0 || sourceCacheHours > 8760) return "--source-cache-hours must be a number from 0 to 8760";
     } else return `Unknown option: ${arg}`;
   }
   if (country && companiesFile) return "Use either --country or --companies, not both";
   if (args.includes("--companies") && !companiesFile) return "--companies requires a file";
   if (args.includes("--data-dir") && !dataDir) return "--data-dir requires a value";
-  return { country, companiesFile, dataDir, concurrency, delayMs, workdayPageDelayMs };
+  return { country, companiesFile, dataDir, concurrency, delayMs, workdayPageDelayMs, sourceCacheHours };
 }
 
 function parseCountry(value: string | undefined): string | undefined {

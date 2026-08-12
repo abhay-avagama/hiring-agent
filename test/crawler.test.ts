@@ -59,6 +59,36 @@ test("a full crawl prunes partitions no longer in the verified catalog", async (
   expect(Object.keys(written!.partitions)).toEqual(["healthy"]);
 });
 
+test("a freshness window skips cached sources and crawls missing or expired partitions", async () => {
+  const now = new Date("2026-08-12T12:00:00.000Z");
+  let snapshot: JobSnapshot = {
+    version: 1, updatedAt: "2026-08-12T11:30:00.000Z",
+    partitions: {
+      fresh: { fetchedAt: "2026-08-12T11:30:00.000Z", jobs: [job("lever:fresh:1", "Fresh")] },
+      expired: { fetchedAt: "2026-08-10T00:00:00.000Z", jobs: [job("lever:expired:1", "Expired")] },
+    },
+    lastCrawl: { startedAt: "2026-08-12T11:30:00.000Z", finishedAt: "2026-08-12T11:30:00.000Z", selected: 2, succeeded: 2, failed: [] },
+  };
+  const fetched: string[] = [];
+  const crawler = createCrawler({
+    store: { read: async () => snapshot, write: async (next) => { snapshot = next; } },
+    now: () => now,
+    sourceFreshnessMs: 24 * 60 * 60 * 1000,
+    fetchJobs: async (source) => { fetched.push(source.slug); return [job(`lever:${source.slug}:new`, source.name)]; },
+  });
+  const sources: Company[] = [
+    { slug: "fresh", name: "Fresh", ats: "lever", token: "fresh" },
+    { slug: "expired", name: "Expired", ats: "lever", token: "expired" },
+    { slug: "missing", name: "Missing", ats: "lever", token: "missing" },
+  ];
+
+  const report = await crawler.crawl(sources);
+
+  expect(fetched).toEqual(["expired", "missing"]);
+  expect(report).toEqual(expect.objectContaining({ considered: 3, selected: 2, cached: 1, succeeded: 2 }));
+  expect(snapshot.partitions.fresh?.jobs[0]?.id).toBe("lever:fresh:1");
+});
+
 test("a source that exceeds its timeout is aborted and reported", async () => {
   let written: JobSnapshot | undefined;
   const store = { read: async () => null, write: async (next: JobSnapshot) => { written = next; } };

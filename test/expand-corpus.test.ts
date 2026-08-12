@@ -36,6 +36,7 @@ describe("corpus expansion campaign", () => {
     expect(options.skipCrawl).toBe(false);
     expect(options.crawlDelayMs).toBe(1000);
     expect(options.workdayPageDelayMs).toBe(250);
+    expect(options.sourceCacheHours).toBe(24);
   });
 
   test("long phases always emit a machine-readable terminal status", async () => {

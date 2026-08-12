@@ -10,6 +10,7 @@ interface LocalJobsOptions {
   concurrency?: number;
   timeoutMs?: number;
   sourceStartDelayMs?: number;
+  sourceFreshnessMs?: number;
   workdayPageDelayMs?: number;
   now?: () => Date;
 }

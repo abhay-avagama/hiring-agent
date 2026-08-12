@@ -13,6 +13,7 @@ interface CrawlerOptions {
   timeoutMs?: number;
   maxAttempts?: number;
   sourceStartDelayMs?: number;
+  sourceFreshnessMs?: number;
   workdayPageDelayMs?: number;
   pacingNow?: () => number;
   pacingSleep?: (delayMs: number) => Promise<void>;
@@ -28,6 +29,7 @@ export function createCrawler(options: CrawlerOptions): Crawler {
   const timeoutMs = Math.max(1, Math.trunc(options.timeoutMs ?? 120_000));
   const maxAttempts = Math.max(1, Math.trunc(options.maxAttempts ?? 2));
   const sourceStartDelayMs = Math.max(0, Math.trunc(options.sourceStartDelayMs ?? 0));
+  const sourceFreshnessMs = Math.max(0, Math.trunc(options.sourceFreshnessMs ?? 0));
   const now = options.now ?? (() => new Date());
   const pacingNow = options.pacingNow ?? Date.now;
   const pacingSleep = options.pacingSleep ?? ((delayMs: number) => new Promise<void>((resolve) => setTimeout(resolve, delayMs)));
@@ -56,11 +58,17 @@ export function createCrawler(options: CrawlerOptions): Crawler {
         const current = new Set(sources.map((source) => source.slug));
         for (const slug of Object.keys(partitions)) if (!current.has(slug)) delete partitions[slug];
       }
-      let pending = sources;
+      const considered = sources.length;
+      const cutoff = Date.parse(startedAt) - sourceFreshnessMs;
+      const selectedSources = sourceFreshnessMs === 0 ? sources : sources.filter((source) => {
+        const fetchedAt = Date.parse(partitions[source.slug]?.fetchedAt ?? "");
+        return !Number.isFinite(fetchedAt) || fetchedAt <= cutoff;
+      });
+      let pending = selectedSources;
       let finalFailures: CrawlFailure[] = [];
       let succeeded = 0;
       const metrics = new Map<string, CrawlSourceResult>();
-      for (const source of sources) metrics.set(source.slug, { source: source.slug, status: "failed", attempts: 0, durationMs: 0, jobs: 0, countryJobs: {}, throttles: 0, backoffMs: 0 });
+      for (const source of selectedSources) metrics.set(source.slug, { source: source.slug, status: "failed", attempts: 0, durationMs: 0, jobs: 0, countryJobs: {}, throttles: 0, backoffMs: 0 });
 
       for (let attempt = 1; attempt <= maxAttempts && pending.length; attempt += 1) {
         let cursor = 0;
@@ -107,7 +115,10 @@ export function createCrawler(options: CrawlerOptions): Crawler {
 
       for (const failure of finalFailures) delete partitions[failure.source];
       const finishedAt = now().toISOString();
-      const report: CrawlReport = { startedAt, finishedAt, selected: sources.length, succeeded, failed: finalFailures, sources: sources.map((source) => metrics.get(source.slug)!) };
+      const report: CrawlReport = {
+        startedAt, finishedAt, considered, selected: selectedSources.length, cached: considered - selectedSources.length,
+        succeeded, failed: finalFailures, sources: selectedSources.map((source) => metrics.get(source.slug)!),
+      };
       await options.store.write({ version: 1, updatedAt: finishedAt, partitions, lastCrawl: report });
       return report;
     },

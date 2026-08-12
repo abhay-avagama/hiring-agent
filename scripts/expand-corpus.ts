@@ -23,6 +23,7 @@ export interface Options {
   crawlConcurrency: number;
   crawlDelayMs: number;
   workdayPageDelayMs: number;
+  sourceCacheHours: number;
   skipTrace: boolean;
   skipVerify: boolean;
   skipCrawl: boolean;
@@ -99,7 +100,8 @@ async function main() {
   if (!options.skipCrawl) {
     await requireSuccess(process.execPath, ["run", "src/cli.ts", "crawl", "--country", options.country,
       "--concurrency", String(options.crawlConcurrency), "--delay-ms", String(options.crawlDelayMs),
-      "--workday-page-delay-ms", String(options.workdayPageDelayMs), "--data-dir", options.dataDir], "crawl");
+      "--workday-page-delay-ms", String(options.workdayPageDelayMs), "--source-cache-hours", String(options.sourceCacheHours),
+      "--data-dir", options.dataDir], "crawl");
   } else console.log(JSON.stringify({ phase: "crawl", status: "skipped" }));
   const after = await corpusMetrics(options.catalog, join(options.dataDir, "snapshot.json"), options.country);
   console.log(JSON.stringify({ phase: "complete", country: options.country, crashedBatches, traceRequestFailures, before, after,
@@ -125,6 +127,7 @@ export function parseOptions(args: string[]): Options {
     catalog: "data/companies.json", registry: "data/enrichment-leads.json", dataDir: ".openings",
     batchSize: 10, traceConcurrency: 10, verifyConcurrency: 10, workdayConcurrency: 5, crawlConcurrency: 10, crawlDelayMs: 500,
     workdayPageDelayMs: 250,
+    sourceCacheHours: 24,
     skipTrace: false, skipVerify: false, skipCrawl: false,
   };
   for (let index = 0; index < args.length; index += 1) {
@@ -149,6 +152,7 @@ export function parseOptions(args: string[]): Options {
       else if (flag === "--crawl-concurrency") options.crawlConcurrency = positiveInteger(value, flag, 100);
       else if (flag === "--crawl-delay-ms") options.crawlDelayMs = nonNegativeInteger(value, flag, 60_000);
       else if (flag === "--workday-page-delay-ms") options.workdayPageDelayMs = nonNegativeInteger(value, flag, 60_000);
+      else if (flag === "--source-cache-hours") options.sourceCacheHours = nonNegativeNumber(value, flag, 8760);
       else throw new Error(`Unknown option: ${flag}`);
     }
   }
@@ -168,6 +172,12 @@ function positiveInteger(value: string, flag: string, maximum: number): number {
 function nonNegativeInteger(value: string, flag: string, maximum: number): number {
   const number = Number(value);
   if (!Number.isInteger(number) || number < 0 || number > maximum) throw new Error(`${flag} must be an integer from 0 to ${maximum}`);
+  return number;
+}
+
+function nonNegativeNumber(value: string, flag: string, maximum: number): number {
+  const number = Number(value);
+  if (!Number.isFinite(number) || number < 0 || number > maximum) throw new Error(`${flag} must be a number from 0 to ${maximum}`);
   return number;
 }
 

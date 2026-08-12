@@ -102,7 +102,9 @@ export interface CrawlFailure {
 export interface CrawlReport {
   startedAt: string;
   finishedAt: string;
+  considered?: number;
   selected: number;
+  cached?: number;
   succeeded: number;
   failed: CrawlFailure[];
   sources?: CrawlSourceResult[];
