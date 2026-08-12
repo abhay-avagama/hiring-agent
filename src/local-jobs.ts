@@ -1,3 +1,4 @@
+import type { FetchJobsObserver } from "./catalog.ts";
 import { createCrawler, type SnapshotStore } from "./crawler.ts";
 import { createSnapshotCatalog } from "./snapshot-catalog.ts";
 import type { Company, CrawlReport, Job, JobSnapshot, JobSummary, SearchQuery } from "./types.ts";
@@ -5,10 +6,11 @@ import type { Company, CrawlReport, Job, JobSnapshot, JobSummary, SearchQuery } 
 interface LocalJobsOptions {
   sources: Company[];
   store: SnapshotStore;
-  fetchJobs(source: Company, signal?: AbortSignal, observer?: { onBackoff(event: { status: number; delayMs: number }): void }): Promise<Job[]>;
+  fetchJobs(source: Company, signal?: AbortSignal, observer?: FetchJobsObserver): Promise<Job[]>;
   concurrency?: number;
   timeoutMs?: number;
   sourceStartDelayMs?: number;
+  workdayPageDelayMs?: number;
   now?: () => Date;
 }
 

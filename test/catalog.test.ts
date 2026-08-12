@@ -43,6 +43,34 @@ describe("job catalog", () => {
     expect(requests).toBe(2);
   });
 
+  test("paces concurrent Workday pagination requests", async () => {
+    let clock = 0;
+    const starts: number[] = [];
+    const sleeps: number[] = [];
+    const company = { slug: "acme", name: "Acme", ats: "workday" as const, token: "acme.wd1.myworkdayjobs.com/acme/External" };
+    await fetchSourceJobs(company, async (_input, init) => {
+      starts.push(clock);
+      const offset = (JSON.parse(String(init?.body)) as { offset: number }).offset;
+      return Response.json({
+        total: 81,
+        jobPostings: Array.from({ length: offset === 80 ? 1 : 20 }, (_, index) => ({
+          title: `Engineer ${offset + index}`,
+          externalPath: `/job/Engineer-${offset + index}_R-${offset + index}`,
+          locationsText: "Pune, India",
+          bulletFields: [`R-${offset + index}`],
+        })),
+      });
+    }, undefined, {
+      onBackoff: () => undefined,
+      workdayPageDelayMs: 100,
+      pacingNow: () => clock,
+      pacingSleep: async (delayMs) => { sleeps.push(delayMs); clock += delayMs; },
+    });
+
+    expect(starts[0]).toBe(0);
+    expect(sleeps).toEqual([100, 100, 100, 100]);
+  });
+
   test("retries transient Greenhouse, Lever, and Ashby failures with the shared backoff policy", async () => {
     for (const ats of ["greenhouse", "lever", "ashby"] as const) {
       let requests = 0;

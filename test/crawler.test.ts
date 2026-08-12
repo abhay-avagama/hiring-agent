@@ -95,8 +95,8 @@ test("transient source failures are retried after the initial crawl wave", async
 test("reports provider throttling and backoff per source", async () => {
   const store = { read: async () => null, write: async (_next: JobSnapshot) => undefined };
   const crawler = createCrawler({ store, fetchJobs: async (_source, _signal, observer) => {
-    observer?.onBackoff({ status: 429, delayMs: 750 });
-    observer?.onBackoff({ status: 503, delayMs: 500 });
+    observer?.onBackoff?.({ status: 429, delayMs: 750 });
+    observer?.onBackoff?.({ status: 503, delayMs: 500 });
     return [];
   } });
   const report = await crawler.crawl([{ slug: "limited", name: "Limited", ats: "workday", token: "example.test/example/jobs" }]);

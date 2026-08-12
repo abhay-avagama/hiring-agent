@@ -93,7 +93,12 @@ export function searchJobs(jobs: Job[], query: SearchQuery): JobSummary[] {
   return jobs.filter((job) => matches(job, query)).slice(0, query.limit ?? 50).map(toSummary);
 }
 
-export interface FetchJobsObserver { onBackoff?(event: { status: number; delayMs: number }): void }
+export interface FetchJobsObserver {
+  onBackoff?(event: { status: number; delayMs: number }): void;
+  workdayPageDelayMs?: number;
+  pacingNow?: () => number;
+  pacingSleep?: (delayMs: number, signal?: AbortSignal) => Promise<void>;
+}
 export async function fetchSourceJobs(company: Company, fetcher: Fetch = globalThis.fetch, signal?: AbortSignal, observer?: FetchJobsObserver): Promise<Job[]> {
   if (company.ats === "workday") return fetchWorkdayJobs(company, fetcher, signal, observer);
   const url = company.ats === "greenhouse"
@@ -115,8 +120,26 @@ async function fetchWorkdayJobs(company: Company, fetcher: Fetch, signal?: Abort
   const source = parseWorkdayToken(company.token);
   const endpoint = `https://${source.host}/wday/cxs/${encodeURIComponent(source.tenant)}/${encodeURIComponent(source.site)}/jobs`;
   const limit = 20;
+  const pageDelayMs = Math.max(0, Math.trunc(observer?.workdayPageDelayMs ?? 0));
+  const pacingNow = observer?.pacingNow ?? Date.now;
+  const pacingSleep = observer?.pacingSleep ?? abortableDelay;
+  let previousPageStart: number | undefined;
+  let pageGate = Promise.resolve();
+  async function pacePageStart() {
+    if (!pageDelayMs) return;
+    let release!: () => void;
+    const previous = pageGate;
+    pageGate = new Promise<void>((resolve) => { release = resolve; });
+    await previous;
+    try {
+      const remaining = previousPageStart === undefined ? 0 : previousPageStart + pageDelayMs - pacingNow();
+      if (remaining > 0) await pacingSleep(remaining, signal);
+      previousPageStart = pacingNow();
+    } finally { release(); }
+  }
   async function page(offset: number): Promise<{ total: number; jobs: WorkdayJob[] }> {
     for (let attempt = 0; attempt < 3; attempt += 1) {
+      await pacePageStart();
       const response = await fetcher(endpoint, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ appliedFacets: {}, limit, offset, searchText: "" }), signal });
       if (response.ok) {
         const body = await response.json() as { total?: unknown; jobPostings?: unknown };

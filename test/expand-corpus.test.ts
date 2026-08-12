@@ -30,11 +30,12 @@ describe("corpus expansion campaign", () => {
   });
 
   test("supports explicit phase skipping for interrupted campaigns", () => {
-    const options = parseOptions(["--country", "IN", "--skip-trace", "--skip-verify", "--crawl-delay-ms", "1000"]);
+    const options = parseOptions(["--country", "IN", "--skip-trace", "--skip-verify", "--crawl-delay-ms", "1000", "--workday-page-delay-ms", "250"]);
     expect(options.skipTrace).toBe(true);
     expect(options.skipVerify).toBe(true);
     expect(options.skipCrawl).toBe(false);
     expect(options.crawlDelayMs).toBe(1000);
+    expect(options.workdayPageDelayMs).toBe(250);
   });
 
   test("long phases always emit a machine-readable terminal status", async () => {

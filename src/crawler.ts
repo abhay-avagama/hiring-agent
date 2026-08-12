@@ -1,3 +1,4 @@
+import type { FetchJobsObserver } from "./catalog.ts";
 import type { Company, CrawlFailure, CrawlReport, CrawlSourceResult, Job, JobSnapshot } from "./types.ts";
 
 export interface SnapshotStore {
@@ -7,11 +8,12 @@ export interface SnapshotStore {
 
 interface CrawlerOptions {
   store: SnapshotStore;
-  fetchJobs(source: Company, signal?: AbortSignal, observer?: { onBackoff(event: { status: number; delayMs: number }): void }): Promise<Job[]>;
+  fetchJobs(source: Company, signal?: AbortSignal, observer?: FetchJobsObserver): Promise<Job[]>;
   concurrency?: number;
   timeoutMs?: number;
   maxAttempts?: number;
   sourceStartDelayMs?: number;
+  workdayPageDelayMs?: number;
   pacingNow?: () => number;
   pacingSleep?: (delayMs: number) => Promise<void>;
   now?: () => Date;
@@ -76,7 +78,10 @@ export function createCrawler(options: CrawlerOptions): Crawler {
             const controller = new AbortController();
             const timer = setTimeout(() => controller.abort(new Error(`Timed out after ${timeoutMs}ms`)), timeoutMs);
             try {
-              const jobs = await options.fetchJobs(source, controller.signal, { onBackoff: ({ status, delayMs }) => { metric.backoffMs += delayMs; if (status === 429) metric.throttles += 1; } });
+              const jobs = await options.fetchJobs(source, controller.signal, {
+                onBackoff: ({ status, delayMs }) => { metric.backoffMs += delayMs; if (status === 429) metric.throttles += 1; },
+                workdayPageDelayMs: options.workdayPageDelayMs,
+              });
               partitions[source.slug] = { fetchedAt: now().toISOString(), jobs };
               succeeded += 1;
               metric.status = "succeeded";
