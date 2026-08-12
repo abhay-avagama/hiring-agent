@@ -105,6 +105,7 @@ export interface CrawlReport {
   considered?: number;
   selected: number;
   cached?: number;
+  deferred?: number;
   succeeded: number;
   failed: CrawlFailure[];
   sources?: CrawlSourceResult[];

@@ -8,7 +8,7 @@ import { createResumeOptimizer } from "./resume-optimization.ts";
 import { createSelectedJobLookup } from "./selected-job-lookup.ts";
 import { createFileSnapshotStore } from "./snapshot-store.ts";
 
-export function createRuntime(options: { dataDir?: string; concurrency?: number; crawlDelayMs?: number; workdayPageDelayMs?: number; sourceCacheHours?: number } = {}) {
+export function createRuntime(options: { dataDir?: string; concurrency?: number; crawlDelayMs?: number; workdayPageDelayMs?: number; sourceCacheHours?: number; sourceLimit?: number } = {}) {
   const dataDir = options.dataDir ?? process.env.OPENINGS_DATA_DIR ?? join(process.cwd(), ".openings");
   const store = createFileSnapshotStore(join(dataDir, "snapshot.json"));
   const local = createLocalJobs({
@@ -18,6 +18,7 @@ export function createRuntime(options: { dataDir?: string; concurrency?: number;
     concurrency: options.concurrency,
     sourceStartDelayMs: options.crawlDelayMs,
     sourceFreshnessMs: (options.sourceCacheHours ?? 0) * 60 * 60 * 1000,
+    sourceLimit: options.sourceLimit,
     workdayPageDelayMs: options.workdayPageDelayMs,
   });
   const recommender = createJobRecommender({ sources: companies, store, crawl: local.crawl });

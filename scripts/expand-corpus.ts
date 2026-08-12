@@ -24,6 +24,7 @@ export interface Options {
   crawlDelayMs: number;
   workdayPageDelayMs: number;
   sourceCacheHours: number;
+  sourceLimit: number;
   skipTrace: boolean;
   skipVerify: boolean;
   skipCrawl: boolean;
@@ -101,6 +102,7 @@ async function main() {
     await requireSuccess(process.execPath, ["run", "src/cli.ts", "crawl", "--country", options.country,
       "--concurrency", String(options.crawlConcurrency), "--delay-ms", String(options.crawlDelayMs),
       "--workday-page-delay-ms", String(options.workdayPageDelayMs), "--source-cache-hours", String(options.sourceCacheHours),
+      "--source-limit", String(options.sourceLimit),
       "--data-dir", options.dataDir], "crawl");
   } else console.log(JSON.stringify({ phase: "crawl", status: "skipped" }));
   const after = await corpusMetrics(options.catalog, join(options.dataDir, "snapshot.json"), options.country);
@@ -128,6 +130,7 @@ export function parseOptions(args: string[]): Options {
     batchSize: 10, traceConcurrency: 10, verifyConcurrency: 10, workdayConcurrency: 5, crawlConcurrency: 10, crawlDelayMs: 500,
     workdayPageDelayMs: 250,
     sourceCacheHours: 24,
+    sourceLimit: 25,
     skipTrace: false, skipVerify: false, skipCrawl: false,
   };
   for (let index = 0; index < args.length; index += 1) {
@@ -153,6 +156,7 @@ export function parseOptions(args: string[]): Options {
       else if (flag === "--crawl-delay-ms") options.crawlDelayMs = nonNegativeInteger(value, flag, 60_000);
       else if (flag === "--workday-page-delay-ms") options.workdayPageDelayMs = nonNegativeInteger(value, flag, 60_000);
       else if (flag === "--source-cache-hours") options.sourceCacheHours = nonNegativeNumber(value, flag, 8760);
+      else if (flag === "--source-limit") options.sourceLimit = nonNegativeInteger(value, flag, 100_000);
       else throw new Error(`Unknown option: ${flag}`);
     }
   }

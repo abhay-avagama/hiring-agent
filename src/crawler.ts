@@ -14,6 +14,7 @@ interface CrawlerOptions {
   maxAttempts?: number;
   sourceStartDelayMs?: number;
   sourceFreshnessMs?: number;
+  sourceLimit?: number;
   workdayPageDelayMs?: number;
   pacingNow?: () => number;
   pacingSleep?: (delayMs: number) => Promise<void>;
@@ -30,6 +31,7 @@ export function createCrawler(options: CrawlerOptions): Crawler {
   const maxAttempts = Math.max(1, Math.trunc(options.maxAttempts ?? 2));
   const sourceStartDelayMs = Math.max(0, Math.trunc(options.sourceStartDelayMs ?? 0));
   const sourceFreshnessMs = Math.max(0, Math.trunc(options.sourceFreshnessMs ?? 0));
+  const sourceLimit = Math.max(0, Math.trunc(options.sourceLimit ?? 0));
   const now = options.now ?? (() => new Date());
   const pacingNow = options.pacingNow ?? Date.now;
   const pacingSleep = options.pacingSleep ?? ((delayMs: number) => new Promise<void>((resolve) => setTimeout(resolve, delayMs)));
@@ -60,10 +62,11 @@ export function createCrawler(options: CrawlerOptions): Crawler {
       }
       const considered = sources.length;
       const cutoff = Date.parse(startedAt) - sourceFreshnessMs;
-      const selectedSources = sourceFreshnessMs === 0 ? sources : sources.filter((source) => {
+      const eligibleSources = (sourceFreshnessMs === 0 ? sources : sources.filter((source) => {
         const fetchedAt = Date.parse(partitions[source.slug]?.fetchedAt ?? "");
         return !Number.isFinite(fetchedAt) || fetchedAt <= cutoff;
-      });
+      })).sort((left, right) => partitionTime(partitions[left.slug]?.fetchedAt) - partitionTime(partitions[right.slug]?.fetchedAt));
+      const selectedSources = sourceLimit > 0 ? eligibleSources.slice(0, sourceLimit) : eligibleSources;
       let pending = selectedSources;
       let finalFailures: CrawlFailure[] = [];
       let succeeded = 0;
@@ -113,16 +116,21 @@ export function createCrawler(options: CrawlerOptions): Crawler {
         finalFailures = failures;
       }
 
-      for (const failure of finalFailures) delete partitions[failure.source];
       const finishedAt = now().toISOString();
       const report: CrawlReport = {
-        startedAt, finishedAt, considered, selected: selectedSources.length, cached: considered - selectedSources.length,
+        startedAt, finishedAt, considered, selected: selectedSources.length,
+        cached: considered - eligibleSources.length, deferred: eligibleSources.length - selectedSources.length,
         succeeded, failed: finalFailures, sources: selectedSources.map((source) => metrics.get(source.slug)!),
       };
       await options.store.write({ version: 1, updatedAt: finishedAt, partitions, lastCrawl: report });
       return report;
     },
   };
+}
+
+function partitionTime(value: string | undefined): number {
+  const timestamp = Date.parse(value ?? "");
+  return Number.isFinite(timestamp) ? timestamp : Number.NEGATIVE_INFINITY;
 }
 
 function countCountries(jobs: Job[]): Record<string, number> {

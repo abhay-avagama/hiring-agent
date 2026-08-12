@@ -34,7 +34,8 @@ test("a scoped crawl replaces successes, removes failures, and preserves unselec
 
   const report = await crawler.crawl(sources);
 
-  expect(Object.keys(snapshot.partitions).sort()).toEqual(["healthy", "untouched"]);
+  expect(Object.keys(snapshot.partitions).sort()).toEqual(["failing", "healthy", "untouched"]);
+  expect(snapshot.partitions.failing?.jobs[0]?.id).toBe("old:failing:1");
   expect(report).toEqual(expect.objectContaining({ selected: 2, succeeded: 1 }));
   expect(report.failed).toEqual([{ source: "failing", error: "HTTP 503" }]);
 });
@@ -84,9 +85,43 @@ test("a freshness window skips cached sources and crawls missing or expired part
 
   const report = await crawler.crawl(sources);
 
-  expect(fetched).toEqual(["expired", "missing"]);
+  expect(fetched).toEqual(["missing", "expired"]);
   expect(report).toEqual(expect.objectContaining({ considered: 3, selected: 2, cached: 1, succeeded: 2 }));
   expect(snapshot.partitions.fresh?.jobs[0]?.id).toBe("lever:fresh:1");
+});
+
+test("a bounded cached crawl prioritizes missing then oldest sources and preserves stale jobs on failure", async () => {
+  const now = new Date("2026-08-12T12:00:00.000Z");
+  let snapshot: JobSnapshot = {
+    version: 1, updatedAt: "2026-08-10T00:00:00.000Z",
+    partitions: {
+      older: { fetchedAt: "2026-08-01T00:00:00.000Z", jobs: [job("lever:older:stale", "Older")] },
+      newer: { fetchedAt: "2026-08-02T00:00:00.000Z", jobs: [job("lever:newer:stale", "Newer")] },
+    },
+    lastCrawl: { startedAt: "2026-08-10T00:00:00.000Z", finishedAt: "2026-08-10T00:00:00.000Z", selected: 2, succeeded: 2, failed: [] },
+  };
+  const fetched: string[] = [];
+  const crawler = createCrawler({
+    store: { read: async () => snapshot, write: async (next) => { snapshot = next; } },
+    now: () => now, sourceFreshnessMs: 86_400_000, sourceLimit: 2,
+    fetchJobs: async (source) => {
+      fetched.push(source.slug);
+      if (source.slug === "older") throw new Error("HTTP 429");
+      return [job(`lever:${source.slug}:new`, source.name)];
+    },
+  });
+  const sources: Company[] = [
+    { slug: "newer", name: "Newer", ats: "lever", token: "newer" },
+    { slug: "older", name: "Older", ats: "lever", token: "older" },
+    { slug: "missing", name: "Missing", ats: "lever", token: "missing" },
+  ];
+
+  const report = await crawler.crawl(sources);
+
+  expect(fetched).toEqual(["missing", "older", "older"]);
+  expect(report).toEqual(expect.objectContaining({ considered: 3, selected: 2, cached: 0, deferred: 1, succeeded: 1 }));
+  expect(snapshot.partitions.older?.jobs[0]?.id).toBe("lever:older:stale");
+  expect(snapshot.partitions.missing?.jobs[0]?.id).toBe("lever:missing:new");
 });
 
 test("a source that exceeds its timeout is aborted and reported", async () => {

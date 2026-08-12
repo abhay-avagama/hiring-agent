@@ -11,6 +11,7 @@ interface LocalJobsOptions {
   timeoutMs?: number;
   sourceStartDelayMs?: number;
   sourceFreshnessMs?: number;
+  sourceLimit?: number;
   workdayPageDelayMs?: number;
   now?: () => Date;
 }
