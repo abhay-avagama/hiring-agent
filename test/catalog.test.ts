@@ -47,9 +47,15 @@ describe("job catalog", () => {
     let clock = 0;
     const starts: number[] = [];
     const sleeps: number[] = [];
+    let active = 0;
+    let maxActive = 0;
     const company = { slug: "acme", name: "Acme", ats: "workday" as const, token: "acme.wd1.myworkdayjobs.com/acme/External" };
     await fetchSourceJobs(company, async (_input, init) => {
       starts.push(clock);
+      active += 1;
+      maxActive = Math.max(maxActive, active);
+      await new Promise<void>((resolve) => setTimeout(resolve, 0));
+      active -= 1;
       const offset = (JSON.parse(String(init?.body)) as { offset: number }).offset;
       return Response.json({
         total: 81,
@@ -69,6 +75,7 @@ describe("job catalog", () => {
 
     expect(starts[0]).toBe(0);
     expect(sleeps).toEqual([100, 100, 100, 100]);
+    expect(maxActive).toBe(1);
   });
 
   test("retries transient Greenhouse, Lever, and Ashby failures with the shared backoff policy", async () => {

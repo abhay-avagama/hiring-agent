@@ -124,7 +124,7 @@ export function parseOptions(args: string[]): Options {
     country: "IN", input: "data/companies-career-page.md", candidates: "data/source-candidates.json",
     catalog: "data/companies.json", registry: "data/enrichment-leads.json", dataDir: ".openings",
     batchSize: 10, traceConcurrency: 10, verifyConcurrency: 10, workdayConcurrency: 5, crawlConcurrency: 10, crawlDelayMs: 500,
-    workdayPageDelayMs: 100,
+    workdayPageDelayMs: 250,
     skipTrace: false, skipVerify: false, skipCrawl: false,
   };
   for (let index = 0; index < args.length; index += 1) {

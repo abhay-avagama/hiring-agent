@@ -168,7 +168,8 @@ async function fetchWorkdayJobs(company: Company, fetcher: Fetch, signal?: Abort
       pages[index] = result.jobs;
     }
   }
-  await Promise.all(Array.from({ length: Math.min(4, offsets.length) }, worker));
+  const workerCount = pageDelayMs > 0 ? 1 : Math.min(4, offsets.length);
+  await Promise.all(Array.from({ length: workerCount }, worker));
   const jobs = [first.jobs, ...pages].flat().slice(0, first.total);
   if (jobs.length !== first.total) throw new Error(`${company.name} Workday source returned ${jobs.length} of ${first.total} jobs`);
   return jobs.map((job) => normalizeWorkday(company, source, job));
