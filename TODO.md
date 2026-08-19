@@ -75,6 +75,12 @@ First bounded round completed 2026-08-19:
 2. Research optional transport adapters such as Bright Data or Oxylabs behind the fetch boundary; do not make proxy rotation a correctness dependency.
 3. Revisit native PDF/DOCX extraction only when host-side extraction has documented failures.
 
+## 7. Define “extensive” India coverage before round 2 — draft for review
+
+Decision-map #10 now contains a fixed-baseline target and stopping-criteria draft. The next bounded round proposes moving from 75 to 100 distinct employers with current India-eligible jobs and from 6,177 to 7,500 eligible jobs, including at least five new non-Workday employers. Longer milestones are 150 employers / 12,000 jobs for useful breadth and a provisional 250 employers / 20,000 jobs for an extensive India baseline.
+
+Do not crawl against this draft until it is reviewed. Employer breadth is the primary measure; verified sources, jobs, and ATS tokens are supporting or diagnostic measures. Every round must declare hard campaign caps, retain the coverage quality floors, stop on weak marginal yield or degraded source health, and publish a fixed-reference coverage report afterward.
+
 ## Already solid (no action needed)
 
 - `skills/openings/SKILL.md` already matches the PRD's target "thin wrapper" shape — delegates to MCP tools, doesn't reproduce parsing/matching.

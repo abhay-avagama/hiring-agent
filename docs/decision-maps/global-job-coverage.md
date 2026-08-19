@@ -134,7 +134,37 @@ How many sources must an India-focused campaign discover to produce useful India
 
 ### Answer
 
-Partially resolved. `coverage report --country CODE` now deterministically measures the current catalog, snapshot, and discovery funnel without network access. It labels global catalog/index/registry metrics separately from country-cohort discovery provenance, computes country eligibility from jobs, and reports distinct eligible employer domains, latest rotation-batch success, provider and confidence distributions, actionable partition freshness, registry yield, and global/country-cohort candidate-promotion yield. Use those results to guide expansion toward 1,000 verified sources and later 10,000 global sources rather than assuming 1,000 companies currently hire in India. Trend history and campaign-to-campaign comparisons remain follow-up work.
+Partially resolved. `coverage report --country CODE` now deterministically measures the current catalog, snapshot, and discovery funnel without network access. It labels global catalog/index/registry metrics separately from country-cohort discovery provenance, computes country eligibility from jobs, and reports distinct eligible employer domains, latest rotation-batch success, provider and confidence distributions, actionable partition freshness, registry yield, and global/country-cohort candidate-promotion yield.
+
+### India coverage targets and stopping criteria — draft
+
+Fixed baseline (`2026-08-19T18:00:00.000Z`): 79 verified sources, 78 India-cohort indexed sources, 48,539 indexed jobs, 6,177 India-eligible jobs, and 75 distinct eligible employer domains. Of the eligible jobs, 6,173 are explicit and 4 inferred. The indexed provider mix is 63 Workday, 13 Greenhouse, 1 Lever, and 1 Ashby.
+
+The primary coverage unit is a **distinct employer with at least one currently indexed India-eligible job**. Verified-source count and raw ATS-token count are inputs, not success measures. Eligible-job count is a supporting measure because a few large employers can otherwise make coverage look broad when it is concentrated.
+
+Use three measured milestones rather than an open-ended source target:
+
+1. **Next bounded round:** reach at least 100 distinct eligible employers (`+25` from baseline) and 7,500 India-eligible jobs, while adding at least five employers outside Workday. This is the next execution target, not a claim that the corpus is extensive.
+2. **Useful breadth:** reach at least 150 distinct eligible employers and 12,000 India-eligible jobs, with at least three providers contributing ten or more eligible employers each.
+3. **Extensive India baseline:** reach at least 250 distinct eligible employers and 20,000 India-eligible jobs. Reassess this threshold against observed employer density and recommendation recall at the 100- and 150-employer milestones; do not mechanically scale to 1,000 sources.
+
+Every milestone must also preserve these quality floors:
+
+- at least 95% of India-cohort catalog sources have a current snapshot partition;
+- at least 99% of India-eligible jobs have explicit eligibility confidence;
+- the latest completed crawl batch succeeds for at least 90% of selected sources;
+- at least 95% of indexed India-cohort partitions are no older than the configured 14-day freshness window;
+- employer growth is reported alongside provider distribution so one enterprise tenant family cannot masquerade as broad coverage.
+
+Stop a bounded expansion round when the first of these conditions occurs:
+
+- the round target is reached;
+- two consecutive, comparable seed batches each yield fewer than one newly verified India-eligible employer per 50 identities checked;
+- a trace campaign yields qualifying identity evidence for less than 1% of checked company-owned seeds, unless a new evidence source or tracing method is being tested explicitly;
+- crawl success drops below 90%, or throttling/transport failures affect more than 10% of the selected batch;
+- the campaign reaches its declared cap (maximum seeds checked, verification-ready candidates, or new sources) without explicit approval for another round.
+
+Each campaign must declare those caps before network work begins and publish a fixed-reference coverage report afterward. A fresh Common Crawl campaign is not justified solely by a large unresolved-token backlog. The targets remain scoped to better `recommend_jobs` and `search_jobs` coverage for job seekers; they do not introduce recruiter sourcing, accounts, billing, or data-layer gating.
 
 First measured campaign: the keyless YC company-seed adapter filtered 6,139 public company records to 218 with India locations, probed their published slugs as Greenhouse tokens, found three valid name/domain/source matches (Groww, Able, Raven), and rejected 215 guesses. All three passed independent verification and were promoted automatically; the expanded 12-source India cohort crawled successfully. The resulting snapshot contains 770 jobs, including 118 currently classified as India-eligible across 10 employers; Groww contributed eight, while Able and Raven currently contribute none. That distinction is expected because cohort is discovery provenance and eligibility belongs to jobs. Discovery yield is 1.4%, confirming that reaching 1,000 verified sources requires higher-yield ATS URL feeds/Common Crawl discovery rather than slug guessing alone.
 
