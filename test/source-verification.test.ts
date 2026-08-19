@@ -1,5 +1,5 @@
 import { expect, test } from "bun:test";
-import { verifyCandidates } from "../src/source-verification.ts";
+import { resolveSource, verifyCandidates } from "../src/source-verification.ts";
 import type { SourceCandidate } from "../src/types.ts";
 
 test("resolves and verifies a public Workday CXS source", async () => {
@@ -15,6 +15,27 @@ test("resolves and verifies a public Workday CXS source", async () => {
     sourceUrl: "https://mastercard.wd1.myworkdayjobs.com/en-US/CorporateCareers",
     verification: expect.objectContaining({ observedCompanyName: "mastercard", payloadVersion: "workday-cxs:v1", jobCount: 1 }),
   })]);
+});
+
+test("Workday resolution accepts only exact board or CXS jobs URL shapes", () => {
+  expect(resolveSource("https://acme.wd1.myworkdayjobs.com/en-US/Careers")).toEqual(expect.objectContaining({
+    ats: "workday", token: "acme.wd1.myworkdayjobs.com/acme/Careers",
+    structuredEndpoint: "https://acme.wd1.myworkdayjobs.com/wday/cxs/acme/Careers/jobs",
+  }));
+  expect(resolveSource("https://acme.wd1.myworkdayjobs.com/wday/cxs/acme/Careers/jobs")).toEqual(expect.objectContaining({
+    ats: "workday", token: "acme.wd1.myworkdayjobs.com/acme/Careers",
+  }));
+  expect(resolveSource("https://acme.wd1.myworkdayjobs.com/en-US/Careers/job/India/Engineer_R-1")).toEqual(expect.objectContaining({
+    ats: "workday", token: "acme.wd1.myworkdayjobs.com/acme/Careers",
+  }));
+  for (const invalid of [
+    "https://acme.wd1.myworkdayjobs.com/en-US/robots.txt",
+    "https://acme.wd1.myworkdayjobs.com/robots.txt",
+    "https://acme.wd1.myworkdayjobs.com/en-US/Careers/unrelated/path",
+    "https://acme.wd1.myworkdayjobs.com/en-US/Careers/job/India/Engineer_R-1/extra",
+    "https://acme.wd1.myworkdayjobs.com/wday/cxs/acme/Careers/jobs/extra",
+    "https://acme.wd1.myworkdayjobs.com/wday/cxs/acme/Careers",
+  ]) expect(resolveSource(invalid)).toBeNull();
 });
 
 test("verifies Lever and Ashby boards discovered through company-owned redirects", async () => {

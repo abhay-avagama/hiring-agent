@@ -9,7 +9,7 @@
 
 Version 0.2 pivoted implementation from source expansion to the resume-to-opportunity workflow. That v1 core is now operational: candidate-profile extraction, evidence validation, explainable matching, `recommend_jobs`, conditional refresh, `analyze_job_fit`, `optimize_resume`, and the thin MCP skill wrapper are shipped and tested.
 
-Version 0.3 resumes bounded source and corpus expansion because useful breadth is part of the user-facing value: Openings should surface relevant public jobs that exact-title searches overlook. Expansion is measured by eligible jobs, distinct eligible employers, source health, provider diversity, eligibility confidence, and freshness—not raw source-token count alone.
+Version 0.3 adds candidate-driven hidden-job exploration and resumes bounded source and corpus expansion because useful breadth is part of the user-facing value. Openings now surfaces relevant public jobs that exact-title searches overlook and explains the title-family expansion responsible. Expansion is measured by eligible jobs, distinct eligible employers, source health, provider diversity, eligibility confidence, and freshness—not raw source-token count alone.
 
 Request-time and maintainer responsibilities remain separate. Recommendation may search the local snapshot and refresh relevant verified sources at most once according to the requested refresh policy; it must never discover arbitrary new sources. Discovery, identity verification, catalog promotion, and large expansion campaigns remain maintainer workflows. Distributed aggregation remains parked for v2.
 
@@ -52,7 +52,7 @@ The normal interaction is conversational:
 
 > Here is my resume. I want backend or platform roles eligible for India, preferably remote. Find the best opportunities.
 
-The MCP host calls `recommend_jobs`. Openings parses the resume, applies hard eligibility constraints, ranks the remaining jobs, optionally refreshes the snapshot, and returns an explained shortlist. The user can then ask why a job fits or request a truthful resume revision plan for that job.
+The MCP host calls `recommend_jobs`. Openings parses the resume, applies hard eligibility constraints, ranks the remaining jobs, separates direct, hidden title-family, and stretch opportunities, optionally refreshes the snapshot, and returns an explained shortlist. The user can then ask why a job fits or request a truthful resume revision plan for that job.
 
 No terminal command is part of the end-user journey.
 
@@ -291,11 +291,12 @@ Shipped v1 core:
 
 Next delivery sequence:
 
-1. Candidate-driven hidden-job exploration that reuses the existing evidence matcher.
-2. Bounded source expansion based on measured coverage gaps.
-3. Native local PDF/DOCX extraction only if host-side extraction proves insufficient.
+1. Bounded source expansion based on measured coverage gaps.
+2. Native local PDF/DOCX extraction only if host-side extraction proves insufficient.
 
 The deterministic `coverage report --country CODE` maintainer command is shipped. It measures global verified/indexed totals, country-cohort discovery provenance, job-level country eligibility, eligible employers, latest rotation-batch success, provider and eligibility-confidence distributions, discovery yield, and actionable partition freshness without network access.
+
+Candidate-driven hidden-job exploration is shipped inside `recommend_jobs`, not as a second matching tool. Bounded title families are derived only from explicit intent or evidence-backed resume inferences. The existing matcher searches every locally indexed job and returns direct, hidden title-family, and stretch buckets; each hidden result names every matched alias and family, derivation source, and supporting fact IDs. Generic aliases require corroborating family signals in the job description. Request-time exploration never performs source discovery and retains the existing one-crawl/one-rematch limit.
 
 The first tracer bullet is complete when a user supplies a Markdown resume plus India/backend intent and receives five explained matches from an existing offline snapshot through one MCP call.
 

@@ -20,7 +20,7 @@ export function createToolHandler(catalog: Catalog, workflows: JobWorkflows) {
   const definitions: ToolDefinition[] = [
     {
       name: "recommend_jobs",
-      description: "Parse a resume, apply explicit job intent, rank evidence-grounded matches, and optionally refresh the local snapshot once.",
+      description: "Parse a resume, apply explicit job intent, rank evidence-grounded matches, separate direct, hidden title-family, and stretch opportunities, and optionally refresh the local snapshot once.",
       inputSchema: {
         type: "object",
         properties: {

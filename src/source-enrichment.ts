@@ -22,6 +22,7 @@ export async function enrichSourcesFromCompanies(registryPath: string, companies
   const companies = await readCompanies(companyInputs);
   const additions: EnrichmentLead[] = [];
   for (const lead of registry.leads) {
+    if (!resolveSource(lead.sourceUrl)) continue;
     const matches = companies.filter((company) => sourceMatchesCompany(lead.token, company));
     const identities = new Set(matches.map((company) => company.companyDomain));
     if (identities.size !== 1) continue;

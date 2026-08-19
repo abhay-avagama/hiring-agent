@@ -17,7 +17,7 @@ interface VerificationOptions {
   providerConcurrency?: Partial<Record<Ats, number>>;
 }
 
-export interface ResolvedSource { ats: Ats; token: string; canonicalSourceUrl: string }
+export interface ResolvedSource { ats: Ats; token: string; canonicalSourceUrl: string; structuredEndpoint: string }
 
 export async function verifyCandidates(candidates: SourceCandidate[], options: VerificationOptions = {}): Promise<SourceVerificationResult> {
   const fetcher = options.fetch ?? globalThis.fetch;
@@ -151,13 +151,7 @@ async function probe(candidate: SourceCandidate, source: ResolvedSource, fetcher
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(new Error(`Timed out after ${timeoutMs}ms`)), timeoutMs);
   const workday = source.ats === "workday" ? parseWorkdayToken(source.token) : undefined;
-  const endpoint = source.ats === "greenhouse"
-    ? `https://boards-api.greenhouse.io/v1/boards/${encodeURIComponent(source.token)}/jobs?content=true`
-    : source.ats === "lever"
-      ? `https://api.lever.co/v0/postings/${encodeURIComponent(source.token)}?mode=json`
-      : source.ats === "ashby"
-        ? `https://api.ashbyhq.com/posting-api/job-board/${encodeURIComponent(source.token)}`
-        : `https://${workday!.host}/wday/cxs/${encodeURIComponent(workday!.tenant)}/${encodeURIComponent(workday!.site)}/jobs`;
+  const endpoint = source.structuredEndpoint;
   try {
     const init = source.ats === "workday" ? { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ appliedFacets: {}, limit: 20, offset: 0, searchText: "" }), signal: controller.signal } : { signal: controller.signal };
     const response = await fetchProbeWithRetry(fetcher, endpoint, init);
@@ -209,14 +203,24 @@ export function resolveSource(value: string): ResolvedSource | null {
   else if (host === "jobs.lever.co") { ats = "lever"; token = parts[0]; }
   else if (host === "jobs.ashbyhq.com") { ats = "ashby"; token = parts[0]; }
   else if (/\.myworkdayjobs\.com$/.test(host)) {
-    const cxs = parts[0] === "wday" && parts[1] === "cxs";
+    const cxs = parts.length === 5 && parts[0] === "wday" && parts[1] === "cxs" && parts[4] === "jobs";
+    const localeAndSite = /^[a-z]{2}-[a-z]{2}$/iu.test(parts[0] ?? "") && Boolean(parts[1]) && !parts[1]?.includes(".");
+    const board = localeAndSite && (parts.length === 2 || parts.length === 5 && parts[2] === "job");
+    if (!cxs && !board) return null;
     const tenant = cxs ? parts[2] : host.split(".")[0];
-    const site = cxs ? parts[3] : parts[0]?.includes("-") ? parts[1] : parts[0];
+    const site = cxs ? parts[3] : parts[1];
     if (tenant && site) { ats = "workday"; token = `${host}/${tenant}/${site}`; }
   }
   if (!ats || !token) return null;
   const canonicalSourceUrl = ats === "greenhouse" ? `https://job-boards.greenhouse.io/${token}` : ats === "lever" ? `https://jobs.lever.co/${token}` : ats === "ashby" ? `https://jobs.ashbyhq.com/${token}` : (() => { const value = parseWorkdayToken(token); return `https://${value.host}/en-US/${value.site}`; })();
-  return { ats, token, canonicalSourceUrl };
+  const structuredEndpoint = ats === "greenhouse"
+    ? `https://boards-api.greenhouse.io/v1/boards/${encodeURIComponent(token)}/jobs?content=true`
+    : ats === "lever"
+      ? `https://api.lever.co/v0/postings/${encodeURIComponent(token)}?mode=json`
+      : ats === "ashby"
+        ? `https://api.ashbyhq.com/posting-api/job-board/${encodeURIComponent(token)}`
+        : (() => { const value = parseWorkdayToken(token); return `https://${value.host}/wday/cxs/${encodeURIComponent(value.tenant)}/${encodeURIComponent(value.site)}/jobs`; })();
+  return { ats, token, canonicalSourceUrl, structuredEndpoint };
 }
 
 function parseWorkdayToken(token: string): { host: string; tenant: string; site: string } {

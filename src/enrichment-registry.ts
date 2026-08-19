@@ -125,5 +125,13 @@ function validProvenance(value: unknown): boolean { return isRecord(value) && ["
 function validMatch(value: unknown): boolean { return isRecord(value) && typeof value.companyName === "string" && typeof value.companyDomain === "string" && /^[a-z0-9.-]+\.[a-z]{2,}$/i.test(value.companyDomain) && ["normalized_token", "normalized_name", "normalized_domain", "search_result"].includes(String(value.method)) && typeof value.reference === "string"; }
 function validEvidence(value: unknown): boolean { return isRecord(value) && typeof value.companyName === "string" && typeof value.companyDomain === "string" && /^[a-z0-9.-]+\.[a-z]{2,}$/i.test(value.companyDomain) && ["provider_structured_domain", "company_redirect", "company_registry", "authoritative_dataset"].includes(String(value.kind)) && typeof value.reference === "string" && typeof value.observedAt === "string" && Number.isFinite(Date.parse(value.observedAt)); }
 function validAttempt(value: unknown): boolean { return isRecord(value) && typeof value.attemptedAt === "string" && Number.isFinite(Date.parse(value.attemptedAt)) && ["success", "transient_failure", "permanent_failure"].includes(String(value.outcome)) && (value.nextEligibleAt === undefined || typeof value.nextEligibleAt === "string" && Number.isFinite(Date.parse(value.nextEligibleAt))) && (value.category === undefined || typeof value.category === "string") && (value.detail === undefined || typeof value.detail === "string") && (value.evidenceRank === undefined || typeof value.evidenceRank === "number" && Number.isFinite(value.evidenceRank)); }
-function sourceIdentityMatches(value: Record<string, unknown>): boolean { const source = resolveSource(String(value.sourceUrl)); return Boolean(source && source.ats === value.ats && source.token === value.token && `${source.ats}:${source.token.toLowerCase()}` === value.sourceKey); }
+function sourceIdentityMatches(value: Record<string, unknown>): boolean {
+  const source = resolveSource(String(value.sourceUrl));
+  if (source) return source.ats === value.ats && source.token === value.token && `${source.ats}:${source.token.toLowerCase()}` === value.sourceKey;
+  if (value.ats !== "workday" || typeof value.token !== "string" || typeof value.sourceKey !== "string") return false;
+  try {
+    const host = new URL(String(value.sourceUrl)).hostname.toLowerCase();
+    return /\.myworkdayjobs\.com$/u.test(host) && value.token.startsWith(`${host}/`) && value.sourceKey === `workday:${value.token.toLowerCase()}`;
+  } catch { return false; }
+}
 function supersededFailure(lead: EnrichmentLead, attempt: LeadAttempt): boolean { return attempt.category === "identity_mismatch" && lead.identityEvidence.some((evidence) => Date.parse(evidence.observedAt) > Date.parse(attempt.attemptedAt) && evidenceRank[evidence.kind] > (attempt.evidenceRank ?? 0)); }

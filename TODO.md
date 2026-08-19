@@ -34,7 +34,7 @@ Before relying on the decision map, update its stale resolved decisions:
 - **#9:** Lever/Ashby verification is not universally dead. Strong company-owned redirect evidence is supported; weak name/domain/token matches remain intentionally insufficient. The remaining problem is acquiring more qualifying evidence at scale.
 - **#11:** Workable remains correctly parked until its usage and stability contract is acceptable.
 
-## 5. Build candidate-driven hidden-job exploration
+## 5. Build candidate-driven hidden-job exploration — completed
 
 The user-facing differentiator should be finding relevant public jobs whose titles do not exactly match a conventional query. Add this above the existing matcher rather than creating a second matching implementation.
 
@@ -42,19 +42,20 @@ The exploration workflow should:
 
 1. Derive role families and title aliases only from explicit intent and evidence-backed resume facts.
 2. Search the local snapshot across titles, descriptions, skills, seniority, and experience requirements.
-3. Preserve country, location, work-mode, exclusion, authorization, education, and experience constraints as hard gates where explicit.
+3. Preserve the existing matching contract: country, location, work-mode, and explicit exclusions remain hard gates; authorization uncertainty and mandatory education or experience shortfalls remain visible screening risks that prevent a strong fit and cap both scores below 80.
 4. Return direct matches, non-obvious/hidden matches, and stretch matches separately, with evidence and keyword scores for every result.
 5. Explain which title-family expansion surfaced each non-obvious result.
 6. Search immediately, optionally refresh relevant verified sources once according to policy, then rematch once. It must never run source discovery inside the user request.
 
 “Hidden jobs” means public roles that are difficult to discover through exact-title keyword search. It does not mean private, unpublished, authenticated, or access-controlled jobs.
 
+Completed in the existing `recommend_jobs` MCP workflow. The matcher now derives bounded role-family aliases from explicit intent or validated resume inference, gives alias matches relevance credit, and returns direct, hidden, and stretch buckets. Hidden matches carry the exact alias, family, derivation source, and supporting resume fact IDs. The workflow still performs no source discovery and preserves its one-crawl/one-rematch ceiling.
+
 ## Revised execution order
 
-1. Specify and implement candidate-driven hidden-job exploration through MCP, reusing the existing evidence matcher.
-2. Resume bounded source discovery based on measured provider/employer/eligibility gaps.
-3. Research optional transport adapters such as Bright Data or Oxylabs behind the fetch boundary; do not make proxy rotation a correctness dependency.
-4. Revisit native PDF/DOCX extraction only when host-side extraction has documented failures.
+1. Resume bounded source discovery based on measured provider/employer/eligibility gaps.
+2. Research optional transport adapters such as Bright Data or Oxylabs behind the fetch boundary; do not make proxy rotation a correctness dependency.
+3. Revisit native PDF/DOCX extraction only when host-side extraction has documented failures.
 
 ## Already solid (no action needed)
 

@@ -26,6 +26,54 @@ test("refresh never reads and ranks the local snapshot without crawling", async 
   expect(result.snapshot).toEqual(expect.objectContaining({ refreshed: false, stale: true }));
 });
 
+test("separates direct, hidden title-family, and stretch opportunities without a second matching pass", async () => {
+  const direct = { ...job("direct", "Java is required."), title: "Senior Backend Engineer" };
+  const hidden = { ...job("hidden", "Java is required. Build APIs and distributed services."), title: "Platform Engineer" };
+  const stretch = { ...job("stretch", "Kubernetes is required."), title: "Site Reliability Engineer" };
+  const snapshot = makeSnapshot([direct, hidden, stretch]);
+  const recommender = createJobRecommender({
+    sources: [source], store: { read: async () => snapshot, write: async () => undefined },
+    crawl: async () => { throw new Error("must not crawl"); }, now: () => new Date("2026-08-11T00:00:00Z"),
+  });
+
+  const result = await recommender.recommend({
+    resume: { content: "Skills\nJava", format: "text" },
+    intent: { countries: ["IN"], roles: ["backend engineer"] }, refresh: { policy: "never" },
+  });
+
+  expect(result.exploration.roleFamilies).toEqual([expect.objectContaining({ family: "backend", derivedFrom: "explicit_intent" })]);
+  expect(result.exploration.directMatches.map((match) => match.job.id)).toEqual(["direct"]);
+  expect(result.exploration.hiddenMatches.map((match) => match.job.id)).toEqual(["hidden"]);
+  expect(result.exploration.hiddenMatches[0]!.discovery).toEqual({
+    category: "hidden", titleExpansions: [{ family: "backend", alias: "platform engineer", derivedFrom: "explicit_intent", evidenceFactIds: [] }],
+  });
+  expect(result.exploration.stretchMatches.map((match) => match.job.id)).toEqual(["stretch"]);
+  expect(result.matches.map((match) => match.job.id).sort()).toEqual(["direct", "hidden", "stretch"]);
+
+  const inferred = await recommender.recommend({
+    resume: { content: "Skills\nJava", format: "text" }, intent: { countries: ["IN"] }, refresh: { policy: "never" },
+  });
+  expect(inferred.exploration.hiddenMatches.find((match) => match.job.id === "hidden")?.discovery.titleExpansions[0]).toEqual(expect.objectContaining({
+    family: "backend", alias: "platform engineer", derivedFrom: "resume_evidence",
+    evidenceFactIds: [expect.stringContaining("fact_skill")],
+  }));
+});
+
+test("generic title aliases require job-text corroboration and overlapping families remain visible", async () => {
+  const generic = { ...job("generic", "Join our team."), title: "Software Engineer" };
+  const platform = { ...job("platform", "Build Java services on AWS."), title: "Platform Engineer" };
+  const snapshot = makeSnapshot([generic, platform]);
+  const recommender = createJobRecommender({
+    sources: [source], store: { read: async () => snapshot, write: async () => undefined },
+    crawl: async () => { throw new Error("must not crawl"); },
+  });
+  const result = await recommender.recommend({
+    resume: { content: "Skills\nJava\nAWS", format: "text" }, intent: { countries: ["IN"], roles: ["platform engineer"] }, refresh: { policy: "never" },
+  });
+  expect(result.matches.find((match) => match.job.id === "generic")?.discovery.titleExpansions).toEqual([]);
+  expect(result.matches.find((match) => match.job.id === "platform")?.discovery.titleExpansions.map((item) => item.family)).toEqual(["backend", "infrastructure"]);
+});
+
 test("auto refreshes a stale snapshot once in the requested country scope and rematches", async () => {
   let snapshot = makeSnapshot([job("old", "Ruby is required.")], "2026-01-01T00:00:00Z");
   const scopes: unknown[] = [];

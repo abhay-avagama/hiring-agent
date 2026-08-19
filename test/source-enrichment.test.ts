@@ -50,3 +50,20 @@ test("object enrichment inputs must contain independently verified catalog recor
   await expect(enrichSourcesFromCompanies(registry, catalog, join(directory, "candidates.json"), join(directory, "report.json"), { evidenceKind: "company_registry" }))
     .rejects.toThrow("does not contain verified catalog records");
 });
+
+test("legacy malformed Workday leads remain readable but cannot become candidates", async () => {
+  const directory = await mkdtemp(join(tmpdir(), "openings-enrichment-legacy-"));
+  const registry = join(directory, "registry.json");
+  const candidates = join(directory, "candidates.json");
+  await writeFile(registry, JSON.stringify({ version: 1, updatedAt: "2026-08-19T00:00:00.000Z", leads: [{
+    sourceKey: "workday:acme.wd1.myworkdayjobs.com/acme/robots.txt", sourceUrl: "https://acme.wd1.myworkdayjobs.com/en-US/robots.txt",
+    ats: "workday", token: "acme.wd1.myworkdayjobs.com/acme/robots.txt", discoveredFrom: [{ channel: "dataset", reference: "legacy" }],
+    companyMatches: [], identityEvidence: [], attempts: [],
+  }] }));
+  const companies = join(directory, "companies.json");
+  await writeFile(companies, JSON.stringify([{ companyName: "Acme", companyDomain: "acme.test" }]));
+  const report = await enrichSourcesFromCompanies(registry, companies, candidates, join(directory, "report.json"), { evidenceKind: "authoritative_dataset" });
+  expect(report.evidenceReady).toBe(0);
+  expect(report.promoted).toBe(0);
+  expect(JSON.parse(await readFile(candidates, "utf8"))).toEqual([]);
+});

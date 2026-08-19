@@ -21,6 +21,19 @@ export interface SupportedRequirement {
   factIds: string[];
 }
 export interface TransferableRequirement extends SupportedRequirement { via: "backend_programming" | "frontend_programming" | "data_engineering" | "cloud_infrastructure" }
+export type RoleFamily = "backend" | "frontend" | "data" | "infrastructure";
+export interface RoleFamilyExpansion {
+  family: RoleFamily;
+  aliases: string[];
+  derivedFrom: "explicit_intent" | "resume_evidence";
+  evidenceFactIds: string[];
+}
+export interface TitleExpansion {
+  family: RoleFamily;
+  alias: string;
+  derivedFrom: RoleFamilyExpansion["derivedFrom"];
+  evidenceFactIds: string[];
+}
 
 export interface JobMatch {
   job: Job;
@@ -31,15 +44,22 @@ export interface JobMatch {
   supported: SupportedRequirement[];
   transferable: TransferableRequirement[];
   gaps: string[];
+  discovery: { category: "direct" | "hidden" | "stretch"; titleExpansions: TitleExpansion[] };
 }
 
 export interface FilteredJob { jobId: string; reasons: string[] }
-export interface JobMatchingResult { matches: JobMatch[]; filteredOut: FilteredJob[]; assumptions: string[] }
+export interface JobMatchingResult {
+  matches: JobMatch[];
+  filteredOut: FilteredJob[];
+  assumptions: string[];
+  exploration: { roleFamilies: RoleFamilyExpansion[]; directMatches: JobMatch[]; hiddenMatches: JobMatch[]; stretchMatches: JobMatch[] };
+}
 export interface MatchingOptions { mode?: "evidence" | "keyword"; minimumPercent?: number }
 
 export function matchJobs(profile: CandidateProfile, intent: CandidateIntent, jobs: Job[], limit = 20, options: MatchingOptions = {}): JobMatchingResult {
   if (!validateCandidateProfileEvidence(profile).valid) throw new Error("invalid_candidate_profile");
   const mode = options.mode ?? "evidence";
+  const roleFamilies = deriveRoleFamilies(profile, intent);
   const filteredOut: FilteredJob[] = [];
   const ranked: Array<JobMatch & { score: number; index: number }> = [];
   for (const [index, job] of jobs.entries()) {
@@ -58,7 +78,8 @@ export function matchJobs(profile: CandidateProfile, intent: CandidateIntent, jo
       !hasExplicitEvidence(profile, requirement) && !transferable.some((item) => equalSkill(item.requirement, requirement)),
     );
     const roleTargets = intent.roles?.length ? intent.roles : inferredRoleTargets(profile);
-    const role = roleAlignment(roleTargets, job.title, Boolean(intent.roles?.length));
+    const titleExpansions = matchTitleExpansions(roleFamilies, job);
+    const role = roleAlignment(roleTargets, job.title, Boolean(intent.roles?.length), titleExpansions[0]);
     const seniority = seniorityAlignment(profile, intent, job);
     const screeningShortfalls = screeningRequirements.filter((item) => item.status !== "supported").length;
     const score = role.score + supported.length * 2 + transferable.length + skillFocus.length * 3 + seniority.score - gaps.length * 2 - screeningShortfalls * 6;
@@ -79,6 +100,7 @@ export function matchJobs(profile: CandidateProfile, intent: CandidateIntent, jo
       ...transferable.map((item) => `${item.requirement} has related ${item.via} evidence but is not an explicit resume skill`),
       ...skillFocus.map((skill) => `job matches requested skill focus: ${skill}`),
     ];
+    const category = fit === "stretch" ? "stretch" : directTitleMatch(roleTargets, job.title) ? "direct" : titleExpansions.length ? "hidden" : "stretch";
     ranked.push({
       job,
       fit,
@@ -88,29 +110,37 @@ export function matchJobs(profile: CandidateProfile, intent: CandidateIntent, jo
       supported,
       transferable,
       gaps,
+      discovery: { category, titleExpansions },
       score,
       index,
     });
   }
   ranked.sort((left, right) => right.selectedScore - left.selectedScore || fitRank(right.fit) - fitRank(left.fit) || right.score - left.score || freshness(right.job) - freshness(left.job) || left.index - right.index);
+  const matches = ranked.slice(0, Math.max(0, limit)).map(({ score: _score, index: _index, ...match }) => match);
   return {
-    matches: ranked.slice(0, Math.max(0, limit)).map(({ score: _score, index: _index, ...match }) => match),
+    matches,
     filteredOut,
     assumptions: [
       ...(intent.countries?.length ? [] : ["No positive target country was requested"]),
       ...(intent.roles?.length ? [] : [inferredRoleTargets(profile).length ? "No explicit role intent was supplied; resume role evidence guided ordering" : "No role intent or resume role evidence was available"]),
       ...(typeof intent.remote === "boolean" ? [] : ["No work-mode preference was requested"]),
     ],
+    exploration: {
+      roleFamilies,
+      directMatches: matches.filter((match) => match.discovery.category === "direct"),
+      hiddenMatches: matches.filter((match) => match.discovery.category === "hidden"),
+      stretchMatches: matches.filter((match) => match.discovery.category === "stretch"),
+    },
   };
 }
 
-function roleAlignment(targets: string[], title: string, explicit: boolean): { score: number; reason?: string } {
+function roleAlignment(targets: string[], title: string, explicit: boolean, expansion?: TitleExpansion): { score: number; reason?: string } {
   if (!targets.length) return { score: 0 };
   if (!explicit) {
     const matched = targets.some((target) => tokenOverlap(target, title) >= 0.5);
-    return matched
-      ? { score: 4, reason: "title aligns with resume role evidence" }
-      : { score: 0 };
+    if (matched) return { score: 4, reason: "title aligns with resume role evidence" };
+    if (expansion) return { score: 3, reason: `title-family expansion surfaced ${expansion.alias} from ${expansion.family} evidence` };
+    return { score: 0 };
   }
   let best = targets.some((target) => includesPhrase(target, "backend")) ? -6 : 0;
   let kind: "exact" | "adjacent" | "mismatch" = "mismatch";
@@ -132,7 +162,58 @@ function roleAlignment(targets: string[], title: string, explicit: boolean): { s
   }
   if (kind === "exact") return { score: best, reason: explicit ? "title matches explicit role intent" : "title aligns with resume role evidence" };
   if (kind === "adjacent") return { score: best, reason: explicit ? "title is adjacent to explicit role intent" : "title is adjacent to resume role evidence" };
+  if (expansion) return { score: 3, reason: `title-family expansion surfaced ${expansion.alias} from ${expansion.family} evidence` };
   return { score: best };
+}
+
+const titleAliases: Record<RoleFamily, string[]> = {
+  backend: ["platform engineer", "api engineer", "api developer", "distributed systems engineer", "server-side engineer", "services engineer", "software engineer", "software developer", "application developer"],
+  frontend: ["ui engineer", "web engineer", "web developer", "client engineer", "software engineer"],
+  data: ["data engineer", "analytics engineer", "machine learning engineer", "ml engineer", "data platform engineer"],
+  infrastructure: ["infrastructure engineer", "cloud engineer", "devops engineer", "site reliability engineer", "sre", "platform engineer"],
+};
+
+function deriveRoleFamilies(profile: CandidateProfile, intent: CandidateIntent): RoleFamilyExpansion[] {
+  const explicit = new Set<RoleFamily>();
+  for (const role of intent.roles ?? []) {
+    if (/\b(?:backend|api|server-side|distributed systems)\b/iu.test(role)) explicit.add("backend");
+    if (/\b(?:frontend|front-end|ui|web)\b/iu.test(role)) explicit.add("frontend");
+    if (/\b(?:data|analytics|machine learning|ml)\b/iu.test(role)) explicit.add("data");
+    if (/\b(?:infrastructure|cloud|devops|site reliability|sre)\b/iu.test(role)) explicit.add("infrastructure");
+    if (includesPhrase(role, "platform engineer")) { explicit.add("backend"); explicit.add("infrastructure"); }
+  }
+  const inferred = new Map<RoleFamily, string[]>();
+  for (const inference of profile.inferences) if (inference.kind === "role_family") inferred.set(inference.value, inference.derivedFromFactIds);
+  const expansions: RoleFamilyExpansion[] = [];
+  for (const family of ["backend", "frontend", "data", "infrastructure"] as const) {
+    if (explicit.has(family)) { expansions.push({ family, aliases: titleAliases[family], derivedFrom: "explicit_intent", evidenceFactIds: [] }); continue; }
+    const evidenceFactIds = inferred.get(family);
+    if (evidenceFactIds) expansions.push({ family, aliases: titleAliases[family], derivedFrom: "resume_evidence", evidenceFactIds });
+  }
+  return expansions;
+}
+
+function matchTitleExpansions(families: RoleFamilyExpansion[], job: Job): TitleExpansion[] {
+  const matches = families.flatMap((family) => family.aliases
+    .filter((alias) => includesPhrase(job.title, alias) && aliasCorroborated(family.family, alias, job.description))
+    .map((alias) => ({ family: family.family, alias, derivedFrom: family.derivedFrom, evidenceFactIds: family.evidenceFactIds })));
+  return matches.sort((left, right) => Number(right.derivedFrom === "explicit_intent") - Number(left.derivedFrom === "explicit_intent")
+    || right.evidenceFactIds.length - left.evidenceFactIds.length || left.family.localeCompare(right.family) || left.alias.localeCompare(right.alias));
+}
+
+const genericAliases = new Set(["software engineer", "software developer"]);
+const familySignals: Record<RoleFamily, string[]> = {
+  backend: ["backend", "api", "java", "golang", "python", "node.js", "spring", "microservices", "distributed systems"],
+  frontend: ["frontend", "front-end", "javascript", "typescript", "react", "angular", "vue", "css"],
+  data: ["data pipeline", "analytics", "machine learning", "spark", "airflow", "dbt", "snowflake"],
+  infrastructure: ["infrastructure", "cloud", "aws", "azure", "gcp", "kubernetes", "terraform", "site reliability", "devops"],
+};
+function aliasCorroborated(family: RoleFamily, alias: string, description: string): boolean {
+  return !genericAliases.has(alias) || familySignals[family].some((signal) => includesPhrase(description, signal));
+}
+
+function directTitleMatch(targets: string[], title: string): boolean {
+  return targets.some((target) => includesPhrase(title, target) || tokenOverlap(target, title) === 1);
 }
 
 function hardFilterReasons(job: Job, intent: CandidateIntent): string[] {

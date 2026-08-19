@@ -20,6 +20,7 @@ export interface RecommendationRefreshResult {
 export interface RecommendJobsResult {
   profile: CandidateProfile;
   matches: JobMatch[];
+  exploration: ReturnType<typeof matchJobs>["exploration"];
   filteredOut: FilteredJob[];
   assumptions: string[];
   ranking: { mode: "evidence" | "keyword"; minimumPercent: number };
@@ -140,7 +141,14 @@ function matchSnapshot(profile: CandidateProfile, intent: CandidateIntent, snaps
 }
 
 function limitMatching<T extends ReturnType<typeof matchSnapshot>>(matching: T, limit = 20): T {
-  return { ...matching, matches: matching.matches.slice(0, Math.max(0, limit)) };
+  const matches = matching.matches.slice(0, Math.max(0, limit));
+  const ids = new Set(matches.map((match) => match.job.id));
+  return { ...matching, matches, exploration: {
+    ...matching.exploration,
+    directMatches: matching.exploration.directMatches.filter((match) => ids.has(match.job.id)),
+    hiddenMatches: matching.exploration.hiddenMatches.filter((match) => ids.has(match.job.id)),
+    stretchMatches: matching.exploration.stretchMatches.filter((match) => ids.has(match.job.id)),
+  } };
 }
 
 function preCutoffMatchCount(matching: ReturnType<typeof matchSnapshot>): number {

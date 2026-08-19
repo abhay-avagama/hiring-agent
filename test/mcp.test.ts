@@ -77,12 +77,18 @@ test("recommend_jobs runs parsing and matching through MCP while refresh never p
   });
   if (!response || !("result" in response)) throw new Error("Expected MCP result");
   const rpcResult = response.result as { content: Array<{ type: "text"; text: string }> };
-  const payload = JSON.parse(rpcResult.content[0]!.text) as { matches: Array<{ job: { id: string }; scores: { evidence: number; keyword: number }; selectedScore: number }>; profile: { facts: unknown[] }; ranking: { mode: string; minimumPercent: number }; refresh: { policy: string } };
+  const payload = JSON.parse(rpcResult.content[0]!.text) as {
+    matches: Array<{ job: { id: string }; scores: { evidence: number; keyword: number }; selectedScore: number }>;
+    exploration: { directMatches: Array<{ job: { id: string } }>; hiddenMatches: unknown[]; stretchMatches: unknown[] };
+    profile: { facts: unknown[] }; ranking: { mode: string; minimumPercent: number }; refresh: { policy: string };
+  };
   expect(crawls).toBe(0);
   expect(payload.matches[0]!.job.id).toBe(job.id);
   expect(payload.profile.facts.length).toBeGreaterThan(0);
   expect(payload.ranking).toEqual({ mode: "keyword", minimumPercent: 80 });
   expect(payload.matches[0]!.selectedScore).toBe(payload.matches[0]!.scores.keyword);
+  expect(payload.exploration.directMatches[0]!.job.id).toBe(job.id);
+  expect(payload.exploration.hiddenMatches).toEqual([]);
   expect(payload.refresh.policy).toBe("never");
 
   const invalidCalls = [

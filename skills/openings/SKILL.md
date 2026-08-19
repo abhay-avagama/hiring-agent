@@ -13,9 +13,10 @@ Use `recommend_jobs` for resume-based discovery, `analyze_job_fit` for evidence-
 
 1. Ask only for missing constraints that materially change the recommendation.
 2. Supply the user's resume content, explicit intent, and their chosen `ranking.mode` (`evidence` by default or `keyword`) to `recommend_jobs`; never pass an arbitrary filesystem path. Use `ranking.minimumPercent` only when the user requests a cutoff.
-3. Present both returned percentages, the selected score, assumptions, evidence, gaps, refresh status, and failures without recalculating fit. Never describe keyword overlap as demonstrated competence.
-4. Call `analyze_job_fit` before explaining a selected role's fit; present its evidence and gaps without independently recalculating them.
-5. Call `get_job` before discussing the complete description of a selected role.
+3. Present direct, hidden title-family, and stretch results separately. For a hidden result, quote the returned title expansions and whether each came from explicit intent or validated resume fact IDs; never invent or broaden an alias in the skill.
+4. Present both returned percentages, the selected score, assumptions, evidence, gaps, refresh status, and failures without recalculating fit. Never describe keyword overlap as demonstrated competence.
+5. Call `analyze_job_fit` before explaining a selected role's fit; present its evidence and gaps without independently recalculating them.
+6. Call `get_job` before discussing the complete description of a selected role.
 
 ## Tailor an application
 
