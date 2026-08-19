@@ -52,7 +52,7 @@ How do full and scoped crawls update local data?
 
 ### Answer
 
-Use source-partitioned snapshots. Crawl scopes are all sources, a country-focused discovery cohort, or an explicit company list. Successful selected sources replace their partitions; failed selected sources are removed and reported; unselected partitions remain untouched.
+Use source-partitioned snapshots. Crawl scopes are all sources, a country-focused discovery cohort, or an explicit company list. Successful selected sources replace their partitions. A failed refresh is reported but preserves an existing stale partition; a source with no prior partition remains absent. Unselected partitions remain untouched. Cached rotation selects never-crawled sources first and then the oldest expired sources.
 
 ## #5: Which Structured Providers And Discovery Channels Can Reach 1,000 Sources?
 
@@ -67,7 +67,7 @@ Which ATS providers expose stable unauthenticated job data, how can their compan
 
 Resolved in [structured provider and discovery research](../research/structured-provider-discovery.md).
 
-Keep Greenhouse, Lever, and Ashby. Prototype Recruitee and Personio next, followed by SmartRecruiters with an authentication-contract probe. Workable has excellent India yield but remains experimental until its anonymous feed has an acceptable stability/usage contract. Exclude Freshteam, Darwinbox, Zoho Recruit, BambooHR, and Workday under the current no-HTML/no-required-key constraints.
+Keep Greenhouse, Lever, Ashby, and Workday. Workday CXS is a shipped enterprise adapter using unauthenticated structured JSON, bounded pagination, retry/backoff reporting, per-source caching, and paced rotating crawl batches. Prototype Recruitee and Personio next, followed by SmartRecruiters with an authentication-contract probe. Workable has excellent India yield but remains experimental until its anonymous feed has an acceptable stability/usage contract. Exclude Freshteam, Darwinbox, Zoho Recruit, and BambooHR under the current no-HTML/no-required-key constraints.
 
 Use ATS-domain search, career-page redirects, provider directories, community submissions, and independently reverified public datasets in that order; an optional search key only accelerates discovery. The sample found strong lower-bound India yield across Greenhouse, Ashby, Workable, Freshteam, Lever, and SmartRecruiters, but Freshteam cannot currently supply jobs through an approved structured source.
 
@@ -108,7 +108,7 @@ What on-disk partition and manifest shape supports bounded-concurrency crawls, s
 
 ### Answer
 
-Resolved for the first local format. A versioned JSON snapshot stores one replaceable partition per source plus the last crawl report. Crawls use bounded concurrency; selected successes replace, selected failures disappear and are reported, and unselected partitions remain. Search reads only the snapshot, automatically refreshes after 14 days by default, supports custom freshness, and has a strict offline mode. Large-catalog benchmarking remains follow-up work before a 10,000-source release.
+Resolved for the first local format. A versioned JSON snapshot stores one replaceable partition per source plus the last crawl report. Crawls use bounded concurrency; selected successes replace their partitions, failed refreshes preserve existing stale partitions and are reported, and unselected partitions remain. Expansion crawls can skip fresh partitions, prioritize never-crawled then oldest sources, and limit each rotation. Search reads only the snapshot, automatically refreshes after 14 days by default, supports custom freshness, and has a strict offline mode. Large-catalog benchmarking remains follow-up work before a 10,000-source release.
 
 ## #9: Can The Verification Pipeline Automatically Maintain The Catalog?
 
@@ -121,7 +121,7 @@ Can discovered candidates be identity-checked, normalized, deduplicated, and aut
 
 ### Answer
 
-Resolved for automatic Greenhouse maintenance; partially resolved across the full provider set. `openings sources verify` verifies candidates concurrently without credentials, then deterministically deduplicates successful source/company/slug identities, atomically replaces the generated catalog, and reports every rejection with a reason and detail. Greenhouse identity uses its provider-supplied company name. Lever and Ashby would require a company-domain URL in a dedicated structured identity field, excluding free-form descriptions, but their normal seed payloads do not expose one. Previously verified records survive transient endpoint failures, while permanent failures are removed. Ten of the 12 seed candidates pass; Flex and PostHog remain quarantined. Automatic Lever/Ashby identity verification remains an explicit follow-up rather than being papered over with HTML scraping or weak token matching.
+Resolved for automatic Greenhouse maintenance; partially resolved across the full provider set. `openings sources verify` verifies candidates concurrently without credentials, deterministically deduplicates successful source/company/slug identities, atomically replaces the generated catalog, and reports every rejection with a reason and detail. Greenhouse uses its provider-supplied company name. Workday verifies the public CXS feed and checks its URL-derived tenant identifier against the candidate identity, but the payload does not independently prove ownership of the claimed company domain; stronger Workday ownership evidence remains follow-up work. Lever and Ashby may be promoted when provider-structured identity or a safely replayed company-owned redirect supplies qualifying evidence. Weak name, token, DNS, domain, or search-result matches never accumulate into identity. Previously verified records survive transient endpoint failures. The remaining Lever/Ashby follow-up is acquiring qualifying evidence at scale rather than weakening verification.
 
 ## #10: How Do We Reach And Measure The First Country Campaign?
 
@@ -134,9 +134,11 @@ How many sources must an India-focused campaign discover to produce useful India
 
 ### Answer
 
-Open. Begin with 1,000 verified sources, then publish current eligible-job count, distinct-employer count, source success rate, classification-confidence distribution, and discovery yield. Expand toward 10,000 global sources based on observed coverage rather than assuming 1,000 companies currently hire in India.
+Open. Measure the current baseline now: eligible-job count, distinct-employer count, source success rate, provider distribution, classification-confidence distribution, partition freshness, and discovery-to-verification yield. Use those results to guide expansion toward 1,000 verified sources and later 10,000 global sources rather than assuming 1,000 companies currently hire in India.
 
 First measured campaign: the keyless YC company-seed adapter filtered 6,139 public company records to 218 with India locations, probed their published slugs as Greenhouse tokens, found three valid name/domain/source matches (Groww, Able, Raven), and rejected 215 guesses. All three passed independent verification and were promoted automatically; the expanded 12-source India cohort crawled successfully. The resulting snapshot contains 770 jobs, including 118 currently classified as India-eligible across 10 employers; Groww contributed eight, while Able and Raven currently contribute none. That distinction is expected because cohort is discovery provenance and eligibility belongs to jobs. Discovery yield is 1.4%, confirming that reaching 1,000 verified sources requires higher-yield ATS URL feeds/Common Crawl discovery rather than slug guessing alone.
+
+Current expansion baseline committed on 2026-08-19: 75 verified sources, 79 source candidates, and 2,379 durable enrichment leads. An ephemeral local snapshot from the crawl completed at `2026-08-12T03:01:26.629Z` reported 48,657 jobs and 6,106 India-eligible jobs; that snapshot is not committed and these two counts are not yet reproducible from tracked artifacts. Distinct eligible employers, source success rate, provider mix, eligibility confidence, freshness, and discovery yield still need one deterministic reporting command.
 
 ## #11: Can Workable Become A Trusted Provider?
 

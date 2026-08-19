@@ -1,17 +1,17 @@
 # PRD — Openings: an MCP-native job-search workflow
 
 **Working title:** Openings  
-**Status:** Draft v0.2  
+**Status:** Draft v0.3
 **Primary release:** v1 — resume-to-opportunity workflow  
 **One-liner:** A free, local MCP server that turns a user's resume and stated intent into an explained shortlist of real jobs, refreshes verified job sources when necessary, and proposes truthful job-specific resume improvements.
 
-## Pivot and execution priority
+## Current execution priority
 
-Version 0.2 is a product pivot, not an incremental extension of the source-expansion roadmap. The verified crawl, snapshot, eligibility, discovery, enrichment, retry, and locking substrate is now considered sufficient infrastructure for v1. Further catalog growth and distributed crawling are parked for v2 even when additional discovery inputs are available.
+Version 0.2 pivoted implementation from source expansion to the resume-to-opportunity workflow. That v1 core is now operational: candidate-profile extraction, evidence validation, explainable matching, `recommend_jobs`, conditional refresh, `analyze_job_fit`, `optimize_resume`, and the thin MCP skill wrapper are shipped and tested.
 
-No v1 milestone is earned by adding another company or discovery adapter. Until the resume-to-opportunity workflow is usable, implementation priority is exclusively the candidate profile, resume parsing, explainable matching, MCP recommendation flow, fit analysis, and resume optimization described below.
+Version 0.3 resumes bounded source and corpus expansion because useful breadth is part of the user-facing value: Openings should surface relevant public jobs that exact-title searches overlook. Expansion is measured by eligible jobs, distinct eligible employers, source health, provider diversity, eligibility confidence, and freshness—not raw source-token count alone.
 
-Existing infrastructure is not discarded. Snapshot freshness and refresh behavior already provide most of conditional crawling; job-level country classification already provides hard geographic filtering; and offline search already provides the zero-network foundation required by `refresh: never`.
+Request-time and maintainer responsibilities remain separate. Recommendation may search the local snapshot and refresh relevant verified sources at most once according to the requested refresh policy; it must never discover arbitrary new sources. Discovery, identity verification, catalog promotion, and large expansion campaigns remain maintainer workflows. Distributed aggregation remains parked for v2.
 
 ## Product decision
 
@@ -36,7 +36,7 @@ The user workflow is:
 3. If too few suitable jobs are found, conditionally refresh relevant verified sources and match once more.
 4. For a selected job, explain fit and propose evidence-grounded resume improvements.
 
-Distributed aggregation and further source/catalog expansion are explicitly parked for v2. V1 optimizes the usability and quality of the existing job substrate.
+The v1 core optimizes usability and recommendation quality over the local verified substrate. Measure the current corpus first, build candidate-driven exploration next, and use the resulting coverage gaps to guide bounded catalog expansion. Distributed aggregation remains parked for v2.
 
 ## Who it is for
 
@@ -60,14 +60,14 @@ No terminal command is part of the end-user journey.
 
 The MCP modules are the single source of truth for candidate facts, matching evidence, fit classifications, gaps, and permitted resume revisions. The host model may collect intent and present or summarize tool results, but the repository skill must not maintain a second parsing, matching, or tailoring implementation with different guarantees.
 
-`skills/openings/SKILL.md` is a legacy transitional workflow. Today it asks the host model to read `resume.md` and `voice.md`, reason about fit, write a tailored resume, and optionally draft a cover letter. That behavior is not the target v1 architecture. Once `recommend_jobs` and `optimize_resume` exist, the skill must become a thin conversational wrapper that:
+`skills/openings/SKILL.md` is now a thin conversational wrapper around the MCP tools. It:
 
 1. Collects missing user intent.
 2. Supplies resume content to the MCP tools.
 3. Presents the returned evidence and proposed changes.
 4. Requires human review.
 
-The skill must not independently read arbitrary resume paths, calculate fit, create an alternate resume diff, or retain cover-letter generation in the v1 critical path. During migration, the existing skill may remain for backwards compatibility, but it is not part of v1 acceptance and must be labelled legacy until replaced. There must be only one enforceable implementation of the no-fabrication and evidence-traceability rules: the MCP modules.
+The skill must not independently read arbitrary resume paths, calculate fit, create an alternate resume diff, or retain cover-letter generation in the v1 critical path. There must be only one enforceable implementation of the no-fabrication and evidence-traceability rules: the MCP modules.
 
 ## MCP interface
 
@@ -255,7 +255,7 @@ It may not:
 - No hosted accounts, resume uploads, or Openings backend.
 - No source discovery during a recommendation request.
 - No centralized or distributed crawl aggregation; this is parked for v2.
-- No further job-source expansion campaign; this is parked while v1 usability is built.
+- No unbounded request-time source expansion or arbitrary website crawling.
 - No LinkedIn, Indeed, or arbitrary career-page HTML scraping.
 - No Openings-hosted LLM, model selection, or required model API key.
 - No unexplained proprietary ranking model.
@@ -280,25 +280,35 @@ Candidate-profile parsing is a trust-boundary module. Its acceptance suite must 
 
 ## Delivery sequence
 
+Shipped v1 core:
+
 1. Candidate-profile schema and text/Markdown resume parsing.
 2. Explainable matching against an offline snapshot.
 3. `recommend_jobs` as the single-call tracer-bullet workflow.
 4. Conditional refresh and one-time rematching.
 5. `analyze_job_fit` for a selected job.
 6. `optimize_resume` suggestions and unified diffs.
-7. Native local PDF/DOCX extraction if host-side extraction proves insufficient.
+
+Next delivery sequence:
+
+1. Deterministic country-coverage measurement.
+2. Candidate-driven hidden-job exploration that reuses the existing evidence matcher.
+3. Bounded source expansion based on measured coverage gaps.
+4. Native local PDF/DOCX extraction only if host-side extraction proves insufficient.
 
 The first tracer bullet is complete when a user supplies a Markdown resume plus India/backend intent and receives five explained matches from an existing offline snapshot through one MCP call.
 
+## Bounded source and job expansion
+
+The authoritative company-domain campaign may enrich unresolved ATS leads, verify new sources, and grow country coverage now that the v1 recommendation experience is usable. Expansion runs outside recommendation calls and preserves the same identity and job-level eligibility gates.
+
+The repository includes `data/companies-career-page.md` as an India-focused discovery asset. It contains company and career-page leads, not verified sources or authoritative company-domain evidence: most URLs are human-facing career pages, some are stale or third-party job-site links, and only a small number directly identify a supported ATS endpoint.
+
+Campaigns import this file into normalized generated seeds while retaining original company name, career URL, source attribution, and campaign provenance. Company-owned career URLs may be used for safe redirect tracing or structured-provider discovery; third-party URLs may suggest a company name but must not establish source identity. Every resulting ATS source must still pass the existing identity, reachability, and job-level eligibility pipeline. Openings must not extract jobs from the linked HTML pages.
+
+Local crawls use source-partition caching and bounded rotation: never-crawled sources first, then the oldest expired partitions. Fresh partitions are skipped, and failed refreshes preserve prior jobs while reporting the failure for a later retry. Optional proxy or managed-fetch transports may be added behind the fetch boundary, but correctness must not depend on proxy rotation.
+
 ## Parked v2 work
-
-### Source and job expansion
-
-Resume the authoritative company-domain campaign, enrich unresolved ATS leads, verify new sources, and grow country coverage after the v1 recommendation experience is usable.
-
-The repository includes `data/companies-career-page.md` as a parked India-focused discovery asset. It currently contains 484 company rows representing 483 unique normalized names and approximately 458 entries not already represented in the verified catalog. These entries are leads, not verified sources or authoritative company-domain evidence: most URLs are human-facing career pages, some are stale or third-party job-site links, and only a small number directly identify a supported ATS endpoint.
-
-When v2 expansion resumes, import this file into a normalized generated seed format while retaining its original company name, career URL, source attribution, and campaign provenance. Company-owned career URLs may be used for safe redirect tracing or structured-provider discovery; third-party URLs may suggest a company name but must not establish source identity. Every resulting ATS source must still pass the existing identity, reachability, and job-level eligibility pipeline. Openings must not extract jobs from the linked HTML pages.
 
 ### Distributed aggregation
 
