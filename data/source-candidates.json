@@ -966,5 +966,293 @@
       "kind": "company_redirect",
       "reference": "https://www.thoughtspot.com/careers-listing"
     }
+  },
+  {
+    "companyName": "Affinidi",
+    "companyDomain": "affinidi.com",
+    "sourceUrl": "https://job-boards.greenhouse.io/affinidi",
+    "discoveredFrom": {
+      "channel": "dataset",
+      "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+    },
+    "domainEvidence": {
+      "kind": "authoritative_dataset",
+      "reference": ".openings/company-career-seeds.json"
+    },
+    "cohorts": [
+      "IN"
+    ]
+  },
+  {
+    "companyName": "bitly",
+    "companyDomain": "bitly.com",
+    "sourceUrl": "https://job-boards.greenhouse.io/bitly",
+    "discoveredFrom": {
+      "channel": "dataset",
+      "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+    },
+    "domainEvidence": {
+      "kind": "authoritative_dataset",
+      "reference": ".openings/company-career-seeds.json"
+    },
+    "cohorts": [
+      "IN"
+    ]
+  },
+  {
+    "companyName": "Athena Health",
+    "companyDomain": "athenahealth.com",
+    "sourceUrl": "https://athenahealth.wd1.myworkdayjobs.com/en-US/external",
+    "discoveredFrom": {
+      "channel": "dataset",
+      "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+    },
+    "domainEvidence": {
+      "kind": "authoritative_dataset",
+      "reference": ".openings/company-career-seeds.json"
+    },
+    "cohorts": [
+      "IN"
+    ]
+  },
+  {
+    "companyName": "Blackrock",
+    "companyDomain": "blackrock.com",
+    "sourceUrl": "https://blackrock.wd1.myworkdayjobs.com/en-US/blackrock_professional",
+    "discoveredFrom": {
+      "channel": "dataset",
+      "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+    },
+    "domainEvidence": {
+      "kind": "authoritative_dataset",
+      "reference": ".openings/company-career-seeds.json"
+    },
+    "cohorts": [
+      "IN"
+    ]
+  },
+  {
+    "companyName": "Bloomberg LP",
+    "companyDomain": "bloomberg.com",
+    "sourceUrl": "https://bloomberg.wd1.myworkdayjobs.com/en-US/Bloombergindustrygroup_External_Career_Site",
+    "discoveredFrom": {
+      "channel": "dataset",
+      "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+    },
+    "domainEvidence": {
+      "kind": "authoritative_dataset",
+      "reference": ".openings/company-career-seeds.json"
+    },
+    "cohorts": [
+      "IN"
+    ]
+  },
+  {
+    "companyName": "BMC software",
+    "companyDomain": "bmc.com",
+    "sourceUrl": "https://bmc.wd1.myworkdayjobs.com/en-US/bmc",
+    "discoveredFrom": {
+      "channel": "dataset",
+      "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+    },
+    "domainEvidence": {
+      "kind": "authoritative_dataset",
+      "reference": ".openings/company-career-seeds.json"
+    },
+    "cohorts": [
+      "IN"
+    ]
+  },
+  {
+    "companyName": "BMC software",
+    "companyDomain": "bmc.com",
+    "sourceUrl": "https://bmc.wd1.myworkdayjobs.com/en-US/ClearwayHealth",
+    "discoveredFrom": {
+      "channel": "dataset",
+      "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+    },
+    "domainEvidence": {
+      "kind": "authoritative_dataset",
+      "reference": ".openings/company-career-seeds.json"
+    },
+    "cohorts": [
+      "IN"
+    ]
+  },
+  {
+    "companyName": "Boeing",
+    "companyDomain": "boeing.com",
+    "sourceUrl": "https://boeing.wd1.myworkdayjobs.com/en-US/ALPFA",
+    "discoveredFrom": {
+      "channel": "dataset",
+      "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+    },
+    "domainEvidence": {
+      "kind": "authoritative_dataset",
+      "reference": ".openings/company-career-seeds.json"
+    },
+    "cohorts": [
+      "IN"
+    ]
+  },
+  {
+    "companyName": "Boeing",
+    "companyDomain": "boeing.com",
+    "sourceUrl": "https://boeing.wd1.myworkdayjobs.com/en-US/external_subsidiary",
+    "discoveredFrom": {
+      "channel": "dataset",
+      "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+    },
+    "domainEvidence": {
+      "kind": "authoritative_dataset",
+      "reference": ".openings/company-career-seeds.json"
+    },
+    "cohorts": [
+      "IN"
+    ]
+  },
+  {
+    "companyName": "Boeing",
+    "companyDomain": "boeing.com",
+    "sourceUrl": "https://boeing.wd1.myworkdayjobs.com/en-US/INTERN",
+    "discoveredFrom": {
+      "channel": "dataset",
+      "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+    },
+    "domainEvidence": {
+      "kind": "authoritative_dataset",
+      "reference": ".openings/company-career-seeds.json"
+    },
+    "cohorts": [
+      "IN"
+    ]
+  },
+  {
+    "companyName": "Boeing",
+    "companyDomain": "boeing.com",
+    "sourceUrl": "https://boeing.wd1.myworkdayjobs.com/en-US/MFG",
+    "discoveredFrom": {
+      "channel": "dataset",
+      "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+    },
+    "domainEvidence": {
+      "kind": "authoritative_dataset",
+      "reference": ".openings/company-career-seeds.json"
+    },
+    "cohorts": [
+      "IN"
+    ]
+  },
+  {
+    "companyName": "Boeing",
+    "companyDomain": "boeing.com",
+    "sourceUrl": "https://boeing.wd1.myworkdayjobs.com/en-US/SHPE",
+    "discoveredFrom": {
+      "channel": "dataset",
+      "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+    },
+    "domainEvidence": {
+      "kind": "authoritative_dataset",
+      "reference": ".openings/company-career-seeds.json"
+    },
+    "cohorts": [
+      "IN"
+    ]
+  },
+  {
+    "companyName": "Boeing",
+    "companyDomain": "boeing.com",
+    "sourceUrl": "https://boeing.wd1.myworkdayjobs.com/en-US/USBLN",
+    "discoveredFrom": {
+      "channel": "dataset",
+      "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+    },
+    "domainEvidence": {
+      "kind": "authoritative_dataset",
+      "reference": ".openings/company-career-seeds.json"
+    },
+    "cohorts": [
+      "IN"
+    ]
+  },
+  {
+    "companyName": "Cadence",
+    "companyDomain": "cadence.com",
+    "sourceUrl": "https://cadence.wd1.myworkdayjobs.com/en-US/OpenEye_Careers",
+    "discoveredFrom": {
+      "channel": "dataset",
+      "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+    },
+    "domainEvidence": {
+      "kind": "authoritative_dataset",
+      "reference": ".openings/company-career-seeds.json"
+    },
+    "cohorts": [
+      "IN"
+    ]
+  },
+  {
+    "companyName": "Cadence",
+    "companyDomain": "cadence.com",
+    "sourceUrl": "https://cadence.wd1.myworkdayjobs.com/en-US/University_Talent",
+    "discoveredFrom": {
+      "channel": "dataset",
+      "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+    },
+    "domainEvidence": {
+      "kind": "authoritative_dataset",
+      "reference": ".openings/company-career-seeds.json"
+    },
+    "cohorts": [
+      "IN"
+    ]
+  },
+  {
+    "companyName": "Dell",
+    "companyDomain": "dell.com",
+    "sourceUrl": "https://dell.wd1.myworkdayjobs.com/en-US/External",
+    "discoveredFrom": {
+      "channel": "dataset",
+      "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+    },
+    "domainEvidence": {
+      "kind": "authoritative_dataset",
+      "reference": ".openings/company-career-seeds.json"
+    },
+    "cohorts": [
+      "IN"
+    ]
+  },
+  {
+    "companyName": "Dell",
+    "companyDomain": "dell.com",
+    "sourceUrl": "https://dell.wd1.myworkdayjobs.com/en-US/ExternalNonPublic",
+    "discoveredFrom": {
+      "channel": "dataset",
+      "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+    },
+    "domainEvidence": {
+      "kind": "authoritative_dataset",
+      "reference": ".openings/company-career-seeds.json"
+    },
+    "cohorts": [
+      "IN"
+    ]
+  },
+  {
+    "companyName": "Bolna AI",
+    "companyDomain": "bolna.ai",
+    "sourceUrl": "https://jobs.ashbyhq.com/bolna",
+    "cohorts": [
+      "IN"
+    ],
+    "discoveredFrom": {
+      "channel": "career_page",
+      "reference": "https://bolna.ai/careers"
+    },
+    "domainEvidence": {
+      "kind": "company_redirect",
+      "reference": "https://bolna.ai/careers"
+    }
   }
 ]

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-08-11T16:35:04.874Z",
+  "updatedAt": "2026-08-19T17:58:47.954Z",
   "leads": [
     {
       "sourceKey": "ashby:0g",
@@ -3003,10 +3003,24 @@
           "companyName": "Atlan",
           "companyDomain": "atlan.com",
           "method": "normalized_token",
+          "reference": ".openings/company-career-seeds.json"
+        },
+        {
+          "companyName": "Atlan",
+          "companyDomain": "atlan.com",
+          "method": "normalized_token",
           "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
         }
       ],
-      "identityEvidence": [],
+      "identityEvidence": [
+        {
+          "companyName": "Atlan",
+          "companyDomain": "atlan.com",
+          "kind": "authoritative_dataset",
+          "reference": ".openings/company-career-seeds.json",
+          "observedAt": "2026-08-19T17:50:37.805Z"
+        }
+      ],
       "attempts": []
     },
     {
@@ -5065,6 +5079,49 @@
       "attempts": []
     },
     {
+      "sourceKey": "ashby:bolna",
+      "sourceUrl": "https://jobs.ashbyhq.com/bolna",
+      "ats": "ashby",
+      "token": "bolna",
+      "discoveredFrom": [
+        {
+          "channel": "career_page",
+          "reference": "https://bolna.ai/careers"
+        }
+      ],
+      "companyMatches": [
+        {
+          "companyName": "Bolna AI",
+          "companyDomain": "bolna.ai",
+          "method": "normalized_token",
+          "reference": "https://bolna.ai/careers"
+        }
+      ],
+      "identityEvidence": [
+        {
+          "companyName": "Bolna AI",
+          "companyDomain": "bolna.ai",
+          "kind": "company_redirect",
+          "reference": "https://bolna.ai/careers",
+          "observedAt": "2026-08-19T17:56:35.017Z"
+        },
+        {
+          "companyName": "Bolna AI",
+          "companyDomain": "bolna.ai",
+          "kind": "company_redirect",
+          "reference": "https://bolna.ai/careers",
+          "observedAt": "2026-08-19T17:56:59.154Z"
+        }
+      ],
+      "attempts": [
+        {
+          "attemptedAt": "2026-08-19T17:56:59.154Z",
+          "outcome": "success"
+        }
+      ],
+      "promotedAt": "2026-08-19T17:56:59.154Z"
+    },
+    {
       "sourceKey": "ashby:bookkeeper360",
       "sourceUrl": "https://jobs.ashbyhq.com/bookkeeper360",
       "ats": "ashby",
@@ -5155,10 +5212,24 @@
           "companyName": "Bounce",
           "companyDomain": "careers-bounce.peoplestrong.com",
           "method": "normalized_token",
+          "reference": ".openings/company-career-seeds.json"
+        },
+        {
+          "companyName": "Bounce",
+          "companyDomain": "careers-bounce.peoplestrong.com",
+          "method": "normalized_token",
           "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
         }
       ],
-      "identityEvidence": [],
+      "identityEvidence": [
+        {
+          "companyName": "Bounce",
+          "companyDomain": "careers-bounce.peoplestrong.com",
+          "kind": "authoritative_dataset",
+          "reference": ".openings/company-career-seeds.json",
+          "observedAt": "2026-08-19T17:50:37.805Z"
+        }
+      ],
       "attempts": []
     },
     {
@@ -6977,10 +7048,24 @@
           "companyName": "Checkout.com",
           "companyDomain": "checkout.com",
           "method": "normalized_token",
+          "reference": ".openings/company-career-seeds.json"
+        },
+        {
+          "companyName": "Checkout.com",
+          "companyDomain": "checkout.com",
+          "method": "normalized_token",
           "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
         }
       ],
-      "identityEvidence": [],
+      "identityEvidence": [
+        {
+          "companyName": "Checkout.com",
+          "companyDomain": "checkout.com",
+          "kind": "authoritative_dataset",
+          "reference": ".openings/company-career-seeds.json",
+          "observedAt": "2026-08-19T17:50:37.805Z"
+        }
+      ],
       "attempts": []
     },
     {
@@ -8574,10 +8659,24 @@
           "companyName": "Contra",
           "companyDomain": "contra.com",
           "method": "normalized_token",
+          "reference": ".openings/company-career-seeds.json"
+        },
+        {
+          "companyName": "Contra",
+          "companyDomain": "contra.com",
+          "method": "normalized_token",
           "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
         }
       ],
-      "identityEvidence": [],
+      "identityEvidence": [
+        {
+          "companyName": "Contra",
+          "companyDomain": "contra.com",
+          "kind": "authoritative_dataset",
+          "reference": ".openings/company-career-seeds.json",
+          "observedAt": "2026-08-19T17:50:37.805Z"
+        }
+      ],
       "attempts": []
     },
     {
@@ -14512,10 +14611,24 @@
           "companyName": "Ghost",
           "companyDomain": "ghost.org",
           "method": "normalized_token",
+          "reference": ".openings/company-career-seeds.json"
+        },
+        {
+          "companyName": "Ghost",
+          "companyDomain": "ghost.org",
+          "method": "normalized_token",
           "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
         }
       ],
-      "identityEvidence": [],
+      "identityEvidence": [
+        {
+          "companyName": "Ghost",
+          "companyDomain": "ghost.org",
+          "kind": "authoritative_dataset",
+          "reference": ".openings/company-career-seeds.json",
+          "observedAt": "2026-08-19T17:50:37.805Z"
+        }
+      ],
       "attempts": []
     },
     {
@@ -19424,11 +19537,46 @@
           "companyName": "Affinidi",
           "companyDomain": "affinidi.com",
           "method": "normalized_token",
+          "reference": ".openings/company-career-seeds.json"
+        },
+        {
+          "companyName": "Affinidi",
+          "companyDomain": "affinidi.com",
+          "method": "normalized_token",
           "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
         }
       ],
-      "identityEvidence": [],
-      "attempts": []
+      "identityEvidence": [
+        {
+          "companyName": "Affinidi",
+          "companyDomain": "affinidi.com",
+          "kind": "authoritative_dataset",
+          "reference": ".openings/company-career-seeds.json",
+          "observedAt": "2026-08-19T17:50:37.805Z"
+        }
+      ],
+      "attempts": [
+        {
+          "attemptedAt": "2026-08-19T17:50:44.734Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "Unable to connect. Is the computer able to access the url?",
+          "nextEligibleAt": "2026-08-19T17:51:44.734Z"
+        },
+        {
+          "attemptedAt": "2026-08-19T17:52:37.505Z",
+          "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-08-19T17:52:54.212Z",
+          "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-08-19T17:58:47.954Z",
+          "outcome": "success"
+        }
+      ],
+      "promotedAt": "2026-08-19T17:58:47.954Z"
     },
     {
       "sourceKey": "greenhouse:affinitiv",
@@ -24156,11 +24304,47 @@
           "companyName": "bitly",
           "companyDomain": "bitly.com",
           "method": "normalized_token",
+          "reference": ".openings/company-career-seeds.json"
+        },
+        {
+          "companyName": "bitly",
+          "companyDomain": "bitly.com",
+          "method": "normalized_token",
           "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
         }
       ],
-      "identityEvidence": [],
-      "attempts": []
+      "identityEvidence": [
+        {
+          "companyName": "bitly",
+          "companyDomain": "bitly.com",
+          "kind": "authoritative_dataset",
+          "reference": ".openings/company-career-seeds.json",
+          "observedAt": "2026-08-19T17:50:37.805Z"
+        }
+      ],
+      "attempts": [
+        {
+          "attemptedAt": "2026-08-19T17:50:44.734Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "Unable to connect. Is the computer able to access the url?",
+          "nextEligibleAt": "2026-08-19T17:51:44.734Z"
+        },
+        {
+          "attemptedAt": "2026-08-19T17:52:37.505Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 404",
+          "nextEligibleAt": "2026-08-19T17:54:37.505Z"
+        },
+        {
+          "attemptedAt": "2026-08-19T17:52:54.212Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 404",
+          "nextEligibleAt": "2026-08-19T17:56:54.212Z"
+        }
+      ]
     },
     {
       "sourceKey": "greenhouse:bitmex",
@@ -26473,10 +26657,23 @@
           "companyName": "MindTickle",
           "companyDomain": "mindtickle.com",
           "method": "normalized_token",
+          "reference": ".openings/company-career-seeds.json"
+        },
+        {
+          "companyName": "MindTickle",
+          "companyDomain": "mindtickle.com",
+          "method": "normalized_token",
           "reference": "https://www.mindtickle.com/careers/"
         }
       ],
       "identityEvidence": [
+        {
+          "companyName": "MindTickle",
+          "companyDomain": "mindtickle.com",
+          "kind": "authoritative_dataset",
+          "reference": ".openings/company-career-seeds.json",
+          "observedAt": "2026-08-19T17:50:37.805Z"
+        },
         {
           "companyName": "MindTickle",
           "companyDomain": "mindtickle.com",
@@ -26518,6 +26715,13 @@
           "kind": "company_redirect",
           "reference": "https://www.mindtickle.com/careers/",
           "observedAt": "2026-08-11T16:35:04.874Z"
+        },
+        {
+          "companyName": "MindTickle",
+          "companyDomain": "mindtickle.com",
+          "kind": "company_redirect",
+          "reference": "https://www.mindtickle.com/careers/",
+          "observedAt": "2026-08-19T17:52:01.941Z"
         }
       ],
       "attempts": [
@@ -26532,9 +26736,13 @@
         {
           "attemptedAt": "2026-08-11T16:35:04.874Z",
           "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-08-19T17:52:01.941Z",
+          "outcome": "success"
         }
       ],
-      "promotedAt": "2026-08-11T16:35:04.874Z"
+      "promotedAt": "2026-08-19T17:52:01.941Z"
     },
     {
       "sourceKey": "lever:robots.txt",
@@ -28539,11 +28747,46 @@
           "companyName": "Athena Health",
           "companyDomain": "athenahealth.com",
           "method": "normalized_token",
+          "reference": ".openings/company-career-seeds.json"
+        },
+        {
+          "companyName": "Athena Health",
+          "companyDomain": "athenahealth.com",
+          "method": "normalized_token",
           "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
         }
       ],
-      "identityEvidence": [],
-      "attempts": []
+      "identityEvidence": [
+        {
+          "companyName": "Athena Health",
+          "companyDomain": "athenahealth.com",
+          "kind": "authoritative_dataset",
+          "reference": ".openings/company-career-seeds.json",
+          "observedAt": "2026-08-19T17:50:37.805Z"
+        }
+      ],
+      "attempts": [
+        {
+          "attemptedAt": "2026-08-19T17:50:44.734Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "Unable to connect. Is the computer able to access the url?",
+          "nextEligibleAt": "2026-08-19T17:51:44.734Z"
+        },
+        {
+          "attemptedAt": "2026-08-19T17:52:37.505Z",
+          "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-08-19T17:52:54.212Z",
+          "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-08-19T17:58:47.954Z",
+          "outcome": "success"
+        }
+      ],
+      "promotedAt": "2026-08-19T17:58:47.954Z"
     },
     {
       "sourceKey": "workday:athenahealth.wd1.myworkdayjobs.com/athenahealth/robots.txt",
@@ -29979,6 +30222,12 @@
           "companyName": "Blackrock",
           "companyDomain": "blackrock.com",
           "method": "normalized_token",
+          "reference": ".openings/company-career-seeds.json"
+        },
+        {
+          "companyName": "Blackrock",
+          "companyDomain": "blackrock.com",
+          "method": "normalized_token",
           "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
         },
         {
@@ -29988,8 +30237,37 @@
           "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
         }
       ],
-      "identityEvidence": [],
-      "attempts": []
+      "identityEvidence": [
+        {
+          "companyName": "Blackrock",
+          "companyDomain": "blackrock.com",
+          "kind": "authoritative_dataset",
+          "reference": ".openings/company-career-seeds.json",
+          "observedAt": "2026-08-19T17:50:37.805Z"
+        }
+      ],
+      "attempts": [
+        {
+          "attemptedAt": "2026-08-19T17:50:44.734Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "Unable to connect. Is the computer able to access the url?",
+          "nextEligibleAt": "2026-08-19T17:51:44.734Z"
+        },
+        {
+          "attemptedAt": "2026-08-19T17:52:37.505Z",
+          "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-08-19T17:52:54.212Z",
+          "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-08-19T17:58:47.954Z",
+          "outcome": "success"
+        }
+      ],
+      "promotedAt": "2026-08-19T17:58:47.954Z"
     },
     {
       "sourceKey": "workday:blackrock.wd1.myworkdayjobs.com/blackrock/robots.txt",
@@ -30082,11 +30360,40 @@
           "companyName": "Bloomberg LP",
           "companyDomain": "bloomberg.com",
           "method": "normalized_token",
+          "reference": ".openings/company-career-seeds.json"
+        },
+        {
+          "companyName": "Bloomberg LP",
+          "companyDomain": "bloomberg.com",
+          "method": "normalized_token",
           "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
         }
       ],
-      "identityEvidence": [],
-      "attempts": []
+      "identityEvidence": [
+        {
+          "companyName": "Bloomberg LP",
+          "companyDomain": "bloomberg.com",
+          "kind": "authoritative_dataset",
+          "reference": ".openings/company-career-seeds.json",
+          "observedAt": "2026-08-19T17:50:37.805Z"
+        }
+      ],
+      "attempts": [
+        {
+          "attemptedAt": "2026-08-19T17:50:44.734Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "Unable to connect. Is the computer able to access the url?",
+          "nextEligibleAt": "2026-08-19T17:51:44.734Z"
+        },
+        {
+          "attemptedAt": "2026-08-19T17:52:37.505Z",
+          "outcome": "permanent_failure",
+          "category": "no_country_jobs",
+          "detail": "Complete source feed has no jobs eligible for IN",
+          "evidenceRank": 1
+        }
+      ]
     },
     {
       "sourceKey": "workday:bloomberg.wd1.myworkdayjobs.com/bloomberg/robots.txt",
@@ -30149,11 +30456,40 @@
           "companyName": "BMC software",
           "companyDomain": "bmc.com",
           "method": "normalized_token",
+          "reference": ".openings/company-career-seeds.json"
+        },
+        {
+          "companyName": "BMC software",
+          "companyDomain": "bmc.com",
+          "method": "normalized_token",
           "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
         }
       ],
-      "identityEvidence": [],
-      "attempts": []
+      "identityEvidence": [
+        {
+          "companyName": "BMC software",
+          "companyDomain": "bmc.com",
+          "kind": "authoritative_dataset",
+          "reference": ".openings/company-career-seeds.json",
+          "observedAt": "2026-08-19T17:50:37.805Z"
+        }
+      ],
+      "attempts": [
+        {
+          "attemptedAt": "2026-08-19T17:50:44.734Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "Unable to connect. Is the computer able to access the url?",
+          "nextEligibleAt": "2026-08-19T17:51:44.734Z"
+        },
+        {
+          "attemptedAt": "2026-08-19T17:52:37.505Z",
+          "outcome": "permanent_failure",
+          "category": "no_country_jobs",
+          "detail": "Complete source feed has no jobs eligible for IN",
+          "evidenceRank": 1
+        }
+      ]
     },
     {
       "sourceKey": "workday:bmc.wd1.myworkdayjobs.com/bmc/clearwayhealth",
@@ -30166,9 +30502,39 @@
           "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
         }
       ],
-      "companyMatches": [],
-      "identityEvidence": [],
-      "attempts": []
+      "companyMatches": [
+        {
+          "companyName": "BMC software",
+          "companyDomain": "bmc.com",
+          "method": "normalized_token",
+          "reference": ".openings/company-career-seeds.json"
+        }
+      ],
+      "identityEvidence": [
+        {
+          "companyName": "BMC software",
+          "companyDomain": "bmc.com",
+          "kind": "authoritative_dataset",
+          "reference": ".openings/company-career-seeds.json",
+          "observedAt": "2026-08-19T17:50:37.805Z"
+        }
+      ],
+      "attempts": [
+        {
+          "attemptedAt": "2026-08-19T17:50:44.734Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "Was there a typo in the url or port?",
+          "nextEligibleAt": "2026-08-19T17:51:44.734Z"
+        },
+        {
+          "attemptedAt": "2026-08-19T17:52:37.505Z",
+          "outcome": "permanent_failure",
+          "category": "no_country_jobs",
+          "detail": "Complete source feed has no jobs eligible for IN",
+          "evidenceRank": 1
+        }
+      ]
     },
     {
       "sourceKey": "workday:bmc.wd1.myworkdayjobs.com/bmc/robots.txt",
@@ -30201,6 +30567,12 @@
           "companyName": "Boeing",
           "companyDomain": "boeing.com",
           "method": "normalized_token",
+          "reference": ".openings/company-career-seeds.json"
+        },
+        {
+          "companyName": "Boeing",
+          "companyDomain": "boeing.com",
+          "method": "normalized_token",
           "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
         },
         {
@@ -30210,8 +30582,24 @@
           "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
         }
       ],
-      "identityEvidence": [],
-      "attempts": []
+      "identityEvidence": [
+        {
+          "companyName": "Boeing",
+          "companyDomain": "boeing.com",
+          "kind": "authoritative_dataset",
+          "reference": ".openings/company-career-seeds.json",
+          "observedAt": "2026-08-19T17:50:37.805Z"
+        }
+      ],
+      "attempts": [
+        {
+          "attemptedAt": "2026-08-19T17:50:44.734Z",
+          "outcome": "permanent_failure",
+          "category": "duplicate_slug",
+          "detail": "Catalog slug boeing belongs to a different verified company",
+          "evidenceRank": 1
+        }
+      ]
     },
     {
       "sourceKey": "workday:boeing.wd1.myworkdayjobs.com/boeing/external_subsidiary",
@@ -30224,9 +30612,32 @@
           "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
         }
       ],
-      "companyMatches": [],
-      "identityEvidence": [],
-      "attempts": []
+      "companyMatches": [
+        {
+          "companyName": "Boeing",
+          "companyDomain": "boeing.com",
+          "method": "normalized_token",
+          "reference": ".openings/company-career-seeds.json"
+        }
+      ],
+      "identityEvidence": [
+        {
+          "companyName": "Boeing",
+          "companyDomain": "boeing.com",
+          "kind": "authoritative_dataset",
+          "reference": ".openings/company-career-seeds.json",
+          "observedAt": "2026-08-19T17:50:37.805Z"
+        }
+      ],
+      "attempts": [
+        {
+          "attemptedAt": "2026-08-19T17:50:44.734Z",
+          "outcome": "permanent_failure",
+          "category": "duplicate_slug",
+          "detail": "Catalog slug boeing belongs to a different verified company",
+          "evidenceRank": 1
+        }
+      ]
     },
     {
       "sourceKey": "workday:boeing.wd1.myworkdayjobs.com/boeing/intern",
@@ -30239,9 +30650,32 @@
           "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
         }
       ],
-      "companyMatches": [],
-      "identityEvidence": [],
-      "attempts": []
+      "companyMatches": [
+        {
+          "companyName": "Boeing",
+          "companyDomain": "boeing.com",
+          "method": "normalized_token",
+          "reference": ".openings/company-career-seeds.json"
+        }
+      ],
+      "identityEvidence": [
+        {
+          "companyName": "Boeing",
+          "companyDomain": "boeing.com",
+          "kind": "authoritative_dataset",
+          "reference": ".openings/company-career-seeds.json",
+          "observedAt": "2026-08-19T17:50:37.805Z"
+        }
+      ],
+      "attempts": [
+        {
+          "attemptedAt": "2026-08-19T17:50:44.734Z",
+          "outcome": "permanent_failure",
+          "category": "duplicate_slug",
+          "detail": "Catalog slug boeing belongs to a different verified company",
+          "evidenceRank": 1
+        }
+      ]
     },
     {
       "sourceKey": "workday:boeing.wd1.myworkdayjobs.com/boeing/mfg",
@@ -30254,9 +30688,32 @@
           "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
         }
       ],
-      "companyMatches": [],
-      "identityEvidence": [],
-      "attempts": []
+      "companyMatches": [
+        {
+          "companyName": "Boeing",
+          "companyDomain": "boeing.com",
+          "method": "normalized_token",
+          "reference": ".openings/company-career-seeds.json"
+        }
+      ],
+      "identityEvidence": [
+        {
+          "companyName": "Boeing",
+          "companyDomain": "boeing.com",
+          "kind": "authoritative_dataset",
+          "reference": ".openings/company-career-seeds.json",
+          "observedAt": "2026-08-19T17:50:37.805Z"
+        }
+      ],
+      "attempts": [
+        {
+          "attemptedAt": "2026-08-19T17:50:44.734Z",
+          "outcome": "permanent_failure",
+          "category": "duplicate_slug",
+          "detail": "Catalog slug boeing belongs to a different verified company",
+          "evidenceRank": 1
+        }
+      ]
     },
     {
       "sourceKey": "workday:boeing.wd1.myworkdayjobs.com/boeing/robots.txt",
@@ -30284,9 +30741,32 @@
           "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
         }
       ],
-      "companyMatches": [],
-      "identityEvidence": [],
-      "attempts": []
+      "companyMatches": [
+        {
+          "companyName": "Boeing",
+          "companyDomain": "boeing.com",
+          "method": "normalized_token",
+          "reference": ".openings/company-career-seeds.json"
+        }
+      ],
+      "identityEvidence": [
+        {
+          "companyName": "Boeing",
+          "companyDomain": "boeing.com",
+          "kind": "authoritative_dataset",
+          "reference": ".openings/company-career-seeds.json",
+          "observedAt": "2026-08-19T17:50:37.805Z"
+        }
+      ],
+      "attempts": [
+        {
+          "attemptedAt": "2026-08-19T17:50:44.734Z",
+          "outcome": "permanent_failure",
+          "category": "duplicate_slug",
+          "detail": "Catalog slug boeing belongs to a different verified company",
+          "evidenceRank": 1
+        }
+      ]
     },
     {
       "sourceKey": "workday:boeing.wd1.myworkdayjobs.com/boeing/usbln",
@@ -30299,9 +30779,32 @@
           "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
         }
       ],
-      "companyMatches": [],
-      "identityEvidence": [],
-      "attempts": []
+      "companyMatches": [
+        {
+          "companyName": "Boeing",
+          "companyDomain": "boeing.com",
+          "method": "normalized_token",
+          "reference": ".openings/company-career-seeds.json"
+        }
+      ],
+      "identityEvidence": [
+        {
+          "companyName": "Boeing",
+          "companyDomain": "boeing.com",
+          "kind": "authoritative_dataset",
+          "reference": ".openings/company-career-seeds.json",
+          "observedAt": "2026-08-19T17:50:37.805Z"
+        }
+      ],
+      "attempts": [
+        {
+          "attemptedAt": "2026-08-19T17:50:44.734Z",
+          "outcome": "permanent_failure",
+          "category": "duplicate_slug",
+          "detail": "Catalog slug boeing belongs to a different verified company",
+          "evidenceRank": 1
+        }
+      ]
     },
     {
       "sourceKey": "workday:bostondynamics.wd1.myworkdayjobs.com/bostondynamics/boston_dynamics",
@@ -30761,11 +31264,33 @@
           "companyName": "Cadence",
           "companyDomain": "cadence.com",
           "method": "normalized_token",
+          "reference": ".openings/company-career-seeds.json"
+        },
+        {
+          "companyName": "Cadence",
+          "companyDomain": "cadence.com",
+          "method": "normalized_token",
           "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
         }
       ],
-      "identityEvidence": [],
-      "attempts": []
+      "identityEvidence": [
+        {
+          "companyName": "Cadence",
+          "companyDomain": "cadence.com",
+          "kind": "authoritative_dataset",
+          "reference": ".openings/company-career-seeds.json",
+          "observedAt": "2026-08-19T17:50:37.805Z"
+        }
+      ],
+      "attempts": [
+        {
+          "attemptedAt": "2026-08-19T17:50:44.734Z",
+          "outcome": "permanent_failure",
+          "category": "duplicate_slug",
+          "detail": "Catalog slug cadence belongs to a different verified company",
+          "evidenceRank": 1
+        }
+      ]
     },
     {
       "sourceKey": "workday:cadence.wd1.myworkdayjobs.com/cadence/robots.txt",
@@ -30793,9 +31318,32 @@
           "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
         }
       ],
-      "companyMatches": [],
-      "identityEvidence": [],
-      "attempts": []
+      "companyMatches": [
+        {
+          "companyName": "Cadence",
+          "companyDomain": "cadence.com",
+          "method": "normalized_token",
+          "reference": ".openings/company-career-seeds.json"
+        }
+      ],
+      "identityEvidence": [
+        {
+          "companyName": "Cadence",
+          "companyDomain": "cadence.com",
+          "kind": "authoritative_dataset",
+          "reference": ".openings/company-career-seeds.json",
+          "observedAt": "2026-08-19T17:50:37.805Z"
+        }
+      ],
+      "attempts": [
+        {
+          "attemptedAt": "2026-08-19T17:50:44.734Z",
+          "outcome": "permanent_failure",
+          "category": "duplicate_slug",
+          "detail": "Catalog slug cadence belongs to a different verified company",
+          "evidenceRank": 1
+        }
+      ]
     },
     {
       "sourceKey": "workday:calix.wd1.myworkdayjobs.com/calix/external",
@@ -32778,6 +33326,12 @@
           "companyName": "Dell",
           "companyDomain": "dell.com",
           "method": "normalized_token",
+          "reference": ".openings/company-career-seeds.json"
+        },
+        {
+          "companyName": "Dell",
+          "companyDomain": "dell.com",
+          "method": "normalized_token",
           "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
         },
         {
@@ -32787,8 +33341,31 @@
           "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
         }
       ],
-      "identityEvidence": [],
-      "attempts": []
+      "identityEvidence": [
+        {
+          "companyName": "Dell",
+          "companyDomain": "dell.com",
+          "kind": "authoritative_dataset",
+          "reference": ".openings/company-career-seeds.json",
+          "observedAt": "2026-08-19T17:50:37.805Z"
+        }
+      ],
+      "attempts": [
+        {
+          "attemptedAt": "2026-08-19T17:50:44.734Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "Unable to connect. Is the computer able to access the url?",
+          "nextEligibleAt": "2026-08-19T17:51:44.734Z"
+        },
+        {
+          "attemptedAt": "2026-08-19T17:52:37.505Z",
+          "outcome": "permanent_failure",
+          "category": "empty_board",
+          "detail": "Source has no jobs, so identity cannot be verified",
+          "evidenceRank": 1
+        }
+      ]
     },
     {
       "sourceKey": "workday:dell.wd1.myworkdayjobs.com/dell/externalnonpublic",
@@ -32801,9 +33378,39 @@
           "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
         }
       ],
-      "companyMatches": [],
-      "identityEvidence": [],
-      "attempts": []
+      "companyMatches": [
+        {
+          "companyName": "Dell",
+          "companyDomain": "dell.com",
+          "method": "normalized_token",
+          "reference": ".openings/company-career-seeds.json"
+        }
+      ],
+      "identityEvidence": [
+        {
+          "companyName": "Dell",
+          "companyDomain": "dell.com",
+          "kind": "authoritative_dataset",
+          "reference": ".openings/company-career-seeds.json",
+          "observedAt": "2026-08-19T17:50:37.805Z"
+        }
+      ],
+      "attempts": [
+        {
+          "attemptedAt": "2026-08-19T17:50:44.734Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "Was there a typo in the url or port?",
+          "nextEligibleAt": "2026-08-19T17:51:44.734Z"
+        },
+        {
+          "attemptedAt": "2026-08-19T17:52:37.505Z",
+          "outcome": "permanent_failure",
+          "category": "empty_board",
+          "detail": "Source has no jobs, so identity cannot be verified",
+          "evidenceRank": 1
+        }
+      ]
     },
     {
       "sourceKey": "workday:dell.wd1.myworkdayjobs.com/dell/robots.txt",
@@ -35157,6 +35764,12 @@
           "companyName": "Fractal",
           "companyDomain": "fractal.ai",
           "method": "normalized_token",
+          "reference": ".openings/company-career-seeds.json"
+        },
+        {
+          "companyName": "Fractal",
+          "companyDomain": "fractal.ai",
+          "method": "normalized_token",
           "reference": "https://fractal.ai/job-openings/"
         },
         {
@@ -35167,6 +35780,13 @@
         }
       ],
       "identityEvidence": [
+        {
+          "companyName": "Fractal",
+          "companyDomain": "fractal.ai",
+          "kind": "authoritative_dataset",
+          "reference": ".openings/company-career-seeds.json",
+          "observedAt": "2026-08-19T17:50:37.805Z"
+        },
         {
           "companyName": "Fractal",
           "companyDomain": "fractal.ai",
@@ -35201,9 +35821,13 @@
         {
           "attemptedAt": "2026-08-11T16:35:04.874Z",
           "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-08-19T17:52:01.941Z",
+          "outcome": "success"
         }
       ],
-      "promotedAt": "2026-08-11T16:35:04.874Z"
+      "promotedAt": "2026-08-19T17:52:01.941Z"
     },
     {
       "sourceKey": "workday:fractal.wd1.myworkdayjobs.com/fractal/robots.txt",
@@ -35971,10 +36595,23 @@
           "companyName": "ThoughtSpot",
           "companyDomain": "thoughtspot.com",
           "method": "normalized_token",
+          "reference": ".openings/company-career-seeds.json"
+        },
+        {
+          "companyName": "ThoughtSpot",
+          "companyDomain": "thoughtspot.com",
+          "method": "normalized_token",
           "reference": "https://www.thoughtspot.com/careers-listing"
         }
       ],
       "identityEvidence": [
+        {
+          "companyName": "ThoughtSpot",
+          "companyDomain": "thoughtspot.com",
+          "kind": "authoritative_dataset",
+          "reference": ".openings/company-career-seeds.json",
+          "observedAt": "2026-08-19T17:50:37.805Z"
+        },
         {
           "companyName": "ThoughtSpot",
           "companyDomain": "thoughtspot.com",

@@ -51,9 +51,27 @@ The exploration workflow should:
 
 Completed in the existing `recommend_jobs` MCP workflow. The matcher now derives bounded role-family aliases from explicit intent or validated resume inference, gives alias matches relevance credit, and returns direct, hidden, and stretch buckets. Hidden matches carry the exact alias, family, derivation source, and supporting resume fact IDs. The workflow still performs no source discovery and preserves its one-crawl/one-rematch ceiling.
 
+## 6. Resume bounded source discovery — completed first round
+
+Direction confirmed 2026-08-19: grow the verified job database further. This stays scoped to the existing job-seeker-facing product — deeper/broader `recommend_jobs` and `search_jobs` coverage, not a recruiter-sourcing feature. No accounts, billing, or gating design is in scope yet; that's a separate, later decision and must not be designed into the data or matching layer preemptively (PRD still excludes "recruiters sourcing candidates" as an audience — this expansion doesn't change that).
+
+Two concrete, bounded next steps, informed by the yield diagnostic:
+
+1. **Persist the cleaned Workday/Greenhouse enrichment result.** The earlier simulation dropped from 28 noisy candidates to 17 structurally valid ones once the `robots.txt`-as-board bug was fixed in `89423ac`. Re-run `sources enrich` against the same datasets now that the CXS-shape validation is live, persist the result, and run `sources verify` on the output.
+2. **Unlock the Ashby backlog (1,198 leads, the single largest blocked group).** These are stuck because Ashby requires provider-structured identity or a replayed company-owned redirect — enrichment alone can't give them evidence. Local seed files already exist from prior work (`.openings/company-domains.json`, `.openings/lever-ashby-seeds.json`) — reuse them for `sources trace-careers` rather than regenerating. Measure yield before deciding whether a fresh Common Crawl discovery pass (last run 2026-08-11) is worth it.
+
+After either step, re-run `coverage report --country IN` to measure the actual delta before deciding on a next round.
+
+First bounded round completed 2026-08-19:
+
+- The deterministic projection of 455 company-owned career-page identities matched 17 structurally valid Greenhouse/Workday candidates. Independent verification admitted Affinidi, Athena Health, and BlackRock for India; duplicate alternate boards, empty boards, stale endpoints, and feeds without India jobs were rejected or deferred with explicit outcomes.
+- The targeted Flex/PostHog trace produced no redirect evidence. The 218-seed isolated trace against the existing Common Crawl report produced one verification-ready Ashby source, Bolna AI, which passed independent India verification. Yield was 1/218, so a fresh Common Crawl campaign is not justified yet.
+- The four new sources crawled successfully. Fixed-reference coverage moved from 75 to 79 verified sources, 74 to 78 catalog-backed indexed sources, 48,234 to 48,539 indexed jobs, 6,106 to 6,177 India-eligible jobs, and 71 to 75 distinct eligible employer domains.
+- Ashby's remaining raw-token backlog stays parked: company-owned redirect evidence, not another token-discovery pass, remains the bottleneck.
+
 ## Revised execution order
 
-1. Resume bounded source discovery based on measured provider/employer/eligibility gaps.
+1. Resume bounded source discovery based on measured provider/employer/eligibility gaps (see §6 above).
 2. Research optional transport adapters such as Bright Data or Oxylabs behind the fetch boundary; do not make proxy rotation a correctness dependency.
 3. Revisit native PDF/DOCX extraction only when host-side extraction has documented failures.
 

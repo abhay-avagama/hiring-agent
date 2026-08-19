@@ -72,6 +72,33 @@
       "canonicalSourceUrl": "https://adtran.wd3.myworkdayjobs.com/en-US/ADTRAN"
     }
   },
+  "affinidi": {
+    "name": "Affinidi",
+    "ats": "greenhouse",
+    "token": "affinidi",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "affinidi.com",
+    "sourceUrl": "https://job-boards.greenhouse.io/affinidi",
+    "discoveredFrom": {
+      "channel": "dataset",
+      "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+    },
+    "domainEvidence": {
+      "kind": "authoritative_dataset",
+      "reference": ".openings/company-career-seeds.json"
+    },
+    "verification": {
+      "observedCompanyName": "Affinidi",
+      "identityEvidence": "provider_company_name",
+      "contentType": "application/json",
+      "payloadVersion": "greenhouse-job-board:v1",
+      "jobCount": 9,
+      "checkedAt": "2026-08-19T17:58:43.799Z",
+      "canonicalSourceUrl": "https://job-boards.greenhouse.io/affinidi"
+    }
+  },
   "agilent": {
     "name": "Agilent",
     "ats": "workday",
@@ -179,8 +206,8 @@
       "identityEvidence": "provider_company_name",
       "contentType": "application/json",
       "payloadVersion": "greenhouse-job-board:v1",
-      "jobCount": 397,
-      "checkedAt": "2026-08-11T16:31:45.294Z",
+      "jobCount": 475,
+      "checkedAt": "2026-08-19T17:51:19.265Z",
       "canonicalSourceUrl": "https://job-boards.greenhouse.io/anthropic"
     }
   },
@@ -205,6 +232,33 @@
       "jobCount": 130,
       "checkedAt": "2026-08-11T16:32:20.654Z",
       "canonicalSourceUrl": "https://assurant.wd1.myworkdayjobs.com/en-US/Assurant_Careers"
+    }
+  },
+  "athenahealth": {
+    "name": "Athena Health",
+    "ats": "workday",
+    "token": "athenahealth.wd1.myworkdayjobs.com/athenahealth/external",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "athenahealth.com",
+    "sourceUrl": "https://athenahealth.wd1.myworkdayjobs.com/en-US/external",
+    "discoveredFrom": {
+      "channel": "dataset",
+      "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+    },
+    "domainEvidence": {
+      "kind": "authoritative_dataset",
+      "reference": ".openings/company-career-seeds.json"
+    },
+    "verification": {
+      "observedCompanyName": "athenahealth",
+      "identityEvidence": "provider_tenant",
+      "contentType": "application/json",
+      "payloadVersion": "workday-cxs:v1",
+      "jobCount": 55,
+      "checkedAt": "2026-08-19T17:58:44.751Z",
+      "canonicalSourceUrl": "https://athenahealth.wd1.myworkdayjobs.com/en-US/external"
     }
   },
   "autodesk": {
@@ -276,6 +330,33 @@
       "canonicalSourceUrl": "https://blackbaud.wd1.myworkdayjobs.com/en-US/ExternalCareers"
     }
   },
+  "blackrock": {
+    "name": "Blackrock",
+    "ats": "workday",
+    "token": "blackrock.wd1.myworkdayjobs.com/blackrock/blackrock_professional",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "blackrock.com",
+    "sourceUrl": "https://blackrock.wd1.myworkdayjobs.com/en-US/blackrock_professional",
+    "discoveredFrom": {
+      "channel": "dataset",
+      "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+    },
+    "domainEvidence": {
+      "kind": "authoritative_dataset",
+      "reference": ".openings/company-career-seeds.json"
+    },
+    "verification": {
+      "observedCompanyName": "blackrock",
+      "identityEvidence": "provider_tenant",
+      "contentType": "application/json",
+      "payloadVersion": "workday-cxs:v1",
+      "jobCount": 300,
+      "checkedAt": "2026-08-19T17:58:44.458Z",
+      "canonicalSourceUrl": "https://blackrock.wd1.myworkdayjobs.com/en-US/blackrock_professional"
+    }
+  },
   "boeing": {
     "name": "Boeing",
     "ats": "workday",
@@ -294,9 +375,36 @@
       "identityEvidence": "provider_tenant",
       "contentType": "application/json",
       "payloadVersion": "workday-cxs:v1",
-      "jobCount": 713,
-      "checkedAt": "2026-08-11T14:50:46.867Z",
+      "jobCount": 730,
+      "checkedAt": "2026-08-19T17:50:58.634Z",
       "canonicalSourceUrl": "https://boeing.wd1.myworkdayjobs.com/en-US/EXTERNAL_CAREERS"
+    }
+  },
+  "bolna": {
+    "name": "Bolna AI",
+    "ats": "ashby",
+    "token": "bolna",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "bolna.ai",
+    "sourceUrl": "https://jobs.ashbyhq.com/bolna",
+    "discoveredFrom": {
+      "channel": "career_page",
+      "reference": "https://bolna.ai/careers"
+    },
+    "domainEvidence": {
+      "kind": "company_redirect",
+      "reference": "https://bolna.ai/careers"
+    },
+    "verification": {
+      "observedCompanyName": "Bolna AI",
+      "identityEvidence": "company_redirect",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "ashby-job-board:1",
+      "jobCount": 8,
+      "checkedAt": "2026-08-19T17:56:59.066Z",
+      "canonicalSourceUrl": "https://jobs.ashbyhq.com/bolna"
     }
   },
   "britive": {
@@ -317,8 +425,8 @@
       "identityEvidence": "provider_company_name",
       "contentType": "application/json",
       "payloadVersion": "greenhouse-job-board:v1",
-      "jobCount": 14,
-      "checkedAt": "2026-08-11T16:31:44.189Z",
+      "jobCount": 15,
+      "checkedAt": "2026-08-19T17:50:58.410Z",
       "canonicalSourceUrl": "https://job-boards.greenhouse.io/britive"
     }
   },
@@ -409,8 +517,8 @@
       "identityEvidence": "provider_tenant",
       "contentType": "application/json",
       "payloadVersion": "workday-cxs:v1",
-      "jobCount": 1121,
-      "checkedAt": "2026-08-11T16:31:45.202Z",
+      "jobCount": 1204,
+      "checkedAt": "2026-08-19T17:51:32.096Z",
       "canonicalSourceUrl": "https://cisco.wd5.myworkdayjobs.com/en-US/Cisco_Careers"
     }
   },
@@ -617,7 +725,7 @@
       "contentType": "application/json",
       "payloadVersion": "greenhouse-job-board:v1",
       "jobCount": 15,
-      "checkedAt": "2026-08-11T16:31:44.418Z",
+      "checkedAt": "2026-08-19T17:50:59.704Z",
       "canonicalSourceUrl": "https://job-boards.greenhouse.io/forwardnetworks"
     }
   },
@@ -643,8 +751,8 @@
       "identityEvidence": "provider_tenant",
       "contentType": "application/json",
       "payloadVersion": "workday-cxs:v1",
-      "jobCount": 136,
-      "checkedAt": "2026-08-11T16:31:45.249Z",
+      "jobCount": 135,
+      "checkedAt": "2026-08-19T17:51:43.389Z",
       "canonicalSourceUrl": "https://fractal.wd1.myworkdayjobs.com/en-US/Careers"
     }
   },
@@ -689,8 +797,8 @@
       "identityEvidence": "provider_company_name",
       "contentType": "application/json",
       "payloadVersion": "greenhouse-job-board:v1",
-      "jobCount": 215,
-      "checkedAt": "2026-08-11T16:31:45.278Z",
+      "jobCount": 209,
+      "checkedAt": "2026-08-19T17:51:02.157Z",
       "canonicalSourceUrl": "https://job-boards.greenhouse.io/graphcore"
     }
   },
@@ -901,7 +1009,7 @@
       "contentType": "application/json",
       "payloadVersion": "greenhouse-job-board:v1",
       "jobCount": 78,
-      "checkedAt": "2026-08-11T16:31:48.425Z",
+      "checkedAt": "2026-08-19T17:51:30.918Z",
       "canonicalSourceUrl": "https://job-boards.greenhouse.io/knowbe4"
     }
   },
@@ -923,8 +1031,8 @@
       "identityEvidence": "provider_tenant",
       "contentType": "application/json",
       "payloadVersion": "workday-cxs:v1",
-      "jobCount": 1043,
-      "checkedAt": "2026-08-11T16:31:48.425Z",
+      "jobCount": 1080,
+      "checkedAt": "2026-08-19T17:51:46.136Z",
       "canonicalSourceUrl": "https://kyndryl.wd5.myworkdayjobs.com/en-US/KyndrylProfessionalCareers"
     }
   },
@@ -992,8 +1100,8 @@
       "identityEvidence": "provider_tenant",
       "contentType": "application/json",
       "payloadVersion": "workday-cxs:v1",
-      "jobCount": 1115,
-      "checkedAt": "2026-08-11T16:24:24.141Z",
+      "jobCount": 1132,
+      "checkedAt": "2026-08-19T17:51:14.040Z",
       "canonicalSourceUrl": "https://mastercard.wd1.myworkdayjobs.com/en-US/CorporateCareers"
     }
   },
@@ -1038,8 +1146,8 @@
       "identityEvidence": "provider_tenant",
       "contentType": "application/json",
       "payloadVersion": "workday-cxs:v1",
-      "jobCount": 2704,
-      "checkedAt": "2026-08-11T15:21:20.613Z",
+      "jobCount": 2733,
+      "checkedAt": "2026-08-19T17:50:58.970Z",
       "canonicalSourceUrl": "https://micron.wd1.myworkdayjobs.com/en-US/External"
     }
   },
@@ -1065,8 +1173,8 @@
       "identityEvidence": "company_redirect",
       "contentType": "application/json; charset=utf-8",
       "payloadVersion": "lever-postings:v0",
-      "jobCount": 25,
-      "checkedAt": "2026-08-11T16:31:49.977Z",
+      "jobCount": 22,
+      "checkedAt": "2026-08-19T17:50:59.855Z",
       "canonicalSourceUrl": "https://jobs.lever.co/mindtickle"
     }
   },
@@ -1180,8 +1288,8 @@
       "identityEvidence": "provider_company_name",
       "contentType": "application/json",
       "payloadVersion": "greenhouse-job-board:v1",
-      "jobCount": 90,
-      "checkedAt": "2026-08-11T16:31:49.997Z",
+      "jobCount": 83,
+      "checkedAt": "2026-08-19T17:51:32.862Z",
       "canonicalSourceUrl": "https://job-boards.greenhouse.io/onetrust"
     }
   },
