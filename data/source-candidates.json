@@ -902,5 +902,69 @@
       "channel": "search",
       "reference": "public Workday India job result"
     }
+  },
+  {
+    "companyName": "blackberry",
+    "companyDomain": "bb.wd3.myworkdayjobs.com",
+    "sourceUrl": "https://bb.wd3.myworkdayjobs.com/en-US/BlackBerry",
+    "cohorts": [
+      "IN"
+    ],
+    "discoveredFrom": {
+      "channel": "career_page",
+      "reference": "https://bb.wd3.myworkdayjobs.com/BlackBerry/jobs"
+    },
+    "domainEvidence": {
+      "kind": "company_redirect",
+      "reference": "https://bb.wd3.myworkdayjobs.com/BlackBerry/jobs"
+    }
+  },
+  {
+    "companyName": "Fractal",
+    "companyDomain": "fractal.ai",
+    "sourceUrl": "https://fractal.wd1.myworkdayjobs.com/en-US/Careers",
+    "cohorts": [
+      "IN"
+    ],
+    "discoveredFrom": {
+      "channel": "career_page",
+      "reference": "https://fractal.ai/job-openings/"
+    },
+    "domainEvidence": {
+      "kind": "company_redirect",
+      "reference": "https://fractal.ai/job-openings/"
+    }
+  },
+  {
+    "companyName": "MindTickle",
+    "companyDomain": "mindtickle.com",
+    "sourceUrl": "https://jobs.lever.co/mindtickle",
+    "cohorts": [
+      "IN"
+    ],
+    "discoveredFrom": {
+      "channel": "career_page",
+      "reference": "https://www.mindtickle.com/careers/"
+    },
+    "domainEvidence": {
+      "kind": "company_redirect",
+      "reference": "https://www.mindtickle.com/careers/"
+    }
+  },
+  {
+    "companyName": "ThoughtSpot",
+    "companyDomain": "thoughtspot.com",
+    "sourceUrl": "https://thoughtspot.wd5.myworkdayjobs.com/en-US/careers",
+    "cohorts": [
+      "IN"
+    ],
+    "discoveredFrom": {
+      "channel": "career_page",
+      "reference": "https://www.thoughtspot.com/careers-listing"
+    },
+    "domainEvidence": {
+      "kind": "company_redirect",
+      "reference": "https://www.thoughtspot.com/careers-listing"
+    }
   }
 ]
