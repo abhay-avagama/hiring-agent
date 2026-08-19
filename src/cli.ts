@@ -10,12 +10,14 @@ import { generateYcCompanySeeds } from "./company-seeds.ts";
 import { exportSnapshot } from "./snapshot-export.ts";
 import { enrichSourcesFromCompanies } from "./source-enrichment.ts";
 import { forceReleaseFileLock, inspectFileLock } from "./file-lock.ts";
+import { generateCountryCoverageReport } from "./country-coverage.ts";
 
 const HELP = `Openings — search public company job boards
 
 Usage:
   openings crawl [--country CODE | --companies FILE] [--concurrency N] [--source-cache-hours N] [--source-limit N] [--delay-ms N] [--workday-page-delay-ms N] [--data-dir PATH]
   openings snapshot export [--input FILE] [--output-dir PATH]
+  openings coverage report --country CODE [--snapshot FILE] [--catalog FILE] [--candidates FILE] [--registry FILE] [--output FILE] [--as-of ISO]
   openings sources verify CANDIDATES.json [--output FILE] [--state-file FILE] [--concurrency N] [--workday-concurrency N] [--limit N] [--require-country CODE] [--registry FILE] [--retry-deferred]
   openings sources discover FEED.json [--country CODE] [--registry FILE] [--output FILE] [--catalog FILE] [--report FILE]
   openings sources discover-yc --country CODE [--registry FILE] [--output FILE] [--catalog FILE] [--report FILE]
@@ -76,6 +78,14 @@ export async function run(args: string[]): Promise<number> {
     const parsed = parseSnapshotExport(rest.slice(1));
     if (typeof parsed === "string") return fail(parsed);
     console.log(JSON.stringify(await exportSnapshot(parsed.input, parsed.outputDir), null, 2));
+    return 0;
+  }
+
+  if (command === "coverage") {
+    if (rest[0] !== "report") return fail("coverage requires the `report` subcommand");
+    const parsed = parseCoverageReport(rest.slice(1));
+    if (typeof parsed === "string") return fail(parsed);
+    console.log(JSON.stringify(await generateCountryCoverageReport(parsed, { country: parsed.country, asOf: parsed.asOf }), null, 2));
     return 0;
   }
 
@@ -184,6 +194,36 @@ function parseSnapshotExport(args: string[]) {
     else return `Unknown option: ${arg}`;
   }
   return { input, outputDir };
+}
+
+function parseCoverageReport(args: string[]) {
+  let country: string | undefined;
+  let snapshot = ".openings/snapshot.json";
+  let catalog = "data/companies.json";
+  let candidates = "data/source-candidates.json";
+  let registry = "data/enrichment-leads.json";
+  let output: string | undefined;
+  let asOf: Date | undefined;
+  for (let index = 0; index < args.length; index += 1) {
+    const arg = args[index];
+    if (arg === "--country") { country = parseCountry(args[++index]); if (!country) return "--country requires a two-letter country code"; }
+    else if (["--snapshot", "--catalog", "--candidates", "--registry", "--output"].includes(arg ?? "")) {
+      const value = args[++index];
+      if (!value) return `${arg} requires a file`;
+      if (arg === "--snapshot") snapshot = value;
+      else if (arg === "--catalog") catalog = value;
+      else if (arg === "--candidates") candidates = value;
+      else if (arg === "--registry") registry = value;
+      else output = value;
+    } else if (arg === "--as-of") {
+      const value = args[++index];
+      const parsed = value ? new Date(value) : undefined;
+      if (!parsed || !Number.isFinite(parsed.getTime()) || parsed.toISOString() !== value) return "--as-of requires a canonical ISO timestamp";
+      asOf = parsed;
+    } else return `Unknown option: ${arg}`;
+  }
+  if (!country) return "coverage report requires --country CODE";
+  return { country, snapshot, catalog, candidates, registry, output: output ?? `.openings/country-coverage-${country.toLowerCase()}.json`, asOf };
 }
 
 function parseCareerTracing(args: string[]) {

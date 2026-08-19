@@ -8,6 +8,7 @@ test("CLI documents its read-only commands", async () => {
   expect(output).toContain("get");
   expect(output).toContain("crawl");
   expect(output).toContain("snapshot export");
+  expect(output).toContain("coverage report");
   expect(output).toContain("sources verify");
   expect(output).toContain("sources discover");
   expect(output).toContain("sources discover-yc");
@@ -21,6 +22,20 @@ test("CLI documents its read-only commands", async () => {
   expect(output).toContain("--offline");
   expect(output).toContain("--india");
   expect(output).not.toContain("apply");
+});
+
+test("CLI rejects invalid coverage controls before reading report inputs", async () => {
+  const missingCountry = Bun.spawn(["bun", "run", "src/cli.ts", "coverage", "report"], { stdout: "pipe", stderr: "pipe" });
+  expect(await missingCountry.exited).toBe(1);
+  expect(await new Response(missingCountry.stderr).text()).toContain("coverage report requires --country CODE");
+
+  const invalidTime = Bun.spawn(["bun", "run", "src/cli.ts", "coverage", "report", "--country", "IN", "--as-of", "invalid"], { stdout: "pipe", stderr: "pipe" });
+  expect(await invalidTime.exited).toBe(1);
+  expect(await new Response(invalidTime.stderr).text()).toContain("--as-of requires a canonical ISO timestamp");
+
+  const ambiguousTime = Bun.spawn(["bun", "run", "src/cli.ts", "coverage", "report", "--country", "IN", "--as-of", "2026-08-19"], { stdout: "pipe", stderr: "pipe" });
+  expect(await ambiguousTime.exited).toBe(1);
+  expect(await new Response(ambiguousTime.stderr).text()).toContain("--as-of requires a canonical ISO timestamp");
 });
 
 test("CLI rejects an invalid crawl delay before starting network work", async () => {

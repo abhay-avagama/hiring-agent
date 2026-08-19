@@ -291,10 +291,11 @@ Shipped v1 core:
 
 Next delivery sequence:
 
-1. Deterministic country-coverage measurement.
-2. Candidate-driven hidden-job exploration that reuses the existing evidence matcher.
-3. Bounded source expansion based on measured coverage gaps.
-4. Native local PDF/DOCX extraction only if host-side extraction proves insufficient.
+1. Candidate-driven hidden-job exploration that reuses the existing evidence matcher.
+2. Bounded source expansion based on measured coverage gaps.
+3. Native local PDF/DOCX extraction only if host-side extraction proves insufficient.
+
+The deterministic `coverage report --country CODE` maintainer command is shipped. It measures global verified/indexed totals, country-cohort discovery provenance, job-level country eligibility, eligible employers, latest rotation-batch success, provider and eligibility-confidence distributions, discovery yield, and actionable partition freshness without network access.
 
 The first tracer bullet is complete when a user supplies a Markdown resume plus India/backend intent and receives five explained matches from an existing offline snapshot through one MCP call.
 

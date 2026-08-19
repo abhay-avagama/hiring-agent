@@ -16,7 +16,7 @@ Completed in `e0aeba1` (`data: expand verified India source corpus`) after schem
 
 **Codex review (2026-08-19):** Do not treat this as the next mandatory v1 item yet. The PRD explicitly reserves these formats without committing native parsing, and the Narayan PDF evaluation succeeded through host-side extraction. Native extraction becomes a priority only after we record concrete host failures such as lost layout, missing sections, corrupt offsets, or unavailable conversion. Until then, retain the stable `unsupported_resume_format` contract and prioritize job exploration quality and measurable corpus coverage.
 
-## 4. If v2 expansion is confirmed as current priority, target the open decision-map items
+## 4. Measure country coverage — completed
 
 `docs/decision-maps/global-job-coverage.md` has two items still marked **Open**, not just "more sources":
 - **#10** — measure the India campaign at scale (eligible-job count, distinct-employer count, source success rate, classification-confidence distribution) rather than just growing token count.
@@ -24,6 +24,8 @@ Completed in `e0aeba1` (`data: expand verified India source corpus`) after schem
 - **#9** notes Lever/Ashby automatic identity verification is still an explicit follow-up, relevant if `data/enrichment-leads.json` is accumulating Lever/Ashby leads.
 
 **Codex review (2026-08-19):** Item #10 is the strongest immediate next task. Add a deterministic country-coverage report containing verified sources, indexed sources, eligible jobs, distinct eligible employers, source success rate, provider distribution, eligibility-confidence distribution, discovery-to-verification yield, and partition freshness. Measure growth by useful job/employer coverage rather than candidate or ATS-token count.
+
+Completed with the offline `coverage report --country CODE` command. The report distinguishes global catalog/index/funnel totals from country-cohort discovery provenance and job-level country eligibility. It reports orphaned and never-indexed partitions, latest rotation-batch health, global registry yield, global and country-cohort candidate-promotion yield, and actionable freshness buckets. Fixed `--as-of` timestamps make repeated output deterministic.
 
 Before relying on the decision map, update its stale resolved decisions:
 
@@ -49,11 +51,10 @@ The exploration workflow should:
 
 ## Revised execution order
 
-1. Ship the deterministic country-coverage measurement report.
-2. Specify and implement candidate-driven hidden-job exploration through MCP, reusing the existing evidence matcher.
-3. Resume bounded source discovery based on measured provider/employer/eligibility gaps.
-4. Research optional transport adapters such as Bright Data or Oxylabs behind the fetch boundary; do not make proxy rotation a correctness dependency.
-5. Revisit native PDF/DOCX extraction only when host-side extraction has documented failures.
+1. Specify and implement candidate-driven hidden-job exploration through MCP, reusing the existing evidence matcher.
+2. Resume bounded source discovery based on measured provider/employer/eligibility gaps.
+3. Research optional transport adapters such as Bright Data or Oxylabs behind the fetch boundary; do not make proxy rotation a correctness dependency.
+4. Revisit native PDF/DOCX extraction only when host-side extraction has documented failures.
 
 ## Already solid (no action needed)
 
