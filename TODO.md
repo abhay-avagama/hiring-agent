@@ -96,7 +96,7 @@ Round 2 completed 2026-08-20 at the 25-source crawl cap:
 - `skills/openings/SKILL.md` already matches the PRD's target "thin wrapper" shape — delegates to MCP tools, doesn't reproduce parsing/matching.
 - Adversarial resume-parsing coverage (embedded-instruction injection, fabricated facts, evidence-offset tampering) already exists in `test/candidate-profile.test.ts` — matches PRD success criteria #9/#10.
 
-## 8. Round 3 — Lever/Ashby identity evidence — draft for review
+## 8. Round 3 — Lever/Ashby identity evidence — closed after phase 1
 
 Round 3 starts from the fixed `2026-08-20T13:00:00.000Z` baseline: 104 verified sources, 103 India-cohort indexed sources, 50,464 indexed jobs, 6,902 India-eligible jobs, and 100 distinct eligible employers. The indexed provider mix is 63 Workday, 38 Greenhouse, 1 Lever, and 1 Ashby.
 
@@ -119,5 +119,13 @@ Stop immediately when any of these applies:
 - either the provider-diversity target or any declared cap is reached.
 
 If phase 1 fails, close the round as an evidence-research result and keep the 1,198 raw Ashby tokens parked. The next option should be a cooperative company-owned proof such as a documented `.well-known` board declaration, not weaker inference from public prose.
+
+### Phase 1 result (`2026-08-20`)
+
+The read-only capability probe completed against 20 valid public structured feeds: ten Lever boards and ten Ashby boards, including the independently known MindTickle and Bolna controls. Three additional stale Ashby connection attempts returned non-JSON responses and therefore supplied no payload to examine; replacement tokens were used so that the capped inspection set still contained ten valid Ashby feeds. The complete payload scan covered 576 jobs (350 Lever and 226 Ashby), not a per-board sample.
+
+No payload contained a key whose name indicated company, organization, domain, or website metadata. In particular, none exposed `companyUrl`, `companyWebsite`, `organizationUrl`, `organizationWebsite`, or `website`. Phase 1 therefore failed the declared capability gate. No evidence adapter was implemented, no backlog leads were promoted, no candidates were verified, and no source was admitted or crawled. The catalog, candidate registry, enrichment registry, and snapshots were not modified.
+
+Round 3 is closed under its predeclared stop rule. The 1,198 raw Ashby leads remain parked. Further progress requires a new strong ownership mechanism, with a cooperative company-owned `.well-known` board declaration remaining the next design option; weak name, token, DNS, search-result, or public-prose inference remains forbidden.
 
 Data hygiene is separate from round 3 and cannot be counted as campaign progress: inspect and remove the local-only `thomsonreuters` orphan after confirming it has no catalog candidate, and run one explicit targeted crawl for the verified-but-never-indexed `anthropic` source. Record both outcomes independently. Do not perform either action until this draft is approved.
