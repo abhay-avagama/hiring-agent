@@ -1,5 +1,6 @@
 import { validateCandidateProfileEvidence, type CandidateProfile } from "./candidate-profile.ts";
 import { isEligibleForCountry, normalizeLocation } from "./locations.ts";
+import { detectRequirementTerms, findTransferability, matchesExactSkillEvidence, requiresExactSkillEvidence, type TransferabilityKind } from "./requirement-vocabulary.ts";
 import type { Job } from "./types.ts";
 import { evaluateScreeningRequirements, type ScreeningRequirement } from "./screening-requirements.ts";
 
@@ -20,7 +21,7 @@ export interface SupportedRequirement {
   requirement: string;
   factIds: string[];
 }
-export interface TransferableRequirement extends SupportedRequirement { via: "backend_programming" | "frontend_programming" | "data_engineering" | "cloud_infrastructure" }
+export interface TransferableRequirement extends SupportedRequirement { via: TransferabilityKind }
 export type RoleFamily = "backend" | "frontend" | "data" | "infrastructure";
 export interface RoleFamilyExpansion {
   family: RoleFamily;
@@ -263,18 +264,6 @@ function experienceAlignsWithSeniority(years: number, seniority: typeof seniorit
   return years >= (minimums[seniority] ?? 0);
 }
 
-const requirementFamilies = new Map<string, TransferableRequirement["via"]>([
-  ["java", "backend_programming"], ["go", "backend_programming"], ["golang", "backend_programming"], ["python", "backend_programming"], ["ruby", "backend_programming"], ["node.js", "backend_programming"], ["postgresql", "backend_programming"], ["sql", "backend_programming"],
-  ["javascript", "frontend_programming"], ["typescript", "frontend_programming"], ["react", "frontend_programming"], ["vue", "frontend_programming"], ["angular", "frontend_programming"],
-  ["spark", "data_engineering"], ["hadoop", "data_engineering"], ["dbt", "data_engineering"], ["airflow", "data_engineering"], ["snowflake", "data_engineering"],
-  ["aws", "cloud_infrastructure"], ["azure", "cloud_infrastructure"], ["gcp", "cloud_infrastructure"], ["kubernetes", "cloud_infrastructure"], ["docker", "cloud_infrastructure"], ["terraform", "cloud_infrastructure"],
-]);
-
-const materialRequirementTerms = [
-  "financial products", "databricks", "data warehouses", "etl pipelines", "high-volume messaging", "streaming platforms", "transaction processing",
-  "restful services", "microservices", "redis", "mongodb",
-] as const;
-
 function evidencePercent(
   role: { score: number }, roleTargets: string[], seniority: { score: number }, supported: SupportedRequirement[], transferable: TransferableRequirement[], gaps: string[], screening: ScreeningRequirement[],
 ): number {
@@ -295,8 +284,7 @@ function keywordPercent(profile: CandidateProfile, job: Job, screening: Screenin
   const searchable = profile.normalizedResume.text;
   const titleKeywords = (job.title.toLocaleLowerCase().match(/[a-z0-9+#.]+/g) ?? [])
     .filter((token) => token.length > 2 && !keywordStopWords.has(token));
-  const catalogKeywords = [...requirementFamilies.keys(), ...materialRequirementTerms]
-    .filter((term) => includesPhrase(job.description, term) || hyphenatedPhrase(job.description, term));
+  const catalogKeywords = detectRequirementTerms(job.description);
   const screeningKeywords = screening.map((item) => item.requirement);
   const keywords = uniqueTerms([...titleKeywords, ...catalogKeywords, ...screeningKeywords]);
   if (!keywords.length) return 0;
@@ -317,18 +305,8 @@ function detectedRequirements(job: Job): string[] {
     clauses.filter((segment) => positive.test(segment) && !negative.test(segment)).join("\n"),
     requiredSectionText(job.description),
   ].join("\n");
-  return [...requirementFamilies.keys(), ...materialRequirementTerms]
-    .filter((requirement) => [requirement, ...(requirementAliases[requirement] ?? [])]
-      .some((term) => includesPhrase(requirementText, term) || hyphenatedPhrase(requirementText, term)))
-    .map(displayRequirement);
+  return detectRequirementTerms(requirementText);
 }
-
-const requirementAliases: Record<string, string[]> = {
-  "etl pipelines": ["etl pipeline"],
-  "data warehouses": ["data warehouse"],
-  "streaming platforms": ["streaming platform"],
-  "transaction processing": ["transaction-processing"],
-};
 
 function requiredSectionText(value: string): string {
   const lines = structuredJobLines(value);
@@ -405,9 +383,8 @@ function hasExplicitEvidence(profile: CandidateProfile, requirement: string): bo
 }
 
 function explicitEvidence(profile: CandidateProfile, requirement: string): CandidateProfile["facts"] {
-  const structuredSkill = requirementFamilies.has(requirement.toLocaleLowerCase()) || ["databricks", "redis", "mongodb"].includes(requirement.toLocaleLowerCase());
-  return profile.facts.filter((fact) => structuredSkill
-    ? fact.kind === "skill" && equalSkill(fact.value, requirement)
+  return profile.facts.filter((fact) => requiresExactSkillEvidence(requirement)
+    ? fact.kind === "skill" && matchesExactSkillEvidence(requirement, fact.value)
     : fact.kind !== "certification" && includesPhrase(fact.value, requirement));
 }
 
@@ -418,12 +395,11 @@ function inferredRoleTargets(profile: CandidateProfile): string[] {
 }
 
 function transferableRequirements(profile: CandidateProfile, requirements: string[], supported: SupportedRequirement[]): TransferableRequirement[] {
-  const inferences = profile.inferences.filter((inference) => inference.kind === "transferable_skill");
+  const skills = profile.facts.filter((fact) => fact.kind === "skill");
   return requirements.flatMap((requirement) => {
     if (supported.some((item) => equalSkill(item.requirement, requirement))) return [];
-    const family = requirementFamilies.get(requirement.toLocaleLowerCase());
-    const inference = family && inferences.find((candidate) => candidate.value === family);
-    return inference ? [{ requirement, via: inference.value, factIds: inference.derivedFromFactIds }] : [];
+    const match = findTransferability(requirement, skills);
+    return match ? [{ requirement, ...match }] : [];
   });
 }
 
@@ -443,14 +419,6 @@ function uniqueTerms(values: string[]): string[] {
     return true;
   });
 }
-function displayRequirement(requirement: string): string {
-  const names: Record<string, string> = {
-    aws: "AWS", gcp: "GCP", sql: "SQL", dbt: "dbt", "node.js": "Node.js", golang: "Golang", postgresql: "PostgreSQL", javascript: "JavaScript", typescript: "TypeScript",
-    "etl pipelines": "ETL pipelines", "restful services": "RESTful services", mongodb: "MongoDB", databricks: "Databricks",
-  };
-  return names[requirement] ?? `${requirement[0]!.toUpperCase()}${requirement.slice(1)}`;
-}
-
 function includesPhrase(value: string, phrase: string): boolean {
   const normalizedPhrase = phrase.trim().toLocaleLowerCase();
   if (!normalizedPhrase) return false;

@@ -84,7 +84,7 @@ test("multi-token role exclusions do not reject a nearby but distinct role", () 
   expect(result.filteredOut).toEqual([{ jobId: "exclude", reasons: ["role_excluded:backend engineering manager"] }]);
 });
 
-test("transferable evidence stays separate from explicit support and missing skills remain gaps", () => {
+test("unreviewed cross-language similarity earns no transferable credit", () => {
   const profile = parseCandidateProfile({ content: "Skills\nPython", format: "text" });
   const result = matchJobs(profile, { roles: ["backend engineer"] }, [
     job({ id: "java", title: "Backend Engineer", description: "Required: Java and Kubernetes." }),
@@ -92,10 +92,10 @@ test("transferable evidence stays separate from explicit support and missing ski
 
   expect(result.matches[0]).toEqual(expect.objectContaining({
     supported: [],
-    transferable: [{ requirement: "Java", via: "backend_programming", factIds: [profile.facts[0]!.id] }],
-    gaps: ["Kubernetes"],
+    transferable: [],
+    gaps: ["Java", "Kubernetes"],
   }));
-  expect(result.matches[0]!.reasons).toContain("Java has related backend_programming evidence but is not an explicit resume skill");
+  expect(result.matches[0]!.reasons).not.toContain("Java has related backend_programming evidence but is not an explicit resume skill");
 });
 
 test("explicit seniority intent overrides resume inference and skill matching uses whole terms", () => {
@@ -136,6 +136,59 @@ test("only requirement-shaped skill mentions become gaps", () => {
   expect(result.matches[0]!.gaps).toEqual(["AWS"]);
 });
 
+test("newly registered requirements receive exact resume support", () => {
+  const profile = parseCandidateProfile({ content: "Skills\nKafka", format: "text" });
+  const match = matchJobs(profile, {}, [job({ description: "Experience with Kafka is required." })]).matches[0]!;
+
+  expect(match.supported).toEqual([{ requirement: "Kafka", factIds: [profile.facts[0]!.id] }]);
+  expect(match.gaps).toEqual([]);
+});
+
+test("detected technologies receive no transferable credit without an explicit edge", () => {
+  const profile = parseCandidateProfile({ content: "Skills\nJava", format: "text" });
+  const match = matchJobs(profile, {}, [job({ description: "Experience with Kafka is required." })]).matches[0]!;
+
+  expect(match.supported).toEqual([]);
+  expect(match.transferable).toEqual([]);
+  expect(match.gaps).toEqual(["Kafka"]);
+});
+
+test("requirement aliases canonicalize once and accept exact alias evidence", () => {
+  const profile = parseCandidateProfile({ content: "Skills\nLarge language models", format: "text" });
+  const match = matchJobs(profile, {}, [job({ description: "LLM and large language models are required." })]).matches[0]!;
+
+  expect(match.supported).toEqual([{ requirement: "LLM", factIds: [profile.facts[0]!.id] }]);
+  expect(match.gaps).toEqual([]);
+});
+
+test("the first audited low-ambiguity batch is detected through exact evidence", () => {
+  for (const requirement of ["CI/CD", "Linux", "NoSQL", "C++", "Kafka", "LLM", "Machine learning", "Jenkins", "Spring", "Spring Boot"]) {
+    const profile = parseCandidateProfile({ content: `Skills\n${requirement}`, format: "text" });
+    const match = matchJobs(profile, {}, [job({ description: `${requirement} is required.` })]).matches[0]!;
+    expect(match.supported).toEqual([{ requirement, factIds: [profile.facts[0]!.id] }]);
+    expect(match.gaps).toEqual([]);
+  }
+});
+
+test("longer overlapping requirements win without double-counting", () => {
+  const profile = parseCandidateProfile({ content: "Skills\nSpring Boot", format: "text" });
+  const match = matchJobs(profile, {}, [job({ description: "Spring Boot is required." })]).matches[0]!;
+
+  expect(match.supported).toEqual([{ requirement: "Spring Boot", factIds: [profile.facts[0]!.id] }]);
+  expect(match.gaps).toEqual([]);
+});
+
+test("new vocabulary ignores optional and incidental mentions", () => {
+  const profile = parseCandidateProfile({ content: "Skills\nCI/CD, LLM, Machine learning", format: "text" });
+  const match = matchJobs(profile, {}, [job({
+    description: "Our product uses LLM and machine learning. CI/CD is optional. Communication is required.",
+  })]).matches[0]!;
+
+  expect(match.supported).toEqual([]);
+  expect(match.transferable).toEqual([]);
+  expect(match.gaps).toEqual([]);
+});
+
 test("Go evidence does not match lowercase hyphenated prose idioms", () => {
   const profile = parseCandidateProfile({ content: "Skills\nGo", format: "text" });
   for (const description of [
@@ -173,8 +226,8 @@ test("optional and negated skill mentions are neither supported requirements nor
 
   const sharedQualifier = matchJobs(profile, {}, [job({ description: "Java and Python are required and Kubernetes is optional." })]).matches[0]!;
   expect(sharedQualifier.supported.map((item) => item.requirement)).toEqual(["Java"]);
-  expect(sharedQualifier.transferable.map((item) => item.requirement)).toEqual(["Python"]);
-  expect(sharedQualifier.gaps).toEqual([]);
+  expect(sharedQualifier.transferable).toEqual([]);
+  expect(sharedQualifier.gaps).toEqual(["Python"]);
 });
 
 test("required skill intent guides ordering without manufacturing resume support", () => {

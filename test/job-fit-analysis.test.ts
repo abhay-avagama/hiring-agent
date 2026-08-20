@@ -20,15 +20,15 @@ test("selected-job analysis separates explicit evidence, unsupported requirement
   expect(result.assessment).toEqual(expect.objectContaining({ fit: "good", reasons: expect.arrayContaining([expect.objectContaining({ claim: "title matches explicit role intent", jobEvidence: expect.objectContaining({ field: "title" }) })]) }));
 });
 
-test("transferable evidence remains partial and explicit eligibility conflicts force poor fit", async () => {
+test("unreviewed language similarity remains unsupported and explicit eligibility conflicts force poor fit", async () => {
   const job = makeJob({ description: "Java and AWS are required." });
   const analyzer = createJobFitAnalyzer({ getJob: async () => job });
   const result = await analyzer.analyze({
     jobId: job.id, resume: { content: "Skills\nPython", format: "text" }, intent: { countries: ["US"], roles: ["backend engineer"] },
   });
   expect(result.supported).toEqual([]);
-  expect(result.partiallySupported).toEqual([{ requirement: "Java", via: "backend_programming", factIds: [expect.stringContaining("fact_skill_")] }]);
-  expect(result.unsupported).toEqual(["AWS"]);
+  expect(result.partiallySupported).toEqual([]);
+  expect(result.unsupported).toEqual(["Java", "AWS"]);
   expect(result.screeningRisks).toContain("Job is not eligible for requested country: US");
   expect(result.assessment.fit).toBe("poor");
 });
