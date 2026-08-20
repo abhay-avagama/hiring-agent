@@ -1254,5 +1254,524 @@
       "kind": "company_redirect",
       "reference": "https://bolna.ai/careers"
     }
+  },
+  {
+    "companyName": "Capco",
+    "companyDomain": "capco.com",
+    "sourceUrl": "https://job-boards.greenhouse.io/capco",
+    "discoveredFrom": {
+      "channel": "dataset",
+      "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+    },
+    "domainEvidence": {
+      "kind": "authoritative_dataset",
+      "reference": ".openings/round2-authoritative-companies.json"
+    },
+    "cohorts": [
+      "IN"
+    ]
+  },
+  {
+    "companyName": "Conga",
+    "companyDomain": "conga.com",
+    "sourceUrl": "https://job-boards.greenhouse.io/conga",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://conga.com/careers"
+    },
+    "domainEvidence": {
+      "kind": "authoritative_dataset",
+      "reference": ".openings/round2-authoritative-companies.json"
+    },
+    "cohorts": [
+      "IN"
+    ]
+  },
+  {
+    "companyName": "Guidepoint",
+    "companyDomain": "guidepoint.com",
+    "sourceUrl": "https://job-boards.greenhouse.io/guidepoint",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://www.guidepoint.com/company/careers/"
+    },
+    "domainEvidence": {
+      "kind": "authoritative_dataset",
+      "reference": ".openings/round2-authoritative-companies.json"
+    },
+    "cohorts": [
+      "IN"
+    ]
+  },
+  {
+    "companyName": "PhonePe",
+    "companyDomain": "phonepe.com",
+    "sourceUrl": "https://job-boards.greenhouse.io/phonepe",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://www.phonepe.com/careers/"
+    },
+    "domainEvidence": {
+      "kind": "authoritative_dataset",
+      "reference": ".openings/round2-authoritative-companies.json"
+    },
+    "cohorts": [
+      "IN"
+    ]
+  },
+  {
+    "companyName": "SonicWall",
+    "companyDomain": "sonicwall.com",
+    "sourceUrl": "https://job-boards.greenhouse.io/sonicwall",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://www.sonicwall.com/careers"
+    },
+    "domainEvidence": {
+      "kind": "authoritative_dataset",
+      "reference": ".openings/round2-authoritative-companies.json"
+    },
+    "cohorts": [
+      "IN"
+    ]
+  },
+  {
+    "companyName": "Accordion India",
+    "companyDomain": "accordion.com",
+    "sourceUrl": "https://job-boards.greenhouse.io/accordion",
+    "discoveredFrom": {
+      "channel": "dataset",
+      "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+    },
+    "domainEvidence": {
+      "kind": "authoritative_dataset",
+      "reference": ".openings/round2-batch2-companies.json"
+    }
+  },
+  {
+    "companyName": "Accordion India",
+    "companyDomain": "accordion.com",
+    "sourceUrl": "https://job-boards.greenhouse.io/accordionindia",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://www.accordion.com/careers/"
+    },
+    "domainEvidence": {
+      "kind": "authoritative_dataset",
+      "reference": ".openings/round2-batch2-companies.json"
+    },
+    "cohorts": [
+      "IN"
+    ]
+  },
+  {
+    "companyName": "HackerRank",
+    "companyDomain": "hackerrank.com",
+    "sourceUrl": "https://job-boards.greenhouse.io/hackerrank",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://www.hackerrank.com/careers/home"
+    },
+    "domainEvidence": {
+      "kind": "authoritative_dataset",
+      "reference": ".openings/round2-batch2-companies.json"
+    },
+    "cohorts": [
+      "IN"
+    ]
+  },
+  {
+    "companyName": "Hyreo",
+    "companyDomain": "hyreo.com",
+    "sourceUrl": "https://job-boards.greenhouse.io/hyreo",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://hyreo.com/careers/"
+    },
+    "domainEvidence": {
+      "kind": "authoritative_dataset",
+      "reference": ".openings/round2-batch2-companies.json"
+    },
+    "cohorts": [
+      "IN"
+    ]
+  },
+  {
+    "companyName": "Instawork",
+    "companyDomain": "instawork.com",
+    "sourceUrl": "https://job-boards.greenhouse.io/instawork",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://www.instawork.com/careers"
+    },
+    "domainEvidence": {
+      "kind": "authoritative_dataset",
+      "reference": ".openings/round2-batch2-companies.json"
+    },
+    "cohorts": [
+      "IN"
+    ]
+  },
+  {
+    "companyName": "Interview Kickstart",
+    "companyDomain": "interviewkickstart.com",
+    "sourceUrl": "https://job-boards.greenhouse.io/interviewkickstart",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://careers.smartrecruiters.com/InterviewKickstart"
+    },
+    "domainEvidence": {
+      "kind": "authoritative_dataset",
+      "reference": ".openings/round2-batch2-companies.json"
+    },
+    "cohorts": [
+      "IN"
+    ]
+  },
+  {
+    "companyName": "Karya",
+    "companyDomain": "karya.in",
+    "sourceUrl": "https://job-boards.greenhouse.io/karya",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://www.karya.in/join-us/careers/"
+    },
+    "domainEvidence": {
+      "kind": "authoritative_dataset",
+      "reference": ".openings/round2-batch2-companies.json"
+    },
+    "cohorts": [
+      "IN"
+    ]
+  },
+  {
+    "companyName": "project44",
+    "companyDomain": "project44.com",
+    "sourceUrl": "https://job-boards.greenhouse.io/project44",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://www.project44.com/company/careers/"
+    },
+    "domainEvidence": {
+      "kind": "authoritative_dataset",
+      "reference": ".openings/round2-batch2-companies.json"
+    },
+    "cohorts": [
+      "IN"
+    ]
+  },
+  {
+    "companyName": "Zenoti",
+    "companyDomain": "zenoti.com",
+    "sourceUrl": "https://job-boards.greenhouse.io/zenoti",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://www.zenoti.com/company/careers"
+    },
+    "domainEvidence": {
+      "kind": "authoritative_dataset",
+      "reference": ".openings/round2-batch2-companies.json"
+    },
+    "cohorts": [
+      "IN"
+    ]
+  },
+  {
+    "companyName": "AlphaSense India",
+    "companyDomain": "alpha-sense.com",
+    "sourceUrl": "https://job-boards.greenhouse.io/alphasense",
+    "discoveredFrom": {
+      "channel": "dataset",
+      "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+    },
+    "domainEvidence": {
+      "kind": "authoritative_dataset",
+      "reference": ".openings/round2-batch3-companies.json"
+    }
+  },
+  {
+    "companyName": "AlphaSense India",
+    "companyDomain": "alpha-sense.com",
+    "sourceUrl": "https://job-boards.greenhouse.io/alphasenseindia",
+    "discoveredFrom": {
+      "channel": "dataset",
+      "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+    },
+    "domainEvidence": {
+      "kind": "authoritative_dataset",
+      "reference": ".openings/round2-batch3-companies.json"
+    },
+    "cohorts": [
+      "IN"
+    ]
+  },
+  {
+    "companyName": "Blenheim Chalcot India",
+    "companyDomain": "blenheimchalcot.com",
+    "sourceUrl": "https://job-boards.greenhouse.io/blenheimchalcot",
+    "discoveredFrom": {
+      "channel": "dataset",
+      "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+    },
+    "domainEvidence": {
+      "kind": "authoritative_dataset",
+      "reference": ".openings/round2-batch3-companies.json"
+    }
+  },
+  {
+    "companyName": "Blenheim Chalcot India",
+    "companyDomain": "blenheimchalcot.com",
+    "sourceUrl": "https://job-boards.greenhouse.io/blenheimchalcotindia",
+    "discoveredFrom": {
+      "channel": "dataset",
+      "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+    },
+    "domainEvidence": {
+      "kind": "authoritative_dataset",
+      "reference": ".openings/round2-batch3-companies.json"
+    },
+    "cohorts": [
+      "IN"
+    ]
+  },
+  {
+    "companyName": "GitLab",
+    "companyDomain": "gitlab.com",
+    "sourceUrl": "https://job-boards.greenhouse.io/gitlab",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://about.gitlab.com/jobs/"
+    },
+    "domainEvidence": {
+      "kind": "authoritative_dataset",
+      "reference": ".openings/round2-batch3-companies.json"
+    },
+    "cohorts": [
+      "IN"
+    ]
+  },
+  {
+    "companyName": "Graviton Research Capital",
+    "companyDomain": "gravitontrading.com",
+    "sourceUrl": "https://job-boards.greenhouse.io/gravitonresearchcapital",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://www.gravitontrading.com/"
+    },
+    "domainEvidence": {
+      "kind": "authoritative_dataset",
+      "reference": ".openings/round2-batch3-companies.json"
+    },
+    "cohorts": [
+      "IN"
+    ]
+  },
+  {
+    "companyName": "Insurity India",
+    "companyDomain": "insurity.com",
+    "sourceUrl": "https://job-boards.greenhouse.io/insurityindia",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://insurity.com/careers"
+    },
+    "domainEvidence": {
+      "kind": "authoritative_dataset",
+      "reference": ".openings/round2-batch3-companies.json"
+    },
+    "cohorts": [
+      "IN"
+    ]
+  },
+  {
+    "companyName": "Nomiso",
+    "companyDomain": "nomiso.io",
+    "sourceUrl": "https://job-boards.greenhouse.io/nomiso",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://nomiso.io/careers/"
+    },
+    "domainEvidence": {
+      "kind": "authoritative_dataset",
+      "reference": ".openings/round2-batch3-companies.json"
+    },
+    "cohorts": [
+      "IN"
+    ]
+  },
+  {
+    "companyName": "Sauce Labs",
+    "companyDomain": "saucelabs.com",
+    "sourceUrl": "https://job-boards.greenhouse.io/saucelabs",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://saucelabs.com/company/careers"
+    },
+    "domainEvidence": {
+      "kind": "authoritative_dataset",
+      "reference": ".openings/round2-batch3-companies.json"
+    },
+    "cohorts": [
+      "IN"
+    ]
+  },
+  {
+    "companyName": "Zinnia",
+    "companyDomain": "zinnia.com",
+    "sourceUrl": "https://job-boards.greenhouse.io/zinnia",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://zinnia.com/en/careers"
+    },
+    "domainEvidence": {
+      "kind": "authoritative_dataset",
+      "reference": ".openings/round2-batch3-companies.json"
+    },
+    "cohorts": [
+      "IN"
+    ]
+  },
+  {
+    "companyName": "BitGo",
+    "companyDomain": "bitgo.com",
+    "sourceUrl": "https://job-boards.greenhouse.io/bitgo",
+    "discoveredFrom": {
+      "channel": "dataset",
+      "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+    },
+    "domainEvidence": {
+      "kind": "authoritative_dataset",
+      "reference": ".openings/round2-batch4-companies.json"
+    },
+    "cohorts": [
+      "IN"
+    ]
+  },
+  {
+    "companyName": "JazzX AI",
+    "companyDomain": "jazzx.ai",
+    "sourceUrl": "https://job-boards.greenhouse.io/jazzx-ai",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://jazzx.ai/careers/"
+    },
+    "domainEvidence": {
+      "kind": "authoritative_dataset",
+      "reference": ".openings/round2-batch4-companies.json"
+    },
+    "cohorts": [
+      "IN"
+    ]
+  },
+  {
+    "companyName": "New Relic",
+    "companyDomain": "newrelic.com",
+    "sourceUrl": "https://job-boards.greenhouse.io/newrelic",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://newrelic.com/careers"
+    },
+    "domainEvidence": {
+      "kind": "authoritative_dataset",
+      "reference": ".openings/round2-batch4-companies.json"
+    },
+    "cohorts": [
+      "IN"
+    ]
+  },
+  {
+    "companyName": "Sigmoid",
+    "companyDomain": "sigmoid.com",
+    "sourceUrl": "https://job-boards.greenhouse.io/sigmoid",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://www.sigmoid.com/"
+    },
+    "domainEvidence": {
+      "kind": "authoritative_dataset",
+      "reference": ".openings/round2-batch4-companies.json"
+    },
+    "cohorts": [
+      "IN"
+    ]
+  },
+  {
+    "companyName": "Smartsheet",
+    "companyDomain": "smartsheet.com",
+    "sourceUrl": "https://job-boards.greenhouse.io/smartsheet",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://www.smartsheet.com/careers"
+    },
+    "domainEvidence": {
+      "kind": "authoritative_dataset",
+      "reference": ".openings/round2-batch4-companies.json"
+    },
+    "cohorts": [
+      "IN"
+    ]
+  },
+  {
+    "companyName": "Sumo Logic",
+    "companyDomain": "sumologic.com",
+    "sourceUrl": "https://job-boards.greenhouse.io/sumologic",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://www.sumologic.com/company/careers"
+    },
+    "domainEvidence": {
+      "kind": "authoritative_dataset",
+      "reference": ".openings/round2-batch4-companies.json"
+    },
+    "cohorts": [
+      "IN"
+    ]
+  },
+  {
+    "companyName": "Tekion",
+    "companyDomain": "tekion.com",
+    "sourceUrl": "https://job-boards.greenhouse.io/tekion",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://tekion.com/careers"
+    },
+    "domainEvidence": {
+      "kind": "authoritative_dataset",
+      "reference": ".openings/round2-batch4-companies.json"
+    },
+    "cohorts": [
+      "IN"
+    ]
+  },
+  {
+    "companyName": "DeepMind",
+    "companyDomain": "deepmind.google",
+    "sourceUrl": "https://job-boards.greenhouse.io/deepmind",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://deepmind.google/careers/"
+    },
+    "domainEvidence": {
+      "kind": "authoritative_dataset",
+      "reference": ".openings/round2-final-companies.json"
+    },
+    "cohorts": [
+      "IN"
+    ]
+  },
+  {
+    "companyName": "Amplitude",
+    "companyDomain": "amplitude.com",
+    "sourceUrl": "https://job-boards.greenhouse.io/amplitude",
+    "discoveredFrom": {
+      "channel": "dataset",
+      "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+    },
+    "domainEvidence": {
+      "kind": "authoritative_dataset",
+      "reference": ".openings/round2-replacement-companies.json"
+    },
+    "cohorts": [
+      "IN"
+    ]
   }
 ]

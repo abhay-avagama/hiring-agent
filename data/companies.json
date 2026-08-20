@@ -49,6 +49,33 @@
       "canonicalSourceUrl": "https://job-boards.greenhouse.io/able"
     }
   },
+  "accordion": {
+    "name": "Accordion India",
+    "ats": "greenhouse",
+    "token": "accordionindia",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "accordion.com",
+    "sourceUrl": "https://job-boards.greenhouse.io/accordionindia",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://www.accordion.com/careers/"
+    },
+    "domainEvidence": {
+      "kind": "authoritative_dataset",
+      "reference": ".openings/round2-batch2-companies.json"
+    },
+    "verification": {
+      "observedCompanyName": "Accordion India",
+      "identityEvidence": "provider_company_name",
+      "contentType": "application/json",
+      "payloadVersion": "greenhouse-job-board:v1",
+      "jobCount": 21,
+      "checkedAt": "2026-08-19T18:15:35.190Z",
+      "canonicalSourceUrl": "https://job-boards.greenhouse.io/accordionindia"
+    }
+  },
   "adtran": {
     "name": "ADTRAN",
     "ats": "workday",
@@ -145,6 +172,33 @@
       "canonicalSourceUrl": "https://allegion.wd5.myworkdayjobs.com/en-US/careers"
     }
   },
+  "alpha-sense": {
+    "name": "AlphaSense India",
+    "ats": "greenhouse",
+    "token": "alphasenseindia",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "alpha-sense.com",
+    "sourceUrl": "https://job-boards.greenhouse.io/alphasenseindia",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://www.alpha-sense.com/careers/"
+    },
+    "domainEvidence": {
+      "kind": "authoritative_dataset",
+      "reference": ".openings/round2-batch3-companies.json"
+    },
+    "verification": {
+      "observedCompanyName": "AlphaSense India",
+      "identityEvidence": "provider_company_name",
+      "contentType": "application/json",
+      "payloadVersion": "greenhouse-job-board:v1",
+      "jobCount": 48,
+      "checkedAt": "2026-08-19T18:17:32.491Z",
+      "canonicalSourceUrl": "https://job-boards.greenhouse.io/alphasenseindia"
+    }
+  },
   "amgen": {
     "name": "Amgen",
     "ats": "workday",
@@ -166,6 +220,33 @@
       "jobCount": 1727,
       "checkedAt": "2026-08-11T16:32:17.229Z",
       "canonicalSourceUrl": "https://amgen.wd1.myworkdayjobs.com/en-US/Careers"
+    }
+  },
+  "amplitude": {
+    "name": "Amplitude",
+    "ats": "greenhouse",
+    "token": "amplitude",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "amplitude.com",
+    "sourceUrl": "https://job-boards.greenhouse.io/amplitude",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://amplitude.com/careers"
+    },
+    "domainEvidence": {
+      "kind": "authoritative_dataset",
+      "reference": ".openings/round2-replacement-companies.json"
+    },
+    "verification": {
+      "observedCompanyName": "Amplitude ",
+      "identityEvidence": "provider_company_name",
+      "contentType": "application/json",
+      "payloadVersion": "greenhouse-job-board:v1",
+      "jobCount": 33,
+      "checkedAt": "2026-08-20T12:56:26.212Z",
+      "canonicalSourceUrl": "https://job-boards.greenhouse.io/amplitude"
     }
   },
   "analog": {
@@ -307,6 +388,33 @@
       "canonicalSourceUrl": "https://bakerhughes.wd5.myworkdayjobs.com/en-US/BakerHughes"
     }
   },
+  "bitgo": {
+    "name": "BitGo",
+    "ats": "greenhouse",
+    "token": "bitgo",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "bitgo.com",
+    "sourceUrl": "https://job-boards.greenhouse.io/bitgo",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://www.bitgo.com/company/careers/"
+    },
+    "domainEvidence": {
+      "kind": "authoritative_dataset",
+      "reference": ".openings/round2-batch4-companies.json"
+    },
+    "verification": {
+      "observedCompanyName": "BitGo",
+      "identityEvidence": "provider_company_name",
+      "contentType": "application/json",
+      "payloadVersion": "greenhouse-job-board:v1",
+      "jobCount": 38,
+      "checkedAt": "2026-08-20T12:54:40.253Z",
+      "canonicalSourceUrl": "https://job-boards.greenhouse.io/bitgo"
+    }
+  },
   "blackbaud": {
     "name": "Blackbaud",
     "ats": "workday",
@@ -355,6 +463,33 @@
       "jobCount": 300,
       "checkedAt": "2026-08-19T17:58:44.458Z",
       "canonicalSourceUrl": "https://blackrock.wd1.myworkdayjobs.com/en-US/blackrock_professional"
+    }
+  },
+  "blenheimchalcot": {
+    "name": "Blenheim Chalcot India",
+    "ats": "greenhouse",
+    "token": "blenheimchalcotindia",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "blenheimchalcot.com",
+    "sourceUrl": "https://job-boards.greenhouse.io/blenheimchalcotindia",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://blenheimchalcot.com/careers"
+    },
+    "domainEvidence": {
+      "kind": "authoritative_dataset",
+      "reference": ".openings/round2-batch3-companies.json"
+    },
+    "verification": {
+      "observedCompanyName": "Blenheim Chalcot India",
+      "identityEvidence": "provider_company_name",
+      "contentType": "application/json",
+      "payloadVersion": "greenhouse-job-board:v1",
+      "jobCount": 8,
+      "checkedAt": "2026-08-19T18:17:32.484Z",
+      "canonicalSourceUrl": "https://job-boards.greenhouse.io/blenheimchalcotindia"
     }
   },
   "boeing": {
@@ -476,6 +611,33 @@
       "canonicalSourceUrl": "https://cadence.wd1.myworkdayjobs.com/en-US/External_Careers"
     }
   },
+  "capco": {
+    "name": "Capco",
+    "ats": "greenhouse",
+    "token": "capco",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "capco.com",
+    "sourceUrl": "https://job-boards.greenhouse.io/capco",
+    "discoveredFrom": {
+      "channel": "dataset",
+      "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+    },
+    "domainEvidence": {
+      "kind": "authoritative_dataset",
+      "reference": ".openings/round2-authoritative-companies.json"
+    },
+    "verification": {
+      "observedCompanyName": "Capco",
+      "identityEvidence": "provider_company_name",
+      "contentType": "application/json",
+      "payloadVersion": "greenhouse-job-board:v1",
+      "jobCount": 750,
+      "checkedAt": "2026-08-19T18:13:04.019Z",
+      "canonicalSourceUrl": "https://job-boards.greenhouse.io/capco"
+    }
+  },
   "carrier": {
     "name": "Carrier",
     "ats": "workday",
@@ -543,6 +705,33 @@
       "jobCount": 178,
       "checkedAt": "2026-08-11T16:34:11.202Z",
       "canonicalSourceUrl": "https://clarivate.wd3.myworkdayjobs.com/en-US/Clarivate_Careers"
+    }
+  },
+  "conga": {
+    "name": "Conga",
+    "ats": "greenhouse",
+    "token": "conga",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "conga.com",
+    "sourceUrl": "https://job-boards.greenhouse.io/conga",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://conga.com/careers"
+    },
+    "domainEvidence": {
+      "kind": "authoritative_dataset",
+      "reference": ".openings/round2-authoritative-companies.json"
+    },
+    "verification": {
+      "observedCompanyName": "Conga",
+      "identityEvidence": "provider_company_name",
+      "contentType": "application/json",
+      "payloadVersion": "greenhouse-job-board:v1",
+      "jobCount": 46,
+      "checkedAt": "2026-08-19T18:13:03.059Z",
+      "canonicalSourceUrl": "https://job-boards.greenhouse.io/conga"
     }
   },
   "crowdstrike": {
@@ -779,6 +968,33 @@
       "canonicalSourceUrl": "https://gartner.wd5.myworkdayjobs.com/en-US/EXT"
     }
   },
+  "gitlab": {
+    "name": "GitLab",
+    "ats": "greenhouse",
+    "token": "gitlab",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "gitlab.com",
+    "sourceUrl": "https://job-boards.greenhouse.io/gitlab",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://about.gitlab.com/jobs/"
+    },
+    "domainEvidence": {
+      "kind": "authoritative_dataset",
+      "reference": ".openings/round2-batch3-companies.json"
+    },
+    "verification": {
+      "observedCompanyName": "GitLab",
+      "identityEvidence": "provider_company_name",
+      "contentType": "application/json",
+      "payloadVersion": "greenhouse-job-board:v1",
+      "jobCount": 200,
+      "checkedAt": "2026-08-19T18:17:37.778Z",
+      "canonicalSourceUrl": "https://job-boards.greenhouse.io/gitlab"
+    }
+  },
   "graphcore": {
     "name": "Graphcore",
     "ats": "greenhouse",
@@ -852,6 +1068,60 @@
       "canonicalSourceUrl": "https://guidehouse.wd1.myworkdayjobs.com/en-US/External"
     }
   },
+  "guidepoint": {
+    "name": "Guidepoint",
+    "ats": "greenhouse",
+    "token": "guidepoint",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "guidepoint.com",
+    "sourceUrl": "https://job-boards.greenhouse.io/guidepoint",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://www.guidepoint.com/company/careers/"
+    },
+    "domainEvidence": {
+      "kind": "authoritative_dataset",
+      "reference": ".openings/round2-authoritative-companies.json"
+    },
+    "verification": {
+      "observedCompanyName": "Guidepoint",
+      "identityEvidence": "provider_company_name",
+      "contentType": "application/json",
+      "payloadVersion": "greenhouse-job-board:v1",
+      "jobCount": 124,
+      "checkedAt": "2026-08-19T18:13:03.041Z",
+      "canonicalSourceUrl": "https://job-boards.greenhouse.io/guidepoint"
+    }
+  },
+  "hackerrank": {
+    "name": "HackerRank",
+    "ats": "greenhouse",
+    "token": "hackerrank",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "hackerrank.com",
+    "sourceUrl": "https://job-boards.greenhouse.io/hackerrank",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://www.hackerrank.com/careers/home"
+    },
+    "domainEvidence": {
+      "kind": "authoritative_dataset",
+      "reference": ".openings/round2-batch2-companies.json"
+    },
+    "verification": {
+      "observedCompanyName": "HackerRank Careers",
+      "identityEvidence": "provider_company_name",
+      "contentType": "application/json",
+      "payloadVersion": "greenhouse-job-board:v1",
+      "jobCount": 30,
+      "checkedAt": "2026-08-19T18:15:32.680Z",
+      "canonicalSourceUrl": "https://job-boards.greenhouse.io/hackerrank"
+    }
+  },
   "hitachi": {
     "name": "Hitachi",
     "ats": "workday",
@@ -875,6 +1145,87 @@
       "canonicalSourceUrl": "https://hitachi.wd1.myworkdayjobs.com/en-US/hitachi"
     }
   },
+  "hyreo": {
+    "name": "Hyreo",
+    "ats": "greenhouse",
+    "token": "hyreo",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "hyreo.com",
+    "sourceUrl": "https://job-boards.greenhouse.io/hyreo",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://hyreo.com/careers/"
+    },
+    "domainEvidence": {
+      "kind": "authoritative_dataset",
+      "reference": ".openings/round2-batch2-companies.json"
+    },
+    "verification": {
+      "observedCompanyName": "Hyreo",
+      "identityEvidence": "provider_company_name",
+      "contentType": "application/json",
+      "payloadVersion": "greenhouse-job-board:v1",
+      "jobCount": 103,
+      "checkedAt": "2026-08-19T18:15:32.679Z",
+      "canonicalSourceUrl": "https://job-boards.greenhouse.io/hyreo"
+    }
+  },
+  "instawork": {
+    "name": "Instawork",
+    "ats": "greenhouse",
+    "token": "instawork",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "instawork.com",
+    "sourceUrl": "https://job-boards.greenhouse.io/instawork",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://www.instawork.com/careers"
+    },
+    "domainEvidence": {
+      "kind": "authoritative_dataset",
+      "reference": ".openings/round2-batch2-companies.json"
+    },
+    "verification": {
+      "observedCompanyName": "Instawork",
+      "identityEvidence": "provider_company_name",
+      "contentType": "application/json",
+      "payloadVersion": "greenhouse-job-board:v1",
+      "jobCount": 54,
+      "checkedAt": "2026-08-19T18:15:32.689Z",
+      "canonicalSourceUrl": "https://job-boards.greenhouse.io/instawork"
+    }
+  },
+  "insurity": {
+    "name": "Insurity India",
+    "ats": "greenhouse",
+    "token": "insurityindia",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "insurity.com",
+    "sourceUrl": "https://job-boards.greenhouse.io/insurityindia",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://insurity.com/careers"
+    },
+    "domainEvidence": {
+      "kind": "authoritative_dataset",
+      "reference": ".openings/round2-batch3-companies.json"
+    },
+    "verification": {
+      "observedCompanyName": "Insurity India ",
+      "identityEvidence": "provider_company_name",
+      "contentType": "application/json",
+      "payloadVersion": "greenhouse-job-board:v1",
+      "jobCount": 22,
+      "checkedAt": "2026-08-19T18:17:32.494Z",
+      "canonicalSourceUrl": "https://job-boards.greenhouse.io/insurityindia"
+    }
+  },
   "intel": {
     "name": "Intel",
     "ats": "workday",
@@ -896,6 +1247,33 @@
       "jobCount": 648,
       "checkedAt": "2026-08-11T16:32:26.456Z",
       "canonicalSourceUrl": "https://intel.wd1.myworkdayjobs.com/en-US/External"
+    }
+  },
+  "jazzx": {
+    "name": "JazzX AI",
+    "ats": "greenhouse",
+    "token": "jazzx-ai",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "jazzx.ai",
+    "sourceUrl": "https://job-boards.greenhouse.io/jazzx-ai",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://jazzx.ai/careers/"
+    },
+    "domainEvidence": {
+      "kind": "authoritative_dataset",
+      "reference": ".openings/round2-batch4-companies.json"
+    },
+    "verification": {
+      "observedCompanyName": "JazzX AI",
+      "identityEvidence": "provider_company_name",
+      "contentType": "application/json",
+      "payloadVersion": "greenhouse-job-board:v1",
+      "jobCount": 32,
+      "checkedAt": "2026-08-20T12:54:39.090Z",
+      "canonicalSourceUrl": "https://job-boards.greenhouse.io/jazzx-ai"
     }
   },
   "jll": {
@@ -942,6 +1320,33 @@
       "jobCount": 4,
       "checkedAt": "2026-08-11T16:32:10.390Z",
       "canonicalSourceUrl": "https://job-boards.greenhouse.io/karat"
+    }
+  },
+  "karya": {
+    "name": "Karya",
+    "ats": "greenhouse",
+    "token": "karya",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "karya.in",
+    "sourceUrl": "https://job-boards.greenhouse.io/karya",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://www.karya.in/join-us/careers/"
+    },
+    "domainEvidence": {
+      "kind": "authoritative_dataset",
+      "reference": ".openings/round2-batch2-companies.json"
+    },
+    "verification": {
+      "observedCompanyName": "Karya",
+      "identityEvidence": "provider_company_name",
+      "contentType": "application/json",
+      "payloadVersion": "greenhouse-job-board:v1",
+      "jobCount": 13,
+      "checkedAt": "2026-08-19T18:15:34.509Z",
+      "canonicalSourceUrl": "https://job-boards.greenhouse.io/karya"
     }
   },
   "kimberly-clark": {
@@ -1247,6 +1652,33 @@
       "canonicalSourceUrl": "https://nasdaq.wd1.myworkdayjobs.com/en-US/Global_External_Site"
     }
   },
+  "newrelic": {
+    "name": "New Relic",
+    "ats": "greenhouse",
+    "token": "newrelic",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "newrelic.com",
+    "sourceUrl": "https://job-boards.greenhouse.io/newrelic",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://newrelic.com/careers"
+    },
+    "domainEvidence": {
+      "kind": "authoritative_dataset",
+      "reference": ".openings/round2-batch4-companies.json"
+    },
+    "verification": {
+      "observedCompanyName": "New Relic",
+      "identityEvidence": "provider_company_name",
+      "contentType": "application/json",
+      "payloadVersion": "greenhouse-job-board:v1",
+      "jobCount": 55,
+      "checkedAt": "2026-08-20T12:54:38.209Z",
+      "canonicalSourceUrl": "https://job-boards.greenhouse.io/newrelic"
+    }
+  },
   "nvidia": {
     "name": "NVIDIA",
     "ats": "workday",
@@ -1339,6 +1771,33 @@
       "canonicalSourceUrl": "https://philips.wd3.myworkdayjobs.com/en-US/jobs-and-careers"
     }
   },
+  "phonepe": {
+    "name": "PhonePe",
+    "ats": "greenhouse",
+    "token": "phonepe",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "phonepe.com",
+    "sourceUrl": "https://job-boards.greenhouse.io/phonepe",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://www.phonepe.com/careers/"
+    },
+    "domainEvidence": {
+      "kind": "authoritative_dataset",
+      "reference": ".openings/round2-authoritative-companies.json"
+    },
+    "verification": {
+      "observedCompanyName": "PhonePe",
+      "identityEvidence": "provider_company_name",
+      "contentType": "application/json",
+      "payloadVersion": "greenhouse-job-board:v1",
+      "jobCount": 77,
+      "checkedAt": "2026-08-19T18:13:12.575Z",
+      "canonicalSourceUrl": "https://job-boards.greenhouse.io/phonepe"
+    }
+  },
   "pitneybowes": {
     "name": "Pitney Bowes",
     "ats": "workday",
@@ -1406,6 +1865,33 @@
       "jobCount": 72,
       "checkedAt": "2026-08-11T16:33:34.293Z",
       "canonicalSourceUrl": "https://priceline.wd1.myworkdayjobs.com/en-US/Priceline"
+    }
+  },
+  "project44": {
+    "name": "project44",
+    "ats": "greenhouse",
+    "token": "project44",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "project44.com",
+    "sourceUrl": "https://job-boards.greenhouse.io/project44",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://www.project44.com/company/careers/"
+    },
+    "domainEvidence": {
+      "kind": "authoritative_dataset",
+      "reference": ".openings/round2-batch2-companies.json"
+    },
+    "verification": {
+      "observedCompanyName": "project44",
+      "identityEvidence": "provider_company_name",
+      "contentType": "application/json",
+      "payloadVersion": "greenhouse-job-board:v1",
+      "jobCount": 34,
+      "checkedAt": "2026-08-19T18:15:34.154Z",
+      "canonicalSourceUrl": "https://job-boards.greenhouse.io/project44"
     }
   },
   "prophecy": {
@@ -1523,6 +2009,33 @@
       "canonicalSourceUrl": "https://salesforce.wd12.myworkdayjobs.com/en-US/External_Career_Site"
     }
   },
+  "saucelabs": {
+    "name": "Sauce Labs",
+    "ats": "greenhouse",
+    "token": "saucelabs",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "saucelabs.com",
+    "sourceUrl": "https://job-boards.greenhouse.io/saucelabs",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://saucelabs.com/company/careers"
+    },
+    "domainEvidence": {
+      "kind": "authoritative_dataset",
+      "reference": ".openings/round2-batch3-companies.json"
+    },
+    "verification": {
+      "observedCompanyName": "Sauce Labs Inc.",
+      "identityEvidence": "provider_company_name",
+      "contentType": "application/json",
+      "payloadVersion": "greenhouse-job-board:v1",
+      "jobCount": 8,
+      "checkedAt": "2026-08-19T18:17:34.507Z",
+      "canonicalSourceUrl": "https://job-boards.greenhouse.io/saucelabs"
+    }
+  },
   "shell": {
     "name": "Shell",
     "ats": "workday",
@@ -1544,6 +2057,87 @@
       "jobCount": 130,
       "checkedAt": "2026-08-11T16:34:15.046Z",
       "canonicalSourceUrl": "https://shell.wd3.myworkdayjobs.com/en-US/ShellCareers"
+    }
+  },
+  "sigmoid": {
+    "name": "Sigmoid",
+    "ats": "greenhouse",
+    "token": "sigmoid",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "sigmoid.com",
+    "sourceUrl": "https://job-boards.greenhouse.io/sigmoid",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://www.sigmoid.com/"
+    },
+    "domainEvidence": {
+      "kind": "authoritative_dataset",
+      "reference": ".openings/round2-batch4-companies.json"
+    },
+    "verification": {
+      "observedCompanyName": "Sigmoid",
+      "identityEvidence": "provider_company_name",
+      "contentType": "application/json",
+      "payloadVersion": "greenhouse-job-board:v1",
+      "jobCount": 30,
+      "checkedAt": "2026-08-20T12:54:38.419Z",
+      "canonicalSourceUrl": "https://job-boards.greenhouse.io/sigmoid"
+    }
+  },
+  "smartsheet": {
+    "name": "Smartsheet",
+    "ats": "greenhouse",
+    "token": "smartsheet",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "smartsheet.com",
+    "sourceUrl": "https://job-boards.greenhouse.io/smartsheet",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://www.smartsheet.com/careers"
+    },
+    "domainEvidence": {
+      "kind": "authoritative_dataset",
+      "reference": ".openings/round2-batch4-companies.json"
+    },
+    "verification": {
+      "observedCompanyName": "Smartsheet",
+      "identityEvidence": "provider_company_name",
+      "contentType": "application/json",
+      "payloadVersion": "greenhouse-job-board:v1",
+      "jobCount": 96,
+      "checkedAt": "2026-08-20T12:54:39.631Z",
+      "canonicalSourceUrl": "https://job-boards.greenhouse.io/smartsheet"
+    }
+  },
+  "sonicwall": {
+    "name": "SonicWall",
+    "ats": "greenhouse",
+    "token": "sonicwall",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "sonicwall.com",
+    "sourceUrl": "https://job-boards.greenhouse.io/sonicwall",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://www.sonicwall.com/careers"
+    },
+    "domainEvidence": {
+      "kind": "authoritative_dataset",
+      "reference": ".openings/round2-authoritative-companies.json"
+    },
+    "verification": {
+      "observedCompanyName": "SonicWall",
+      "identityEvidence": "provider_company_name",
+      "contentType": "application/json",
+      "payloadVersion": "greenhouse-job-board:v1",
+      "jobCount": 39,
+      "checkedAt": "2026-08-19T18:13:12.596Z",
+      "canonicalSourceUrl": "https://job-boards.greenhouse.io/sonicwall"
     }
   },
   "startraven": {
@@ -1617,6 +2211,33 @@
       "jobCount": 1144,
       "checkedAt": "2026-08-11T16:32:47.655Z",
       "canonicalSourceUrl": "https://stryker.wd1.myworkdayjobs.com/en-US/StrykerCareers"
+    }
+  },
+  "sumologic": {
+    "name": "Sumo Logic",
+    "ats": "greenhouse",
+    "token": "sumologic",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "sumologic.com",
+    "sourceUrl": "https://job-boards.greenhouse.io/sumologic",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://www.sumologic.com/company/careers"
+    },
+    "domainEvidence": {
+      "kind": "authoritative_dataset",
+      "reference": ".openings/round2-batch4-companies.json"
+    },
+    "verification": {
+      "observedCompanyName": "Sumo Logic",
+      "identityEvidence": "provider_company_name",
+      "contentType": "application/json",
+      "payloadVersion": "greenhouse-job-board:v1",
+      "jobCount": 17,
+      "checkedAt": "2026-08-20T12:54:37.964Z",
+      "canonicalSourceUrl": "https://job-boards.greenhouse.io/sumologic"
     }
   },
   "target": {
@@ -1824,6 +2445,60 @@
       "jobCount": 91,
       "checkedAt": "2026-08-11T16:33:13.592Z",
       "canonicalSourceUrl": "https://zelis.wd1.myworkdayjobs.com/en-US/ZelisCareers"
+    }
+  },
+  "zenoti": {
+    "name": "Zenoti",
+    "ats": "greenhouse",
+    "token": "zenoti",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "zenoti.com",
+    "sourceUrl": "https://job-boards.greenhouse.io/zenoti",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://www.zenoti.com/company/careers"
+    },
+    "domainEvidence": {
+      "kind": "authoritative_dataset",
+      "reference": ".openings/round2-batch2-companies.json"
+    },
+    "verification": {
+      "observedCompanyName": "Zenoti",
+      "identityEvidence": "provider_company_name",
+      "contentType": "application/json",
+      "payloadVersion": "greenhouse-job-board:v1",
+      "jobCount": 36,
+      "checkedAt": "2026-08-19T18:15:33.881Z",
+      "canonicalSourceUrl": "https://job-boards.greenhouse.io/zenoti"
+    }
+  },
+  "zinnia": {
+    "name": "Zinnia",
+    "ats": "greenhouse",
+    "token": "zinnia",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "zinnia.com",
+    "sourceUrl": "https://job-boards.greenhouse.io/zinnia",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://zinnia.com/en/careers"
+    },
+    "domainEvidence": {
+      "kind": "authoritative_dataset",
+      "reference": ".openings/round2-batch3-companies.json"
+    },
+    "verification": {
+      "observedCompanyName": "Zinnia",
+      "identityEvidence": "provider_company_name",
+      "contentType": "application/json",
+      "payloadVersion": "greenhouse-job-board:v1",
+      "jobCount": 11,
+      "checkedAt": "2026-08-19T18:17:34.817Z",
+      "canonicalSourceUrl": "https://job-boards.greenhouse.io/zinnia"
     }
   },
   "zoom": {

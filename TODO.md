@@ -81,6 +81,16 @@ Decision-map #10 now contains a fixed-baseline target and stopping-criteria draf
 
 Do not crawl against this draft until it is reviewed. Employer breadth is the primary measure; verified sources, jobs, and ATS tokens are supporting or diagnostic measures. Every round must declare hard campaign caps, retain the coverage quality floors, stop on weak marginal yield or degraded source health, and publish a fixed-reference coverage report afterward.
 
+Approved 2026-08-19 in `ee5a399`. Round 2 started from the fixed 75-employer / 6,177-job baseline with these hard caps: examine at most 200 authoritative company identities, promote at most 50 verification-ready candidates, admit at most 30 sources, and crawl at most 25 newly admitted sources. Stop earlier when the 100-employer / 7,500-job / five-new-non-Workday target is reached, after two comparable 50-identity batches each yield fewer than one newly verified India-eligible employer, or when the documented identity-yield and crawl-health floors fail. Reuse existing registry and company datasets; do not launch a fresh Common Crawl campaign.
+
+Round 2 completed 2026-08-20 at the 25-source crawl cap:
+
+- Examined 30 targeted, authoritative company/source identities; 25 passed independent provider identity and India-job verification. All 25 admitted sources were Greenhouse, satisfying the five-new-non-Workday requirement without another token-discovery campaign.
+- All 25 selected crawls succeeded with no throttles. Fixed-reference coverage moved from 79 to 104 verified sources, 48,539 to 50,464 indexed jobs, 6,177 to 6,902 India-eligible jobs, and 75 to 100 distinct eligible employer domains.
+- The primary employer-breadth milestone was reached. The 7,500-job supporting target was not: the round stopped honestly at its declared crawl cap, 598 jobs short, rather than expanding scope after seeing the result.
+- Quality floors held: 99.04% catalog snapshot coverage, 99.94% explicit confidence among India-eligible jobs, 100% latest-batch success, and every indexed India-cohort partition within the 14-day freshness window.
+- The provider mix is now 63 Workday, 38 India-indexed Greenhouse, 1 Lever, and 1 Ashby. This materially reduces Workday concentration, but the milestone-2 requirement for three providers with at least ten eligible employers remains open; Lever/Ashby evidence acquisition is still the limiting factor.
+
 ## Already solid (no action needed)
 
 - `skills/openings/SKILL.md` already matches the PRD's target "thin wrapper" shape — delegates to MCP tools, doesn't reproduce parsing/matching.

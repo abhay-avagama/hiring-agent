@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-08-19T17:58:47.954Z",
+  "updatedAt": "2026-08-20T12:56:27.052Z",
   "leads": [
     {
       "sourceKey": "ashby:0g",
@@ -5117,6 +5117,13 @@
         {
           "attemptedAt": "2026-08-19T17:56:59.154Z",
           "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-08-19T18:12:29.932Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "Unable to connect. Is the computer able to access the url?",
+          "nextEligibleAt": "2026-08-19T18:13:29.932Z"
         }
       ],
       "promotedAt": "2026-08-19T17:56:59.154Z"
@@ -18902,9 +18909,66 @@
           "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
         }
       ],
-      "companyMatches": [],
-      "identityEvidence": [],
+      "companyMatches": [
+        {
+          "companyName": "Accordion India",
+          "companyDomain": "accordion.com",
+          "method": "normalized_token",
+          "reference": ".openings/round2-batch2-companies.json"
+        }
+      ],
+      "identityEvidence": [
+        {
+          "companyName": "Accordion India",
+          "companyDomain": "accordion.com",
+          "kind": "authoritative_dataset",
+          "reference": ".openings/round2-batch2-companies.json",
+          "observedAt": "2026-08-19T18:14:59.035Z"
+        }
+      ],
       "attempts": []
+    },
+    {
+      "sourceKey": "greenhouse:accordionindia",
+      "sourceUrl": "https://job-boards.greenhouse.io/accordionindia",
+      "ats": "greenhouse",
+      "token": "accordionindia",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://www.accordion.com/careers/"
+        }
+      ],
+      "companyMatches": [
+        {
+          "companyName": "Accordion India",
+          "companyDomain": "accordion.com",
+          "method": "normalized_token",
+          "reference": ".openings/round2-batch2-companies.json"
+        },
+        {
+          "companyName": "Accordion India",
+          "companyDomain": "accordion.com",
+          "method": "normalized_token",
+          "reference": "https://www.accordion.com/careers/"
+        }
+      ],
+      "identityEvidence": [
+        {
+          "companyName": "Accordion India",
+          "companyDomain": "accordion.com",
+          "kind": "authoritative_dataset",
+          "reference": ".openings/round2-batch2-companies.json",
+          "observedAt": "2026-08-19T18:14:59.035Z"
+        }
+      ],
+      "attempts": [
+        {
+          "attemptedAt": "2026-08-19T18:15:35.948Z",
+          "outcome": "success"
+        }
+      ],
+      "promotedAt": "2026-08-19T18:15:35.948Z"
     },
     {
       "sourceKey": "greenhouse:accreditedlabs",
@@ -19574,6 +19638,13 @@
         {
           "attemptedAt": "2026-08-19T17:58:47.954Z",
           "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-08-19T18:12:29.932Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "Unable to connect. Is the computer able to access the url?",
+          "nextEligibleAt": "2026-08-19T18:13:29.932Z"
         }
       ],
       "promotedAt": "2026-08-19T17:58:47.954Z"
@@ -20429,8 +20500,23 @@
           "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
         }
       ],
-      "companyMatches": [],
-      "identityEvidence": [],
+      "companyMatches": [
+        {
+          "companyName": "AlphaSense India",
+          "companyDomain": "alpha-sense.com",
+          "method": "normalized_token",
+          "reference": ".openings/round2-batch3-companies.json"
+        }
+      ],
+      "identityEvidence": [
+        {
+          "companyName": "AlphaSense India",
+          "companyDomain": "alpha-sense.com",
+          "kind": "authoritative_dataset",
+          "reference": ".openings/round2-batch3-companies.json",
+          "observedAt": "2026-08-19T18:17:01.755Z"
+        }
+      ],
       "attempts": []
     },
     {
@@ -20457,11 +20543,42 @@
         {
           "channel": "dataset",
           "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+        },
+        {
+          "channel": "provider_directory",
+          "reference": "https://www.alpha-sense.com/careers/"
         }
       ],
-      "companyMatches": [],
-      "identityEvidence": [],
-      "attempts": []
+      "companyMatches": [
+        {
+          "companyName": "AlphaSense India",
+          "companyDomain": "alpha-sense.com",
+          "method": "normalized_token",
+          "reference": ".openings/round2-batch3-companies.json"
+        },
+        {
+          "companyName": "AlphaSense India",
+          "companyDomain": "alpha-sense.com",
+          "method": "normalized_token",
+          "reference": "https://www.alpha-sense.com/careers/"
+        }
+      ],
+      "identityEvidence": [
+        {
+          "companyName": "AlphaSense India",
+          "companyDomain": "alpha-sense.com",
+          "kind": "authoritative_dataset",
+          "reference": ".openings/round2-batch3-companies.json",
+          "observedAt": "2026-08-19T18:17:01.755Z"
+        }
+      ],
+      "attempts": [
+        {
+          "attemptedAt": "2026-08-19T18:17:43.696Z",
+          "outcome": "success"
+        }
+      ],
+      "promotedAt": "2026-08-19T18:17:43.696Z"
     },
     {
       "sourceKey": "greenhouse:alpineinternships",
@@ -20862,11 +20979,42 @@
         {
           "channel": "dataset",
           "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+        },
+        {
+          "channel": "provider_directory",
+          "reference": "https://amplitude.com/careers"
         }
       ],
-      "companyMatches": [],
-      "identityEvidence": [],
-      "attempts": []
+      "companyMatches": [
+        {
+          "companyName": "Amplitude",
+          "companyDomain": "amplitude.com",
+          "method": "normalized_token",
+          "reference": ".openings/round2-replacement-companies.json"
+        },
+        {
+          "companyName": "Amplitude",
+          "companyDomain": "amplitude.com",
+          "method": "normalized_token",
+          "reference": "https://amplitude.com/careers"
+        }
+      ],
+      "identityEvidence": [
+        {
+          "companyName": "Amplitude",
+          "companyDomain": "amplitude.com",
+          "kind": "authoritative_dataset",
+          "reference": ".openings/round2-replacement-companies.json",
+          "observedAt": "2026-08-20T12:56:15.317Z"
+        }
+      ],
+      "attempts": [
+        {
+          "attemptedAt": "2026-08-20T12:56:27.052Z",
+          "outcome": "success"
+        }
+      ],
+      "promotedAt": "2026-08-20T12:56:27.052Z"
     },
     {
       "sourceKey": "greenhouse:ampm",
@@ -24282,11 +24430,46 @@
         {
           "channel": "dataset",
           "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+        },
+        {
+          "channel": "provider_directory",
+          "reference": "https://www.bitgo.com/company/careers/"
         }
       ],
-      "companyMatches": [],
-      "identityEvidence": [],
-      "attempts": []
+      "companyMatches": [
+        {
+          "companyName": "BitGo",
+          "companyDomain": "bitgo.com",
+          "method": "normalized_token",
+          "reference": ".openings/round2-batch4-companies.json"
+        },
+        {
+          "companyName": "BitGo",
+          "companyDomain": "bitgo.com",
+          "method": "normalized_token",
+          "reference": "https://www.bitgo.com/company/careers/"
+        }
+      ],
+      "identityEvidence": [
+        {
+          "companyName": "BitGo",
+          "companyDomain": "bitgo.com",
+          "kind": "authoritative_dataset",
+          "reference": ".openings/round2-batch4-companies.json",
+          "observedAt": "2026-08-19T18:19:00.134Z"
+        }
+      ],
+      "attempts": [
+        {
+          "attemptedAt": "2026-08-19T18:19:30.865Z",
+          "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-08-20T12:54:42.478Z",
+          "outcome": "success"
+        }
+      ],
+      "promotedAt": "2026-08-20T12:54:42.478Z"
     },
     {
       "sourceKey": "greenhouse:bitly",
@@ -24552,8 +24735,23 @@
           "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
         }
       ],
-      "companyMatches": [],
-      "identityEvidence": [],
+      "companyMatches": [
+        {
+          "companyName": "Blenheim Chalcot India",
+          "companyDomain": "blenheimchalcot.com",
+          "method": "normalized_token",
+          "reference": ".openings/round2-batch3-companies.json"
+        }
+      ],
+      "identityEvidence": [
+        {
+          "companyName": "Blenheim Chalcot India",
+          "companyDomain": "blenheimchalcot.com",
+          "kind": "authoritative_dataset",
+          "reference": ".openings/round2-batch3-companies.json",
+          "observedAt": "2026-08-19T18:17:01.755Z"
+        }
+      ],
       "attempts": []
     },
     {
@@ -24565,11 +24763,42 @@
         {
           "channel": "dataset",
           "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+        },
+        {
+          "channel": "provider_directory",
+          "reference": "https://blenheimchalcot.com/careers"
         }
       ],
-      "companyMatches": [],
-      "identityEvidence": [],
-      "attempts": []
+      "companyMatches": [
+        {
+          "companyName": "Blenheim Chalcot India",
+          "companyDomain": "blenheimchalcot.com",
+          "method": "normalized_token",
+          "reference": ".openings/round2-batch3-companies.json"
+        },
+        {
+          "companyName": "Blenheim Chalcot India",
+          "companyDomain": "blenheimchalcot.com",
+          "method": "normalized_token",
+          "reference": "https://blenheimchalcot.com/careers"
+        }
+      ],
+      "identityEvidence": [
+        {
+          "companyName": "Blenheim Chalcot India",
+          "companyDomain": "blenheimchalcot.com",
+          "kind": "authoritative_dataset",
+          "reference": ".openings/round2-batch3-companies.json",
+          "observedAt": "2026-08-19T18:17:01.755Z"
+        }
+      ],
+      "attempts": [
+        {
+          "attemptedAt": "2026-08-19T18:17:43.696Z",
+          "outcome": "success"
+        }
+      ],
+      "promotedAt": "2026-08-19T18:17:43.696Z"
     },
     {
       "sourceKey": "greenhouse:blinkhealth",
@@ -26515,11 +26744,42 @@
         {
           "channel": "dataset",
           "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+        },
+        {
+          "channel": "provider_directory",
+          "reference": "https://www.capco.com/careers/job-search"
         }
       ],
-      "companyMatches": [],
-      "identityEvidence": [],
-      "attempts": []
+      "companyMatches": [
+        {
+          "companyName": "Capco",
+          "companyDomain": "capco.com",
+          "method": "normalized_token",
+          "reference": ".openings/round2-authoritative-companies.json"
+        },
+        {
+          "companyName": "Capco",
+          "companyDomain": "capco.com",
+          "method": "normalized_token",
+          "reference": "https://www.capco.com/careers/job-search"
+        }
+      ],
+      "identityEvidence": [
+        {
+          "companyName": "Capco",
+          "companyDomain": "capco.com",
+          "kind": "authoritative_dataset",
+          "reference": ".openings/round2-authoritative-companies.json",
+          "observedAt": "2026-08-19T18:12:30.009Z"
+        }
+      ],
+      "attempts": [
+        {
+          "attemptedAt": "2026-08-19T18:13:14.222Z",
+          "outcome": "success"
+        }
+      ],
+      "promotedAt": "2026-08-19T18:13:14.222Z"
     },
     {
       "sourceKey": "greenhouse:capintel",
@@ -26627,6 +26887,694 @@
       "attempts": []
     },
     {
+      "sourceKey": "greenhouse:conga",
+      "sourceUrl": "https://job-boards.greenhouse.io/conga",
+      "ats": "greenhouse",
+      "token": "conga",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://conga.com/careers"
+        }
+      ],
+      "companyMatches": [
+        {
+          "companyName": "Conga",
+          "companyDomain": "conga.com",
+          "method": "normalized_token",
+          "reference": ".openings/round2-authoritative-companies.json"
+        },
+        {
+          "companyName": "Conga",
+          "companyDomain": "conga.com",
+          "method": "normalized_token",
+          "reference": "https://conga.com/careers"
+        }
+      ],
+      "identityEvidence": [
+        {
+          "companyName": "Conga",
+          "companyDomain": "conga.com",
+          "kind": "authoritative_dataset",
+          "reference": ".openings/round2-authoritative-companies.json",
+          "observedAt": "2026-08-19T18:12:30.009Z"
+        }
+      ],
+      "attempts": [
+        {
+          "attemptedAt": "2026-08-19T18:13:14.222Z",
+          "outcome": "success"
+        }
+      ],
+      "promotedAt": "2026-08-19T18:13:14.222Z"
+    },
+    {
+      "sourceKey": "greenhouse:deepmind",
+      "sourceUrl": "https://job-boards.greenhouse.io/deepmind",
+      "ats": "greenhouse",
+      "token": "deepmind",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://deepmind.google/careers/"
+        }
+      ],
+      "companyMatches": [
+        {
+          "companyName": "DeepMind",
+          "companyDomain": "deepmind.google",
+          "method": "normalized_token",
+          "reference": ".openings/round2-final-companies.json"
+        },
+        {
+          "companyName": "DeepMind",
+          "companyDomain": "deepmind.google",
+          "method": "normalized_token",
+          "reference": "https://deepmind.google/careers/"
+        }
+      ],
+      "identityEvidence": [
+        {
+          "companyName": "DeepMind",
+          "companyDomain": "deepmind.google",
+          "kind": "authoritative_dataset",
+          "reference": ".openings/round2-final-companies.json",
+          "observedAt": "2026-08-20T12:55:36.701Z"
+        }
+      ],
+      "attempts": [
+        {
+          "attemptedAt": "2026-08-20T12:55:52.495Z",
+          "outcome": "permanent_failure",
+          "category": "no_country_jobs",
+          "detail": "Complete source feed has no jobs eligible for IN",
+          "evidenceRank": 1
+        }
+      ]
+    },
+    {
+      "sourceKey": "greenhouse:gitlab",
+      "sourceUrl": "https://job-boards.greenhouse.io/gitlab",
+      "ats": "greenhouse",
+      "token": "gitlab",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://about.gitlab.com/jobs/"
+        }
+      ],
+      "companyMatches": [
+        {
+          "companyName": "GitLab",
+          "companyDomain": "gitlab.com",
+          "method": "normalized_token",
+          "reference": ".openings/round2-batch3-companies.json"
+        },
+        {
+          "companyName": "GitLab",
+          "companyDomain": "gitlab.com",
+          "method": "normalized_token",
+          "reference": "https://about.gitlab.com/jobs/"
+        }
+      ],
+      "identityEvidence": [
+        {
+          "companyName": "GitLab",
+          "companyDomain": "gitlab.com",
+          "kind": "authoritative_dataset",
+          "reference": ".openings/round2-batch3-companies.json",
+          "observedAt": "2026-08-19T18:17:01.755Z"
+        }
+      ],
+      "attempts": [
+        {
+          "attemptedAt": "2026-08-19T18:17:43.696Z",
+          "outcome": "success"
+        }
+      ],
+      "promotedAt": "2026-08-19T18:17:43.696Z"
+    },
+    {
+      "sourceKey": "greenhouse:gravitonresearchcapital",
+      "sourceUrl": "https://job-boards.greenhouse.io/gravitonresearchcapital",
+      "ats": "greenhouse",
+      "token": "gravitonresearchcapital",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://www.gravitontrading.com/"
+        }
+      ],
+      "companyMatches": [
+        {
+          "companyName": "Graviton Research Capital",
+          "companyDomain": "gravitontrading.com",
+          "method": "normalized_token",
+          "reference": ".openings/round2-batch3-companies.json"
+        },
+        {
+          "companyName": "Graviton Research Capital",
+          "companyDomain": "gravitontrading.com",
+          "method": "normalized_token",
+          "reference": "https://www.gravitontrading.com/"
+        }
+      ],
+      "identityEvidence": [
+        {
+          "companyName": "Graviton Research Capital",
+          "companyDomain": "gravitontrading.com",
+          "kind": "authoritative_dataset",
+          "reference": ".openings/round2-batch3-companies.json",
+          "observedAt": "2026-08-19T18:17:01.755Z"
+        }
+      ],
+      "attempts": [
+        {
+          "attemptedAt": "2026-08-19T18:17:43.696Z",
+          "outcome": "permanent_failure",
+          "category": "identity_mismatch",
+          "detail": "Expected Graviton Research Capital; observed Graviton Research Capital LLP",
+          "evidenceRank": 1
+        }
+      ]
+    },
+    {
+      "sourceKey": "greenhouse:guidepoint",
+      "sourceUrl": "https://job-boards.greenhouse.io/guidepoint",
+      "ats": "greenhouse",
+      "token": "guidepoint",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://www.guidepoint.com/company/careers/"
+        }
+      ],
+      "companyMatches": [
+        {
+          "companyName": "Guidepoint",
+          "companyDomain": "guidepoint.com",
+          "method": "normalized_token",
+          "reference": ".openings/round2-authoritative-companies.json"
+        },
+        {
+          "companyName": "Guidepoint",
+          "companyDomain": "guidepoint.com",
+          "method": "normalized_token",
+          "reference": "https://www.guidepoint.com/company/careers/"
+        }
+      ],
+      "identityEvidence": [
+        {
+          "companyName": "Guidepoint",
+          "companyDomain": "guidepoint.com",
+          "kind": "authoritative_dataset",
+          "reference": ".openings/round2-authoritative-companies.json",
+          "observedAt": "2026-08-19T18:12:30.009Z"
+        }
+      ],
+      "attempts": [
+        {
+          "attemptedAt": "2026-08-19T18:13:14.222Z",
+          "outcome": "success"
+        }
+      ],
+      "promotedAt": "2026-08-19T18:13:14.222Z"
+    },
+    {
+      "sourceKey": "greenhouse:hackerrank",
+      "sourceUrl": "https://job-boards.greenhouse.io/hackerrank",
+      "ats": "greenhouse",
+      "token": "hackerrank",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://www.hackerrank.com/careers/home"
+        }
+      ],
+      "companyMatches": [
+        {
+          "companyName": "HackerRank",
+          "companyDomain": "hackerrank.com",
+          "method": "normalized_token",
+          "reference": ".openings/round2-batch2-companies.json"
+        },
+        {
+          "companyName": "HackerRank",
+          "companyDomain": "hackerrank.com",
+          "method": "normalized_token",
+          "reference": "https://www.hackerrank.com/careers/home"
+        }
+      ],
+      "identityEvidence": [
+        {
+          "companyName": "HackerRank",
+          "companyDomain": "hackerrank.com",
+          "kind": "authoritative_dataset",
+          "reference": ".openings/round2-batch2-companies.json",
+          "observedAt": "2026-08-19T18:14:59.035Z"
+        }
+      ],
+      "attempts": [
+        {
+          "attemptedAt": "2026-08-19T18:15:35.948Z",
+          "outcome": "success"
+        }
+      ],
+      "promotedAt": "2026-08-19T18:15:35.948Z"
+    },
+    {
+      "sourceKey": "greenhouse:hyreo",
+      "sourceUrl": "https://job-boards.greenhouse.io/hyreo",
+      "ats": "greenhouse",
+      "token": "hyreo",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://hyreo.com/careers/"
+        }
+      ],
+      "companyMatches": [
+        {
+          "companyName": "Hyreo",
+          "companyDomain": "hyreo.com",
+          "method": "normalized_token",
+          "reference": ".openings/round2-batch2-companies.json"
+        },
+        {
+          "companyName": "Hyreo",
+          "companyDomain": "hyreo.com",
+          "method": "normalized_token",
+          "reference": "https://hyreo.com/careers/"
+        }
+      ],
+      "identityEvidence": [
+        {
+          "companyName": "Hyreo",
+          "companyDomain": "hyreo.com",
+          "kind": "authoritative_dataset",
+          "reference": ".openings/round2-batch2-companies.json",
+          "observedAt": "2026-08-19T18:14:59.035Z"
+        }
+      ],
+      "attempts": [
+        {
+          "attemptedAt": "2026-08-19T18:15:35.948Z",
+          "outcome": "success"
+        }
+      ],
+      "promotedAt": "2026-08-19T18:15:35.948Z"
+    },
+    {
+      "sourceKey": "greenhouse:instawork",
+      "sourceUrl": "https://job-boards.greenhouse.io/instawork",
+      "ats": "greenhouse",
+      "token": "instawork",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://www.instawork.com/careers"
+        }
+      ],
+      "companyMatches": [
+        {
+          "companyName": "Instawork",
+          "companyDomain": "instawork.com",
+          "method": "normalized_token",
+          "reference": ".openings/round2-batch2-companies.json"
+        },
+        {
+          "companyName": "Instawork",
+          "companyDomain": "instawork.com",
+          "method": "normalized_token",
+          "reference": "https://www.instawork.com/careers"
+        }
+      ],
+      "identityEvidence": [
+        {
+          "companyName": "Instawork",
+          "companyDomain": "instawork.com",
+          "kind": "authoritative_dataset",
+          "reference": ".openings/round2-batch2-companies.json",
+          "observedAt": "2026-08-19T18:14:59.035Z"
+        }
+      ],
+      "attempts": [
+        {
+          "attemptedAt": "2026-08-19T18:15:35.948Z",
+          "outcome": "success"
+        }
+      ],
+      "promotedAt": "2026-08-19T18:15:35.948Z"
+    },
+    {
+      "sourceKey": "greenhouse:insurityindia",
+      "sourceUrl": "https://job-boards.greenhouse.io/insurityindia",
+      "ats": "greenhouse",
+      "token": "insurityindia",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://insurity.com/careers"
+        }
+      ],
+      "companyMatches": [
+        {
+          "companyName": "Insurity India",
+          "companyDomain": "insurity.com",
+          "method": "normalized_token",
+          "reference": ".openings/round2-batch3-companies.json"
+        },
+        {
+          "companyName": "Insurity India",
+          "companyDomain": "insurity.com",
+          "method": "normalized_token",
+          "reference": "https://insurity.com/careers"
+        }
+      ],
+      "identityEvidence": [
+        {
+          "companyName": "Insurity India",
+          "companyDomain": "insurity.com",
+          "kind": "authoritative_dataset",
+          "reference": ".openings/round2-batch3-companies.json",
+          "observedAt": "2026-08-19T18:17:01.755Z"
+        }
+      ],
+      "attempts": [
+        {
+          "attemptedAt": "2026-08-19T18:17:43.696Z",
+          "outcome": "success"
+        }
+      ],
+      "promotedAt": "2026-08-19T18:17:43.696Z"
+    },
+    {
+      "sourceKey": "greenhouse:interviewkickstart",
+      "sourceUrl": "https://job-boards.greenhouse.io/interviewkickstart",
+      "ats": "greenhouse",
+      "token": "interviewkickstart",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://careers.smartrecruiters.com/InterviewKickstart"
+        }
+      ],
+      "companyMatches": [
+        {
+          "companyName": "Interview Kickstart",
+          "companyDomain": "interviewkickstart.com",
+          "method": "normalized_token",
+          "reference": ".openings/round2-batch2-companies.json"
+        },
+        {
+          "companyName": "Interview Kickstart",
+          "companyDomain": "interviewkickstart.com",
+          "method": "normalized_token",
+          "reference": "https://careers.smartrecruiters.com/InterviewKickstart"
+        }
+      ],
+      "identityEvidence": [
+        {
+          "companyName": "Interview Kickstart",
+          "companyDomain": "interviewkickstart.com",
+          "kind": "authoritative_dataset",
+          "reference": ".openings/round2-batch2-companies.json",
+          "observedAt": "2026-08-19T18:14:59.035Z"
+        }
+      ],
+      "attempts": [
+        {
+          "attemptedAt": "2026-08-19T18:15:35.948Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 404",
+          "nextEligibleAt": "2026-08-19T18:16:35.948Z"
+        }
+      ]
+    },
+    {
+      "sourceKey": "greenhouse:jazzx-ai",
+      "sourceUrl": "https://job-boards.greenhouse.io/jazzx-ai",
+      "ats": "greenhouse",
+      "token": "jazzx-ai",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://jazzx.ai/careers/"
+        }
+      ],
+      "companyMatches": [
+        {
+          "companyName": "JazzX AI",
+          "companyDomain": "jazzx.ai",
+          "method": "normalized_token",
+          "reference": ".openings/round2-batch4-companies.json"
+        },
+        {
+          "companyName": "JazzX AI",
+          "companyDomain": "jazzx.ai",
+          "method": "normalized_token",
+          "reference": "https://jazzx.ai/careers/"
+        }
+      ],
+      "identityEvidence": [
+        {
+          "companyName": "JazzX AI",
+          "companyDomain": "jazzx.ai",
+          "kind": "authoritative_dataset",
+          "reference": ".openings/round2-batch4-companies.json",
+          "observedAt": "2026-08-19T18:19:00.134Z"
+        }
+      ],
+      "attempts": [
+        {
+          "attemptedAt": "2026-08-19T18:19:30.865Z",
+          "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-08-20T12:54:42.478Z",
+          "outcome": "success"
+        }
+      ],
+      "promotedAt": "2026-08-20T12:54:42.478Z"
+    },
+    {
+      "sourceKey": "greenhouse:karya",
+      "sourceUrl": "https://job-boards.greenhouse.io/karya",
+      "ats": "greenhouse",
+      "token": "karya",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://www.karya.in/join-us/careers/"
+        }
+      ],
+      "companyMatches": [
+        {
+          "companyName": "Karya",
+          "companyDomain": "karya.in",
+          "method": "normalized_token",
+          "reference": ".openings/round2-batch2-companies.json"
+        },
+        {
+          "companyName": "Karya",
+          "companyDomain": "karya.in",
+          "method": "normalized_token",
+          "reference": "https://www.karya.in/join-us/careers/"
+        }
+      ],
+      "identityEvidence": [
+        {
+          "companyName": "Karya",
+          "companyDomain": "karya.in",
+          "kind": "authoritative_dataset",
+          "reference": ".openings/round2-batch2-companies.json",
+          "observedAt": "2026-08-19T18:14:59.035Z"
+        }
+      ],
+      "attempts": [
+        {
+          "attemptedAt": "2026-08-19T18:15:35.948Z",
+          "outcome": "success"
+        }
+      ],
+      "promotedAt": "2026-08-19T18:15:35.948Z"
+    },
+    {
+      "sourceKey": "greenhouse:newrelic",
+      "sourceUrl": "https://job-boards.greenhouse.io/newrelic",
+      "ats": "greenhouse",
+      "token": "newrelic",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://newrelic.com/careers"
+        }
+      ],
+      "companyMatches": [
+        {
+          "companyName": "New Relic",
+          "companyDomain": "newrelic.com",
+          "method": "normalized_token",
+          "reference": ".openings/round2-batch4-companies.json"
+        },
+        {
+          "companyName": "New Relic",
+          "companyDomain": "newrelic.com",
+          "method": "normalized_token",
+          "reference": "https://newrelic.com/careers"
+        }
+      ],
+      "identityEvidence": [
+        {
+          "companyName": "New Relic",
+          "companyDomain": "newrelic.com",
+          "kind": "authoritative_dataset",
+          "reference": ".openings/round2-batch4-companies.json",
+          "observedAt": "2026-08-19T18:19:00.134Z"
+        }
+      ],
+      "attempts": [
+        {
+          "attemptedAt": "2026-08-19T18:19:30.865Z",
+          "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-08-20T12:54:42.478Z",
+          "outcome": "success"
+        }
+      ],
+      "promotedAt": "2026-08-20T12:54:42.478Z"
+    },
+    {
+      "sourceKey": "greenhouse:nomiso",
+      "sourceUrl": "https://job-boards.greenhouse.io/nomiso",
+      "ats": "greenhouse",
+      "token": "nomiso",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://nomiso.io/careers/"
+        }
+      ],
+      "companyMatches": [
+        {
+          "companyName": "Nomiso",
+          "companyDomain": "nomiso.io",
+          "method": "normalized_token",
+          "reference": ".openings/round2-batch3-companies.json"
+        },
+        {
+          "companyName": "Nomiso",
+          "companyDomain": "nomiso.io",
+          "method": "normalized_token",
+          "reference": "https://nomiso.io/careers/"
+        }
+      ],
+      "identityEvidence": [
+        {
+          "companyName": "Nomiso",
+          "companyDomain": "nomiso.io",
+          "kind": "authoritative_dataset",
+          "reference": ".openings/round2-batch3-companies.json",
+          "observedAt": "2026-08-19T18:17:01.755Z"
+        }
+      ],
+      "attempts": [
+        {
+          "attemptedAt": "2026-08-19T18:17:43.696Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 404",
+          "nextEligibleAt": "2026-08-19T18:18:43.696Z"
+        }
+      ]
+    },
+    {
+      "sourceKey": "greenhouse:phonepe",
+      "sourceUrl": "https://job-boards.greenhouse.io/phonepe",
+      "ats": "greenhouse",
+      "token": "phonepe",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://www.phonepe.com/careers/"
+        }
+      ],
+      "companyMatches": [
+        {
+          "companyName": "PhonePe",
+          "companyDomain": "phonepe.com",
+          "method": "normalized_token",
+          "reference": ".openings/round2-authoritative-companies.json"
+        },
+        {
+          "companyName": "PhonePe",
+          "companyDomain": "phonepe.com",
+          "method": "normalized_token",
+          "reference": "https://www.phonepe.com/careers/"
+        }
+      ],
+      "identityEvidence": [
+        {
+          "companyName": "PhonePe",
+          "companyDomain": "phonepe.com",
+          "kind": "authoritative_dataset",
+          "reference": ".openings/round2-authoritative-companies.json",
+          "observedAt": "2026-08-19T18:12:30.009Z"
+        }
+      ],
+      "attempts": [
+        {
+          "attemptedAt": "2026-08-19T18:13:14.222Z",
+          "outcome": "success"
+        }
+      ],
+      "promotedAt": "2026-08-19T18:13:14.222Z"
+    },
+    {
+      "sourceKey": "greenhouse:project44",
+      "sourceUrl": "https://job-boards.greenhouse.io/project44",
+      "ats": "greenhouse",
+      "token": "project44",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://www.project44.com/company/careers/"
+        }
+      ],
+      "companyMatches": [
+        {
+          "companyName": "project44",
+          "companyDomain": "project44.com",
+          "method": "normalized_token",
+          "reference": ".openings/round2-batch2-companies.json"
+        },
+        {
+          "companyName": "project44",
+          "companyDomain": "project44.com",
+          "method": "normalized_token",
+          "reference": "https://www.project44.com/company/careers/"
+        }
+      ],
+      "identityEvidence": [
+        {
+          "companyName": "project44",
+          "companyDomain": "project44.com",
+          "kind": "authoritative_dataset",
+          "reference": ".openings/round2-batch2-companies.json",
+          "observedAt": "2026-08-19T18:14:59.035Z"
+        }
+      ],
+      "attempts": [
+        {
+          "attemptedAt": "2026-08-19T18:15:35.948Z",
+          "outcome": "success"
+        }
+      ],
+      "promotedAt": "2026-08-19T18:15:35.948Z"
+    },
+    {
       "sourceKey": "greenhouse:robots.txt",
       "sourceUrl": "https://job-boards.greenhouse.io/robots.txt",
       "ats": "greenhouse",
@@ -26640,6 +27588,363 @@
       "companyMatches": [],
       "identityEvidence": [],
       "attempts": []
+    },
+    {
+      "sourceKey": "greenhouse:saucelabs",
+      "sourceUrl": "https://job-boards.greenhouse.io/saucelabs",
+      "ats": "greenhouse",
+      "token": "saucelabs",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://saucelabs.com/company/careers"
+        }
+      ],
+      "companyMatches": [
+        {
+          "companyName": "Sauce Labs",
+          "companyDomain": "saucelabs.com",
+          "method": "normalized_token",
+          "reference": ".openings/round2-batch3-companies.json"
+        },
+        {
+          "companyName": "Sauce Labs",
+          "companyDomain": "saucelabs.com",
+          "method": "normalized_token",
+          "reference": "https://saucelabs.com/company/careers"
+        }
+      ],
+      "identityEvidence": [
+        {
+          "companyName": "Sauce Labs",
+          "companyDomain": "saucelabs.com",
+          "kind": "authoritative_dataset",
+          "reference": ".openings/round2-batch3-companies.json",
+          "observedAt": "2026-08-19T18:17:01.755Z"
+        }
+      ],
+      "attempts": [
+        {
+          "attemptedAt": "2026-08-19T18:17:43.696Z",
+          "outcome": "success"
+        }
+      ],
+      "promotedAt": "2026-08-19T18:17:43.696Z"
+    },
+    {
+      "sourceKey": "greenhouse:sigmoid",
+      "sourceUrl": "https://job-boards.greenhouse.io/sigmoid",
+      "ats": "greenhouse",
+      "token": "sigmoid",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://www.sigmoid.com/"
+        }
+      ],
+      "companyMatches": [
+        {
+          "companyName": "Sigmoid",
+          "companyDomain": "sigmoid.com",
+          "method": "normalized_token",
+          "reference": ".openings/round2-batch4-companies.json"
+        },
+        {
+          "companyName": "Sigmoid",
+          "companyDomain": "sigmoid.com",
+          "method": "normalized_token",
+          "reference": "https://www.sigmoid.com/"
+        }
+      ],
+      "identityEvidence": [
+        {
+          "companyName": "Sigmoid",
+          "companyDomain": "sigmoid.com",
+          "kind": "authoritative_dataset",
+          "reference": ".openings/round2-batch4-companies.json",
+          "observedAt": "2026-08-19T18:19:00.134Z"
+        }
+      ],
+      "attempts": [
+        {
+          "attemptedAt": "2026-08-19T18:19:30.865Z",
+          "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-08-20T12:54:42.478Z",
+          "outcome": "success"
+        }
+      ],
+      "promotedAt": "2026-08-20T12:54:42.478Z"
+    },
+    {
+      "sourceKey": "greenhouse:smartsheet",
+      "sourceUrl": "https://job-boards.greenhouse.io/smartsheet",
+      "ats": "greenhouse",
+      "token": "smartsheet",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://www.smartsheet.com/careers"
+        }
+      ],
+      "companyMatches": [
+        {
+          "companyName": "Smartsheet",
+          "companyDomain": "smartsheet.com",
+          "method": "normalized_token",
+          "reference": ".openings/round2-batch4-companies.json"
+        },
+        {
+          "companyName": "Smartsheet",
+          "companyDomain": "smartsheet.com",
+          "method": "normalized_token",
+          "reference": "https://www.smartsheet.com/careers"
+        }
+      ],
+      "identityEvidence": [
+        {
+          "companyName": "Smartsheet",
+          "companyDomain": "smartsheet.com",
+          "kind": "authoritative_dataset",
+          "reference": ".openings/round2-batch4-companies.json",
+          "observedAt": "2026-08-19T18:19:00.134Z"
+        }
+      ],
+      "attempts": [
+        {
+          "attemptedAt": "2026-08-19T18:19:30.865Z",
+          "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-08-20T12:54:42.478Z",
+          "outcome": "success"
+        }
+      ],
+      "promotedAt": "2026-08-20T12:54:42.478Z"
+    },
+    {
+      "sourceKey": "greenhouse:sonicwall",
+      "sourceUrl": "https://job-boards.greenhouse.io/sonicwall",
+      "ats": "greenhouse",
+      "token": "sonicwall",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://www.sonicwall.com/careers"
+        }
+      ],
+      "companyMatches": [
+        {
+          "companyName": "SonicWall",
+          "companyDomain": "sonicwall.com",
+          "method": "normalized_token",
+          "reference": ".openings/round2-authoritative-companies.json"
+        },
+        {
+          "companyName": "SonicWall",
+          "companyDomain": "sonicwall.com",
+          "method": "normalized_token",
+          "reference": "https://www.sonicwall.com/careers"
+        }
+      ],
+      "identityEvidence": [
+        {
+          "companyName": "SonicWall",
+          "companyDomain": "sonicwall.com",
+          "kind": "authoritative_dataset",
+          "reference": ".openings/round2-authoritative-companies.json",
+          "observedAt": "2026-08-19T18:12:30.009Z"
+        }
+      ],
+      "attempts": [
+        {
+          "attemptedAt": "2026-08-19T18:13:14.222Z",
+          "outcome": "success"
+        }
+      ],
+      "promotedAt": "2026-08-19T18:13:14.222Z"
+    },
+    {
+      "sourceKey": "greenhouse:sumologic",
+      "sourceUrl": "https://job-boards.greenhouse.io/sumologic",
+      "ats": "greenhouse",
+      "token": "sumologic",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://www.sumologic.com/company/careers"
+        }
+      ],
+      "companyMatches": [
+        {
+          "companyName": "Sumo Logic",
+          "companyDomain": "sumologic.com",
+          "method": "normalized_token",
+          "reference": ".openings/round2-batch4-companies.json"
+        },
+        {
+          "companyName": "Sumo Logic",
+          "companyDomain": "sumologic.com",
+          "method": "normalized_token",
+          "reference": "https://www.sumologic.com/company/careers"
+        }
+      ],
+      "identityEvidence": [
+        {
+          "companyName": "Sumo Logic",
+          "companyDomain": "sumologic.com",
+          "kind": "authoritative_dataset",
+          "reference": ".openings/round2-batch4-companies.json",
+          "observedAt": "2026-08-19T18:19:00.134Z"
+        }
+      ],
+      "attempts": [
+        {
+          "attemptedAt": "2026-08-19T18:19:30.865Z",
+          "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-08-20T12:54:42.478Z",
+          "outcome": "success"
+        }
+      ],
+      "promotedAt": "2026-08-20T12:54:42.478Z"
+    },
+    {
+      "sourceKey": "greenhouse:tekion",
+      "sourceUrl": "https://job-boards.greenhouse.io/tekion",
+      "ats": "greenhouse",
+      "token": "tekion",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://tekion.com/careers"
+        }
+      ],
+      "companyMatches": [
+        {
+          "companyName": "Tekion",
+          "companyDomain": "tekion.com",
+          "method": "normalized_token",
+          "reference": ".openings/round2-batch4-companies.json"
+        },
+        {
+          "companyName": "Tekion",
+          "companyDomain": "tekion.com",
+          "method": "normalized_token",
+          "reference": "https://tekion.com/careers"
+        }
+      ],
+      "identityEvidence": [
+        {
+          "companyName": "Tekion",
+          "companyDomain": "tekion.com",
+          "kind": "authoritative_dataset",
+          "reference": ".openings/round2-batch4-companies.json",
+          "observedAt": "2026-08-19T18:19:00.134Z"
+        }
+      ],
+      "attempts": [
+        {
+          "attemptedAt": "2026-08-19T18:19:30.865Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 404",
+          "nextEligibleAt": "2026-08-19T18:20:30.865Z"
+        },
+        {
+          "attemptedAt": "2026-08-20T12:54:42.478Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 404",
+          "nextEligibleAt": "2026-08-20T12:56:42.478Z"
+        }
+      ]
+    },
+    {
+      "sourceKey": "greenhouse:zenoti",
+      "sourceUrl": "https://job-boards.greenhouse.io/zenoti",
+      "ats": "greenhouse",
+      "token": "zenoti",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://www.zenoti.com/company/careers"
+        }
+      ],
+      "companyMatches": [
+        {
+          "companyName": "Zenoti",
+          "companyDomain": "zenoti.com",
+          "method": "normalized_token",
+          "reference": ".openings/round2-batch2-companies.json"
+        },
+        {
+          "companyName": "Zenoti",
+          "companyDomain": "zenoti.com",
+          "method": "normalized_token",
+          "reference": "https://www.zenoti.com/company/careers"
+        }
+      ],
+      "identityEvidence": [
+        {
+          "companyName": "Zenoti",
+          "companyDomain": "zenoti.com",
+          "kind": "authoritative_dataset",
+          "reference": ".openings/round2-batch2-companies.json",
+          "observedAt": "2026-08-19T18:14:59.035Z"
+        }
+      ],
+      "attempts": [
+        {
+          "attemptedAt": "2026-08-19T18:15:35.948Z",
+          "outcome": "success"
+        }
+      ],
+      "promotedAt": "2026-08-19T18:15:35.948Z"
+    },
+    {
+      "sourceKey": "greenhouse:zinnia",
+      "sourceUrl": "https://job-boards.greenhouse.io/zinnia",
+      "ats": "greenhouse",
+      "token": "zinnia",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://zinnia.com/en/careers"
+        }
+      ],
+      "companyMatches": [
+        {
+          "companyName": "Zinnia",
+          "companyDomain": "zinnia.com",
+          "method": "normalized_token",
+          "reference": ".openings/round2-batch3-companies.json"
+        },
+        {
+          "companyName": "Zinnia",
+          "companyDomain": "zinnia.com",
+          "method": "normalized_token",
+          "reference": "https://zinnia.com/en/careers"
+        }
+      ],
+      "identityEvidence": [
+        {
+          "companyName": "Zinnia",
+          "companyDomain": "zinnia.com",
+          "kind": "authoritative_dataset",
+          "reference": ".openings/round2-batch3-companies.json",
+          "observedAt": "2026-08-19T18:17:01.755Z"
+        }
+      ],
+      "attempts": [
+        {
+          "attemptedAt": "2026-08-19T18:17:43.696Z",
+          "outcome": "success"
+        }
+      ],
+      "promotedAt": "2026-08-19T18:17:43.696Z"
     },
     {
       "sourceKey": "lever:mindtickle",
@@ -26740,6 +28045,13 @@
         {
           "attemptedAt": "2026-08-19T17:52:01.941Z",
           "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-08-19T18:12:29.932Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "Unable to connect. Is the computer able to access the url?",
+          "nextEligibleAt": "2026-08-19T18:13:29.932Z"
         }
       ],
       "promotedAt": "2026-08-19T17:52:01.941Z"
@@ -28784,6 +30096,13 @@
         {
           "attemptedAt": "2026-08-19T17:58:47.954Z",
           "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-08-19T18:12:29.932Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "Unable to connect. Is the computer able to access the url?",
+          "nextEligibleAt": "2026-08-19T18:13:29.932Z"
         }
       ],
       "promotedAt": "2026-08-19T17:58:47.954Z"
@@ -30265,6 +31584,13 @@
         {
           "attemptedAt": "2026-08-19T17:58:47.954Z",
           "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-08-19T18:12:29.932Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "Unable to connect. Is the computer able to access the url?",
+          "nextEligibleAt": "2026-08-19T18:13:29.932Z"
         }
       ],
       "promotedAt": "2026-08-19T17:58:47.954Z"
@@ -35825,6 +37151,13 @@
         {
           "attemptedAt": "2026-08-19T17:52:01.941Z",
           "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-08-19T18:12:29.932Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "Unable to connect. Is the computer able to access the url?",
+          "nextEligibleAt": "2026-08-19T18:13:29.932Z"
         }
       ],
       "promotedAt": "2026-08-19T17:52:01.941Z"
