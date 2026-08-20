@@ -381,6 +381,7 @@ function sectionHeading(value: string): "required" | "optional" | "other" | unde
 }
 
 function hyphenatedPhrase(value: string, phrase: string): boolean {
+  if (phrase.trim().toLocaleLowerCase() === "go") return false;
   return includesPhrase(value.replace(/-/g, " "), phrase.replace(/-/g, " "));
 }
 
@@ -453,6 +454,10 @@ function displayRequirement(requirement: string): string {
 function includesPhrase(value: string, phrase: string): boolean {
   const normalizedPhrase = phrase.trim().toLocaleLowerCase();
   if (!normalizedPhrase) return false;
+  if (normalizedPhrase === "go") {
+    const withoutProseIdioms = value.replace(/\b(?:go-to-market|go-live|on-the-go)\b/gi, " ");
+    return /(^|[^a-z0-9+#])Go(?=$|[^a-z0-9+#])/.test(withoutProseIdioms);
+  }
   const escaped = normalizedPhrase.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
   return new RegExp(`(^|[^a-z0-9+#])${escaped}(?=$|[^a-z0-9+#])`, "i").test(value);
 }

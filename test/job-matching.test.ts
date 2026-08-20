@@ -136,6 +136,22 @@ test("only requirement-shaped skill mentions become gaps", () => {
   expect(result.matches[0]!.gaps).toEqual(["AWS"]);
 });
 
+test("Go evidence does not match lowercase hyphenated prose idioms", () => {
+  const profile = parseCandidateProfile({ content: "Skills\nGo", format: "text" });
+  for (const description of [
+    "Experience with channel-led go-to-market models is required.",
+    "Experience with go-live planning is required.",
+    "Experience with on-the-go field campaigns is required.",
+  ]) {
+    const match = matchJobs(profile, {}, [job({ title: "Senior Manager, Field Marketing", description })]).matches[0]!;
+    expect(match.supported).toEqual([]);
+    expect(match.reasons).not.toContain("Go is supported by resume evidence");
+  }
+
+  const engineering = matchJobs(profile, {}, [job({ description: "Experience with Go services is required." })]).matches[0]!;
+  expect(engineering.supported.map((item) => item.requirement)).toEqual(["Go"]);
+});
+
 test("optional and negated skill mentions are neither supported requirements nor gaps", () => {
   const profile = parseCandidateProfile({ content: "Skills\nJava, Kubernetes", format: "text" });
   for (const description of ["Java is optional.", "Java is not required.", "No Kubernetes experience needed.", "We are migrating away from Java."]) {
