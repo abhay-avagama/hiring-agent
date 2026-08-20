@@ -95,3 +95,29 @@ Round 2 completed 2026-08-20 at the 25-source crawl cap:
 
 - `skills/openings/SKILL.md` already matches the PRD's target "thin wrapper" shape — delegates to MCP tools, doesn't reproduce parsing/matching.
 - Adversarial resume-parsing coverage (embedded-instruction injection, fabricated facts, evidence-offset tampering) already exists in `test/candidate-profile.test.ts` — matches PRD success criteria #9/#10.
+
+## 8. Round 3 — Lever/Ashby identity evidence — draft for review
+
+Round 3 starts from the fixed `2026-08-20T13:00:00.000Z` baseline: 104 verified sources, 103 India-cohort indexed sources, 50,464 indexed jobs, 6,902 India-eligible jobs, and 100 distinct eligible employers. The indexed provider mix is 63 Workday, 38 Greenhouse, 1 Lever, and 1 Ashby.
+
+The campaign objective is provider diversity, not closing the remaining 598-job gap with more Greenhouse or Workday volume. Its desired outcome is to raise either Lever or Ashby from one to at least ten India-eligible employers, which would make three providers contribute at least ten employers. That is a directional target, not authorization to weaken the identity bar when the evidence path does not exist.
+
+Run the campaign in gated phases:
+
+1. **Structured-capability probe, read-only.** Examine at most 20 known Lever/Ashby boards (at most ten per provider) for provider-owned structured organization metadata that includes a mechanically checkable company domain. Include positive controls with independently known company identities and negative/conflict cases. Do not promote candidates or write catalog state during this phase.
+2. **Evidence adapter, only if phase 1 succeeds.** If a stable public structured field or endpoint supplies the company domain, specify its canonicalization, conflict handling, payload-version marker, and tests before it becomes `provider_structured_domain` evidence. Then apply the tested adapter to at most 200 existing unresolved Lever/Ashby board leads and join the observed domain to an existing authoritative company identity by exact normalized-domain equality (lowercase with only a leading `www.` removed); suffix, substring, and name-similarity joins are forbidden. This is evidence acquisition over the durable backlog, not new token discovery. A name, board token, job-description URL, search result, DNS record, or arbitrary count of weak matches remains insufficient.
+3. **Bounded promotion and crawl.** Only candidates carrying qualifying provider-structured evidence or an already replayable company-owned redirect may enter verification. Verify no more than 20 candidates, admit no more than 12 sources, and crawl no more than 12 newly admitted sources. Every admitted feed must independently contain an India-eligible job.
+
+Hard caps for the entire round: 20 initial capability probes, 200 existing backlog boards checked by a successful tested adapter, 20 verification-ready candidates, 12 admitted sources, and 12 new-source crawls. Do not launch Common Crawl discovery, repeat the already-exhausted conventional career-path trace, scrape career-page HTML, add proxy infrastructure, or admit Greenhouse/Workday sources as part of this round.
+
+Stop immediately when any of these applies:
+
+- none of the 20 structured probes exposes a stable qualifying company-domain field;
+- a proposed structured field disagrees with independently known identity controls or cannot be bound to the exact canonical board;
+- a new evidence method produces qualifying evidence for less than 5% of its first 50 existing backlog boards;
+- verification or crawl health falls below the existing 90% floor, or more than 10% of the batch is affected by throttling/transport failure;
+- either the provider-diversity target or any declared cap is reached.
+
+If phase 1 fails, close the round as an evidence-research result and keep the 1,198 raw Ashby tokens parked. The next option should be a cooperative company-owned proof such as a documented `.well-known` board declaration, not weaker inference from public prose.
+
+Data hygiene is separate from round 3 and cannot be counted as campaign progress: inspect and remove the local-only `thomsonreuters` orphan after confirming it has no catalog candidate, and run one explicit targeted crawl for the verified-but-never-indexed `anthropic` source. Record both outcomes independently. Do not perform either action until this draft is approved.
