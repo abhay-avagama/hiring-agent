@@ -178,6 +178,22 @@ test("longer overlapping requirements win without double-counting", () => {
   expect(match.gaps).toEqual([]);
 });
 
+test("Spring framework evidence does not match academic season requirements", () => {
+  const profile = parseCandidateProfile({ content: "Skills\nSpring, Java", format: "text" });
+  for (const description of [
+    "A degree in Finance or a STEM-related field must be conferred Fall 2025 or Spring 2026.",
+    "Candidates must graduate in Fall/Spring/Summer 2026.",
+    "The degree must be completed by Spring semester 2026.",
+  ]) {
+    const academic = matchJobs(profile, {}, [job({ title: "Quantitative Portfolio Analyst – 2026 Grad", description })]).matches[0]!;
+    expect(academic.supported).toEqual([]);
+    expect(academic.reasons).not.toContain("Spring is supported by resume evidence");
+  }
+
+  const engineering = matchJobs(profile, {}, [job({ description: "Experience with the Spring framework is required." })]).matches[0]!;
+  expect(engineering.supported.map((item) => item.requirement)).toEqual(["Spring"]);
+});
+
 test("new vocabulary ignores optional and incidental mentions", () => {
   const profile = parseCandidateProfile({ content: "Skills\nCI/CD, LLM, Machine learning", format: "text" });
   const match = matchJobs(profile, {}, [job({

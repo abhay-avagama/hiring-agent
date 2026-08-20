@@ -5,7 +5,7 @@ interface RequirementDefinition {
   display: string;
   aliases?: string[];
   evidence: "exact_skill" | "fact_phrase";
-  matching?: { caseSensitive?: boolean; excludedPhrases?: string[] };
+  matching?: { caseSensitive?: boolean; excludedPhrases?: string[]; excludedPatterns?: string[] };
 }
 
 interface TransferabilityEdge {
@@ -25,8 +25,11 @@ const requirementDefinitions: RequirementDefinition[] = [
     ["snowflake", "Snowflake"], ["aws", "AWS"], ["azure", "Azure"], ["gcp", "GCP"], ["kubernetes", "Kubernetes"],
     ["docker", "Docker"], ["terraform", "Terraform"], ["kafka", "Kafka"], ["databricks", "Databricks"], ["redis", "Redis"],
     ["mongodb", "MongoDB"], ["linux", "Linux"], ["nosql", "NoSQL"], ["c++", "C++"], ["machine learning", "Machine learning"],
-    ["jenkins", "Jenkins"], ["spring", "Spring"], ["spring boot", "Spring Boot"],
+    ["jenkins", "Jenkins"], ["spring boot", "Spring Boot"],
   ]),
+  exactSkill("spring", "Spring", undefined, {
+    excludedPatterns: [String.raw`\bspring(?:\s*[/,&-]\s*(?:fall|summer|winter))*\s+(?:semester\s+)?(?:19|20)\d{2}\b`],
+  }),
   exactSkill("ci/cd", "CI/CD", ["continuous integration and continuous delivery", "continuous integration/continuous delivery"]),
   exactSkill("llm", "LLM", ["large language model", "large language models"]),
   phrase("financial products", "Financial products"),
@@ -91,7 +94,8 @@ function matchingTerms(definition: RequirementDefinition): string[] {
 
 function findOccurrences(value: string, term: string, definition: RequirementDefinition): Array<{ definition: RequirementDefinition; start: number; end: number; length: number }> {
   let searchable = value;
-  for (const excluded of definition.matching?.excludedPhrases ?? []) searchable = searchable.replace(new RegExp(escapeRegex(excluded), "giu"), " ".repeat(excluded.length));
+  for (const excluded of definition.matching?.excludedPhrases ?? []) searchable = maskMatches(searchable, new RegExp(escapeRegex(excluded), "giu"));
+  for (const pattern of definition.matching?.excludedPatterns ?? []) searchable = maskMatches(searchable, new RegExp(pattern, "giu"));
   const escaped = escapeRegex(term);
   const flags = definition.matching?.caseSensitive ? "gu" : "giu";
   const matches = searchable.matchAll(new RegExp(`(^|[^a-z0-9+#])(${escaped})(?=$|[^a-z0-9+#])`, flags));
@@ -103,3 +107,4 @@ function findOccurrences(value: string, term: string, definition: RequirementDef
 }
 
 function escapeRegex(value: string): string { return value.replace(/[.*+?^${}()|[\]\\]/gu, "\\$&"); }
+function maskMatches(value: string, pattern: RegExp): string { return value.replace(pattern, (match) => " ".repeat(match.length)); }
