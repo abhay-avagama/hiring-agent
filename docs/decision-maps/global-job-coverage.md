@@ -186,3 +186,44 @@ Does Workable provide a documented or otherwise acceptable contract for its unau
 ### Answer
 
 Open. The feed produced valid JSON for 7/7 active India-discovered accounts and has excellent discovery yield, but current public developer documentation emphasizes authenticated APIs. Do not promote it from experimental until this gap is resolved.
+
+## #12: Can Company-Owned `JobPosting` Structured Data Reach Employers Outside Any Supported ATS?
+
+Blocked by: #2
+Type: Research
+
+### Question
+
+Every current and researched source (#5) is an ATS-provider feed. A meaningful share of employers post jobs only through a self-built career page or a channel Openings cannot verify (e.g. LinkedIn), with no ATS behind them at all. Can `schema.org JobPosting` JSON-LD justify a narrow, explicit exception to decision #2, where Openings fetches an HTML document but extracts only a standardized company-published structured block rather than inferring jobs from prose?
+
+### Answer
+
+Open, not yet researched. This is an explicit policy question, not a claim that JSON-LD is “not HTML”: extraction still requires retrieving and parsing an HTML container. The narrower trust proposal is that only a standardized `<script type="application/ld+json">` payload published on the company domain is job data; surrounding prose remains unusable. Because it sits on the company's own domain it may supply stronger ownership evidence than most current Lever/Ashby candidates, but same-domain publication alone does not resolve discovery, SSRF, freshness, or duplication.
+
+Before any campaign uses it, resolve: (1) which fields are reliably present (`hiringOrganization`, `jobLocation`, `datePosted`, `validThrough`) versus omitted or stubbed; (2) how eligibility classification (#7) applies; (3) URL discovery and whether listing pages expose usable JSON-LD or only unknown detail pages do; (4) SSRF and redirect controls; (5) company ownership, canonicalization, duplicate jobs, and expiry; and (6) a bounded, read-only capability probe before any promotion path is designed.
+
+## #13: How Should A Candidate Learn What Openings Currently Covers?
+
+Blocked by: #10
+Type: Grilling
+
+### Question
+
+`recommend_jobs` returns "best available jobs and explains the shortfall" when too few matches exist (PRD, Conditional refresh), and `skills/openings/SKILL.md` presents whatever the tool returns. Neither proactively tells a candidate, before or during their first search, which countries and how many employers are actually covered. Is silence-until-disappointment the right default?
+
+### Answer
+
+Resolved in design, not yet implemented. Build one pure catalog-plus-snapshot projection per country that reports indexed sources containing eligible jobs, eligible-job count, and distinct eligible employer domains. Discovery-cohort counts are provenance and must not be presented as coverage. Expose the projection through a lightweight read-only MCP tool so a host can set expectations before requesting a resume, and include the same projection in every `recommend_jobs` response for hosts that skip directly to recommendation. The maintainer coverage report and both candidate surfaces must share this computation; the recommender must not call the report generator or read registry/health diagnostics.
+
+## #14: How Should Requirement Detection And Transferability Evolve?
+
+Blocked by: none
+Type: Prototype
+
+### Question
+
+The matcher recognizes only a small fixed technical vocabulary. How can Openings detect more real job requirements without manufacturing transferable evidence between technologies that merely share a broad category?
+
+### Answer
+
+Partially resolved in design and measured in the [requirement vocabulary audit](../research/requirement-vocabulary-audit.md). Requirement detection and transferable credit are separate claims. The audit covered 6,905 India-eligible jobs and 9,396 requirement-shaped clauses, confirming frequent unrecognized requirements such as CI/CD, Linux, NoSQL, C++, Kafka, LLM, machine learning, and Jenkins. A detector may identify a requirement without granting partial resume credit. Transferability defaults to none and requires an explicit, separately reviewed relationship backed by validated resume facts; broad title-exploration families do not imply cross-technology skill credit. Implement a detection registry and separate transferability-edge registry only after the first vocabulary batch is reviewed.

@@ -129,3 +129,35 @@ No payload contained a key whose name indicated company, organization, domain, o
 Round 3 is closed under its predeclared stop rule. The 1,198 raw Ashby leads remain parked. Further progress requires a new strong ownership mechanism, with a cooperative company-owned `.well-known` board declaration remaining the next design option; weak name, token, DNS, search-result, or public-prose inference remains forbidden.
 
 Data hygiene was completed separately from round 3 on `2026-08-20` and is not counted as campaign progress. A bounded full-catalog maintenance crawl confirmed `thomsonreuters` was the sole orphaned partition and pruned it through the crawler's normal catalog-sync path. The same run selected only the sole never-indexed verified source, `anthropic`, and indexed it successfully: 484 jobs, including 3 India-eligible jobs, with one attempt, zero throttles, and zero backoff. The resulting coverage report has 104/104 catalog sources indexed, no orphaned partitions, and no never-indexed sources.
+
+## 9. Corpus breadth beyond the big four ATS providers — draft for review
+
+The corpus is currently Workday/Greenhouse/Lever/Ashby only. Decision-map #5 already researched and named the next viable providers — Recruitee and Personio as direct next candidates, SmartRecruiters pending an authentication-contract probe — and already excluded Freshteam, Darwinbox, Zoho Recruit, and BambooHR under the no-HTML/no-required-key constraint. That research has never been executed as a round.
+
+Proposed round 4 remains unapproved until current provider contracts are rechecked and every phase has numeric caps, success criteria, and stop conditions. Once those are written, use the same gated-round discipline as rounds 2 and 3, adapted to a new-provider probe instead of an identity probe:
+
+1. **Adapter feasibility probe, read-only.** For Recruitee and Personio, recheck the current public contract, confirm a stable unauthenticated structured job feed exists, and identify its provider-supplied company-identity field (mirroring how Greenhouse and Workday already supply one). The approved draft must replace this placeholder with an exact board cap per provider; no promotion or catalog writes occur during the probe.
+2. **SmartRecruiters authentication-contract check.** Resolve whether its public feed is genuinely keyless in practice, per #5's open item, before treating it as eligible at all.
+3. **Bounded promotion and crawl**, only for providers that clear phase 1/2, using the existing verification and quality-floor gates — no new identity standard, just a new adapter.
+
+Do not treat this as authorization to relax the identity bar for any provider, and do not fold Freshteam/Darwinbox/Zoho Recruit/BambooHR back in — #5 already closed those under the current HTML/key constraints.
+
+## 10. Structured `JobPosting` evidence kind — needs research before a round (decision-map #12)
+
+Every current and researched source (existing four ATS providers, plus #9 above) is an ATS-provider feed. Employers who run a custom career page with no ATS behind them — including ones a candidate might otherwise only find via LinkedIn — are invisible to this corpus no matter how many ATS adapters are added. Decision-map #12 asks whether `schema.org JobPosting` JSON-LD can justify a narrow, explicit exception to decision #2: Openings would still fetch an HTML document, but would extract only a standardized company-published structured block rather than infer jobs from prose. This is not yet scoped as a round. Research must first cover URL discovery, SSRF controls, ownership, canonicalization and duplicates, expiry, field reliability, eligibility classification, and whether useful JSON-LD is discoverable from listing pages rather than only unknown detail URLs.
+
+LinkedIn and Indeed themselves remain out of scope: no compliant API for this use case exists without a commercial partnership, which is a different kind of decision than a crawl-engineering task and isn't warranted by a free, local, no-accounts product.
+
+## 11. Candidate-facing coverage transparency — draft for review (decision-map #13)
+
+Confirmed gap: `skills/openings/SKILL.md` never surfaces what Openings actually covers, and `recommend_jobs` only explains scope *after* a thin result. A candidate searching a country with near-zero coverage learns that only after supplying their resume.
+
+Approved direction: build both pre-resume and in-response transparency from one pure projection over the verified catalog and current snapshot. A lightweight read-only MCP coverage tool lets a host report scope during intent gathering before requesting a resume. `recommend_jobs` also returns the same per-country summary for hosts that go directly to recommendation. Report indexed sources with eligible jobs, eligible-job count, and distinct eligible employer domains; never present discovery-cohort source count as actual country coverage. Extract the shared projection from `coverage report` rather than calling its file-I/O/report generator from the recommender. `SKILL.md` presents the tool-owned result without recalculating it.
+
+## 12. Expand the requirement-vocabulary dictionary — draft for review
+
+`requirementFamilies` and `materialRequirementTerms` in `src/job-matching.ts:266-276` recognize 35 total terms across the entire matching engine (24 skill/language entries + 11 material-requirement phrases). Common stacks are absent entirely — Kafka, GraphQL, Elasticsearch, gRPC, Rust, C++/C#, CI/CD tooling, mobile (Swift/Kotlin), and ML frameworks (PyTorch/TensorFlow) have no entry, so a job requiring any of them can never register a supported requirement, a gap, or a transferable-skill credit for those terms — evidence percentage silently underrepresents real overlap or real gaps whenever a job's actual requirements fall outside this list.
+
+Approved first step: audit the current India-eligible snapshot for frequent unrecognized technical terms in requirement-shaped text. Detection and transferability are separate claims: the detector may recognize a requirement without granting any transferable credit, while transferability requires an explicit, separately reviewed relationship backed by resume facts. Do not force every detected term into the existing four broad families. Implement the model and vocabulary only after the audit result is reviewed, with positive, negative, and cross-family regression tests mirroring `test/job-matching.test.ts`. This is an offline engineering task, not a network campaign.
+
+Audit completed on `2026-08-20`: [requirement vocabulary audit](docs/research/requirement-vocabulary-audit.md). It measured 6,905 India-eligible jobs and 9,396 requirement-shaped clauses. The largest unrecognized low-ambiguity candidates include CI/CD (77 jobs), Linux (46), NoSQL (43), C++ (40), Kafka (35), LLM (34), machine learning (28), and Jenkins (25). The recommended seam is a detection registry plus a separate, default-empty transferability-edge registry; no matcher behavior changed during the audit.
