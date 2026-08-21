@@ -23,7 +23,7 @@ This provider set is broad enough to begin a 1,000-source country-focused campai
 | Darwinbox | Documented Jobs API v3 | API key plus Basic/OAuth | Tenant subdomain | Potentially strong India coverage | Exclude: privileged, request-only API |
 | Zoho Recruit | Documented Recruit API | OAuth | Organization/account | Potentially strong India coverage | Exclude: credentialed API; no verified public job feed |
 | BambooHR | Documented API | OAuth or API key | Company domain | Unknown public-job coverage | Exclude: credentialed API |
-| Workday | Public career sites exist, but no documented unauthenticated external-career job feed was established | Tenant credentials for documented APIs | Tenant/site pair | Rich but portal-specific | Exclude: would depend on undocumented portal calls or HTML extraction |
+| Workday | Public CXS JSON used by company career sites | None observed for public reads | Tenant/site pair | Complete structured locations and descriptions | Shipped; URL-derived tenant identity does not independently prove company-domain ownership |
 
 ## Primary Documentation
 

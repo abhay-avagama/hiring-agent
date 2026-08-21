@@ -88,6 +88,10 @@ _Avoid_: Candidate source, verified source
 Identity evidence strong enough to send a matched lead to live verification. Weak name, token, domain, and search matches never accumulate into verification-ready evidence. Lever and Ashby specifically require provider-structured identity or a safely replayed company-owned redirect.
 _Avoid_: Confidence score, corroborating guesses
 
+**Provider-time identity acquisition**:
+A narrowly provider-specific verification path for a structured feed that publishes a company-owned domain link inside its job records. Recruitee leads with a possible company match may enter this path without prior verification-ready evidence, but they remain unverified unless the live structured payload links to the exact claimed company domain. The provider token, company name, DNS, and search evidence never establish identity.
+_Avoid_: Matched-lead bypass, inferred ownership
+
 **Discovery ladder**:
 Candidate sources are sought in this order: known-ATS search results, career-page ATS links, ATS showcases or directories, community submissions, then independently reverified public datasets. Discovery may propose a source but cannot index it without verification.
 _Avoid_: Unverified bulk import
