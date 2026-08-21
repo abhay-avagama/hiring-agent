@@ -1,5 +1,6 @@
 #!/usr/bin/env bun
 import { readFile } from "node:fs/promises";
+import { relative, resolve } from "node:path";
 import { createRuntime } from "./runtime.ts";
 import { runSourceVerification } from "./source-pipeline.ts";
 import { runSourceDiscovery, runYcSourceDiscovery } from "./source-discovery.ts";
@@ -12,6 +13,7 @@ import { enrichSourcesFromCompanies } from "./source-enrichment.ts";
 import { forceReleaseFileLock, inspectFileLock } from "./file-lock.ts";
 import { generateCountryCoverageReport } from "./country-coverage.ts";
 import { probeJobPostingJsonLd } from "./jobposting-probe.ts";
+import { mergeAttemptedRoundLeads, prepareRecruiteeRoundArtifacts } from "./recruitee-round.ts";
 
 const HELP = `Openings — search public company job boards
 
@@ -23,10 +25,12 @@ Usage:
   openings sources discover FEED.json [--country CODE] [--registry FILE] [--output FILE] [--catalog FILE] [--report FILE]
   openings sources discover-yc --country CODE [--registry FILE] [--output FILE] [--catalog FILE] [--report FILE]
   openings sources seed-companies-yc --country CODE [--output FILE]
-  openings sources discover-common-crawl [--country CODE] [--registry FILE] [--output FILE] [--report FILE] [--index-url URL]
+  openings sources discover-common-crawl [--country CODE] [--provider recruitee] [--index-record-limit N] [--sample-token-limit N] [--exclude-token TOKEN] [--report-only] [--registry FILE] [--output FILE] [--report FILE] [--index-url URL]
   openings sources enrich COMPANIES.json [--companies FILE]... [--evidence-kind authoritative_dataset|company_registry] [--registry FILE] [--output FILE] [--report FILE]
   openings sources trace-careers COMPANIES.json [--country CODE] [--registry FILE] [--common-crawl-report FILE] [--search-key-env NAME] [--output FILE] [--catalog FILE] [--report FILE]
   openings sources probe-jobposting COMPANIES.md [--catalog FILE] [--report FILE] [--company-limit 10|20]
+  openings sources prepare-recruitee-round IDENTITIES.json [--catalog FILE] [--artifacts DIR]
+  openings sources merge-attempted-round-leads ISOLATED_REGISTRY [--registry FILE]
   openings search [words] [--country CODE|--india] [--location PLACE] [--remote|--onsite]
                   [--limit N] [--stale-days N] [--offline] [--data-dir PATH]
   openings get JOB_ID [--stale-days N] [--offline] [--data-dir PATH]
@@ -92,6 +96,18 @@ export async function run(args: string[]): Promise<number> {
   }
 
   if (command === "sources") {
+    if (rest[0] === "prepare-recruitee-round") {
+      const parsed = parsePrepareRecruiteeRound(rest.slice(1));
+      if (typeof parsed === "string") return fail(parsed);
+      console.log(JSON.stringify(await prepareRecruiteeRoundArtifacts(parsed.identityPath, parsed.catalog, parsed), null, 2));
+      return 0;
+    }
+    if (rest[0] === "merge-attempted-round-leads") {
+      const parsed = parseMergeAttemptedRoundLeads(rest.slice(1));
+      if (typeof parsed === "string") return fail(parsed);
+      console.log(JSON.stringify(await mergeAttemptedRoundLeads(parsed.isolatedRegistryPath, parsed.registry), null, 2));
+      return 0;
+    }
     if (rest[0] === "probe-jobposting") {
       const parsed = parseJobPostingProbe(rest.slice(1));
       if (typeof parsed === "string") return fail(parsed);
@@ -173,6 +189,34 @@ function parseJobPostingProbe(args: string[]) {
     else return `Unknown option: ${arg}`;
   }
   return { inputPath, catalog, report, companyLimit };
+}
+
+function parsePrepareRecruiteeRound(args: string[]) {
+  const identityPath = args[0];
+  if (!identityPath || identityPath.startsWith("--")) return "sources prepare-recruitee-round requires an identity JSON file";
+  let catalog = "data/companies.json";
+  let artifactRoot = ".openings/round5-recruitee";
+  for (let index = 1; index < args.length; index += 1) {
+    const arg = args[index];
+    if (arg === "--catalog") catalog = args[++index] ?? "";
+    else if (arg === "--artifacts") artifactRoot = args[++index] ?? "";
+    else return `Unknown option: ${arg}`;
+    if (![catalog, artifactRoot].every(Boolean)) return `${arg} requires a path`;
+  }
+  if (!underOpenings(artifactRoot)) return "--artifacts must be under .openings";
+  return { identityPath, catalog, artifactRoot };
+}
+
+function parseMergeAttemptedRoundLeads(args: string[]) {
+  const isolatedRegistryPath = args[0];
+  if (!isolatedRegistryPath || isolatedRegistryPath.startsWith("--")) return "sources merge-attempted-round-leads requires an isolated registry file";
+  let registry = "data/enrichment-leads.json";
+  for (let index = 1; index < args.length; index += 1) {
+    const arg = args[index];
+    if (arg === "--registry") { registry = args[++index] ?? ""; if (!registry) return "--registry requires a file"; }
+    else return `Unknown option: ${arg}`;
+  }
+  return { isolatedRegistryPath, registry };
 }
 
 function parseYcCompanySeeds(args: string[]) {
@@ -262,17 +306,31 @@ function parseCommonCrawlDiscovery(args: string[]) {
   let report = ".openings/common-crawl-discovery-report.json";
   let country: string | undefined;
   let indexUrl: string | undefined;
-  let registryPath = "data/enrichment-leads.json";
+  let registryPath: string | undefined = "data/enrichment-leads.json";
+  let provider: "recruitee" | undefined;
+  let indexRecordLimit: number | undefined;
+  let sampleTokenLimit: number | undefined;
+  const excludeTokens: string[] = [];
+  let reportOnly = false;
   for (let index = 0; index < args.length; index += 1) {
     const arg = args[index];
     if (arg === "--country") { country = parseCountry(args[++index]); if (!country) return "--country requires a two-letter country code"; }
     else if (arg === "--output") { output = args[++index] ?? ""; if (!output) return "--output requires a file"; }
     else if (arg === "--report") { report = args[++index] ?? ""; if (!report) return "--report requires a file"; }
     else if (arg === "--index-url") { indexUrl = args[++index]; if (!indexUrl) return "--index-url requires a URL"; try { new URL(indexUrl); } catch { return "--index-url requires a valid URL"; } }
-    else if (arg === "--registry") { registryPath = args[++index] ?? ""; if (!registryPath) return "--registry requires a file"; }
+    else if (arg === "--registry") { if (reportOnly) return "Use either --registry or --report-only, not both"; registryPath = args[++index] ?? ""; if (!registryPath) return "--registry requires a file"; }
+    else if (arg === "--report-only") { if (registryPath !== "data/enrichment-leads.json") return "Use either --registry or --report-only, not both"; reportOnly = true; registryPath = undefined; }
+    else if (arg === "--provider") { const value = args[++index]; if (value !== "recruitee") return "--provider currently supports only recruitee"; provider = value; }
+    else if (arg === "--index-record-limit") { indexRecordLimit = Number(args[++index]); if (!Number.isInteger(indexRecordLimit) || indexRecordLimit < 1 || indexRecordLimit > 2_000) return "--index-record-limit must be an integer from 1 to 2000"; }
+    else if (arg === "--sample-token-limit") { sampleTokenLimit = Number(args[++index]); if (!Number.isInteger(sampleTokenLimit) || sampleTokenLimit < 1 || sampleTokenLimit > 60) return "--sample-token-limit must be an integer from 1 to 60"; }
+    else if (arg === "--exclude-token") { const value = args[++index]?.trim(); if (!value || !/^[a-z0-9-]+$/i.test(value)) return "--exclude-token requires an ATS token"; excludeTokens.push(value.toLowerCase()); }
     else return `Unknown option: ${arg}`;
   }
-  return { output, report, country, indexUrl, registryPath };
+  if ((indexRecordLimit !== undefined || sampleTokenLimit !== undefined || excludeTokens.length || registryPath === undefined) && provider !== "recruitee") return "bounded report-only discovery requires --provider recruitee";
+  if (provider === "recruitee" && (!indexUrl || indexRecordLimit === undefined || sampleTokenLimit === undefined || !reportOnly)) return "--provider recruitee requires --index-url, --index-record-limit, --sample-token-limit, and --report-only";
+  if (provider === "recruitee" && !underOpenings(report)) return "bounded Recruitee discovery --report must be under .openings";
+  if (sampleTokenLimit !== undefined && indexRecordLimit !== undefined && sampleTokenLimit > indexRecordLimit) return "--sample-token-limit cannot exceed --index-record-limit";
+  return { output, report, country, indexUrl, registryPath, provider, indexRecordLimit, sampleTokenLimit, excludeTokens };
 }
 
 function parseDiscoveryOutputs(args: string[], defaultReport: string, requireCatalog: boolean) {
@@ -469,6 +527,8 @@ function parseCountry(value: string | undefined): string | undefined {
   return value && /^[a-z]{2}$/i.test(value) ? value.toUpperCase() : undefined;
 }
 
+function underOpenings(path: string) { const root = resolve(".openings"); const relation = relative(root, resolve(path)); return Boolean(relation) && !relation.startsWith(".."); }
+
 async function readCompanyFile(path: string): Promise<string[]> {
   return (await readFile(path, "utf8")).split(/\r?\n/).map((line) => line.trim()).filter((line) => line && !line.startsWith("#"));
 }
@@ -534,8 +594,8 @@ function compactCareerTraceReport(report: import("./career-tracing.ts").CareerTr
 }
 
 function compactCommonCrawlReport(report: import("./common-crawl-discovery.ts").CommonCrawlDiscoveryReport) {
-  const { leads: _leads, rejections: _rejections, ...summary } = report;
-  return summary;
+  const { leads: _leads, availableLeads: _available, rejections: _rejections, ...summary } = report;
+  return { ...summary, availableLeadCount: report.availableLeads.length, sampledLeadCount: report.leads.length };
 }
 
 if (import.meta.main) process.exitCode = await run(Bun.argv.slice(2));

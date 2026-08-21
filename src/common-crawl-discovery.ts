@@ -3,15 +3,21 @@ import { atomicJson } from "./atomic-file.ts";
 import { stampReport, type ReportMeta } from "./report-meta.ts";
 import { mergeEnrichmentLeads, type EnrichmentLead } from "./enrichment-registry.ts";
 import { resolveSource } from "./source-verification.ts";
+import type { Ats } from "./types.ts";
+import { assertArtifactFile } from "./artifact-path.ts";
 
 type Fetch = (input: string | URL, init?: RequestInit) => Promise<Response>;
-interface Options { country?: string; fetch?: Fetch; indexUrl?: string; registryPath?: string }
+interface Options { country?: string; fetch?: Fetch; indexUrl?: string; registryPath?: string; provider?: Ats; indexRecordLimit?: number; sampleTokenLimit?: number; excludeTokens?: string[] }
 interface Lead { sourceUrl: string; ats: string; token: string; discoveredFrom: { channel: "dataset"; reference: string } }
 interface Collection { id?: unknown; "cdx-api"?: unknown }
 
 export interface CommonCrawlDiscoveryReport extends ReportMeta {
   country?: string;
+  provider?: Ats;
   index: string;
+  indexRecordsExamined: number;
+  sampleTokenLimit?: number;
+  sampleShortfall: number;
   urlsSeen: number;
   sourcesFound: number;
   alreadyKnown: number;
@@ -25,16 +31,26 @@ export interface CommonCrawlDiscoveryReport extends ReportMeta {
   registryAdded: number;
   registryBytes?: number;
   registryLockHeldMs?: number;
+  availableLeads: Lead[];
   leads: Lead[];
   rejections: Array<{ value: string; reason: string }>;
 }
 
 const patterns = ["job-boards.greenhouse.io/*", "boards.greenhouse.io/*", "jobs.lever.co/*", "jobs.ashbyhq.com/*", "*.myworkdayjobs.com/*", "*.recruitee.com/*"];
 const recordsPerPattern = 10_000;
+const providerPatterns: Record<Ats, string[]> = {
+  greenhouse: patterns.slice(0, 2), lever: [patterns[2]!], ashby: [patterns[3]!], workday: [patterns[4]!], recruitee: [patterns[5]!],
+};
 
 export async function discoverCommonCrawlSources(candidatesPath: string, reportPath: string, options: Options = {}): Promise<CommonCrawlDiscoveryReport> {
+  if (options.provider === "recruitee") await assertArtifactFile(reportPath);
   const country = options.country?.toUpperCase();
   if (country && !/^[A-Z]{2}$/.test(country)) throw new Error("country must be a two-letter code");
+  const indexRecordLimit = options.indexRecordLimit ?? recordsPerPattern;
+  if (!Number.isInteger(indexRecordLimit) || indexRecordLimit < 1 || indexRecordLimit > recordsPerPattern) throw new Error(`indexRecordLimit must be an integer from 1 to ${recordsPerPattern}`);
+  const sampleTokenLimit = options.sampleTokenLimit;
+  if (sampleTokenLimit !== undefined && (!Number.isInteger(sampleTokenLimit) || sampleTokenLimit < 1 || sampleTokenLimit > indexRecordLimit)) throw new Error("sampleTokenLimit must be a positive integer no greater than indexRecordLimit");
+  if (options.provider === "recruitee" && (indexRecordLimit > 2_000 || sampleTokenLimit === undefined || sampleTokenLimit > 60 || options.registryPath)) throw new Error("Bounded Recruitee discovery requires at most 2,000 records, at most 60 sampled tokens, and report-only output");
   const fetcher = options.fetch ?? globalThis.fetch;
   const index = options.indexUrl ?? await latestIndex(fetcher);
   const existing = await readExistingKeys(candidatesPath);
@@ -42,19 +58,21 @@ export async function discoverCommonCrawlSources(candidatesPath: string, reportP
   const seenUrls = new Set<string>();
   const rejections: Array<{ value: string; reason: string }> = [];
   const truncatedPatterns: string[] = [];
+  let indexRecordsExamined = 0;
 
-  for (const pattern of patterns) {
+  for (const pattern of options.provider ? providerPatterns[options.provider] : patterns) {
     const query = new URL(index);
     query.searchParams.set("url", pattern);
     query.searchParams.set("output", "json");
     query.searchParams.set("filter", "status:200");
     query.searchParams.set("collapse", "urlkey");
     query.searchParams.set("fl", "url");
-    query.searchParams.set("limit", String(recordsPerPattern));
+    query.searchParams.set("limit", String(indexRecordLimit));
     const response = await fetcher(query);
     if (!response.ok) throw new Error(`Common Crawl index returned HTTP ${response.status} for ${pattern}`);
-    const lines = (await response.text()).split(/\r?\n/).filter(Boolean);
-    if (lines.length >= recordsPerPattern) truncatedPatterns.push(pattern);
+    const lines = (await response.text()).split(/\r?\n/).filter(Boolean).slice(0, indexRecordLimit);
+    indexRecordsExamined += lines.length;
+    if (lines.length >= indexRecordLimit) truncatedPatterns.push(pattern);
     for (const line of lines) {
       let value: unknown;
       try { value = JSON.parse(line); } catch { rejections.push({ value: line, reason: "invalid_index_record" }); continue; }
@@ -66,24 +84,28 @@ export async function discoverCommonCrawlSources(candidatesPath: string, reportP
     }
   }
 
-  const leads: Lead[] = [];
-  const registryLeads: EnrichmentLead[] = [];
+  const availableLeads: Lead[] = [];
+  const excludedTokens = new Set((options.excludeTokens ?? []).map((token) => token.toLowerCase()));
   let alreadyKnown = 0;
   for (const [key, source] of [...found].sort(([a], [b]) => a.localeCompare(b))) {
     if (!source) continue;
     if (existing.has(key)) { alreadyKnown++; continue; }
-    leads.push({
+    if (excludedTokens.has(source.token.toLowerCase())) continue;
+    availableLeads.push({
       sourceUrl: source.canonicalSourceUrl, ats: source.ats, token: source.token,
       discoveredFrom: { channel: "dataset", reference: index },
     });
-    registryLeads.push({ sourceKey: key, sourceUrl: source.canonicalSourceUrl, ats: source.ats, token: source.token,
-      discoveredFrom: [{ channel: "dataset", reference: index }], companyMatches: [], identityEvidence: [], attempts: [] });
   }
+  const leads = sampleTokenLimit === undefined ? availableLeads : availableLeads.slice(0, sampleTokenLimit);
+  const registryLeads: EnrichmentLead[] = leads.map((lead) => ({
+      sourceKey: `${lead.ats}:${lead.token.toLowerCase()}`, sourceUrl: lead.sourceUrl, ats: lead.ats as Ats, token: lead.token,
+      discoveredFrom: [lead.discoveredFrom], companyMatches: [], identityEvidence: [], attempts: [],
+    }));
   const registry = options.registryPath ? await mergeEnrichmentLeads(options.registryPath, registryLeads) : { added: 0, bytes: undefined, lockHeldMs: undefined };
   const report: CommonCrawlDiscoveryReport = stampReport("common-crawl-discovery:1", 1, {
-    country, index, urlsSeen: seenUrls.size, sourcesFound: found.size, alreadyKnown, unresolved: leads.length, rejected: rejections.length,
+    country, provider: options.provider, index, indexRecordsExamined, sampleTokenLimit, sampleShortfall: sampleTokenLimit === undefined ? 0 : Math.max(0, sampleTokenLimit - leads.length), urlsSeen: seenUrls.size, sourcesFound: found.size, alreadyKnown, unresolved: leads.length, rejected: rejections.length,
     truncated: truncatedPatterns.length > 0, truncatedPatterns,
-    candidatesPath, reportPath, registryPath: options.registryPath, registryAdded: registry.added, registryBytes: registry.bytes, registryLockHeldMs: registry.lockHeldMs, leads, rejections,
+    candidatesPath, reportPath, registryPath: options.registryPath, registryAdded: registry.added, registryBytes: registry.bytes, registryLockHeldMs: registry.lockHeldMs, availableLeads, leads, rejections,
   });
   await atomicJson(reportPath, report);
   return report;

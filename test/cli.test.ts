@@ -16,6 +16,8 @@ test("CLI documents its read-only commands", async () => {
   expect(output).toContain("sources discover-common-crawl");
   expect(output).toContain("sources trace-careers");
   expect(output).toContain("sources probe-jobposting");
+  expect(output).toContain("sources prepare-recruitee-round");
+  expect(output).toContain("sources merge-attempted-round-leads");
   expect(output).toContain("--country");
   expect(output).toContain("--delay-ms");
   expect(output).toContain("--source-cache-hours");
@@ -47,6 +49,20 @@ test("CLI rejects invalid coverage controls before reading report inputs", async
   const ambiguousTime = Bun.spawn(["bun", "run", "src/cli.ts", "coverage", "report", "--country", "IN", "--as-of", "2026-08-19"], { stdout: "pipe", stderr: "pipe" });
   expect(await ambiguousTime.exited).toBe(1);
   expect(await new Response(ambiguousTime.stderr).text()).toContain("--as-of requires a canonical ISO timestamp");
+});
+
+test("CLI enforces the reviewed Recruitee discovery ceilings before network work", async () => {
+  const tooMany = Bun.spawn(["bun", "run", "src/cli.ts", "sources", "discover-common-crawl", "--provider", "recruitee", "--index-record-limit", "2001"], { stdout: "pipe", stderr: "pipe" });
+  expect(await tooMany.exited).toBe(1);
+  expect(await new Response(tooMany.stderr).text()).toContain("integer from 1 to 2000");
+
+  const unscoped = Bun.spawn(["bun", "run", "src/cli.ts", "sources", "discover-common-crawl", "--report-only"], { stdout: "pipe", stderr: "pipe" });
+  expect(await unscoped.exited).toBe(1);
+  expect(await new Response(unscoped.stderr).text()).toContain("requires --provider recruitee");
+
+  const unpinned = Bun.spawn(["bun", "run", "src/cli.ts", "sources", "discover-common-crawl", "--provider", "recruitee"], { stdout: "pipe", stderr: "pipe" });
+  expect(await unpinned.exited).toBe(1);
+  expect(await new Response(unpinned.stderr).text()).toContain("requires --index-url");
 });
 
 test("CLI rejects an invalid crawl delay before starting network work", async () => {
