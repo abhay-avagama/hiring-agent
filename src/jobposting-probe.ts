@@ -111,7 +111,7 @@ export async function probeJobPostingJsonLd(inputPath: string, catalogPath: stri
 function parseSeeds(markdown: string) {
   const rows: Array<{ companyName: string; companyDomain: string; originHost: string; inputReference: string }> = [];
   const pattern = /<li>\s*<a\s+href="(https:\/\/[^"#]+)[^"]*"[^>]*>([^<]+)<\/a>/gi;
-  for (const match of markdown.matchAll(pattern)) { const url = new URL(match[1]!); const domain = normalizeDomain(url.hostname); if (!thirdParty(domain)) rows.push({ companyName: decode(match[2]!).trim(), companyDomain: domain, originHost: domain, inputReference: match[1]! }); }
+  for (const match of markdown.matchAll(pattern)) { const url = new URL(match[1]!); const domain = normalizeDomain(url.hostname); if (!thirdParty(domain)) rows.push({ companyName: decode(match[2]!).trim(), companyDomain: domain, originHost: url.hostname.toLowerCase(), inputReference: match[1]! }); }
   return [...new Map(rows.map((row) => [row.companyDomain, row])).values()];
 }
 interface RobotsRule { allow: boolean; pattern: string }
