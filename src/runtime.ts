@@ -7,6 +7,7 @@ import { createJobFitAnalyzer } from "./job-fit-analysis.ts";
 import { createResumeOptimizer } from "./resume-optimization.ts";
 import { createSelectedJobLookup } from "./selected-job-lookup.ts";
 import { createFileSnapshotStore } from "./snapshot-store.ts";
+import { createJobCoverageReader } from "./job-coverage.ts";
 
 export function createRuntime(options: { dataDir?: string; concurrency?: number; crawlDelayMs?: number; workdayPageDelayMs?: number; sourceCacheHours?: number; sourceLimit?: number } = {}) {
   const dataDir = options.dataDir ?? process.env.OPENINGS_DATA_DIR ?? join(process.cwd(), ".openings");
@@ -22,11 +23,12 @@ export function createRuntime(options: { dataDir?: string; concurrency?: number;
     workdayPageDelayMs: options.workdayPageDelayMs,
   });
   const recommender = createJobRecommender({ sources: companies, store, crawl: local.crawl });
+  const coverage = createJobCoverageReader({ sources: companies, store });
   const getSelectedJob = createSelectedJobLookup({
     getSnapshotJob: async (id) => (await local.get(id, { offline: true, staleDays: 14 })).job,
     getDetailedJob: (id) => liveCatalog.get(id),
   });
   const analyzer = createJobFitAnalyzer({ getJob: getSelectedJob });
   const optimizer = createResumeOptimizer({ analyzeJobFit: analyzer.analyze });
-  return { ...local, recommend: recommender.recommend, analyzeJobFit: analyzer.analyze, optimizeResume: optimizer.optimize };
+  return { ...local, getJobCoverage: coverage.getCoverage, recommend: recommender.recommend, analyzeJobFit: analyzer.analyze, optimizeResume: optimizer.optimize };
 }

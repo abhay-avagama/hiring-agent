@@ -2,7 +2,7 @@ import { expect, test } from "bun:test";
 import { createJobRecommender } from "../src/job-recommendations.ts";
 import type { Company, Job, JobSnapshot } from "../src/types.ts";
 
-const source: Company = { slug: "acme", name: "Acme", ats: "greenhouse", token: "acme", cohorts: ["IN"] };
+const source: Company = { slug: "acme", name: "Acme", ats: "greenhouse", token: "acme", companyDomain: "acme.test", cohorts: ["IN"] };
 
 test("refresh never reads and ranks the local snapshot without crawling", async () => {
   let crawls = 0;
@@ -24,6 +24,10 @@ test("refresh never reads and ranks the local snapshot without crawling", async 
   expect(result.matches.map((match) => match.job.id)).toEqual(["java", "ruby"]);
   expect(result.refresh).toEqual({ policy: "never", attempted: false, occurred: false, reason: "policy_never", failures: [] });
   expect(result.snapshot).toEqual(expect.objectContaining({ refreshed: false, stale: true }));
+  expect(result.coverage).toEqual({
+    snapshotUpdatedAt: "2026-01-01T00:00:00Z",
+    countries: [{ country: "IN", indexedSourcesWithEligibleJobs: 1, eligibleJobs: 2, distinctEligibleEmployers: 1 }],
+  });
 });
 
 test("separates direct, hidden title-family, and stretch opportunities without a second matching pass", async () => {

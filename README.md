@@ -1,6 +1,6 @@
 # Openings
 
-Openings is a free, read-only job-search substrate for AI agents. It indexes public company job boards and exposes five tools: `recommend_jobs`, `analyze_job_fit`, `optimize_resume`, `search_jobs`, and `get_job`. There are no accounts, hosted services, Openings API keys, model calls, or application submission paths. Resume content supplied to the recommendation, fit-analysis, and optimization tools is processed locally in memory and is never persisted.
+Openings is a free, read-only job-search substrate for AI agents. It indexes public company job boards and exposes six tools: `get_job_coverage`, `recommend_jobs`, `analyze_job_fit`, `optimize_resume`, `search_jobs`, and `get_job`. There are no accounts, hosted services, Openings API keys, model calls, or application submission paths. Resume content supplied to the recommendation, fit-analysis, and optimization tools is processed locally in memory and is never persisted.
 
 Openings supports Greenhouse, Lever, Ashby, and Workday. Jobs are crawled from their public structured endpoints into a local, source-partitioned snapshot.
 
@@ -36,6 +36,8 @@ bun run src/cli.ts get greenhouse:anthropic:12345
 ```
 
 Commands return JSON so the same interface works for people, shell scripts, and agents. Search refreshes a missing or stale snapshot automatically; the default freshness window is 14 days. Use `--stale-days N` to change it or `--offline` to guarantee that no network request is made. Openings does not install a scheduler—run `crawl` using whichever scheduler you prefer.
+
+`get_job_coverage` reports current job-level coverage for requested countries before a candidate supplies a resume. `recommend_jobs` includes the same projection for its requested countries. Both report indexed sources containing eligible jobs, eligible-job count, and distinct eligible employer domains; discovery cohorts are provenance and are never presented as coverage.
 
 `recommend_jobs` explores beyond exact titles without discovering new sources during a user request. It derives bounded title families from explicit intent or validated resume facts, runs the existing evidence matcher across the local snapshot, and returns direct, hidden title-family, and stretch buckets. Every hidden result identifies all grounded aliases that surfaced it and whether each expansion came from user intent or resume fact IDs; generic titles require corroborating family signals in the job description. Refresh policy remains unchanged: at most one crawl of relevant verified sources followed by one rematch.
 
@@ -134,7 +136,8 @@ For a client that accepts MCP configuration, point a stdio server at `bun` with 
 
 The server exposes only:
 
-- `recommend_jobs(resume, intent, ranking?, refresh?, limit?)` — parses text or Markdown resume content, applies job-level eligibility constraints, and returns both evidence and keyword percentages with evidence-grounded explanations. `ranking.mode` lets the applicant select `evidence` (default) or `keyword`; `ranking.minimumPercent` filters the selected score. It performs at most one scoped refresh, and `refresh.policy: "never"` guarantees no crawl
+- `get_job_coverage(countries)` — reports current job-level source, job, and distinct-employer coverage without requiring or processing a resume
+- `recommend_jobs(resume, intent, ranking?, refresh?, limit?)` — parses text or Markdown resume content, applies job-level eligibility constraints, returns the same coverage projection for requested countries, and returns both evidence and keyword percentages with evidence-grounded explanations. `ranking.mode` lets the applicant select `evidence` (default) or `keyword`; `ranking.minimumPercent` filters the selected score. It performs at most one scoped refresh, and `refresh.policy: "never"` guarantees no crawl
 - `analyze_job_fit(jobId, resume, intent?)` — analyzes one selected job against verbatim resume evidence, returning both percentages while separating explicit support, transferable evidence, unsupported requirements, screening risks, and interview preparation gaps
 - `optimize_resume(jobId, resume, output)` — returns grounded suggestions, an additive unified diff, or revised Markdown without overwriting the supplied resume; unsupported requirements remain gaps, and unified diffs identify their deterministic normalized base in `diffBase`
 - `search_jobs(query?, location?, country?, remote?, limit?)` — `country` accepts a two-letter country code such as `IN` or `DE`

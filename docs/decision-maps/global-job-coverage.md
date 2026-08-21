@@ -213,7 +213,7 @@ Type: Grilling
 
 ### Answer
 
-Resolved in design, not yet implemented. Build one pure catalog-plus-snapshot projection per country that reports indexed sources containing eligible jobs, eligible-job count, and distinct eligible employer domains. Discovery-cohort counts are provenance and must not be presented as coverage. Expose the projection through a lightweight read-only MCP tool so a host can set expectations before requesting a resume, and include the same projection in every `recommend_jobs` response for hosts that skip directly to recommendation. The maintainer coverage report and both candidate surfaces must share this computation; the recommender must not call the report generator or read registry/health diagnostics.
+Resolved and implemented. One pure catalog-plus-snapshot projection per country reports indexed sources containing eligible jobs, eligible-job count, and distinct eligible employer domains. Discovery-cohort counts remain provenance and are not presented as coverage. The read-only `get_job_coverage` MCP tool exposes the projection before resume collection, every `recommend_jobs` response includes it for requested countries, and the maintainer coverage report shares the same computation without coupling the recommender to report file I/O, registry state, or health diagnostics.
 
 ## #14: How Should Requirement Detection And Transferability Evolve?
 

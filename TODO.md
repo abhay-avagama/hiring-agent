@@ -148,11 +148,13 @@ Every current and researched source (existing four ATS providers, plus #9 above)
 
 LinkedIn and Indeed themselves remain out of scope: no compliant API for this use case exists without a commercial partnership, which is a different kind of decision than a crawl-engineering task and isn't warranted by a free, local, no-accounts product.
 
-## 11. Candidate-facing coverage transparency — draft for review (decision-map #13)
+## 11. Candidate-facing coverage transparency — completed (decision-map #13)
 
 Confirmed gap: `skills/openings/SKILL.md` never surfaces what Openings actually covers, and `recommend_jobs` only explains scope *after* a thin result. A candidate searching a country with near-zero coverage learns that only after supplying their resume.
 
 Approved direction: build both pre-resume and in-response transparency from one pure projection over the verified catalog and current snapshot. A lightweight read-only MCP coverage tool lets a host report scope during intent gathering before requesting a resume. `recommend_jobs` also returns the same per-country summary for hosts that go directly to recommendation. Report indexed sources with eligible jobs, eligible-job count, and distinct eligible employer domains; never present discovery-cohort source count as actual country coverage. Extract the shared projection from `coverage report` rather than calling its file-I/O/report generator from the recommender. `SKILL.md` presents the tool-owned result without recalculating it.
+
+Completed with the read-only `get_job_coverage(countries)` MCP tool and a shared pure catalog-plus-snapshot projection. Every `recommend_jobs` response includes the same projection for its requested countries. The maintainer report now uses that projection for indexed sources containing eligible jobs, eligible-job count, and distinct eligible employers; orphaned partitions and discovery cohorts cannot inflate candidate-facing coverage. The skill asks for country intent and presents the tool-owned result before requesting a resume.
 
 ## 12. Expand the requirement-vocabulary dictionary — draft for review
 

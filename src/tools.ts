@@ -3,14 +3,16 @@ import type { RecommendJobsResult } from "./job-recommendations.ts";
 import type { AnalyzeJobFitResult } from "./job-fit-analysis.ts";
 import type { OptimizeResumeResult } from "./resume-optimization.ts";
 import type { SearchQuery } from "./types.ts";
+import type { JobCoverageSummary } from "./job-coverage.ts";
 
 export interface ToolDefinition {
-  name: "recommend_jobs" | "analyze_job_fit" | "optimize_resume" | "search_jobs" | "get_job";
+  name: "get_job_coverage" | "recommend_jobs" | "analyze_job_fit" | "optimize_resume" | "search_jobs" | "get_job";
   description: string;
   inputSchema: Record<string, unknown>;
 }
 
 interface JobWorkflows {
+  getJobCoverage(input: unknown): Promise<JobCoverageSummary>;
   recommend(input: unknown): Promise<RecommendJobsResult>;
   analyzeJobFit(input: unknown): Promise<AnalyzeJobFitResult>;
   optimizeResume(input: unknown): Promise<OptimizeResumeResult>;
@@ -18,6 +20,16 @@ interface JobWorkflows {
 
 export function createToolHandler(catalog: Catalog, workflows: JobWorkflows) {
   const definitions: ToolDefinition[] = [
+    {
+      name: "get_job_coverage",
+      description: "Report current job-level coverage for one or more countries before a candidate supplies a resume.",
+      inputSchema: {
+        type: "object",
+        properties: { countries: { ...countryArray(), minItems: 1, maxItems: 20 } },
+        required: ["countries"],
+        additionalProperties: false,
+      },
+    },
     {
       name: "recommend_jobs",
       description: "Parse a resume, apply explicit job intent, rank evidence-grounded matches, separate direct, hidden title-family, and stretch opportunities, and optionally refresh the local snapshot once.",
@@ -100,6 +112,7 @@ export function createToolHandler(catalog: Catalog, workflows: JobWorkflows) {
   return {
     list: () => definitions,
     async call(name: string, input: Record<string, unknown>) {
+      if (name === "get_job_coverage") return workflows.getJobCoverage(input);
       if (name === "recommend_jobs") return workflows.recommend(input);
       if (name === "analyze_job_fit") return workflows.analyzeJobFit(input);
       if (name === "optimize_resume") return workflows.optimizeResume(input);

@@ -31,3 +31,5 @@ export { createResumeOptimizer, ResumeOptimizationError } from "./resume-optimiz
 export type { OptimizeResumeInput, OptimizeResumeResult, ResumeOptimizationOutput, ResumeOptimizerOptions, ResumeSuggestion } from "./resume-optimization.ts";
 export { createSelectedJobLookup } from "./selected-job-lookup.ts";
 export type { SelectedJobLookupOptions } from "./selected-job-lookup.ts";
+export { createJobCoverageReader, projectJobCoverage } from "./job-coverage.ts";
+export type { CountryJobCoverage, JobCoverageSummary } from "./job-coverage.ts";

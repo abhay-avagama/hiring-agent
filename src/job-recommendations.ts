@@ -5,6 +5,7 @@ import { isEligibleForCountry } from "./locations.ts";
 import type { Company, CrawlReport, JobSnapshot } from "./types.ts";
 import { snapshotStatus, type CrawlScope, type SnapshotStatus } from "./local-jobs.ts";
 import { assertKnownKeys, isRecord, validateCandidateIntent } from "./intent-validation.ts";
+import { projectJobCoverage, type JobCoverageSummary } from "./job-coverage.ts";
 
 export type RefreshPolicy = "auto" | "never" | "always";
 export interface RecommendationRefreshInput { policy?: RefreshPolicy; minimumMatches?: number; staleDays?: number }
@@ -25,6 +26,7 @@ export interface RecommendJobsResult {
   assumptions: string[];
   ranking: { mode: "evidence" | "keyword"; minimumPercent: number };
   snapshot: SnapshotStatus;
+  coverage: JobCoverageSummary;
   refresh: RecommendationRefreshResult;
   shortfall?: { minimumMatches: number; actualMatches: number; message: string };
   nextActions: string[];
@@ -92,6 +94,7 @@ export function createJobRecommender(options: JobRecommenderOptions) {
         ...limited,
         ranking: { mode: input.ranking?.mode ?? "evidence", minimumPercent: input.ranking?.minimumPercent ?? 0 },
         snapshot: snapshotStatus(relevantSnapshot(snapshot, input.intent, options.sources), staleDays, now(), occurred && applied),
+        coverage: projectJobCoverage(options.sources, snapshot, input.intent.countries ?? []),
         refresh: { policy, attempted, occurred, reason, failures: report?.failed ?? [], ...(refreshError ? { error: refreshError } : {}) },
         ...(shortfall ? { shortfall } : {}),
         nextActions: limited.matches.length ? [`Analyze fit for job ${limited.matches[0]!.job.id}`] : ["Clarify or broaden explicit job intent"],

@@ -54,7 +54,7 @@ test("reports deterministic country coverage across catalog, snapshot, discovery
     },
     snapshot: {
       updatedAt: "2026-08-19T00:00:00.000Z", indexedSources: 2, countryCohortIndexedSources: 2, catalogCoveragePercent: 66.67,
-      orphanedSources: ["retired"], snapshotJobs: 3, indexedJobs: 2, eligibleJobs: 2,
+      orphanedSources: ["retired"], snapshotJobs: 3, indexedJobs: 2, indexedSourcesWithEligibleJobs: 2, eligibleJobs: 2,
       distinctEligibleEmployers: 2, indexedProviders: { greenhouse: 1, workday: 1 },
       countryCohortIndexedProviders: { greenhouse: 1, workday: 1 },
       allIndexedJobsByConfidence: { explicit: 1, inferred: 1, unknown: 0 },

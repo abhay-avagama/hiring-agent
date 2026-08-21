@@ -5,6 +5,7 @@ import { isEligibleForCountry } from "./locations.ts";
 import { stampReport, type ReportMeta } from "./report-meta.ts";
 import { resolveSource } from "./source-verification.ts";
 import type { Ats, EligibilityConfidence, JobSnapshot, SourceCandidate, VerifiedCompany } from "./types.ts";
+import { projectJobCoverage } from "./job-coverage.ts";
 
 export interface CountryCoveragePaths {
   catalog: string;
@@ -22,7 +23,7 @@ export interface CountryCoverageReport extends ReportMeta {
   };
   snapshot: {
     updatedAt: string; indexedSources: number; countryCohortIndexedSources: number; catalogCoveragePercent: number; orphanedSources: string[];
-    snapshotJobs: number; indexedJobs: number; eligibleJobs: number; distinctEligibleEmployers: number;
+    snapshotJobs: number; indexedJobs: number; indexedSourcesWithEligibleJobs: number; eligibleJobs: number; distinctEligibleEmployers: number;
     indexedProviders: Partial<Record<Ats, number>>; countryCohortIndexedProviders: Partial<Record<Ats, number>>;
     allIndexedJobsByConfidence: Record<EligibilityConfidence, number>; eligibleJobsByConfidence: Record<EligibilityConfidence, number>;
   };
@@ -56,7 +57,7 @@ export async function generateCountryCoverageReport(paths: CountryCoveragePaths,
   const orphanedSources = Object.keys(snapshot.partitions).filter((slug) => !catalog[slug]).sort();
   const indexedJobs = indexedSlugs.flatMap((slug) => snapshot.partitions[slug]!.jobs);
   const eligibleJobs = indexedJobs.filter((job) => isEligibleForCountry(job, country));
-  const eligibleSourceDomains = new Set(indexedSlugs.filter((slug) => snapshot.partitions[slug]!.jobs.some((job) => isEligibleForCountry(job, country))).map((slug) => catalog[slug]!.companyDomain));
+  const candidateCoverage = projectJobCoverage(slugs.map((slug) => ({ slug, ...catalog[slug]! })), snapshot, [country]).countries[0]!;
   const allConfidence = confidenceCounts(indexedJobs);
   const eligibleConfidence = confidenceCounts(eligibleJobs);
   const states = { unresolved: 0, matched: 0, evidence_ready: 0, verified: 0, rejected: 0 } satisfies Record<EnrichmentState, number>;
@@ -79,8 +80,9 @@ export async function generateCountryCoverageReport(paths: CountryCoveragePaths,
       orphanedSources,
       snapshotJobs: Object.values(snapshot.partitions).reduce((sum, partition) => sum + partition.jobs.length, 0),
       indexedJobs: indexedJobs.length,
-      eligibleJobs: eligibleJobs.length,
-      distinctEligibleEmployers: eligibleSourceDomains.size,
+      indexedSourcesWithEligibleJobs: candidateCoverage.indexedSourcesWithEligibleJobs,
+      eligibleJobs: candidateCoverage.eligibleJobs,
+      distinctEligibleEmployers: candidateCoverage.distinctEligibleEmployers,
       indexedProviders: countProviders(indexedSlugs.map((slug) => catalog[slug]!.ats)),
       countryCohortIndexedProviders: countProviders(countryCohortIndexedSlugs.map((slug) => catalog[slug]!.ats)),
       allIndexedJobsByConfidence: allConfidence,

@@ -14,7 +14,12 @@ describe("agent tools", () => {
       get: async () => null,
     };
     let recommendationInput: unknown;
+    let coverageInput: unknown;
     const tools = createToolHandler(catalog, {
+      getJobCoverage: async (input) => {
+        coverageInput = input;
+        return { snapshotUpdatedAt: "2026-08-21T00:00:00.000Z", countries: [{ country: "IN", indexedSourcesWithEligibleJobs: 2, eligibleJobs: 20, distinctEligibleEmployers: 2 }] };
+      },
       recommend: async (input) => {
         recommendationInput = input;
         return { matches: [] } as unknown as RecommendJobsResult;
@@ -23,8 +28,12 @@ describe("agent tools", () => {
       optimizeResume: async () => ({ output: "suggestions", suggestions: [] }) as never,
     });
 
-    expect(tools.list().map((tool) => tool.name)).toEqual(["recommend_jobs", "analyze_job_fit", "optimize_resume", "search_jobs", "get_job"]);
-    expect(tools.list()[0]!.inputSchema).toEqual(expect.objectContaining({ required: ["resume", "intent"], additionalProperties: false }));
+    expect(tools.list().map((tool) => tool.name)).toEqual(["get_job_coverage", "recommend_jobs", "analyze_job_fit", "optimize_resume", "search_jobs", "get_job"]);
+    expect(await tools.call("get_job_coverage", { countries: ["in"] })).toEqual(expect.objectContaining({
+      countries: [{ country: "IN", indexedSourcesWithEligibleJobs: 2, eligibleJobs: 20, distinctEligibleEmployers: 2 }],
+    }));
+    expect(coverageInput).toEqual({ countries: ["in"] });
+    expect(tools.list()[1]!.inputSchema).toEqual(expect.objectContaining({ required: ["resume", "intent"], additionalProperties: false }));
     expect(await tools.call("search_jobs", { query: "Engineer", country: "de", remote: true })).toEqual({
       jobs: [expect.objectContaining({ title: "Engineer" })],
     });
