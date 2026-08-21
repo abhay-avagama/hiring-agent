@@ -8,7 +8,7 @@ export interface ProbePage { status: number; finalUrl: string; contentType: stri
 interface ProbeOptions { fetchPage?: (url: string, maxRequests: number, companyDomain: string) => Promise<ProbePage>; companyLimit?: number; now?: Date; delayMs?: number; sleep?: (ms: number) => Promise<void>; reportRoot?: string }
 interface CompanyResult { companyName: string; companyDomain: string; originHost: string; inputReference: string; status: "qualified" | "unresolved" | "failed"; acceptedJobs: number; attemptedDetailPages: number; discoveredPostings: number; admissionFailures: number; requestAttempts: number; failedRequests: number; jobs: AcceptedJob[]; issues: string[] }
 interface AcceptedJob { key: string; signature: string; identifier: boolean; explicitCountry: boolean }
-export interface JobPostingProbeReport extends ReportMeta { companiesChecked: number; acceptedJobs: number; jobsWithIdentifier: number; identifierPresencePercent: number; jobsWithExplicitCountry: number; explicitCountryPercent: number; requests: number; stopped: boolean; stopReason?: string; viability: "pending_second_phase" | "passed" | "failed"; companies: Array<Omit<CompanyResult, "jobs" | "originHost">> }
+export interface JobPostingProbeReport extends ReportMeta { sample: Array<{ companyName: string; companyDomain: string; inputReference: string }>; companiesChecked: number; acceptedJobs: number; jobsWithIdentifier: number; identifierPresencePercent: number; jobsWithExplicitCountry: number; explicitCountryPercent: number; requests: number; stopped: boolean; stopReason?: string; viability: "pending_second_phase" | "passed" | "failed"; companies: Array<Omit<CompanyResult, "jobs" | "originHost">> }
 
 export async function probeJobPostingJsonLd(inputPath: string, catalogPath: string, reportPath: string, options: ProbeOptions = {}): Promise<JobPostingProbeReport> {
   await assertReportPath(reportPath, options.reportRoot ?? ".openings");
@@ -103,7 +103,8 @@ export async function probeJobPostingJsonLd(inputPath: string, catalogPath: stri
   const jobsWithExplicitCountry = jobs.filter((job) => job.explicitCountry).length;
   const viability: JobPostingProbeReport["viability"] = stopReason ? "failed" : seeds.length < 20 || companies.length < 20 ? "pending_second_phase" : companies.filter((company) => company.status === "qualified").length >= 5 && acceptedJobs >= 20 && percent(jobsWithIdentifier, acceptedJobs) >= 80 && percent(jobsWithExplicitCountry, acceptedJobs) >= 95 ? "passed" : "failed";
   const publicCompanies = companies.map(({ jobs: _jobs, originHost: _originHost, ...company }) => company);
-  const report = stampReport("jobposting-jsonld-probe:1", 1, { companiesChecked: companies.length, acceptedJobs, jobsWithIdentifier, identifierPresencePercent: percent(jobsWithIdentifier, acceptedJobs), jobsWithExplicitCountry, explicitCountryPercent: percent(jobsWithExplicitCountry, acceptedJobs), requests, stopped: Boolean(stopReason), ...(stopReason ? { stopReason } : {}), viability, companies: publicCompanies }, options.now);
+  const sample = seeds.map(({ companyName, companyDomain, inputReference }) => ({ companyName, companyDomain, inputReference }));
+  const report = stampReport("jobposting-jsonld-probe:1", 1, { sample, companiesChecked: companies.length, acceptedJobs, jobsWithIdentifier, identifierPresencePercent: percent(jobsWithIdentifier, acceptedJobs), jobsWithExplicitCountry, explicitCountryPercent: percent(jobsWithExplicitCountry, acceptedJobs), requests, stopped: Boolean(stopReason), ...(stopReason ? { stopReason } : {}), viability, companies: publicCompanies }, options.now);
   await atomicJson(reportPath, report);
   return report;
 }

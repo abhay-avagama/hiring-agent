@@ -26,6 +26,7 @@ test("the read-only probe discovers sitemap job pages and reports conforming com
 
   expect(result.companies).toEqual([expect.objectContaining({ companyName: "Example", companyDomain: "example.com", status: "qualified", acceptedJobs: 1 })]);
   expect(result.acceptedJobs).toBe(1);
+  expect(result.sample).toEqual([{ companyName: "Example", companyDomain: "example.com", inputReference: "https://example.com/careers" }]);
   expect(result.identifierPresencePercent).toBe(100);
   expect(result.explicitCountryPercent).toBe(100);
   expect(JSON.parse(await readFile(report, "utf8"))).toEqual(result);
@@ -52,6 +53,7 @@ test("the probe rejects unsafe XML and never requests its detail URLs", async ()
   expect(result.acceptedJobs).toBe(0);
   expect(result.stopReason).toBe("unsafe_xml");
   expect(result.viability).toBe("failed");
+  expect(result.sample).toHaveLength(1);
 });
 
 test("the hardened GET rejects private DNS answers before connecting", async () => {
