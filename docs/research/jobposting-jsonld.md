@@ -81,3 +81,9 @@ Stop immediately on any safety-boundary violation or unexpected write. Stop afte
 The probe must measure rather than assume sitemap discovery yield, static-HTML availability versus client-rendered injection, real field completeness, and how often company sites duplicate a supported ATS behind branded URLs. No production adapter, Common Crawl campaign, or promotion schema should be designed until those measurements exist.
 
 The single-pass probe measures identifier presence, not longitudinal stability. Identifier stability remains unproven until a later approved repeat probe observes the same jobs across refreshes; the first report must not describe the 80% presence gate as evidence of persistence.
+
+## Phase-one result
+
+The ten-company phase ran on `2026-08-21` and stopped after its first HTTP request, before any company completed. The first selected identity, Accenture (`https://www.accenture.com/in-en/careers`), returned a redirect while retrieving its robots policy that left the exact approved origin. The transport refused to follow it and the probe applied the predeclared safety stop. The versioned report at `.openings/jobposting-probe-report.json` records the complete ordered ten-company sample, `requests: 1`, `companiesChecked: 0`, `stopped: true`, `stopReason: "GET redirect left the approved origin"`, and `viability: "failed"`.
+
+This is not evidence that company-owned JSON-LD lacks useful jobs; field and sitemap yield were never measured. It is evidence that the exact-origin redirect contract is too restrictive for the first real seed while correctly failing closed. Phase two and all production work remain blocked. Any follow-up must first receive a new review for a robots-aware cross-origin transition within the authoritative company-domain boundary; the current caps or ownership rules must not be changed implicitly.

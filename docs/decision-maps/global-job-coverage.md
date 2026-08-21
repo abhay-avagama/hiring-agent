@@ -204,6 +204,8 @@ JSON-LD is a credible sixth source class, but it is an explicit narrow exception
 
 The proposed trust boundary requires authoritative company seeds, same-company HTTPS URLs and redirects, pinned public DNS on every request, robots compliance, strict body/request caps, required job/location/organization fields, exact structured-domain consistency, identifier-or-detail-URL identity, expiry handling, and ATS-first deduplication. Existing deterministic eligibility classification may consume the structured fields and description, with explicit structured geography taking precedence. The approved probe contract fixes a 20-company/200-detail-page/320-request ceiling and explicit yield, quality, health, and stop gates before any HTML GET or persistent workflow write. Its report must preserve the exact ordered identity sample. The first pass measures identifier presence only; persistence requires a later repeat observation.
 
+Phase one stopped safely on `2026-08-21` after the first robots request redirected outside its exact approved origin. No company completed and no JSON-LD yield was measured. The result blocks phase two and production admission; it does not reject the source class. A follow-up needs a separately reviewed, robots-aware transition between origins inside an authoritative company-domain boundary rather than an implicit redirect relaxation.
+
 ## #13: How Should A Candidate Learn What Openings Currently Covers?
 
 Blocked by: #10
