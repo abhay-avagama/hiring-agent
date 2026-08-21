@@ -130,17 +130,15 @@ Round 3 is closed under its predeclared stop rule. The 1,198 raw Ashby leads rem
 
 Data hygiene was completed separately from round 3 on `2026-08-20` and is not counted as campaign progress. A bounded full-catalog maintenance crawl confirmed `thomsonreuters` was the sole orphaned partition and pruned it through the crawler's normal catalog-sync path. The same run selected only the sole never-indexed verified source, `anthropic`, and indexed it successfully: 484 jobs, including 3 India-eligible jobs, with one attempt, zero throttles, and zero backoff. The resulting coverage report has 104/104 catalog sources indexed, no orphaned partitions, and no never-indexed sources.
 
-## 9. Corpus breadth beyond the big four ATS providers — draft for review
+## 9. Corpus breadth beyond the big four ATS providers — completed round 4
 
-The corpus is currently Workday/Greenhouse/Lever/Ashby only. Decision-map #5 already researched and named the next viable providers — Recruitee and Personio as direct next candidates, SmartRecruiters pending an authentication-contract probe — and already excluded Freshteam, Darwinbox, Zoho Recruit, and BambooHR under the no-HTML/no-required-key constraint. That research has never been executed as a round.
+Round 4 rechecked the current official contracts before implementation. Recruitee documents a keyless public Careers Site API and exposes company-owned careers URLs in its structured jobs, so it cleared both the access and identity gates. Personio's current XML-feed contract requires `X-Company-ID`, and SmartRecruiters' Posting API contract requires an API key; both remain parked despite anonymous sample responses. Freshteam, Darwinbox, Zoho Recruit, and BambooHR remain excluded under the no-HTML/no-required-key constraint.
 
-Proposed round 4 remains unapproved until current provider contracts are rechecked and every phase has numeric caps, success criteria, and stop conditions. Once those are written, use the same gated-round discipline as rounds 2 and 3, adapted to a new-provider probe instead of an identity probe:
+The bounded live phase examined five Recruitee boards, admitted at most five candidates, and crawled only sources that passed the existing identity and India-job gates. One source, TransPerfect, verified through an exact company-owned structured-domain link and indexed successfully. Four boards were rejected for insufficient domain evidence; the verifier did not substitute token, name, DNS, or search-result similarity. No Personio or SmartRecruiters source was promoted or crawled.
 
-1. **Adapter feasibility probe, read-only.** For Recruitee and Personio, recheck the current public contract, confirm a stable unauthenticated structured job feed exists, and identify its provider-supplied company-identity field (mirroring how Greenhouse and Workday already supply one). The approved draft must replace this placeholder with an exact board cap per provider; no promotion or catalog writes occur during the probe.
-2. **SmartRecruiters authentication-contract check.** Resolve whether its public feed is genuinely keyless in practice, per #5's open item, before treating it as eligible at all.
-3. **Bounded promotion and crawl**, only for providers that clear phase 1/2, using the existing verification and quality-floor gates — no new identity standard, just a new adapter.
+Round result on `2026-08-21`: verified sources increased from 104 to 105, indexed jobs from 50,948 to 51,516, India-eligible jobs from 6,905 to 6,978, and distinct India-eligible employers from 101 to 102. The Recruitee crawl returned 568 jobs, 73 India-eligible jobs, one successful attempt, and no throttling. Catalog and snapshot coverage remain 100%, with no orphaned or never-indexed sources.
 
-Do not treat this as authorization to relax the identity bar for any provider, and do not fold Freshteam/Darwinbox/Zoho Recruit/BambooHR back in — #5 already closed those under the current HTML/key constraints.
+Round 4 is closed. Recruitee is the fifth supported provider; broader Recruitee discovery is future corpus work rather than part of this bounded adapter round. Personio and SmartRecruiters can be reconsidered only if their documented access contracts become compatible with a free, optional-key product.
 
 ## 10. Structured `JobPosting` evidence kind — needs research before a round (decision-map #12)
 

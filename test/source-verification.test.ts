@@ -2,6 +2,23 @@ import { expect, test } from "bun:test";
 import { resolveSource, verifyCandidates } from "../src/source-verification.ts";
 import type { SourceCandidate } from "../src/types.ts";
 
+test("resolves and verifies Recruitee through a structured company-domain link", async () => {
+  expect(resolveSource("https://transperfect.recruitee.com/o/software-engineer")).toEqual({
+    ats: "recruitee", token: "transperfect", canonicalSourceUrl: "https://transperfect.recruitee.com",
+    structuredEndpoint: "https://transperfect.recruitee.com/api/offers",
+  });
+  const result = await verifyCandidates([{
+    companyName: "TransPerfect", companyDomain: "transperfect.com", sourceUrl: "https://transperfect.recruitee.com/o/software-engineer",
+    discoveredFrom: { channel: "provider_directory", reference: "https://transperfect.recruitee.com" },
+  }], { fetch: async () => Response.json({ offers: [{ guid: "r-1", title: "Software Engineer", city: "Bangalore", country_code: "IN", careers_url: "https://transperfect.com/o/software-engineer" }] }) });
+
+  expect(result.rejected).toEqual([]);
+  expect(result.verified).toEqual([expect.objectContaining({
+    ats: "recruitee", token: "transperfect", sourceUrl: "https://transperfect.recruitee.com",
+    verification: expect.objectContaining({ identityEvidence: "structured_domain_link", payloadVersion: "recruitee-careers:v1", jobCount: 1 }),
+  })]);
+});
+
 test("resolves and verifies a public Workday CXS source", async () => {
   const result = await verifyCandidates([{
     companyName: "Mastercard", companyDomain: "mastercard.com",

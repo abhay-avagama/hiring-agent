@@ -70,6 +70,34 @@ test("verification records success and transient retry facts in the enrichment r
   expect(downRequests).toBe(1);
 });
 
+test("Recruitee can acquire strong provider-domain evidence during bounded verification", async () => {
+  const directory = await mkdtemp(join(tmpdir(), "openings-recruitee-evidence-"));
+  const candidatesPath = join(directory, "candidates.json");
+  const catalogPath = join(directory, "companies.json");
+  const registryPath = join(directory, "leads.json");
+  const candidate = {
+    companyName: "Acme", companyDomain: "acme.test", sourceUrl: "https://acme.recruitee.com",
+    discoveredFrom: { channel: "provider_directory" as const, reference: "https://acme.recruitee.com" },
+  };
+  await writeFile(candidatesPath, JSON.stringify([candidate]));
+  await mergeEnrichmentLeads(registryPath, [{
+    sourceKey: "recruitee:acme", sourceUrl: candidate.sourceUrl, ats: "recruitee", token: "acme",
+    discoveredFrom: [candidate.discoveredFrom], companyMatches: [{ companyName: "Acme", companyDomain: "acme.test", method: "normalized_token", reference: candidate.sourceUrl }],
+    identityEvidence: [], attempts: [],
+  }]);
+
+  const report = await runSourceVerification(candidatesPath, catalogPath, {
+    registryPath,
+    now: () => new Date("2026-08-21T00:00:00.000Z"),
+    fetch: async () => Response.json({ offers: [{ guid: "r-1", title: "Engineer", careers_url: "https://acme.test/o/engineer" }] }),
+  });
+
+  expect(report).toEqual(expect.objectContaining({ selected: 1, verified: 1, deferred: 0 }));
+  const lead = (await readEnrichmentRegistry(registryPath)).leads[0]!;
+  expect(lead.identityEvidence).toEqual([expect.objectContaining({ kind: "provider_structured_domain", companyDomain: "acme.test" })]);
+  expect(deriveLeadState(lead)).toBe("verified");
+});
+
 test("verification limits select new candidates first and preserve sources outside the batch", async () => {
   const directory = await mkdtemp(join(tmpdir(), "openings-sources-batch-"));
   const candidatesPath = join(directory, "candidates.json");

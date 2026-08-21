@@ -64,13 +64,34 @@ test("generic discovery accepts every supported provider without probing ATS end
     ["https://jobs.lever.co/beta", "Beta"],
     ["https://jobs.ashbyhq.com/gamma", "Gamma"],
     ["https://delta.wd1.myworkdayjobs.com/en-US/External", "Delta"],
+    ["https://epsilon.recruitee.com/o/engineer", "Epsilon"],
   ].map(([sourceUrl, companyName]) => ({ sourceUrl, companyName, companyDomain: `${companyName!.toLowerCase()}.test`, reference: `https://${companyName!.toLowerCase()}.test/careers`, channel: "career_page", domainEvidence: "company_redirect" }))));
   let fetched = false;
   const report = await runSourceDiscovery(feedPath, candidatesPath, join(directory, "report.json"), { registryPath, fetch: async () => { fetched = true; return new Response(); } });
-  expect(report.ready).toBe(4);
-  expect(JSON.parse(await readFile(candidatesPath, "utf8")).map((candidate: { sourceUrl: string }) => candidate.sourceUrl)).toHaveLength(4);
+  expect(report.ready).toBe(5);
+  expect(JSON.parse(await readFile(candidatesPath, "utf8")).map((candidate: { sourceUrl: string }) => candidate.sourceUrl)).toHaveLength(5);
   expect(fetched).toBeFalse();
-  expect(JSON.parse(await readFile(registryPath, "utf8")).leads).toHaveLength(4);
+  expect(JSON.parse(await readFile(registryPath, "utf8")).leads).toHaveLength(5);
+});
+
+test("Recruitee discovery can queue identity acquisition without claiming evidence", async () => {
+  const directory = await mkdtemp(join(tmpdir(), "openings-discovery-recruitee-"));
+  const feedPath = join(directory, "feed.json");
+  const candidatesPath = join(directory, "candidates.json");
+  const registryPath = join(directory, "leads.json");
+  await writeFile(feedPath, JSON.stringify([{
+    sourceUrl: "https://transperfect.recruitee.com/o/software-engineer", companyName: "TransPerfect", companyDomain: "transperfect.com",
+    reference: "https://transperfect.recruitee.com", channel: "provider_directory",
+  }]));
+
+  const report = await runSourceDiscovery(feedPath, candidatesPath, join(directory, "report.json"), { country: "IN", registryPath });
+
+  expect(report).toEqual(expect.objectContaining({ ready: 1, needsDomain: 0 }));
+  expect(JSON.parse(await readFile(candidatesPath, "utf8"))).toEqual([expect.objectContaining({
+    companyName: "TransPerfect", sourceUrl: "https://transperfect.recruitee.com", cohorts: ["IN"],
+  })]);
+  const lead = JSON.parse(await readFile(registryPath, "utf8")).leads[0];
+  expect(lead.identityEvidence).toEqual([]);
 });
 
 test("YC discovery creates country-focused Greenhouse seeds from the keyless company API", async () => {

@@ -99,7 +99,7 @@ async function discoverEntries(feed: FeedEntry[], candidatesPath: string, report
       }
       const source = resolveSource(entry.sourceUrl);
       if (!source) {
-        rejected.push({ index, issue: issue(entry, "unsupported_source", "Discovery accepts Greenhouse, Lever, Ashby, and Workday source URLs") });
+        rejected.push({ index, issue: issue(entry, "unsupported_source", "Discovery accepts Greenhouse, Lever, Ashby, Workday, and Recruitee source URLs") });
         continue;
       }
       if (entry.channel !== undefined && !["search", "career_page", "provider_directory", "community", "dataset"].includes(entry.channel)) {
@@ -127,7 +127,8 @@ async function discoverEntries(feed: FeedEntry[], candidatesPath: string, report
         unresolved.push({ index, issue: { ...issue(entry, "needs_identity", "companyName and companyDomain are required before verification"), companyName: companyName || undefined } });
         continue;
       }
-      if (!redirectTrusted && !datasetTrusted) {
+      const providerCanAcquireIdentity = source.ats === "recruitee";
+      if (!redirectTrusted && !datasetTrusted && !providerCanAcquireIdentity) {
         unresolved.push({ index, issue: { ...issue(entry, "needs_domain_evidence", "The entry needs trusted dataset evidence or a company-owned redirect"), companyName } });
         continue;
       }
@@ -135,7 +136,7 @@ async function discoverEntries(feed: FeedEntry[], candidatesPath: string, report
         companyName, companyDomain: entry.companyDomain.toLocaleLowerCase(), sourceUrl: source.canonicalSourceUrl,
         cohorts: country ? [country] : undefined,
         discoveredFrom: { channel: entry.channel ?? "dataset", reference },
-        domainEvidence: { kind: entry.domainEvidence!, reference },
+        ...((redirectTrusted || datasetTrusted) ? { domainEvidence: { kind: entry.domainEvidence!, reference } } : {}),
       } });
     }
   }

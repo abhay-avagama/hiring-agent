@@ -9,6 +9,7 @@ const boards: Array<{ slug: string; name: string; ats: Ats; token: string }> = [
   { slug: "flex", name: "Flex", ats: "lever", token: "Flex" },
   { slug: "posthog", name: "PostHog", ats: "ashby", token: "posthog" },
   { slug: "mastercard", name: "Mastercard", ats: "workday", token: "mastercard.wd1.myworkdayjobs.com/mastercard/CorporateCareers" },
+  { slug: "transperfect", name: "TransPerfect", ats: "recruitee", token: "transperfect" },
 ];
 
 for (const company of boards) {

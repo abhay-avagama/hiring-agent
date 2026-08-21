@@ -29,7 +29,7 @@ export interface CommonCrawlDiscoveryReport extends ReportMeta {
   rejections: Array<{ value: string; reason: string }>;
 }
 
-const patterns = ["job-boards.greenhouse.io/*", "boards.greenhouse.io/*", "jobs.lever.co/*", "jobs.ashbyhq.com/*", "*.myworkdayjobs.com/*"];
+const patterns = ["job-boards.greenhouse.io/*", "boards.greenhouse.io/*", "jobs.lever.co/*", "jobs.ashbyhq.com/*", "*.myworkdayjobs.com/*", "*.recruitee.com/*"];
 const recordsPerPattern = 10_000;
 
 export async function discoverCommonCrawlSources(candidatesPath: string, reportPath: string, options: Options = {}): Promise<CommonCrawlDiscoveryReport> {

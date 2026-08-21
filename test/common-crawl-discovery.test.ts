@@ -24,16 +24,18 @@ test("Common Crawl URL discovery canonicalizes ATS leads without promoting unkno
       ].join("\n"));
       if (url.includes("greenhouse")) return new Response(`${JSON.stringify({ url: "https://boards.greenhouse.io/acme/jobs/1" })}\n${JSON.stringify({ url: "https://job-boards.greenhouse.io/acme" })}`);
       if (url.includes("myworkdayjobs")) return new Response(JSON.stringify({ url: "https://mastercard.wd1.myworkdayjobs.com/en-US/CorporateCareers/job/Pune-India/Engineer_R-1" }));
+      if (url.includes("recruitee.com")) return new Response(JSON.stringify({ url: "https://transperfect.recruitee.com/o/software-engineer" }));
       return new Response("");
     },
   });
 
-  expect(report).toEqual(expect.objectContaining({ country: "IN", urlsSeen: 5, sourcesFound: 4, alreadyKnown: 1, unresolved: 3, rejected: 0, truncated: false, registryAdded: 3 }));
+  expect(report).toEqual(expect.objectContaining({ country: "IN", urlsSeen: 6, sourcesFound: 5, alreadyKnown: 1, unresolved: 4, rejected: 0, truncated: false, registryAdded: 4 }));
   expect(report.leads.map((lead) => lead.sourceUrl).sort()).toEqual([
     "https://job-boards.greenhouse.io/acme",
     "https://jobs.lever.co/newco",
     "https://mastercard.wd1.myworkdayjobs.com/en-US/CorporateCareers",
+    "https://transperfect.recruitee.com",
   ]);
   expect(JSON.parse(await readFile(reportPath, "utf8"))).toEqual(report);
-  expect(JSON.parse(await readFile(registryPath, "utf8")).leads).toHaveLength(3);
+  expect(JSON.parse(await readFile(registryPath, "utf8")).leads).toHaveLength(4);
 });

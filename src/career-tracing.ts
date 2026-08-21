@@ -131,7 +131,7 @@ async function readCommonCrawlLeads(path: string) {
 
 async function searchForSource(seed: CompanySeed, key: string, fetcher: Fetch, country?: string) {
   const url = new URL("https://api.search.brave.com/res/v1/web/search");
-  url.searchParams.set("q", `\"${seed.companyName}\" (site:job-boards.greenhouse.io OR site:jobs.lever.co OR site:jobs.ashbyhq.com OR site:myworkdayjobs.com)`);
+  url.searchParams.set("q", `\"${seed.companyName}\" (site:job-boards.greenhouse.io OR site:jobs.lever.co OR site:jobs.ashbyhq.com OR site:myworkdayjobs.com OR site:recruitee.com)`);
   url.searchParams.set("count", "20");
   if (country) url.searchParams.set("country", country);
   const response = await fetcher(url, { headers: { Accept: "application/json", "X-Subscription-Token": key } });

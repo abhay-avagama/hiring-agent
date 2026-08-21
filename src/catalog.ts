@@ -51,6 +51,23 @@ interface WorkdayJob {
   bulletFields?: string[];
 }
 
+interface RecruiteeJob {
+  guid: string;
+  title: string;
+  city?: string;
+  state_name?: string;
+  country_code?: string;
+  remote?: boolean;
+  hybrid?: boolean;
+  on_site?: boolean;
+  careers_url: string;
+  updated_at?: string;
+  published_at?: string;
+  description?: string;
+  requirements?: string;
+  translations?: Record<string, { description?: string; requirements?: string; title?: string }>;
+}
+
 export function createCatalog(options: CatalogOptions): Catalog {
   const fetcher = options.fetch ?? globalThis.fetch;
   const cache = new Map<string, { expiresAt: number; jobs: Promise<Job[]> }>();
@@ -105,7 +122,9 @@ export async function fetchSourceJobs(company: Company, fetcher: Fetch = globalT
     ? `https://boards-api.greenhouse.io/v1/boards/${encodeURIComponent(company.token)}/jobs?content=true`
     : company.ats === "lever"
       ? `https://api.lever.co/v0/postings/${encodeURIComponent(company.token)}?mode=json`
-      : `https://api.ashbyhq.com/posting-api/job-board/${encodeURIComponent(company.token)}`;
+      : company.ats === "ashby"
+        ? `https://api.ashbyhq.com/posting-api/job-board/${encodeURIComponent(company.token)}`
+        : `https://${encodeURIComponent(company.token)}.recruitee.com/api/offers`;
   const response = await fetchWithRetry(fetcher, url, signal ? { signal } : undefined, company.name, observer);
   if (!response.ok) { await response.body?.cancel().catch(() => undefined); throw new Error(`${company.name} job board returned HTTP ${response.status}`); }
   const body = await response.json();
@@ -113,7 +132,9 @@ export async function fetchSourceJobs(company: Company, fetcher: Fetch = globalT
     ? (body as { jobs: GreenhouseJob[] }).jobs.map((job) => normalizeGreenhouse(company, job))
     : company.ats === "lever"
       ? (body as LeverJob[]).map((job) => normalizeLever(company, job))
-      : (body as { jobs: AshbyJob[] }).jobs.map((job) => normalizeAshby(company, job));
+      : company.ats === "ashby"
+        ? (body as { jobs: AshbyJob[] }).jobs.map((job) => normalizeAshby(company, job))
+        : (body as { offers: RecruiteeJob[] }).offers.map((job) => normalizeRecruitee(company, job));
 }
 
 async function fetchWorkdayJobs(company: Company, fetcher: Fetch, signal?: AbortSignal, observer?: FetchJobsObserver): Promise<Job[]> {
@@ -310,6 +331,25 @@ function normalizeGreenhouse(company: Company, job: GreenhouseJob): Job {
     url: job.absolute_url,
     updatedAt: job.updated_at,
     description: stripHtml(job.content ?? ""),
+  });
+}
+
+function normalizeRecruitee(company: Company, job: RecruiteeJob): Job {
+  const location = [job.city, job.state_name, job.country_code?.toUpperCase()].filter(Boolean).join(", ") || "Unspecified";
+  const translation = job.translations?.en ?? Object.values(job.translations ?? {})[0];
+  const description = [translation?.description ?? job.description, translation?.requirements ?? job.requirements].filter(Boolean).map((value) => stripHtml(value!)).join("\n\n");
+  const updatedAt = job.updated_at ?? job.published_at;
+  return classifyJob({
+    id: `recruitee:${company.slug}:${job.guid}`,
+    company: company.name,
+    title: translation?.title ?? job.title,
+    location,
+    remote: job.remote === true,
+    workMode: job.remote ? "remote" : job.hybrid ? "hybrid" : job.on_site ? "onsite" : "unknown",
+    eligibleCountries: [], excludedCountries: [], eligibleRegions: [], eligibilityConfidence: "unknown",
+    url: job.careers_url,
+    ...(updatedAt ? { updatedAt: new Date(updatedAt).toISOString() } : {}),
+    description,
   });
 }
 

@@ -110,7 +110,7 @@ async function readCatalog(path: string): Promise<Record<string, Omit<VerifiedCo
   const value: unknown = JSON.parse(await readFile(path, "utf8"));
   if (!isRecord(value)) throw new Error(`Invalid verified catalog: ${path}`);
   for (const [slug, company] of Object.entries(value)) {
-    if (!isRecord(company) || !["greenhouse", "lever", "ashby", "workday"].includes(String(company.ats)) || typeof company.token !== "string"
+    if (!isRecord(company) || !["greenhouse", "lever", "ashby", "workday", "recruitee"].includes(String(company.ats)) || typeof company.token !== "string"
       || typeof company.companyDomain !== "string" || typeof company.sourceUrl !== "string"
       || company.cohorts !== undefined && (!Array.isArray(company.cohorts) || !company.cohorts.every(validCountryCode))
       || !validVerification(company.verification)) throw new Error(`Invalid verified catalog source: ${slug}`);

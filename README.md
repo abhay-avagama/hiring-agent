@@ -2,7 +2,7 @@
 
 Openings is a free, read-only job-search substrate for AI agents. It indexes public company job boards and exposes six tools: `get_job_coverage`, `recommend_jobs`, `analyze_job_fit`, `optimize_resume`, `search_jobs`, and `get_job`. There are no accounts, hosted services, Openings API keys, model calls, or application submission paths. Resume content supplied to the recommendation, fit-analysis, and optimization tools is processed locally in memory and is never persisted.
 
-Openings supports Greenhouse, Lever, Ashby, and Workday. Jobs are crawled from their public structured endpoints into a local, source-partitioned snapshot.
+Openings supports Greenhouse, Lever, Ashby, Workday, and Recruitee. Jobs are crawled from their public structured endpoints into a local, source-partitioned snapshot.
 
 ## Requirements
 
@@ -73,7 +73,7 @@ bun run src/cli.ts sources trace-careers .openings/company-domains.json --countr
 
 `seed-companies-yc` writes a deduplicated country-focused `{ companyName, companyDomain }` seed file to `.openings/company-domains.json` by default. This is the required identity input for `trace-careers`; the file is generated rather than assumed to exist.
 
-`discover-common-crawl` queries only Common Crawl's URL index for Greenhouse, Lever, Ashby, and Workday URL patterns, capped at 10,000 records per pattern to keep the public-index workload bounded. It does not download archived pages. Unknown sources are merged by canonical provider token into `data/enrichment-leads.json`; reports are versioned run artifacts rather than workflow state. `--country` records the campaign target but cannot assign a country to an unidentified source; job eligibility remains job-derived after verification and crawling.
+`discover-common-crawl` queries only Common Crawl's URL index for Greenhouse, Lever, Ashby, Workday, and Recruitee URL patterns, capped at 10,000 records per pattern to keep the public-index workload bounded. It does not download archived pages. Unknown sources are merged by canonical provider token into `data/enrichment-leads.json`; reports are versioned run artifacts rather than workflow state. `--country` records the campaign target but cannot assign a country to an unidentified source; job eligibility remains job-derived after verification and crawling.
 
 `sources enrich COMPANIES.json` joins the durable lead registry against authoritative company-domain data and derives state from accumulated facts. Add repeatable `--companies FILE` inputs to combine datasets. Inputs may be `{ companyName, companyDomain }` arrays or verified catalog objects such as `data/companies.json`; every fact retains its input-file provenance. Weak token/name/search matches never become identity evidence. Greenhouse and Workday may become verification-ready through authoritative dataset evidence; Lever and Ashby remain matched until provider-structured or safely replayed company-redirect evidence exists. Equal-trust identity conflicts are quarantined, while higher-trust evidence wins deterministically. The registry records verification outcomes, capped retry cooldowns, file size, and lock-held time; use `sources verify ... --registry FILE` to write those outcomes back.
 Cooling, repeatedly failing, unresolved, matched, and rejected registry leads are not re-probed automatically. Use `--retry-deferred` on an explicit verification run to retry only cooling or repeatedly failing leads that already meet the identity-evidence bar; it never bypasses matched, unresolved, or quarantined identity states.
@@ -106,7 +106,7 @@ The first live India YC campaign examined 218 seeds, discovered and independentl
 bun run src/cli.ts sources verify data/source-candidates.json
 ```
 
-The verifier resolves canonical Greenhouse, Lever, Ashby, and Workday endpoints, validates their structured payloads, applies provider-specific identity checks, deduplicates sources and companies, and atomically regenerates [`data/companies.json`](data/companies.json). Greenhouse supplies a provider company name. Workday supplies a URL-derived tenant identifier but no independent company-domain ownership proof. Lever and Ashby may use either a dedicated structured company-domain field or company-owned redirect evidence produced by the hardened career tracer; board slugs or free-form job descriptions never count alone. Only accepted candidates are written. The JSON report includes every rejected candidate and a machine-readable reason. Previously verified records survive transient endpoint failures, but permanent identity or schema failures remove them. Verification requires no search key; optional keys belong only to discovery adapters.
+The verifier resolves canonical Greenhouse, Lever, Ashby, Workday, and Recruitee endpoints, validates their structured payloads, applies provider-specific identity checks, deduplicates sources and companies, and atomically regenerates [`data/companies.json`](data/companies.json). Greenhouse supplies a provider company name. Workday supplies a URL-derived tenant identifier but no independent company-domain ownership proof. Recruitee jobs may supply a company-owned careers URL, which must match the candidate company domain before promotion. Lever and Ashby may use either a dedicated structured company-domain field or company-owned redirect evidence produced by the hardened career tracer; board slugs or free-form job descriptions never count alone. Only accepted candidates are written. The JSON report includes every rejected candidate and a machine-readable reason. Previously verified records survive transient endpoint failures, but permanent identity or schema failures remove them. Verification requires no search key; optional keys belong only to discovery adapters.
 
 For a country expansion campaign, add `--require-country IN`. It admits a new source only when its complete normalized feed contains an India-eligible job; existing verified sources are preserved if their current feed temporarily has none.
 
@@ -153,7 +153,7 @@ Add an object to `data/source-candidates.json`; do not edit the generated compan
 { "companyName": "Example", "companyDomain": "example.com", "sourceUrl": "https://job-boards.greenhouse.io/example", "cohorts": ["IN"], "discoveredFrom": { "channel": "community", "reference": "issue-123" } }
 ```
 
-Supported sources are Greenhouse, Lever, Ashby, and Workday public job-board URLs. `cohorts` records how a source was selected for focused crawling; eligibility is always classified on each job. India searches normalize common city and state variants such as Bangalore/Bengaluru, Gurgaon/Gurugram, Mysore/Mysuru, and Orissa/Odisha.
+Supported sources are Greenhouse, Lever, Ashby, Workday, and Recruitee public job-board URLs. `cohorts` records how a source was selected for focused crawling; eligibility is always classified on each job. India searches normalize common city and state variants such as Bangalore/Bengaluru, Gurgaon/Gurugram, Mysore/Mysuru, and Orissa/Odisha.
 
 ## Develop
 

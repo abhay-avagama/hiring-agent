@@ -4,7 +4,7 @@ Date: 2026-08-10
 
 ## Decision
 
-Retain Greenhouse, Lever, and Ashby. Prototype adapters next for Recruitee and Personio, then SmartRecruiters. Treat Workable as a high-yield experimental provider until its unauthenticated account feed has a documented stability/usage contract. Do not add Freshteam, Darwinbox, Zoho Recruit, BambooHR, or Workday under the current no-HTML/no-required-key rules.
+Retain Greenhouse, Lever, Ashby, Workday, and Recruitee. Recruitee cleared a current contract recheck and shipped in bounded round 4. Personio and SmartRecruiters remain parked because their official contracts require credentials, even where an anonymous endpoint may currently respond. Treat Workable as a high-yield experimental provider until its unauthenticated account feed has a documented stability/usage contract. Do not add Freshteam, Darwinbox, Zoho Recruit, or BambooHR under the current no-HTML/no-required-key rules.
 
 This provider set is broad enough to begin a 1,000-source country-focused campaign. Discovery results are candidates only; every token must pass provider-specific reachability, identity, and payload verification before automatic inclusion.
 
@@ -15,9 +15,9 @@ This provider set is broad enough to begin a 1,000-source country-focused campai
 | Greenhouse | `GET boards-api.greenhouse.io/v1/boards/{token}/jobs?content=true` | None for reads | Board URL token | Location, offices, description | Keep; primary |
 | Lever | `GET api.lever.co/v0/postings/{site}?mode=json` plus EU host | None for reads | Hosted site name | Location and workplace type | Keep; primary |
 | Ashby | `GET api.ashbyhq.com/posting-api/job-board/{name}` | None | Job-board name | Primary/secondary structured locations, remote flag | Keep; primary |
-| Recruitee | `GET {company}.recruitee.com/api/offers/` | None for Careers Site API | Careers subdomain | Multiple locations and offer fields | Add next |
-| Personio | `GET {company}.jobs.personio.de/xml?language=en` | Public career XML observed; current docs also display integration headers | Career subdomain | Structured XML location fields | Prototype next; verify header-free behavior per source |
-| SmartRecruiters | `GET api.smartrecruiters.com/v1/companies/{id}/postings` | Endpoint works without a key; overview says Posting API supports API-key auth | Career-site company identifier | Country/region/city and detail reference | Prototype after Recruitee; quarantine if auth behavior changes |
+| Recruitee | `GET {company}.recruitee.com/api/offers` | None for public Careers Site API | Per-job company-owned careers URL | Multiple locations and offer fields | Shipped |
+| Personio | `GET {company}.jobs.personio.de/xml?language=en` | Current official contract requires `X-Company-ID` | Career subdomain | Structured XML location fields | Parked under no-required-key rule |
+| SmartRecruiters | `GET api.smartrecruiters.com/v1/companies/{id}/postings` | Current official Posting API contract requires an API key | Career-site company identifier | Country/region/city and detail reference | Parked under no-required-key rule |
 | Workable | `GET workable.com/api/accounts/{account}?details=true` | None observed | `apply.workable.com/{account}` token | Rich job payloads | Experimental: excellent yield, but feed is not documented in current public API docs |
 | Freshteam | Career pages are public HTML; tested `/api/job_postings` and `/api/jobs` return 401 | Required for documented API | Freshteam subdomain | Good human-facing location data | Exclude: would require HTML extraction or credentials |
 | Darwinbox | Documented Jobs API v3 | API key plus Basic/OAuth | Tenant subdomain | Potentially strong India coverage | Exclude: privileged, request-only API |
@@ -85,7 +85,7 @@ Verification must record discovery channel, discovery query or submitted URL, pr
 ## Risks And Follow-ups
 
 - Search-result discovery has recall and freshness bias; measure verified yield per query family rather than trusting result counts.
-- Workable and SmartRecruiters need a contract-change probe because observed anonymous behavior is less clear than Greenhouse/Lever/Ashby/Recruitee.
-- Personio is XML, multilingual, and documentation currently shows headers even though the career feed was anonymously reachable; capture fixtures before committing the adapter.
+- Workable needs a contract-change probe because observed anonymous behavior is less clear than the shipped providers.
+- Personio and SmartRecruiters require credentials in their current documented contracts. Anonymous responses are not treated as a stable keyless contract.
 - Provider identity and duplicate-company resolution are the next design problem (#6).
 - Country classification across structured fields and descriptions remains separate (#7).

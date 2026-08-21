@@ -2286,6 +2286,29 @@
       "canonicalSourceUrl": "https://thermofisher.wd5.myworkdayjobs.com/en-US/ThermoFisherCareers"
     }
   },
+  "transperfect": {
+    "name": "TransPerfect",
+    "ats": "recruitee",
+    "token": "transperfect",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "transperfect.com",
+    "sourceUrl": "https://transperfect.recruitee.com",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://transperfect.recruitee.com"
+    },
+    "verification": {
+      "observedCompanyName": "TransPerfect",
+      "identityEvidence": "structured_domain_link",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "recruitee-careers:v1",
+      "jobCount": 568,
+      "checkedAt": "2026-08-21T05:33:49.676Z",
+      "canonicalSourceUrl": "https://transperfect.recruitee.com"
+    }
+  },
   "transunion": {
     "name": "TransUnion",
     "ats": "workday",

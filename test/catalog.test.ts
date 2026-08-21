@@ -2,6 +2,28 @@ import { describe, expect, test } from "bun:test";
 import { createCatalog, fetchSourceJobs } from "../src/catalog.ts";
 
 describe("job catalog", () => {
+  test("searches Recruitee's public structured offer feed", async () => {
+    const requested: string[] = [];
+    const catalog = createCatalog({
+      companies: [{ slug: "acme", name: "Acme", ats: "recruitee", token: "acme" }],
+      fetch: async (input) => {
+        requested.push(String(input));
+        return Response.json({ offers: [{
+          guid: "r-1", title: "Backend Engineer", city: "Bengaluru", state_name: "Karnataka", country_code: "IN",
+          remote: false, hybrid: true, careers_url: "https://acme.test/o/backend-engineer",
+          updated_at: "2026-08-20 12:00:00 UTC", description: "<p>Build APIs.</p>", requirements: "<p>Java is required.</p>",
+        }] });
+      },
+    });
+
+    expect(await catalog.search({ country: "IN" })).toEqual([expect.objectContaining({
+      id: "recruitee:acme:r-1", title: "Backend Engineer", location: "Bengaluru, Karnataka, IN",
+      workMode: "hybrid", eligibleCountries: ["IN"], url: "https://acme.test/o/backend-engineer",
+    })]);
+    expect(requested).toEqual(["https://acme.recruitee.com/api/offers"]);
+    expect(await catalog.get("recruitee:acme:r-1")).toEqual(expect.objectContaining({ description: "Build APIs.\n\nJava is required." }));
+  });
+
   test("paginates Workday JSON and loads a description on get", async () => {
     const requests: Array<{ url: string; body?: unknown }> = [];
     const catalog = createCatalog({

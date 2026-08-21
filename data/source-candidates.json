@@ -1773,5 +1773,65 @@
     "cohorts": [
       "IN"
     ]
+  },
+  {
+    "companyName": "TransPerfect",
+    "companyDomain": "transperfect.com",
+    "sourceUrl": "https://transperfect.recruitee.com",
+    "cohorts": [
+      "IN"
+    ],
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://transperfect.recruitee.com"
+    }
+  },
+  {
+    "companyName": "Delta Capita",
+    "companyDomain": "deltacapita.com",
+    "sourceUrl": "https://careersdeltacapita.recruitee.com",
+    "cohorts": [
+      "IN"
+    ],
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://careersdeltacapita.recruitee.com"
+    }
+  },
+  {
+    "companyName": "KC Overseas Education",
+    "companyDomain": "kcoverseaseducation.com",
+    "sourceUrl": "https://kcoverseaseducation.recruitee.com",
+    "cohorts": [
+      "IN"
+    ],
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://kcoverseaseducation.recruitee.com"
+    }
+  },
+  {
+    "companyName": "Tether",
+    "companyDomain": "tether.io",
+    "sourceUrl": "https://tether.recruitee.com",
+    "cohorts": [
+      "IN"
+    ],
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://tether.recruitee.com"
+    }
+  },
+  {
+    "companyName": "XITE",
+    "companyDomain": "xite.nl",
+    "sourceUrl": "https://xite.recruitee.com",
+    "cohorts": [
+      "IN"
+    ],
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://xite.recruitee.com"
+    }
   }
 ]

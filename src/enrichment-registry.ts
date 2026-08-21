@@ -110,9 +110,9 @@ function consecutiveTransientFailures(attempts: LeadAttempt[]): number { let cou
 function isRegistry(value: unknown): value is EnrichmentRegistry {
   if (!isRecord(value) || value.version !== 1 || typeof value.updatedAt !== "string" || !Array.isArray(value.leads)) return false;
   return value.leads.every((lead) => isRecord(lead)
-    && typeof lead.sourceKey === "string" && /^(greenhouse|lever|ashby|workday):.+/.test(lead.sourceKey)
+    && typeof lead.sourceKey === "string" && /^(greenhouse|lever|ashby|workday|recruitee):.+/.test(lead.sourceKey)
     && typeof lead.sourceUrl === "string" && typeof lead.token === "string"
-    && ["greenhouse", "lever", "ashby", "workday"].includes(String(lead.ats))
+    && ["greenhouse", "lever", "ashby", "workday", "recruitee"].includes(String(lead.ats))
     && Array.isArray(lead.discoveredFrom) && lead.discoveredFrom.every(validProvenance)
     && Array.isArray(lead.companyMatches) && lead.companyMatches.every(validMatch)
     && Array.isArray(lead.identityEvidence) && lead.identityEvidence.every(validEvidence)

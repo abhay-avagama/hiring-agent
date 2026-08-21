@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-08-20T12:56:27.052Z",
+  "updatedAt": "2026-08-21T05:33:55.351Z",
   "leads": [
     {
       "sourceKey": "ashby:0g",
@@ -28070,6 +28070,162 @@
       "companyMatches": [],
       "identityEvidence": [],
       "attempts": []
+    },
+    {
+      "sourceKey": "recruitee:careersdeltacapita",
+      "sourceUrl": "https://careersdeltacapita.recruitee.com",
+      "ats": "recruitee",
+      "token": "careersdeltacapita",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://careersdeltacapita.recruitee.com"
+        }
+      ],
+      "companyMatches": [
+        {
+          "companyName": "Delta Capita",
+          "companyDomain": "deltacapita.com",
+          "method": "normalized_token",
+          "reference": "https://careersdeltacapita.recruitee.com"
+        }
+      ],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-08-21T05:33:55.351Z",
+          "outcome": "permanent_failure",
+          "category": "identity_mismatch",
+          "detail": "Neither structured identity fields nor a verified company redirect link to deltacapita.com",
+          "evidenceRank": 0
+        }
+      ]
+    },
+    {
+      "sourceKey": "recruitee:kcoverseaseducation",
+      "sourceUrl": "https://kcoverseaseducation.recruitee.com",
+      "ats": "recruitee",
+      "token": "kcoverseaseducation",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://kcoverseaseducation.recruitee.com"
+        }
+      ],
+      "companyMatches": [
+        {
+          "companyName": "KC Overseas Education",
+          "companyDomain": "kcoverseaseducation.com",
+          "method": "normalized_token",
+          "reference": "https://kcoverseaseducation.recruitee.com"
+        }
+      ],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-08-21T05:33:55.351Z",
+          "outcome": "permanent_failure",
+          "category": "identity_mismatch",
+          "detail": "Neither structured identity fields nor a verified company redirect link to kcoverseaseducation.com",
+          "evidenceRank": 0
+        }
+      ]
+    },
+    {
+      "sourceKey": "recruitee:tether",
+      "sourceUrl": "https://tether.recruitee.com",
+      "ats": "recruitee",
+      "token": "tether",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://tether.recruitee.com"
+        }
+      ],
+      "companyMatches": [
+        {
+          "companyName": "Tether",
+          "companyDomain": "tether.io",
+          "method": "normalized_token",
+          "reference": "https://tether.recruitee.com"
+        }
+      ],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-08-21T05:33:55.351Z",
+          "outcome": "permanent_failure",
+          "category": "identity_mismatch",
+          "detail": "Neither structured identity fields nor a verified company redirect link to tether.io",
+          "evidenceRank": 0
+        }
+      ]
+    },
+    {
+      "sourceKey": "recruitee:transperfect",
+      "sourceUrl": "https://transperfect.recruitee.com",
+      "ats": "recruitee",
+      "token": "transperfect",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://transperfect.recruitee.com"
+        }
+      ],
+      "companyMatches": [
+        {
+          "companyName": "TransPerfect",
+          "companyDomain": "transperfect.com",
+          "method": "normalized_token",
+          "reference": "https://transperfect.recruitee.com"
+        }
+      ],
+      "identityEvidence": [
+        {
+          "companyName": "TransPerfect",
+          "companyDomain": "transperfect.com",
+          "kind": "provider_structured_domain",
+          "reference": "https://transperfect.recruitee.com",
+          "observedAt": "2026-08-21T05:33:55.351Z"
+        }
+      ],
+      "attempts": [
+        {
+          "attemptedAt": "2026-08-21T05:33:55.351Z",
+          "outcome": "success"
+        }
+      ],
+      "promotedAt": "2026-08-21T05:33:55.351Z"
+    },
+    {
+      "sourceKey": "recruitee:xite",
+      "sourceUrl": "https://xite.recruitee.com",
+      "ats": "recruitee",
+      "token": "xite",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://xite.recruitee.com"
+        }
+      ],
+      "companyMatches": [
+        {
+          "companyName": "XITE",
+          "companyDomain": "xite.nl",
+          "method": "normalized_token",
+          "reference": "https://xite.recruitee.com"
+        }
+      ],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-08-21T05:33:55.351Z",
+          "outcome": "permanent_failure",
+          "category": "identity_mismatch",
+          "detail": "Neither structured identity fields nor a verified company redirect link to xite.nl",
+          "evidenceRank": 0
+        }
+      ]
     },
     {
       "sourceKey": "workday:2020companies.wd1.myworkdayjobs.com/2020companies/external_careers",

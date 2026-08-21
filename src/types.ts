@@ -1,4 +1,4 @@
-export type Ats = "greenhouse" | "lever" | "ashby" | "workday";
+export type Ats = "greenhouse" | "lever" | "ashby" | "workday" | "recruitee";
 
 export interface DomainEvidence {
   kind: "authoritative_dataset" | "company_registry" | "company_redirect";

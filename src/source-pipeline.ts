@@ -63,7 +63,8 @@ async function runSourceVerificationUnlocked(candidatesPath: string, catalogPath
       if (!lead) return true;
       const state = deriveLeadState(lead);
       const retry = retryDisposition(lead, options.now?.() ?? new Date());
-      if (["evidence_ready", "verified"].includes(state) && (options.retryDeferred || !["cooling_down", "repeatedly_failing"].includes(retry))) return true;
+      const providerCanAcquireIdentity = source?.ats === "recruitee" && state === "matched";
+      if ((["evidence_ready", "verified"].includes(state) || providerCanAcquireIdentity) && (options.retryDeferred || !["cooling_down", "repeatedly_failing"].includes(retry))) return true;
       deferred.push({ ...candidate, reason: "unreachable", detail: `Verification deferred by enrichment policy (${state}, ${retry})` });
       return false;
     });
