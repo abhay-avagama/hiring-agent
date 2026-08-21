@@ -64,6 +64,9 @@ test("Round 5 artifacts reject search-result joins and aliased output paths", as
   await expect(buildRecruiteeRoundArtifacts([{ token: "acme", companyName: "Acme", companyDomain: "acme.test", reference: "https://example.com/company/acme", method: "normalized_domain", provenanceKind: "business_registry" }], {
     artifactRoot,
   })).rejects.toThrow("not an approved business registry");
+  await expect(buildRecruiteeRoundArtifacts([{ token: "acme", companyName: "Different Company", companyDomain: "different.test", reference: ".openings/company-domains.json", method: "normalized_token", provenanceKind: "authoritative_dataset" }], {
+    artifactRoot,
+  })).rejects.toThrow("does not exactly match the Recruitee token");
   await expect(buildRecruiteeRoundArtifacts([], { artifactRoot: join(root, "outside") })).rejects.toThrow("must be under .openings");
   await expect(mergeAttemptedRoundLeads(sharedPath, sharedPath)).rejects.toThrow("must be different files");
 });
