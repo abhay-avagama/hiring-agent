@@ -1,23 +1,23 @@
 {
   "name": "openings",
   "version": "0.1.0",
-  "description": "Search public company job boards from any AI agent without accounts or API keys.",
+  "description": "Find evidence-grounded jobs, including relevant roles you may not have searched for, without accounts or API keys.",
   "author": { "name": "Openings contributors" },
   "license": "MIT",
-  "keywords": ["jobs", "search", "mcp", "greenhouse", "lever", "ashby"],
+  "keywords": ["jobs", "resume", "matching", "mcp", "greenhouse", "lever", "ashby", "workday", "recruitee"],
   "skills": "./skills/",
   "mcpServers": "./.mcp.json",
   "interface": {
     "displayName": "Openings",
-    "shortDescription": "Search real jobs on public company boards.",
-    "longDescription": "A free, read-only jobs substrate. Search Greenhouse, Lever, and Ashby boards, inspect full descriptions, and tailor local application materials in your own voice.",
+    "shortDescription": "Find real jobs with evidence you can inspect.",
+    "longDescription": "A free, read-only job-search workflow. Check honest country coverage before sharing a resume, find direct and hidden opportunities across five public ATS providers, inspect fit evidence and gaps, and generate truthful resume improvements without storing the resume or submitting an application.",
     "developerName": "Openings contributors",
     "category": "Productivity",
-    "capabilities": ["Read-only job search", "Local application drafting"],
+    "capabilities": ["Coverage-aware job discovery", "Evidence-grounded fit analysis", "Truthful resume optimization"],
     "defaultPrompt": [
-      "Find engineering roles in India that fit my resume.",
-      "Show me the full description for this opening.",
-      "Tailor my resume and draft a letter in my voice."
+      "Tell me how many employers and jobs you cover in India before I share my resume.",
+      "Find roles that fit my resume, including relevant titles I may not have searched for.",
+      "Explain this job with resume evidence and suggest only truthful, evidence-backed improvements."
     ]
   }
 }

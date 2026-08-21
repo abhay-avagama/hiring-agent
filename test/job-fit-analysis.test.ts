@@ -20,6 +20,23 @@ test("selected-job analysis separates explicit evidence, unsupported requirement
   expect(result.assessment).toEqual(expect.objectContaining({ fit: "good", reasons: expect.arrayContaining([expect.objectContaining({ claim: "title matches explicit role intent", jobEvidence: expect.objectContaining({ field: "title" }) })]) }));
 });
 
+test("assessment reasons do not repeat a seniority mismatch emitted by two analysis stages", async () => {
+  const job = makeJob({ title: "Staff Backend Engineer", description: "Java is required." });
+  const analyzer = createJobFitAnalyzer({ getJob: async () => job });
+  const result = await analyzer.analyze({
+    jobId: job.id,
+    resume: { content: "Experience\nSenior Backend Engineer — Acme\nSkills\nJava", format: "text" },
+    intent: { seniority: ["senior"] },
+  });
+  const claims = result.assessment.reasons.map((reason) => reason.claim);
+  expect(claims.filter((claim) => claim === "seniority differs from explicit intent: staff")).toHaveLength(1);
+  expect(new Set(claims).size).toBe(claims.length);
+  expect(result.assessment.reasons.find((reason) => reason.claim === "seniority differs from explicit intent: staff")).toEqual(expect.objectContaining({
+    candidateFactIds: [expect.stringContaining("fact_role_")],
+    jobEvidence: { field: "title", quote: job.title, start: 0, end: job.title.length },
+  }));
+});
+
 test("unreviewed language similarity remains unsupported and explicit eligibility conflicts force poor fit", async () => {
   const job = makeJob({ description: "Java and AWS are required." });
   const analyzer = createJobFitAnalyzer({ getJob: async () => job });

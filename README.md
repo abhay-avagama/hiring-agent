@@ -4,6 +4,14 @@ Openings is a free, read-only job-search substrate for AI agents. It indexes pub
 
 Openings supports Greenhouse, Lever, Ashby, Workday, and Recruitee. Jobs are crawled from their public structured endpoints into a local, source-partitioned snapshot.
 
+## Start as a job seeker
+
+After the one-time local snapshot bootstrap, you do not need to learn the crawler or run search commands. Connect this repository as an MCP server, then ask your AI agent:
+
+> Show me what Openings currently covers in India. If the coverage is useful, use my resume to find backend roles, including good jobs whose titles I would not have searched for. Rank by evidence and explain every gap.
+
+Openings first reports its real job and employer coverage, then accepts a text or Markdown resume. It returns direct, hidden, and stretch opportunities with separate evidence and keyword scores. See the [job-seeker quickstart](docs/job-seeker-quickstart.md) for setup, sample prompts, an example conversation, privacy details, and common errors.
+
 ## Requirements
 
 - [Bun](https://bun.sh/) 1.3 or newer

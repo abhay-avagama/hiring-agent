@@ -153,7 +153,14 @@ function assessmentReasons(job: Job, profile: CandidateProfile, matchingReasons:
       : partial.filter((item) => risk.includes(item.requirement)).flatMap((item) => item.factIds);
     result.push({ claim: risk, ...(riskFactIds.length ? { candidateFactIds: unique(riskFactIds) } : {}), jobEvidence: evidenceForRisk(job, risk) });
   }
-  return result;
+  const merged = new Map<string, JobFitReason>();
+  for (const reason of result) {
+    const key = JSON.stringify([reason.claim, reason.jobEvidence]);
+    const existing = merged.get(key);
+    if (!existing) merged.set(key, reason);
+    else merged.set(key, { ...existing, candidateFactIds: unique([...(existing.candidateFactIds ?? []), ...(reason.candidateFactIds ?? [])]) });
+  }
+  return [...merged.values()];
 }
 
 function evidenceForRisk(job: Job, risk: string): JobFitReason["jobEvidence"] {
