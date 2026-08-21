@@ -38,7 +38,7 @@ The future transport must be a hardened, size-bounded GET sibling of `fetchSafeH
 
 - HTTPS port 443 only; no credentials, cookies, request bodies, or caller-controlled headers.
 - Resolve and pin a public address before every hop; maximum three same-company redirects.
-- Fetch `/robots.txt` first and honor rules for an `Openings` user agent. A disallowed sitemap or detail URL is not requested.
+- Fetch `/robots.txt` for each company-owned origin before requesting a sitemap or detail URL on that origin, and honor rules for an `Openings` user agent. A disallowed sitemap or detail URL is not requested. Redirects are restricted to the request's original origin so they cannot cross into an origin whose policy has not yet been checked.
 - Discover only XML sitemap locations declared by `robots.txt` or the conventional same-domain `/sitemap.xml`. Accept at most two sitemap-index levels and only same-company HTTPS URLs. Reject DTDs and entity declarations; never resolve external XML entities.
 - Accept XML sitemap and `text/html` responses only. Cap compressed and decoded bodies at 2 MiB; abort on overflow or 15 seconds.
 - Parse only sitemap URL entries and JSON-LD script bodies. Do not traverse HTML anchors, execute scripts, resolve JSON-LD remote contexts, load images, styles, or subresources, or inspect surrounding text.
@@ -58,7 +58,7 @@ This contract must be approved before the first HTML GET. The probe is read-only
 
 - Use at most 20 authoritative company identities from `data/companies-career-page.md` that have no verified ATS source. The report must record the exact ordered company names, normalized domains, and input references so the sample is reproducible.
 - Examine the first ten identities, review the health gate, then at most ten more.
-- Per company: one robots request, one conventional sitemap request when robots declares none, at most five sitemap documents across two index levels, and at most ten candidate detail pages.
+- Per company: one robots request per encountered company-owned origin, one conventional sitemap request when the seed origin's robots file declares none, at most five sitemap documents across two index levels, and at most ten candidate detail pages. Every robots request consumes the unchanged global request ceiling.
 - Global maximum: 20 companies, 100 sitemap documents, 200 detail pages, and 320 HTTP requests including redirects.
 - Concurrency: three companies, one active request per company, at least 500 ms between starts on the same domain, 15-second request timeout, no retry in the probe.
 

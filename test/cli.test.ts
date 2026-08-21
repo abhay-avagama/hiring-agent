@@ -15,6 +15,7 @@ test("CLI documents its read-only commands", async () => {
   expect(output).toContain("sources seed-companies-yc");
   expect(output).toContain("sources discover-common-crawl");
   expect(output).toContain("sources trace-careers");
+  expect(output).toContain("sources probe-jobposting");
   expect(output).toContain("--country");
   expect(output).toContain("--delay-ms");
   expect(output).toContain("--source-cache-hours");
@@ -22,6 +23,16 @@ test("CLI documents its read-only commands", async () => {
   expect(output).toContain("--offline");
   expect(output).toContain("--india");
   expect(output).not.toContain("apply");
+});
+
+test("CLI enforces the approved JobPosting probe phase caps before network work", async () => {
+  const process = Bun.spawn(["bun", "run", "src/cli.ts", "sources", "probe-jobposting", "data/companies-career-page.md", "--company-limit", "11"], { stdout: "pipe", stderr: "pipe" });
+  expect(await process.exited).toBe(1);
+  expect(await new Response(process.stderr).text()).toContain("--company-limit must be 10 or 20");
+
+  const unsafeReport = Bun.spawn(["bun", "run", "src/cli.ts", "sources", "probe-jobposting", "data/companies-career-page.md", "--report", "data/companies.json"], { stdout: "pipe", stderr: "pipe" });
+  expect(await unsafeReport.exited).toBe(1);
+  expect(await new Response(unsafeReport.stderr).text()).toContain("must be a file under .openings");
 });
 
 test("CLI rejects invalid coverage controls before reading report inputs", async () => {

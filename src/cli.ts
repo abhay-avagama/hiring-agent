@@ -11,6 +11,7 @@ import { exportSnapshot } from "./snapshot-export.ts";
 import { enrichSourcesFromCompanies } from "./source-enrichment.ts";
 import { forceReleaseFileLock, inspectFileLock } from "./file-lock.ts";
 import { generateCountryCoverageReport } from "./country-coverage.ts";
+import { probeJobPostingJsonLd } from "./jobposting-probe.ts";
 
 const HELP = `Openings — search public company job boards
 
@@ -25,6 +26,7 @@ Usage:
   openings sources discover-common-crawl [--country CODE] [--registry FILE] [--output FILE] [--report FILE] [--index-url URL]
   openings sources enrich COMPANIES.json [--companies FILE]... [--evidence-kind authoritative_dataset|company_registry] [--registry FILE] [--output FILE] [--report FILE]
   openings sources trace-careers COMPANIES.json [--country CODE] [--registry FILE] [--common-crawl-report FILE] [--search-key-env NAME] [--output FILE] [--catalog FILE] [--report FILE]
+  openings sources probe-jobposting COMPANIES.md [--catalog FILE] [--report FILE] [--company-limit 10|20]
   openings search [words] [--country CODE|--india] [--location PLACE] [--remote|--onsite]
                   [--limit N] [--stale-days N] [--offline] [--data-dir PATH]
   openings get JOB_ID [--stale-days N] [--offline] [--data-dir PATH]
@@ -90,6 +92,12 @@ export async function run(args: string[]): Promise<number> {
   }
 
   if (command === "sources") {
+    if (rest[0] === "probe-jobposting") {
+      const parsed = parseJobPostingProbe(rest.slice(1));
+      if (typeof parsed === "string") return fail(parsed);
+      console.log(JSON.stringify(await probeJobPostingJsonLd(parsed.inputPath, parsed.catalog, parsed.report, { companyLimit: parsed.companyLimit }), null, 2));
+      return 0;
+    }
     if (rest[0] === "enrich") {
       const parsed = parseSourceEnrichment(rest.slice(1));
       if (typeof parsed === "string") return fail(parsed);
@@ -149,6 +157,22 @@ export async function run(args: string[]): Promise<number> {
   }
 
   return fail(`Unknown command: ${command}`);
+}
+
+function parseJobPostingProbe(args: string[]) {
+  const inputPath = args[0];
+  if (!inputPath || inputPath.startsWith("--")) return "sources probe-jobposting requires a company Markdown file";
+  let catalog = "data/companies.json";
+  let report = ".openings/jobposting-probe-report.json";
+  let companyLimit = 10;
+  for (let index = 1; index < args.length; index += 1) {
+    const arg = args[index];
+    if (arg === "--catalog") { catalog = args[++index] ?? ""; if (!catalog) return "--catalog requires a file"; }
+    else if (arg === "--report") { report = args[++index] ?? ""; if (!report) return "--report requires a file"; }
+    else if (arg === "--company-limit") { companyLimit = Number(args[++index]); if (companyLimit !== 10 && companyLimit !== 20) return "--company-limit must be 10 or 20"; }
+    else return `Unknown option: ${arg}`;
+  }
+  return { inputPath, catalog, report, companyLimit };
 }
 
 function parseYcCompanySeeds(args: string[]) {
