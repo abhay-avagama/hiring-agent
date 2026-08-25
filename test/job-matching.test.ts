@@ -396,6 +396,16 @@ test("required HTML sections expose material domain and platform gaps instead of
   expect(match.gaps).not.toContain("Health care");
 });
 
+test("common dotted framework names satisfy their canonical requirement without fuzzy matching", () => {
+  const profile = parseCandidateProfile({ content: "Skills\nReact.js", format: "text" });
+  const match = matchJobs(profile, { roles: ["frontend developer"] }, [
+    job({ title: "Frontend Developer", description: "React is required." }),
+  ]).matches[0]!;
+
+  expect(match.supported).toEqual([expect.objectContaining({ requirement: "React" })]);
+  expect(match.gaps).not.toContain("React");
+});
+
 test("credible fit tiers rank ahead of skill-heavy jobs with mandatory screening shortfalls", () => {
   const profile = parseCandidateProfile({ content: "Skills\nJava, Python, SQL, AWS, Docker, React\nExperience\nBackend Engineer — Acme\nJan 2022 - Dec 2025", format: "text" });
   const result = matchJobs(profile, { roles: ["backend engineer"] }, [

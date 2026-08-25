@@ -156,6 +156,50 @@ test("experience sections yield structured role, employer, date, outcome, and de
   ]));
 });
 
+test("standard resume heading variants and skill categories extract clean facts", () => {
+  const profile = parseCandidateProfile({ content: [
+    "# TECHNICAL SKILLS",
+    "Frontend: React.js, Angular, Next.js",
+    "Backend: Node.js, Express.js",
+    "# PROFESSIONAL EXPERIENCE",
+    "## Senior Full Stack Engineer - Example Systems",
+    "Jan 2021 - Jun 2025",
+    "Built customer workflows across web and API services.",
+    "# KEY DEVELOPMENT PROJECTS",
+    "## Workflow Console",
+    "Built a React.js interface backed by Node.js services.",
+  ].join("\n"), format: "text" });
+
+  expect(profile.facts.filter((fact) => fact.kind === "skill").map((fact) => fact.value)).toEqual([
+    "React.js", "Angular", "Next.js", "Node.js", "Express.js",
+  ]);
+  expect(profile.facts).toEqual(expect.arrayContaining([
+    expect.objectContaining({ kind: "role", value: "Senior Full Stack Engineer" }),
+    expect.objectContaining({ kind: "employer", value: "Example Systems" }),
+    expect.objectContaining({ kind: "date", value: "Jan 2021 - Jun 2025" }),
+    expect.objectContaining({ kind: "experience_statement", value: "Built customer workflows across web and API services." }),
+    expect.objectContaining({ kind: "project", value: "Workflow Console" }),
+    expect.objectContaining({ kind: "project_statement", value: "Built a React.js interface backed by Node.js services." }),
+  ]));
+
+  for (const heading of ["Professional Experience", "Relevant Experience", "Employment History", "Work History", "Career History", "Professional History"]) {
+    const variant = parseCandidateProfile({ content: `${heading}\nSoftware Engineer - Example Systems`, format: "text" });
+    expect(variant.facts.some((fact) => fact.kind === "role" && fact.value === "Software Engineer")).toBe(true);
+  }
+  for (const heading of ["Key Projects", "Key Development Projects", "Relevant Projects", "Personal Projects", "Technical Projects", "Academic Projects"]) {
+    const variant = parseCandidateProfile({ content: `${heading}\nBuilt a synthetic application.`, format: "text" });
+    expect(variant.facts.some((fact) => fact.kind === "project_statement")).toBe(true);
+  }
+  for (const label of ["Frontend", "Backend", "DevOps", "Testing", "Libraries", "Operating Systems", "Version Control", "Build Tools", "Messaging"]) {
+    const variant = parseCandidateProfile({ content: `Skills\n${label}: SyntheticSkill`, format: "text" });
+    expect(variant.facts.map((fact) => fact.value)).toEqual(["SyntheticSkill"]);
+  }
+  for (const standaloneSkill of ["Frontend", "Backend", "DevOps", "Testing"]) {
+    const variant = parseCandidateProfile({ content: `Skills\n${standaloneSkill}`, format: "text" });
+    expect(variant.facts.map((fact) => fact.value)).toEqual([standaloneSkill]);
+  }
+});
+
 test("text roles match Markdown structure and experience years merge overlaps conservatively", () => {
   const profile = parseCandidateProfile({ content: [
     "Experience",
@@ -190,6 +234,13 @@ test("standalone role titles from PDF-style experience layouts remain verbatim e
   expect(profile.facts).toContainEqual(expect.objectContaining({ kind: "role", value: "Staff Software Engineer" }));
   expect(profile.inferences).toContainEqual(expect.objectContaining({ kind: "seniority", value: "staff" }));
   expect(validateCandidateProfileEvidence(profile)).toEqual({ valid: true, errors: [] });
+
+  const sameLineDate = parseCandidateProfile({ content: [
+    "Professional Experience",
+    "Full Stack Developer                         Mar 2022 – Present (4.5 Years)",
+    "Built web and API features.",
+  ].join("\n"), format: "text" });
+  expect(sameLineDate.facts).toContainEqual(expect.objectContaining({ kind: "date", value: "Mar 2022 – Present" }));
 
   for (const prose of ["Partnered closely with the product manager", "Mentored a junior developer"]) {
     const adversarial = parseCandidateProfile({ content: `Experience\n${prose}`, format: "text" });

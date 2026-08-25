@@ -160,9 +160,11 @@ function deriveInferences(facts: CandidateFact[]): CandidateInference[] {
 
 type ResumeSection = "skills" | "experience" | "projects" | "education" | "certifications";
 const sectionNames = new Map<string, ResumeSection>([
-  ["skills", "skills"], ["technical skills", "skills"], ["core skills", "skills"],
-  ["experience", "experience"], ["work experience", "experience"], ["employment", "experience"],
-  ["projects", "projects"], ["selected projects", "projects"],
+  ["skills", "skills"], ["technical skills", "skills"], ["core skills", "skills"], ["key skills", "skills"], ["professional skills", "skills"],
+  ["experience", "experience"], ["work experience", "experience"], ["professional experience", "experience"], ["relevant experience", "experience"],
+  ["employment", "experience"], ["employment history", "experience"], ["work history", "experience"], ["career history", "experience"], ["professional history", "experience"],
+  ["projects", "projects"], ["selected projects", "projects"], ["key projects", "projects"], ["key development projects", "projects"],
+  ["relevant projects", "projects"], ["personal projects", "projects"], ["technical projects", "projects"], ["academic projects", "projects"],
   ["education", "education"],
   ["certifications", "certifications"], ["certificates", "certifications"],
 ]);
@@ -170,6 +172,14 @@ const plainTextBoundaries = new Set([
   "summary", "professional summary", "profile", "objective", "contact", "interests", "hobbies", "awards", "publications", "languages", "references",
   "volunteer experience", "volunteering", "additional information", "personal information", "achievements", "activities",
 ]);
+const skillCategoryLabels = new Set([
+  "languages", "programming languages", "frameworks", "libraries", "frameworks and libraries", "libraries and frameworks",
+  "databases", "tools", "cloud", "platforms", "technologies", "frontend", "front end", "front-end", "frontend technologies",
+  "backend", "back end", "back-end", "backend technologies", "devops", "devops tools", "testing", "testing tools",
+  "operating systems", "version control", "build tools", "messaging",
+]);
+// Standalone lines are ambiguous with real skills, so retain only the historically
+// supported, low-ambiguity headings here. The broader set is safe after a colon.
 const skillSubheadings = new Set(["languages", "programming languages", "frameworks", "databases", "tools", "cloud", "platforms", "technologies"]);
 
 function extractFacts(text: string): CandidateFact[] {
@@ -200,23 +210,26 @@ function factsFromLine(section: ResumeSection, line: string, lineStart: number, 
   if (section === "certifications" && /\b(?:inactive|pending|scheduled|planned|in progress|not yet)\b/i.test(withoutPrefix)) return [];
   if (section === "skills" && /\b(?:no|not|without)\b/i.test(withoutPrefix)) return [];
   const skillLabel = /^([^,:|]{1,30}):\s*/.exec(withoutPrefix);
-  const neutralLabels = new Set(["languages", "programming languages", "frameworks", "databases", "tools", "cloud", "platforms", "technologies"]);
-  const content = section === "skills" && skillLabel && neutralLabels.has(skillLabel[1]!.trim().toLowerCase()) ? withoutPrefix.slice(skillLabel[0].length) : withoutPrefix;
-  const roleSeparator = /\s+(?:—|–|-|\bat\b|\|)\s+/i.exec(content);
-  const looksLikeRole = /\b(?:engineer|developer|architect|manager|analyst|scientist|designer|consultant|specialist|administrator|lead|director|intern)\b/i.test(content);
-  const standaloneRoleWords = content.trim().split(/\s+/);
+  const content = section === "skills" && skillLabel && skillCategoryLabels.has(skillLabel[1]!.trim().toLowerCase()) ? withoutPrefix.slice(skillLabel[0].length) : withoutPrefix;
+  const dateRange = /\b(?:(?:jan(?:uary)?|feb(?:ruary)?|mar(?:ch)?|apr(?:il)?|may|jun(?:e)?|jul(?:y)?|aug(?:ust)?|sep(?:tember)?|oct(?:ober)?|nov(?:ember)?|dec(?:ember)?)\.?\s+)?(?:19|20)\d{2}\s*(?:—|–|-|to)\s*(?:(?:jan(?:uary)?|feb(?:ruary)?|mar(?:ch)?|apr(?:il)?|may|jun(?:e)?|jul(?:y)?|aug(?:ust)?|sep(?:tember)?|oct(?:ober)?|nov(?:ember)?|dec(?:ember)?)\.?\s+)?(?:(?:19|20)\d{2}|present|current)\b/i.exec(content);
+  const dateFacts = section === "experience" && dateRange ? [factFromValue("date", dateRange[0], line, lineStart)] : [];
+  const roleContent = dateRange ? content.slice(0, dateRange.index).trimEnd() : content;
+  const roleSeparator = /\s+(?:—|–|-|\bat\b|\|)\s+/i.exec(roleContent);
+  const looksLikeRole = /\b(?:engineer|developer|architect|manager|analyst|scientist|designer|consultant|specialist|administrator|lead|director|intern)\b/i.test(roleContent);
+  const standaloneRoleWords = roleContent.trim().split(/\s+/);
   const standaloneRole = standaloneRoleWords.length <= 7
     && standaloneRoleWords.every((word) => /^(?:of|and|&)$/i.test(word) || /^[A-Z][A-Za-z0-9+.#/-]*$/.test(word))
-    && /\b(?:engineer|developer|architect|manager|analyst|scientist|designer|consultant|specialist|administrator|lead|director|intern)$/i.test(content.trim());
+    && /\b(?:engineer|developer|architect|manager|analyst|scientist|designer|consultant|specialist|administrator|lead|director|intern)$/i.test(roleContent.trim());
   if (section === "experience" && (isNestedHeading || standaloneRole || (roleSeparator && looksLikeRole))) {
     if (roleSeparator) return [
-      ...optionalFact("role", content.slice(0, roleSeparator.index).trim(), line, lineStart),
-      ...optionalFact("employer", content.slice(roleSeparator.index + roleSeparator[0].length).trim(), line, lineStart),
+      ...optionalFact("role", roleContent.slice(0, roleSeparator.index).trim(), line, lineStart),
+      ...optionalFact("employer", roleContent.slice(roleSeparator.index + roleSeparator[0].length).trim(), line, lineStart),
+      ...dateFacts,
     ];
-    return [factFromValue("role", content, line, lineStart)];
+    return [factFromValue("role", roleContent, line, lineStart), ...dateFacts];
   }
   if (section === "projects" && isNestedHeading) return [factFromValue("project", content, line, lineStart)];
-  if (section === "experience" && /\b(?:19|20)\d{2}\b.*(?:\b(?:19|20)\d{2}\b|\bpresent\b|\bcurrent\b)/i.test(content)) return [factFromValue("date", content, line, lineStart)];
+  if (dateFacts.length) return dateFacts;
   const measurable = /(?:\b\d+(?:\.\d+)?%|[$€£]\s?\d|\b\d+(?:\.\d+)?x\b|\b\d+\s?(?:ms|seconds?|minutes?|hours?|users?|requests?|transactions?)\b)/i.test(content);
   if (section === "experience") return [factFromValue(measurable ? "outcome" : "experience_statement", content, line, lineStart)];
   if (section === "projects") return [factFromValue(measurable ? "outcome" : "project_statement", content, line, lineStart)];

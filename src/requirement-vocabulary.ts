@@ -20,13 +20,14 @@ const requirementDefinitions: RequirementDefinition[] = [
   exactSkill("go", "Go", undefined, { caseSensitive: true, excludedPhrases: ["go-to-market", "go-live", "on-the-go"] }),
   ...exactSkills([
     ["golang", "Golang"], ["python", "Python"], ["ruby", "Ruby"], ["node.js", "Node.js"],
-    ["postgresql", "PostgreSQL"], ["sql", "SQL"], ["javascript", "JavaScript"], ["typescript", "TypeScript"], ["react", "React"],
+    ["postgresql", "PostgreSQL"], ["sql", "SQL"], ["javascript", "JavaScript"], ["typescript", "TypeScript"],
     ["vue", "Vue"], ["angular", "Angular"], ["spark", "Spark"], ["hadoop", "Hadoop"], ["dbt", "dbt"], ["airflow", "Airflow"],
     ["snowflake", "Snowflake"], ["aws", "AWS"], ["azure", "Azure"], ["gcp", "GCP"], ["kubernetes", "Kubernetes"],
     ["docker", "Docker"], ["terraform", "Terraform"], ["kafka", "Kafka"], ["databricks", "Databricks"], ["redis", "Redis"],
     ["mongodb", "MongoDB"], ["linux", "Linux"], ["nosql", "NoSQL"], ["c++", "C++"], ["machine learning", "Machine learning"],
     ["jenkins", "Jenkins"], ["spring boot", "Spring Boot"],
   ]),
+  exactSkill("react", "React", ["react.js", "reactjs"]),
   exactSkill("spring", "Spring", undefined, {
     excludedPatterns: [String.raw`\bspring(?:\s*[/,&-]\s*(?:fall|summer|winter))*\s+(?:semester\s+)?(?:19|20)\d{2}\b`],
   }),
