@@ -4,7 +4,7 @@ import type { Catalog } from "../src/catalog.ts";
 import type { RecommendJobsResult } from "../src/job-recommendations.ts";
 
 describe("agent tools", () => {
-  test("exposes only read-only recommendation, search, and get operations", async () => {
+  test("exposes only candidate-safe setup, recommendation, search, and get operations", async () => {
     let receivedCountry: string | undefined;
     const catalog: Catalog = {
       search: async (query) => {
@@ -15,7 +15,12 @@ describe("agent tools", () => {
     };
     let recommendationInput: unknown;
     let coverageInput: unknown;
+    let preparationInput: unknown;
     const tools = createToolHandler(catalog, {
+      prepareJobSearch: async (input) => {
+        preparationInput = input;
+        return { status: "ready", nextAction: "ready", networkAttempted: false, sources: { catalog: 2, indexed: 2, fresh: 2, stale: 0, missing: 0, pending: 0 }, coverage: { snapshotUpdatedAt: "2026-08-21T00:00:00.000Z", countries: [] } };
+      },
       getJobCoverage: async (input) => {
         coverageInput = input;
         return { snapshotUpdatedAt: "2026-08-21T00:00:00.000Z", countries: [{ country: "IN", indexedSourcesWithEligibleJobs: 2, eligibleJobs: 20, distinctEligibleEmployers: 2 }] };
@@ -28,12 +33,14 @@ describe("agent tools", () => {
       optimizeResume: async () => ({ output: "suggestions", suggestions: [] }) as never,
     });
 
-    expect(tools.list().map((tool) => tool.name)).toEqual(["get_job_coverage", "recommend_jobs", "analyze_job_fit", "optimize_resume", "search_jobs", "get_job"]);
+    expect(tools.list().map((tool) => tool.name)).toEqual(["prepare_job_search", "get_job_coverage", "recommend_jobs", "analyze_job_fit", "optimize_resume", "search_jobs", "get_job"]);
+    expect(await tools.call("prepare_job_search", { countries: ["IN"] })).toEqual(expect.objectContaining({ status: "ready", networkAttempted: false }));
+    expect(preparationInput).toEqual({ countries: ["IN"] });
     expect(await tools.call("get_job_coverage", { countries: ["in"] })).toEqual(expect.objectContaining({
       countries: [{ country: "IN", indexedSourcesWithEligibleJobs: 2, eligibleJobs: 20, distinctEligibleEmployers: 2 }],
     }));
     expect(coverageInput).toEqual({ countries: ["in"] });
-    expect(tools.list()[1]!.inputSchema).toEqual(expect.objectContaining({ required: ["resume", "intent"], additionalProperties: false }));
+    expect(tools.list()[2]!.inputSchema).toEqual(expect.objectContaining({ required: ["resume", "intent"], additionalProperties: false }));
     expect(await tools.call("search_jobs", { query: "Engineer", country: "de", remote: true })).toEqual({
       jobs: [expect.objectContaining({ title: "Engineer" })],
     });

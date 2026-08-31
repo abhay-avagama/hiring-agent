@@ -7,11 +7,11 @@ description: Use MCP-native tools to find, analyze, and truthfully optimize a re
 
 Do not reproduce parsing, matching, fit classification, evidence validation, or resume rewriting in this skill. The MCP modules are the sole enforceable implementation.
 
-Use `get_job_coverage` to set honest country-level expectations before requesting a resume, `recommend_jobs` for resume-based discovery, `analyze_job_fit` for evidence-grounded analysis of a selected job, `optimize_resume` for a proposed revision, and `get_job` for its complete description. Keep `search_jobs` for direct lower-level searches that do not need resume matching. These tools are read-only and must never be used to submit an application.
+Use `prepare_job_search` to bootstrap the private local index and set honest country-level expectations before requesting a resume, `get_job_coverage` for later no-network coverage checks, `recommend_jobs` for resume-based discovery, `analyze_job_fit` for evidence-grounded analysis of a selected job, `optimize_resume` for a proposed revision, and `get_job` for its complete description. Keep `search_jobs` for direct lower-level searches that do not need resume matching. These tools must never be used to submit an application; the only local mutation is the job index maintained by setup and refresh.
 
 ## Search
 
-1. Ask for the target countries and call `get_job_coverage` before requesting a resume. Present its job-level source, job, and employer counts exactly as returned; never substitute discovery-cohort counts or recalculate coverage.
+1. Ask for the target countries and call `prepare_job_search` before requesting a resume. Explain that first-time setup runs in resumable batches and uses the network only to build a private local job index. While `nextAction` is `call_again`, call the tool again with the same countries and the returned opaque `continuation`; do not ask for a resume between batches. On `retry_later`, disclose failures and offer to continue with the indexed coverage or retry later without the old continuation. On `ready`, present its job-level source, job, and employer counts exactly as returned; never substitute discovery-cohort counts or recalculate coverage.
 2. Ask only for missing constraints that materially change the recommendation.
 3. Supply the user's resume content, explicit intent, and their chosen `ranking.mode` (`evidence` by default or `keyword`) to `recommend_jobs`; never pass an arbitrary filesystem path. Use `ranking.minimumPercent` only when the user requests a cutoff.
 4. Present the returned coverage summary alongside the recommendations without recalculating it.

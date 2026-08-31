@@ -2,13 +2,13 @@
 
 Openings helps an AI agent find real jobs from public company career systems and explain why each job does or does not fit your resume. Its useful difference is **hidden-job discovery**: it can surface relevant roles whose titles you might not have searched for yourself.
 
-It is read-only. It cannot apply for a job, fill a form, or submit your resume. It has no account system and does not store your resume or extracted profile.
+It is application-safe. It cannot apply for a job, fill a form, or submit your resume. It has no account system and does not store your resume or extracted profile. It writes only its private local job index.
 
 ## Before sharing your resume
 
-Ask the agent to check coverage for your target country:
+Ask the agent to prepare and check coverage for your target country:
 
-> Before I share my resume, tell me how many current jobs, employers, and indexed sources Openings covers in India.
+> Prepare Openings for India. Before I share my resume, tell me how many current jobs, employers, and indexed sources it covers.
 
 Coverage is job-level, not a marketing estimate. A company counts only when the local snapshot contains a job classified as eligible for the requested country. If coverage is thin, the agent should say so before asking for personal information.
 
@@ -41,7 +41,7 @@ Openings can return reviewable suggestions, an additive unified diff, or revised
 
 **Candidate:** What does Openings cover in India?
 
-**Agent:** Calls `get_job_coverage` and presents the returned source, employer, and job counts without recalculating them.
+**Agent:** Calls `prepare_job_search` and follows `nextAction`: it passes the returned opaque `continuation` into the next call while the result says `call_again`, stops and explains failures on `retry_later`, and presents the returned source, employer, and job counts without recalculating them when ready.
 
 **Candidate:** That is useful. Here is my Markdown resume. Find backend roles, but exclude engineering-manager jobs.
 
@@ -65,17 +65,28 @@ Openings can return reviewable suggestions, an additive unified diff, or revised
 
 ## Connect the MCP server
 
-Install Bun 1.3 or newer, clone this repository, and run `bun install`.
-
-The job snapshot is local and intentionally not committed to Git. On a fresh source checkout, populate the target-country snapshot once before asking for coverage:
+Install Bun 1.3 or newer, then install Openings:
 
 ```sh
-bun run src/cli.ts crawl --country IN --data-dir .openings
+bun add --global openings
 ```
 
-Replace `IN` with the required two-letter country code. This calls only verified structured job sources in that country cohort and may take several minutes. Later recommendation calls can refresh stale relevant sources according to their refresh policy. A future packaged distribution must ship or bootstrap its snapshot automatically; until then, this one-time command is part of source-checkout installation, not part of the candidate conversation.
+In a client that accepts MCP configuration, add this stdio server:
 
-Then, in a client that accepts MCP configuration, point the server at the absolute `src/mcp.ts` path **and** set `OPENINGS_DATA_DIR` to the repository's absolute `.openings` directory:
+```json
+{
+  "mcpServers": {
+    "openings": {
+      "command": "openings-mcp",
+      "args": []
+    }
+  }
+}
+```
+
+The first `prepare_job_search` call starts a private index under `~/.openings` from verified structured job sources. Each call handles at most ten missing or stale sources, gives each source one bounded 90-second attempt, and returns `nextAction`, allowing the agent to continue across MCP requests. It crawls every currently missing verified source because a source's country eligibility is known only after its jobs are indexed; the requested countries control the coverage returned to the candidate, not which employers are assumed to belong to a country. Successful batches are cached, failures are reported, and later calls rotate past failed sources so the rest of the catalog can progress. Partitions older than 14 days are refreshed. Once all sources are fresh, the setup call makes no network request.
+
+For development from a source checkout, point the server at the absolute `src/mcp.ts` path and set `OPENINGS_DATA_DIR` to the repository's absolute `.openings` directory:
 
 ```json
 {
@@ -91,6 +102,6 @@ Then, in a client that accepts MCP configuration, point the server at the absolu
 }
 ```
 
-Without that environment value, Openings uses `.openings` under the MCP process's working directory; some clients launch servers from another directory and would therefore report an empty snapshot. Setting the client's `cwd` to the repository root is also valid when the client supports it. The included `.mcp.json` provides the repository-local configuration when this repository is installed as a Codex plugin.
+The packaged commands use `~/.openings` by default. The source entrypoint uses `.openings` under the MCP process's working directory unless `OPENINGS_DATA_DIR` is set. The included `.mcp.json` provides the repository-local configuration when this repository is installed as a Codex plugin.
 
-The MCP interface exposes only coverage, recommendation, fit analysis, resume optimization, search, and job-detail tools. There is no application-submission tool.
+The MCP interface exposes setup, coverage, recommendation, fit analysis, resume optimization, search, and job-detail tools. There is no application-submission tool.

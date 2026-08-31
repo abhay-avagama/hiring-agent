@@ -2,7 +2,7 @@
   "mcpServers": {
     "openings": {
       "command": "bun",
-      "args": ["run", "src/mcp.ts"]
+      "args": ["run", "src/package-mcp.ts"]
     }
   }
 }

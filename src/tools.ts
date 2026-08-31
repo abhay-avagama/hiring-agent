@@ -4,14 +4,16 @@ import type { AnalyzeJobFitResult } from "./job-fit-analysis.ts";
 import type { OptimizeResumeResult } from "./resume-optimization.ts";
 import type { SearchQuery } from "./types.ts";
 import type { JobCoverageSummary } from "./job-coverage.ts";
+import type { PrepareJobSearchResult } from "./job-search-preparation.ts";
 
 export interface ToolDefinition {
-  name: "get_job_coverage" | "recommend_jobs" | "analyze_job_fit" | "optimize_resume" | "search_jobs" | "get_job";
+  name: "prepare_job_search" | "get_job_coverage" | "recommend_jobs" | "analyze_job_fit" | "optimize_resume" | "search_jobs" | "get_job";
   description: string;
   inputSchema: Record<string, unknown>;
 }
 
 interface JobWorkflows {
+  prepareJobSearch(input: unknown): Promise<PrepareJobSearchResult>;
   getJobCoverage(input: unknown): Promise<JobCoverageSummary>;
   recommend(input: unknown): Promise<RecommendJobsResult>;
   analyzeJobFit(input: unknown): Promise<AnalyzeJobFitResult>;
@@ -20,6 +22,19 @@ interface JobWorkflows {
 
 export function createToolHandler(catalog: Catalog, workflows: JobWorkflows) {
   const definitions: ToolDefinition[] = [
+    {
+      name: "prepare_job_search",
+      description: "Initialize or refresh the local job index from verified public sources in resumable batches of at most ten, then report current coverage and whether to call again. This may use the network and write only job data under the local Openings data directory; it never processes a resume.",
+      inputSchema: {
+        type: "object",
+        properties: {
+          countries: { ...countryArray(), minItems: 1, maxItems: 20 },
+          continuation: { type: "string", description: "Opaque token returned by the preceding preparation batch" },
+        },
+        required: ["countries"],
+        additionalProperties: false,
+      },
+    },
     {
       name: "get_job_coverage",
       description: "Report current job-level coverage for one or more countries before a candidate supplies a resume.",
@@ -112,6 +127,7 @@ export function createToolHandler(catalog: Catalog, workflows: JobWorkflows) {
   return {
     list: () => definitions,
     async call(name: string, input: Record<string, unknown>) {
+      if (name === "prepare_job_search") return workflows.prepareJobSearch(input);
       if (name === "get_job_coverage") return workflows.getJobCoverage(input);
       if (name === "recommend_jobs") return workflows.recommend(input);
       if (name === "analyze_job_fit") return workflows.analyzeJobFit(input);

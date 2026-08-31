@@ -10,12 +10,12 @@
   "interface": {
     "displayName": "Openings",
     "shortDescription": "Find real jobs with evidence you can inspect.",
-    "longDescription": "A free, read-only job-search workflow. Check honest country coverage before sharing a resume, find direct and hidden opportunities across five public ATS providers, inspect fit evidence and gaps, and generate truthful resume improvements without storing the resume or submitting an application.",
+    "longDescription": "A free, candidate-safe job-search workflow. Build a private local index, check honest country coverage before sharing a resume, find direct and hidden opportunities across five public ATS providers, inspect fit evidence and gaps, and generate truthful resume improvements without storing the resume or submitting an application.",
     "developerName": "Openings contributors",
     "category": "Productivity",
     "capabilities": ["Coverage-aware job discovery", "Evidence-grounded fit analysis", "Truthful resume optimization"],
     "defaultPrompt": [
-      "Tell me how many employers and jobs you cover in India before I share my resume.",
+      "Prepare my private job index and tell me how many employers and jobs you cover in India before I share my resume.",
       "Find roles that fit my resume, including relevant titles I may not have searched for.",
       "Explain this job with resume evidence and suggest only truthful, evidence-backed improvements."
     ]

@@ -1,16 +1,16 @@
 # Openings
 
-Openings is a free, read-only job-search substrate for AI agents. It indexes public company job boards and exposes six tools: `get_job_coverage`, `recommend_jobs`, `analyze_job_fit`, `optimize_resume`, `search_jobs`, and `get_job`. There are no accounts, hosted services, Openings API keys, model calls, or application submission paths. Resume content supplied to the recommendation, fit-analysis, and optimization tools is processed locally in memory and is never persisted.
+Openings is a free, candidate-safe job-search substrate for AI agents. It indexes public company job boards and exposes seven MCP tools: `prepare_job_search`, `get_job_coverage`, `recommend_jobs`, `analyze_job_fit`, `optimize_resume`, `search_jobs`, and `get_job`. There are no accounts, hosted services, Openings API keys, model calls, or application submission paths. Resume content supplied to the recommendation, fit-analysis, and optimization tools is processed locally in memory and is never persisted.
 
 Openings supports Greenhouse, Lever, Ashby, Workday, and Recruitee. Jobs are crawled from their public structured endpoints into a local, source-partitioned snapshot.
 
 ## Start as a job seeker
 
-After the one-time local snapshot bootstrap, you do not need to learn the crawler or run search commands. Connect this repository as an MCP server, then ask your AI agent:
+Install and connect the MCP server, then ask your AI agent:
 
 > Show me what Openings currently covers in India. If the coverage is useful, use my resume to find backend roles, including good jobs whose titles I would not have searched for. Rank by evidence and explain every gap.
 
-Openings first reports its real job and employer coverage, then accepts a text or Markdown resume. It returns direct, hidden, and stretch opportunities with separate evidence and keyword scores. See the [job-seeker quickstart](docs/job-seeker-quickstart.md) for setup, sample prompts, an example conversation, privacy details, and common errors.
+On first use, the agent calls `prepare_job_search` to build a private local index from verified public job sources. Each call handles at most ten sources, gives each source one bounded 90-second attempt, and tells the agent whether to call again, so setup can resume from completed batches. It may access the network, but it never processes a resume. Openings then reports its real job and employer coverage before accepting a text or Markdown resume. It returns direct, hidden, and stretch opportunities with separate evidence and keyword scores. See the [job-seeker quickstart](docs/job-seeker-quickstart.md) for setup, sample prompts, an example conversation, privacy details, and common errors.
 
 ## Requirements
 
@@ -45,7 +45,7 @@ bun run src/cli.ts get greenhouse:anthropic:12345
 
 Commands return JSON so the same interface works for people, shell scripts, and agents. Search refreshes a missing or stale snapshot automatically; the default freshness window is 14 days. Use `--stale-days N` to change it or `--offline` to guarantee that no network request is made. Openings does not install a scheduler—run `crawl` using whichever scheduler you prefer.
 
-`get_job_coverage` reports current job-level coverage for requested countries before a candidate supplies a resume. `recommend_jobs` includes the same projection for its requested countries. Both report indexed sources containing eligible jobs, eligible-job count, and distinct eligible employer domains; discovery cohorts are provenance and are never presented as coverage.
+`prepare_job_search` is the MCP-native setup and freshness check. It indexes missing sources, refreshes partitions older than 14 days in batches of at most ten, and reports honest job-level coverage for the requested countries after every batch. Its `nextAction` is `call_again`, `retry_later`, or `ready`; completed partitions are checkpointed in the local snapshot. Once every current source is fresh, repeating it makes no network request. `get_job_coverage` reports the same current coverage without refreshing anything, and `recommend_jobs` includes the projection for its requested countries. Coverage reports indexed sources containing eligible jobs, eligible-job count, and distinct eligible employer domains; discovery cohorts are provenance and are never presented as coverage.
 
 `recommend_jobs` explores beyond exact titles without discovering new sources during a user request. It derives bounded title families from explicit intent or validated resume facts, runs the existing evidence matcher across the local snapshot, and returns direct, hidden title-family, and stretch buckets. Every hidden result identifies all grounded aliases that surfaced it and whether each expansion came from user intent or resume fact IDs; generic titles require corroborating family signals in the job description. Refresh policy remains unchanged: at most one crawl of relevant verified sources followed by one rematch.
 
@@ -134,7 +134,15 @@ Candidate example:
 
 ## Use the MCP server
 
-Run the stdio server directly:
+Install the package:
+
+```sh
+bun add --global openings
+```
+
+Then configure a stdio MCP server whose command is `openings-mcp` and has no arguments. Openings stores its private job index under `~/.openings` by default. The first candidate conversation should call `prepare_job_search` for the target countries before asking for a resume.
+
+For development from a source checkout, run the stdio server directly:
 
 ```sh
 bun run src/mcp.ts
@@ -144,6 +152,7 @@ For a client that accepts MCP configuration, point a stdio server at `bun` with 
 
 The server exposes only:
 
+- `prepare_job_search(countries)` — indexes missing verified sources and refreshes stale ones in resumable batches of at most ten, returning job-level coverage and an explicit next action; it may use the network but never reads or processes a resume
 - `get_job_coverage(countries)` — reports current job-level source, job, and distinct-employer coverage without requiring or processing a resume
 - `recommend_jobs(resume, intent, ranking?, refresh?, limit?)` — parses text or Markdown resume content, applies job-level eligibility constraints, returns the same coverage projection for requested countries, and returns both evidence and keyword percentages with evidence-grounded explanations. `ranking.mode` lets the applicant select `evidence` (default) or `keyword`; `ranking.minimumPercent` filters the selected score. It performs at most one scoped refresh, and `refresh.policy: "never"` guarantees no crawl
 - `analyze_job_fit(jobId, resume, intent?)` — analyzes one selected job against verbatim resume evidence, returning both percentages while separating explicit support, transferable evidence, unsupported requirements, screening risks, and interview preparation gaps
@@ -151,7 +160,7 @@ The server exposes only:
 - `search_jobs(query?, location?, country?, remote?, limit?)` — `country` accepts a two-letter country code such as `IN` or `DE`
 - `get_job(id)`
 
-It intentionally exposes no write, form-fill, or submit tool.
+It intentionally exposes no form-fill, application-write, or submit tool. Its only local mutation is maintaining the candidate's private job index.
 
 ## Add a candidate
 

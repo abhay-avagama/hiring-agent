@@ -9,6 +9,7 @@ interface LocalJobsOptions {
   fetchJobs(source: Company, signal?: AbortSignal, observer?: FetchJobsObserver): Promise<Job[]>;
   concurrency?: number;
   timeoutMs?: number;
+  maxAttempts?: number;
   sourceStartDelayMs?: number;
   sourceFreshnessMs?: number;
   sourceLimit?: number;
