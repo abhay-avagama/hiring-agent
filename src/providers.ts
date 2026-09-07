@@ -145,7 +145,41 @@ const breezy: ProviderSpec = {
   },
 };
 
-export const PROVIDERS: ReadonlyArray<ProviderSpec> = [smartrecruiters, workable, breezy];
+const freshteam: ProviderSpec = {
+  ats: "freshteam",
+  label: "Freshteam",
+  hosts: ["freshteam.com"],
+  crawlPatterns: ["*.freshteam.com/jobs*"],
+  resolve(url) {
+    const match = /^([a-z0-9-]+)\.freshteam\.com$/i.exec(url.hostname);
+    return match && !["www", "app", "api", "support", "help", "blog"].includes(match[1]!.toLowerCase()) ? match[1]!.toLowerCase() : null;
+  },
+  canonicalUrl: (token) => `https://${token}.freshteam.com/jobs`,
+  endpoint: (token) => `https://${token}.freshteam.com/hire/widgets/jobs.json`,
+  jobsFromBody(body) {
+    if (!isRecord(body)) return null;
+    const jobs = asRecords(body.jobs);
+    if (!jobs) return null;
+    const branches = new Map((asRecords(body.branches) ?? []).map((branch) => [String(branch.id), branch]));
+    // The widget lists branches separately; pin each job's branch onto the record so normalize() sees it.
+    return jobs.filter((job) => job.deleted !== true).map((job) => ({ ...job, branch: branches.get(String(job.branch_id)) }));
+  },
+  providerName: () => "",
+  payloadVersion: () => "freshteam-widget:v1",
+  normalize(company, job) {
+    const branch = isRecord(job.branch) ? job.branch : {};
+    const location = [str(branch.city), str(branch.state), str(branch.country_code).toUpperCase()].filter(Boolean).join(", ") || (job.remote === true ? "Remote" : "Unspecified");
+    const remote = job.remote === true;
+    return classifyJob({
+      id: `freshteam:${company.slug}:${str(job.unique_id) || str(job.id)}`, company: company.name, title: str(job.title), location,
+      remote, workMode: remote ? "remote" : "unknown",
+      eligibleCountries: [], excludedCountries: [], eligibleRegions: [], eligibilityConfidence: "unknown",
+      url: `https://${company.token}.freshteam.com/jobs/${encodeURIComponent(str(job.unique_id) || str(job.id))}`, updatedAt: str(job.created_at) || undefined, description: plainText(str(job.description)),
+    });
+  },
+};
+
+export const PROVIDERS: ReadonlyArray<ProviderSpec> = [smartrecruiters, workable, breezy, freshteam];
 
 export function providerSpec(ats: string): ProviderSpec | undefined {
   return PROVIDERS.find((spec) => spec.ats === ats);

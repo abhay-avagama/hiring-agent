@@ -349,6 +349,7 @@ function parseCommonCrawlDiscovery(args: string[]) {
     else return `Unknown option: ${arg}`;
   }
   if ((sampleTokenLimit !== undefined || excludeTokens.length || registryPath === undefined) && provider !== "recruitee") return "bounded report-only discovery requires --provider recruitee";
+  if (provider === "recruitee" && indexRecordLimit !== undefined && indexRecordLimit > 2_000) return "--index-record-limit must be an integer from 1 to 2000 for --provider recruitee";
   if (provider === "recruitee" && (!indexUrl || indexRecordLimit === undefined || sampleTokenLimit === undefined || !reportOnly)) return "--provider recruitee requires --index-url, --index-record-limit, --sample-token-limit, and --report-only";
   if (provider === "recruitee" && !underOpenings(report)) return "bounded Recruitee discovery --report must be under .openings";
   if (sampleTokenLimit !== undefined && indexRecordLimit !== undefined && sampleTokenLimit > indexRecordLimit) return "--sample-token-limit cannot exceed --index-record-limit";

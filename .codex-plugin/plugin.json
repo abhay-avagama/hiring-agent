@@ -10,7 +10,7 @@
   "interface": {
     "displayName": "Openings",
     "shortDescription": "Find real jobs with evidence you can inspect.",
-    "longDescription": "A free, candidate-safe job-search workflow. Build a private local index, check honest country coverage before sharing a resume, find direct and hidden opportunities across eight public ATS providers, inspect fit evidence and gaps, and generate truthful resume improvements without storing the resume or submitting an application.",
+    "longDescription": "A free, candidate-safe job-search workflow. Build a private local index, check honest country coverage before sharing a resume, find direct and hidden opportunities across nine public ATS providers, inspect fit evidence and gaps, and generate truthful resume improvements without storing the resume or submitting an application.",
     "developerName": "Openings contributors",
     "category": "Productivity",
     "capabilities": ["Coverage-aware job discovery", "Evidence-grounded fit analysis", "Truthful resume optimization"],

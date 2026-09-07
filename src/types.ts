@@ -1,4 +1,4 @@
-export const ALL_PROVIDERS = ["greenhouse", "lever", "ashby", "workday", "recruitee", "smartrecruiters", "workable", "breezy"] as const;
+export const ALL_PROVIDERS = ["greenhouse", "lever", "ashby", "workday", "recruitee", "smartrecruiters", "workable", "breezy", "freshteam"] as const;
 export type Ats = (typeof ALL_PROVIDERS)[number];
 
 export interface DomainEvidence {
