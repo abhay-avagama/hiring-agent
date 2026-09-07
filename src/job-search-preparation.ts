@@ -18,7 +18,7 @@ export function createJobSearchPreparer(options: {
   store: SnapshotStore;
   crawl(scope: CrawlScope): Promise<CrawlReport>;
   /** Optional published snapshot used instead of crawling when no local snapshot exists yet. */
-  seed?(): Promise<JobSnapshot | null>;
+  seed?(countries: string[]): Promise<JobSnapshot | null>;
   now?: () => Date;
   freshnessDays?: number;
   batchSize?: number;
@@ -32,7 +32,7 @@ export function createJobSearchPreparer(options: {
       const { countries } = input;
       let snapshot = await options.store.read();
       if (!snapshot && options.seed) {
-        const seeded = await options.seed().catch(() => null);
+        const seeded = await options.seed(countries).catch(() => null);
         if (seeded) { await options.store.write(seeded); snapshot = seeded; }
       }
       const pendingBefore = pendingSources(options.sources, snapshot, now(), freshnessMs);

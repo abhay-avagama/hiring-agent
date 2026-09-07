@@ -53,8 +53,9 @@ test("setup seeds an empty data directory from the published snapshot instead of
     partitions: { acme: { fetchedAt: "2026-09-07T00:00:00.000Z", jobs: [job("greenhouse:acme:1")] }, failing: { fetchedAt: "2026-09-07T00:00:00.000Z", jobs: [] } },
     lastCrawl: { startedAt: "2026-09-07T00:00:00.000Z", finishedAt: "2026-09-07T00:00:00.000Z", selected: 2, succeeded: 2, failed: [] },
   };
-  const fetcher = (async (url: string | URL | Request) => String(url) === "https://aggregator.test/v1/snapshot" ? Response.json(published) : new Response(null, { status: 404 })) as typeof fetch;
+  const fetcher = (async (url: string | URL | Request) => String(url) === "https://aggregator.test/v1/snapshot" || String(url) === "https://aggregator.test/v1/snapshot?countries=IN" ? Response.json(published) : new Response(null, { status: 404 })) as typeof fetch;
   expect(await fetchSeedSnapshot("https://aggregator.test", fetcher)).toEqual(published);
+  expect(await fetchSeedSnapshot("https://aggregator.test", fetcher, 20_000, ["in"])).toEqual(published);
   expect(await fetchSeedSnapshot("https://aggregator.test/missing", fetcher)).toBeNull();
 
   let snapshot = null as JobSnapshot | null;
@@ -62,7 +63,7 @@ test("setup seeds an empty data directory from the published snapshot instead of
   const preparer = createJobSearchPreparer({
     sources, now: () => new Date("2026-09-07T01:00:00.000Z"),
     store: { read: async () => snapshot, write: async (value) => { snapshot = value; } },
-    seed: () => fetchSeedSnapshot("https://aggregator.test", fetcher),
+    seed: (countries) => fetchSeedSnapshot("https://aggregator.test", fetcher, 20_000, countries),
     crawl: async ({ slugs }) => { crawled.push(slugs ?? []); return { startedAt: "", finishedAt: "", selected: 0, succeeded: 0, failed: [] }; },
   });
   const result = await preparer.prepare({ countries: ["IN"] });

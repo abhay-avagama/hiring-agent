@@ -43,9 +43,11 @@ export function createCrawlReporter(options: { url: string; fetcher?: Fetch; tim
 }
 
 /** Downloads the aggregator's published snapshot; returns null on any failure so setup falls back to crawling. */
-export async function fetchSeedSnapshot(url: string, fetcher: Fetch = globalThis.fetch, timeoutMs = 20_000): Promise<JobSnapshot | null> {
+export async function fetchSeedSnapshot(url: string, fetcher: Fetch = globalThis.fetch, timeoutMs = 20_000, countries: string[] = []): Promise<JobSnapshot | null> {
   try {
-    const response = await fetcher(endpoint(url, "v1/snapshot"), { signal: AbortSignal.timeout(timeoutMs) });
+    const codes = countries.map((code) => code.toUpperCase()).filter((code) => /^[A-Z]{2}$/.test(code));
+    const target = endpoint(url, "v1/snapshot") + (codes.length ? `?countries=${codes.join(",")}` : "");
+    const response = await fetcher(target, { signal: AbortSignal.timeout(timeoutMs) });
     if (!response.ok) return null;
     const snapshot = await response.json() as JobSnapshot;
     if (snapshot?.version !== 1 || !snapshot.partitions || typeof snapshot.partitions !== "object" || !snapshot.lastCrawl) return null;

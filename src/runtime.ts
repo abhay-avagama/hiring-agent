@@ -40,7 +40,7 @@ export function createRuntime(options: { dataDir?: string; concurrency?: number;
     workdayPageDelayMs: options.workdayPageDelayMs,
     onCrawled,
   });
-  const preparation = createJobSearchPreparer({ sources: companies, store, crawl: preparationLocal.crawl, seed: aggregatorUrl ? () => fetchSeedSnapshot(aggregatorUrl) : undefined });
+  const preparation = createJobSearchPreparer({ sources: companies, store, crawl: preparationLocal.crawl, seed: aggregatorUrl ? (countries) => fetchSeedSnapshot(aggregatorUrl, globalThis.fetch, 20_000, countries) : undefined });
   const getSelectedJob = createSelectedJobLookup({
     getSnapshotJob: async (id) => (await local.get(id, { offline: true, staleDays: 14 })).job,
     getDetailedJob: (id) => liveCatalog.get(id),
