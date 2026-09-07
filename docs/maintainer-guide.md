@@ -118,6 +118,15 @@ Candidate example:
 }
 ```
 
+## Careers subdomains
+
+Passive only: certificate transparency logs plus a short conventional list, confirmed in DNS, never brute-forced and never fetched as pages. The output is a seed file for `trace-careers`, which makes the one safe HEAD request that turns a subdomain into a board.
+
+```sh
+bun run src/cli.ts sources discover-subdomains .openings/company-domains.json --output .openings/career-seeds-subdomains.json --report .openings/subdomain-discovery-report.json
+bun run src/cli.ts sources trace-careers .openings/career-seeds-subdomains.json
+```
+
 ## Board-verified sources
 
 Discovery finds far more boards than company datasets can identify. A board with no known company website can still be admitted on the provider's own identity:
