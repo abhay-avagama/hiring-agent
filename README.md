@@ -11,11 +11,17 @@ Openings indexes public company job boards into a private index on your machine 
 
 ## For job seekers
 
-Install [Bun](https://bun.sh/) 1.3 or newer, then the package:
+Install [Bun](https://bun.sh/) 1.3 or newer, then the package with whichever package manager you use:
 
 ```sh
 bun add --global openings
+# or
+npm install --global openings
+# or
+yarn global add openings
 ```
+
+Bun must be on your `PATH` either way; it is the runtime the server runs on.
 
 Add the server to your MCP client:
 

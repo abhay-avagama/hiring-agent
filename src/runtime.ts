@@ -1,6 +1,6 @@
 import { join } from "node:path";
 import { fetchSourceJobs } from "./catalog.ts";
-import { createCrawlReporter, fetchSeedSnapshot } from "./crawl-reporting.ts";
+import { createCrawlReporter, fetchSeedSnapshot, resolveAggregatorUrl } from "./crawl-reporting.ts";
 import { catalog as liveCatalog, companies } from "./index.ts";
 import { createLocalJobs } from "./local-jobs.ts";
 import { createJobRecommender } from "./job-recommendations.ts";
@@ -14,7 +14,7 @@ import { createJobSearchPreparer } from "./job-search-preparation.ts";
 export function createRuntime(options: { dataDir?: string; concurrency?: number; crawlDelayMs?: number; workdayPageDelayMs?: number; sourceCacheHours?: number; sourceLimit?: number } = {}) {
   const dataDir = options.dataDir ?? process.env.OPENINGS_DATA_DIR ?? join(process.cwd(), ".openings");
   const store = createFileSnapshotStore(join(dataDir, "snapshot.json"));
-  const aggregatorUrl = process.env.OPENINGS_AGGREGATOR_URL?.trim() || undefined;
+  const aggregatorUrl = resolveAggregatorUrl(process.env.OPENINGS_AGGREGATOR_URL);
   const onCrawled = aggregatorUrl ? createCrawlReporter({ url: aggregatorUrl }) : undefined;
   const local = createLocalJobs({
     sources: companies,

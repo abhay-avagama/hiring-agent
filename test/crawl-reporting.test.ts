@@ -71,3 +71,44 @@ test("setup seeds an empty data directory from the published snapshot instead of
   expect(result.networkAttempted).toBe(false);
   expect(snapshot).toEqual(published);
 });
+
+test("an unreachable, hanging, or misconfigured aggregator never breaks setup", async () => {
+  const { resolveAggregatorUrl } = await import("../src/crawl-reporting.ts");
+  expect(resolveAggregatorUrl(undefined)).toBeUndefined();
+  expect(resolveAggregatorUrl("   ")).toBeUndefined();
+  expect(resolveAggregatorUrl("not a url")).toBeUndefined();
+  expect(resolveAggregatorUrl("ftp://aggregator.test")).toBeUndefined();
+  expect(resolveAggregatorUrl(" https://aggregator.test ")).toBe("https://aggregator.test/");
+
+  const hanging = ((_url: string | URL | Request, init?: RequestInit) => new Promise<Response>((_resolve, reject) => {
+    init?.signal?.addEventListener("abort", () => reject(init.signal?.reason ?? new Error("aborted")));
+  })) as typeof fetch;
+  const refused = (async () => { throw new TypeError("Unable to connect"); }) as unknown as typeof fetch;
+
+  const started = Date.now();
+  expect(await fetchSeedSnapshot("https://aggregator.test", hanging, 50)).toBeNull();
+  expect(Date.now() - started).toBeLessThan(2_000);
+  expect(await fetchSeedSnapshot("https://aggregator.test", refused)).toBeNull();
+
+  let snapshot = null as JobSnapshot | null;
+  const store: SnapshotStore = { read: async () => snapshot, write: async (next) => { snapshot = next; } };
+  const crawler = createCrawler({
+    store, maxAttempts: 1,
+    fetchJobs: async () => [job("greenhouse:acme:1")],
+    onCrawled: createCrawlReporter({ url: "https://aggregator.test", fetcher: hanging, timeoutMs: 50 }),
+  });
+  const report = await crawler.crawl([sources[0]!]);
+  expect(report.succeeded).toBe(1);
+  expect(snapshot?.partitions.acme?.jobs).toHaveLength(1);
+
+  snapshot = null;
+  let crawls = 0;
+  const preparer = createJobSearchPreparer({
+    sources: [sources[0]!], now: () => new Date("2026-09-07T01:00:00.000Z"), store,
+    seed: () => fetchSeedSnapshot("https://aggregator.test", refused),
+    crawl: async () => { crawls += 1; snapshot = { version: 1, updatedAt: "2026-09-07T01:00:00.000Z", partitions: { acme: { fetchedAt: "2026-09-07T01:00:00.000Z", jobs: [] } }, lastCrawl: { startedAt: "", finishedAt: "", selected: 1, succeeded: 1, failed: [] } }; return snapshot.lastCrawl; },
+  });
+  const result = await preparer.prepare({ countries: ["IN"] });
+  expect(crawls).toBe(1);
+  expect(result.status).toBe("ready");
+});

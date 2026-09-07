@@ -65,10 +65,12 @@ Openings can return reviewable suggestions, an additive unified diff, or revised
 
 ## Connect the MCP server
 
-Install Bun 1.3 or newer, then install Openings:
+Install Bun 1.3 or newer, then install Openings with Bun, npm, or Yarn. Bun must stay on your `PATH`; it is the runtime the server runs on.
 
 ```sh
 bun add --global openings
+# or: npm install --global openings
+# or: yarn global add openings
 ```
 
 In a client that accepts MCP configuration, add this stdio server:
