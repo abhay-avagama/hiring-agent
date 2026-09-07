@@ -91,7 +91,7 @@ The verifier resolves the canonical board endpoint, validates its payload, appli
 
 ## Sharing crawls
 
-Set `OPENINGS_AGGREGATOR_URL` and each source you crawl is reported to that aggregator, which merges reports from every install and publishes the result. New installs then download the published index on first setup instead of crawling every source. Only public job data is sent, never resume content. Leave the variable unset to keep every crawl local.
+The packaged server reports each source you crawl to the shared Openings aggregator at `openings.avagama.co`, which merges reports from every install and publishes the result. New installs download the published index on first setup instead of crawling every source. Only public job data is sent, never resume content. Set `OPENINGS_AGGREGATOR_URL` to an empty string to keep every crawl local, or to another URL to use your own aggregator. The source entrypoint reports only when the variable is set.
 
 ## Privacy
 
