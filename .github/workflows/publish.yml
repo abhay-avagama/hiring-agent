@@ -31,4 +31,10 @@ jobs:
         run: |
           version="$(node -p "require('./package.json').version")"
           test "v$version" = "${GITHUB_REF_NAME}" || { echo "tag ${GITHUB_REF_NAME} != package version v$version"; exit 1; }
-      - run: npm publish --access public
+      - name: Skip if this version is already on npm
+        id: check
+        run: |
+          version="$(node -p "require('./package.json').version")"
+          if npm view "openings@$version" version >/dev/null 2>&1; then echo "published=true" >> "$GITHUB_OUTPUT"; echo "openings@$version already on npm, skipping"; fi
+      - if: steps.check.outputs.published != 'true'
+        run: npm publish --access public
