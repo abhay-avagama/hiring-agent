@@ -1,7 +1,7 @@
 import type { FetchJobsObserver } from "./catalog.ts";
 import { createCrawler, type SnapshotStore } from "./crawler.ts";
 import { createSnapshotCatalog } from "./snapshot-catalog.ts";
-import type { Company, CrawlReport, Job, JobSnapshot, JobSummary, SearchQuery } from "./types.ts";
+import type { Company, CrawlReport, Job, JobPartition, JobSnapshot, JobSummary, SearchQuery } from "./types.ts";
 
 interface LocalJobsOptions {
   sources: Company[];
@@ -15,6 +15,7 @@ interface LocalJobsOptions {
   sourceLimit?: number;
   workdayPageDelayMs?: number;
   now?: () => Date;
+  onCrawled?(source: Company, partition: JobPartition): void | Promise<void>;
 }
 
 export interface CrawlScope {

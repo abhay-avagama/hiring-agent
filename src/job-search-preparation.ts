@@ -1,7 +1,7 @@
 import type { SnapshotStore } from "./crawler.ts";
 import { projectJobCoverage, type JobCoverageSummary } from "./job-coverage.ts";
 import type { CrawlScope } from "./local-jobs.ts";
-import type { Company, CrawlReport } from "./types.ts";
+import type { Company, CrawlReport, JobSnapshot } from "./types.ts";
 
 export interface PrepareJobSearchResult {
   status: "ready" | "partial";
@@ -17,6 +17,8 @@ export function createJobSearchPreparer(options: {
   sources: Company[];
   store: SnapshotStore;
   crawl(scope: CrawlScope): Promise<CrawlReport>;
+  /** Optional published snapshot used instead of crawling when no local snapshot exists yet. */
+  seed?(): Promise<JobSnapshot | null>;
   now?: () => Date;
   freshnessDays?: number;
   batchSize?: number;
@@ -29,6 +31,10 @@ export function createJobSearchPreparer(options: {
       const input = validateInput(value, options.sources);
       const { countries } = input;
       let snapshot = await options.store.read();
+      if (!snapshot && options.seed) {
+        const seeded = await options.seed().catch(() => null);
+        if (seeded) { await options.store.write(seeded); snapshot = seeded; }
+      }
       const pendingBefore = pendingSources(options.sources, snapshot, now(), freshnessMs);
       const selected = pendingBefore.filter((source) => !input.attempted.has(source.slug)).slice(0, batchSize).map((source) => source.slug);
       const crawl = selected.length ? await options.crawl({ slugs: selected }) : undefined;

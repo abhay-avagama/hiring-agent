@@ -1,5 +1,5 @@
 import type { FetchJobsObserver } from "./catalog.ts";
-import type { Company, CrawlFailure, CrawlReport, CrawlSourceResult, Job, JobSnapshot } from "./types.ts";
+import type { Company, CrawlFailure, CrawlReport, CrawlSourceResult, Job, JobPartition, JobSnapshot } from "./types.ts";
 
 export interface SnapshotStore {
   read(): Promise<JobSnapshot | null>;
@@ -19,6 +19,8 @@ interface CrawlerOptions {
   pacingNow?: () => number;
   pacingSleep?: (delayMs: number) => Promise<void>;
   now?: () => Date;
+  /** Called once per succeeded source after the snapshot is written; failures are swallowed so reporting never blocks a crawl. */
+  onCrawled?(source: Company, partition: JobPartition): void | Promise<void>;
 }
 
 export interface Crawler {
@@ -123,6 +125,10 @@ export function createCrawler(options: CrawlerOptions): Crawler {
         succeeded, failed: finalFailures, sources: selectedSources.map((source) => metrics.get(source.slug)!),
       };
       await options.store.write({ version: 1, updatedAt: finishedAt, partitions, lastCrawl: report });
+      if (options.onCrawled) {
+        const crawled = selectedSources.filter((source) => metrics.get(source.slug)!.status === "succeeded");
+        await Promise.all(crawled.map((source) => Promise.resolve().then(() => options.onCrawled!(source, partitions[source.slug]!)).catch(() => undefined)));
+      }
       return report;
     },
   };

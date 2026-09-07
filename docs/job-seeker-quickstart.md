@@ -102,6 +102,6 @@ For development from a source checkout, point the server at the absolute `src/mc
 }
 ```
 
-The packaged commands use `~/.openings` by default. The source entrypoint uses `.openings` under the MCP process's working directory unless `OPENINGS_DATA_DIR` is set. The included `.mcp.json` provides the repository-local configuration when this repository is installed as a Codex plugin.
+When `OPENINGS_AGGREGATOR_URL` is set, first-time setup downloads the aggregator's published index before crawling, and every source you crawl is reported back so other installs benefit; only public job data is shared, never your resume. Leave it unset to keep crawls private. The packaged commands use `~/.openings` by default. The source entrypoint uses `.openings` under the MCP process's working directory unless `OPENINGS_DATA_DIR` is set. The included `.mcp.json` provides the repository-local configuration when this repository is installed as a Codex plugin.
 
 The MCP interface exposes setup, coverage, recommendation, fit analysis, resume optimization, search, and job-detail tools. There is no application-submission tool.

@@ -1,5 +1,6 @@
 import { join } from "node:path";
 import { fetchSourceJobs } from "./catalog.ts";
+import { createCrawlReporter, fetchSeedSnapshot } from "./crawl-reporting.ts";
 import { catalog as liveCatalog, companies } from "./index.ts";
 import { createLocalJobs } from "./local-jobs.ts";
 import { createJobRecommender } from "./job-recommendations.ts";
@@ -13,6 +14,8 @@ import { createJobSearchPreparer } from "./job-search-preparation.ts";
 export function createRuntime(options: { dataDir?: string; concurrency?: number; crawlDelayMs?: number; workdayPageDelayMs?: number; sourceCacheHours?: number; sourceLimit?: number } = {}) {
   const dataDir = options.dataDir ?? process.env.OPENINGS_DATA_DIR ?? join(process.cwd(), ".openings");
   const store = createFileSnapshotStore(join(dataDir, "snapshot.json"));
+  const aggregatorUrl = process.env.OPENINGS_AGGREGATOR_URL?.trim() || undefined;
+  const onCrawled = aggregatorUrl ? createCrawlReporter({ url: aggregatorUrl }) : undefined;
   const local = createLocalJobs({
     sources: companies,
     store,
@@ -22,6 +25,7 @@ export function createRuntime(options: { dataDir?: string; concurrency?: number;
     sourceFreshnessMs: (options.sourceCacheHours ?? 0) * 60 * 60 * 1000,
     sourceLimit: options.sourceLimit,
     workdayPageDelayMs: options.workdayPageDelayMs,
+    onCrawled,
   });
   const recommender = createJobRecommender({ sources: companies, store, crawl: local.crawl });
   const coverage = createJobCoverageReader({ sources: companies, store });
@@ -34,8 +38,9 @@ export function createRuntime(options: { dataDir?: string; concurrency?: number;
     maxAttempts: 1,
     sourceStartDelayMs: options.crawlDelayMs,
     workdayPageDelayMs: options.workdayPageDelayMs,
+    onCrawled,
   });
-  const preparation = createJobSearchPreparer({ sources: companies, store, crawl: preparationLocal.crawl });
+  const preparation = createJobSearchPreparer({ sources: companies, store, crawl: preparationLocal.crawl, seed: aggregatorUrl ? () => fetchSeedSnapshot(aggregatorUrl) : undefined });
   const getSelectedJob = createSelectedJobLookup({
     getSnapshotJob: async (id) => (await local.get(id, { offline: true, staleDays: 14 })).job,
     getDetailedJob: (id) => liveCatalog.get(id),

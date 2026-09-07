@@ -1,6 +1,6 @@
 # Openings
 
-Openings is a free, candidate-safe job-search substrate for AI agents. It indexes public company job boards and exposes seven MCP tools: `prepare_job_search`, `get_job_coverage`, `recommend_jobs`, `analyze_job_fit`, `optimize_resume`, `search_jobs`, and `get_job`. There are no accounts, hosted services, Openings API keys, model calls, or application submission paths. Resume content supplied to the recommendation, fit-analysis, and optimization tools is processed locally in memory and is never persisted.
+Openings is a free, candidate-safe job-search substrate for AI agents. It indexes public company job boards and exposes seven MCP tools: `prepare_job_search`, `get_job_coverage`, `recommend_jobs`, `analyze_job_fit`, `optimize_resume`, `search_jobs`, and `get_job`. There are no accounts, Openings API keys, model calls, or application submission paths. When `OPENINGS_AGGREGATOR_URL` is set, each successfully crawled source is also reported to that aggregator so its merged index can be shared with other installs; only public job data is sent, never resume content. Resume content supplied to the recommendation, fit-analysis, and optimization tools is processed locally in memory and is never persisted.
 
 Openings supports Greenhouse, Lever, Ashby, Workday, and Recruitee. Jobs are crawled from their public structured endpoints into a local, source-partitioned snapshot.
 
@@ -209,3 +209,14 @@ bun run expand:corpus -- --country IN --skip-trace --skip-verify --crawl-delay-m
 ## License
 
 MIT
+
+## Aggregator
+
+`bun run aggregator` starts a small HTTP service that collects crawl reports from installs, keeps a job history in SQLite under `.openings/aggregator.sqlite`, and publishes the merged result. It listens on `PORT` (default 8787) and stores its database at `OPENINGS_AGGREGATOR_DB` when set.
+
+- `POST /v1/crawls` accepts one crawled source partition, gzipped or plain JSON. Only sources present in the verified catalog are accepted, and each job must carry the source's ID prefix and a job URL on the provider's or the company's own domain; anything else is dropped and counted as `rejected`.
+- `GET /v1/snapshot` returns the merged index in the local snapshot format, built from the newest report per source. An install with `OPENINGS_AGGREGATOR_URL` set downloads it on first `prepare_job_search` instead of crawling every source.
+- `GET /v1/digest?days=1&country=IN&limit=25` returns Markdown listing jobs first seen inside the window with known country eligibility, ready to post.
+- `GET /healthz` reports job and source counts.
+
+Installs report crawls only when `OPENINGS_AGGREGATOR_URL` is set; unset it to keep every crawl local.

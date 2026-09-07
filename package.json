@@ -28,6 +28,7 @@
     "typecheck": "bunx tsc --noEmit",
     "start": "bun run src/cli.ts",
     "mcp": "bun run src/mcp.ts",
+    "aggregator": "bun run server/aggregator.ts",
     "expand:corpus": "bun run scripts/expand-corpus.ts",
     "release:pack": "bun pm pack"
   },
