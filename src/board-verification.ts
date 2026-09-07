@@ -54,6 +54,7 @@ export async function verifyBoards(registryPath: string, catalogPath: string, op
     for (const lead of registry.leads) {
       if (!BOARD_TIER_PROVIDERS.has(lead.ats) || !resolveSource(lead.sourceUrl)) { skipped.unsupported += 1; continue; }
       if (knownSources.has(`${lead.ats}:${lead.token.toLowerCase()}`)) { skipped.inCatalog += 1; continue; }
+      if (looksLikeTestBoard(lead.token)) { skipped.unsupported += 1; continue; }
       if (coolingDown(lead, now(), cooldownMs)) { skipped.coolingDown += 1; continue; }
       eligible.push(lead);
     }
@@ -105,6 +106,12 @@ export async function verifyBoards(registryPath: string, catalogPath: string, op
       verified: added.length, added: added.sort(), rejected: rejected.sort((a, b) => a.sourceKey.localeCompare(b.sourceKey)), catalogSize: Object.keys(catalog).length,
     };
   }, { operation: "verify boards" });
+}
+
+/** Random-looking tokens are almost always someone's test board: a long digit run mixed with letters, or a long consonant string. Short brand tokens like 2k or bvnk pass. */
+export function looksLikeTestBoard(token: string): boolean {
+  const value = token.toLowerCase();
+  return /[a-z]/.test(value) && (/\d{5,}/.test(value) || (value.length >= 8 && !/[aeiouy]/.test(value)));
 }
 
 class BoardError extends Error {

@@ -2,7 +2,7 @@ import { expect, test } from "bun:test";
 import { mkdtemp, readFile, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { humanize, verifyBoards } from "../src/board-verification.ts";
+import { humanize, looksLikeTestBoard, verifyBoards } from "../src/board-verification.ts";
 
 const lead = (ats: "greenhouse" | "lever" | "ashby" | "recruitee" | "workday", token: string, url: string, extra: Record<string, unknown> = {}) => ({
   sourceKey: `${ats}:${token.toLowerCase()}`, sourceUrl: url, ats, token, discoveredFrom: [{ channel: "dataset", reference: "common-crawl" }], companyMatches: [], identityEvidence: [], attempts: [], ...extra,
@@ -60,4 +60,9 @@ test("board-verified tier admits live boards on provider identity, skips known a
 test("humanize turns a board token into a display name", () => {
   expect(humanize("beta-labs")).toBe("Beta Labs");
   expect(humanize("acme")).toBe("Acme");
+});
+
+test("random-looking board tokens are treated as test boards, short brand tokens are not", () => {
+  for (const token of ["12jlkfsk", "1456754456yhgbhfg", "5364856uhdfnvbkldfnbhrpkdfgbdvtyhro"]) expect(looksLikeTestBoard(token)).toBe(true);
+  for (const token of ["2k", "8vc", "bvnk", "540", "103644278", "beta-labs", "1password", "84-51"]) expect(looksLikeTestBoard(token)).toBe(false);
 });

@@ -22,7 +22,7 @@ export function createMcpHandler(tools: ToolHandler) {
     const base = { jsonrpc: "2.0" as const, id: request.id ?? null };
     try {
       if (request.method === "initialize") {
-        return { ...base, result: { protocolVersion: "2025-06-18", capabilities: { tools: {} }, serverInfo: { name: "openings", version: "0.1.2" } } };
+        return { ...base, result: { protocolVersion: "2025-06-18", capabilities: { tools: {} }, serverInfo: { name: "openings", version: "0.1.3" } } };
       }
       if (request.method === "ping") return { ...base, result: {} };
       if (request.method === "tools/list") return { ...base, result: { tools: tools.list() } };
