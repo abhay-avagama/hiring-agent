@@ -1,6 +1,7 @@
 import { readFile } from "node:fs/promises";
 import { atomicJson } from "./atomic-file.ts";
 import { withFileLock } from "./file-lock.ts";
+import { ALL_PROVIDERS } from "./types.ts";
 import type { Ats, DiscoveryProvenance, DomainEvidence } from "./types.ts";
 import { resolveSource } from "./source-verification.ts";
 
@@ -110,9 +111,9 @@ function consecutiveTransientFailures(attempts: LeadAttempt[]): number { let cou
 function isRegistry(value: unknown): value is EnrichmentRegistry {
   if (!isRecord(value) || value.version !== 1 || typeof value.updatedAt !== "string" || !Array.isArray(value.leads)) return false;
   return value.leads.every((lead) => isRecord(lead)
-    && typeof lead.sourceKey === "string" && /^(greenhouse|lever|ashby|workday|recruitee):.+/.test(lead.sourceKey)
+    && typeof lead.sourceKey === "string" && new RegExp(`^(${ALL_PROVIDERS.join("|")}):.+`).test(lead.sourceKey)
     && typeof lead.sourceUrl === "string" && typeof lead.token === "string"
-    && ["greenhouse", "lever", "ashby", "workday", "recruitee"].includes(String(lead.ats))
+    && (ALL_PROVIDERS as readonly string[]).includes(String(lead.ats))
     && Array.isArray(lead.discoveredFrom) && lead.discoveredFrom.every(validProvenance)
     && Array.isArray(lead.companyMatches) && lead.companyMatches.every(validMatch)
     && Array.isArray(lead.identityEvidence) && lead.identityEvidence.every(validEvidence)

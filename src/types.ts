@@ -1,4 +1,5 @@
-export type Ats = "greenhouse" | "lever" | "ashby" | "workday" | "recruitee";
+export const ALL_PROVIDERS = ["greenhouse", "lever", "ashby", "workday", "recruitee", "smartrecruiters", "workable", "breezy"] as const;
+export type Ats = (typeof ALL_PROVIDERS)[number];
 
 export interface DomainEvidence {
   kind: "authoritative_dataset" | "company_registry" | "company_redirect";

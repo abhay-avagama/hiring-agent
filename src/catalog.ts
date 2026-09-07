@@ -1,4 +1,5 @@
 import type { Company, Job, JobSummary, SearchQuery } from "./types.ts";
+import { providerSpec, type JsonGet } from "./providers.ts";
 import { classifyJob, isEligibleForCountry, normalizeLocation } from "./locations.ts";
 
 type Fetch = (input: string | URL, init?: RequestInit) => Promise<Response>;
@@ -100,6 +101,8 @@ export function createCatalog(options: CatalogOptions): Catalog {
         const description = await fetchWorkdayDescription(company, job.url, fetcher);
         job = { ...job, description };
       }
+      const spec = job && !job.description.trim() ? providerSpec(company.ats) : undefined;
+      if (job && spec?.detail) job = { ...job, description: await spec.detail(company, job, jsonGetter(fetcher, company.name)) };
       if (job && !job.description.trim()) throw new Error(`Full description unavailable for job: ${id}`);
       return job;
     },
@@ -118,6 +121,13 @@ export interface FetchJobsObserver {
 }
 export async function fetchSourceJobs(company: Company, fetcher: Fetch = globalThis.fetch, signal?: AbortSignal, observer?: FetchJobsObserver): Promise<Job[]> {
   if (company.ats === "workday") return fetchWorkdayJobs(company, fetcher, signal, observer);
+  const spec = providerSpec(company.ats);
+  if (spec) {
+    const get = jsonGetter(fetcher, company.name, signal, observer);
+    const records = spec.fetchAll ? await spec.fetchAll(company.token, get) : spec.jobsFromBody(await get(spec.endpoint(company.token)));
+    if (!records) throw new Error(`${company.name} job board returned an invalid payload`);
+    return records.map((record) => spec.normalize(company, record));
+  }
   const url = company.ats === "greenhouse"
     ? `https://boards-api.greenhouse.io/v1/boards/${encodeURIComponent(company.token)}/jobs?content=true`
     : company.ats === "lever"
@@ -194,6 +204,15 @@ async function fetchWorkdayJobs(company: Company, fetcher: Fetch, signal?: Abort
   const jobs = [first.jobs, ...pages].flat().slice(0, first.total);
   if (jobs.length !== first.total) throw new Error(`${company.name} Workday source returned ${jobs.length} of ${first.total} jobs`);
   return jobs.map((job) => normalizeWorkday(company, source, job));
+}
+
+/** JSON fetch with the catalog's retry and backoff, shaped for the table-driven providers. */
+function jsonGetter(fetcher: Fetch, companyName: string, signal?: AbortSignal, observer?: FetchJobsObserver): JsonGet {
+  return async (url) => {
+    const response = await fetchWithRetry(fetcher, url, signal ? { signal } : undefined, companyName, observer);
+    if (!response.ok) { await response.body?.cancel().catch(() => undefined); throw new Error(`${companyName} job board returned HTTP ${response.status}`); }
+    return response.json();
+  };
 }
 
 async function fetchWithRetry(fetcher: Fetch, input: string | URL, init: RequestInit | undefined, companyName: string, observer?: FetchJobsObserver): Promise<Response> {

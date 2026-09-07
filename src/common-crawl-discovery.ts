@@ -2,6 +2,7 @@ import { readFile } from "node:fs/promises";
 import { atomicJson } from "./atomic-file.ts";
 import { stampReport, type ReportMeta } from "./report-meta.ts";
 import { mergeEnrichmentLeads, type EnrichmentLead } from "./enrichment-registry.ts";
+import { PROVIDERS } from "./providers.ts";
 import { resolveSource } from "./source-verification.ts";
 import type { Ats } from "./types.ts";
 import { assertArtifactFile } from "./artifact-path.ts";
@@ -36,11 +37,12 @@ export interface CommonCrawlDiscoveryReport extends ReportMeta {
   rejections: Array<{ value: string; reason: string }>;
 }
 
-const patterns = ["job-boards.greenhouse.io/*", "boards.greenhouse.io/*", "jobs.lever.co/*", "jobs.ashbyhq.com/*", "*.myworkdayjobs.com/*", "*.recruitee.com/*"];
-const recordsPerPattern = 10_000;
 const providerPatterns: Record<Ats, string[]> = {
-  greenhouse: patterns.slice(0, 2), lever: [patterns[2]!], ashby: [patterns[3]!], workday: [patterns[4]!], recruitee: [patterns[5]!],
+  greenhouse: ["job-boards.greenhouse.io/*", "boards.greenhouse.io/*"], lever: ["jobs.lever.co/*"], ashby: ["jobs.ashbyhq.com/*"], workday: ["*.myworkdayjobs.com/*"], recruitee: ["*.recruitee.com/*"],
+  ...Object.fromEntries(PROVIDERS.map((spec) => [spec.ats, spec.crawlPatterns])) as Record<"smartrecruiters" | "workable" | "breezy", string[]>,
 };
+const patterns = Object.values(providerPatterns).flat();
+const recordsPerPattern = 10_000;
 
 export async function discoverCommonCrawlSources(candidatesPath: string, reportPath: string, options: Options = {}): Promise<CommonCrawlDiscoveryReport> {
   if (options.provider === "recruitee") await assertArtifactFile(reportPath);

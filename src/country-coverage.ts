@@ -4,6 +4,7 @@ import { deriveLeadState, readEnrichmentRegistry, type EnrichmentState } from ".
 import { isEligibleForCountry } from "./locations.ts";
 import { stampReport, type ReportMeta } from "./report-meta.ts";
 import { resolveSource } from "./source-verification.ts";
+import { ALL_PROVIDERS } from "./types.ts";
 import type { Ats, EligibilityConfidence, JobSnapshot, SourceCandidate, VerifiedCompany } from "./types.ts";
 import { projectJobCoverage } from "./job-coverage.ts";
 
@@ -110,7 +111,7 @@ async function readCatalog(path: string): Promise<Record<string, Omit<VerifiedCo
   const value: unknown = JSON.parse(await readFile(path, "utf8"));
   if (!isRecord(value)) throw new Error(`Invalid verified catalog: ${path}`);
   for (const [slug, company] of Object.entries(value)) {
-    if (!isRecord(company) || !["greenhouse", "lever", "ashby", "workday", "recruitee"].includes(String(company.ats)) || typeof company.token !== "string"
+    if (!isRecord(company) || !(ALL_PROVIDERS as readonly string[]).includes(String(company.ats)) || typeof company.token !== "string"
       || (typeof company.companyDomain !== "string" && !(isRecord(company.verification) && company.verification.identityEvidence === "provider_board")) || typeof company.sourceUrl !== "string"
       || company.cohorts !== undefined && (!Array.isArray(company.cohorts) || !company.cohorts.every(validCountryCode))
       || !validVerification(company.verification)) throw new Error(`Invalid verified catalog source: ${slug}`);

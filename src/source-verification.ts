@@ -2,6 +2,8 @@ import type { Ats, RejectedSource, SourceCandidate, SourceRejectionReason, Sourc
 import { fetchSafeHead, type HeadTransport, type ResolveHost } from "./safe-head.ts";
 import { abortableDelay, fetchSourceJobs, isTransientStatus, retryDelayMs } from "./catalog.ts";
 import { isEligibleForCountry } from "./locations.ts";
+import { providerSpec, resolveProviderSource } from "./providers.ts";
+import { ALL_PROVIDERS } from "./types.ts";
 
 type Fetch = (input: string | URL, init?: RequestInit) => Promise<Response>;
 
@@ -29,7 +31,7 @@ export async function verifyCandidates(candidates: SourceCandidate[], options: V
   const rejected: Array<{ index: number; value: RejectedSource }> = [];
   const providerLimits = new Map<Ats, Semaphore>();
   const providerCooldowns = new Map<Ats, ProviderCooldown>();
-  for (const ats of ["greenhouse", "lever", "ashby", "workday", "recruitee"] as const) {
+  for (const ats of ALL_PROVIDERS) {
     const fallback = ats === "workday" ? 2 : concurrency;
     providerLimits.set(ats, new Semaphore(Math.max(1, Math.trunc(options.providerConcurrency?.[ats] ?? fallback))));
     providerCooldowns.set(ats, new ProviderCooldown());
@@ -162,19 +164,21 @@ async function probe(candidate: SourceCandidate, source: ResolvedSource, fetcher
     const contentType = response.headers.get("content-type") ?? "unknown";
     let body: unknown;
     try { body = await response.json(); } catch { throw new VerificationError("invalid_payload", "Endpoint did not return JSON"); }
-    const jobs = source.ats === "greenhouse" ? recordArray(body, "jobs") : source.ats === "lever" ? array(body) : source.ats === "workday" ? recordArray(body, "jobPostings") : source.ats === "recruitee" ? recordArray(body, "offers") : recordArray(body, "jobs");
+    const spec = providerSpec(source.ats);
+    const jobs = spec ? spec.jobsFromBody(body) : source.ats === "greenhouse" ? recordArray(body, "jobs") : source.ats === "lever" ? array(body) : source.ats === "workday" ? recordArray(body, "jobPostings") : source.ats === "recruitee" ? recordArray(body, "offers") : recordArray(body, "jobs");
     if (!jobs) throw new VerificationError("invalid_payload", "Payload does not contain the expected jobs array");
     if (jobs.length === 0) throw new VerificationError("empty_board", "Source has no jobs, so identity cannot be verified");
-    const providerName = source.ats === "greenhouse" ? majority(jobs.map((job) => stringField(job, "company_name")).filter(Boolean)) : source.ats === "workday" ? workday!.tenant : "";
-    const hasDomainLink = !["greenhouse", "workday"].includes(source.ats) && structuredIdentityLinksDomain(jobs, candidate.companyDomain);
-    const hasRedirectEvidence = !["greenhouse", "workday"].includes(source.ats) && await verifiedCompanyRedirect(candidate, source, resolveHost, headTransport, timeoutMs);
-    if (!["greenhouse", "workday"].includes(source.ats) && !hasDomainLink && !hasRedirectEvidence) throw new VerificationError("identity_mismatch", `Neither structured identity fields nor a verified company redirect link to ${candidate.companyDomain}`);
+    const providerName = spec ? spec.providerName(jobs, body) : source.ats === "greenhouse" ? majority(jobs.map((job) => stringField(job, "company_name")).filter(Boolean)) : source.ats === "workday" ? workday!.tenant : "";
+    const namedProvider = source.ats === "greenhouse" || source.ats === "workday" || Boolean(spec && providerName);
+    const hasDomainLink = !namedProvider && structuredIdentityLinksDomain(jobs, candidate.companyDomain);
+    const hasRedirectEvidence = !namedProvider && await verifiedCompanyRedirect(candidate, source, resolveHost, headTransport, timeoutMs);
+    if (!namedProvider && !hasDomainLink && !hasRedirectEvidence) throw new VerificationError("identity_mismatch", `Neither structured identity fields nor a verified company redirect link to ${candidate.companyDomain}`);
     const observedCompanyName = providerName || candidate.companyName;
     return {
       observedCompanyName,
       identityEvidence: source.ats === "workday" ? "provider_tenant" as const : (providerName ? "provider_company_name" as const : hasDomainLink ? "structured_domain_link" as const : "company_redirect" as const),
       contentType,
-      payloadVersion: source.ats === "greenhouse" ? "greenhouse-job-board:v1" : source.ats === "lever" ? "lever-postings:v0" : source.ats === "workday" ? "workday-cxs:v1" : source.ats === "recruitee" ? "recruitee-careers:v1" : `ashby-job-board:${isRecord(body) && typeof body.apiVersion === "string" ? body.apiVersion : "unknown"}`,
+      payloadVersion: spec ? spec.payloadVersion(body) : source.ats === "greenhouse" ? "greenhouse-job-board:v1" : source.ats === "lever" ? "lever-postings:v0" : source.ats === "workday" ? "workday-cxs:v1" : source.ats === "recruitee" ? "recruitee-careers:v1" : `ashby-job-board:${isRecord(body) && typeof body.apiVersion === "string" ? body.apiVersion : "unknown"}`,
       jobCount: source.ats === "workday" && isRecord(body) && typeof body.total === "number" ? body.total : jobs.length,
     };
   } finally { clearTimeout(timer); }
@@ -192,6 +196,8 @@ async function fetchProbeWithRetry(fetcher: Fetch, endpoint: string, init: Reque
 }
 
 export function resolveSource(value: string): ResolvedSource | null {
+  const tableDriven = resolveProviderSource(value);
+  if (tableDriven) return tableDriven;
   let url: URL;
   try { url = new URL(value); } catch { return null; }
   const parts = url.pathname.split("/").filter(Boolean);

@@ -1,13 +1,14 @@
 import { atomicJson } from "./atomic-file.ts";
 import { readEnrichmentRegistry, mergeEnrichmentLeads, type EnrichmentLead, type LeadAttempt } from "./enrichment-registry.ts";
 import { withFileLock } from "./file-lock.ts";
+import { providerSpec } from "./providers.ts";
 import { resolveSource } from "./source-verification.ts";
 import type { Ats, Company, SourceVerification } from "./types.ts";
 
 type Fetch = (input: string | URL, init?: RequestInit) => Promise<Response>;
 
 /** Providers whose public board is accepted as identity on its own. Workday stays on the company-identity path because its crawls are expensive. */
-export const BOARD_TIER_PROVIDERS: ReadonlySet<Ats> = new Set(["greenhouse", "lever", "ashby", "recruitee"]);
+export const BOARD_TIER_PROVIDERS: ReadonlySet<Ats> = new Set(["greenhouse", "lever", "ashby", "recruitee", "smartrecruiters", "workable", "breezy"]);
 
 export interface BoardVerificationOptions {
   fetch?: Fetch;
@@ -127,11 +128,12 @@ async function probeBoard(lead: EnrichmentLead, fetcher: Fetch, timeoutMs: numbe
     if (!response.ok) { await response.body?.cancel().catch(() => undefined); throw new BoardError(response.status === 404 || response.status === 410 ? "invalid_payload" : "unreachable", `HTTP ${response.status}`); }
     let body: unknown;
     try { body = await response.json(); } catch { throw new BoardError("invalid_payload", "Endpoint did not return JSON"); }
-    const jobs = source.ats === "lever" ? asArray(body) : asArray(isRecord(body) ? body[source.ats === "recruitee" ? "offers" : "jobs"] : undefined);
+    const spec = providerSpec(source.ats);
+    const jobs = spec ? spec.jobsFromBody(body) : source.ats === "lever" ? asArray(body) : asArray(isRecord(body) ? body[source.ats === "recruitee" ? "offers" : "jobs"] : undefined);
     if (!jobs) throw new BoardError("invalid_payload", "Payload does not contain the expected jobs array");
     if (jobs.length === 0) throw new BoardError("empty_board", "Board has no jobs");
-    const providerName = source.ats === "greenhouse" ? majority(jobs.map((job) => typeof job.company_name === "string" ? job.company_name.trim() : "").filter(Boolean)) : "";
-    const payloadVersion = source.ats === "greenhouse" ? "greenhouse-job-board:v1" : source.ats === "lever" ? "lever-postings:v0" : source.ats === "recruitee" ? "recruitee-careers:v1" : `ashby-job-board:${isRecord(body) && typeof body.apiVersion === "string" ? body.apiVersion : "unknown"}`;
+    const providerName = spec ? spec.providerName(jobs, body) : source.ats === "greenhouse" ? majority(jobs.map((job) => typeof job.company_name === "string" ? job.company_name.trim() : "").filter(Boolean)) : "";
+    const payloadVersion = spec ? spec.payloadVersion(body) : source.ats === "greenhouse" ? "greenhouse-job-board:v1" : source.ats === "lever" ? "lever-postings:v0" : source.ats === "recruitee" ? "recruitee-careers:v1" : `ashby-job-board:${isRecord(body) && typeof body.apiVersion === "string" ? body.apiVersion : "unknown"}`;
     return { providerName, contentType: response.headers.get("content-type") ?? "unknown", payloadVersion, jobCount: jobs.length };
   } finally { clearTimeout(timer); }
 }
