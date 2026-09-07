@@ -27,7 +27,7 @@ test("packed artifact excludes private data and starts its MCP entrypoint", asyn
     expect(listing.exitCode, listing.stderr.toString()).toBe(0);
     const files = listing.stdout.toString().split("\n");
     expect(files).toContain("package/docs/job-seeker-quickstart.md");
-    expect(files.some((file) => file.includes("Shubham_Bhamare") || file.includes(".openings/") || file.startsWith("package/test/"))).toBe(false);
+    expect(files.some((file) => file.endsWith(".pdf") || file.includes(".openings/") || file.startsWith("package/test/"))).toBe(false);
 
     const installed = join(temporary, "installed");
     const bin = join(installed, "node_modules", ".bin");

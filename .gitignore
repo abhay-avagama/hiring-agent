@@ -4,4 +4,4 @@ node_modules/
 .openings/
 *.verification-state.json
 *.tgz
-docs/Shubham_Bhamare_Resume_2026_full_stack 2.pdf
+docs/*.pdf
