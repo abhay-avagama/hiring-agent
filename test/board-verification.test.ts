@@ -17,7 +17,7 @@ test("board-verified tier admits live boards on provider identity, skips known a
     lead("lever", "empty", "https://jobs.lever.co/empty"),
     lead("recruitee", "gone", "https://gone.recruitee.com"),
     lead("greenhouse", "known", "https://job-boards.greenhouse.io/known"),
-    lead("workday", "x.wd1.myworkdayjobs.com/x/External", "https://x.wd1.myworkdayjobs.com/en-US/External"),
+    lead("workday", "globex.wd1.myworkdayjobs.com/globex/External", "https://globex.wd1.myworkdayjobs.com/en-US/External"),
     lead("ashby", "cooling", "https://jobs.ashbyhq.com/cooling", { attempts: [{ attemptedAt: "2026-09-05T00:00:00.000Z", outcome: "permanent_failure", category: "empty_board" }] }),
   ] }));
   await writeFile(catalog, JSON.stringify({ known: { name: "Known", ats: "greenhouse", token: "known", companyDomain: "known.test", sourceUrl: "https://job-boards.greenhouse.io/known", discoveredFrom: { channel: "dataset", reference: "x" }, verification: { observedCompanyName: "Known", identityEvidence: "provider_company_name", contentType: "application/json", payloadVersion: "greenhouse-job-board:v1", jobCount: 1, checkedAt: "2026-09-01T00:00:00.000Z", canonicalSourceUrl: "https://job-boards.greenhouse.io/known" } } }));
@@ -30,17 +30,20 @@ test("board-verified tier admits live boards on provider identity, skips known a
       if (url.includes("beta-labs")) return Response.json({ apiVersion: "1", jobs: [{ id: "a", title: "Engineer" }] });
       if (url.includes("postings/empty")) return Response.json([]);
       if (url.includes("gone.recruitee")) return new Response("nope", { status: 404 });
+      if (url.includes("myworkdayjobs")) return Response.json({ total: 250, jobPostings: [{ title: "Engineer", externalPath: "/job/x" }] });
       return new Response("unexpected", { status: 500 });
     },
   });
-  expect(report.verified).toBe(2);
-  expect(report.added).toEqual(["acme", "beta-labs"]);
-  expect(report.skipped).toEqual({ inCatalog: 1, coolingDown: 1, unsupported: 1, deferred: 0 });
+  expect(report.verified).toBe(3);
+  expect(report.added).toEqual(["acme", "beta-labs", "globex"]);
+  expect(report.skipped).toEqual({ inCatalog: 1, coolingDown: 1, unsupported: 0, deferred: 0 });
   expect(report.rejected.map((entry) => [entry.sourceKey, entry.reason])).toEqual([["lever:empty", "empty_board"], ["recruitee:gone", "invalid_payload"]]);
-  expect(calls.some((url) => url.includes("known") || url.includes("cooling") || url.includes("myworkday"))).toBe(false);
+  expect(calls.some((url) => url.includes("known") || url.includes("cooling"))).toBe(false);
 
   const written = JSON.parse(await readFile(catalog, "utf8")) as Record<string, { name: string; companyDomain?: string; verification: { identityEvidence: string } }>;
-  expect(Object.keys(written)).toEqual(["acme", "beta-labs", "known"]);
+  expect(Object.keys(written)).toEqual(["acme", "beta-labs", "globex", "known"]);
+  expect(written.globex?.name).toBe("Globex");
+  expect(written.globex?.verification.identityEvidence).toBe("provider_board");
   expect(written.acme?.name).toBe("Acme Inc");
   expect(written["beta-labs"]?.name).toBe("Beta Labs");
   expect(written.acme?.companyDomain).toBeUndefined();
@@ -53,7 +56,7 @@ test("board-verified tier admits live boards on provider identity, skips known a
 
   const again = await verifyBoards(registry, catalog, { now: () => new Date("2026-09-07T01:00:00.000Z"), fetch: async () => new Response(null, { status: 500 }) });
   expect(again.selected).toBe(0);
-  expect(again.skipped.inCatalog).toBe(3);
+  expect(again.skipped.inCatalog).toBe(4);
   expect(again.skipped.coolingDown).toBe(3);
 });
 

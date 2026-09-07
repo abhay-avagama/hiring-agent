@@ -7,8 +7,8 @@ import type { Ats, Company, SourceVerification } from "./types.ts";
 
 type Fetch = (input: string | URL, init?: RequestInit) => Promise<Response>;
 
-/** Providers whose public board is accepted as identity on its own. Workday stays on the company-identity path because its crawls are expensive. */
-export const BOARD_TIER_PROVIDERS: ReadonlySet<Ats> = new Set(["greenhouse", "lever", "ashby", "recruitee", "smartrecruiters", "workable", "breezy"]);
+/** Providers whose public board is accepted as identity on its own. Workday boards are identified by tenant; their crawls are heavier but they carry the large employers. */
+export const BOARD_TIER_PROVIDERS: ReadonlySet<Ats> = new Set(["greenhouse", "lever", "ashby", "recruitee", "smartrecruiters", "workable", "breezy", "workday"]);
 
 export interface BoardVerificationOptions {
   fetch?: Fetch;
@@ -124,17 +124,21 @@ async function probeBoard(lead: EnrichmentLead, fetcher: Fetch, timeoutMs: numbe
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(new Error(`Timed out after ${timeoutMs}ms`)), timeoutMs);
   try {
-    const response = await fetcher(source.structuredEndpoint, { signal: controller.signal });
+    const init: RequestInit = source.ats === "workday"
+      ? { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ appliedFacets: {}, limit: 20, offset: 0, searchText: "" }), signal: controller.signal }
+      : { signal: controller.signal };
+    const response = await fetcher(source.structuredEndpoint, init);
     if (!response.ok) { await response.body?.cancel().catch(() => undefined); throw new BoardError(response.status === 404 || response.status === 410 ? "invalid_payload" : "unreachable", `HTTP ${response.status}`); }
     let body: unknown;
     try { body = await response.json(); } catch { throw new BoardError("invalid_payload", "Endpoint did not return JSON"); }
     const spec = providerSpec(source.ats);
-    const jobs = spec ? spec.jobsFromBody(body) : source.ats === "lever" ? asArray(body) : asArray(isRecord(body) ? body[source.ats === "recruitee" ? "offers" : "jobs"] : undefined);
+    const jobs = spec ? spec.jobsFromBody(body) : source.ats === "lever" ? asArray(body) : asArray(isRecord(body) ? body[source.ats === "recruitee" ? "offers" : source.ats === "workday" ? "jobPostings" : "jobs"] : undefined);
     if (!jobs) throw new BoardError("invalid_payload", "Payload does not contain the expected jobs array");
     if (jobs.length === 0) throw new BoardError("empty_board", "Board has no jobs");
-    const providerName = spec ? spec.providerName(jobs, body) : source.ats === "greenhouse" ? majority(jobs.map((job) => typeof job.company_name === "string" ? job.company_name.trim() : "").filter(Boolean)) : "";
-    const payloadVersion = spec ? spec.payloadVersion(body) : source.ats === "greenhouse" ? "greenhouse-job-board:v1" : source.ats === "lever" ? "lever-postings:v0" : source.ats === "recruitee" ? "recruitee-careers:v1" : `ashby-job-board:${isRecord(body) && typeof body.apiVersion === "string" ? body.apiVersion : "unknown"}`;
-    return { providerName, contentType: response.headers.get("content-type") ?? "unknown", payloadVersion, jobCount: jobs.length };
+    const providerName = spec ? spec.providerName(jobs, body) : source.ats === "greenhouse" ? majority(jobs.map((job) => typeof job.company_name === "string" ? job.company_name.trim() : "").filter(Boolean)) : source.ats === "workday" ? humanize(source.token.split("/")[1] ?? source.token) : "";
+    const payloadVersion = spec ? spec.payloadVersion(body) : source.ats === "greenhouse" ? "greenhouse-job-board:v1" : source.ats === "lever" ? "lever-postings:v0" : source.ats === "recruitee" ? "recruitee-careers:v1" : source.ats === "workday" ? "workday-cxs:v1" : `ashby-job-board:${isRecord(body) && typeof body.apiVersion === "string" ? body.apiVersion : "unknown"}`;
+    const jobCount = source.ats === "workday" && isRecord(body) && typeof body.total === "number" ? body.total : jobs.length;
+    return { providerName, contentType: response.headers.get("content-type") ?? "unknown", payloadVersion, jobCount };
   } finally { clearTimeout(timer); }
 }
 
@@ -152,7 +156,8 @@ function withAttempt(lead: EnrichmentLead, attempt: LeadAttempt): EnrichmentLead
 }
 
 function uniqueSlug(lead: EnrichmentLead, used: Set<string>): string | null {
-  const base = lead.token.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "") || lead.ats;
+  const raw = lead.ats === "workday" ? (lead.token.split("/")[1] ?? lead.token) : lead.token;
+  const base = raw.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "") || lead.ats;
   for (const candidate of [base, `${lead.ats}-${base}`]) if (!used.has(candidate)) return candidate;
   return null;
 }
