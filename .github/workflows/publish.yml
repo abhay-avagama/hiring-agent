@@ -8,7 +8,7 @@ on:
     tags: ["v*"]
 
 permissions:
-  contents: read
+  contents: write
   id-token: write
 
 jobs:
@@ -38,3 +38,11 @@ jobs:
           if npm view "openings@$version" version >/dev/null 2>&1; then echo "published=true" >> "$GITHUB_OUTPUT"; echo "openings@$version already on npm, skipping"; fi
       - if: steps.check.outputs.published != 'true'
         run: npm publish --access public
+      - name: Create the GitHub release with the registry tarball
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          version="$(node -p "require('./package.json').version")"
+          if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then echo "release exists, skipping"; exit 0; fi
+          for i in 1 2 3 4 5 6; do curl -fsSL -o "openings-$version.tgz" "https://registry.npmjs.org/openings/-/openings-$version.tgz" && break || sleep 10; done
+          gh release create "$GITHUB_REF_NAME" "openings-$version.tgz" --title "openings $version" --generate-notes --latest
