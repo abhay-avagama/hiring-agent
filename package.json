@@ -9,6 +9,7 @@
   "keywords": ["jobs", "resume", "matching", "mcp", "greenhouse", "lever", "ashby", "workday", "recruitee"],
   "type": "module",
   "bin": { "openings-mcp": "./src/package-mcp.ts" },
+  "exports": "./src/index.ts",
   "files": [
     "src/",
     "data/companies.json",
