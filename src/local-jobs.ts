@@ -14,6 +14,7 @@ interface LocalJobsOptions {
   sourceFreshnessMs?: number;
   sourceLimit?: number;
   workdayPageDelayMs?: number;
+  workdayCountries?: string[];
   now?: () => Date;
   onCrawled?(source: Company, partition: JobPartition): void | Promise<void>;
 }

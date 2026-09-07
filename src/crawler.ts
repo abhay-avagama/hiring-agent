@@ -16,6 +16,7 @@ interface CrawlerOptions {
   sourceFreshnessMs?: number;
   sourceLimit?: number;
   workdayPageDelayMs?: number;
+  workdayCountries?: string[];
   pacingNow?: () => number;
   pacingSleep?: (delayMs: number) => Promise<void>;
   now?: () => Date;
@@ -94,6 +95,7 @@ export function createCrawler(options: CrawlerOptions): Crawler {
               const jobs = await options.fetchJobs(source, controller.signal, {
                 onBackoff: ({ status, delayMs }) => { metric.backoffMs += delayMs; if (status === 429) metric.throttles += 1; },
                 workdayPageDelayMs: options.workdayPageDelayMs,
+                workdayCountries: options.workdayCountries,
               });
               partitions[source.slug] = { fetchedAt: now().toISOString(), jobs };
               succeeded += 1;

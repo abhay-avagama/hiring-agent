@@ -116,6 +116,8 @@ export function searchJobs(jobs: Job[], query: SearchQuery): JobSummary[] {
 export interface FetchJobsObserver {
   onBackoff?(event: { status: number; delayMs: number }): void;
   workdayPageDelayMs?: number;
+  /** Countries to fetch with Workday's country facet after a capped crawl, so roles beyond the 2,000-posting cap are not lost. */
+  workdayCountries?: string[];
   pacingNow?: () => number;
   pacingSleep?: (delayMs: number, signal?: AbortSignal) => Promise<void>;
 }
@@ -147,6 +149,11 @@ export async function fetchSourceJobs(company: Company, fetcher: Fetch = globalT
         : (body as { offers: RecruiteeJob[] }).offers.map((job) => normalizeRecruitee(company, job));
 }
 
+const WORKDAY_LISTING_CAP = 2000;
+/** Workday's country facet ids are the same on every tenant. Verified live on 2026-09-07. */
+const WORKDAY_COUNTRY_FACETS: Record<string, string> = { IN: "c4f78be1a8f14da0ab49ce1162348a5e", US: "bc33aa3152ec42d4995f4791a106ed09" };
+function workdayJobKey(job: WorkdayJob): string { return job.bulletFields?.[0] ?? job.externalPath; }
+
 async function fetchWorkdayJobs(company: Company, fetcher: Fetch, signal?: AbortSignal, observer?: FetchJobsObserver): Promise<Job[]> {
   const source = parseWorkdayToken(company.token);
   const endpoint = `https://${source.host}/wday/cxs/${encodeURIComponent(source.tenant)}/${encodeURIComponent(source.site)}/jobs`;
@@ -168,10 +175,10 @@ async function fetchWorkdayJobs(company: Company, fetcher: Fetch, signal?: Abort
       previousPageStart = pacingNow();
     } finally { release(); }
   }
-  async function page(offset: number): Promise<{ total: number; jobs: WorkdayJob[] }> {
+  async function page(offset: number, appliedFacets: Record<string, string[]> = {}): Promise<{ total: number; jobs: WorkdayJob[] }> {
     for (let attempt = 0; attempt < 3; attempt += 1) {
       await pacePageStart();
-      const response = await fetcher(endpoint, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ appliedFacets: {}, limit, offset, searchText: "" }), signal });
+      const response = await fetcher(endpoint, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ appliedFacets, limit, offset, searchText: "" }), signal });
       if (response.ok) {
         const body = await response.json() as { total?: unknown; jobPostings?: unknown };
         if (!Number.isInteger(body.total) || !Array.isArray(body.jobPostings)) throw new Error(`${company.name} Workday source returned an invalid payload`);
@@ -203,6 +210,18 @@ async function fetchWorkdayJobs(company: Company, fetcher: Fetch, signal?: Abort
   await Promise.all(Array.from({ length: workerCount }, worker));
   const jobs = [first.jobs, ...pages].flat().slice(0, first.total);
   if (jobs.length !== first.total) throw new Error(`${company.name} Workday source returned ${jobs.length} of ${first.total} jobs`);
+  // Workday stops an unfiltered listing at 2,000 postings. For capped tenants, a per-country pass sees past the cap.
+  if (first.total >= WORKDAY_LISTING_CAP) {
+    const seen = new Set(jobs.map((job) => workdayJobKey(job)));
+    for (const code of observer?.workdayCountries ?? []) {
+      const facet = WORKDAY_COUNTRY_FACETS[code.toUpperCase()];
+      if (!facet) continue;
+      const head = await page(0, { locationCountry: [facet] });
+      const extra = [head.jobs];
+      for (let offset = limit; offset < Math.min(head.total, WORKDAY_LISTING_CAP); offset += limit) extra.push((await page(offset, { locationCountry: [facet] })).jobs);
+      for (const job of extra.flat()) { const key = workdayJobKey(job); if (!seen.has(key)) { seen.add(key); jobs.push(job); } }
+    }
+  }
   return jobs.map((job) => normalizeWorkday(company, source, job));
 }
 

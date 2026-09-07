@@ -22,7 +22,7 @@ import { mergeAttemptedRoundLeads, prepareRecruiteeRoundArtifacts } from "./recr
 const HELP = `Openings — search public company job boards
 
 Usage:
-  openings crawl [--country CODE | --companies FILE] [--concurrency N] [--source-cache-hours N] [--source-limit N] [--delay-ms N] [--workday-page-delay-ms N] [--data-dir PATH]
+  openings crawl [--workday-countries IN,US] [--country CODE | --companies FILE] [--concurrency N] [--source-cache-hours N] [--source-limit N] [--delay-ms N] [--workday-page-delay-ms N] [--data-dir PATH]
   openings snapshot export [--input FILE] [--output-dir PATH]
   openings coverage report --country CODE [--snapshot FILE] [--catalog FILE] [--candidates FILE] [--registry FILE] [--output FILE] [--as-of ISO]
   openings sources discover-subdomains SEEDS.json [--output FILE] [--limit N] [--delay-ms N] [--report FILE]
@@ -69,7 +69,7 @@ export async function run(args: string[]): Promise<number> {
     if (typeof parsed === "string") return fail(parsed);
     const runtime = createRuntime({
       dataDir: parsed.dataDir, concurrency: parsed.concurrency, sourceCacheHours: parsed.sourceCacheHours,
-      sourceLimit: parsed.sourceLimit, crawlDelayMs: parsed.delayMs, workdayPageDelayMs: parsed.workdayPageDelayMs,
+      sourceLimit: parsed.sourceLimit, crawlDelayMs: parsed.delayMs, workdayPageDelayMs: parsed.workdayPageDelayMs, workdayCountries: parsed.workdayCountries,
     });
     const slugs = parsed.companiesFile ? await readCompanyFile(parsed.companiesFile) : undefined;
     console.log(JSON.stringify(await runtime.crawl({ country: parsed.country, slugs }), null, 2));
@@ -514,6 +514,7 @@ function parseCrawl(args: string[]) {
   let concurrency = 10;
   let delayMs = 0;
   let workdayPageDelayMs = 0;
+  let workdayCountries: string[] | undefined;
   let sourceCacheHours = 24;
   let sourceLimit = 0;
   for (let index = 0; index < args.length; index += 1) {
@@ -526,6 +527,10 @@ function parseCrawl(args: string[]) {
     else if (arg === "--concurrency") {
       concurrency = Number(args[++index]);
       if (!Number.isInteger(concurrency) || concurrency < 1 || concurrency > 100) return "--concurrency must be an integer from 1 to 100";
+    } else if (arg === "--workday-countries") {
+      const value = args[++index] ?? "";
+      workdayCountries = value.split(",").map((code) => code.trim().toUpperCase()).filter(Boolean);
+      if (!workdayCountries.every((code) => /^[A-Z]{2}$/.test(code))) return "--workday-countries must be a comma-separated list of two-letter codes";
     } else if (arg === "--delay-ms") {
       delayMs = Number(args[++index]);
       if (!Number.isInteger(delayMs) || delayMs < 0 || delayMs > 60_000) return "--delay-ms must be an integer from 0 to 60000";
@@ -543,7 +548,7 @@ function parseCrawl(args: string[]) {
   if (country && companiesFile) return "Use either --country or --companies, not both";
   if (args.includes("--companies") && !companiesFile) return "--companies requires a file";
   if (args.includes("--data-dir") && !dataDir) return "--data-dir requires a value";
-  return { country, companiesFile, dataDir, concurrency, delayMs, workdayPageDelayMs, sourceCacheHours, sourceLimit };
+  return { country, companiesFile, dataDir, concurrency, delayMs, workdayPageDelayMs, sourceCacheHours, sourceLimit , workdayCountries };
 }
 
 function parseCountry(value: string | undefined): string | undefined {

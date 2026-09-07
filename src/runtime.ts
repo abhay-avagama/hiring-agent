@@ -13,7 +13,8 @@ import { createFileSnapshotStore } from "./snapshot-store.ts";
 import { createJobCoverageReader } from "./job-coverage.ts";
 import { createJobSearchPreparer } from "./job-search-preparation.ts";
 
-export function createRuntime(options: { dataDir?: string; concurrency?: number; crawlDelayMs?: number; workdayPageDelayMs?: number; sourceCacheHours?: number; sourceLimit?: number } = {}) {
+export function createRuntime(options: { dataDir?: string; concurrency?: number; crawlDelayMs?: number; workdayPageDelayMs?: number; workdayCountries?: string[]; sourceCacheHours?: number; sourceLimit?: number } = {}) {
+  const workdayCountries = options.workdayCountries ?? (process.env.OPENINGS_WORKDAY_COUNTRIES ?? "IN,US").split(",").map((code) => code.trim().toUpperCase()).filter((code) => /^[A-Z]{2}$/.test(code));
   const dataDir = options.dataDir ?? process.env.OPENINGS_DATA_DIR ?? join(process.cwd(), ".openings");
   const store = createFileSnapshotStore(join(dataDir, "snapshot.json"));
   const aggregatorUrl = resolveAggregatorUrl(process.env.OPENINGS_AGGREGATOR_URL);
@@ -28,6 +29,7 @@ export function createRuntime(options: { dataDir?: string; concurrency?: number;
     sourceFreshnessMs: (options.sourceCacheHours ?? 0) * 60 * 60 * 1000,
     sourceLimit: options.sourceLimit,
     workdayPageDelayMs: options.workdayPageDelayMs,
+    workdayCountries,
     onCrawled,
   });
   const recommender = createJobRecommender({ sources: companies, store, crawl: local.crawl });
@@ -41,6 +43,7 @@ export function createRuntime(options: { dataDir?: string; concurrency?: number;
     maxAttempts: 1,
     sourceStartDelayMs: options.crawlDelayMs,
     workdayPageDelayMs: options.workdayPageDelayMs,
+    workdayCountries,
     onCrawled,
   });
   const preparation = createJobSearchPreparer({ sources: companies, store, crawl: preparationLocal.crawl, seed: aggregatorUrl ? (countries) => fetchSeedSnapshot(aggregatorUrl, globalThis.fetch, 20_000, countries) : undefined });
