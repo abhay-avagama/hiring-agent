@@ -1,5 +1,5 @@
-import { ALL_PROVIDERS, type Ats } from "./types.ts";
 #!/usr/bin/env bun
+import { ALL_PROVIDERS, type Ats } from "./types.ts";
 import { readFile } from "node:fs/promises";
 import { relative, resolve } from "node:path";
 import { createRuntime } from "./runtime.ts";
