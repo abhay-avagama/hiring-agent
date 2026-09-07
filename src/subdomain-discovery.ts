@@ -24,8 +24,14 @@ export interface SubdomainDiscoveryReport {
   outputPath: string;
 }
 
-const CAREER_WORDS = /(^|[.-])(careers?|jobs?|apply|hiring|talent|recruit(ing|ment)?|join(us)?|work(with)?us|opportunities|vacancies|openings)([.-]|$)/i;
+const CAREER_WORDS = new Set(["careers", "career", "jobs", "job", "apply", "hiring", "talent", "talents", "recruit", "recruiting", "recruitment", "join", "joinus", "workwithus", "opportunities", "vacancies", "openings"]);
 const CONVENTIONAL = ["careers", "jobs", "apply", "hiring", "talent", "recruit", "join"];
+
+/** True when the subdomain part (everything before the company domain) reads like a careers host. */
+export function looksLikeCareersHost(subdomain: string): boolean {
+  const words = subdomain.toLowerCase().split(/[.-]+/).filter(Boolean);
+  return words.some((word) => CAREER_WORDS.has(word)) || (words.includes("work") && words.includes("us"));
+}
 
 export async function discoverCareerSubdomains(seedsPath: string, outputPath: string, options: { fetch?: Fetch; resolve?: Resolve; now?: () => Date; limit?: number; delayMs?: number } = {}): Promise<SubdomainDiscoveryReport> {
   const fetcher = options.fetch ?? globalThis.fetch;
@@ -44,7 +50,7 @@ export async function discoverCareerSubdomains(seedsPath: string, outputPath: st
       if (index > 0 && delayMs) await new Promise((done) => setTimeout(done, delayMs));
       const names = await certificateNames(domain, fetcher);
       report.certificateNames += names.length;
-      for (const name of names) if (CAREER_WORDS.test(name.slice(0, -domain.length - 1))) candidates.set(name, candidates.get(name) ?? "certificate_transparency");
+      for (const name of names) if (looksLikeCareersHost(name.slice(0, -domain.length - 1))) candidates.set(name, candidates.get(name) ?? "certificate_transparency");
     } catch (error) {
       report.failures.push({ companyDomain: domain, reason: "ct_request_failed", detail: error instanceof Error ? error.message : String(error) });
     }
