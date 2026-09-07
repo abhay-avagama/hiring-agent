@@ -2,6 +2,8 @@
 import { readFile } from "node:fs/promises";
 import { relative, resolve } from "node:path";
 import { createRuntime } from "./runtime.ts";
+import { atomicJson } from "./atomic-file.ts";
+import { verifyBoards } from "./board-verification.ts";
 import { runSourceVerification } from "./source-pipeline.ts";
 import { runSourceDiscovery, runYcSourceDiscovery } from "./source-discovery.ts";
 import { discoverAndPromote } from "./source-discovery-pipeline.ts";
@@ -21,6 +23,7 @@ Usage:
   openings crawl [--country CODE | --companies FILE] [--concurrency N] [--source-cache-hours N] [--source-limit N] [--delay-ms N] [--workday-page-delay-ms N] [--data-dir PATH]
   openings snapshot export [--input FILE] [--output-dir PATH]
   openings coverage report --country CODE [--snapshot FILE] [--catalog FILE] [--candidates FILE] [--registry FILE] [--output FILE] [--as-of ISO]
+  openings sources verify-boards REGISTRY.json [--output FILE] [--limit N] [--concurrency N] [--report FILE]
   openings sources verify CANDIDATES.json [--output FILE] [--state-file FILE] [--concurrency N] [--workday-concurrency N] [--limit N] [--require-country CODE] [--registry FILE] [--retry-deferred]
   openings sources discover FEED.json [--country CODE] [--registry FILE] [--output FILE] [--catalog FILE] [--report FILE]
   openings sources discover-yc --country CODE [--registry FILE] [--output FILE] [--catalog FILE] [--report FILE]
@@ -154,6 +157,14 @@ export async function run(args: string[]): Promise<number> {
       console.log(JSON.stringify(compactDiscoveryPromotion(await discoverAndPromote(
         () => runSourceDiscovery(parsed.feedPath, parsed.output, parsed.report, parsed), parsed.output, parsed.catalog, parsed,
       )), null, 2));
+      return 0;
+    }
+    if (rest[0] === "verify-boards") {
+      const parsed = parseVerifyBoards(rest.slice(1));
+      if (typeof parsed === "string") return fail(parsed);
+      const report = await verifyBoards(parsed.registry, parsed.output, { limit: parsed.limit, concurrency: parsed.concurrency });
+      if (parsed.report) await atomicJson(parsed.report, report);
+      console.log(JSON.stringify(report, null, 2));
       return 0;
     }
     if (rest[0] !== "verify") return fail("sources requires a discovery, tracing, or `verify` subcommand");
@@ -531,6 +542,24 @@ function underOpenings(path: string) { const root = resolve(".openings"); const 
 
 async function readCompanyFile(path: string): Promise<string[]> {
   return (await readFile(path, "utf8")).split(/\r?\n/).map((line) => line.trim()).filter((line) => line && !line.startsWith("#"));
+}
+
+function parseVerifyBoards(args: string[]): { registry: string; output: string; limit?: number; concurrency?: number; report?: string } | string {
+  const registry = args[0];
+  if (!registry || registry.startsWith("--")) return "sources verify-boards requires a registry JSON file";
+  let output = "data/companies.json";
+  let limit: number | undefined;
+  let concurrency: number | undefined;
+  let report: string | undefined;
+  for (let index = 1; index < args.length; index += 1) {
+    const arg = args[index];
+    if (arg === "--output") output = args[++index] ?? output;
+    else if (arg === "--report") report = args[++index];
+    else if (arg === "--limit") { limit = Number(args[++index]); if (!Number.isInteger(limit) || limit < 1) return "--limit must be a positive integer"; }
+    else if (arg === "--concurrency") { concurrency = Number(args[++index]); if (!Number.isInteger(concurrency) || concurrency < 1 || concurrency > 50) return "--concurrency must be an integer from 1 to 50"; }
+    else return `Unknown option: ${arg}`;
+  }
+  return { registry, output, limit, concurrency, report };
 }
 
 function parseSourceVerification(args: string[]) {

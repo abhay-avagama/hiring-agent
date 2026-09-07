@@ -87,7 +87,7 @@ Append a candidate to [`data/source-candidates.json`](data/source-candidates.jso
 bun run src/cli.ts sources verify data/source-candidates.json
 ```
 
-The verifier resolves the canonical board endpoint, validates its payload, applies the provider's identity check, and regenerates the catalog atomically. Rejected candidates are reported with a machine-readable reason. `cohorts` records why a source was selected for a country campaign; eligibility is always decided per job. An optional `slug` keeps existing job IDs stable when it differs from the first label of the company domain.
+The verifier resolves the canonical board endpoint, validates its payload, applies the provider's identity check, and regenerates the catalog atomically. Rejected candidates are reported with a machine-readable reason. Boards discovered without a known company website can enter as *board-verified* sources instead, admitted on the provider's own identity and marked `provider_board` in the catalog so tools and pages can label them; see the maintainer guide. `cohorts` records why a source was selected for a country campaign; eligibility is always decided per job. An optional `slug` keeps existing job IDs stable when it differs from the first label of the company domain.
 
 ## Sharing crawls
 

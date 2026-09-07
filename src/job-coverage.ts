@@ -40,7 +40,7 @@ export function projectJobCoverage(sources: Company[], snapshot: JobSnapshot, co
         country,
         indexedSourcesWithEligibleJobs: eligibleSources.length,
         eligibleJobs: eligibleSources.reduce((total, { jobs }) => total + jobs.filter((job) => isEligibleForCountry(job, country)).length, 0),
-        distinctEligibleEmployers: new Set(eligibleSources.flatMap(({ source }) => source.companyDomain ? [normalizeDomain(source.companyDomain)] : [])).size,
+        distinctEligibleEmployers: new Set(eligibleSources.flatMap(({ source }) => source.companyDomain ? [normalizeDomain(source.companyDomain)] : source.verification?.identityEvidence === "provider_board" ? [`board:${source.ats}:${source.token.toLowerCase()}`] : [])).size,
       };
     }),
   };

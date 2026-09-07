@@ -39,7 +39,7 @@ export interface SourceVerification {
   checkedAt: string;
   canonicalSourceUrl: string;
   observedCompanyName: string;
-  identityEvidence: "provider_company_name" | "provider_tenant" | "structured_domain_link" | "company_redirect";
+  identityEvidence: "provider_company_name" | "provider_tenant" | "structured_domain_link" | "company_redirect" | "provider_board";
   contentType: string;
   payloadVersion: string;
   jobCount: number;

@@ -84,6 +84,9 @@ _Avoid_: Career-page scraping, job scraping
 A durable, canonical ATS source record that accumulates discovery provenance, possible company matches, identity evidence, and verification attempts. Its workflow state is derived from those facts rather than stored as a mutable label.
 _Avoid_: Candidate source, verified source
 
+**Board-verified source**:
+A Greenhouse, Lever, Ashby, or Recruitee board admitted on the provider's own identity: the board answers with a valid, non-empty structured payload, and its name comes from the provider (Greenhouse company name) or, failing that, the board token. It carries `identityEvidence: "provider_board"` and no `companyDomain`, so the company website is unconfirmed and every consumer can label it as such. Board-verified sources still only ever link to postings on the provider's own host; they never make a claim about a company website. Workday is excluded from this tier because its crawls are expensive.
+
 **Verification-ready evidence**:
 Identity evidence strong enough to send a matched lead to live verification. Weak name, token, domain, and search matches never accumulate into verification-ready evidence. Lever and Ashby specifically require provider-structured identity or a safely replayed company-owned redirect.
 _Avoid_: Confidence score, corroborating guesses

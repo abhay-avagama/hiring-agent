@@ -118,6 +118,16 @@ Candidate example:
 }
 ```
 
+## Board-verified sources
+
+Discovery finds far more boards than company datasets can identify. A board with no known company website can still be admitted on the provider's own identity:
+
+```sh
+bun run src/cli.ts sources verify-boards data/enrichment-leads.json --limit 500 --concurrency 12 --report .openings/verify-boards-report.json
+```
+
+It takes every Greenhouse, Lever, Ashby, or Recruitee lead in the registry that is not already in the catalog and not cooling down after a failure, probes its structured endpoint, and admits boards that answer with a valid, non-empty payload. The name comes from the provider where it exposes one (Greenhouse), otherwise from the best company match in the registry, otherwise from the board token. Entries carry `identityEvidence: "provider_board"` and no `companyDomain`. Outcomes are written back to the registry so failed boards wait 30 days before another probe. Workday boards are excluded from this tier because their crawls are expensive; they stay on the company-identity path.
+
 ## Expand the corpus
 
 Run the complete country campaign against a local Markdown list of company career-page links:
