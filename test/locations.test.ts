@@ -27,4 +27,7 @@ test("US state codes in City, ST locations are states, not countries", () => {
   expect(classifyJob(job("Berlin, Germany")).eligibleCountries).toEqual(["DE"]);
   expect(classifyJob(job("Toronto, ON, Canada")).eligibleCountries).toEqual(["CA"]);
   expect(classifyJob(job("Remote - IN")).eligibleCountries).toEqual(["IN"]);
+  expect(classifyJob(job("IN-INDIANAPOLIS, 220 VIRGINIA AVE")).eligibleCountries).toEqual(["US"]);
+  expect(classifyJob(job("CA-Los Angeles")).eligibleCountries).toEqual(["US"]);
+  expect(classifyJob(job("IN-Bengaluru")).eligibleCountries).toEqual(["IN"]);
 });
