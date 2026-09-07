@@ -71,3 +71,16 @@ test("newer higher-trust evidence supersedes an older permanent rejection", () =
   expect(deriveLeadState({ ...rejected, identityEvidence: [...rejected.identityEvidence, { companyName: "Acme", companyDomain: "acme.test", kind: "company_redirect", reference: "https://acme.test/jobs", observedAt: "2026-08-03T00:00:00.000Z" }] })).toBe("evidence_ready");
   expect(deriveLeadState({ ...rejected, attempts: [{ ...rejected.attempts[0]!, category: "no_country_jobs" }], identityEvidence: [...rejected.identityEvidence, { companyName: "Acme", companyDomain: "acme.test", kind: "company_redirect", reference: "https://acme.test/jobs", observedAt: "2026-08-03T00:00:00.000Z" }] })).toBe("rejected");
 });
+
+test("merging a lead seen again under a differently-cased slug keeps its original url and token", async () => {
+  const { mkdtemp, readFile, writeFile } = await import("node:fs/promises"); const { tmpdir } = await import("node:os"); const { join } = await import("node:path");
+  const { mergeEnrichmentLeads, readEnrichmentRegistry } = await import("../src/enrichment-registry.ts");
+  const dir = await mkdtemp(join(tmpdir(), "registry-")); const path = join(dir, "leads.json");
+  const lead = (token: string, url: string) => ({ sourceKey: "ashby:adaptive", sourceUrl: url, ats: "ashby" as const, token, discoveredFrom: [{ channel: "dataset" as const, reference: "x" }], companyMatches: [], identityEvidence: [], attempts: [] });
+  await writeFile(path, JSON.stringify({ version: 1, updatedAt: "2026-09-01T00:00:00.000Z", leads: [lead("adaptive", "https://jobs.ashbyhq.com/adaptive")] }));
+  await mergeEnrichmentLeads(path, [lead("Adaptive", "https://jobs.ashbyhq.com/Adaptive")]);
+  const registry = await readEnrichmentRegistry(path);
+  expect(registry.leads).toHaveLength(1);
+  expect(registry.leads[0]).toMatchObject({ token: "adaptive", sourceUrl: "https://jobs.ashbyhq.com/adaptive" });
+  expect((await readFile(path, "utf8")).includes("/Adaptive")).toBe(false);
+});

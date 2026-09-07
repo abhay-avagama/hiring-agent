@@ -93,7 +93,8 @@ export function transientAttempt(attemptedAt: Date, consecutiveFailures: number,
 function mergeLead(left: EnrichmentLead, right: EnrichmentLead): EnrichmentLead {
   return canonicalLead({
     ...left,
-    sourceUrl: right.sourceUrl,
+    // Keep the first-seen URL: it agrees with the token, while a later sighting may differ only in slug case.
+    sourceUrl: left.sourceUrl,
     discoveredFrom: unique([...left.discoveredFrom, ...right.discoveredFrom]),
     companyMatches: unique([...left.companyMatches, ...right.companyMatches]),
     identityEvidence: unique([...left.identityEvidence, ...right.identityEvidence]),
