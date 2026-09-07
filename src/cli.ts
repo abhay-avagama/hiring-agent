@@ -348,7 +348,7 @@ function parseCommonCrawlDiscovery(args: string[]) {
     else if (arg === "--exclude-token") { const value = args[++index]?.trim(); if (!value || !/^[a-z0-9-]+$/i.test(value)) return "--exclude-token requires an ATS token"; excludeTokens.push(value.toLowerCase()); }
     else return `Unknown option: ${arg}`;
   }
-  if ((indexRecordLimit !== undefined || sampleTokenLimit !== undefined || excludeTokens.length || registryPath === undefined) && provider !== "recruitee") return "bounded report-only discovery requires --provider recruitee";
+  if ((sampleTokenLimit !== undefined || excludeTokens.length || registryPath === undefined) && provider !== "recruitee") return "bounded report-only discovery requires --provider recruitee";
   if (provider === "recruitee" && (!indexUrl || indexRecordLimit === undefined || sampleTokenLimit === undefined || !reportOnly)) return "--provider recruitee requires --index-url, --index-record-limit, --sample-token-limit, and --report-only";
   if (provider === "recruitee" && !underOpenings(report)) return "bounded Recruitee discovery --report must be under .openings";
   if (sampleTokenLimit !== undefined && indexRecordLimit !== undefined && sampleTokenLimit > indexRecordLimit) return "--sample-token-limit cannot exceed --index-record-limit";
