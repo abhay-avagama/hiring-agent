@@ -104,8 +104,8 @@ function detectRegions(location: string, description: string): string[] {
 /** US state and district postal codes. Many collide with ISO country codes (IN, CA, DE, CO, GA, ID, IL, LA, MA, MD, MO, MT, NE, PA, SC, SD, TN, VA). */
 const US_STATE_CODES = new Set(["AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY", "DC"]);
 const US_CITY_STATE = /,\s*([A-Z]{2})(?=\s*(?:$|,|\d{5}|\(|\/|-))/g;
-/** Workday's "ST-CITY, street" shape, e.g. "IN-INDIANAPOLIS, 220 VIRGINIA AVE". */
-const US_STATE_PREFIX = /^([A-Z]{2})-(?=[A-Za-z])/;
+/** Workday's "ST-CITY, street" and "ST - City" shapes, e.g. "IN-INDIANAPOLIS, 220 VIRGINIA AVE" or "IN - Indianapolis". */
+const US_STATE_PREFIX = /^([A-Z]{2})\s*-\s*(?=[A-Za-z])/;
 
 function detectCountries(location: string): string[] {
   const byName: string[] = [];

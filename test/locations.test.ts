@@ -30,4 +30,7 @@ test("US state codes in City, ST locations are states, not countries", () => {
   expect(classifyJob(job("IN-INDIANAPOLIS, 220 VIRGINIA AVE")).eligibleCountries).toEqual(["US"]);
   expect(classifyJob(job("CA-Los Angeles")).eligibleCountries).toEqual(["US"]);
   expect(classifyJob(job("IN-Bengaluru")).eligibleCountries).toEqual(["IN"]);
+  expect(classifyJob(job("IN - Indianapolis")).eligibleCountries).toEqual(["US"]);
+  expect(classifyJob(job("IN - Pune")).eligibleCountries).toEqual(["IN"]);
+  expect(classifyJob(job("IN-Maharashtra-Pune-7th-Floor")).eligibleCountries).toEqual(["IN"]);
 });
