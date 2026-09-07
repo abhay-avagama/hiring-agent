@@ -52,7 +52,7 @@ test("Workable widget jobs normalise with remote flags and load descriptions fro
 });
 
 test("Breezy verbose listing carries descriptions and the company name", async () => {
-  const fetcher = (async () => Response.json([{ id: "p1", friendly_id: "p1-engineer", name: "Engineer", url: "https://acme.breezy.hr/p/p1-engineer", published_date: "2026-09-01T00:00:00Z", description: "<p>Ship &amp; learn</p>", company: { name: "Acme Ltd" }, location: { name: "Pune, India", city: "Pune", country: { name: "India", id: "IN" }, is_remote: false } }])) as typeof fetch;
+  const fetcher = (async () => Response.json([{ id: "p1", friendly_id: "p1-engineer", name: "Engineer", url: "https://acme.breezy.hr/p/p1-engineer", published_date: "2026-09-01T00:00:00Z", description: "<p>Ship &amp; learn</p>", company: { name: "Acme Ltd" }, location: { name: "Pune, India", city: "Pune", country: { name: "India", id: "IN" }, is_remote: false } }])) as unknown as typeof fetch;
   const jobs = await fetchSourceJobs(company("breezy", "acme"), fetcher);
   expect(jobs[0]).toMatchObject({ id: "breezy:acme:p1", title: "Engineer", location: "Pune, India", description: "Ship & learn", eligibleCountries: ["IN"] });
 });

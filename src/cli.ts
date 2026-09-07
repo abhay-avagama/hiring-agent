@@ -1,3 +1,4 @@
+import { ALL_PROVIDERS, type Ats } from "./types.ts";
 #!/usr/bin/env bun
 import { readFile } from "node:fs/promises";
 import { relative, resolve } from "node:path";
@@ -28,7 +29,7 @@ Usage:
   openings sources discover FEED.json [--country CODE] [--registry FILE] [--output FILE] [--catalog FILE] [--report FILE]
   openings sources discover-yc --country CODE [--registry FILE] [--output FILE] [--catalog FILE] [--report FILE]
   openings sources seed-companies-yc --country CODE [--output FILE]
-  openings sources discover-common-crawl [--country CODE] [--provider recruitee] [--index-record-limit N] [--sample-token-limit N] [--exclude-token TOKEN] [--report-only] [--registry FILE] [--output FILE] [--report FILE] [--index-url URL]
+  openings sources discover-common-crawl [--country CODE] [--provider NAME] [--index-record-limit N] [--sample-token-limit N] [--exclude-token TOKEN] [--report-only] [--registry FILE] [--output FILE] [--report FILE] [--index-url URL]
   openings sources enrich COMPANIES.json [--companies FILE]... [--evidence-kind authoritative_dataset|company_registry] [--registry FILE] [--output FILE] [--report FILE]
   openings sources trace-careers COMPANIES.json [--country CODE] [--registry FILE] [--common-crawl-report FILE] [--search-key-env NAME] [--output FILE] [--catalog FILE] [--report FILE]
   openings sources probe-jobposting COMPANIES.md [--catalog FILE] [--report FILE] [--company-limit 10|20]
@@ -318,7 +319,7 @@ function parseCommonCrawlDiscovery(args: string[]) {
   let country: string | undefined;
   let indexUrl: string | undefined;
   let registryPath: string | undefined = "data/enrichment-leads.json";
-  let provider: "recruitee" | undefined;
+  let provider: Ats | undefined;
   let indexRecordLimit: number | undefined;
   let sampleTokenLimit: number | undefined;
   const excludeTokens: string[] = [];
@@ -331,7 +332,7 @@ function parseCommonCrawlDiscovery(args: string[]) {
     else if (arg === "--index-url") { indexUrl = args[++index]; if (!indexUrl) return "--index-url requires a URL"; try { new URL(indexUrl); } catch { return "--index-url requires a valid URL"; } }
     else if (arg === "--registry") { if (reportOnly) return "Use either --registry or --report-only, not both"; registryPath = args[++index] ?? ""; if (!registryPath) return "--registry requires a file"; }
     else if (arg === "--report-only") { if (registryPath !== "data/enrichment-leads.json") return "Use either --registry or --report-only, not both"; reportOnly = true; registryPath = undefined; }
-    else if (arg === "--provider") { const value = args[++index]; if (value !== "recruitee") return "--provider currently supports only recruitee"; provider = value; }
+    else if (arg === "--provider") { const value = args[++index]; if (!value || !(ALL_PROVIDERS as readonly string[]).includes(value)) return `--provider must be one of ${ALL_PROVIDERS.join(", ")}`; provider = value as Ats; }
     else if (arg === "--index-record-limit") { indexRecordLimit = Number(args[++index]); if (!Number.isInteger(indexRecordLimit) || indexRecordLimit < 1 || indexRecordLimit > 2_000) return "--index-record-limit must be an integer from 1 to 2000"; }
     else if (arg === "--sample-token-limit") { sampleTokenLimit = Number(args[++index]); if (!Number.isInteger(sampleTokenLimit) || sampleTokenLimit < 1 || sampleTokenLimit > 60) return "--sample-token-limit must be an integer from 1 to 60"; }
     else if (arg === "--exclude-token") { const value = args[++index]?.trim(); if (!value || !/^[a-z0-9-]+$/i.test(value)) return "--exclude-token requires an ATS token"; excludeTokens.push(value.toLowerCase()); }
