@@ -101,12 +101,26 @@ function detectRegions(location: string, description: string): string[] {
   return [...new Set([...fromLocation, ...fromDescription])];
 }
 
+/** US state and district postal codes. Many collide with ISO country codes (IN, CA, DE, CO, GA, ID, IL, LA, MA, MD, MO, MT, NE, PA, SC, SD, TN, VA). */
+const US_STATE_CODES = new Set(["AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY", "DC"]);
+const US_CITY_STATE = /,\s*([A-Z]{2})(?=\s*(?:$|,|\d{5}|\(|\/|-))/g;
+
 function detectCountries(location: string): string[] {
-  const matches: string[] = [];
+  const byName: string[] = [];
+  const byCode: string[] = [];
   for (const rule of countryRules()) {
-    if (rule.location.test(location) || rule.codeLocation.test(location)) matches.push(rule.code);
+    if (rule.location.test(location)) byName.push(rule.code);
+    else if (rule.codeLocation.test(location)) byCode.push(rule.code);
   }
-  return matches;
+  // "Indianapolis, IN" is Indiana, not India: a bare code in the US "City, ST" position is a state unless a country name
+  // or a known Indian place says otherwise.
+  // Case matters: "Berlin, de" is a lowercase country code, "Gary, IN" is a state.
+  const stateCodes = [...location.matchAll(US_CITY_STATE)].map((match) => match[1]!).filter((code) => US_STATE_CODES.has(code));
+  if (stateCodes.length && byName.length === 0 && !INDIA_PATTERN.test(location)) {
+    return [...new Set(["US", ...byCode.filter((code) => !US_STATE_CODES.has(code))])];
+  }
+  if (byName.includes("US")) return [...new Set([...byName, ...byCode.filter((code) => !US_STATE_CODES.has(code))])];
+  return [...new Set([...byName, ...byCode])];
 }
 
 function detectEligibleCountries(description: string): string[] {

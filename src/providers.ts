@@ -65,7 +65,7 @@ const smartrecruiters: ProviderSpec = {
   normalize(company, job) {
     const loc = isRecord(job.location) ? job.location : {};
     const country = str(loc.country);
-    const location = str(loc.fullLocation) || [str(loc.city), str(loc.region), country.length === 2 ? country.toUpperCase() : country].filter(Boolean).join(", ") || "Unspecified";
+    const location = str(loc.fullLocation) || [str(loc.city), str(loc.region), countryLabel(country)].filter(Boolean).join(", ") || "Unspecified";
     const remote = loc.remote === true;
     return classifyJob({
       id: `smartrecruiters:${company.slug}:${str(job.id)}`, company: company.name, title: str(job.name), location,
@@ -168,7 +168,7 @@ const freshteam: ProviderSpec = {
   payloadVersion: () => "freshteam-widget:v1",
   normalize(company, job) {
     const branch = isRecord(job.branch) ? job.branch : {};
-    const location = [str(branch.city), str(branch.state), str(branch.country_code).toUpperCase()].filter(Boolean).join(", ") || (job.remote === true ? "Remote" : "Unspecified");
+    const location = [str(branch.city), str(branch.state), countryLabel(str(branch.country_code))].filter(Boolean).join(", ") || (job.remote === true ? "Remote" : "Unspecified");
     const remote = job.remote === true;
     return classifyJob({
       id: `freshteam:${company.slug}:${str(job.unique_id) || str(job.id)}`, company: company.name, title: str(job.title), location,
@@ -194,6 +194,14 @@ export function resolveProviderSource(value: string): { ats: Ats; token: string;
     if (token) return { ats: spec.ats, token, canonicalSourceUrl: spec.canonicalUrl(token), structuredEndpoint: spec.endpoint(token) };
   }
   return null;
+}
+
+const regionNames = new Intl.DisplayNames(["en"], { type: "region" });
+/** ISO code to English name (US -> United States); anything that is not a two-letter code passes through. */
+export function countryLabel(value: string): string {
+  const code = value.trim().toUpperCase();
+  if (!/^[A-Z]{2}$/.test(code)) return value.trim();
+  try { const name = regionNames.of(code); return name && name !== code ? name : value.trim(); } catch { return value.trim(); }
 }
 
 function validToken(value: string | undefined): string | null {

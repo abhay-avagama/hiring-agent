@@ -82,6 +82,6 @@ test("Freshteam widget jobs carry branch locations, descriptions, and provider-h
   const fetcher = (async () => Response.json({ jobs: [{ id: 1, unique_id: "hSxg4m", title: "Sales Specialist", description: "<p>Sell &amp; grow</p>", remote: false, branch_id: 9, deleted: false, created_at: "2026-09-01T00:00:00.000Z" }, { id: 2, unique_id: "gone", title: "Old", description: "", deleted: true, branch_id: 9 }], branches: [{ id: 9, city: "Delhi", state: "Delhi", country_code: "in" }], job_roles: [] })) as unknown as typeof fetch;
   const jobs = await fetchSourceJobs(company("freshteam", "tentimes"), fetcher);
   expect(jobs).toHaveLength(1);
-  expect(jobs[0]).toMatchObject({ id: "freshteam:acme:hSxg4m", title: "Sales Specialist", location: "Delhi, Delhi, IN", description: "Sell & grow", url: "https://tentimes.freshteam.com/jobs/hSxg4m", eligibleCountries: ["IN"] });
+  expect(jobs[0]).toMatchObject({ id: "freshteam:acme:hSxg4m", title: "Sales Specialist", location: "Delhi, Delhi, India", description: "Sell & grow", url: "https://tentimes.freshteam.com/jobs/hSxg4m", eligibleCountries: ["IN"] });
   expect(resolveSource("https://tentimes.freshteam.com/jobs/hSxg4m")).toMatchObject({ ats: "freshteam", token: "tentimes", structuredEndpoint: "https://tentimes.freshteam.com/hire/widgets/jobs.json" });
 });
