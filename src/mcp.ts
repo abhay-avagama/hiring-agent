@@ -95,6 +95,7 @@ export async function serve() {
       }
     }
   }
+  await runtime.usage?.flush();
 }
 
 if (import.meta.main) await serve();
