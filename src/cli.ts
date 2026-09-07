@@ -343,7 +343,7 @@ function parseCommonCrawlDiscovery(args: string[]) {
     else if (arg === "--registry") { if (reportOnly) return "Use either --registry or --report-only, not both"; registryPath = args[++index] ?? ""; if (!registryPath) return "--registry requires a file"; }
     else if (arg === "--report-only") { if (registryPath !== "data/enrichment-leads.json") return "Use either --registry or --report-only, not both"; reportOnly = true; registryPath = undefined; }
     else if (arg === "--provider") { const value = args[++index]; if (!value || !(ALL_PROVIDERS as readonly string[]).includes(value)) return `--provider must be one of ${ALL_PROVIDERS.join(", ")}`; provider = value as Ats; }
-    else if (arg === "--index-record-limit") { indexRecordLimit = Number(args[++index]); if (!Number.isInteger(indexRecordLimit) || indexRecordLimit < 1 || indexRecordLimit > 2_000) return "--index-record-limit must be an integer from 1 to 2000"; }
+    else if (arg === "--index-record-limit") { indexRecordLimit = Number(args[++index]); if (!Number.isInteger(indexRecordLimit) || indexRecordLimit < 1 || indexRecordLimit > 100_000) return "--index-record-limit must be an integer from 1 to 100000"; }
     else if (arg === "--sample-token-limit") { sampleTokenLimit = Number(args[++index]); if (!Number.isInteger(sampleTokenLimit) || sampleTokenLimit < 1 || sampleTokenLimit > 60) return "--sample-token-limit must be an integer from 1 to 60"; }
     else if (arg === "--exclude-token") { const value = args[++index]?.trim(); if (!value || !/^[a-z0-9-]+$/i.test(value)) return "--exclude-token requires an ATS token"; excludeTokens.push(value.toLowerCase()); }
     else return `Unknown option: ${arg}`;
