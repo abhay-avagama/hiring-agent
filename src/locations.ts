@@ -118,6 +118,9 @@ function detectEligibleCountries(description: string): string[] {
   return matches;
 }
 
+/** Codes the CLDR region table resolves to a name but that are not current ISO 3166-1 countries: deprecated aliases (DD = Germany, UK = United Kingdom) and non-country groupings. */
+const NON_COUNTRY_CODES = new Set(["AC", "AN", "BU", "CP", "CS", "CT", "DD", "DG", "DY", "EA", "EU", "EZ", "FQ", "FX", "HV", "IC", "JT", "MI", "NH", "NQ", "NT", "PC", "PU", "PZ", "QO", "RH", "SU", "TA", "TP", "UK", "UN", "VD", "WK", "XA", "XB", "XK", "YD", "YU", "ZR", "ZZ"]);
+
 let cachedCountryNames: Array<[string, string]> | undefined;
 function countryNames(): Array<[string, string]> {
   if (cachedCountryNames) return cachedCountryNames;
@@ -126,6 +129,7 @@ function countryNames(): Array<[string, string]> {
   for (let first = 65; first <= 90; first += 1) {
     for (let second = 65; second <= 90; second += 1) {
       const code = String.fromCharCode(first, second);
+      if (NON_COUNTRY_CODES.has(code)) continue;
       const name = display.of(code);
       if (name && name !== code && !name.startsWith("Unknown Region")) names.push([code, name]);
     }
@@ -153,7 +157,7 @@ function countryRules(): CountryRule[] {
   cachedCountryRules = countryMatchers().map(([code, country]) => ({
     code,
     location: new RegExp(country, "i"),
-    codeLocation: new RegExp(`(?:^|[,(/-]\\s*)${code}(?=\\s*(?:$|[,)/-]))`, "i"),
+    codeLocation: new RegExp(`(?:^|[,(/-]\\s*)${code === "GB" ? "(?:GB|UK)" : code}(?=\\s*(?:$|[,)/-]))`, "i"),
     exclusion: new RegExp(`\\b(not available|unavailable|excluding|except|cannot hire|can't hire|unable to hire|do not hire|does not hire)\\b.{0,80}(?:${country})|(?:${country}).{0,40}\\b(excluded|not eligible|not supported)\\b`, "i"),
     eligibility: new RegExp(`\\b(open to|hiring|candidates?|applicants?|eligible|remote (?:in|from)|work (?:in|from)|based in|available (?:in|to))\\b.{0,80}(?:${country})`, "i"),
   }));
