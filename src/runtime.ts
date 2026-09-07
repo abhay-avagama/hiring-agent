@@ -1,6 +1,8 @@
 import { join } from "node:path";
 import { fetchSourceJobs } from "./catalog.ts";
 import { createCrawlReporter, fetchSeedSnapshot, resolveAggregatorUrl } from "./crawl-reporting.ts";
+import { createUsageReporter, type UsageReporter } from "./usage.ts";
+import { VERSION } from "./version.ts";
 import { catalog as liveCatalog, companies } from "./index.ts";
 import { createLocalJobs } from "./local-jobs.ts";
 import { createJobRecommender } from "./job-recommendations.ts";
@@ -16,6 +18,7 @@ export function createRuntime(options: { dataDir?: string; concurrency?: number;
   const store = createFileSnapshotStore(join(dataDir, "snapshot.json"));
   const aggregatorUrl = resolveAggregatorUrl(process.env.OPENINGS_AGGREGATOR_URL);
   const onCrawled = aggregatorUrl ? createCrawlReporter({ url: aggregatorUrl }) : undefined;
+  const usage: UsageReporter | undefined = aggregatorUrl && (process.env.OPENINGS_USAGE ?? "on").toLowerCase() !== "off" ? createUsageReporter({ url: aggregatorUrl, dataDir, version: VERSION }) : undefined;
   const local = createLocalJobs({
     sources: companies,
     store,
@@ -47,5 +50,5 @@ export function createRuntime(options: { dataDir?: string; concurrency?: number;
   });
   const analyzer = createJobFitAnalyzer({ getJob: getSelectedJob });
   const optimizer = createResumeOptimizer({ analyzeJobFit: analyzer.analyze });
-  return { ...local, prepareJobSearch: preparation.prepare, getJobCoverage: coverage.getCoverage, recommend: recommender.recommend, analyzeJobFit: analyzer.analyze, optimizeResume: optimizer.optimize };
+  return { ...local, prepareJobSearch: preparation.prepare, getJobCoverage: coverage.getCoverage, recommend: recommender.recommend, analyzeJobFit: analyzer.analyze, optimizeResume: optimizer.optimize, usage };
 }

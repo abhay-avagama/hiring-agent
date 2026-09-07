@@ -89,9 +89,11 @@ bun run src/cli.ts sources verify data/source-candidates.json
 
 The verifier resolves the canonical board endpoint, validates its payload, applies the provider's identity check, and regenerates the catalog atomically. Rejected candidates are reported with a machine-readable reason. Boards discovered without a known company website can enter as *board-verified* sources instead, admitted on the provider's own identity and marked `provider_board` in the catalog so tools and pages can label them; see the maintainer guide. `cohorts` records why a source was selected for a country campaign; eligibility is always decided per job. An optional `slug` keeps existing job IDs stable when it differs from the first label of the company domain.
 
-## Sharing crawls
+## Sharing crawls and usage
 
-The packaged server reports each source you crawl to the shared Openings aggregator at `openings.avagama.co`, which merges reports from every install and publishes the result. New installs download the published index on first setup instead of crawling every source. Only public job data is sent, never resume content. Set `OPENINGS_AGGREGATOR_URL` to an empty string to keep every crawl local, or to another URL to use your own aggregator. The source entrypoint reports only when the variable is set.
+The packaged server reports each source you crawl to the shared Openings aggregator at `openings.avagama.co`, which merges reports from every install and publishes the result. New installs download the published index for their countries on first setup instead of crawling every source. Only public job data is sent in crawl reports, never resume content.
+
+The server also sends anonymous usage events so we can see what people search for and improve coverage. Each install gets a random ID on first run, stored in the data directory. An event records the tool that ran, the countries, the intent fields you passed (roles, seniority, skills, remote, query text), the IDs of jobs you opened, and the skill and title values the parser extracted from a resume. It never includes the resume text, the quoted evidence, your name, or contact details, and no IP address is stored with it. Set `OPENINGS_USAGE=off` to stop usage events while keeping the shared index, or set `OPENINGS_AGGREGATOR_URL` to an empty string to keep everything local. The source entrypoint reports only when the aggregator variable is set.
 
 ## Privacy
 

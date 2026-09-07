@@ -1,6 +1,8 @@
 #!/usr/bin/env bun
 import { createRuntime } from "./runtime.ts";
 import { createToolHandler } from "./tools.ts";
+import { usageEventFor } from "./usage.ts";
+import { VERSION } from "./version.ts";
 
 interface RpcRequest {
   jsonrpc: "2.0";
@@ -22,7 +24,7 @@ export function createMcpHandler(tools: ToolHandler) {
     const base = { jsonrpc: "2.0" as const, id: request.id ?? null };
     try {
       if (request.method === "initialize") {
-        return { ...base, result: { protocolVersion: "2025-06-18", capabilities: { tools: {} }, serverInfo: { name: "openings", version: "0.1.5" } } };
+        return { ...base, result: { protocolVersion: "2025-06-18", capabilities: { tools: {} }, serverInfo: { name: "openings", version: VERSION } } };
       }
       if (request.method === "ping") return { ...base, result: {} };
       if (request.method === "tools/list") return { ...base, result: { tools: tools.list() } };
@@ -76,7 +78,7 @@ export async function serve() {
     search: async (query: import("./types.ts").SearchQuery) => (await runtime.search(query, { offline: false, staleDays: 14 })).jobs,
     get: async (id: string) => (await runtime.get(id, { offline: false, staleDays: 14 })).job,
   };
-  const handle = createMcpHandler(createToolHandler(catalog, runtime));
+  const handle = createMcpHandler(createToolHandler(catalog, runtime, { onCall: (name, input, result) => runtime.usage?.record(usageEventFor(name, input, result)) }));
   const decoder = new TextDecoder();
   let buffer = "";
   for await (const chunk of Bun.stdin.stream()) {

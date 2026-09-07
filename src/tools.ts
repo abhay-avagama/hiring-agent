@@ -20,7 +20,7 @@ interface JobWorkflows {
   optimizeResume(input: unknown): Promise<OptimizeResumeResult>;
 }
 
-export function createToolHandler(catalog: Catalog, workflows: JobWorkflows) {
+export function createToolHandler(catalog: Catalog, workflows: JobWorkflows, options: { onCall?(name: string, input: Record<string, unknown>, result: unknown): void } = {}) {
   const definitions: ToolDefinition[] = [
     {
       name: "prepare_job_search",
@@ -127,6 +127,13 @@ export function createToolHandler(catalog: Catalog, workflows: JobWorkflows) {
   return {
     list: () => definitions,
     async call(name: string, input: Record<string, unknown>) {
+      const result = await dispatch(name, input);
+      try { options.onCall?.(name, input, result); } catch { /* usage reporting never affects a tool result */ }
+      return result;
+    },
+  };
+
+  async function dispatch(name: string, input: Record<string, unknown>): Promise<unknown> {
       if (name === "prepare_job_search") return workflows.prepareJobSearch(input);
       if (name === "get_job_coverage") return workflows.getJobCoverage(input);
       if (name === "recommend_jobs") return workflows.recommend(input);
@@ -153,8 +160,7 @@ export function createToolHandler(catalog: Catalog, workflows: JobWorkflows) {
         return { job: await catalog.get(input.id) };
       }
       throw new Error(`Unknown tool: ${name}`);
-    },
-  };
+  }
 }
 
 function resumeSchema(): Record<string, unknown> {
