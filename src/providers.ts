@@ -204,8 +204,9 @@ export function countryLabel(value: string): string {
   try { const name = regionNames.of(code); return name && name !== code ? name : value.trim(); } catch { return value.trim(); }
 }
 
+const RESERVED_TOKENS = new Set(["my-applications", "sign-in", "signin", "login", "register", "privacy", "cookie-policy", "job-alerts", "search"]);
 function validToken(value: string | undefined): string | null {
-  return value && /^[A-Za-z0-9][A-Za-z0-9._-]*$/.test(value) ? value : null;
+  return value && /^[A-Za-z0-9][A-Za-z0-9._-]*$/.test(value) && !RESERVED_TOKENS.has(value.toLowerCase()) ? value : null;
 }
 
 export function plainText(value: string): string {

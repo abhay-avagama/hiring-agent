@@ -227,3 +227,29 @@ test("verifies Lever boards linked from the company's own careers page and rejec
   const foreignPage = await verifyCandidates([candidate("https://evil.test/careers", "https://jobs.lever.co/acme")], options);
   expect(foreignPage.rejected[0]?.reason).toBe("identity_mismatch");
 });
+
+test("verifies a Workday tenant that does not match the company name when the company's own careers page links to it", async () => {
+  const workdayBody = { total: 1, jobPostings: [{ title: "Engineer", externalPath: "/job/Toulouse/Engineer_R1", locationsText: "Toulouse, France" }] };
+  const candidate = {
+    companyName: "Airbus (India)", companyDomain: "airbus.com", sourceUrl: "https://ag.wd3.myworkdayjobs.com/en-US/Airbus",
+    discoveredFrom: { channel: "career_page" as const, reference: "https://www.airbus.com/en/careers" },
+    domainEvidence: { kind: "company_page_link" as const, reference: "https://www.airbus.com/en/careers" },
+  };
+  const options = {
+    fetch: async () => Response.json(workdayBody),
+    resolveHost: async () => ["93.184.216.34"],
+    headTransport: async () => new Response(null, { status: 200 }),
+    pageTransport: async (url: URL) => url.pathname === "/en/careers" ? new Response(`<a href="https://ag.wd3.myworkdayjobs.com/en-US/Airbus">Jobs</a>`, { status: 200 }) : new Response("", { status: 404 }),
+  };
+  const result = await verifyCandidates([candidate], options);
+  expect(result.rejected).toEqual([]);
+  expect(result.verified[0]?.verification.identityEvidence).toBe("company_page_link");
+
+  const unlinked = await verifyCandidates([{ ...candidate, domainEvidence: undefined, discoveredFrom: { channel: "search" as const, reference: "search" } }], options);
+  expect(unlinked.rejected[0]?.reason).toBe("identity_mismatch");
+});
+
+test("SmartRecruiters account pages are not company boards", () => {
+  expect(resolveSource("https://jobs.smartrecruiters.com/my-applications")).toBeNull();
+  expect(resolveSource("https://jobs.smartrecruiters.com/AcmeCorp")?.token).toBe("AcmeCorp");
+});

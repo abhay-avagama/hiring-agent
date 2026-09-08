@@ -1833,5 +1833,85 @@
       "channel": "provider_directory",
       "reference": "https://xite.recruitee.com"
     }
+  },
+  {
+    "companyName": "Dr. Reddy's Laboratories",
+    "companyDomain": "drreddys.com",
+    "sourceUrl": "https://jobs.smartrecruiters.com/my-applications",
+    "cohorts": [
+      "IN"
+    ],
+    "discoveredFrom": {
+      "channel": "career_page",
+      "reference": "https://careers.drreddys.com/"
+    },
+    "domainEvidence": {
+      "kind": "company_page_link",
+      "reference": "https://careers.drreddys.com/"
+    }
+  },
+  {
+    "companyName": "Emlyon Business School",
+    "companyDomain": "em-lyon.com",
+    "sourceUrl": "https://galileo.wd3.myworkdayjobs.com/en-US/emlyon_career_site",
+    "cohorts": [
+      "IN"
+    ],
+    "discoveredFrom": {
+      "channel": "career_page",
+      "reference": "https://em-lyon.com/fr/entreprises/recruter"
+    },
+    "domainEvidence": {
+      "kind": "company_page_link",
+      "reference": "https://em-lyon.com/fr/entreprises/recruter"
+    }
+  },
+  {
+    "companyName": "Airbus (India)",
+    "companyDomain": "airbus.com",
+    "sourceUrl": "https://ag.wd3.myworkdayjobs.com/en-US/Airbus",
+    "cohorts": [
+      "IN"
+    ],
+    "discoveredFrom": {
+      "channel": "career_page",
+      "reference": "https://www.airbus.com/en/careers"
+    },
+    "domainEvidence": {
+      "kind": "company_page_link",
+      "reference": "https://www.airbus.com/en/careers"
+    }
+  },
+  {
+    "companyName": "Covestro (India)",
+    "companyDomain": "covestro.in",
+    "sourceUrl": "https://covestro.wd3.myworkdayjobs.com/en-US/cov_external",
+    "cohorts": [
+      "IN"
+    ],
+    "discoveredFrom": {
+      "channel": "career_page",
+      "reference": "https://www.covestro.com/"
+    },
+    "domainEvidence": {
+      "kind": "company_page_link",
+      "reference": "https://www.covestro.com/"
+    }
+  },
+  {
+    "companyName": "The ePlane Company",
+    "companyDomain": "eplane.ai",
+    "sourceUrl": "https://eplane-team.freshteam.com/jobs",
+    "cohorts": [
+      "IN"
+    ],
+    "discoveredFrom": {
+      "channel": "career_page",
+      "reference": "https://eplane.ai/careers"
+    },
+    "domainEvidence": {
+      "kind": "company_redirect",
+      "reference": "https://eplane.ai/careers"
+    }
   }
 ]

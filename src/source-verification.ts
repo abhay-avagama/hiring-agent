@@ -58,7 +58,8 @@ export async function verifyCandidates(candidates: SourceCandidate[], options: V
       const providerFetch = providerCooldowns.get(source.ats)!.wrap(fetcher);
       try {
         const evidence = await probe(candidate, source, providerFetch, timeoutMs, options.resolveHost, options.headTransport, options.pageTransport);
-        if (!identityMatches(candidate.companyName, candidate.companyDomain, evidence.observedCompanyName, source.token)) {
+        const replayed = evidence.identityEvidence === "company_redirect" || evidence.identityEvidence === "company_page_link";
+        if (!replayed && !identityMatches(candidate.companyName, candidate.companyDomain, evidence.observedCompanyName, source.token)) {
           rejected.push({ index, value: rejection(candidate, "identity_mismatch", `Expected ${candidate.companyName}; observed ${evidence.observedCompanyName}`) });
           continue;
         }
@@ -170,15 +171,16 @@ async function probe(candidate: SourceCandidate, source: ResolvedSource, fetcher
     if (!jobs) throw new VerificationError("invalid_payload", "Payload does not contain the expected jobs array");
     if (jobs.length === 0) throw new VerificationError("empty_board", "Source has no jobs, so identity cannot be verified");
     const providerName = spec ? spec.providerName(jobs, body) : source.ats === "greenhouse" ? majority(jobs.map((job) => stringField(job, "company_name")).filter(Boolean)) : source.ats === "workday" ? workday!.tenant : "";
-    const namedProvider = source.ats === "greenhouse" || source.ats === "workday" || Boolean(spec && providerName);
+    const tenantMatches = source.ats === "workday" && identityMatches(candidate.companyName, candidate.companyDomain, workday!.tenant, source.token);
+    const namedProvider = source.ats === "greenhouse" || tenantMatches || Boolean(spec && providerName);
     const hasDomainLink = !namedProvider && structuredIdentityLinksDomain(jobs, candidate.companyDomain);
     const hasRedirectEvidence = !namedProvider && await verifiedCompanyRedirect(candidate, source, resolveHost, headTransport, timeoutMs);
     const hasPageLink = !namedProvider && !hasDomainLink && !hasRedirectEvidence && await verifiedCompanyPageLink(candidate, source, resolveHost, pageTransport, timeoutMs);
     if (!namedProvider && !hasDomainLink && !hasRedirectEvidence && !hasPageLink) throw new VerificationError("identity_mismatch", `Neither structured identity fields, a verified company redirect, nor a company careers-page link point to ${candidate.companyDomain}`);
-    const observedCompanyName = providerName || candidate.companyName;
+    const observedCompanyName = namedProvider && providerName ? providerName : candidate.companyName;
     return {
       observedCompanyName,
-      identityEvidence: source.ats === "workday" ? "provider_tenant" as const : (providerName ? "provider_company_name" as const : hasDomainLink ? "structured_domain_link" as const : hasRedirectEvidence ? "company_redirect" as const : "company_page_link" as const),
+      identityEvidence: tenantMatches ? "provider_tenant" as const : (namedProvider && providerName ? "provider_company_name" as const : hasDomainLink ? "structured_domain_link" as const : hasRedirectEvidence ? "company_redirect" as const : "company_page_link" as const),
       contentType,
       payloadVersion: spec ? spec.payloadVersion(body) : source.ats === "greenhouse" ? "greenhouse-job-board:v1" : source.ats === "lever" ? "lever-postings:v0" : source.ats === "workday" ? "workday-cxs:v1" : source.ats === "recruitee" ? "recruitee-careers:v1" : `ashby-job-board:${isRecord(body) && typeof body.apiVersion === "string" ? body.apiVersion : "unknown"}`,
       jobCount: source.ats === "workday" && isRecord(body) && typeof body.total === "number" ? body.total : jobs.length,
