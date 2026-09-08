@@ -1,6 +1,7 @@
 import { readFile } from "node:fs/promises";
 import { atomicJson } from "./atomic-file.ts";
 import { providerSpec } from "./providers.ts";
+import { mergeEnrichmentLeads, type EnrichmentLead } from "./enrichment-registry.ts";
 import type { SourceCandidate } from "./types.ts";
 
 /**
@@ -8,11 +9,12 @@ import type { SourceCandidate } from "./types.ts";
  * One fetch per tenant turns a host list into verifiable candidates with the company name and, when Keka exposes it,
  * the company's own website as the domain to verify against.
  */
-export async function kekaTenantCandidates(hostsPath: string, outputPath: string, options: { fetcher?: typeof fetch; concurrency?: number; timeoutMs?: number } = {}): Promise<{ hosts: number; candidates: number; failed: number }> {
+export async function kekaTenantCandidates(hostsPath: string, outputPath: string, options: { fetcher?: typeof fetch; concurrency?: number; timeoutMs?: number; registryPath?: string } = {}): Promise<{ hosts: number; candidates: number; leads: number; failed: number }> {
   const fetcher = options.fetcher ?? globalThis.fetch;
   const hosts = [...new Set((await readFile(hostsPath, "utf8")).split(/\r?\n/).map((line) => line.trim().toLowerCase()).filter((line) => /^[a-z0-9-]+\.keka\.com$/.test(line)))];
   const spec = providerSpec("keka")!;
   const candidates: SourceCandidate[] = [];
+  const leads: EnrichmentLead[] = [];
   let failed = 0;
   let cursor = 0;
   async function worker() {
@@ -26,14 +28,19 @@ export async function kekaTenantCandidates(hostsPath: string, outputPath: string
         if (!org) { failed += 1; continue; }
         const info = await spec.companyInfo!(`${tenant}/${org}`, get);
         if (!info.name) { failed += 1; continue; }
-        candidates.push({
-          companyName: info.name, companyDomain: info.website ?? host, sourceUrl: spec.endpoint(`${tenant}/${org}`), cohorts: ["IN"],
-          discoveredFrom: { channel: "provider_directory", reference: `https://${host}/careers` },
-        });
+        const token = `${tenant}/${org}`;
+        const sourceUrl = spec.endpoint(token);
+        if (info.website) {
+          candidates.push({ companyName: info.name, companyDomain: info.website, sourceUrl, cohorts: ["IN"], discoveredFrom: { channel: "provider_directory", reference: `https://${host}/careers` } });
+        } else {
+          // No company website to verify against: the board tier can still admit it on the provider's own identity.
+          leads.push({ sourceKey: `keka:${token.toLowerCase()}`, sourceUrl, ats: "keka", token, discoveredFrom: [{ channel: "provider_directory", reference: `https://${host}/careers` }], companyMatches: [], identityEvidence: [], attempts: [] });
+        }
       } catch { failed += 1; }
     }
   }
   await Promise.all(Array.from({ length: Math.max(1, options.concurrency ?? 6) }, worker));
   await atomicJson(outputPath, candidates);
-  return { hosts: hosts.length, candidates: candidates.length, failed };
+  if (options.registryPath && leads.length) await mergeEnrichmentLeads(options.registryPath, leads);
+  return { hosts: hosts.length, candidates: candidates.length, leads: leads.length, failed };
 }

@@ -253,3 +253,17 @@ test("SmartRecruiters account pages are not company boards", () => {
   expect(resolveSource("https://jobs.smartrecruiters.com/my-applications")).toBeNull();
   expect(resolveSource("https://jobs.smartrecruiters.com/AcmeCorp")?.token).toBe("AcmeCorp");
 });
+
+test("a Keka tenant whose portal names the company website is company-verified even when the name and domain do not match by heuristic", async () => {
+  const org = "24040a7e-a7c5-47a5-9cd5-019962c66385";
+  const fetcher = (async (input: string | URL | Request) => {
+    const url = String(input);
+    if (url.endsWith("/careerportalinfo")) return Response.json({ name: "ABANS GROUP", companyWebsite: "https://www.abansholdings.com/" });
+    return Response.json([{ id: 1, title: "Analyst", jobLocations: [{ city: "Mumbai", countryCode: "IN" }], publishedOn: "2026-09-01T00:00:00Z" }]);
+  }) as unknown as typeof fetch;
+  const result = await verifyCandidates([{ companyName: "ABANS GROUP", companyDomain: "abansholdings.com", sourceUrl: `https://abans.keka.com/careers/api/embedjobs/default/active/${org}`, discoveredFrom: { channel: "provider_directory", reference: "https://abans.keka.com/careers" } }], { fetch: fetcher });
+  expect(result.rejected).toEqual([]);
+  expect(result.verified[0]).toEqual(expect.objectContaining({ ats: "keka", companyDomain: "abansholdings.com", verification: expect.objectContaining({ identityEvidence: "structured_domain_link", observedCompanyName: "ABANS GROUP", jobCount: 1 }) }));
+  const other = await verifyCandidates([{ companyName: "Someone Else", companyDomain: "elsewhere.test", sourceUrl: `https://abans.keka.com/careers/api/embedjobs/default/active/${org}`, discoveredFrom: { channel: "provider_directory", reference: "https://abans.keka.com/careers" } }], { fetch: fetcher });
+  expect(other.rejected[0]?.reason).toBe("identity_mismatch");
+});

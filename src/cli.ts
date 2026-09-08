@@ -40,7 +40,7 @@ Usage:
   openings sources probe-jobposting COMPANIES.md [--catalog FILE] [--report FILE] [--company-limit 10|20]
   openings sources probe-sites SEEDS.json [--sample N] [--limit N] [--concurrency N] [--max-pages N] [--delay-ms N] [--report FILE]
   openings sources admit-sites REPORT.json [--catalog FILE] [--min-postings N]
-  openings sources keka-tenants HOSTS.txt [--output FILE] [--concurrency N]
+  openings sources keka-tenants HOSTS.txt [--output FILE] [--registry FILE] [--concurrency N]
   openings sources prepare-recruitee-round IDENTITIES.json [--catalog FILE] [--artifacts DIR]
   openings sources merge-attempted-round-leads ISOLATED_REGISTRY [--registry FILE]
   openings search [words] [--country CODE|--india] [--location PLACE] [--remote|--onsite]
@@ -137,7 +137,8 @@ export async function run(args: string[]): Promise<number> {
       if (!hostsPath || hostsPath.startsWith("--")) return fail("sources keka-tenants requires a hosts file, one tenant host per line");
       const outputIndex = args.indexOf("--output");
       const concurrencyIndex = args.indexOf("--concurrency");
-      console.log(JSON.stringify(await kekaTenantCandidates(hostsPath, outputIndex >= 0 ? args[outputIndex + 1]! : "data/source-candidates.json", { concurrency: concurrencyIndex >= 0 ? Number(args[concurrencyIndex + 1]) : undefined }), null, 2));
+      const registryIndex = args.indexOf("--registry");
+      console.log(JSON.stringify(await kekaTenantCandidates(hostsPath, outputIndex >= 0 ? args[outputIndex + 1]! : "data/source-candidates.json", { concurrency: concurrencyIndex >= 0 ? Number(args[concurrencyIndex + 1]) : undefined, registryPath: registryIndex >= 0 ? args[registryIndex + 1] : undefined }), null, 2));
       return 0;
     }
     if (rest[0] === "admit-sites") {

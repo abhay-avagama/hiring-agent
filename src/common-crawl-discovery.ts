@@ -71,7 +71,12 @@ export async function discoverCommonCrawlSources(candidatesPath: string, reportP
     query.searchParams.set("collapse", "urlkey");
     query.searchParams.set("fl", "url");
     query.searchParams.set("limit", String(indexRecordLimit));
-    const response = await fetcher(query);
+    let response = await fetcher(query);
+    for (let attempt = 1; !response.ok && response.status >= 500 && attempt <= 3; attempt += 1) { // the index server sheds load with 502s; back off and retry
+      await response.body?.cancel().catch(() => undefined);
+      await new Promise((resolve) => setTimeout(resolve, attempt * 5_000));
+      response = await fetcher(query);
+    }
     if (!response.ok) throw new Error(`Common Crawl index returned HTTP ${response.status} for ${pattern}`);
     const lines = (await response.text()).split(/\r?\n/).filter(Boolean).slice(0, indexRecordLimit);
     indexRecordsExamined += lines.length;

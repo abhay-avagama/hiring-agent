@@ -8,7 +8,7 @@ import type { Ats, Company, SourceVerification } from "./types.ts";
 type Fetch = (input: string | URL, init?: RequestInit) => Promise<Response>;
 
 /** Providers whose public board is accepted as identity on its own. Workday boards are identified by tenant; their crawls are heavier but they carry the large employers. */
-export const BOARD_TIER_PROVIDERS: ReadonlySet<Ats> = new Set(["greenhouse", "lever", "ashby", "recruitee", "smartrecruiters", "workable", "breezy", "workday", "freshteam"]);
+export const BOARD_TIER_PROVIDERS: ReadonlySet<Ats> = new Set(["greenhouse", "lever", "ashby", "recruitee", "smartrecruiters", "workable", "breezy", "workday", "freshteam", "keka", "zohorecruit"]);
 
 export interface BoardVerificationOptions {
   fetch?: Fetch;
