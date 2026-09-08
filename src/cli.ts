@@ -20,6 +20,7 @@ import { probeJobPostingJsonLd } from "./jobposting-probe.ts";
 import { probeSites } from "./site-probe.ts";
 import { admitSites } from "./site-admission.ts";
 import { kekaTenantCandidates } from "./keka-tenants.ts";
+import { collectJoobleSignals } from "./jooble-signals.ts";
 import { mergeAttemptedRoundLeads, prepareRecruiteeRoundArtifacts } from "./recruitee-round.ts";
 
 const HELP = `Openings — search public company job boards
@@ -41,6 +42,7 @@ Usage:
   openings sources probe-sites SEEDS.json [--sample N] [--limit N] [--concurrency N] [--max-pages N] [--delay-ms N] [--report FILE]
   openings sources admit-sites REPORT.json [--catalog FILE] [--min-postings N]
   openings sources keka-tenants HOSTS.txt [--output FILE] [--registry FILE] [--concurrency N]
+  openings sources jooble-signals [--location PLACE] [--max-pages N] [--output FILE]   (key from JOOBLE_API_KEY)
   openings sources prepare-recruitee-round IDENTITIES.json [--catalog FILE] [--artifacts DIR]
   openings sources merge-attempted-round-leads ISOLATED_REGISTRY [--registry FILE]
   openings search [words] [--country CODE|--india] [--location PLACE] [--remote|--onsite]
@@ -129,6 +131,15 @@ export async function run(args: string[]): Promise<number> {
       const report = await probeSites(inputPath, reportIndex >= 0 ? args[reportIndex + 1]! : ".openings/site-probe.json", { sample: num("--sample"), limit: num("--limit"), concurrency: num("--concurrency"), maxPages: num("--max-pages"), delayMs: num("--delay-ms") });
       const { sites, ...summary } = report;
       console.log(JSON.stringify({ ...summary, topSites: sites.slice(0, 15) }, null, 2));
+      return 0;
+    }
+    if (rest[0] === "jooble-signals") {
+      const args = rest.slice(1);
+      const apiKey = process.env.JOOBLE_API_KEY;
+      if (!apiKey) return fail("sources jooble-signals requires JOOBLE_API_KEY in the environment");
+      const value = (flag: string) => { const index = args.indexOf(flag); return index >= 0 ? args[index + 1] : undefined; };
+      const report = await collectJoobleSignals(apiKey, value("--output") ?? ".openings/jooble-signals.json", { location: value("--location"), maxPages: value("--max-pages") ? Number(value("--max-pages")) : undefined, delayMs: 500 });
+      console.log(JSON.stringify({ location: report.location, queries: report.queries, jobsSeen: report.jobsSeen, employers: report.employers.length, seeds: report.seeds.length, top: report.employers.slice(0, 10) }, null, 2));
       return 0;
     }
     if (rest[0] === "keka-tenants") {
