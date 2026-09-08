@@ -227,10 +227,15 @@ async function fetchWorkdayJobs(company: Company, fetcher: Fetch, signal?: Abort
     for (const code of observer?.workdayCountries ?? []) {
       const facet = WORKDAY_COUNTRY_FACETS[code.toUpperCase()];
       if (!facet) continue;
-      const head = await page(0, { locationCountry: [facet] });
-      const extra = [head.jobs];
-      for (let offset = limit; offset < Math.min(head.total, WORKDAY_LISTING_CAP); offset += limit) extra.push((await page(offset, { locationCountry: [facet] })).jobs);
-      for (const job of extra.flat()) { const key = workdayJobKey(job); if (!seen.has(key)) { seen.add(key); jobs.push(job); } }
+      // Best effort: some tenants reject the facet with HTTP 400. The unfiltered 2,000 are still a valid crawl, so a failed pass is skipped, not fatal.
+      try {
+        const head = await page(0, { locationCountry: [facet] });
+        const extra = [head.jobs];
+        for (let offset = limit; offset < Math.min(head.total, WORKDAY_LISTING_CAP); offset += limit) extra.push((await page(offset, { locationCountry: [facet] })).jobs);
+        for (const job of extra.flat()) { const key = workdayJobKey(job); if (!seen.has(key)) { seen.add(key); jobs.push(job); } }
+      } catch (error) {
+        if (signal?.aborted) throw error;
+      }
     }
   }
   return jobs.map((job) => normalizeWorkday(company, source, job));

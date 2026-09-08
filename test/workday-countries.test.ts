@@ -37,3 +37,14 @@ test("an uncapped tenant makes no country passes", async () => {
   expect(jobs).toHaveLength(3);
   expect(calls.every((facets) => facets === 0)).toBe(true);
 });
+
+test("a tenant that rejects the country facet keeps its unfiltered listing instead of failing", async () => {
+  const all = Array.from({ length: 2000 }, (_, index) => posting(index, "Minneapolis, MN"));
+  const fetcher = (async (_url: string | URL | Request, init?: RequestInit) => {
+    const body = JSON.parse(String(init?.body)) as { offset: number; limit: number; appliedFacets: Record<string, string[]> };
+    if (body.appliedFacets.locationCountry) return new Response("bad facet", { status: 400 });
+    return Response.json({ total: 2000, jobPostings: all.slice(body.offset, body.offset + body.limit) });
+  }) as unknown as typeof fetch;
+  const jobs = await fetchSourceJobs(company, fetcher, undefined, { workdayCountries: ["IN", "US"] });
+  expect(jobs).toHaveLength(2000);
+});
