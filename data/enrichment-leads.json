@@ -93731,47 +93731,6 @@
       ]
     },
     {
-      "sourceKey": "smartrecruiters:my-applications",
-      "sourceUrl": "https://jobs.smartrecruiters.com/my-applications",
-      "ats": "smartrecruiters",
-      "token": "my-applications",
-      "discoveredFrom": [
-        {
-          "channel": "career_page",
-          "reference": "https://careers.drreddys.com/"
-        },
-        {
-          "channel": "dataset",
-          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-34-index"
-        }
-      ],
-      "companyMatches": [
-        {
-          "companyName": "Dr. Reddy's Laboratories",
-          "companyDomain": "drreddys.com",
-          "method": "normalized_token",
-          "reference": "https://careers.drreddys.com/"
-        }
-      ],
-      "identityEvidence": [
-        {
-          "companyName": "Dr. Reddy's Laboratories",
-          "companyDomain": "drreddys.com",
-          "kind": "company_page_link",
-          "reference": "https://careers.drreddys.com/",
-          "observedAt": "2026-09-08T03:15:50.564Z"
-        }
-      ],
-      "attempts": [
-        {
-          "attemptedAt": "2026-09-07T12:40:22.191Z",
-          "outcome": "permanent_failure",
-          "category": "empty_board",
-          "detail": "Board has no jobs"
-        }
-      ]
-    },
-    {
       "sourceKey": "smartrecruiters:mynrma",
       "sourceUrl": "https://jobs.smartrecruiters.com/MyNRMA",
       "ats": "smartrecruiters",
