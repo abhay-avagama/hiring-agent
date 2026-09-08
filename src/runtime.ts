@@ -1,4 +1,6 @@
 import { join } from "node:path";
+import type { SnapshotStore } from "./crawler.ts";
+import type { Company, SearchQuery } from "./types.ts";
 import { fetchSourceJobs } from "./catalog.ts";
 import { createCrawlReporter, fetchSeedSnapshot, resolveAggregatorUrl } from "./crawl-reporting.ts";
 import { createUsageReporter, type UsageReporter } from "./usage.ts";
@@ -55,4 +57,26 @@ export function createRuntime(options: { dataDir?: string; concurrency?: number;
   const analyzer = createJobFitAnalyzer({ getJob: getSelectedJob });
   const optimizer = createResumeOptimizer({ analyzeJobFit: analyzer.analyze });
   return { ...local, prepareJobSearch: preparation.prepare, getJobCoverage: coverage.getCoverage, recommend: recommender.recommend, analyzeJobFit: analyzer.analyze, optimizeResume: optimizer.optimize, usage };
+}
+
+/**
+ * The same workflows over a read-only shared index, for the hosted connector. The store is supplied by the host
+ * (the aggregator's live index), nothing is crawled, and the sources are exactly those the store holds so
+ * preparation reports ready at once. No usage reporter: the host meters by account instead.
+ */
+export function createHostedRuntime(options: { sources: Company[]; store: SnapshotStore; now?: () => Date }) {
+  const readOnly = async () => { throw new Error("The hosted index is read-only; it refreshes from the nightly crawl"); };
+  const local = createLocalJobs({ sources: options.sources, store: options.store, fetchJobs: readOnly, now: options.now, sourceFreshnessMs: 0 });
+  const noCrawl = async () => ({ startedAt: new Date().toISOString(), finishedAt: new Date().toISOString(), selected: 0, succeeded: 0, failed: [] });
+  const recommender = createJobRecommender({ sources: options.sources, store: options.store, crawl: noCrawl, now: options.now });
+  const coverage = createJobCoverageReader({ sources: options.sources, store: options.store });
+  const preparation = createJobSearchPreparer({ sources: options.sources, store: options.store, crawl: noCrawl, now: options.now, freshnessDays: 3650 });
+  const getSelectedJob = createSelectedJobLookup({ getSnapshotJob: async (id) => (await local.get(id, { offline: true, staleDays: 3650 })).job, getDetailedJob: async () => null });
+  const analyzer = createJobFitAnalyzer({ getJob: getSelectedJob });
+  const optimizer = createResumeOptimizer({ analyzeJobFit: analyzer.analyze });
+  return {
+    search: (query: SearchQuery) => local.search(query, { offline: true, staleDays: 3650 }),
+    get: (id: string) => local.get(id, { offline: true, staleDays: 3650 }),
+    prepareJobSearch: preparation.prepare, getJobCoverage: coverage.getCoverage, recommend: recommender.recommend, analyzeJobFit: analyzer.analyze, optimizeResume: optimizer.optimize,
+  };
 }
