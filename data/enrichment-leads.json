@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-09-08T03:58:19.786Z",
+  "updatedAt": "2026-09-08T04:04:13.804Z",
   "leads": [
     {
       "sourceKey": "ashby:0g",
@@ -10925,6 +10925,13 @@
           "kind": "company_redirect",
           "reference": "https://bolna.ai/careers",
           "observedAt": "2026-09-08T03:58:19.786Z"
+        },
+        {
+          "companyName": "Bolna AI",
+          "companyDomain": "bolna.ai",
+          "kind": "company_redirect",
+          "reference": "https://bolna.ai/careers",
+          "observedAt": "2026-09-08T04:03:34.931Z"
         }
       ],
       "attempts": [
@@ -10954,9 +10961,13 @@
         {
           "attemptedAt": "2026-09-08T03:58:19.786Z",
           "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-09-08T04:03:34.931Z",
+          "outcome": "success"
         }
       ],
-      "promotedAt": "2026-09-08T03:58:19.786Z"
+      "promotedAt": "2026-09-08T04:03:34.931Z"
     },
     {
       "sourceKey": "ashby:bolt-farm",
@@ -69017,9 +69028,13 @@
         {
           "attemptedAt": "2026-09-08T03:58:19.786Z",
           "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-09-08T04:03:34.931Z",
+          "outcome": "success"
         }
       ],
-      "promotedAt": "2026-09-08T03:58:19.786Z"
+      "promotedAt": "2026-09-08T04:03:34.931Z"
     },
     {
       "sourceKey": "greenhouse:accreditedlabs",
@@ -70261,9 +70276,13 @@
         {
           "attemptedAt": "2026-09-08T03:58:19.786Z",
           "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-09-08T04:03:34.931Z",
+          "outcome": "success"
         }
       ],
-      "promotedAt": "2026-09-08T03:58:19.786Z"
+      "promotedAt": "2026-09-08T04:03:34.931Z"
     },
     {
       "sourceKey": "greenhouse:affinitiv",
@@ -72215,9 +72234,13 @@
         {
           "attemptedAt": "2026-09-08T03:58:19.786Z",
           "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-09-08T04:03:34.931Z",
+          "outcome": "success"
         }
       ],
-      "promotedAt": "2026-09-08T03:58:19.786Z"
+      "promotedAt": "2026-09-08T04:03:34.931Z"
     },
     {
       "sourceKey": "greenhouse:alpineinternships",
@@ -73099,9 +73122,13 @@
         {
           "attemptedAt": "2026-09-08T03:58:19.786Z",
           "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-09-08T04:03:34.931Z",
+          "outcome": "success"
         }
       ],
-      "promotedAt": "2026-09-08T03:58:19.786Z"
+      "promotedAt": "2026-09-08T04:03:34.931Z"
     },
     {
       "sourceKey": "greenhouse:ampm",
@@ -78400,9 +78427,13 @@
         {
           "attemptedAt": "2026-09-08T03:58:19.786Z",
           "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-09-08T04:03:34.931Z",
+          "outcome": "success"
         }
       ],
-      "promotedAt": "2026-09-08T03:58:19.786Z"
+      "promotedAt": "2026-09-08T04:03:34.931Z"
     },
     {
       "sourceKey": "greenhouse:bitly",
@@ -78867,9 +78898,13 @@
         {
           "attemptedAt": "2026-09-08T03:58:19.786Z",
           "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-09-08T04:03:34.931Z",
+          "outcome": "success"
         }
       ],
-      "promotedAt": "2026-09-08T03:58:19.786Z"
+      "promotedAt": "2026-09-08T04:03:34.931Z"
     },
     {
       "sourceKey": "greenhouse:blinkhealth",
@@ -81882,9 +81917,13 @@
         {
           "attemptedAt": "2026-09-08T03:58:19.786Z",
           "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-09-08T04:03:34.931Z",
+          "outcome": "success"
         }
       ],
-      "promotedAt": "2026-09-08T03:58:19.786Z"
+      "promotedAt": "2026-09-08T04:03:34.931Z"
     },
     {
       "sourceKey": "greenhouse:capintel",
@@ -82100,9 +82139,13 @@
         {
           "attemptedAt": "2026-09-08T03:58:19.786Z",
           "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-09-08T04:03:34.931Z",
+          "outcome": "success"
         }
       ],
-      "promotedAt": "2026-09-08T03:58:19.786Z"
+      "promotedAt": "2026-09-08T04:03:34.931Z"
     },
     {
       "sourceKey": "greenhouse:deepmind",
@@ -82202,9 +82245,13 @@
         {
           "attemptedAt": "2026-09-08T03:58:19.786Z",
           "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-09-08T04:03:34.931Z",
+          "outcome": "success"
         }
       ],
-      "promotedAt": "2026-09-08T03:58:19.786Z"
+      "promotedAt": "2026-09-08T04:03:34.931Z"
     },
     {
       "sourceKey": "greenhouse:gravitonresearchcapital",
@@ -82304,9 +82351,13 @@
         {
           "attemptedAt": "2026-09-08T03:58:19.786Z",
           "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-09-08T04:03:34.931Z",
+          "outcome": "success"
         }
       ],
-      "promotedAt": "2026-09-08T03:58:19.786Z"
+      "promotedAt": "2026-09-08T04:03:34.931Z"
     },
     {
       "sourceKey": "greenhouse:hackerrank",
@@ -82362,9 +82413,13 @@
         {
           "attemptedAt": "2026-09-08T03:58:19.786Z",
           "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-09-08T04:03:34.931Z",
+          "outcome": "success"
         }
       ],
-      "promotedAt": "2026-09-08T03:58:19.786Z"
+      "promotedAt": "2026-09-08T04:03:34.931Z"
     },
     {
       "sourceKey": "greenhouse:hyreo",
@@ -82420,9 +82475,13 @@
         {
           "attemptedAt": "2026-09-08T03:58:19.786Z",
           "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-09-08T04:03:34.931Z",
+          "outcome": "success"
         }
       ],
-      "promotedAt": "2026-09-08T03:58:19.786Z"
+      "promotedAt": "2026-09-08T04:03:34.931Z"
     },
     {
       "sourceKey": "greenhouse:instawork",
@@ -82478,9 +82537,13 @@
         {
           "attemptedAt": "2026-09-08T03:58:19.786Z",
           "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-09-08T04:03:34.931Z",
+          "outcome": "success"
         }
       ],
-      "promotedAt": "2026-09-08T03:58:19.786Z"
+      "promotedAt": "2026-09-08T04:03:34.931Z"
     },
     {
       "sourceKey": "greenhouse:insurityindia",
@@ -82536,9 +82599,13 @@
         {
           "attemptedAt": "2026-09-08T03:58:19.786Z",
           "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-09-08T04:03:34.931Z",
+          "outcome": "success"
         }
       ],
-      "promotedAt": "2026-09-08T03:58:19.786Z"
+      "promotedAt": "2026-09-08T04:03:34.931Z"
     },
     {
       "sourceKey": "greenhouse:interviewkickstart",
@@ -82648,9 +82715,13 @@
         {
           "attemptedAt": "2026-09-08T03:58:19.786Z",
           "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-09-08T04:03:34.931Z",
+          "outcome": "success"
         }
       ],
-      "promotedAt": "2026-09-08T03:58:19.786Z"
+      "promotedAt": "2026-09-08T04:03:34.931Z"
     },
     {
       "sourceKey": "greenhouse:karya",
@@ -82706,9 +82777,13 @@
         {
           "attemptedAt": "2026-09-08T03:58:19.786Z",
           "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-09-08T04:03:34.931Z",
+          "outcome": "success"
         }
       ],
-      "promotedAt": "2026-09-08T03:58:19.786Z"
+      "promotedAt": "2026-09-08T04:03:34.931Z"
     },
     {
       "sourceKey": "greenhouse:newrelic",
@@ -82768,9 +82843,13 @@
         {
           "attemptedAt": "2026-09-08T03:58:19.786Z",
           "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-09-08T04:03:34.931Z",
+          "outcome": "success"
         }
       ],
-      "promotedAt": "2026-09-08T03:58:19.786Z"
+      "promotedAt": "2026-09-08T04:03:34.931Z"
     },
     {
       "sourceKey": "greenhouse:nomiso",
@@ -82881,6 +82960,13 @@
           "category": "unreachable",
           "detail": "HTTP 404",
           "nextEligibleAt": "2026-09-08T04:02:19.786Z"
+        },
+        {
+          "attemptedAt": "2026-09-08T04:03:34.931Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 404",
+          "nextEligibleAt": "2026-09-08T04:11:34.931Z"
         }
       ],
       "promotedAt": "2026-08-19T18:13:14.222Z"
@@ -82939,9 +83025,13 @@
         {
           "attemptedAt": "2026-09-08T03:58:19.786Z",
           "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-09-08T04:03:34.931Z",
+          "outcome": "success"
         }
       ],
-      "promotedAt": "2026-09-08T03:58:19.786Z"
+      "promotedAt": "2026-09-08T04:03:34.931Z"
     },
     {
       "sourceKey": "greenhouse:robots.txt",
@@ -83023,9 +83113,13 @@
         {
           "attemptedAt": "2026-09-08T03:58:19.786Z",
           "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-09-08T04:03:34.931Z",
+          "outcome": "success"
         }
       ],
-      "promotedAt": "2026-09-08T03:58:19.786Z"
+      "promotedAt": "2026-09-08T04:03:34.931Z"
     },
     {
       "sourceKey": "greenhouse:sigmoid",
@@ -83085,9 +83179,13 @@
         {
           "attemptedAt": "2026-09-08T03:58:19.786Z",
           "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-09-08T04:03:34.931Z",
+          "outcome": "success"
         }
       ],
-      "promotedAt": "2026-09-08T03:58:19.786Z"
+      "promotedAt": "2026-09-08T04:03:34.931Z"
     },
     {
       "sourceKey": "greenhouse:smartsheet",
@@ -83147,9 +83245,13 @@
         {
           "attemptedAt": "2026-09-08T03:58:19.786Z",
           "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-09-08T04:03:34.931Z",
+          "outcome": "success"
         }
       ],
-      "promotedAt": "2026-09-08T03:58:19.786Z"
+      "promotedAt": "2026-09-08T04:03:34.931Z"
     },
     {
       "sourceKey": "greenhouse:sonicwall",
@@ -83205,9 +83307,13 @@
         {
           "attemptedAt": "2026-09-08T03:58:19.786Z",
           "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-09-08T04:03:34.931Z",
+          "outcome": "success"
         }
       ],
-      "promotedAt": "2026-09-08T03:58:19.786Z"
+      "promotedAt": "2026-09-08T04:03:34.931Z"
     },
     {
       "sourceKey": "greenhouse:sumologic",
@@ -83267,9 +83373,13 @@
         {
           "attemptedAt": "2026-09-08T03:58:19.786Z",
           "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-09-08T04:03:34.931Z",
+          "outcome": "success"
         }
       ],
-      "promotedAt": "2026-09-08T03:58:19.786Z"
+      "promotedAt": "2026-09-08T04:03:34.931Z"
     },
     {
       "sourceKey": "greenhouse:tekion",
@@ -83325,6 +83435,13 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "Timed out after 30000ms"
+        },
+        {
+          "attemptedAt": "2026-09-08T04:03:34.931Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 404",
+          "nextEligibleAt": "2026-09-08T04:11:34.931Z"
         }
       ]
     },
@@ -83382,9 +83499,13 @@
         {
           "attemptedAt": "2026-09-08T03:58:19.786Z",
           "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-09-08T04:03:34.931Z",
+          "outcome": "success"
         }
       ],
-      "promotedAt": "2026-09-08T03:58:19.786Z"
+      "promotedAt": "2026-09-08T04:03:34.931Z"
     },
     {
       "sourceKey": "greenhouse:zinnia",
@@ -83440,9 +83561,13 @@
         {
           "attemptedAt": "2026-09-08T03:58:19.786Z",
           "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-09-08T04:03:34.931Z",
+          "outcome": "success"
         }
       ],
-      "promotedAt": "2026-09-08T03:58:19.786Z"
+      "promotedAt": "2026-09-08T04:03:34.931Z"
     },
     {
       "sourceKey": "lever:mindtickle",
@@ -83731,6 +83856,13 @@
           "kind": "provider_structured_domain",
           "reference": "https://transperfect.recruitee.com",
           "observedAt": "2026-09-08T03:58:19.786Z"
+        },
+        {
+          "companyName": "TransPerfect",
+          "companyDomain": "transperfect.com",
+          "kind": "provider_structured_domain",
+          "reference": "https://transperfect.recruitee.com",
+          "observedAt": "2026-09-08T04:03:34.931Z"
         }
       ],
       "attempts": [
@@ -83753,9 +83885,13 @@
         {
           "attemptedAt": "2026-09-08T03:58:19.786Z",
           "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-09-08T04:03:34.931Z",
+          "outcome": "success"
         }
       ],
-      "promotedAt": "2026-09-08T03:58:19.786Z"
+      "promotedAt": "2026-09-08T04:03:34.931Z"
     },
     {
       "sourceKey": "recruitee:xite",
@@ -168262,17 +168398,22 @@
           "kind": "company_page_link",
           "reference": "https://www.airbus.com/en/careers",
           "observedAt": "2026-09-08T03:27:29.315Z"
+        },
+        {
+          "companyName": "Airbus (India)",
+          "companyDomain": "airbus.com",
+          "kind": "company_page_link",
+          "reference": "https://www.airbus.com/en/careers",
+          "observedAt": "2026-09-08T04:04:13.804Z"
         }
       ],
       "attempts": [
         {
-          "attemptedAt": "2026-09-08T03:58:19.786Z",
-          "outcome": "permanent_failure",
-          "category": "identity_mismatch",
-          "detail": "Expected Airbus (India); observed ag",
-          "evidenceRank": 3
+          "attemptedAt": "2026-09-08T04:04:13.804Z",
+          "outcome": "success"
         }
-      ]
+      ],
+      "promotedAt": "2026-09-08T04:04:13.804Z"
     },
     {
       "sourceKey": "workday:aig.wd1.myworkdayjobs.com/aig/aig",
@@ -170047,9 +170188,13 @@
         {
           "attemptedAt": "2026-09-08T03:58:19.786Z",
           "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-09-08T04:03:34.931Z",
+          "outcome": "success"
         }
       ],
-      "promotedAt": "2026-09-08T03:58:19.786Z"
+      "promotedAt": "2026-09-08T04:03:34.931Z"
     },
     {
       "sourceKey": "workday:athenahealth.wd1.myworkdayjobs.com/athenahealth/robots.txt",
@@ -171979,9 +172124,13 @@
         {
           "attemptedAt": "2026-09-08T03:58:19.786Z",
           "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-09-08T04:03:34.931Z",
+          "outcome": "success"
         }
       ],
-      "promotedAt": "2026-09-08T03:58:19.786Z"
+      "promotedAt": "2026-09-08T04:03:34.931Z"
     },
     {
       "sourceKey": "workday:blackrock.wd1.myworkdayjobs.com/blackrock/robots.txt",
@@ -175255,9 +175404,13 @@
         {
           "attemptedAt": "2026-09-08T03:58:19.786Z",
           "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-09-08T04:03:34.931Z",
+          "outcome": "success"
         }
       ],
-      "promotedAt": "2026-09-08T03:58:19.786Z"
+      "promotedAt": "2026-09-08T04:03:34.931Z"
     },
     {
       "sourceKey": "workday:cox.wd1.myworkdayjobs.com/cox/cox_external_career_site_1",
@@ -179236,9 +179389,13 @@
         {
           "attemptedAt": "2026-09-08T03:58:19.786Z",
           "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-09-08T04:03:34.931Z",
+          "outcome": "success"
         }
       ],
-      "promotedAt": "2026-09-08T03:58:19.786Z"
+      "promotedAt": "2026-09-08T04:03:34.931Z"
     },
     {
       "sourceKey": "workday:fractal.wd1.myworkdayjobs.com/fractal/robots.txt",
