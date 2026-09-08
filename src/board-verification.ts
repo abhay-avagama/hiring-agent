@@ -157,7 +157,7 @@ function withAttempt(lead: EnrichmentLead, attempt: LeadAttempt): EnrichmentLead
 }
 
 function uniqueSlug(lead: EnrichmentLead, used: Set<string>): string | null {
-  const raw = lead.ats === "workday" ? (lead.token.split("/")[1] ?? lead.token) : lead.token;
+  const raw = lead.ats === "workday" ? (lead.token.split("/")[1] ?? lead.token) : lead.ats === "keka" ? lead.token.split("/")[0]! : lead.ats === "zohorecruit" ? lead.token.split(".")[0]! : lead.token;
   const base = raw.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "") || lead.ats;
   for (const candidate of [base, `${lead.ats}-${base}`]) if (!used.has(candidate)) return candidate;
   return null;
