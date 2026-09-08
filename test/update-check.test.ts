@@ -29,6 +29,7 @@ test("a pending update rides on initialize and on every tool result, success or 
   }, { update: () => notice });
   const init = await handler({ jsonrpc: "2.0", id: 1, method: "initialize" }) as { result: { instructions?: string } };
   expect(init.result.instructions).toContain("bun add --global openings");
+  expect(init.result.instructions).toContain("Ask for the resume");
   const ok = await handler({ jsonrpc: "2.0", id: 2, method: "tools/call", params: { name: "search_jobs", arguments: {} } }) as { result: { content: Array<{ text: string }> } };
   expect(JSON.parse(ok.result.content[0]!.text)).toEqual({ jobs: [], updateAvailable: notice });
   const failed = await handler({ jsonrpc: "2.0", id: 3, method: "tools/call", params: { name: "boom", arguments: {} } }) as { result: { content: Array<{ text: string }>; isError: boolean } };

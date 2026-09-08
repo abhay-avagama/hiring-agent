@@ -83,7 +83,17 @@ export interface JobSummary {
   url: string;
   /** Posting date when the board exposes one (Workday's relative label is approximate), otherwise the board's last-update time. */
   updatedAt?: string;
+  /** Days since the posting date at the time of the search; absent when the board gave no date. */
+  postedDaysAgo?: number;
+  /** new = 7 days or less, older = 8 to 30, stale = beyond 30, undated = no posting date. Present it as such; a stale listing may still be open. */
+  age?: JobAge;
 }
+
+export type JobAge = "new" | "older" | "stale" | "undated";
+/** The age windows a search or recommendation walked: 7 days, then 14, then 30, then everything, until at least CASCADE_MINIMUM results appeared. */
+export interface SearchWindow { daysUsed: number; widened: boolean; steps: Array<{ days: number; results: number }> }
+export const CASCADE_WINDOWS = [7, 14, 30, 0] as const;
+export const CASCADE_MINIMUM = 5;
 
 export interface Job extends JobSummary {
   description: string;
@@ -99,7 +109,7 @@ export interface SearchQuery {
   location?: string;
   country?: string;
   remote?: boolean;
-  /** Only jobs posted within this many days. Default 30 keeps undated jobs (sorted last); an explicit value also drops undated jobs; 0 includes everything. */
+  /** Only jobs posted within this many days. Unset walks 7, 14, 30, then everything until 5 results appear; an explicit value is a single window that drops undated jobs; 0 includes everything. */
   maxAgeDays?: number;
   limit?: number;
 }

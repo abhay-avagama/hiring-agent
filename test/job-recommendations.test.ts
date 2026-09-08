@@ -383,3 +383,23 @@ test("the recommendation payload stays small over a large index with long descri
   expect(result.filteredOut.sample.length).toBeLessThanOrEqual(20);
   expect(bytes).toBeLessThan(150_000);
 });
+
+test("recommendations walk the age windows, label ages, and explain the outcome", async () => {
+  const fresh = new Date(Date.now() - 2 * 86_400_000).toISOString();
+  const jobs = [{ ...job("fresh", "Java is required."), updatedAt: fresh }, { ...job("old", "Java is required."), updatedAt: "2026-01-01T00:00:00Z" }];
+  const recommender = createJobRecommender({
+    sources: [source],
+    store: { read: async () => makeSnapshot(jobs, new Date().toISOString()), write: async () => undefined },
+    crawl: async () => { throw new Error("must not crawl"); },
+  });
+  const result = await recommender.recommend({ resume: { content: "Skills\nJava", format: "text" }, intent: { countries: ["IN"], roles: ["backend engineer"] }, refresh: { policy: "never" } });
+  expect(result.window.widened).toBe(true);
+  expect(result.window.steps[0]).toEqual({ days: 7, results: 1 });
+  expect(result.outcome).toBe("widened");
+  expect(result.explanation).toContain("widened");
+  expect(result.matches.map((match) => match.age)).toEqual(["new", "stale"]);
+  const none = await recommender.recommend({ resume: { content: "Skills\nJava", format: "text" }, intent: { countries: ["DE"], roles: ["backend engineer"] }, refresh: { policy: "never" } });
+  expect(none.outcome).toBe("no_matches");
+  expect(none.explanation).toContain("countries: DE");
+  expect(none.nextMoves.length).toBeGreaterThan(0);
+});

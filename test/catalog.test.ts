@@ -331,7 +331,14 @@ test("Workday relative posting labels become approximate dates and search filter
     { ...base, id: "c", title: "New Engineer", updatedAt: "2026-09-07" },
     { ...base, id: "d", title: "Recent Engineer", updatedAt: "2026-08-20" },
   ];
-  expect(searchJobs(jobs, { query: "engineer" }, now).map((job) => job.id)).toEqual(["c", "d", "b"]); // default: 30 days, undated kept last
-  expect(searchJobs(jobs, { query: "engineer", maxAgeDays: 30 }, now).map((job) => job.id)).toEqual(["c", "d"]); // explicit: undated dropped
+  const cascade = searchJobs(jobs, { query: "engineer" }, now); // fewer than 5 at every step: 7, 14, 30, then everything
+  expect(cascade.map((job) => job.id)).toEqual(["c", "d", "a", "b"]);
+  expect(cascade.window).toEqual({ daysUsed: 0, widened: true, steps: [{ days: 7, results: 1 }, { days: 14, results: 1 }, { days: 30, results: 2 }, { days: 0, results: 4 }] });
+  expect(cascade.map((job) => job.age)).toEqual(["new", "older", "stale", "undated"]);
+  expect(cascade[0]?.postedDaysAgo).toBe(1);
+  expect(searchJobs(jobs, { query: "engineer", maxAgeDays: 30 }, now).map((job) => job.id)).toEqual(["c", "d"]); // explicit: one window, undated dropped
+  expect(searchJobs(jobs, { query: "engineer", maxAgeDays: 30 }, now).window?.widened).toBe(false);
   expect(searchJobs(jobs, { query: "engineer", maxAgeDays: 0 }, now).map((job) => job.id)).toEqual(["c", "d", "a", "b"]); // 0: everything
+  const plenty = Array.from({ length: 6 }, (_, index) => ({ ...base, id: `p${index}`, title: "Fresh Engineer", updatedAt: "2026-09-06" }));
+  expect(searchJobs([...jobs, ...plenty], { query: "engineer" }, now).window).toEqual({ daysUsed: 7, widened: false, steps: [{ days: 7, results: 7 }] });
 });

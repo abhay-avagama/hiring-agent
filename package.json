@@ -1,6 +1,6 @@
 {
   "name": "openings",
-  "version": "0.1.24",
+  "version": "0.1.25",
   "description": "A free, candidate-safe job-search substrate for AI agents",
   "license": "MIT",
   "repository": { "type": "git", "url": "git+https://github.com/abhay-avagama/hiring-agent.git" },

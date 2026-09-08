@@ -1,8 +1,8 @@
 import { validateCandidateProfileEvidence, type CandidateProfile } from "./candidate-profile.ts";
 import { isEligibleForCountry, normalizeLocation } from "./locations.ts";
 import { detectRequirementTerms, findTransferability, matchesExactSkillEvidence, requiresExactSkillEvidence, type TransferabilityKind } from "./requirement-vocabulary.ts";
-import type { Job } from "./types.ts";
-import { DEFAULT_MAX_AGE_DAYS, postedTime } from "./catalog.ts";
+import type { Job, JobAge } from "./types.ts";
+import { DEFAULT_MAX_AGE_DAYS, jobAge, postedTime, withinWindow } from "./catalog.ts";
 import { evaluateScreeningRequirements, type ScreeningRequirement } from "./screening-requirements.ts";
 
 export interface CandidateIntent {
@@ -51,6 +51,8 @@ export interface JobMatch {
   discovery: { category: "direct" | "hidden" | "stretch"; titleExpansions: TitleExpansion[] };
   /** The employer's own posting, repeated at the top level so it is never dropped from a summary. */
   applyUrl: string;
+  postedDaysAgo?: number;
+  age: JobAge;
 }
 
 export interface FilteredJob { jobId: string; reasons: string[] }
@@ -118,6 +120,7 @@ export function matchJobs(profile: CandidateProfile, intent: CandidateIntent, jo
       gaps,
       discovery: { category, titleExpansions },
       applyUrl: job.url,
+      ...jobAge(job),
       score,
       index,
     });
@@ -232,9 +235,10 @@ function hardFilterReasons(job: Job, intent: CandidateIntent): string[] {
   if (intent.locations?.length && !intent.locations.some((location) => normalizeLocation(job.location).includes(normalizeLocation(location)))) reasons.push("location_mismatch");
   for (const location of intent.excludedLocations ?? []) if (normalizeLocation(job.location).includes(normalizeLocation(location))) reasons.push(`location_excluded:${location}`);
   for (const role of intent.excludedRoles ?? []) if (includesPhrase(job.title, role) || tokenOverlap(role, job.title) === 1) reasons.push(`role_excluded:${role}`);
+  // The recommender walks the windows itself and always passes an explicit value; a bare call keeps the 30-day default with undated roles allowed.
   const explicitAge = intent.maxAgeDays !== undefined;
   const maxAgeDays = explicitAge ? intent.maxAgeDays! : DEFAULT_MAX_AGE_DAYS;
-  if (maxAgeDays > 0 && (postedTime(job) > 0 || explicitAge) && postedTime(job) < Date.now() - maxAgeDays * 86_400_000) reasons.push(`posted_too_old:${maxAgeDays}d`);
+  if (maxAgeDays > 0 && !withinWindow(job, maxAgeDays, Date.now()) && (explicitAge || postedTime(job) > 0)) reasons.push(`posted_too_old:${maxAgeDays}d`);
   if (intent.remote === true && job.workMode !== "remote") reasons.push("remote_required");
   if (intent.remote === false && (job.workMode === "remote" || job.workMode === "unknown")) reasons.push("non_remote_required");
   const searchable = `${job.title}\n${job.company}\n${job.location}\n${job.description}`;

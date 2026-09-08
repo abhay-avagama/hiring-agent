@@ -41,9 +41,10 @@ describe("agent tools", () => {
     }));
     expect(coverageInput).toEqual({ countries: ["in"] });
     expect(tools.list()[2]!.inputSchema).toEqual(expect.objectContaining({ required: ["resume", "intent"], additionalProperties: false }));
-    expect(await tools.call("search_jobs", { query: "Engineer", country: "de", remote: true })).toEqual({
+    expect(await tools.call("search_jobs", { query: "Engineer", country: "de", remote: true })).toEqual(expect.objectContaining({
       jobs: [expect.objectContaining({ title: "Engineer" })],
-    });
+      guidance: expect.stringContaining("Unranked keyword matches"),
+    }));
     expect(receivedCountry).toBe("DE");
     expect(await tools.call("recommend_jobs", {
       resume: { content: "Skills\nJava", format: "text" }, intent: { countries: ["IN"], excludedRoles: ["manager"] }, refresh: { policy: "never" },

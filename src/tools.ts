@@ -3,6 +3,7 @@ import type { RecommendJobsResult } from "./job-recommendations.ts";
 import type { AnalyzeJobFitResult } from "./job-fit-analysis.ts";
 import type { OptimizeResumeResult } from "./resume-optimization.ts";
 import type { SearchQuery } from "./types.ts";
+import type { SearchResult } from "./catalog.ts";
 import type { JobCoverageSummary } from "./job-coverage.ts";
 import type { PrepareJobSearchResult } from "./job-search-preparation.ts";
 
@@ -99,7 +100,7 @@ export function createToolHandler(catalog: Catalog, workflows: JobWorkflows, opt
     },
     {
       name: "search_jobs",
-      description: "Search the local job snapshot by role, location, country eligibility, and work mode.",
+      description: "Plain keyword search over the local job index, newest first, walking 7, 14, 30 days then everything until 5 results appear; the window used is returned. Use only when the person declines to share a resume or asks for a plain search; recommend_jobs ranks against a resume.",
       inputSchema: {
         type: "object",
         properties: {
@@ -155,7 +156,11 @@ export function createToolHandler(catalog: Catalog, workflows: JobWorkflows, opt
         if (typeof input.remote === "boolean") query.remote = input.remote;
         if (typeof input.maxAgeDays === "number") query.maxAgeDays = input.maxAgeDays;
         if (typeof input.limit === "number") query.limit = input.limit;
-        return { jobs: await catalog.search(query) };
+        const jobs = await catalog.search(query) as SearchResult;
+        return {
+          jobs, window: jobs.window,
+          guidance: "Unranked keyword matches. Present roles labelled older or stale as possibly still open, not as current. With a resume, recommend_jobs ranks roles by evidence and explains fit.",
+        };
       }
       if (name === "get_job") {
         assertToolKeys(input, ["id"], "get_job");

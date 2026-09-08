@@ -1,6 +1,8 @@
 import { parseCandidateProfile, type CandidateProfile, type ResumeInput } from "./candidate-profile.ts";
 import type { SnapshotStore } from "./crawler.ts";
 import { matchJobs, type CandidateIntent, type FilteredJob, type JobMatch, type MatchingOptions } from "./job-matching.ts";
+import { withinWindow } from "./catalog.ts";
+import { CASCADE_MINIMUM, CASCADE_WINDOWS, type SearchWindow } from "./types.ts";
 import { isEligibleForCountry } from "./locations.ts";
 import type { Company, CrawlReport, JobSnapshot } from "./types.ts";
 import { snapshotStatus, type CrawlScope, type SnapshotStatus } from "./local-jobs.ts";
@@ -31,6 +33,11 @@ export interface RecommendJobsResult {
   refresh: RecommendationRefreshResult;
   shortfall?: { minimumMatches: number; actualMatches: number; message: string };
   nextActions: string[];
+  /** Which age windows were walked and where the results came from. */
+  window: SearchWindow;
+  outcome: "matches" | "widened" | "no_matches";
+  explanation: string;
+  nextMoves: string[];
 }
 
 export interface JobRecommenderOptions {
@@ -99,6 +106,7 @@ export function createJobRecommender(options: JobRecommenderOptions) {
         refresh: { policy, attempted, occurred, reason, failures: report?.failed ?? [], ...(refreshError ? { error: refreshError } : {}) },
         ...(shortfall ? { shortfall } : {}),
         nextActions: limited.matches.length ? [`Analyze fit for job ${limited.matches[0]!.job.id}`] : ["Clarify or broaden explicit job intent"],
+        ...describeOutcome(profile, input.intent, limited.window, limited.matches.length),
       };
     },
   };
@@ -139,9 +147,38 @@ function invalidInput(field: string, message: string): RecommendationError {
   return new RecommendationError("invalid_recommendation_input", message, field);
 }
 
+/** Matches inside the cascade: 7 days, then 14, 30, everything, until CASCADE_MINIMUM matches appear. An explicit maxAgeDays is a single window. */
 function matchSnapshot(profile: CandidateProfile, intent: CandidateIntent, snapshot: JobSnapshot, ranking?: MatchingOptions) {
   const jobs = Object.values(snapshot.partitions).flatMap((partition) => partition.jobs);
-  return matchJobs(profile, intent, jobs, jobs.length, ranking);
+  const now = Date.now();
+  const steps: SearchWindow["steps"] = [];
+  let matching = matchJobs(profile, { ...intent, maxAgeDays: 0 }, [], 0, ranking);
+  for (const days of intent.maxAgeDays !== undefined ? [intent.maxAgeDays] : CASCADE_WINDOWS) {
+    const candidates = days > 0 ? jobs.filter((job) => withinWindow(job, days, now)) : jobs;
+    matching = matchJobs(profile, { ...intent, maxAgeDays: days }, candidates, candidates.length, ranking);
+    steps.push({ days, results: matching.matches.length });
+    if (matching.matches.length >= CASCADE_MINIMUM) break;
+  }
+  return { ...matching, window: { daysUsed: steps[steps.length - 1]!.days, widened: steps.length > 1, steps } satisfies SearchWindow };
+}
+
+/** Says in data terms why the result is what it is, so the agent never presents silence as an answer. */
+function describeOutcome(profile: CandidateProfile, intent: CandidateIntent, window: SearchWindow, matches: number): { outcome: RecommendJobsResult["outcome"]; explanation: string; nextMoves: string[] } {
+  const skills = profile.facts.filter((fact) => fact.kind === "skill").map((fact) => fact.value).slice(0, 8);
+  const roles = profile.facts.filter((fact) => fact.kind === "role").map((fact) => fact.value).slice(0, 4);
+  const windows = window.steps.map((step) => `${step.days === 0 ? "all time" : `${step.days} days`}: ${step.results}`).join(", ");
+  const scope = [intent.roles?.length ? `roles asked: ${intent.roles.join(", ")}` : "", intent.countries?.length ? `countries: ${intent.countries.join(", ")}` : "", skills.length ? `resume skills: ${skills.join(", ")}` : "", roles.length ? `resume roles: ${roles.join(", ")}` : ""].filter(Boolean).join("; ");
+  if (matches === 0) return {
+    outcome: "no_matches",
+    explanation: `No role matched (${windows}). ${scope}.`,
+    nextMoves: ["Broaden or remove the roles in intent, or drop excludedRoles", "Add countries or allow remote roles", "Try search_jobs with a plain keyword to see what the index holds", "Check get_job_coverage for the countries asked"],
+  };
+  if (window.widened) return {
+    outcome: "widened",
+    explanation: `Fewer than ${CASCADE_MINIMUM} matches in the last ${window.steps[0]!.days} days, so the window widened to ${window.daysUsed === 0 ? "all time" : `${window.daysUsed} days`} (${windows}). ${scope}. Present roles labelled older or stale as possibly still open, not as current.`,
+    nextMoves: ["Tell the person which window the results came from", "Offer to broaden roles or countries for fresher matches"],
+  };
+  return { outcome: "matches", explanation: `${matches} matches in the last ${window.daysUsed} days (${windows}). ${scope}.`, nextMoves: [] };
 }
 
 const EXCERPT_CHARS = 280;

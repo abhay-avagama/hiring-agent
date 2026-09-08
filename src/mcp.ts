@@ -17,6 +17,13 @@ interface ToolHandler {
   call(name: string, input: Record<string, unknown>): Promise<unknown>;
 }
 
+/** Read by the AI app before its first call: the order of operations that keeps results honest. */
+export const FLOW_INSTRUCTIONS = [
+  "Openings flow: 1) call prepare_job_search for the person's countries; it is normally ready in one call. 2) Ask for the resume before exploring roles, because recommend_jobs ranks by evidence from it. 3) If the person declines a resume, use search_jobs with their keywords. 4) If they decline that too, use your judgement.",
+  "Freshness: results start with roles posted in the last 7 days and widen to 14, 30, then everything only when fewer than 5 appear; each result carries age (new, older, stale, undated) and postedDaysAgo. Say which window results came from and present older or stale roles as possibly still open, never as current.",
+  "Every match carries applyUrl, the employer's own posting; include it. When recommend_jobs reports no_matches, relay its explanation and nextMoves instead of searching silently.",
+].join("\n");
+
 export function createMcpHandler(tools: ToolHandler, options: { update?: () => UpdateNotice | null } = {}) {
   /** A pending update rides on every tool result so the AI app can prompt the person; nothing is changed on their machine. */
   const withUpdate = (payload: unknown) => { const update = options.update?.(); return update && isRecord(payload) ? { ...payload, updateAvailable: update } : payload; };
@@ -28,7 +35,7 @@ export function createMcpHandler(tools: ToolHandler, options: { update?: () => U
     try {
       if (request.method === "initialize") {
         const update = options.update?.();
-        return { ...base, result: { protocolVersion: "2025-06-18", capabilities: { tools: {} }, serverInfo: { name: "openings", version: VERSION }, ...(update ? { instructions: update.message } : {}) } };
+        return { ...base, result: { protocolVersion: "2025-06-18", capabilities: { tools: {} }, serverInfo: { name: "openings", version: VERSION }, instructions: [FLOW_INSTRUCTIONS, update?.message].filter(Boolean).join("\n\n") } };
       }
       if (request.method === "ping") return { ...base, result: {} };
       if (request.method === "tools/list") return { ...base, result: { tools: tools.list() } };

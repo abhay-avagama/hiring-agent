@@ -1,4 +1,4 @@
-import type { Company, Job, JobSummary, SearchQuery } from "./types.ts";
+import { CASCADE_MINIMUM, CASCADE_WINDOWS, type Company, type Job, type JobAge, type JobSummary, type SearchQuery, type SearchWindow } from "./types.ts";
 import { providerSpec, type JsonGet } from "./providers.ts";
 import { crawlSite, sitePostingsToJobs } from "./jobposting-site.ts";
 import { classifyJob, isEligibleForCountry, normalizeLocation } from "./locations.ts";
@@ -112,15 +112,37 @@ export function createCatalog(options: CatalogOptions): Catalog {
 }
 
 export const DEFAULT_MAX_AGE_DAYS = 30;
-export function searchJobs(jobs: Job[], query: SearchQuery, now: number = Date.now()): JobSummary[] {
-  const explicit = query.maxAgeDays !== undefined;
-  const days = explicit ? query.maxAgeDays! : DEFAULT_MAX_AGE_DAYS;
-  const since = days > 0 ? now - days * 86_400_000 : undefined;
-  const fresh = (job: Job) => since === undefined || postedTime(job) >= since || (!explicit && postedTime(job) === 0);
-  return jobs
-    .filter((job) => matches(job, query) && fresh(job))
-    .sort((left, right) => postedTime(right) - postedTime(left))
-    .slice(0, query.limit ?? 50).map(toSummary);
+export type SearchResult = JobSummary[] & { window?: SearchWindow };
+
+/** One window: dated jobs inside it; 0 means everything including undated. */
+export function withinWindow(job: Pick<Job, "updatedAt">, days: number, now: number): boolean {
+  if (days <= 0) return true;
+  const time = postedTime(job);
+  return time > 0 && time >= now - days * 86_400_000;
+}
+
+/** Keyword search newest first. Without maxAgeDays it walks 7, 14, 30, then everything until CASCADE_MINIMUM results appear; the window used rides on the result. */
+export function searchJobs(jobs: Job[], query: SearchQuery, now: number = Date.now()): SearchResult {
+  const matched = jobs.filter((job) => matches(job, query));
+  const run = (days: number) => matched.filter((job) => withinWindow(job, days, now)).sort((left, right) => postedTime(right) - postedTime(left));
+  const steps: SearchWindow["steps"] = [];
+  let found: Job[] = [];
+  for (const days of query.maxAgeDays !== undefined ? [query.maxAgeDays] : CASCADE_WINDOWS) {
+    found = run(days);
+    steps.push({ days, results: found.length });
+    if (found.length >= CASCADE_MINIMUM) break;
+  }
+  const result = found.slice(0, query.limit ?? 50).map((job) => toSummary(job, now)) as SearchResult;
+  Object.defineProperty(result, "window", { value: { daysUsed: steps[steps.length - 1]!.days, widened: steps.length > 1, steps } satisfies SearchWindow, enumerable: false });
+  return result;
+}
+
+/** Age label from the posting date: new (≤7d), older (≤30d), stale, or undated. */
+export function jobAge(job: Pick<Job, "updatedAt">, now: number = Date.now()): { postedDaysAgo?: number; age: JobAge } {
+  const time = postedTime(job);
+  if (time <= 0) return { age: "undated" };
+  const postedDaysAgo = Math.max(0, Math.floor((now - time) / 86_400_000));
+  return { postedDaysAgo, age: postedDaysAgo <= 7 ? "new" : postedDaysAgo <= 30 ? "older" : "stale" };
 }
 
 /** Posting time in ms for sorting; undated jobs sort last. */
@@ -439,9 +461,9 @@ function matches(job: Job, query: SearchQuery): boolean {
     && (query.remote === undefined || job.remote === query.remote);
 }
 
-function toSummary(job: Job): JobSummary {
+function toSummary(job: Job, now: number = Date.now()): JobSummary {
   const { description: _description, ...summary } = job;
-  return summary;
+  return { ...summary, ...jobAge(job, now) };
 }
 
 function stripHtml(value: string): string {
