@@ -458,3 +458,18 @@ function job(overrides: Partial<Job>): Job {
     description: "", ...overrides,
   };
 }
+
+test("maxAgeDays drops stale and undated roles from recommendations", () => {
+  const profile = parseCandidateProfile({ content: "Skills\nJava", format: "text" });
+  const fresh = new Date(Date.now() - 2 * 86_400_000).toISOString();
+  const result = matchJobs(profile, { maxAgeDays: 30 }, [
+    job({ id: "stale", title: "Java Engineer", updatedAt: "2025-01-01" }),
+    job({ id: "undated", title: "Java Engineer" }),
+    job({ id: "fresh", title: "Java Engineer", updatedAt: fresh }),
+  ]);
+  expect(result.matches.map((match) => match.job.id)).toEqual(["fresh"]);
+  expect(result.filteredOut).toEqual([
+    { jobId: "stale", reasons: ["posted_too_old:30d"] },
+    { jobId: "undated", reasons: ["posted_too_old:30d"] },
+  ]);
+});

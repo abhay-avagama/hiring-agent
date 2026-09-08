@@ -80,6 +80,7 @@ export interface JobSummary {
   eligibleRegions: string[];
   eligibilityConfidence: EligibilityConfidence;
   url: string;
+  /** Posting date when the board exposes one (Workday's relative label is approximate), otherwise the board's last-update time. */
   updatedAt?: string;
 }
 
@@ -92,6 +93,8 @@ export interface SearchQuery {
   location?: string;
   country?: string;
   remote?: boolean;
+  /** Only jobs posted within this many days; undated jobs are excluded when set. */
+  maxAgeDays?: number;
   limit?: number;
 }
 

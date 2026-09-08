@@ -6,7 +6,7 @@ const arrayFields = ["roles", "countries", "locations", "seniority", "requiredSk
 export function validateCandidateIntent(value: unknown, invalid: InvalidInput, options: { optional?: boolean } = {}): CandidateIntent {
   if (value === undefined && options.optional) return {};
   if (!isRecord(value)) throw invalid("intent", "Candidate intent must be an object");
-  assertKnownKeys(value, [...arrayFields, "remote"], "intent", invalid);
+  assertKnownKeys(value, [...arrayFields, "remote", "maxAgeDays"], "intent", invalid);
   for (const field of arrayFields) {
     const candidate = value[field];
     if (candidate !== undefined && (!Array.isArray(candidate) || !candidate.every((item) => typeof item === "string" && item.trim().length > 0))) throw invalid(`intent.${field}`, `${field} must be an array of non-empty strings`);
@@ -17,6 +17,7 @@ export function validateCandidateIntent(value: unknown, invalid: InvalidInput, o
     if (Array.isArray(countries) && !countries.every((country) => typeof country === "string" && /^[A-Za-z]{2}$/.test(country))) throw invalid(`intent.${field}`, `${field} must contain two-letter country codes`);
   }
   if (value.remote !== undefined && typeof value.remote !== "boolean") throw invalid("intent.remote", "remote must be a boolean");
+  if (value.maxAgeDays !== undefined && (!Number.isInteger(value.maxAgeDays) || (value.maxAgeDays as number) < 1 || (value.maxAgeDays as number) > 365)) throw invalid("intent.maxAgeDays", "maxAgeDays must be an integer between 1 and 365");
   return value as unknown as CandidateIntent;
 }
 

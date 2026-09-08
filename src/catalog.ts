@@ -20,6 +20,7 @@ interface GreenhouseJob {
   title: string;
   location: { name: string };
   absolute_url: string;
+  first_published?: string;
   updated_at?: string;
   content?: string;
 }
@@ -109,8 +110,18 @@ export function createCatalog(options: CatalogOptions): Catalog {
   };
 }
 
-export function searchJobs(jobs: Job[], query: SearchQuery): JobSummary[] {
-  return jobs.filter((job) => matches(job, query)).slice(0, query.limit ?? 50).map(toSummary);
+export function searchJobs(jobs: Job[], query: SearchQuery, now: number = Date.now()): JobSummary[] {
+  const since = query.maxAgeDays ? now - query.maxAgeDays * 86_400_000 : undefined;
+  return jobs
+    .filter((job) => matches(job, query) && (since === undefined || postedTime(job) >= since))
+    .sort((left, right) => postedTime(right) - postedTime(left))
+    .slice(0, query.limit ?? 50).map(toSummary);
+}
+
+/** Posting time in ms for sorting; undated jobs sort last. */
+export function postedTime(job: Pick<Job, "updatedAt">): number {
+  const time = job.updatedAt ? Date.parse(job.updatedAt) : Number.NaN;
+  return Number.isFinite(time) ? time : 0;
 }
 
 export interface FetchJobsObserver {
@@ -293,8 +304,20 @@ function normalizeWorkday(company: Company, source: ReturnType<typeof parseWorkd
     workMode: /remote/i.test(location) ? "remote" : "unknown",
     eligibleCountries: [], excludedCountries: [], eligibleRegions: [], eligibilityConfidence: "unknown",
     url: `https://${source.host}/en-US/${source.site}${job.externalPath}`,
+    ...(workdayPostedAt(job.postedOn) ? { updatedAt: workdayPostedAt(job.postedOn) } : {}),
     description: "",
   });
+}
+
+/** Workday lists only a relative label ("Posted Today", "Posted 3 Days Ago", "Posted 30+ Days Ago"); turn it into an approximate posting date. */
+export function workdayPostedAt(label: string | undefined, now: number = Date.now()): string | undefined {
+  const text = label?.trim().toLowerCase() ?? "";
+  let days: number | undefined;
+  if (/\btoday\b/.test(text)) days = 0;
+  else if (/\byesterday\b/.test(text)) days = 1;
+  else { const match = /(\d+)\+?\s*days?\s*ago/.exec(text); if (match) days = Number(match[1]) + (text.includes("+") ? 1 : 0); }
+  if (days === undefined) return undefined;
+  return new Date(now - days * 86_400_000).toISOString().slice(0, 10);
 }
 
 async function fetchWorkdayDescription(company: Company, jobUrl: string, fetcher: Fetch): Promise<string> {
@@ -367,7 +390,7 @@ function normalizeGreenhouse(company: Company, job: GreenhouseJob): Job {
     eligibleRegions: [],
     eligibilityConfidence: "unknown",
     url: job.absolute_url,
-    updatedAt: job.updated_at,
+    updatedAt: job.first_published ?? job.updated_at,
     description: stripHtml(job.content ?? ""),
   });
 }
@@ -376,7 +399,7 @@ function normalizeRecruitee(company: Company, job: RecruiteeJob): Job {
   const location = [job.city, job.state_name, job.country_code?.toUpperCase()].filter(Boolean).join(", ") || "Unspecified";
   const translation = job.translations?.en ?? Object.values(job.translations ?? {})[0];
   const description = [translation?.description ?? job.description, translation?.requirements ?? job.requirements].filter(Boolean).map((value) => stripHtml(value!)).join("\n\n");
-  const updatedAt = job.updated_at ?? job.published_at;
+  const updatedAt = job.published_at ?? job.updated_at;
   return classifyJob({
     id: `recruitee:${company.slug}:${job.guid}`,
     company: company.name,

@@ -315,3 +315,22 @@ describe("job catalog", () => {
     expect((await catalog.search({ country: "GE" })).map((job) => job.id)).toEqual(["lever:acme:country-georgia", "lever:acme:batumi", "lever:acme:remote-georgia"]);
   });
 });
+
+test("Workday relative posting labels become approximate dates and search filters by age newest first", async () => {
+  const { workdayPostedAt, searchJobs } = await import("../src/catalog.ts");
+  const now = Date.parse("2026-09-08T12:00:00Z");
+  expect(workdayPostedAt("Posted Today", now)).toBe("2026-09-08");
+  expect(workdayPostedAt("Posted Yesterday", now)).toBe("2026-09-07");
+  expect(workdayPostedAt("Posted 3 Days Ago", now)).toBe("2026-09-05");
+  expect(workdayPostedAt("Posted 30+ Days Ago", now)).toBe("2026-08-08");
+  expect(workdayPostedAt(undefined, now)).toBeUndefined();
+  const base = { company: "Acme", location: "Pune, India", remote: false, workMode: "unknown" as const, eligibleCountries: ["IN"], excludedCountries: [], eligibleRegions: [], eligibilityConfidence: "explicit" as const, url: "https://example.test", description: "" };
+  const jobs = [
+    { ...base, id: "a", title: "Old Engineer", updatedAt: "2026-07-01" },
+    { ...base, id: "b", title: "Undated Engineer" },
+    { ...base, id: "c", title: "New Engineer", updatedAt: "2026-09-07" },
+    { ...base, id: "d", title: "Recent Engineer", updatedAt: "2026-08-20" },
+  ];
+  expect(searchJobs(jobs, { query: "engineer" }, now).map((job) => job.id)).toEqual(["c", "d", "a", "b"]);
+  expect(searchJobs(jobs, { query: "engineer", maxAgeDays: 30 }, now).map((job) => job.id)).toEqual(["c", "d"]);
+});

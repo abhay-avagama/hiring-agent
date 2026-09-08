@@ -2,6 +2,7 @@ import { validateCandidateProfileEvidence, type CandidateProfile } from "./candi
 import { isEligibleForCountry, normalizeLocation } from "./locations.ts";
 import { detectRequirementTerms, findTransferability, matchesExactSkillEvidence, requiresExactSkillEvidence, type TransferabilityKind } from "./requirement-vocabulary.ts";
 import type { Job } from "./types.ts";
+import { postedTime } from "./catalog.ts";
 import { evaluateScreeningRequirements, type ScreeningRequirement } from "./screening-requirements.ts";
 
 export interface CandidateIntent {
@@ -15,6 +16,8 @@ export interface CandidateIntent {
   excludedCountries?: string[];
   excludedLocations?: string[];
   excludedRoles?: string[];
+  /** Only roles posted within this many days; undated roles are dropped when set. */
+  maxAgeDays?: number;
 }
 
 export interface SupportedRequirement {
@@ -226,6 +229,7 @@ function hardFilterReasons(job: Job, intent: CandidateIntent): string[] {
   if (intent.locations?.length && !intent.locations.some((location) => normalizeLocation(job.location).includes(normalizeLocation(location)))) reasons.push("location_mismatch");
   for (const location of intent.excludedLocations ?? []) if (normalizeLocation(job.location).includes(normalizeLocation(location))) reasons.push(`location_excluded:${location}`);
   for (const role of intent.excludedRoles ?? []) if (includesPhrase(job.title, role) || tokenOverlap(role, job.title) === 1) reasons.push(`role_excluded:${role}`);
+  if (intent.maxAgeDays && postedTime(job) < Date.now() - intent.maxAgeDays * 86_400_000) reasons.push(`posted_too_old:${intent.maxAgeDays}d`);
   if (intent.remote === true && job.workMode !== "remote") reasons.push("remote_required");
   if (intent.remote === false && (job.workMode === "remote" || job.workMode === "unknown")) reasons.push("non_remote_required");
   const searchable = `${job.title}\n${job.company}\n${job.location}\n${job.description}`;
@@ -439,7 +443,4 @@ function tokenOverlap(left: string, right: string): number {
   return [...leftTokens].filter((token) => rightTokens.has(token)).length / leftTokens.size;
 }
 
-function freshness(job: Job): number {
-  const timestamp = job.updatedAt ? Date.parse(job.updatedAt) : Number.NaN;
-  return Number.isFinite(timestamp) ? timestamp : 0;
-}
+const freshness = postedTime;

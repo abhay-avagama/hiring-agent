@@ -107,6 +107,7 @@ export function createToolHandler(catalog: Catalog, workflows: JobWorkflows, opt
           location: { type: "string", description: "Case-insensitive location substring" },
           country: { type: "string", pattern: "^[A-Za-z]{2}$", description: "Two-letter country code for job eligibility, such as IN or DE" },
           remote: { type: "boolean", description: "True for remote-only; false for non-remote-only" },
+          maxAgeDays: { type: "integer", minimum: 1, maximum: 365, description: "Only roles posted within this many days; results are newest first" },
           limit: { type: "integer", minimum: 1, maximum: 100, default: 50 },
         },
         additionalProperties: false,
@@ -140,10 +141,11 @@ export function createToolHandler(catalog: Catalog, workflows: JobWorkflows, opt
       if (name === "analyze_job_fit") return workflows.analyzeJobFit(input);
       if (name === "optimize_resume") return workflows.optimizeResume(input);
       if (name === "search_jobs") {
-        assertToolKeys(input, ["query", "location", "country", "remote", "limit"], "search_jobs");
+        assertToolKeys(input, ["query", "location", "country", "remote", "maxAgeDays", "limit"], "search_jobs");
         if (input.query !== undefined && typeof input.query !== "string") throw new Error("query must be a string");
         if (input.location !== undefined && typeof input.location !== "string") throw new Error("location must be a string");
         if (input.remote !== undefined && typeof input.remote !== "boolean") throw new Error("remote must be a boolean");
+        if (input.maxAgeDays !== undefined && (!Number.isInteger(input.maxAgeDays) || (input.maxAgeDays as number) < 1 || (input.maxAgeDays as number) > 365)) throw new Error("maxAgeDays must be an integer between 1 and 365");
         if (input.limit !== undefined && (!Number.isInteger(input.limit) || (input.limit as number) < 1 || (input.limit as number) > 100)) throw new Error("limit must be an integer between 1 and 100");
         const query: SearchQuery = {};
         if (typeof input.query === "string") query.query = input.query;
@@ -151,6 +153,7 @@ export function createToolHandler(catalog: Catalog, workflows: JobWorkflows, opt
         if (typeof input.country === "string" && /^[a-z]{2}$/i.test(input.country)) query.country = input.country.toUpperCase();
         else if (input.country !== undefined) throw new Error("country must be a two-letter code");
         if (typeof input.remote === "boolean") query.remote = input.remote;
+        if (typeof input.maxAgeDays === "number") query.maxAgeDays = input.maxAgeDays;
         if (typeof input.limit === "number") query.limit = input.limit;
         return { jobs: await catalog.search(query) };
       }
@@ -181,6 +184,7 @@ function intentSchema(): Record<string, unknown> {
       roles: stringArray(), countries: countryArray(), locations: stringArray(), remote: { type: "boolean" }, seniority: stringArray(),
       requiredSkills: stringArray(), excludedTerms: stringArray(),
       excludedCountries: countryArray(), excludedLocations: stringArray(), excludedRoles: stringArray(),
+      maxAgeDays: { type: "integer", minimum: 1, maximum: 365, description: "Only roles posted within this many days" },
     },
     additionalProperties: false,
   };
