@@ -192,10 +192,11 @@ const keka: ProviderSpec = {
   resolve(url) {
     const tenant = /^([a-z0-9-]+)\.keka\.com$/i.exec(url.hostname)?.[1]?.toLowerCase();
     if (!tenant || ["www", "app", "hr", "academy", "developers", "help", "cdn", "api"].includes(tenant) && tenant !== "hr") return null;
-    const org = /\/(?:careers\/api\/embedjobs\/default\/active|ats\/documents)\/([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})/i.exec(url.pathname)?.[1];
+    const org = /\/(?:careers\/api\/embedjobs(?:\/default\/active)?|ats\/documents)\/([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})/i.exec(url.pathname)?.[1];
     return org ? `${tenant}/${org.toLowerCase()}` : null;
   },
-  canonicalUrl: (token) => `https://${token.split("/")[0]}.keka.com/careers`,
+  // The embed page is a real listing a person can open and it carries the org id, so the canonical URL round-trips through resolve().
+  canonicalUrl: (token) => `https://${token.split("/")[0]}.keka.com/careers/api/embedjobs/${token.split("/")[1] ?? ""}`,
   endpoint: (token) => `https://${token.split("/")[0]}.keka.com/careers/api/embedjobs/default/active/${token.split("/")[1] ?? ""}`,
   jobsFromBody: (body) => asRecords(body),
   providerName: () => "",

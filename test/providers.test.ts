@@ -88,7 +88,8 @@ test("Freshteam widget jobs carry branch locations, descriptions, and provider-h
 
 test("Keka tenants resolve with their org id, read the embed jobs API, and take the company name and website from the portal info", async () => {
   const org = "24040a7e-a7c5-47a5-9cd5-019962c66385";
-  expect(resolveSource(`https://scimplify.keka.com/careers/api/embedjobs/default/active/${org}`)).toMatchObject({ ats: "keka", token: `scimplify/${org}`, canonicalSourceUrl: "https://scimplify.keka.com/careers" });
+  expect(resolveSource(`https://scimplify.keka.com/careers/api/embedjobs/default/active/${org}`)).toMatchObject({ ats: "keka", token: `scimplify/${org}`, canonicalSourceUrl: `https://scimplify.keka.com/careers/api/embedjobs/${org}` });
+  expect(resolveSource(`https://scimplify.keka.com/careers/api/embedjobs/${org}`)?.token).toBe(`scimplify/${org}`);
   expect(resolveSource("https://scimplify.keka.com/careers")).toBeNull();
   expect(resolveSource("https://www.keka.com/careers")).toBeNull();
   const fetcher = (async (input: string | URL | Request) => {
