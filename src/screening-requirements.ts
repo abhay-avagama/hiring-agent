@@ -59,7 +59,27 @@ function educationRequirements(profile: CandidateProfile, description: string): 
     const requirement = level.startsWith("bachelor") ? "Bachelor's degree" : level.startsWith("master") ? "Master's degree" : "Doctoral degree";
     return [{ kind: "education", requirement, status: fact ? "supported" : "unsupported", factIds: fact ? [fact.id] : [] }];
   });
-  return [...fieldSpecific, ...generic];
+  // "Qualification: Polymer Science, Chemistry, Materials Science or a related technical discipline" names the disciplines without the word degree.
+  const disciplinePattern = /\b(?:qualifications?|degree|graduate|graduation|b\.?\s?tech|b\.?\s?e\.?|m\.?\s?tech|m\.?\s?sc|b\.?\s?sc|bachelors?|masters?)\b[^.\n:]{0,30}?(?:\bin\b|:)\s+([A-Za-z][^.\n]{3,140})/gi;
+  const named = [...description.matchAll(disciplinePattern)].flatMap<ScreeningRequirement>((match) => {
+    if (!isMandatory(description, match.index!, match[0]) || !namedDisciplines(match[1]!).length) return [];
+    const requirement = clean(match[0]);
+    if (fieldSpecific.some((item) => item.requirement === requirement)) return [];
+    const fact = profile.facts.find((value) => value.kind === "education" && educationFieldMatches(match[1]!, value.value));
+    return [{ kind: "education", requirement, status: fact ? "supported" : "unsupported", factIds: fact ? [fact.id] : [] }];
+  });
+  return dedupe([...fieldSpecific, ...generic, ...named]);
+}
+
+function dedupe(items: ScreeningRequirement[]): ScreeningRequirement[] {
+  const seen = new Set<string>();
+  return items.filter((item) => { const key = item.requirement.toLocaleLowerCase(); if (seen.has(key)) return false; seen.add(key); return true; });
+}
+
+/** Specific disciplines in a requirement, with "or a related technical discipline" style tails removed. */
+function namedDisciplines(field: string): string[] {
+  return field.replace(/\b(?:or|and)?\s*(?:a|an)?\s*(?:related|relevant|similar|equivalent|other)\b[^,;/]*$/i, "").split(/,|;|\/|\bor\b|\band\b/i)
+    .map((part) => part.trim().toLocaleLowerCase()).filter((part) => part.length >= 3 && !/^(?:related|relevant|equivalent|similar|field|discipline|technical|any)\b/.test(part));
 }
 
 function isMandatory(description: string, start: number, value: string): boolean {
@@ -91,8 +111,12 @@ function educationLevelMatches(level: string, value: string): boolean {
   return /\b(?:ph\.?d|doctorate)\b/i.test(value);
 }
 
+const GENERIC_DISCIPLINE_WORDS = new Set(["science", "sciences", "technology", "engineering", "studies", "management", "arts", "field", "degree", "related", "discipline"]);
 function educationFieldMatches(requiredField: string, value: string): boolean {
   const candidate = value.toLocaleLowerCase();
+  // Named disciplines are the bar; a broad "related technical discipline" clause only widens it when nothing specific is named.
+  const named = namedDisciplines(requiredField).filter((part) => !/\b(?:technical|business)\b/.test(part) || part.split(/\s+/).length > 1);
+  if (named.length) return named.some((part) => candidate.includes(part) || part.split(/\s+/).filter((word) => word.length > 3 && !GENERIC_DISCIPLINE_WORDS.has(word)).some((word) => candidate.includes(word)));
   if (/\b(?:computer science|computing|software|information technology|engineering)\b/i.test(requiredField) && /\b(?:computer science|computing|software|information technology|engineering|b\.?tech|b\.?e\.?|m\.?tech|m\.?e\.?)\b/i.test(candidate)) return true;
   if (/\b(?:technical|business)\b/i.test(requiredField) && /\b(?:technology|technical|engineering|computer|software|information systems|business|commerce|bba|mba|b\.?tech|m\.?tech)\b/i.test(candidate)) return true;
   return false;

@@ -111,10 +111,14 @@ export function createCatalog(options: CatalogOptions): Catalog {
   };
 }
 
+export const DEFAULT_MAX_AGE_DAYS = 30;
 export function searchJobs(jobs: Job[], query: SearchQuery, now: number = Date.now()): JobSummary[] {
-  const since = query.maxAgeDays ? now - query.maxAgeDays * 86_400_000 : undefined;
+  const explicit = query.maxAgeDays !== undefined;
+  const days = explicit ? query.maxAgeDays! : DEFAULT_MAX_AGE_DAYS;
+  const since = days > 0 ? now - days * 86_400_000 : undefined;
+  const fresh = (job: Job) => since === undefined || postedTime(job) >= since || (!explicit && postedTime(job) === 0);
   return jobs
-    .filter((job) => matches(job, query) && (since === undefined || postedTime(job) >= since))
+    .filter((job) => matches(job, query) && fresh(job))
     .sort((left, right) => postedTime(right) - postedTime(left))
     .slice(0, query.limit ?? 50).map(toSummary);
 }

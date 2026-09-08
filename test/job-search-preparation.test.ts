@@ -125,6 +125,7 @@ test("prepare_job_search advances through bounded batches", async () => {
   let snapshot: JobSnapshot | null = null;
   const selected: string[][] = [];
   const preparer = createJobSearchPreparer({
+    batchSize: 10,
     sources: manySources,
     now: () => new Date("2026-08-31T00:00:00.000Z"),
     store: { read: async () => snapshot, write: async (value) => { snapshot = value; } },
@@ -155,6 +156,7 @@ test("prepare_job_search continues past an all-failed batch and stops after ever
   }));
   let snapshot: JobSnapshot | null = null;
   const preparer = createJobSearchPreparer({
+    batchSize: 10,
     sources: manySources,
     now: () => new Date("2026-08-31T00:00:00.000Z"),
     store: { read: async () => snapshot, write: async (value) => { snapshot = value; } },

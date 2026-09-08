@@ -46,3 +46,13 @@ test("Essentials headings make minimum experience requirements mandatory", () =>
 function job(description: string): Job {
   return { id: "job", company: "Acme", title: "Principal Engineer", location: "India", remote: false, workMode: "onsite", eligibleCountries: ["IN"], excludedCountries: [], eligibleRegions: [], eligibilityConfidence: "explicit", url: "https://example.test", description };
 }
+
+test("named disciplines are a hard education bar even when the posting adds 'or a related technical discipline'", () => {
+  const requirement = job("Requirements\nRequired qualification: Polymer Science, Polymer Technology, Chemistry, Materials Science, or a related technical discipline. 5+ years in product management.");
+  const softwarePm = parseCandidateProfile({ content: "Experience\nProduct Manager — Acme\nJan 2018 - Dec 2024\nEducation\nB.Tech in Computer Science", format: "text" });
+  const education = evaluateScreeningRequirements(softwarePm, requirement).filter((item) => item.kind === "education");
+  expect(education).toHaveLength(1);
+  expect(education[0]?.status).toBe("unsupported");
+  const chemist = parseCandidateProfile({ content: "Experience\nProduct Manager — Acme\nJan 2018 - Dec 2024\nEducation\nM.Sc in Polymer Chemistry", format: "text" });
+  expect(evaluateScreeningRequirements(chemist, requirement).filter((item) => item.kind === "education")[0]?.status).toBe("supported");
+});

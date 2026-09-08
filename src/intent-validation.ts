@@ -17,7 +17,7 @@ export function validateCandidateIntent(value: unknown, invalid: InvalidInput, o
     if (Array.isArray(countries) && !countries.every((country) => typeof country === "string" && /^[A-Za-z]{2}$/.test(country))) throw invalid(`intent.${field}`, `${field} must contain two-letter country codes`);
   }
   if (value.remote !== undefined && typeof value.remote !== "boolean") throw invalid("intent.remote", "remote must be a boolean");
-  if (value.maxAgeDays !== undefined && (!Number.isInteger(value.maxAgeDays) || (value.maxAgeDays as number) < 1 || (value.maxAgeDays as number) > 365)) throw invalid("intent.maxAgeDays", "maxAgeDays must be an integer between 1 and 365");
+  if (value.maxAgeDays !== undefined && (!Number.isInteger(value.maxAgeDays) || (value.maxAgeDays as number) < 0 || (value.maxAgeDays as number) > 365)) throw invalid("intent.maxAgeDays", "maxAgeDays must be an integer between 0 and 365");
   return value as unknown as CandidateIntent;
 }
 

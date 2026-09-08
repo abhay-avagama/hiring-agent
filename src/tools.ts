@@ -24,7 +24,7 @@ export function createToolHandler(catalog: Catalog, workflows: JobWorkflows, opt
   const definitions: ToolDefinition[] = [
     {
       name: "prepare_job_search",
-      description: "Initialize or refresh the local job index from verified public sources in resumable batches of at most ten, then report current coverage and whether to call again. This may use the network and write only job data under the local Openings data directory; it never processes a resume.",
+      description: "Initialize the local job index: the first call downloads the shared index of every verified source (thousands of employers) and returns ready; only missing or stale sources are crawled, in batches of at most 25. Report coverage from the result rather than calling again once nextAction is ready. This may use the network and write only job data under the local Openings data directory; it never processes a resume.",
       inputSchema: {
         type: "object",
         properties: {
@@ -107,7 +107,7 @@ export function createToolHandler(catalog: Catalog, workflows: JobWorkflows, opt
           location: { type: "string", description: "Case-insensitive location substring" },
           country: { type: "string", pattern: "^[A-Za-z]{2}$", description: "Two-letter country code for job eligibility, such as IN or DE" },
           remote: { type: "boolean", description: "True for remote-only; false for non-remote-only" },
-          maxAgeDays: { type: "integer", minimum: 1, maximum: 365, description: "Only roles posted within this many days; results are newest first" },
+          maxAgeDays: { type: "integer", minimum: 0, maximum: 365, description: "Only roles posted within this many days, newest first. Default 30 (undated roles kept, listed last); an explicit value also drops undated roles; 0 includes older roles" },
           limit: { type: "integer", minimum: 1, maximum: 100, default: 50 },
         },
         additionalProperties: false,
@@ -145,7 +145,7 @@ export function createToolHandler(catalog: Catalog, workflows: JobWorkflows, opt
         if (input.query !== undefined && typeof input.query !== "string") throw new Error("query must be a string");
         if (input.location !== undefined && typeof input.location !== "string") throw new Error("location must be a string");
         if (input.remote !== undefined && typeof input.remote !== "boolean") throw new Error("remote must be a boolean");
-        if (input.maxAgeDays !== undefined && (!Number.isInteger(input.maxAgeDays) || (input.maxAgeDays as number) < 1 || (input.maxAgeDays as number) > 365)) throw new Error("maxAgeDays must be an integer between 1 and 365");
+        if (input.maxAgeDays !== undefined && (!Number.isInteger(input.maxAgeDays) || (input.maxAgeDays as number) < 0 || (input.maxAgeDays as number) > 365)) throw new Error("maxAgeDays must be an integer between 0 and 365");
         if (input.limit !== undefined && (!Number.isInteger(input.limit) || (input.limit as number) < 1 || (input.limit as number) > 100)) throw new Error("limit must be an integer between 1 and 100");
         const query: SearchQuery = {};
         if (typeof input.query === "string") query.query = input.query;
@@ -184,7 +184,7 @@ function intentSchema(): Record<string, unknown> {
       roles: stringArray(), countries: countryArray(), locations: stringArray(), remote: { type: "boolean" }, seniority: stringArray(),
       requiredSkills: stringArray(), excludedTerms: stringArray(),
       excludedCountries: countryArray(), excludedLocations: stringArray(), excludedRoles: stringArray(),
-      maxAgeDays: { type: "integer", minimum: 1, maximum: 365, description: "Only roles posted within this many days" },
+      maxAgeDays: { type: "integer", minimum: 0, maximum: 365, description: "Only roles posted within this many days. Default 30 (undated roles kept); an explicit value also drops undated roles; 0 includes older roles" },
     },
     additionalProperties: false,
   };

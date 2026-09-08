@@ -284,7 +284,7 @@ test("ties use freshness then input order, and missing intent is surfaced", () =
     job({ id: "newer-first", updatedAt: "2026-02-01T00:00:00Z" }),
     job({ id: "newer-second", updatedAt: "2026-02-01T00:00:00Z" }),
   ];
-  const result = matchJobs(profile, {}, jobs, 2);
+  const result = matchJobs(profile, { maxAgeDays: 0 }, jobs, 2);
 
   expect(result.matches.map((match) => match.job.id)).toEqual(["newer-first", "newer-second"]);
   expect(result.matches[0]!.reasons).toEqual(["no direct resume evidence matched; retained as a stretch option"]);
@@ -472,4 +472,18 @@ test("maxAgeDays drops stale and undated roles from recommendations", () => {
     { jobId: "stale", reasons: ["posted_too_old:30d"] },
     { jobId: "undated", reasons: ["posted_too_old:30d"] },
   ]);
+});
+
+test("recommendations drop dated roles older than 30 days by default but keep undated ones", () => {
+  const profile = parseCandidateProfile({ content: "Skills\nJava", format: "text" });
+  const fresh = new Date(Date.now() - 2 * 86_400_000).toISOString();
+  const result = matchJobs(profile, {}, [
+    job({ id: "stale", title: "Java Engineer", updatedAt: "2023-08-09T00:00:00.000Z" }),
+    job({ id: "undated", title: "Java Engineer" }),
+    job({ id: "fresh", title: "Java Engineer", updatedAt: fresh }),
+  ]);
+  expect(result.matches.map((match) => match.job.id).sort()).toEqual(["fresh", "undated"]);
+  expect(result.matches[0]?.applyUrl).toBe(result.matches[0]?.job.url);
+  expect(result.filteredOut).toEqual([{ jobId: "stale", reasons: ["posted_too_old:30d"] }]);
+  expect(matchJobs(profile, { maxAgeDays: 0 }, [job({ id: "stale", title: "Java Engineer", updatedAt: "2023-08-09T00:00:00.000Z" })]).matches).toHaveLength(1);
 });

@@ -37,7 +37,7 @@ Then ask your agent something like:
 
 > Show me what Openings covers in India. If that looks useful, use my resume to find backend roles, including good jobs whose titles I would not have searched for. Rank by evidence and explain every gap.
 
-On first use the agent builds your private index in resumable batches of ten sources, reports real coverage, and only then asks for a resume. Results come back in three buckets: direct title matches, hidden roles found through grounded title families, and stretch roles, each with separate evidence and keyword scores. The index lives under `~/.openings`.
+On first use the agent downloads the shared index of every verified source in one call, reports real coverage, and only then asks for a resume; only missing or stale sources are crawled, in batches of 25. Results come back in three buckets: direct title matches, hidden roles found through grounded title families, and stretch roles, each with separate evidence and keyword scores. The index lives under `~/.openings`.
 
 The [job-seeker quickstart](docs/job-seeker-quickstart.md) has sample prompts, an example conversation, privacy details, and common errors.
 

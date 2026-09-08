@@ -6,6 +6,7 @@ import { partitionFor, type Company, type CrawlReport, type JobSnapshot } from "
 export interface PrepareJobSearchResult {
   status: "ready" | "partial";
   nextAction: "ready" | "call_again" | "retry_later";
+  note?: string;
   continuation?: string;
   networkAttempted: boolean;
   sources: { catalog: number; indexed: number; fresh: number; stale: number; missing: number; pending: number };
@@ -25,7 +26,7 @@ export function createJobSearchPreparer(options: {
 }) {
   const now = options.now ?? (() => new Date());
   const freshnessMs = (options.freshnessDays ?? 14) * 86_400_000;
-  const batchSize = Math.max(1, Math.min(10, Math.trunc(options.batchSize ?? 10)));
+  const batchSize = Math.max(1, Math.min(25, Math.trunc(options.batchSize ?? 25)));
   return {
     async prepare(value: unknown): Promise<PrepareJobSearchResult> {
       const input = validateInput(value, options.sources);
@@ -44,10 +45,13 @@ export function createJobSearchPreparer(options: {
       const state = sourceState(options.sources, snapshot, now(), freshnessMs);
       const attempted = new Set([...input.attempted, ...selected]);
       const hasUnattemptedPending = pendingSources(options.sources, snapshot, now(), freshnessMs).some((source) => !attempted.has(source.slug));
-      const nextAction = state.pending === 0 ? "ready" : hasUnattemptedPending ? "call_again" : "retry_later";
+      // The shared seed normally covers the whole catalog on the first call; a few missing or stale sources never justify another round trip.
+      const covered = state.fresh / Math.max(1, options.sources.length);
+      const nextAction = state.pending === 0 || covered >= 0.95 ? "ready" : hasUnattemptedPending ? "call_again" : "retry_later";
       return {
         status: state.pending === 0 ? "ready" : "partial",
         nextAction,
+        ...(nextAction === "ready" && state.pending > 0 ? { note: `${state.indexed} of ${options.sources.length} sources are indexed; the remaining ${state.pending} are optional and refresh in the background of later calls.` } : {}),
         ...(nextAction === "call_again" ? { continuation: encodeContinuation(countries, attempted) } : {}),
         networkAttempted: Boolean(crawl),
         sources: { catalog: options.sources.length, ...state },

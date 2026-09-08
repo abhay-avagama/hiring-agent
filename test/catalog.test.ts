@@ -16,7 +16,7 @@ describe("job catalog", () => {
       },
     });
 
-    expect(await catalog.search({ country: "IN" })).toEqual([expect.objectContaining({
+    expect(await catalog.search({ country: "IN", maxAgeDays: 0 })).toEqual([expect.objectContaining({
       id: "recruitee:acme:r-1", title: "Backend Engineer", location: "Bengaluru, Karnataka, IN",
       workMode: "hybrid", eligibleCountries: ["IN"], url: "https://acme.test/o/backend-engineer",
     })]);
@@ -43,7 +43,7 @@ describe("job catalog", () => {
       },
     });
 
-    expect(await catalog.search({ query: "backend" })).toEqual([expect.objectContaining({ id: "workday:mastercard:R-20", eligibleCountries: ["IN"] })]);
+    expect(await catalog.search({ query: "backend", maxAgeDays: 0 })).toEqual([expect.objectContaining({ id: "workday:mastercard:R-20", eligibleCountries: ["IN"] })]);
     expect(requests.filter((request) => request.url.endsWith("/jobs")).map((request) => request.body)).toEqual([
       expect.objectContaining({ offset: 0, limit: 20 }), expect.objectContaining({ offset: 20, limit: 20 }),
     ]);
@@ -61,7 +61,7 @@ describe("job catalog", () => {
       },
     });
 
-    expect(await catalog.search({ country: "IN" })).toHaveLength(1);
+    expect(await catalog.search({ country: "IN", maxAgeDays: 0 })).toHaveLength(1);
     expect(requests).toBe(2);
   });
 
@@ -115,7 +115,7 @@ describe("job catalog", () => {
         },
       });
 
-      expect(await catalog.search({ country: "IN" })).toHaveLength(1);
+      expect(await catalog.search({ country: "IN", maxAgeDays: 0 })).toHaveLength(1);
       expect(requests).toBe(2);
       expect(cancelled).toBeTrue();
     }
@@ -142,7 +142,7 @@ describe("job catalog", () => {
       companies: [{ slug: "acme", name: "Acme", ats: "lever", token: "acme" }],
       fetch: async () => new Response(new ReadableStream({ cancel: () => { cancelled += 1; } }), { status: 503, headers: { "retry-after": "0" } }),
     });
-    expect(await catalog.search({})).toEqual([]);
+    expect(await catalog.search({ maxAgeDays: 0 })).toEqual([]);
     expect(cancelled).toBe(3);
   });
   test("searches Greenhouse jobs through the public catalog interface", async () => {
@@ -153,7 +153,7 @@ describe("job catalog", () => {
       }),
     });
 
-    const jobs = await catalog.search({ query: "platform", remote: true });
+    const jobs = await catalog.search({ query: "platform", remote: true, maxAgeDays: 0 });
 
     expect(jobs).toEqual([expect.objectContaining({
       id: "greenhouse:acme:42",
@@ -173,10 +173,10 @@ describe("job catalog", () => {
       }]),
     });
 
-    expect(await catalog.search({ location: "london" })).toEqual([expect.objectContaining({
+    expect(await catalog.search({ location: "london", maxAgeDays: 0 })).toEqual([expect.objectContaining({
       id: "lever:beta:abc", company: "Beta Labs", title: "Product Designer", remote: false,
     })]);
-    expect(await catalog.search({ location: "berlin" })).toEqual([]);
+    expect(await catalog.search({ location: "berlin", maxAgeDays: 0 })).toEqual([]);
   });
 
   test("searches Ashby with its public GET board protocol", async () => {
@@ -193,7 +193,7 @@ describe("job catalog", () => {
       },
     });
 
-    expect(await catalog.search({ query: "data", remote: true })).toEqual([
+    expect(await catalog.search({ query: "data", remote: true, maxAgeDays: 0 })).toEqual([
       expect.objectContaining({ id: "ashby:gamma:job-7", remote: true }),
     ]);
     expect(request).toEqual([
@@ -273,7 +273,7 @@ describe("job catalog", () => {
       ]),
     });
 
-    expect(await catalog.search({ country: "IN" })).toEqual([
+    expect(await catalog.search({ country: "IN", maxAgeDays: 0 })).toEqual([
       expect.objectContaining({ id: "lever:acme:in" }),
       expect.objectContaining({ id: "lever:acme:apac" }),
       expect.objectContaining({ id: "lever:acme:state" }),
@@ -310,7 +310,7 @@ describe("job catalog", () => {
     });
 
     expect((await catalog.search({ country: "DE" })).map((job) => job.id)).toEqual(["lever:acme:germany", "lever:acme:lowercase-de"]);
-    expect((await catalog.search({ country: "IN" })).map((job) => job.id)).toEqual([]);
+    expect((await catalog.search({ country: "IN", maxAgeDays: 0 })).map((job) => job.id)).toEqual([]);
     expect((await catalog.search({ country: "US" })).map((job) => job.id)).toEqual(["lever:acme:us", "lever:acme:usa", "lever:acme:generic-global"]);
     expect((await catalog.search({ country: "GE" })).map((job) => job.id)).toEqual(["lever:acme:country-georgia", "lever:acme:batumi", "lever:acme:remote-georgia"]);
   });
@@ -331,6 +331,7 @@ test("Workday relative posting labels become approximate dates and search filter
     { ...base, id: "c", title: "New Engineer", updatedAt: "2026-09-07" },
     { ...base, id: "d", title: "Recent Engineer", updatedAt: "2026-08-20" },
   ];
-  expect(searchJobs(jobs, { query: "engineer" }, now).map((job) => job.id)).toEqual(["c", "d", "a", "b"]);
-  expect(searchJobs(jobs, { query: "engineer", maxAgeDays: 30 }, now).map((job) => job.id)).toEqual(["c", "d"]);
+  expect(searchJobs(jobs, { query: "engineer" }, now).map((job) => job.id)).toEqual(["c", "d", "b"]); // default: 30 days, undated kept last
+  expect(searchJobs(jobs, { query: "engineer", maxAgeDays: 30 }, now).map((job) => job.id)).toEqual(["c", "d"]); // explicit: undated dropped
+  expect(searchJobs(jobs, { query: "engineer", maxAgeDays: 0 }, now).map((job) => job.id)).toEqual(["c", "d", "a", "b"]); // 0: everything
 });

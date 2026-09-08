@@ -2,7 +2,7 @@ import { validateCandidateProfileEvidence, type CandidateProfile } from "./candi
 import { isEligibleForCountry, normalizeLocation } from "./locations.ts";
 import { detectRequirementTerms, findTransferability, matchesExactSkillEvidence, requiresExactSkillEvidence, type TransferabilityKind } from "./requirement-vocabulary.ts";
 import type { Job } from "./types.ts";
-import { postedTime } from "./catalog.ts";
+import { DEFAULT_MAX_AGE_DAYS, postedTime } from "./catalog.ts";
 import { evaluateScreeningRequirements, type ScreeningRequirement } from "./screening-requirements.ts";
 
 export interface CandidateIntent {
@@ -16,7 +16,7 @@ export interface CandidateIntent {
   excludedCountries?: string[];
   excludedLocations?: string[];
   excludedRoles?: string[];
-  /** Only roles posted within this many days; undated roles are dropped when set. */
+  /** Only roles posted within this many days. Default 30 keeps undated roles; an explicit value drops them too; 0 includes everything. */
   maxAgeDays?: number;
 }
 
@@ -49,6 +49,8 @@ export interface JobMatch {
   transferable: TransferableRequirement[];
   gaps: string[];
   discovery: { category: "direct" | "hidden" | "stretch"; titleExpansions: TitleExpansion[] };
+  /** The employer's own posting, repeated at the top level so it is never dropped from a summary. */
+  applyUrl: string;
 }
 
 export interface FilteredJob { jobId: string; reasons: string[] }
@@ -115,6 +117,7 @@ export function matchJobs(profile: CandidateProfile, intent: CandidateIntent, jo
       transferable,
       gaps,
       discovery: { category, titleExpansions },
+      applyUrl: job.url,
       score,
       index,
     });
@@ -229,7 +232,9 @@ function hardFilterReasons(job: Job, intent: CandidateIntent): string[] {
   if (intent.locations?.length && !intent.locations.some((location) => normalizeLocation(job.location).includes(normalizeLocation(location)))) reasons.push("location_mismatch");
   for (const location of intent.excludedLocations ?? []) if (normalizeLocation(job.location).includes(normalizeLocation(location))) reasons.push(`location_excluded:${location}`);
   for (const role of intent.excludedRoles ?? []) if (includesPhrase(job.title, role) || tokenOverlap(role, job.title) === 1) reasons.push(`role_excluded:${role}`);
-  if (intent.maxAgeDays && postedTime(job) < Date.now() - intent.maxAgeDays * 86_400_000) reasons.push(`posted_too_old:${intent.maxAgeDays}d`);
+  const explicitAge = intent.maxAgeDays !== undefined;
+  const maxAgeDays = explicitAge ? intent.maxAgeDays! : DEFAULT_MAX_AGE_DAYS;
+  if (maxAgeDays > 0 && (postedTime(job) > 0 || explicitAge) && postedTime(job) < Date.now() - maxAgeDays * 86_400_000) reasons.push(`posted_too_old:${maxAgeDays}d`);
   if (intent.remote === true && job.workMode !== "remote") reasons.push("remote_required");
   if (intent.remote === false && (job.workMode === "remote" || job.workMode === "unknown")) reasons.push("non_remote_required");
   const searchable = `${job.title}\n${job.company}\n${job.location}\n${job.description}`;

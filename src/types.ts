@@ -99,7 +99,7 @@ export interface SearchQuery {
   location?: string;
   country?: string;
   remote?: boolean;
-  /** Only jobs posted within this many days; undated jobs are excluded when set. */
+  /** Only jobs posted within this many days. Default 30 keeps undated jobs (sorted last); an explicit value also drops undated jobs; 0 includes everything. */
   maxAgeDays?: number;
   limit?: number;
 }
