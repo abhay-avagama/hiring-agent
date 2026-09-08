@@ -14,7 +14,7 @@ test("Jooble results become employer signals with the origin site as the domain 
     if (body.page > 1) return Response.json({ totalCount: 3, jobs: [] });
     return Response.json({ totalCount: 3, jobs: [
       { id: 1, company: "NTT DATA", source: "careers-inc.nttdata.com", updated: "2026-09-02T10:00:00" },
-      { id: 2, company: "Mastercard", source: "decentrajobs.com", updated: "2026-09-01T10:00:00" },
+      { id: 2, company: "Mastercard", source: "fitly.work", updated: "2026-09-01T10:00:00" },
       { id: 3, company: "NTT DATA", source: "hireskys.com", updated: "2026-09-05T10:00:00" },
       { id: 1, company: "NTT DATA", source: "careers-inc.nttdata.com" },
     ] });

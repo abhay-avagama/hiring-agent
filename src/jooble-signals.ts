@@ -45,8 +45,10 @@ export async function collectJoobleSignals(apiKey: string, outputPath: string, o
     }
   }
   for (const entry of employers.values()) {
-    const owned = entry.sources.find((host) => !AGGREGATOR_HOSTS.test(host) && /^[a-z0-9.-]+\.[a-z]{2,}$/.test(host));
-    if (owned) entry.companyDomain = registrable(owned);
+    // Company-owned only when the site's name shares a token with the employer's name; unknown aggregators never qualify.
+    const tokens = entry.companyName.toLowerCase().replace(/[^a-z0-9 ]/g, " ").split(/\s+/).filter((token) => token.length >= 3 && !["the", "ltd", "limited", "inc", "pvt", "private", "group", "technologies", "solutions", "services", "india", "bank", "corporation", "company"].includes(token));
+    const owned = entry.sources.map(registrable).find((domain) => !AGGREGATOR_HOSTS.test(domain) && /^[a-z0-9.-]+\.[a-z]{2,}$/.test(domain) && tokens.some((token) => domain.split(".")[0]!.replace(/-/g, "").includes(token)));
+    if (owned) entry.companyDomain = owned;
   }
   const list = [...employers.values()].sort((left, right) => right.jobs - left.jobs);
   const report: JoobleSignalReport = { generatedAt: new Date().toISOString(), location, queries, jobsSeen, employers: list, seeds: list.filter((entry) => entry.companyDomain).map((entry) => ({ companyName: entry.companyName, companyDomain: entry.companyDomain! })) };
