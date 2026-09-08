@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-09-07T14:00:04.204Z",
+  "updatedAt": "2026-09-07T16:44:27.688Z",
   "leads": [
     {
       "sourceKey": "ashby:0g",
@@ -10897,6 +10897,20 @@
           "kind": "company_redirect",
           "reference": "https://bolna.ai/careers",
           "observedAt": "2026-08-19T17:56:59.154Z"
+        },
+        {
+          "companyName": "Bolna AI",
+          "companyDomain": "bolna.ai",
+          "kind": "company_redirect",
+          "reference": "https://bolna.ai/careers",
+          "observedAt": "2026-09-07T16:44:04.920Z"
+        },
+        {
+          "companyName": "Bolna AI",
+          "companyDomain": "bolna.ai",
+          "kind": "company_redirect",
+          "reference": "https://bolna.ai/careers",
+          "observedAt": "2026-09-07T16:44:27.688Z"
         }
       ],
       "attempts": [
@@ -10910,9 +10924,17 @@
           "category": "unreachable",
           "detail": "Unable to connect. Is the computer able to access the url?",
           "nextEligibleAt": "2026-08-19T18:13:29.932Z"
+        },
+        {
+          "attemptedAt": "2026-09-07T16:44:04.920Z",
+          "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-09-07T16:44:27.688Z",
+          "outcome": "success"
         }
       ],
-      "promotedAt": "2026-08-19T17:56:59.154Z"
+      "promotedAt": "2026-09-07T16:44:27.688Z"
     },
     {
       "sourceKey": "ashby:bolt-farm",
@@ -64495,6 +64517,44 @@
       "promotedAt": "2026-09-07T13:59:57.533Z"
     },
     {
+      "sourceKey": "freshteam:eplane-team",
+      "sourceUrl": "https://eplane-team.freshteam.com/jobs",
+      "ats": "freshteam",
+      "token": "eplane-team",
+      "discoveredFrom": [
+        {
+          "channel": "career_page",
+          "reference": "https://eplane.ai/careers"
+        }
+      ],
+      "companyMatches": [
+        {
+          "companyName": "The ePlane Company",
+          "companyDomain": "eplane.ai",
+          "method": "normalized_token",
+          "reference": "https://eplane.ai/careers"
+        }
+      ],
+      "identityEvidence": [
+        {
+          "companyName": "The ePlane Company",
+          "companyDomain": "eplane.ai",
+          "kind": "company_redirect",
+          "reference": "https://eplane.ai/careers",
+          "observedAt": "2026-09-07T16:25:48.125Z"
+        }
+      ],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-07T16:44:04.920Z",
+          "outcome": "permanent_failure",
+          "category": "empty_board",
+          "detail": "Source has no jobs, so identity cannot be verified",
+          "evidenceRank": 3
+        }
+      ]
+    },
+    {
       "sourceKey": "freshteam:esprow",
       "sourceUrl": "https://esprow.freshteam.com/jobs",
       "ats": "freshteam",
@@ -68863,6 +68923,13 @@
           "outcome": "success",
           "category": "provider_board",
           "detail": "49 jobs"
+        },
+        {
+          "attemptedAt": "2026-09-07T16:44:04.920Z",
+          "outcome": "permanent_failure",
+          "category": "duplicate_slug",
+          "detail": "Catalog slug accordion belongs to a different verified company",
+          "evidenceRank": 1
         }
       ],
       "promotedAt": "2026-09-07T12:01:30.859Z"
@@ -68905,9 +68972,17 @@
         {
           "attemptedAt": "2026-08-19T18:15:35.948Z",
           "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-09-07T16:44:04.920Z",
+          "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-09-07T16:44:27.688Z",
+          "outcome": "success"
         }
       ],
-      "promotedAt": "2026-08-19T18:15:35.948Z"
+      "promotedAt": "2026-09-07T16:44:27.688Z"
     },
     {
       "sourceKey": "greenhouse:accreditedlabs",
@@ -70133,9 +70208,17 @@
           "category": "unreachable",
           "detail": "Unable to connect. Is the computer able to access the url?",
           "nextEligibleAt": "2026-08-19T18:13:29.932Z"
+        },
+        {
+          "attemptedAt": "2026-09-07T16:44:04.920Z",
+          "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-09-07T16:44:27.688Z",
+          "outcome": "success"
         }
       ],
-      "promotedAt": "2026-08-19T17:58:47.954Z"
+      "promotedAt": "2026-09-07T16:44:27.688Z"
     },
     {
       "sourceKey": "greenhouse:affinitiv",
@@ -71995,6 +72078,13 @@
           "outcome": "success",
           "category": "provider_board",
           "detail": "226 jobs"
+        },
+        {
+          "attemptedAt": "2026-09-07T16:44:04.920Z",
+          "outcome": "permanent_failure",
+          "category": "duplicate_slug",
+          "detail": "Catalog slug alpha-sense belongs to a different verified company",
+          "evidenceRank": 1
         }
       ],
       "promotedAt": "2026-09-07T12:01:43.514Z"
@@ -72064,9 +72154,17 @@
         {
           "attemptedAt": "2026-08-19T18:17:43.696Z",
           "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-09-07T16:44:04.920Z",
+          "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-09-07T16:44:27.688Z",
+          "outcome": "success"
         }
       ],
-      "promotedAt": "2026-08-19T18:17:43.696Z"
+      "promotedAt": "2026-09-07T16:44:27.688Z"
     },
     {
       "sourceKey": "greenhouse:alpineinternships",
@@ -72932,9 +73030,17 @@
         {
           "attemptedAt": "2026-08-20T12:56:27.052Z",
           "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-09-07T16:44:04.920Z",
+          "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-09-07T16:44:27.688Z",
+          "outcome": "success"
         }
       ],
-      "promotedAt": "2026-08-20T12:56:27.052Z"
+      "promotedAt": "2026-09-07T16:44:27.688Z"
     },
     {
       "sourceKey": "greenhouse:ampm",
@@ -78217,9 +78323,17 @@
         {
           "attemptedAt": "2026-08-20T12:54:42.478Z",
           "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-09-07T16:44:04.920Z",
+          "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-09-07T16:44:27.688Z",
+          "outcome": "success"
         }
       ],
-      "promotedAt": "2026-08-20T12:54:42.478Z"
+      "promotedAt": "2026-09-07T16:44:27.688Z"
     },
     {
       "sourceKey": "greenhouse:bitly",
@@ -78615,6 +78729,13 @@
           "outcome": "success",
           "category": "provider_board",
           "detail": "8 jobs"
+        },
+        {
+          "attemptedAt": "2026-09-07T16:44:04.920Z",
+          "outcome": "permanent_failure",
+          "category": "duplicate_slug",
+          "detail": "Catalog slug blenheimchalcot belongs to a different verified company",
+          "evidenceRank": 1
         }
       ],
       "promotedAt": "2026-09-07T12:02:02.673Z"
@@ -78661,9 +78782,17 @@
         {
           "attemptedAt": "2026-08-19T18:17:43.696Z",
           "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-09-07T16:44:04.920Z",
+          "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-09-07T16:44:27.688Z",
+          "outcome": "success"
         }
       ],
-      "promotedAt": "2026-08-19T18:17:43.696Z"
+      "promotedAt": "2026-09-07T16:44:27.688Z"
     },
     {
       "sourceKey": "greenhouse:blinkhealth",
@@ -81660,9 +81789,17 @@
         {
           "attemptedAt": "2026-08-19T18:13:14.222Z",
           "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-09-07T16:44:04.920Z",
+          "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-09-07T16:44:27.688Z",
+          "outcome": "success"
         }
       ],
-      "promotedAt": "2026-08-19T18:13:14.222Z"
+      "promotedAt": "2026-09-07T16:44:27.688Z"
     },
     {
       "sourceKey": "greenhouse:capintel",
@@ -81862,9 +81999,17 @@
         {
           "attemptedAt": "2026-08-19T18:13:14.222Z",
           "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-09-07T16:44:04.920Z",
+          "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-09-07T16:44:27.688Z",
+          "outcome": "success"
         }
       ],
-      "promotedAt": "2026-08-19T18:13:14.222Z"
+      "promotedAt": "2026-09-07T16:44:27.688Z"
     },
     {
       "sourceKey": "greenhouse:deepmind",
@@ -81948,9 +82093,17 @@
         {
           "attemptedAt": "2026-08-19T18:17:43.696Z",
           "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-09-07T16:44:04.920Z",
+          "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-09-07T16:44:27.688Z",
+          "outcome": "success"
         }
       ],
-      "promotedAt": "2026-08-19T18:17:43.696Z"
+      "promotedAt": "2026-09-07T16:44:27.688Z"
     },
     {
       "sourceKey": "greenhouse:gravitonresearchcapital",
@@ -82034,9 +82187,17 @@
         {
           "attemptedAt": "2026-08-19T18:13:14.222Z",
           "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-09-07T16:44:04.920Z",
+          "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-09-07T16:44:27.688Z",
+          "outcome": "success"
         }
       ],
-      "promotedAt": "2026-08-19T18:13:14.222Z"
+      "promotedAt": "2026-09-07T16:44:27.688Z"
     },
     {
       "sourceKey": "greenhouse:hackerrank",
@@ -82076,9 +82237,17 @@
         {
           "attemptedAt": "2026-08-19T18:15:35.948Z",
           "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-09-07T16:44:04.920Z",
+          "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-09-07T16:44:27.688Z",
+          "outcome": "success"
         }
       ],
-      "promotedAt": "2026-08-19T18:15:35.948Z"
+      "promotedAt": "2026-09-07T16:44:27.688Z"
     },
     {
       "sourceKey": "greenhouse:hyreo",
@@ -82118,9 +82287,17 @@
         {
           "attemptedAt": "2026-08-19T18:15:35.948Z",
           "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-09-07T16:44:04.920Z",
+          "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-09-07T16:44:27.688Z",
+          "outcome": "success"
         }
       ],
-      "promotedAt": "2026-08-19T18:15:35.948Z"
+      "promotedAt": "2026-09-07T16:44:27.688Z"
     },
     {
       "sourceKey": "greenhouse:instawork",
@@ -82160,9 +82337,17 @@
         {
           "attemptedAt": "2026-08-19T18:15:35.948Z",
           "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-09-07T16:44:04.920Z",
+          "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-09-07T16:44:27.688Z",
+          "outcome": "success"
         }
       ],
-      "promotedAt": "2026-08-19T18:15:35.948Z"
+      "promotedAt": "2026-09-07T16:44:27.688Z"
     },
     {
       "sourceKey": "greenhouse:insurityindia",
@@ -82202,9 +82387,17 @@
         {
           "attemptedAt": "2026-08-19T18:17:43.696Z",
           "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-09-07T16:44:04.920Z",
+          "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-09-07T16:44:27.688Z",
+          "outcome": "success"
         }
       ],
-      "promotedAt": "2026-08-19T18:17:43.696Z"
+      "promotedAt": "2026-09-07T16:44:27.688Z"
     },
     {
       "sourceKey": "greenhouse:interviewkickstart",
@@ -82298,9 +82491,17 @@
         {
           "attemptedAt": "2026-08-20T12:54:42.478Z",
           "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-09-07T16:44:04.920Z",
+          "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-09-07T16:44:27.688Z",
+          "outcome": "success"
         }
       ],
-      "promotedAt": "2026-08-20T12:54:42.478Z"
+      "promotedAt": "2026-09-07T16:44:27.688Z"
     },
     {
       "sourceKey": "greenhouse:karya",
@@ -82340,9 +82541,17 @@
         {
           "attemptedAt": "2026-08-19T18:15:35.948Z",
           "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-09-07T16:44:04.920Z",
+          "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-09-07T16:44:27.688Z",
+          "outcome": "success"
         }
       ],
-      "promotedAt": "2026-08-19T18:15:35.948Z"
+      "promotedAt": "2026-09-07T16:44:27.688Z"
     },
     {
       "sourceKey": "greenhouse:newrelic",
@@ -82386,9 +82595,17 @@
         {
           "attemptedAt": "2026-08-20T12:54:42.478Z",
           "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-09-07T16:44:04.920Z",
+          "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-09-07T16:44:27.688Z",
+          "outcome": "success"
         }
       ],
-      "promotedAt": "2026-08-20T12:54:42.478Z"
+      "promotedAt": "2026-09-07T16:44:27.688Z"
     },
     {
       "sourceKey": "greenhouse:nomiso",
@@ -82478,6 +82695,13 @@
         {
           "attemptedAt": "2026-08-19T18:13:14.222Z",
           "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-09-07T16:44:04.920Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 404",
+          "nextEligibleAt": "2026-09-07T16:45:04.920Z"
         }
       ],
       "promotedAt": "2026-08-19T18:13:14.222Z"
@@ -82520,9 +82744,17 @@
         {
           "attemptedAt": "2026-08-19T18:15:35.948Z",
           "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-09-07T16:44:04.920Z",
+          "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-09-07T16:44:27.688Z",
+          "outcome": "success"
         }
       ],
-      "promotedAt": "2026-08-19T18:15:35.948Z"
+      "promotedAt": "2026-09-07T16:44:27.688Z"
     },
     {
       "sourceKey": "greenhouse:robots.txt",
@@ -82588,9 +82820,17 @@
         {
           "attemptedAt": "2026-08-19T18:17:43.696Z",
           "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-09-07T16:44:04.920Z",
+          "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-09-07T16:44:27.688Z",
+          "outcome": "success"
         }
       ],
-      "promotedAt": "2026-08-19T18:17:43.696Z"
+      "promotedAt": "2026-09-07T16:44:27.688Z"
     },
     {
       "sourceKey": "greenhouse:sigmoid",
@@ -82634,9 +82874,17 @@
         {
           "attemptedAt": "2026-08-20T12:54:42.478Z",
           "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-09-07T16:44:04.920Z",
+          "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-09-07T16:44:27.688Z",
+          "outcome": "success"
         }
       ],
-      "promotedAt": "2026-08-20T12:54:42.478Z"
+      "promotedAt": "2026-09-07T16:44:27.688Z"
     },
     {
       "sourceKey": "greenhouse:smartsheet",
@@ -82680,9 +82928,17 @@
         {
           "attemptedAt": "2026-08-20T12:54:42.478Z",
           "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-09-07T16:44:04.920Z",
+          "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-09-07T16:44:27.688Z",
+          "outcome": "success"
         }
       ],
-      "promotedAt": "2026-08-20T12:54:42.478Z"
+      "promotedAt": "2026-09-07T16:44:27.688Z"
     },
     {
       "sourceKey": "greenhouse:sonicwall",
@@ -82722,9 +82978,17 @@
         {
           "attemptedAt": "2026-08-19T18:13:14.222Z",
           "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-09-07T16:44:04.920Z",
+          "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-09-07T16:44:27.688Z",
+          "outcome": "success"
         }
       ],
-      "promotedAt": "2026-08-19T18:13:14.222Z"
+      "promotedAt": "2026-09-07T16:44:27.688Z"
     },
     {
       "sourceKey": "greenhouse:sumologic",
@@ -82768,9 +83032,17 @@
         {
           "attemptedAt": "2026-08-20T12:54:42.478Z",
           "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-09-07T16:44:04.920Z",
+          "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-09-07T16:44:27.688Z",
+          "outcome": "success"
         }
       ],
-      "promotedAt": "2026-08-20T12:54:42.478Z"
+      "promotedAt": "2026-09-07T16:44:27.688Z"
     },
     {
       "sourceKey": "greenhouse:tekion",
@@ -82867,9 +83139,17 @@
         {
           "attemptedAt": "2026-08-19T18:15:35.948Z",
           "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-09-07T16:44:04.920Z",
+          "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-09-07T16:44:27.688Z",
+          "outcome": "success"
         }
       ],
-      "promotedAt": "2026-08-19T18:15:35.948Z"
+      "promotedAt": "2026-09-07T16:44:27.688Z"
     },
     {
       "sourceKey": "greenhouse:zinnia",
@@ -82909,9 +83189,17 @@
         {
           "attemptedAt": "2026-08-19T18:17:43.696Z",
           "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-09-07T16:44:04.920Z",
+          "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-09-07T16:44:27.688Z",
+          "outcome": "success"
         }
       ],
-      "promotedAt": "2026-08-19T18:17:43.696Z"
+      "promotedAt": "2026-09-07T16:44:27.688Z"
     },
     {
       "sourceKey": "lever:mindtickle",
@@ -83019,6 +83307,13 @@
           "category": "unreachable",
           "detail": "Unable to connect. Is the computer able to access the url?",
           "nextEligibleAt": "2026-08-19T18:13:29.932Z"
+        },
+        {
+          "attemptedAt": "2026-09-07T16:44:04.920Z",
+          "outcome": "permanent_failure",
+          "category": "identity_mismatch",
+          "detail": "Neither structured identity fields nor a verified company redirect link to mindtickle.com",
+          "evidenceRank": 3
         }
       ],
       "promotedAt": "2026-08-19T17:52:01.941Z"
@@ -83165,15 +83460,37 @@
           "kind": "provider_structured_domain",
           "reference": "https://transperfect.recruitee.com",
           "observedAt": "2026-08-21T05:33:55.351Z"
+        },
+        {
+          "companyName": "TransPerfect",
+          "companyDomain": "transperfect.com",
+          "kind": "provider_structured_domain",
+          "reference": "https://transperfect.recruitee.com",
+          "observedAt": "2026-09-07T16:44:04.920Z"
+        },
+        {
+          "companyName": "TransPerfect",
+          "companyDomain": "transperfect.com",
+          "kind": "provider_structured_domain",
+          "reference": "https://transperfect.recruitee.com",
+          "observedAt": "2026-09-07T16:44:27.688Z"
         }
       ],
       "attempts": [
         {
           "attemptedAt": "2026-08-21T05:33:55.351Z",
           "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-09-07T16:44:04.920Z",
+          "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-09-07T16:44:27.688Z",
+          "outcome": "success"
         }
       ],
-      "promotedAt": "2026-08-21T05:33:55.351Z"
+      "promotedAt": "2026-09-07T16:44:27.688Z"
     },
     {
       "sourceKey": "recruitee:xite",
@@ -169433,9 +169750,17 @@
           "category": "unreachable",
           "detail": "Unable to connect. Is the computer able to access the url?",
           "nextEligibleAt": "2026-08-19T18:13:29.932Z"
+        },
+        {
+          "attemptedAt": "2026-09-07T16:44:04.920Z",
+          "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-09-07T16:44:27.688Z",
+          "outcome": "success"
         }
       ],
-      "promotedAt": "2026-08-19T17:58:47.954Z"
+      "promotedAt": "2026-09-07T16:44:27.688Z"
     },
     {
       "sourceKey": "workday:athenahealth.wd1.myworkdayjobs.com/athenahealth/robots.txt",
@@ -171349,9 +171674,17 @@
           "category": "unreachable",
           "detail": "Unable to connect. Is the computer able to access the url?",
           "nextEligibleAt": "2026-08-19T18:13:29.932Z"
+        },
+        {
+          "attemptedAt": "2026-09-07T16:44:04.920Z",
+          "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-09-07T16:44:27.688Z",
+          "outcome": "success"
         }
       ],
-      "promotedAt": "2026-08-19T17:58:47.954Z"
+      "promotedAt": "2026-09-07T16:44:27.688Z"
     },
     {
       "sourceKey": "workday:blackrock.wd1.myworkdayjobs.com/blackrock/robots.txt",
@@ -178554,9 +178887,17 @@
           "category": "unreachable",
           "detail": "Unable to connect. Is the computer able to access the url?",
           "nextEligibleAt": "2026-08-19T18:13:29.932Z"
+        },
+        {
+          "attemptedAt": "2026-09-07T16:44:04.920Z",
+          "outcome": "success"
+        },
+        {
+          "attemptedAt": "2026-09-07T16:44:27.688Z",
+          "outcome": "success"
         }
       ],
-      "promotedAt": "2026-08-19T17:52:01.941Z"
+      "promotedAt": "2026-09-07T16:44:27.688Z"
     },
     {
       "sourceKey": "workday:fractal.wd1.myworkdayjobs.com/fractal/robots.txt",
