@@ -10,7 +10,7 @@ import type { Job } from "./types.ts";
  */
 export interface SitePosting { title: string; company?: string; location: string; url: string; identifier?: string; datePosted?: string; validThrough?: string; description: string; remote: boolean }
 export interface SiteSeed { companyName: string; companyDomain: string; careerUrl?: string }
-export interface SiteCrawlOptions { resolveHost?: ResolveHost; pageTransport?: PageTransport; timeoutMs?: number; maxPages?: number; delayMs?: number; sleep?: (ms: number) => Promise<void>; now?: () => number }
+export interface SiteCrawlOptions { resolveHost?: ResolveHost; pageTransport?: PageTransport; timeoutMs?: number; maxPages?: number; delayMs?: number; sleep?: (ms: number) => Promise<void>; signal?: AbortSignal }
 export interface SiteCrawlResult { careerUrl?: string; robotsBlocked: boolean; candidatePages: number; pagesFetched: number; postings: SitePosting[]; issues: string[] }
 
 const JOB_PATH = /job|career|opening|vacanc|position|recruit|apply|hiring/i;
@@ -82,6 +82,7 @@ export async function crawlSite(seed: SiteSeed, options: SiteCrawlOptions = {}):
   const result: SiteCrawlResult = { robotsBlocked: false, candidatePages: 0, pagesFetched: 0, postings: [], issues: [] };
   let requests = 0;
   const get = async (url: string) => {
+    if (options.signal?.aborted) throw options.signal.reason instanceof Error ? options.signal.reason : new Error("Crawl aborted");
     if (requests > 0 && options.delayMs) await sleep(options.delayMs);
     requests += 1;
     if (!(await robotsAllows(url, fetchOptions))) { result.robotsBlocked = true; return null; }

@@ -84,7 +84,7 @@ function isVerifiedCatalogRecord(company: unknown): boolean {
     && verification.canonicalSourceUrl === source.canonicalSourceUrl
     && typeof verification.checkedAt === "string" && Number.isFinite(Date.parse(verification.checkedAt))
     && typeof verification.observedCompanyName === "string" && verification.observedCompanyName.length > 0
-    && ["provider_company_name", "provider_tenant", "structured_domain_link", "company_redirect", "company_page_link"].includes(String(verification.identityEvidence))
+    && ["provider_company_name", "provider_tenant", "structured_domain_link", "company_redirect", "company_page_link", "provider_board", "company_site"].includes(String(verification.identityEvidence))
     && typeof verification.contentType === "string" && typeof verification.payloadVersion === "string" && verification.payloadVersion.length > 0
     && Number.isInteger(verification.jobCount) && Number(verification.jobCount) > 0;
 }

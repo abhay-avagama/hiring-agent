@@ -1,4 +1,5 @@
-export const ALL_PROVIDERS = ["greenhouse", "lever", "ashby", "workday", "recruitee", "smartrecruiters", "workable", "breezy", "freshteam"] as const;
+/** ATS boards plus "jobposting": a company's own career site read only through its schema.org JobPosting markup (token = careers URL). */
+export const ALL_PROVIDERS = ["greenhouse", "lever", "ashby", "workday", "recruitee", "smartrecruiters", "workable", "breezy", "freshteam", "jobposting"] as const;
 export type Ats = (typeof ALL_PROVIDERS)[number];
 
 export interface DomainEvidence {
@@ -40,7 +41,7 @@ export interface SourceVerification {
   checkedAt: string;
   canonicalSourceUrl: string;
   observedCompanyName: string;
-  identityEvidence: "provider_company_name" | "provider_tenant" | "structured_domain_link" | "company_redirect" | "company_page_link" | "provider_board";
+  identityEvidence: "provider_company_name" | "provider_tenant" | "structured_domain_link" | "company_redirect" | "company_page_link" | "provider_board" | "company_site";
   contentType: string;
   payloadVersion: string;
   jobCount: number;

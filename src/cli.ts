@@ -18,6 +18,7 @@ import { forceReleaseFileLock, inspectFileLock } from "./file-lock.ts";
 import { generateCountryCoverageReport } from "./country-coverage.ts";
 import { probeJobPostingJsonLd } from "./jobposting-probe.ts";
 import { probeSites } from "./site-probe.ts";
+import { admitSites } from "./site-admission.ts";
 import { mergeAttemptedRoundLeads, prepareRecruiteeRoundArtifacts } from "./recruitee-round.ts";
 
 const HELP = `Openings — search public company job boards
@@ -37,6 +38,7 @@ Usage:
   openings sources trace-careers COMPANIES.json [--country CODE] [--registry FILE] [--common-crawl-report FILE] [--search-key-env NAME] [--output FILE] [--catalog FILE] [--report FILE]
   openings sources probe-jobposting COMPANIES.md [--catalog FILE] [--report FILE] [--company-limit 10|20]
   openings sources probe-sites SEEDS.json [--sample N] [--limit N] [--concurrency N] [--max-pages N] [--delay-ms N] [--report FILE]
+  openings sources admit-sites REPORT.json [--catalog FILE] [--min-postings N]
   openings sources prepare-recruitee-round IDENTITIES.json [--catalog FILE] [--artifacts DIR]
   openings sources merge-attempted-round-leads ISOLATED_REGISTRY [--registry FILE]
   openings search [words] [--country CODE|--india] [--location PLACE] [--remote|--onsite]
@@ -125,6 +127,15 @@ export async function run(args: string[]): Promise<number> {
       const report = await probeSites(inputPath, reportIndex >= 0 ? args[reportIndex + 1]! : ".openings/site-probe.json", { sample: num("--sample"), limit: num("--limit"), concurrency: num("--concurrency"), maxPages: num("--max-pages"), delayMs: num("--delay-ms") });
       const { sites, ...summary } = report;
       console.log(JSON.stringify({ ...summary, topSites: sites.slice(0, 15) }, null, 2));
+      return 0;
+    }
+    if (rest[0] === "admit-sites") {
+      const args = rest.slice(1);
+      const reportPath = args[0];
+      if (!reportPath || reportPath.startsWith("--")) return fail("sources admit-sites requires a probe report JSON file");
+      const catalogIndex = args.indexOf("--catalog");
+      const minIndex = args.indexOf("--min-postings");
+      console.log(JSON.stringify(await admitSites(reportPath, catalogIndex >= 0 ? args[catalogIndex + 1]! : "data/companies.json", { minPostings: minIndex >= 0 ? Number(args[minIndex + 1]) : undefined }), null, 2));
       return 0;
     }
     if (rest[0] === "probe-jobposting") {

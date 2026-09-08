@@ -1,5 +1,6 @@
 import type { Company, Job, JobSummary, SearchQuery } from "./types.ts";
 import { providerSpec, type JsonGet } from "./providers.ts";
+import { crawlSite, sitePostingsToJobs } from "./jobposting-site.ts";
 import { classifyJob, isEligibleForCountry, normalizeLocation } from "./locations.ts";
 
 type Fetch = (input: string | URL, init?: RequestInit) => Promise<Response>;
@@ -134,6 +135,11 @@ export interface FetchJobsObserver {
 }
 export async function fetchSourceJobs(company: Company, fetcher: Fetch = globalThis.fetch, signal?: AbortSignal, observer?: FetchJobsObserver): Promise<Job[]> {
   if (company.ats === "workday") return fetchWorkdayJobs(company, fetcher, signal, observer);
+  if (company.ats === "jobposting") {
+    if (!company.companyDomain) throw new Error(`${company.name} company site source has no company domain`);
+    const site = await crawlSite({ companyName: company.name, companyDomain: company.companyDomain, careerUrl: company.token }, { maxPages: 60, delayMs: 300, signal });
+    return sitePostingsToJobs(company, site.postings);
+  }
   const spec = providerSpec(company.ats);
   if (spec) {
     const get = jsonGetter(fetcher, company.name, signal, observer);

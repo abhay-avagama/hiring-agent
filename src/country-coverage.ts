@@ -192,7 +192,7 @@ function validLastCrawl(value: Record<string, unknown>): boolean {
 }
 function validVerification(value: unknown): boolean {
   return isRecord(value) && validDate(value.checkedAt) && typeof value.canonicalSourceUrl === "string" && typeof value.observedCompanyName === "string"
-    && ["provider_company_name", "provider_tenant", "structured_domain_link", "company_redirect"].includes(String(value.identityEvidence))
+    && ["provider_company_name", "provider_tenant", "structured_domain_link", "company_redirect", "company_page_link", "provider_board", "company_site"].includes(String(value.identityEvidence))
     && typeof value.contentType === "string" && typeof value.payloadVersion === "string" && nonNegativeInteger(value.jobCount);
 }
 function validDate(value: unknown): value is string { return typeof value === "string" && Number.isFinite(Date.parse(value)); }
