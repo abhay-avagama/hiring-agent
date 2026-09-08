@@ -88,6 +88,11 @@ export interface Job extends JobSummary {
   description: string;
 }
 
+/** Partition lookup that ignores inherited properties, so a slug such as "constructor" never resolves to Object.prototype. */
+export function partitionFor<T>(partitions: Record<string, T>, slug: string): T | undefined {
+  return Object.hasOwn(partitions, slug) ? partitions[slug] : undefined;
+}
+
 export interface SearchQuery {
   query?: string;
   location?: string;

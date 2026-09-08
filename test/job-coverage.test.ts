@@ -53,3 +53,10 @@ function job(id: string, eligibleCountries: string[]): Job {
     url: `https://example.test/${id}`, description: "Build systems",
   };
 }
+
+test("a source whose slug is an Object.prototype name is treated as not indexed", async () => {
+  const { projectJobCoverage } = await import("../src/job-coverage.ts");
+  const sources = [{ slug: "constructor", name: "Constructor", ats: "ashby" as const, token: "constructor" }];
+  const snapshot = { version: 1 as const, updatedAt: "2026-09-08T00:00:00.000Z", partitions: {}, lastCrawl: { startedAt: "2026-09-08T00:00:00.000Z", finishedAt: "2026-09-08T00:00:00.000Z", selected: 0, succeeded: 0, failed: [] } };
+  expect(projectJobCoverage(sources, snapshot, ["IN"]).countries[0]).toEqual({ country: "IN", indexedSourcesWithEligibleJobs: 0, eligibleJobs: 0, distinctEligibleEmployers: 0 });
+});

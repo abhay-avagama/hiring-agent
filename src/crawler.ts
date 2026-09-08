@@ -1,5 +1,5 @@
 import type { FetchJobsObserver } from "./catalog.ts";
-import type { Company, CrawlFailure, CrawlReport, CrawlSourceResult, Job, JobPartition, JobSnapshot } from "./types.ts";
+import { partitionFor, type Company, type CrawlFailure, type CrawlReport, type CrawlSourceResult, type Job, type JobPartition, type JobSnapshot } from "./types.ts";
 
 export interface SnapshotStore {
   read(): Promise<JobSnapshot | null>;
@@ -66,9 +66,9 @@ export function createCrawler(options: CrawlerOptions): Crawler {
       const considered = sources.length;
       const cutoff = Date.parse(startedAt) - sourceFreshnessMs;
       const eligibleSources = (sourceFreshnessMs === 0 ? sources : sources.filter((source) => {
-        const fetchedAt = Date.parse(partitions[source.slug]?.fetchedAt ?? "");
+        const fetchedAt = Date.parse(partitionFor(partitions, source.slug)?.fetchedAt ?? "");
         return !Number.isFinite(fetchedAt) || fetchedAt <= cutoff;
-      })).sort((left, right) => partitionTime(partitions[left.slug]?.fetchedAt) - partitionTime(partitions[right.slug]?.fetchedAt));
+      })).sort((left, right) => partitionTime(partitionFor(partitions, left.slug)?.fetchedAt) - partitionTime(partitionFor(partitions, right.slug)?.fetchedAt));
       const selectedSources = sourceLimit > 0 ? eligibleSources.slice(0, sourceLimit) : eligibleSources;
       let pending = selectedSources;
       let finalFailures: CrawlFailure[] = [];

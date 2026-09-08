@@ -1,7 +1,7 @@
 import type { SnapshotStore } from "./crawler.ts";
 import { projectJobCoverage, type JobCoverageSummary } from "./job-coverage.ts";
 import type { CrawlScope } from "./local-jobs.ts";
-import type { Company, CrawlReport, JobSnapshot } from "./types.ts";
+import { partitionFor, type Company, type CrawlReport, type JobSnapshot } from "./types.ts";
 
 export interface PrepareJobSearchResult {
   status: "ready" | "partial";
@@ -61,7 +61,7 @@ export function createJobSearchPreparer(options: {
 function pendingSources(sources: Company[], snapshot: Awaited<ReturnType<SnapshotStore["read"]>>, now: Date, freshnessMs: number): Company[] {
   const cutoff = now.getTime() - freshnessMs;
   return sources.filter((source) => {
-    const fetchedAt = Date.parse(snapshot?.partitions[source.slug]?.fetchedAt ?? "");
+    const fetchedAt = Date.parse((snapshot && partitionFor(snapshot.partitions, source.slug))?.fetchedAt ?? "");
     return !Number.isFinite(fetchedAt) || fetchedAt < cutoff;
   });
 }
@@ -71,7 +71,7 @@ function sourceState(sources: Company[], snapshot: NonNullable<Awaited<ReturnTyp
   let missing = 0;
   let stale = 0;
   for (const source of sources) {
-    const partition = snapshot.partitions[source.slug];
+    const partition = partitionFor(snapshot.partitions, source.slug);
     if (!partition) missing += 1;
     else {
       const fetchedAt = Date.parse(partition.fetchedAt);

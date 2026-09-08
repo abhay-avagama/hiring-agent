@@ -1,6 +1,6 @@
 import { isEligibleForCountry } from "./locations.ts";
 import type { SnapshotStore } from "./crawler.ts";
-import type { Company, JobSnapshot } from "./types.ts";
+import { partitionFor, type Company, type JobSnapshot } from "./types.ts";
 
 export interface CountryJobCoverage {
   country: string;
@@ -28,7 +28,7 @@ export function createJobCoverageReader(options: { sources: Company[]; store: Sn
 export function projectJobCoverage(sources: Company[], snapshot: JobSnapshot, countries: string[]): JobCoverageSummary {
   const normalizedCountries = [...new Set(countries.map(normalizeCountry))];
   const indexedSources = sources.flatMap((source) => {
-    const partition = snapshot.partitions[source.slug];
+    const partition = partitionFor(snapshot.partitions, source.slug);
     return partition ? [{ source, jobs: partition.jobs }] : [];
   });
 
