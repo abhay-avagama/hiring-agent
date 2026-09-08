@@ -54,8 +54,8 @@ export async function enrichSourcesFromCompanies(registryPath: string, companies
 }
 
 function winningIdentity(lead: EnrichmentLead): IdentityEvidence | undefined {
-  const qualifying = lead.identityEvidence.filter((evidence) => !["lever", "ashby"].includes(lead.ats) || ["provider_structured_domain", "company_redirect"].includes(evidence.kind));
-  const rank = { provider_structured_domain: 4, company_redirect: 3, company_registry: 2, authoritative_dataset: 1 } as const;
+  const qualifying = lead.identityEvidence.filter((evidence) => !["lever", "ashby"].includes(lead.ats) || ["provider_structured_domain", "company_redirect", "company_page_link"].includes(evidence.kind));
+  const rank = { provider_structured_domain: 4, company_redirect: 3, company_page_link: 3, company_registry: 2, authoritative_dataset: 1 } as const;
   return [...qualifying].sort((left, right) => rank[right.kind] - rank[left.kind] || left.companyDomain.localeCompare(right.companyDomain))[0];
 }
 function countStates(leads: EnrichmentLead[]): Record<string, number> { const counts: Record<string, number> = {}; for (const lead of leads) { const state = deriveLeadState(lead); counts[state] = (counts[state] ?? 0) + 1; } return counts; }
@@ -84,7 +84,7 @@ function isVerifiedCatalogRecord(company: unknown): boolean {
     && verification.canonicalSourceUrl === source.canonicalSourceUrl
     && typeof verification.checkedAt === "string" && Number.isFinite(Date.parse(verification.checkedAt))
     && typeof verification.observedCompanyName === "string" && verification.observedCompanyName.length > 0
-    && ["provider_company_name", "provider_tenant", "structured_domain_link", "company_redirect"].includes(String(verification.identityEvidence))
+    && ["provider_company_name", "provider_tenant", "structured_domain_link", "company_redirect", "company_page_link"].includes(String(verification.identityEvidence))
     && typeof verification.contentType === "string" && typeof verification.payloadVersion === "string" && verification.payloadVersion.length > 0
     && Number.isInteger(verification.jobCount) && Number(verification.jobCount) > 0;
 }

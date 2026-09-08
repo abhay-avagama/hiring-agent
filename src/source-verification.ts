@@ -1,5 +1,5 @@
 import type { Ats, RejectedSource, SourceCandidate, SourceRejectionReason, SourceVerificationResult, VerifiedCompany } from "./types.ts";
-import { fetchSafeHead, type HeadTransport, type ResolveHost } from "./safe-head.ts";
+import { extractLinks, fetchSafeHead, fetchSafePage, robotsAllows, type HeadTransport, type PageTransport, type ResolveHost } from "./safe-head.ts";
 import { abortableDelay, fetchSourceJobs, isTransientStatus, retryDelayMs } from "./catalog.ts";
 import { isEligibleForCountry } from "./locations.ts";
 import { providerSpec, resolveProviderSource } from "./providers.ts";
@@ -14,6 +14,7 @@ interface VerificationOptions {
   timeoutMs?: number;
   resolveHost?: ResolveHost;
   headTransport?: HeadTransport;
+  pageTransport?: PageTransport;
   requireCountry?: string;
   countryGateTimeoutMs?: number;
   providerConcurrency?: Partial<Record<Ats, number>>;
@@ -56,7 +57,7 @@ export async function verifyCandidates(candidates: SourceCandidate[], options: V
       const release = await providerLimits.get(source.ats)!.acquire();
       const providerFetch = providerCooldowns.get(source.ats)!.wrap(fetcher);
       try {
-        const evidence = await probe(candidate, source, providerFetch, timeoutMs, options.resolveHost, options.headTransport);
+        const evidence = await probe(candidate, source, providerFetch, timeoutMs, options.resolveHost, options.headTransport, options.pageTransport);
         if (!identityMatches(candidate.companyName, candidate.companyDomain, evidence.observedCompanyName, source.token)) {
           rejected.push({ index, value: rejection(candidate, "identity_mismatch", `Expected ${candidate.companyName}; observed ${evidence.observedCompanyName}`) });
           continue;
@@ -149,7 +150,7 @@ class ProviderCooldown {
   }
 }
 
-async function probe(candidate: SourceCandidate, source: ResolvedSource, fetcher: Fetch, timeoutMs: number, resolveHost?: ResolveHost, headTransport?: HeadTransport) {
+async function probe(candidate: SourceCandidate, source: ResolvedSource, fetcher: Fetch, timeoutMs: number, resolveHost?: ResolveHost, headTransport?: HeadTransport, pageTransport?: PageTransport) {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(new Error(`Timed out after ${timeoutMs}ms`)), timeoutMs);
   const workday = source.ats === "workday" ? parseWorkdayToken(source.token) : undefined;
@@ -172,11 +173,12 @@ async function probe(candidate: SourceCandidate, source: ResolvedSource, fetcher
     const namedProvider = source.ats === "greenhouse" || source.ats === "workday" || Boolean(spec && providerName);
     const hasDomainLink = !namedProvider && structuredIdentityLinksDomain(jobs, candidate.companyDomain);
     const hasRedirectEvidence = !namedProvider && await verifiedCompanyRedirect(candidate, source, resolveHost, headTransport, timeoutMs);
-    if (!namedProvider && !hasDomainLink && !hasRedirectEvidence) throw new VerificationError("identity_mismatch", `Neither structured identity fields nor a verified company redirect link to ${candidate.companyDomain}`);
+    const hasPageLink = !namedProvider && !hasDomainLink && !hasRedirectEvidence && await verifiedCompanyPageLink(candidate, source, resolveHost, pageTransport, timeoutMs);
+    if (!namedProvider && !hasDomainLink && !hasRedirectEvidence && !hasPageLink) throw new VerificationError("identity_mismatch", `Neither structured identity fields, a verified company redirect, nor a company careers-page link point to ${candidate.companyDomain}`);
     const observedCompanyName = providerName || candidate.companyName;
     return {
       observedCompanyName,
-      identityEvidence: source.ats === "workday" ? "provider_tenant" as const : (providerName ? "provider_company_name" as const : hasDomainLink ? "structured_domain_link" as const : "company_redirect" as const),
+      identityEvidence: source.ats === "workday" ? "provider_tenant" as const : (providerName ? "provider_company_name" as const : hasDomainLink ? "structured_domain_link" as const : hasRedirectEvidence ? "company_redirect" as const : "company_page_link" as const),
       contentType,
       payloadVersion: spec ? spec.payloadVersion(body) : source.ats === "greenhouse" ? "greenhouse-job-board:v1" : source.ats === "lever" ? "lever-postings:v0" : source.ats === "workday" ? "workday-cxs:v1" : source.ats === "recruitee" ? "recruitee-careers:v1" : `ashby-job-board:${isRecord(body) && typeof body.apiVersion === "string" ? body.apiVersion : "unknown"}`,
       jobCount: source.ats === "workday" && isRecord(body) && typeof body.total === "number" ? body.total : jobs.length,
@@ -252,7 +254,7 @@ function validateCandidate(candidate: SourceCandidate): string | null {
   if (!isRecord(candidate.discoveredFrom) || typeof candidate.discoveredFrom.channel !== "string" || !channels.has(candidate.discoveredFrom.channel) || typeof candidate.discoveredFrom.reference !== "string" || !candidate.discoveredFrom.reference.trim()) return "discoveredFrom must contain a supported channel and reference";
   if (candidate.cohorts !== undefined && (!Array.isArray(candidate.cohorts) || !candidate.cohorts.every((code) => typeof code === "string"))) return "cohorts must be an array of country codes";
   if (candidate.domainEvidence !== undefined) {
-    if (!isRecord(candidate.domainEvidence) || !["authoritative_dataset", "company_registry", "company_redirect"].includes(String(candidate.domainEvidence.kind)) || typeof candidate.domainEvidence.reference !== "string" || !candidate.domainEvidence.reference) return "domainEvidence must contain a supported kind and reference";
+    if (!isRecord(candidate.domainEvidence) || !["authoritative_dataset", "company_registry", "company_redirect", "company_page_link"].includes(String(candidate.domainEvidence.kind)) || typeof candidate.domainEvidence.reference !== "string" || !candidate.domainEvidence.reference) return "domainEvidence must contain a supported kind and reference";
   }
   return null;
 }
@@ -299,5 +301,19 @@ async function verifiedCompanyRedirect(candidate: SourceCandidate, expected: Res
   } catch { return false; }
 }
 
+
+/** Replays company_page_link evidence: the company's own careers page, fetched once within robots rules, still links to the exact board. */
+async function verifiedCompanyPageLink(candidate: SourceCandidate, expected: ResolvedSource, resolveHost?: ResolveHost, pageTransport?: PageTransport, timeoutMs?: number): Promise<boolean> {
+  if (candidate.domainEvidence?.kind !== "company_page_link") return false;
+  try {
+    const host = new URL(candidate.domainEvidence.reference).hostname.toLowerCase().replace(/^www\./, "");
+    const domain = candidate.companyDomain.toLowerCase().replace(/^www\./, "");
+    if (host !== domain && !host.endsWith(`.${domain}`)) return false;
+    if (!(await robotsAllows(candidate.domainEvidence.reference, { resolveHost, transport: pageTransport, timeoutMs }))) return false;
+    const page = await fetchSafePage(candidate.domainEvidence.reference, { resolveHost, transport: pageTransport, timeoutMs });
+    if (page.status !== 200) return false;
+    return extractLinks(page.html, page.finalUrl).some((link) => { const observed = resolveSource(link); return observed?.ats === expected.ats && observed.token.toLowerCase() === expected.token.toLowerCase(); });
+  } catch { return false; }
+}
 
 class VerificationError extends Error { constructor(readonly reason: SourceRejectionReason, message: string) { super(message); } }

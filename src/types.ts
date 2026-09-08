@@ -2,7 +2,7 @@ export const ALL_PROVIDERS = ["greenhouse", "lever", "ashby", "workday", "recrui
 export type Ats = (typeof ALL_PROVIDERS)[number];
 
 export interface DomainEvidence {
-  kind: "authoritative_dataset" | "company_registry" | "company_redirect";
+  kind: "authoritative_dataset" | "company_registry" | "company_redirect" | "company_page_link";
   reference: string;
 }
 
@@ -40,7 +40,7 @@ export interface SourceVerification {
   checkedAt: string;
   canonicalSourceUrl: string;
   observedCompanyName: string;
-  identityEvidence: "provider_company_name" | "provider_tenant" | "structured_domain_link" | "company_redirect" | "provider_board";
+  identityEvidence: "provider_company_name" | "provider_tenant" | "structured_domain_link" | "company_redirect" | "company_page_link" | "provider_board";
   contentType: string;
   payloadVersion: string;
   jobCount: number;

@@ -195,6 +195,8 @@ async function recordRegistryOutcomes(registryPath: string, result: Awaited<Retu
       ? [{ companyName: company.name, companyDomain: company.companyDomain, kind: "provider_structured_domain", reference: company.sourceUrl, observedAt: now.toISOString() }]
       : company.verification.identityEvidence === "company_redirect" && company.domainEvidence?.kind === "company_redirect"
         ? [{ companyName: company.name, companyDomain: company.companyDomain, kind: "company_redirect", reference: company.domainEvidence.reference, observedAt: now.toISOString() }]
+      : company.verification.identityEvidence === "company_page_link" && company.domainEvidence?.kind === "company_page_link"
+        ? [{ companyName: company.name, companyDomain: company.companyDomain, kind: "company_page_link", reference: company.domainEvidence.reference, observedAt: now.toISOString() }]
         : [];
     additions.push({ ...lead, identityEvidence: evidence, attempts: [attempt], promotedAt: now.toISOString() });
   }

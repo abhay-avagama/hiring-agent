@@ -86,6 +86,7 @@ test("career tracing joins company identities to durable Common Crawl ATS leads"
     resolveHost: async () => ["93.184.216.34"],
     fetch: async () => new Response(null, { status: 200 }),
     headTransport: async () => new Response(null, { status: 200 }),
+    pageTransport: async () => new Response("", { status: 404 }),
   });
 
   expect(report).toEqual(expect.objectContaining({ ready: 0, matched: 1, unresolved: 0, rejected: 0, registryAdded: 1 }));
@@ -134,6 +135,7 @@ test("career tracing reports optional search failures while continuing", async (
       ? new Response("unauthorized", { status: 401 })
       : new Response(null, { status: 200 }),
     headTransport: async () => new Response(null, { status: 200 }),
+    pageTransport: async () => new Response("", { status: 404 }),
   });
 
   expect(report).toEqual(expect.objectContaining({ ready: 0, unresolved: 1, failures: 1 }));
@@ -149,6 +151,7 @@ test("career tracing blocks domains that resolve to private infrastructure", asy
   const report = await traceCareerSources(inputPath, join(directory, "candidates.json"), join(directory, "report.json"), {
     resolveHost: async () => ["169.254.169.254"],
     headTransport: async () => { fetched = true; return new Response(null, { status: 200 }); },
+    pageTransport: async () => new Response("", { status: 404 }),
   });
 
   expect(fetched).toBeFalse();
@@ -171,4 +174,42 @@ test("career tracing validates every redirect destination before requesting it",
 
   expect(fetched).toEqual(["https://acme.test/careers"]);
   expect(report.failureDetails[0]?.detail).toContain("non-public address");
+});
+
+test("career tracing admits boards linked from a company careers page within robots rules", async () => {
+  const directory = await mkdtemp(join(tmpdir(), "openings-careers-page-link-"));
+  const inputPath = join(directory, "companies.json");
+  await writeFile(inputPath, JSON.stringify([{ companyName: "Acme Robotics", companyDomain: "acme.test", careerUrl: "https://acme.test/careers" }]));
+  const pages: Record<string, string> = {
+    "/robots.txt": "User-agent: *\nDisallow: /private\n",
+    "/careers": `<html><body><a href="/about">About</a><a href="https://jobs.lever.co/other-co">Partner</a><a href="https://boards.greenhouse.io/acmerobotics">Open roles</a></body></html>`,
+  };
+  const report = await traceCareerSources(inputPath, join(directory, "candidates.json"), join(directory, "report.json"), {
+    registryPath: join(directory, "leads.json"),
+    resolveHost: async () => ["93.184.216.34"],
+    headTransport: async () => new Response(null, { status: 200 }),
+    pageTransport: async (url) => new Response(pages[url.pathname] ?? "", { status: pages[url.pathname] ? 200 : 404 }),
+  });
+  expect(report).toEqual(expect.objectContaining({ ready: 1, unresolved: 0 }));
+  const candidates = JSON.parse(await readFile(join(directory, "candidates.json"), "utf8"));
+  expect(candidates[0]).toEqual(expect.objectContaining({ sourceUrl: "https://job-boards.greenhouse.io/acmerobotics", domainEvidence: { kind: "company_page_link", reference: "https://acme.test/careers" } }));
+});
+
+test("career tracing skips careers pages that robots.txt disallows", async () => {
+  const directory = await mkdtemp(join(tmpdir(), "openings-careers-robots-"));
+  const inputPath = join(directory, "companies.json");
+  await writeFile(inputPath, JSON.stringify([{ companyName: "Acme", companyDomain: "acme.test", careerUrl: "https://acme.test/careers" }]));
+  let pageFetched = false;
+  const report = await traceCareerSources(inputPath, join(directory, "candidates.json"), join(directory, "report.json"), {
+    registryPath: join(directory, "leads.json"),
+    resolveHost: async () => ["93.184.216.34"],
+    headTransport: async () => new Response(null, { status: 200 }),
+    pageTransport: async (url) => {
+      if (url.pathname === "/robots.txt") return new Response("User-agent: *\nDisallow: /careers\n", { status: 200 });
+      pageFetched = true;
+      return new Response(`<a href="https://boards.greenhouse.io/acme">Jobs</a>`, { status: 200 });
+    },
+  });
+  expect(pageFetched).toBe(false);
+  expect(report).toEqual(expect.objectContaining({ ready: 0, unresolved: 1 }));
 });

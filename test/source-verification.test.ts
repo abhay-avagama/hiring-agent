@@ -204,3 +204,26 @@ test("verified candidates are promoted while identity mismatches and duplicates 
     expect.objectContaining({ sourceUrl: "https://jobs.ashbyhq.com/acme", reason: "duplicate_company" }),
   ]);
 });
+
+test("verifies Lever boards linked from the company's own careers page and rejects forged page links", async () => {
+  const candidate = (reference: string, sourceUrl: string) => ({
+    companyName: "Acme", companyDomain: "acme.test", sourceUrl,
+    discoveredFrom: { channel: "career_page" as const, reference },
+    domainEvidence: { kind: "company_page_link" as const, reference },
+  });
+  const options = {
+    fetch: async () => Response.json([{ id: "l1", text: "Engineer", hostedUrl: "https://jobs.lever.co/acme/l1" }]),
+    resolveHost: async () => ["93.184.216.34"],
+    headTransport: async () => new Response(null, { status: 200 }),
+    pageTransport: async (url: URL) => url.pathname === "/careers" ? new Response(`<a href="https://jobs.lever.co/acme">Jobs</a>`, { status: 200 }) : new Response("", { status: 404 }),
+  };
+  const good = await verifyCandidates([candidate("https://acme.test/careers", "https://jobs.lever.co/acme")], options);
+  expect(good.rejected).toEqual([]);
+  expect(good.verified[0]?.verification.identityEvidence).toBe("company_page_link");
+
+  const wrongBoard = await verifyCandidates([candidate("https://acme.test/careers", "https://jobs.lever.co/other")], { ...options, fetch: async () => Response.json([{ id: "1", text: "Engineer", hostedUrl: "https://jobs.lever.co/other/1" }]) });
+  expect(wrongBoard.rejected[0]?.reason).toBe("identity_mismatch");
+
+  const foreignPage = await verifyCandidates([candidate("https://evil.test/careers", "https://jobs.lever.co/acme")], options);
+  expect(foreignPage.rejected[0]?.reason).toBe("identity_mismatch");
+});

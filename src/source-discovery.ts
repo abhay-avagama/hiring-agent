@@ -17,7 +17,7 @@ interface DiscoveryOptions {
   registryPath?: string;
 }
 
-interface FeedEntry { sourceUrl: string; companyName?: string; companyDomain?: string; reference?: string; channel?: DiscoveryChannel; domainEvidence?: "authoritative_dataset" | "company_registry" | "company_redirect" }
+interface FeedEntry { sourceUrl: string; companyName?: string; companyDomain?: string; reference?: string; channel?: DiscoveryChannel; domainEvidence?: "authoritative_dataset" | "company_registry" | "company_redirect" | "company_page_link" }
 interface DiscoveryIssue { sourceUrl: string; reason: string; detail: string; companyName?: string; reference?: string }
 
 export interface SourceDiscoveryReport extends ReportMeta {
@@ -106,7 +106,7 @@ async function discoverEntries(feed: FeedEntry[], candidatesPath: string, report
         rejected.push({ index, issue: issue(entry, "invalid_channel", `Unsupported discovery channel: ${entry.channel}`) });
         continue;
       }
-      if (entry.domainEvidence !== undefined && !["authoritative_dataset", "company_registry", "company_redirect"].includes(entry.domainEvidence)) {
+      if (entry.domainEvidence !== undefined && !["authoritative_dataset", "company_registry", "company_redirect", "company_page_link"].includes(entry.domainEvidence)) {
         rejected.push({ index, issue: issue(entry, "invalid_domain_evidence", `Unsupported domain evidence: ${entry.domainEvidence}`) });
         continue;
       }
@@ -114,8 +114,8 @@ async function discoverEntries(feed: FeedEntry[], candidatesPath: string, report
       const companyName = typeof entry.companyName === "string" ? entry.companyName.trim() : "";
       const reference = entry.reference?.trim() || feedReference;
       const match = entry.companyDomain && companyName ? [{ companyName, companyDomain: entry.companyDomain.toLowerCase(), method: "normalized_token" as const, reference }] : [];
-      const redirectTrusted = entry.domainEvidence === "company_redirect" && entry.companyDomain && referenceBelongsToDomain(reference, entry.companyDomain);
-      const datasetTrusted = trustDomainEvidence && entry.domainEvidence && entry.domainEvidence !== "company_redirect";
+      const redirectTrusted = (entry.domainEvidence === "company_redirect" || entry.domainEvidence === "company_page_link") && entry.companyDomain && referenceBelongsToDomain(reference, entry.companyDomain);
+      const datasetTrusted = trustDomainEvidence && entry.domainEvidence && entry.domainEvidence !== "company_redirect" && entry.domainEvidence !== "company_page_link";
       const evidence: IdentityEvidence[] = (redirectTrusted || datasetTrusted) && entry.companyDomain && companyName ? [{ companyName, companyDomain: entry.companyDomain.toLowerCase(), kind: entry.domainEvidence!, reference, observedAt: new Date().toISOString() }] : [];
       registryRows.push({ sourceKey: key, sourceUrl: source.canonicalSourceUrl, ats: source.ats, token: source.token,
         discoveredFrom: [{ channel: entry.channel ?? "dataset", reference }], companyMatches: match, identityEvidence: evidence, attempts: [] });

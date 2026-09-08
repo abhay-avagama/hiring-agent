@@ -3,7 +3,7 @@ import { atomicJson } from "./atomic-file.ts";
 import { assertCompatibleReport, stampReport, type ReportMeta } from "./report-meta.ts";
 import { mergeSourceCandidates } from "./source-discovery.ts";
 import { resolveSource } from "./source-verification.ts";
-import { fetchSafeHead, type HeadTransport, type ResolveHost } from "./safe-head.ts";
+import { extractLinks, fetchSafeHead, fetchSafePage, robotsAllows, type HeadTransport, type PageTransport, type ResolveHost } from "./safe-head.ts";
 import type { SourceCandidate } from "./types.ts";
 import { deriveLeadState, mergeEnrichmentLeads, type EnrichmentLead, type IdentityEvidence } from "./enrichment-registry.ts";
 
@@ -11,7 +11,7 @@ type Fetch = (input: string | URL, init?: RequestInit) => Promise<Response>;
 
 interface CompanySeed { companyName: string; companyDomain: string; careerUrl?: string }
 interface TraceIssue { companyName?: string; companyDomain?: string; careerUrls?: string[]; reason: string; detail: string }
-interface TraceOptions { country?: string; fetch?: Fetch; concurrency?: number; timeoutMs?: number; searchKey?: string; commonCrawlReportPath?: string; resolveHost?: ResolveHost; headTransport?: HeadTransport; registryPath?: string }
+interface TraceOptions { country?: string; fetch?: Fetch; concurrency?: number; timeoutMs?: number; searchKey?: string; commonCrawlReportPath?: string; resolveHost?: ResolveHost; headTransport?: HeadTransport; pageTransport?: PageTransport; pageLinks?: boolean; registryPath?: string }
 
 export interface CareerTraceReport extends ReportMeta {
   companiesChecked: number;
@@ -64,6 +64,8 @@ export async function traceCareerSources(inputPath: string, candidatesPath: stri
           failures.push({ index, issue: { ...identity(seed), reason: "search_failed", detail: error instanceof Error ? error.message : String(error) } });
         }
       }
+      let evidenceKind: "company_redirect" | "company_page_link" = "company_redirect";
+      const reachablePages: string[] = [];
       if (!found) {
         for (const careerUrl of careerUrls) {
           try {
@@ -71,8 +73,24 @@ export async function traceCareerSources(inputPath: string, candidatesPath: stri
             if (!result.response.ok) continue;
             const source = resolveSource(result.finalUrl);
             if (source) { found = source; reference = careerUrl; break; }
+            reachablePages.push(result.finalUrl);
           } catch (error) {
             failures.push({ index, issue: { ...identity(seed), careerUrls: [careerUrl], reason: "career_request_failed", detail: error instanceof Error ? error.message : String(error) } });
+          }
+        }
+      }
+      // No redirect: read the company's own careers page once, within robots rules, for a link to a supported board. Only hrefs are inspected.
+      if (!found && options.pageLinks !== false) {
+        for (const pageUrl of reachablePages) {
+          try {
+            if (!(await robotsAllows(pageUrl, { resolveHost: options.resolveHost, transport: options.pageTransport, timeoutMs }))) continue;
+            const page = await fetchSafePage(pageUrl, { resolveHost: options.resolveHost, transport: options.pageTransport, timeoutMs });
+            if (page.status !== 200) continue;
+            const boards = extractLinks(page.html, page.finalUrl).map((link) => resolveSource(link)).filter((source): source is NonNullable<typeof source> => Boolean(source));
+            const best = boards.find((source) => sourceMatchesCompany(source.token, seed)) ?? boards[0];
+            if (best) { found = best; reference = page.finalUrl; evidenceKind = "company_page_link"; break; }
+          } catch (error) {
+            failures.push({ index, issue: { ...identity(seed), careerUrls: [pageUrl], reason: "career_page_failed", detail: error instanceof Error ? error.message : String(error) } });
           }
         }
       }
@@ -81,13 +99,13 @@ export async function traceCareerSources(inputPath: string, candidatesPath: stri
         if (lead) { found = lead.source; reference = lead.reference; channel = "dataset"; }
       }
       if (!found) {
-        unresolved.push({ index, issue: { ...identity(seed), careerUrls, reason: "ats_not_resolved", detail: "Career URLs did not redirect to a supported structured job source" } });
+        unresolved.push({ index, issue: { ...identity(seed), careerUrls, reason: "ats_not_resolved", detail: "Career URLs neither redirected to nor linked a supported structured job source" } });
         continue;
       }
       const companyName = seed.companyName.trim();
       const companyDomain = normalizeDomain(seed.companyDomain);
       const companyMatch = { companyName, companyDomain, method: "normalized_token" as const, reference };
-      const identityEvidence: IdentityEvidence[] = channel === "career_page" ? [{ companyName, companyDomain, kind: "company_redirect", reference, observedAt: new Date().toISOString() }] : [];
+      const identityEvidence: IdentityEvidence[] = channel === "career_page" ? [{ companyName, companyDomain, kind: evidenceKind, reference, observedAt: new Date().toISOString() }] : [];
       const lead: EnrichmentLead = { sourceKey: `${found.ats}:${found.token.toLowerCase()}`, sourceUrl: found.canonicalSourceUrl, ats: found.ats, token: found.token,
         discoveredFrom: [{ channel, reference }], companyMatches: [companyMatch], identityEvidence, attempts: [] };
       registryRows.push(lead);
@@ -96,7 +114,7 @@ export async function traceCareerSources(inputPath: string, candidatesPath: stri
         companyName, companyDomain, sourceUrl: found.canonicalSourceUrl,
         cohorts: country ? [country] : undefined,
         discoveredFrom: { channel, reference },
-        domainEvidence: channel === "career_page" ? { kind: "company_redirect", reference } : undefined,
+        domainEvidence: channel === "career_page" ? { kind: evidenceKind, reference } : undefined,
       } });
     }
   }

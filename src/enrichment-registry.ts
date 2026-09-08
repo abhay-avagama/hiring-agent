@@ -24,6 +24,7 @@ export interface EnrichmentRegistry { version: 1; updatedAt: string; leads: Enri
 const evidenceRank: Record<IdentityEvidence["kind"], number> = {
   provider_structured_domain: 4,
   company_redirect: 3,
+  company_page_link: 3,
   company_registry: 2,
   authoritative_dataset: 1,
 };
@@ -32,7 +33,7 @@ export function deriveLeadState(lead: EnrichmentLead): EnrichmentState {
   const latestAttempt = lead.attempts.at(-1);
   if (latestAttempt?.outcome === "permanent_failure" && !supersededFailure(lead, latestAttempt)) return "rejected";
   if (!lead.companyMatches.length) return lead.promotedAt && latestAttempt?.outcome === "success" ? "verified" : "unresolved";
-  const qualifying = lead.identityEvidence.filter((evidence) => !["lever", "ashby"].includes(lead.ats) || ["provider_structured_domain", "company_redirect"].includes(evidence.kind));
+  const qualifying = lead.identityEvidence.filter((evidence) => !["lever", "ashby"].includes(lead.ats) || ["provider_structured_domain", "company_redirect", "company_page_link"].includes(evidence.kind));
   if (!qualifying.length) return lead.promotedAt && latestAttempt?.outcome === "success" ? "verified" : "matched";
   const winningRank = Math.max(...qualifying.map((evidence) => evidenceRank[evidence.kind]));
   const winningDomains = new Set(qualifying.filter((evidence) => evidenceRank[evidence.kind] === winningRank).map((evidence) => normalizeDomain(evidence.companyDomain)));
@@ -125,7 +126,7 @@ function isRegistry(value: unknown): value is EnrichmentRegistry {
 function isRecord(value: unknown): value is Record<string, unknown> { return typeof value === "object" && value !== null && !Array.isArray(value); }
 function validProvenance(value: unknown): boolean { return isRecord(value) && ["search", "career_page", "provider_directory", "community", "dataset", "legacy"].includes(String(value.channel)) && typeof value.reference === "string"; }
 function validMatch(value: unknown): boolean { return isRecord(value) && typeof value.companyName === "string" && typeof value.companyDomain === "string" && /^[a-z0-9.-]+\.[a-z]{2,}$/i.test(value.companyDomain) && ["normalized_token", "normalized_name", "normalized_domain", "search_result"].includes(String(value.method)) && typeof value.reference === "string"; }
-function validEvidence(value: unknown): boolean { return isRecord(value) && typeof value.companyName === "string" && typeof value.companyDomain === "string" && /^[a-z0-9.-]+\.[a-z]{2,}$/i.test(value.companyDomain) && ["provider_structured_domain", "company_redirect", "company_registry", "authoritative_dataset"].includes(String(value.kind)) && typeof value.reference === "string" && typeof value.observedAt === "string" && Number.isFinite(Date.parse(value.observedAt)); }
+function validEvidence(value: unknown): boolean { return isRecord(value) && typeof value.companyName === "string" && typeof value.companyDomain === "string" && /^[a-z0-9.-]+\.[a-z]{2,}$/i.test(value.companyDomain) && ["provider_structured_domain", "company_redirect", "company_page_link", "company_registry", "authoritative_dataset"].includes(String(value.kind)) && typeof value.reference === "string" && typeof value.observedAt === "string" && Number.isFinite(Date.parse(value.observedAt)); }
 function validAttempt(value: unknown): boolean { return isRecord(value) && typeof value.attemptedAt === "string" && Number.isFinite(Date.parse(value.attemptedAt)) && ["success", "transient_failure", "permanent_failure"].includes(String(value.outcome)) && (value.nextEligibleAt === undefined || typeof value.nextEligibleAt === "string" && Number.isFinite(Date.parse(value.nextEligibleAt))) && (value.category === undefined || typeof value.category === "string") && (value.detail === undefined || typeof value.detail === "string") && (value.evidenceRank === undefined || typeof value.evidenceRank === "number" && Number.isFinite(value.evidenceRank)); }
 function sourceIdentityMatches(value: Record<string, unknown>): boolean {
   const source = resolveSource(String(value.sourceUrl));
