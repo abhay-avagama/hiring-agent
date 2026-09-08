@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-09-08T09:37:57.548Z",
+  "updatedAt": "2026-09-08T09:48:21.643Z",
   "leads": [
     {
       "sourceKey": "ashby:0g",
@@ -83585,6 +83585,29 @@
       "attempts": []
     },
     {
+      "sourceKey": "keka:abcoffee/b93ec546-d6ae-4849-9295-f9b79efe8059",
+      "sourceUrl": "https://abcoffee.keka.com/careers/api/embedjobs/default/active/b93ec546-d6ae-4849-9295-f9b79efe8059",
+      "ats": "keka",
+      "token": "abcoffee/b93ec546-d6ae-4849-9295-f9b79efe8059",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://abcoffee.keka.com/careers"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:47:58.994Z",
+          "outcome": "success",
+          "category": "provider_board",
+          "detail": "11 jobs"
+        }
+      ],
+      "promotedAt": "2026-09-08T09:47:58.994Z"
+    },
+    {
       "sourceKey": "keka:acaindia/cd858dac-57a5-4309-b79b-306c913f9af9",
       "sourceUrl": "https://acaindia.keka.com/careers/api/embedjobs/default/active/cd858dac-57a5-4309-b79b-306c913f9af9",
       "ats": "keka",
@@ -83606,6 +83629,28 @@
         }
       ],
       "promotedAt": "2026-09-08T09:37:36.577Z"
+    },
+    {
+      "sourceKey": "keka:acciojob/7d86eeef-8f44-46cd-bc3a-2155e3ff042c",
+      "sourceUrl": "https://acciojob.keka.com/careers/api/embedjobs/default/active/7d86eeef-8f44-46cd-bc3a-2155e3ff042c",
+      "ats": "keka",
+      "token": "acciojob/7d86eeef-8f44-46cd-bc3a-2155e3ff042c",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://acciojob.keka.com/careers"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:47:58.995Z",
+          "outcome": "permanent_failure",
+          "category": "empty_board",
+          "detail": "Board has no jobs"
+        }
+      ]
     },
     {
       "sourceKey": "keka:adda247/a2c6bcbf-4b57-4b9b-a671-eff8d95be323",
@@ -83631,6 +83676,21 @@
       "promotedAt": "2026-09-08T09:37:36.577Z"
     },
     {
+      "sourceKey": "keka:adit/752186db-2f68-4760-b592-92a970824f77",
+      "sourceUrl": "https://adit.keka.com/careers/api/embedjobs/default/active/752186db-2f68-4760-b592-92a970824f77",
+      "ats": "keka",
+      "token": "adit/752186db-2f68-4760-b592-92a970824f77",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://adit.keka.com/careers"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
       "sourceKey": "keka:aga/950c00f8-f61e-4172-8e20-4cfc4504c9db",
       "sourceUrl": "https://aga.keka.com/careers/api/embedjobs/default/active/950c00f8-f61e-4172-8e20-4cfc4504c9db",
       "ats": "keka",
@@ -83652,6 +83712,44 @@
         }
       ],
       "promotedAt": "2026-09-08T09:37:36.578Z"
+    },
+    {
+      "sourceKey": "keka:ahinternational/3f4f9ce6-cedf-481f-a3fe-8950686498c0",
+      "sourceUrl": "https://ahinternational.keka.com/careers/api/embedjobs/default/active/3f4f9ce6-cedf-481f-a3fe-8950686498c0",
+      "ats": "keka",
+      "token": "ahinternational/3f4f9ce6-cedf-481f-a3fe-8950686498c0",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://ahinternational.keka.com/careers"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "keka:aitmc/b7c5bfc7-0b04-476d-9b5c-cd96d5ce2607",
+      "sourceUrl": "https://aitmc.keka.com/careers/api/embedjobs/default/active/b7c5bfc7-0b04-476d-9b5c-cd96d5ce2607",
+      "ats": "keka",
+      "token": "aitmc/b7c5bfc7-0b04-476d-9b5c-cd96d5ce2607",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://aitmc.keka.com/careers"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:47:58.995Z",
+          "outcome": "success",
+          "category": "provider_board",
+          "detail": "2 jobs"
+        }
+      ],
+      "promotedAt": "2026-09-08T09:47:58.995Z"
     },
     {
       "sourceKey": "keka:almirqab/eb038d7c-5c08-4070-b773-a5a8c4b4ce25",
@@ -83677,6 +83775,21 @@
       "promotedAt": "2026-09-08T09:37:36.578Z"
     },
     {
+      "sourceKey": "keka:alphamindxaddmind/18679122-e6c1-4d5d-a460-5bb6ba60c9b0",
+      "sourceUrl": "https://alphamindxaddmind.keka.com/careers/api/embedjobs/default/active/18679122-e6c1-4d5d-a460-5bb6ba60c9b0",
+      "ats": "keka",
+      "token": "alphamindxaddmind/18679122-e6c1-4d5d-a460-5bb6ba60c9b0",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://alphamindxaddmind.keka.com/careers"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
       "sourceKey": "keka:amberstudent/228f83f5-48b3-474a-b753-4fce2be7524f",
       "sourceUrl": "https://amberstudent.keka.com/careers/api/embedjobs/default/active/228f83f5-48b3-474a-b753-4fce2be7524f",
       "ats": "keka",
@@ -83698,6 +83811,21 @@
         }
       ],
       "promotedAt": "2026-09-08T09:37:36.578Z"
+    },
+    {
+      "sourceKey": "keka:anubhutiorganization/e03e1bc4-3007-4b9c-bd54-a845229ba8ad",
+      "sourceUrl": "https://anubhutiorganization.keka.com/careers/api/embedjobs/default/active/e03e1bc4-3007-4b9c-bd54-a845229ba8ad",
+      "ats": "keka",
+      "token": "anubhutiorganization/e03e1bc4-3007-4b9c-bd54-a845229ba8ad",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://anubhutiorganization.keka.com/careers"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
     },
     {
       "sourceKey": "keka:arthanergy/3607207e-8c86-4b58-9d1b-c84ace257ff1",
@@ -83784,6 +83912,29 @@
       "promotedAt": "2026-09-08T09:37:37.715Z"
     },
     {
+      "sourceKey": "keka:babyorgano/fed88a6e-0828-468a-b5e7-1442d18e0805",
+      "sourceUrl": "https://babyorgano.keka.com/careers/api/embedjobs/default/active/fed88a6e-0828-468a-b5e7-1442d18e0805",
+      "ats": "keka",
+      "token": "babyorgano/fed88a6e-0828-468a-b5e7-1442d18e0805",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://babyorgano.keka.com/careers"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:47:58.995Z",
+          "outcome": "success",
+          "category": "provider_board",
+          "detail": "11 jobs"
+        }
+      ],
+      "promotedAt": "2026-09-08T09:47:58.995Z"
+    },
+    {
       "sourceKey": "keka:beebommedia/e4b02583-b5ea-4804-941d-17c8f17d4f7a",
       "sourceUrl": "https://beebommedia.keka.com/careers/api/embedjobs/default/active/e4b02583-b5ea-4804-941d-17c8f17d4f7a",
       "ats": "keka",
@@ -83797,6 +83948,105 @@
       "companyMatches": [],
       "identityEvidence": [],
       "attempts": []
+    },
+    {
+      "sourceKey": "keka:beyondkey/30b8e0b4-8900-4308-91ac-2a0b168a64e9",
+      "sourceUrl": "https://beyondkey.keka.com/careers/api/embedjobs/default/active/30b8e0b4-8900-4308-91ac-2a0b168a64e9",
+      "ats": "keka",
+      "token": "beyondkey/30b8e0b4-8900-4308-91ac-2a0b168a64e9",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://beyondkey.keka.com/careers"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:47:58.995Z",
+          "outcome": "success",
+          "category": "provider_board",
+          "detail": "19 jobs"
+        }
+      ],
+      "promotedAt": "2026-09-08T09:47:58.995Z"
+    },
+    {
+      "sourceKey": "keka:bimakavach/a3947a25-9d78-4d3a-817e-699e00c2550f",
+      "sourceUrl": "https://bimakavach.keka.com/careers/api/embedjobs/default/active/a3947a25-9d78-4d3a-817e-699e00c2550f",
+      "ats": "keka",
+      "token": "bimakavach/a3947a25-9d78-4d3a-817e-699e00c2550f",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://bimakavach.keka.com/careers"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:47:58.995Z",
+          "outcome": "success",
+          "category": "provider_board",
+          "detail": "5 jobs"
+        }
+      ],
+      "promotedAt": "2026-09-08T09:47:58.995Z"
+    },
+    {
+      "sourceKey": "keka:bizhero/0fa1028b-ca3d-4d2a-80a4-f98b79382865",
+      "sourceUrl": "https://bizhero.keka.com/careers/api/embedjobs/default/active/0fa1028b-ca3d-4d2a-80a4-f98b79382865",
+      "ats": "keka",
+      "token": "bizhero/0fa1028b-ca3d-4d2a-80a4-f98b79382865",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://bizhero.keka.com/careers"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "keka:blitznow/13e8b67d-1258-4080-bd6e-07359a0662a7",
+      "sourceUrl": "https://blitznow.keka.com/careers/api/embedjobs/default/active/13e8b67d-1258-4080-bd6e-07359a0662a7",
+      "ats": "keka",
+      "token": "blitznow/13e8b67d-1258-4080-bd6e-07359a0662a7",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://blitznow.keka.com/careers"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "keka:blueflamelabs/b396db82-ae3e-41af-9ce7-6a02a3bd6a1b",
+      "sourceUrl": "https://blueflamelabs.keka.com/careers/api/embedjobs/default/active/b396db82-ae3e-41af-9ce7-6a02a3bd6a1b",
+      "ats": "keka",
+      "token": "blueflamelabs/b396db82-ae3e-41af-9ce7-6a02a3bd6a1b",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://blueflamelabs.keka.com/careers"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:47:59.631Z",
+          "outcome": "success",
+          "category": "provider_board",
+          "detail": "14 jobs"
+        }
+      ],
+      "promotedAt": "2026-09-08T09:47:59.631Z"
     },
     {
       "sourceKey": "keka:bolt/96b3e880-a091-425f-b2c0-c6775c31a1ce",
@@ -83820,6 +84070,52 @@
         }
       ],
       "promotedAt": "2026-09-08T09:37:37.820Z"
+    },
+    {
+      "sourceKey": "keka:braves/ccbe16d7-aff5-4b3b-a459-3bb55cbb8671",
+      "sourceUrl": "https://braves.keka.com/careers/api/embedjobs/default/active/ccbe16d7-aff5-4b3b-a459-3bb55cbb8671",
+      "ats": "keka",
+      "token": "braves/ccbe16d7-aff5-4b3b-a459-3bb55cbb8671",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://braves.keka.com/careers"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:47:59.849Z",
+          "outcome": "success",
+          "category": "provider_board",
+          "detail": "5 jobs"
+        }
+      ],
+      "promotedAt": "2026-09-08T09:47:59.849Z"
+    },
+    {
+      "sourceKey": "keka:breakinbrew/d1eb2433-f620-4a5c-8e49-57cc4db102cc",
+      "sourceUrl": "https://breakinbrew.keka.com/careers/api/embedjobs/default/active/d1eb2433-f620-4a5c-8e49-57cc4db102cc",
+      "ats": "keka",
+      "token": "breakinbrew/d1eb2433-f620-4a5c-8e49-57cc4db102cc",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://breakinbrew.keka.com/careers"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:47:59.849Z",
+          "outcome": "success",
+          "category": "provider_board",
+          "detail": "13 jobs"
+        }
+      ],
+      "promotedAt": "2026-09-08T09:47:59.849Z"
     },
     {
       "sourceKey": "keka:bukhashbrothers/febc60ff-18c3-471a-9023-31c6a54b69a4",
@@ -83860,6 +84156,29 @@
       "attempts": []
     },
     {
+      "sourceKey": "keka:caizin/0bfb8123-ed64-49c3-a58e-f518f1fe44c0",
+      "sourceUrl": "https://caizin.keka.com/careers/api/embedjobs/default/active/0bfb8123-ed64-49c3-a58e-f518f1fe44c0",
+      "ats": "keka",
+      "token": "caizin/0bfb8123-ed64-49c3-a58e-f518f1fe44c0",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://caizin.keka.com/careers"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:00.123Z",
+          "outcome": "success",
+          "category": "provider_board",
+          "detail": "2 jobs"
+        }
+      ],
+      "promotedAt": "2026-09-08T09:48:00.123Z"
+    },
+    {
       "sourceKey": "keka:candorhealth/f3f3c0e7-156d-455a-9db2-3d45fe6eb959",
       "sourceUrl": "https://candorhealth.keka.com/careers/api/embedjobs/default/active/f3f3c0e7-156d-455a-9db2-3d45fe6eb959",
       "ats": "keka",
@@ -83881,6 +84200,59 @@
         }
       ],
       "promotedAt": "2026-09-08T09:37:38.169Z"
+    },
+    {
+      "sourceKey": "keka:cashurdrive/d5831155-82bc-4b25-9553-8a444cf4bf84",
+      "sourceUrl": "https://cashurdrive.keka.com/careers/api/embedjobs/default/active/d5831155-82bc-4b25-9553-8a444cf4bf84",
+      "ats": "keka",
+      "token": "cashurdrive/d5831155-82bc-4b25-9553-8a444cf4bf84",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://cashurdrive.keka.com/careers"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "keka:cis/c6f9da0f-0141-4e7c-a294-d0768b0d8a88",
+      "sourceUrl": "https://cis.keka.com/careers/api/embedjobs/default/active/c6f9da0f-0141-4e7c-a294-d0768b0d8a88",
+      "ats": "keka",
+      "token": "cis/c6f9da0f-0141-4e7c-a294-d0768b0d8a88",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://cis.keka.com/careers"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:00.273Z",
+          "outcome": "success",
+          "category": "provider_board",
+          "detail": "81 jobs"
+        }
+      ],
+      "promotedAt": "2026-09-08T09:48:00.273Z"
+    },
+    {
+      "sourceKey": "keka:clickpost/42bf3653-c3dc-44a3-83ce-17358c3e01ea",
+      "sourceUrl": "https://clickpost.keka.com/careers/api/embedjobs/default/active/42bf3653-c3dc-44a3-83ce-17358c3e01ea",
+      "ats": "keka",
+      "token": "clickpost/42bf3653-c3dc-44a3-83ce-17358c3e01ea",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://clickpost.keka.com/careers"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
     },
     {
       "sourceKey": "keka:cloudkaptan/5fafb6a6-1d3f-42d5-8bc0-22179b50fa68",
@@ -83944,6 +84316,29 @@
       "promotedAt": "2026-09-08T09:37:38.696Z"
     },
     {
+      "sourceKey": "keka:convegenius/0c764aaa-3be8-4767-b051-a188dd5c0cb6",
+      "sourceUrl": "https://convegenius.keka.com/careers/api/embedjobs/default/active/0c764aaa-3be8-4767-b051-a188dd5c0cb6",
+      "ats": "keka",
+      "token": "convegenius/0c764aaa-3be8-4767-b051-a188dd5c0cb6",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://convegenius.keka.com/careers"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:00.337Z",
+          "outcome": "success",
+          "category": "provider_board",
+          "detail": "47 jobs"
+        }
+      ],
+      "promotedAt": "2026-09-08T09:48:00.337Z"
+    },
+    {
       "sourceKey": "keka:costrategix/5914d19b-f4fd-4e5a-9dc7-e567a8cf3ffb",
       "sourceUrl": "https://costrategix.keka.com/careers/api/embedjobs/default/active/5914d19b-f4fd-4e5a-9dc7-e567a8cf3ffb",
       "ats": "keka",
@@ -83966,6 +84361,21 @@
       ]
     },
     {
+      "sourceKey": "keka:crepdogcrew/2258a3af-2cd7-45b2-83df-9a19696144ee",
+      "sourceUrl": "https://crepdogcrew.keka.com/careers/api/embedjobs/default/active/2258a3af-2cd7-45b2-83df-9a19696144ee",
+      "ats": "keka",
+      "token": "crepdogcrew/2258a3af-2cd7-45b2-83df-9a19696144ee",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://crepdogcrew.keka.com/careers"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
       "sourceKey": "keka:dashtech/87b374fd-c015-4b80-b3c6-40008fc8dc2e",
       "sourceUrl": "https://dashtech.keka.com/careers/api/embedjobs/default/active/87b374fd-c015-4b80-b3c6-40008fc8dc2e",
       "ats": "keka",
@@ -83979,6 +84389,29 @@
       "companyMatches": [],
       "identityEvidence": [],
       "attempts": []
+    },
+    {
+      "sourceKey": "keka:databeat/13a9fa32-8904-41e9-9005-ec169bd0a861",
+      "sourceUrl": "https://databeat.keka.com/careers/api/embedjobs/default/active/13a9fa32-8904-41e9-9005-ec169bd0a861",
+      "ats": "keka",
+      "token": "databeat/13a9fa32-8904-41e9-9005-ec169bd0a861",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://databeat.keka.com/careers"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:00.795Z",
+          "outcome": "success",
+          "category": "provider_board",
+          "detail": "18 jobs"
+        }
+      ],
+      "promotedAt": "2026-09-08T09:48:00.795Z"
     },
     {
       "sourceKey": "keka:dataction/b480b9a2-d51e-4f77-931c-52bbd908eb23",
@@ -84004,6 +84437,21 @@
       "promotedAt": "2026-09-08T09:37:39.419Z"
     },
     {
+      "sourceKey": "keka:dayalgroup/fbaa59d0-b067-46a5-bdc7-9be663779896",
+      "sourceUrl": "https://dayalgroup.keka.com/careers/api/embedjobs/default/active/fbaa59d0-b067-46a5-bdc7-9be663779896",
+      "ats": "keka",
+      "token": "dayalgroup/fbaa59d0-b067-46a5-bdc7-9be663779896",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://dayalgroup.keka.com/careers"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
       "sourceKey": "keka:denken/a2025046-76f1-49b8-abfb-9b2553a751c6",
       "sourceUrl": "https://denken.keka.com/careers/api/embedjobs/default/active/a2025046-76f1-49b8-abfb-9b2553a751c6",
       "ats": "keka",
@@ -84017,6 +84465,127 @@
       "companyMatches": [],
       "identityEvidence": [],
       "attempts": []
+    },
+    {
+      "sourceKey": "keka:dmudubai/4341e0f9-1755-414b-bba4-6d9752705457",
+      "sourceUrl": "https://dmudubai.keka.com/careers/api/embedjobs/default/active/4341e0f9-1755-414b-bba4-6d9752705457",
+      "ats": "keka",
+      "token": "dmudubai/4341e0f9-1755-414b-bba4-6d9752705457",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://dmudubai.keka.com/careers"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "keka:driverlogistics/69f8212b-b8b7-4c3f-acf9-4062aaf9acda",
+      "sourceUrl": "https://driverlogistics.keka.com/careers/api/embedjobs/default/active/69f8212b-b8b7-4c3f-acf9-4062aaf9acda",
+      "ats": "keka",
+      "token": "driverlogistics/69f8212b-b8b7-4c3f-acf9-4062aaf9acda",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://driverlogistics.keka.com/careers"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:00.880Z",
+          "outcome": "success",
+          "category": "provider_board",
+          "detail": "12 jobs"
+        }
+      ],
+      "promotedAt": "2026-09-08T09:48:00.880Z"
+    },
+    {
+      "sourceKey": "keka:dviodigital/46f20d3a-61b4-4d32-b382-e070ff6010b9",
+      "sourceUrl": "https://dviodigital.keka.com/careers/api/embedjobs/default/active/46f20d3a-61b4-4d32-b382-e070ff6010b9",
+      "ats": "keka",
+      "token": "dviodigital/46f20d3a-61b4-4d32-b382-e070ff6010b9",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://dviodigital.keka.com/careers"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:00.924Z",
+          "outcome": "permanent_failure",
+          "category": "empty_board",
+          "detail": "Board has no jobs"
+        }
+      ]
+    },
+    {
+      "sourceKey": "keka:eccentric/18984f3b-2a4c-4e49-a5d3-a76401276d43",
+      "sourceUrl": "https://eccentric.keka.com/careers/api/embedjobs/default/active/18984f3b-2a4c-4e49-a5d3-a76401276d43",
+      "ats": "keka",
+      "token": "eccentric/18984f3b-2a4c-4e49-a5d3-a76401276d43",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://eccentric.keka.com/careers"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "keka:ekacare/114ba46e-561d-4002-9403-a55b0bba5f1a",
+      "sourceUrl": "https://ekacare.keka.com/careers/api/embedjobs/default/active/114ba46e-561d-4002-9403-a55b0bba5f1a",
+      "ats": "keka",
+      "token": "ekacare/114ba46e-561d-4002-9403-a55b0bba5f1a",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://ekacare.keka.com/careers"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:01.177Z",
+          "outcome": "success",
+          "category": "provider_board",
+          "detail": "22 jobs"
+        }
+      ],
+      "promotedAt": "2026-09-08T09:48:01.177Z"
+    },
+    {
+      "sourceKey": "keka:entropik/72f54fa8-901f-4481-b3ed-8cbaaa838d80",
+      "sourceUrl": "https://entropik.keka.com/careers/api/embedjobs/default/active/72f54fa8-901f-4481-b3ed-8cbaaa838d80",
+      "ats": "keka",
+      "token": "entropik/72f54fa8-901f-4481-b3ed-8cbaaa838d80",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://entropik.keka.com/careers"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:01.563Z",
+          "outcome": "success",
+          "category": "provider_board",
+          "detail": "3 jobs"
+        }
+      ],
+      "promotedAt": "2026-09-08T09:48:01.563Z"
     },
     {
       "sourceKey": "keka:escalon/376fe123-f6b8-4364-acbe-ef17f36d52b2",
@@ -84050,6 +84619,21 @@
         {
           "channel": "provider_directory",
           "reference": "https://flowdynamics.keka.com/careers"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "keka:fourtyseven/810927f8-e0b9-46dd-9775-0b3e79468643",
+      "sourceUrl": "https://fourtyseven.keka.com/careers/api/embedjobs/default/active/810927f8-e0b9-46dd-9775-0b3e79468643",
+      "ats": "keka",
+      "token": "fourtyseven/810927f8-e0b9-46dd-9775-0b3e79468643",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://fourtyseven.keka.com/careers"
         }
       ],
       "companyMatches": [],
@@ -84095,6 +84679,67 @@
       "promotedAt": "2026-09-08T09:37:39.497Z"
     },
     {
+      "sourceKey": "keka:gamlaa/b27be6a9-aef7-414c-aea3-4ec14f50ec13",
+      "sourceUrl": "https://gamlaa.keka.com/careers/api/embedjobs/default/active/b27be6a9-aef7-414c-aea3-4ec14f50ec13",
+      "ats": "keka",
+      "token": "gamlaa/b27be6a9-aef7-414c-aea3-4ec14f50ec13",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://gamlaa.keka.com/careers"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:01.817Z",
+          "outcome": "success",
+          "category": "provider_board",
+          "detail": "44 jobs"
+        }
+      ],
+      "promotedAt": "2026-09-08T09:48:01.817Z"
+    },
+    {
+      "sourceKey": "keka:getvisitapp/85097cae-5db7-4bf2-84d3-01d1b059a9b9",
+      "sourceUrl": "https://getvisitapp.keka.com/careers/api/embedjobs/default/active/85097cae-5db7-4bf2-84d3-01d1b059a9b9",
+      "ats": "keka",
+      "token": "getvisitapp/85097cae-5db7-4bf2-84d3-01d1b059a9b9",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://getvisitapp.keka.com/careers"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "keka:ginesysone/81ab5744-744b-438a-8efe-4fbde810ebaa",
+      "sourceUrl": "https://ginesysone.keka.com/careers/api/embedjobs/default/active/81ab5744-744b-438a-8efe-4fbde810ebaa",
+      "ats": "keka",
+      "token": "ginesysone/81ab5744-744b-438a-8efe-4fbde810ebaa",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://ginesysone.keka.com/careers"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:01.993Z",
+          "outcome": "success",
+          "category": "provider_board",
+          "detail": "12 jobs"
+        }
+      ],
+      "promotedAt": "2026-09-08T09:48:01.993Z"
+    },
+    {
       "sourceKey": "keka:grexa/0e4b3bbc-4e37-457e-bd2a-86041dc87433",
       "sourceUrl": "https://grexa.keka.com/careers/api/embedjobs/default/active/0e4b3bbc-4e37-457e-bd2a-86041dc87433",
       "ats": "keka",
@@ -84110,6 +84755,59 @@
       "attempts": []
     },
     {
+      "sourceKey": "keka:gurully/474607bd-b386-4e85-9f7f-9678c578bdbf",
+      "sourceUrl": "https://gurully.keka.com/careers/api/embedjobs/default/active/474607bd-b386-4e85-9f7f-9678c578bdbf",
+      "ats": "keka",
+      "token": "gurully/474607bd-b386-4e85-9f7f-9678c578bdbf",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://gurully.keka.com/careers"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "keka:hasel/5a5f38d0-412a-4bda-afe6-2a363115fc36",
+      "sourceUrl": "https://hasel.keka.com/careers/api/embedjobs/default/active/5a5f38d0-412a-4bda-afe6-2a363115fc36",
+      "ats": "keka",
+      "token": "hasel/5a5f38d0-412a-4bda-afe6-2a363115fc36",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://hasel.keka.com/careers"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "keka:hiveminds/ba2656db-0fdb-4859-a652-f6eec08f8d7e",
+      "sourceUrl": "https://hiveminds.keka.com/careers/api/embedjobs/default/active/ba2656db-0fdb-4859-a652-f6eec08f8d7e",
+      "ats": "keka",
+      "token": "hiveminds/ba2656db-0fdb-4859-a652-f6eec08f8d7e",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://hiveminds.keka.com/careers"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:02.000Z",
+          "outcome": "success",
+          "category": "provider_board",
+          "detail": "40 jobs"
+        }
+      ],
+      "promotedAt": "2026-09-08T09:48:02.000Z"
+    },
+    {
       "sourceKey": "keka:hr/24040a7e-a7c5-47a5-9cd5-019962c66385",
       "sourceUrl": "https://hr.keka.com/careers/api/embedjobs/default/active/24040a7e-a7c5-47a5-9cd5-019962c66385",
       "ats": "keka",
@@ -84118,6 +84816,21 @@
         {
           "channel": "provider_directory",
           "reference": "https://hr.keka.com/careers"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "keka:icmcapital/df138756-e49d-4c4d-8eb5-6dc350798093",
+      "sourceUrl": "https://icmcapital.keka.com/careers/api/embedjobs/default/active/df138756-e49d-4c4d-8eb5-6dc350798093",
+      "ats": "keka",
+      "token": "icmcapital/df138756-e49d-4c4d-8eb5-6dc350798093",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://icmcapital.keka.com/careers"
         }
       ],
       "companyMatches": [],
@@ -84163,6 +84876,29 @@
       "promotedAt": "2026-09-08T09:37:39.780Z"
     },
     {
+      "sourceKey": "keka:innocean/c0ee55a0-6538-4f37-868d-a374f1b761df",
+      "sourceUrl": "https://innocean.keka.com/careers/api/embedjobs/default/active/c0ee55a0-6538-4f37-868d-a374f1b761df",
+      "ats": "keka",
+      "token": "innocean/c0ee55a0-6538-4f37-868d-a374f1b761df",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://innocean.keka.com/careers"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:02.026Z",
+          "outcome": "success",
+          "category": "provider_board",
+          "detail": "11 jobs"
+        }
+      ],
+      "promotedAt": "2026-09-08T09:48:02.026Z"
+    },
+    {
       "sourceKey": "keka:irsl/01edd099-97eb-4b24-a38b-4f0d22b0e27f",
       "sourceUrl": "https://irsl.keka.com/careers/api/embedjobs/default/active/01edd099-97eb-4b24-a38b-4f0d22b0e27f",
       "ats": "keka",
@@ -84184,6 +84920,66 @@
         }
       ],
       "promotedAt": "2026-09-08T09:37:39.863Z"
+    },
+    {
+      "sourceKey": "keka:iteachschools/7650aa3c-662c-4ed0-970e-0602243fef1a",
+      "sourceUrl": "https://iteachschools.keka.com/careers/api/embedjobs/default/active/7650aa3c-662c-4ed0-970e-0602243fef1a",
+      "ats": "keka",
+      "token": "iteachschools/7650aa3c-662c-4ed0-970e-0602243fef1a",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://iteachschools.keka.com/careers"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "keka:jaikisan/22653fb9-5996-4b14-93d7-d1162b2550e2",
+      "sourceUrl": "https://jaikisan.keka.com/careers/api/embedjobs/default/active/22653fb9-5996-4b14-93d7-d1162b2550e2",
+      "ats": "keka",
+      "token": "jaikisan/22653fb9-5996-4b14-93d7-d1162b2550e2",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://jaikisan.keka.com/careers"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "keka:jupiter/b5279857-cf81-4dde-a215-fc48957ee2b5",
+      "sourceUrl": "https://jupiter.keka.com/careers/api/embedjobs/default/active/b5279857-cf81-4dde-a215-fc48957ee2b5",
+      "ats": "keka",
+      "token": "jupiter/b5279857-cf81-4dde-a215-fc48957ee2b5",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://jupiter.keka.com/careers"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "keka:justopulse/775b9cae-bf29-4cd0-b99b-3fae09908e19",
+      "sourceUrl": "https://justopulse.keka.com/careers/api/embedjobs/default/active/775b9cae-bf29-4cd0-b99b-3fae09908e19",
+      "ats": "keka",
+      "token": "justopulse/775b9cae-bf29-4cd0-b99b-3fae09908e19",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://justopulse.keka.com/careers"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
     },
     {
       "sourceKey": "keka:knolskape/b9d415fa-556d-4d93-8780-74aaf8f53b53",
@@ -84224,6 +85020,135 @@
       "attempts": []
     },
     {
+      "sourceKey": "keka:leadecservices/80a7c6a6-daf7-4877-9af1-35d844bb9fe7",
+      "sourceUrl": "https://leadecservices.keka.com/careers/api/embedjobs/default/active/80a7c6a6-daf7-4877-9af1-35d844bb9fe7",
+      "ats": "keka",
+      "token": "leadecservices/80a7c6a6-daf7-4877-9af1-35d844bb9fe7",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://leadecservices.keka.com/careers"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:02.510Z",
+          "outcome": "success",
+          "category": "provider_board",
+          "detail": "38 jobs"
+        }
+      ],
+      "promotedAt": "2026-09-08T09:48:02.510Z"
+    },
+    {
+      "sourceKey": "keka:leadership/e35e2146-9fc3-4f66-bac4-bd0addd61c4d",
+      "sourceUrl": "https://leadership.keka.com/careers/api/embedjobs/default/active/e35e2146-9fc3-4f66-bac4-bd0addd61c4d",
+      "ats": "keka",
+      "token": "leadership/e35e2146-9fc3-4f66-bac4-bd0addd61c4d",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://leadership.keka.com/careers"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:02.550Z",
+          "outcome": "success",
+          "category": "provider_board",
+          "detail": "24 jobs"
+        }
+      ],
+      "promotedAt": "2026-09-08T09:48:02.550Z"
+    },
+    {
+      "sourceKey": "keka:learningcenter/017b6041-9229-4760-8efd-12240fda06be",
+      "sourceUrl": "https://learningcenter.keka.com/careers/api/embedjobs/default/active/017b6041-9229-4760-8efd-12240fda06be",
+      "ats": "keka",
+      "token": "learningcenter/017b6041-9229-4760-8efd-12240fda06be",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://learningcenter.keka.com/careers"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "keka:leptonsoftware/daadeff4-b51f-49dc-9965-e1a8701fdbb0",
+      "sourceUrl": "https://leptonsoftware.keka.com/careers/api/embedjobs/default/active/daadeff4-b51f-49dc-9965-e1a8701fdbb0",
+      "ats": "keka",
+      "token": "leptonsoftware/daadeff4-b51f-49dc-9965-e1a8701fdbb0",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://leptonsoftware.keka.com/careers"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:03.130Z",
+          "outcome": "success",
+          "category": "provider_board",
+          "detail": "17 jobs"
+        }
+      ],
+      "promotedAt": "2026-09-08T09:48:03.130Z"
+    },
+    {
+      "sourceKey": "keka:lightstorm/c2ab8262-4ecb-484d-ac08-fdbfd9c5fe5e",
+      "sourceUrl": "https://lightstorm.keka.com/careers/api/embedjobs/default/active/c2ab8262-4ecb-484d-ac08-fdbfd9c5fe5e",
+      "ats": "keka",
+      "token": "lightstorm/c2ab8262-4ecb-484d-ac08-fdbfd9c5fe5e",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://lightstorm.keka.com/careers"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:03.227Z",
+          "outcome": "permanent_failure",
+          "category": "empty_board",
+          "detail": "Board has no jobs"
+        }
+      ]
+    },
+    {
+      "sourceKey": "keka:liminal/44fcd779-dfa4-4e94-a077-e18fcd4338d4",
+      "sourceUrl": "https://liminal.keka.com/careers/api/embedjobs/default/active/44fcd779-dfa4-4e94-a077-e18fcd4338d4",
+      "ats": "keka",
+      "token": "liminal/44fcd779-dfa4-4e94-a077-e18fcd4338d4",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://liminal.keka.com/careers"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:03.233Z",
+          "outcome": "success",
+          "category": "provider_board",
+          "detail": "15 jobs"
+        }
+      ],
+      "promotedAt": "2026-09-08T09:48:03.233Z"
+    },
+    {
       "sourceKey": "keka:loop/3c648902-7075-4758-8ad3-c077e36641f4",
       "sourceUrl": "https://loop.keka.com/careers/api/embedjobs/default/active/3c648902-7075-4758-8ad3-c077e36641f4",
       "ats": "keka",
@@ -84239,6 +85164,75 @@
       "attempts": []
     },
     {
+      "sourceKey": "keka:luna/ff6af769-72a5-43bf-84a1-b751a399c72e",
+      "sourceUrl": "https://luna.keka.com/careers/api/embedjobs/default/active/ff6af769-72a5-43bf-84a1-b751a399c72e",
+      "ats": "keka",
+      "token": "luna/ff6af769-72a5-43bf-84a1-b751a399c72e",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://luna.keka.com/careers"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:03.236Z",
+          "outcome": "success",
+          "category": "provider_board",
+          "detail": "7 jobs"
+        }
+      ],
+      "promotedAt": "2026-09-08T09:48:03.236Z"
+    },
+    {
+      "sourceKey": "keka:madhusgarage/fbce37ea-abe4-4c63-b666-b420b43dae01",
+      "sourceUrl": "https://madhusgarage.keka.com/careers/api/embedjobs/default/active/fbce37ea-abe4-4c63-b666-b420b43dae01",
+      "ats": "keka",
+      "token": "madhusgarage/fbce37ea-abe4-4c63-b666-b420b43dae01",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://madhusgarage.keka.com/careers"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:03.701Z",
+          "outcome": "success",
+          "category": "provider_board",
+          "detail": "7 jobs"
+        }
+      ],
+      "promotedAt": "2026-09-08T09:48:03.701Z"
+    },
+    {
+      "sourceKey": "keka:medon/ef6ab67e-5192-4992-8d8d-daff323a5e52",
+      "sourceUrl": "https://medon.keka.com/careers/api/embedjobs/default/active/ef6ab67e-5192-4992-8d8d-daff323a5e52",
+      "ats": "keka",
+      "token": "medon/ef6ab67e-5192-4992-8d8d-daff323a5e52",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://medon.keka.com/careers"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:03.879Z",
+          "outcome": "success",
+          "category": "provider_board",
+          "detail": "5 jobs"
+        }
+      ],
+      "promotedAt": "2026-09-08T09:48:03.879Z"
+    },
+    {
       "sourceKey": "keka:mihup/a098d8b7-d7c6-4bf6-af8d-51a49826e4f9",
       "sourceUrl": "https://mihup.keka.com/careers/api/embedjobs/default/active/a098d8b7-d7c6-4bf6-af8d-51a49826e4f9",
       "ats": "keka",
@@ -84247,6 +85241,21 @@
         {
           "channel": "provider_directory",
           "reference": "https://mihup.keka.com/careers"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "keka:mittalgroup/2bc429c4-5707-443d-859f-1c0b86345569",
+      "sourceUrl": "https://mittalgroup.keka.com/careers/api/embedjobs/default/active/2bc429c4-5707-443d-859f-1c0b86345569",
+      "ats": "keka",
+      "token": "mittalgroup/2bc429c4-5707-443d-859f-1c0b86345569",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://mittalgroup.keka.com/careers"
         }
       ],
       "companyMatches": [],
@@ -84275,6 +85284,29 @@
         }
       ],
       "promotedAt": "2026-09-08T09:37:40.670Z"
+    },
+    {
+      "sourceKey": "keka:moolya/3867ca4d-3132-4f6a-a6c4-7d10c3832cfc",
+      "sourceUrl": "https://moolya.keka.com/careers/api/embedjobs/default/active/3867ca4d-3132-4f6a-a6c4-7d10c3832cfc",
+      "ats": "keka",
+      "token": "moolya/3867ca4d-3132-4f6a-a6c4-7d10c3832cfc",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://moolya.keka.com/careers"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:04.281Z",
+          "outcome": "success",
+          "category": "provider_board",
+          "detail": "5 jobs"
+        }
+      ],
+      "promotedAt": "2026-09-08T09:48:04.281Z"
     },
     {
       "sourceKey": "keka:motiveminds/397882c8-bbf9-48b3-894d-a459ef1f76ec",
@@ -84368,6 +85400,29 @@
       "attempts": []
     },
     {
+      "sourceKey": "keka:neuralgo/a018b201-41a7-4f69-8503-6fe6b2e2043a",
+      "sourceUrl": "https://neuralgo.keka.com/careers/api/embedjobs/default/active/a018b201-41a7-4f69-8503-6fe6b2e2043a",
+      "ats": "keka",
+      "token": "neuralgo/a018b201-41a7-4f69-8503-6fe6b2e2043a",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://neuralgo.keka.com/careers"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:04.363Z",
+          "outcome": "success",
+          "category": "provider_board",
+          "detail": "17 jobs"
+        }
+      ],
+      "promotedAt": "2026-09-08T09:48:04.363Z"
+    },
+    {
       "sourceKey": "keka:neutrinos/d5ba0ef4-eea8-4b93-b547-c7f681402c48",
       "sourceUrl": "https://neutrinos.keka.com/careers/api/embedjobs/default/active/d5ba0ef4-eea8-4b93-b547-c7f681402c48",
       "ats": "keka",
@@ -84444,6 +85499,21 @@
       "attempts": []
     },
     {
+      "sourceKey": "keka:openfinancial/161570d3-d2be-4e8c-b233-d006f70cd371",
+      "sourceUrl": "https://openfinancial.keka.com/careers/api/embedjobs/default/active/161570d3-d2be-4e8c-b233-d006f70cd371",
+      "ats": "keka",
+      "token": "openfinancial/161570d3-d2be-4e8c-b233-d006f70cd371",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://openfinancial.keka.com/careers"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
       "sourceKey": "keka:pcbpower/584ead8a-1940-4472-b9cb-a701f4a0a0db",
       "sourceUrl": "https://pcbpower.keka.com/careers/api/embedjobs/default/active/584ead8a-1940-4472-b9cb-a701f4a0a0db",
       "ats": "keka",
@@ -84497,6 +85567,67 @@
       "attempts": []
     },
     {
+      "sourceKey": "keka:perstorp/1ec5c96b-2d10-45fa-ba86-9718baea7d66",
+      "sourceUrl": "https://perstorp.keka.com/careers/api/embedjobs/default/active/1ec5c96b-2d10-45fa-ba86-9718baea7d66",
+      "ats": "keka",
+      "token": "perstorp/1ec5c96b-2d10-45fa-ba86-9718baea7d66",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://perstorp.keka.com/careers"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:04.369Z",
+          "outcome": "success",
+          "category": "provider_board",
+          "detail": "9 jobs"
+        }
+      ],
+      "promotedAt": "2026-09-08T09:48:04.369Z"
+    },
+    {
+      "sourceKey": "keka:petfully/3d1e1eb9-93cf-4d12-b307-3b7bcd912941",
+      "sourceUrl": "https://petfully.keka.com/careers/api/embedjobs/default/active/3d1e1eb9-93cf-4d12-b307-3b7bcd912941",
+      "ats": "keka",
+      "token": "petfully/3d1e1eb9-93cf-4d12-b307-3b7bcd912941",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://petfully.keka.com/careers"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "keka:pramana/53c338a9-d925-4e6a-b626-b802e2b89f13",
+      "sourceUrl": "https://pramana.keka.com/careers/api/embedjobs/default/active/53c338a9-d925-4e6a-b626-b802e2b89f13",
+      "ats": "keka",
+      "token": "pramana/53c338a9-d925-4e6a-b626-b802e2b89f13",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://pramana.keka.com/careers"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:04.494Z",
+          "outcome": "success",
+          "category": "provider_board",
+          "detail": "11 jobs"
+        }
+      ],
+      "promotedAt": "2026-09-08T09:48:04.494Z"
+    },
+    {
       "sourceKey": "keka:procol/ef5e9e2a-eff3-478b-bb52-180d4a5de927",
       "sourceUrl": "https://procol.keka.com/careers/api/embedjobs/default/active/ef5e9e2a-eff3-478b-bb52-180d4a5de927",
       "ats": "keka",
@@ -84518,6 +85649,28 @@
         }
       ],
       "promotedAt": "2026-09-08T09:37:41.829Z"
+    },
+    {
+      "sourceKey": "keka:pvclean/f3fbf39f-01af-49c6-b047-ba904bdbb882",
+      "sourceUrl": "https://pvclean.keka.com/careers/api/embedjobs/default/active/f3fbf39f-01af-49c6-b047-ba904bdbb882",
+      "ats": "keka",
+      "token": "pvclean/f3fbf39f-01af-49c6-b047-ba904bdbb882",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://pvclean.keka.com/careers"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:04.732Z",
+          "outcome": "permanent_failure",
+          "category": "empty_board",
+          "detail": "Board has no jobs"
+        }
+      ]
     },
     {
       "sourceKey": "keka:qed42/78974693-992a-4ca9-ad03-faaacf399a51",
@@ -84581,6 +85734,44 @@
       "promotedAt": "2026-09-08T09:37:42.430Z"
     },
     {
+      "sourceKey": "keka:rootquotient/e0cde6c5-5ff3-41c0-9877-f5aa6551db0d",
+      "sourceUrl": "https://rootquotient.keka.com/careers/api/embedjobs/default/active/e0cde6c5-5ff3-41c0-9877-f5aa6551db0d",
+      "ats": "keka",
+      "token": "rootquotient/e0cde6c5-5ff3-41c0-9877-f5aa6551db0d",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://rootquotient.keka.com/careers"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:04.891Z",
+          "outcome": "success",
+          "category": "provider_board",
+          "detail": "4 jobs"
+        }
+      ],
+      "promotedAt": "2026-09-08T09:48:04.891Z"
+    },
+    {
+      "sourceKey": "keka:rostrumedu/6642323d-0a79-4aba-a6a2-a04e5bcc12d3",
+      "sourceUrl": "https://rostrumedu.keka.com/careers/api/embedjobs/default/active/6642323d-0a79-4aba-a6a2-a04e5bcc12d3",
+      "ats": "keka",
+      "token": "rostrumedu/6642323d-0a79-4aba-a6a2-a04e5bcc12d3",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://rostrumedu.keka.com/careers"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
       "sourceKey": "keka:royalhealth/70700492-1a51-4d28-b1f0-207a68cce1bb",
       "sourceUrl": "https://royalhealth.keka.com/careers/api/embedjobs/default/active/70700492-1a51-4d28-b1f0-207a68cce1bb",
       "ats": "keka",
@@ -84589,6 +85780,36 @@
         {
           "channel": "provider_directory",
           "reference": "https://royalhealth.keka.com/careers"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "keka:salescodeai/d96275cd-110b-4550-94da-4a1a661899f1",
+      "sourceUrl": "https://salescodeai.keka.com/careers/api/embedjobs/default/active/d96275cd-110b-4550-94da-4a1a661899f1",
+      "ats": "keka",
+      "token": "salescodeai/d96275cd-110b-4550-94da-4a1a661899f1",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://salescodeai.keka.com/careers"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "keka:sanjhi/a6112891-3442-440e-98ec-ce639f71a25a",
+      "sourceUrl": "https://sanjhi.keka.com/careers/api/embedjobs/default/active/a6112891-3442-440e-98ec-ce639f71a25a",
+      "ats": "keka",
+      "token": "sanjhi/a6112891-3442-440e-98ec-ce639f71a25a",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://sanjhi.keka.com/careers"
         }
       ],
       "companyMatches": [],
@@ -84672,6 +85893,44 @@
       "promotedAt": "2026-09-08T09:37:42.652Z"
     },
     {
+      "sourceKey": "keka:serviqual/83e7a588-9e85-4da4-8a83-edff49ea84ce",
+      "sourceUrl": "https://serviqual.keka.com/careers/api/embedjobs/default/active/83e7a588-9e85-4da4-8a83-edff49ea84ce",
+      "ats": "keka",
+      "token": "serviqual/83e7a588-9e85-4da4-8a83-edff49ea84ce",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://serviqual.keka.com/careers"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:05.157Z",
+          "outcome": "success",
+          "category": "provider_board",
+          "detail": "5 jobs"
+        }
+      ],
+      "promotedAt": "2026-09-08T09:48:05.157Z"
+    },
+    {
+      "sourceKey": "keka:shaktipumps/4f926cb7-06f6-47a7-8236-b76774aed94b",
+      "sourceUrl": "https://shaktipumps.keka.com/careers/api/embedjobs/default/active/4f926cb7-06f6-47a7-8236-b76774aed94b",
+      "ats": "keka",
+      "token": "shaktipumps/4f926cb7-06f6-47a7-8236-b76774aed94b",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://shaktipumps.keka.com/careers"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
       "sourceKey": "keka:shipthis/68c6ecef-5572-4f03-9a8a-92ce7fe13ee0",
       "sourceUrl": "https://shipthis.keka.com/careers/api/embedjobs/default/active/68c6ecef-5572-4f03-9a8a-92ce7fe13ee0",
       "ats": "keka",
@@ -84693,6 +85952,29 @@
         }
       ],
       "promotedAt": "2026-09-08T09:37:42.738Z"
+    },
+    {
+      "sourceKey": "keka:shott/2adbd200-3179-4974-a2e2-2ef4f53bbcdd",
+      "sourceUrl": "https://shott.keka.com/careers/api/embedjobs/default/active/2adbd200-3179-4974-a2e2-2ef4f53bbcdd",
+      "ats": "keka",
+      "token": "shott/2adbd200-3179-4974-a2e2-2ef4f53bbcdd",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://shott.keka.com/careers"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:05.448Z",
+          "outcome": "success",
+          "category": "provider_board",
+          "detail": "11 jobs"
+        }
+      ],
+      "promotedAt": "2026-09-08T09:48:05.448Z"
     },
     {
       "sourceKey": "keka:shreenm/14f6aed4-e273-43c5-a220-001b612e8945",
@@ -84718,6 +86000,21 @@
       "promotedAt": "2026-09-08T09:37:43.214Z"
     },
     {
+      "sourceKey": "keka:signzy/54e30b3d-e138-4862-8055-8b2ce8c31009",
+      "sourceUrl": "https://signzy.keka.com/careers/api/embedjobs/default/active/54e30b3d-e138-4862-8055-8b2ce8c31009",
+      "ats": "keka",
+      "token": "signzy/54e30b3d-e138-4862-8055-8b2ce8c31009",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://signzy.keka.com/careers"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
       "sourceKey": "keka:sjcontractspvtltd/015e0d86-7020-48a2-8ba6-0c0d04ba1e83",
       "sourceUrl": "https://sjcontractspvtltd.keka.com/careers/api/embedjobs/default/active/015e0d86-7020-48a2-8ba6-0c0d04ba1e83",
       "ats": "keka",
@@ -84739,6 +86036,21 @@
         }
       ],
       "promotedAt": "2026-09-08T09:37:43.573Z"
+    },
+    {
+      "sourceKey": "keka:skanai/d83629ac-cbae-4575-a5b0-a6e0e556f459",
+      "sourceUrl": "https://skanai.keka.com/careers/api/embedjobs/default/active/d83629ac-cbae-4575-a5b0-a6e0e556f459",
+      "ats": "keka",
+      "token": "skanai/d83629ac-cbae-4575-a5b0-a6e0e556f459",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://skanai.keka.com/careers"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
     },
     {
       "sourceKey": "keka:skylarkdrones/37b28e33-c80d-4ffd-9dce-1ca7b025cc96",
@@ -84779,6 +86091,59 @@
       "attempts": []
     },
     {
+      "sourceKey": "keka:softlinkglobal/1f025420-fbba-4f8b-ad97-2ae9afd94b00",
+      "sourceUrl": "https://softlinkglobal.keka.com/careers/api/embedjobs/default/active/1f025420-fbba-4f8b-ad97-2ae9afd94b00",
+      "ats": "keka",
+      "token": "softlinkglobal/1f025420-fbba-4f8b-ad97-2ae9afd94b00",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://softlinkglobal.keka.com/careers"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "keka:softmason/07338b56-7a5e-485a-be18-3de717cd4083",
+      "sourceUrl": "https://softmason.keka.com/careers/api/embedjobs/default/active/07338b56-7a5e-485a-be18-3de717cd4083",
+      "ats": "keka",
+      "token": "softmason/07338b56-7a5e-485a-be18-3de717cd4083",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://softmason.keka.com/careers"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "keka:softobiz/433d2f00-7636-4f9d-9ae7-6c471a3b0d76",
+      "sourceUrl": "https://softobiz.keka.com/careers/api/embedjobs/default/active/433d2f00-7636-4f9d-9ae7-6c471a3b0d76",
+      "ats": "keka",
+      "token": "softobiz/433d2f00-7636-4f9d-9ae7-6c471a3b0d76",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://softobiz.keka.com/careers"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:05.563Z",
+          "outcome": "success",
+          "category": "provider_board",
+          "detail": "46 jobs"
+        }
+      ],
+      "promotedAt": "2026-09-08T09:48:05.563Z"
+    },
+    {
       "sourceKey": "keka:sohodragon/22dc5526-3476-4f75-bdd7-c35c6da176aa",
       "sourceUrl": "https://sohodragon.keka.com/careers/api/embedjobs/default/active/22dc5526-3476-4f75-bdd7-c35c6da176aa",
       "ats": "keka",
@@ -84815,6 +86180,97 @@
       "companyMatches": [],
       "identityEvidence": [],
       "attempts": []
+    },
+    {
+      "sourceKey": "keka:squadrun/c750f148-70b8-4a21-868e-f891a1b2d818",
+      "sourceUrl": "https://squadrun.keka.com/careers/api/embedjobs/default/active/c750f148-70b8-4a21-868e-f891a1b2d818",
+      "ats": "keka",
+      "token": "squadrun/c750f148-70b8-4a21-868e-f891a1b2d818",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://squadrun.keka.com/careers"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:05.630Z",
+          "outcome": "success",
+          "category": "provider_board",
+          "detail": "13 jobs"
+        }
+      ],
+      "promotedAt": "2026-09-08T09:48:05.630Z"
+    },
+    {
+      "sourceKey": "keka:stonefield/30d8060c-6011-4e50-885f-a29ce176b212",
+      "sourceUrl": "https://stonefield.keka.com/careers/api/embedjobs/default/active/30d8060c-6011-4e50-885f-a29ce176b212",
+      "ats": "keka",
+      "token": "stonefield/30d8060c-6011-4e50-885f-a29ce176b212",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://stonefield.keka.com/careers"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:05.797Z",
+          "outcome": "permanent_failure",
+          "category": "empty_board",
+          "detail": "Board has no jobs"
+        }
+      ]
+    },
+    {
+      "sourceKey": "keka:sunflowerlab/3d645e19-58f1-438e-894c-c9dacda2f8c6",
+      "sourceUrl": "https://sunflowerlab.keka.com/careers/api/embedjobs/default/active/3d645e19-58f1-438e-894c-c9dacda2f8c6",
+      "ats": "keka",
+      "token": "sunflowerlab/3d645e19-58f1-438e-894c-c9dacda2f8c6",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://sunflowerlab.keka.com/careers"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:06.043Z",
+          "outcome": "success",
+          "category": "provider_board",
+          "detail": "6 jobs"
+        }
+      ],
+      "promotedAt": "2026-09-08T09:48:06.043Z"
+    },
+    {
+      "sourceKey": "keka:superplum/fa6b6afa-55f3-440b-9920-8c2dd7c10f1c",
+      "sourceUrl": "https://superplum.keka.com/careers/api/embedjobs/default/active/fa6b6afa-55f3-440b-9920-8c2dd7c10f1c",
+      "ats": "keka",
+      "token": "superplum/fa6b6afa-55f3-440b-9920-8c2dd7c10f1c",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://superplum.keka.com/careers"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:06.115Z",
+          "outcome": "success",
+          "category": "provider_board",
+          "detail": "9 jobs"
+        }
+      ],
+      "promotedAt": "2026-09-08T09:48:06.115Z"
     },
     {
       "sourceKey": "keka:supertechgroup/dd7924f6-7647-42de-8232-8cf805375d6c",
@@ -84870,6 +86326,36 @@
       "attempts": []
     },
     {
+      "sourceKey": "keka:tcglobal/5dc55e1d-c6c4-4c60-8790-0e9f24657e08",
+      "sourceUrl": "https://tcglobal.keka.com/careers/api/embedjobs/default/active/5dc55e1d-c6c4-4c60-8790-0e9f24657e08",
+      "ats": "keka",
+      "token": "tcglobal/5dc55e1d-c6c4-4c60-8790-0e9f24657e08",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://tcglobal.keka.com/careers"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "keka:teachmint/a2d014c9-834b-4fa1-a3e5-d2a66769d64d",
+      "sourceUrl": "https://teachmint.keka.com/careers/api/embedjobs/default/active/a2d014c9-834b-4fa1-a3e5-d2a66769d64d",
+      "ats": "keka",
+      "token": "teachmint/a2d014c9-834b-4fa1-a3e5-d2a66769d64d",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://teachmint.keka.com/careers"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
       "sourceKey": "keka:techdome/db914ff9-927c-40ee-8942-23c09ee515ce",
       "sourceUrl": "https://techdome.keka.com/careers/api/embedjobs/default/active/db914ff9-927c-40ee-8942-23c09ee515ce",
       "ats": "keka",
@@ -84893,6 +86379,21 @@
       "promotedAt": "2026-09-08T09:37:43.929Z"
     },
     {
+      "sourceKey": "keka:techsolengineers/c03c98cb-5d89-4e5b-9bbc-5ea37249a087",
+      "sourceUrl": "https://techsolengineers.keka.com/careers/api/embedjobs/default/active/c03c98cb-5d89-4e5b-9bbc-5ea37249a087",
+      "ats": "keka",
+      "token": "techsolengineers/c03c98cb-5d89-4e5b-9bbc-5ea37249a087",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://techsolengineers.keka.com/careers"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
       "sourceKey": "keka:thenudge/fa843d2b-e9a3-4f1f-8077-a60938ccaa86",
       "sourceUrl": "https://thenudge.keka.com/careers/api/embedjobs/default/active/fa843d2b-e9a3-4f1f-8077-a60938ccaa86",
       "ats": "keka",
@@ -84908,6 +86409,59 @@
       "attempts": []
     },
     {
+      "sourceKey": "keka:toprankers/8404ec19-5bc9-43eb-b5b6-a7b261b8657f",
+      "sourceUrl": "https://toprankers.keka.com/careers/api/embedjobs/default/active/8404ec19-5bc9-43eb-b5b6-a7b261b8657f",
+      "ats": "keka",
+      "token": "toprankers/8404ec19-5bc9-43eb-b5b6-a7b261b8657f",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://toprankers.keka.com/careers"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:06.570Z",
+          "outcome": "success",
+          "category": "provider_board",
+          "detail": "119 jobs"
+        }
+      ],
+      "promotedAt": "2026-09-08T09:48:06.570Z"
+    },
+    {
+      "sourceKey": "keka:trenser/17508d3b-2a4e-4918-b302-31d70e5bfffd",
+      "sourceUrl": "https://trenser.keka.com/careers/api/embedjobs/default/active/17508d3b-2a4e-4918-b302-31d70e5bfffd",
+      "ats": "keka",
+      "token": "trenser/17508d3b-2a4e-4918-b302-31d70e5bfffd",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://trenser.keka.com/careers"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "keka:tripjack/e1da1c05-7d0d-4ec4-bda5-f056440e7fd6",
+      "sourceUrl": "https://tripjack.keka.com/careers/api/embedjobs/default/active/e1da1c05-7d0d-4ec4-bda5-f056440e7fd6",
+      "ats": "keka",
+      "token": "tripjack/e1da1c05-7d0d-4ec4-bda5-f056440e7fd6",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://tripjack.keka.com/careers"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
       "sourceKey": "keka:udchalo/6f689d9b-a56e-40ca-9354-00c147096a25",
       "sourceUrl": "https://udchalo.keka.com/careers/api/embedjobs/default/active/6f689d9b-a56e-40ca-9354-00c147096a25",
       "ats": "keka",
@@ -84916,6 +86470,21 @@
         {
           "channel": "provider_directory",
           "reference": "https://udchalo.keka.com/careers"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "keka:unboxrobotics/f8616305-d714-4d95-a354-66b7b0ebf6d0",
+      "sourceUrl": "https://unboxrobotics.keka.com/careers/api/embedjobs/default/active/f8616305-d714-4d95-a354-66b7b0ebf6d0",
+      "ats": "keka",
+      "token": "unboxrobotics/f8616305-d714-4d95-a354-66b7b0ebf6d0",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://unboxrobotics.keka.com/careers"
         }
       ],
       "companyMatches": [],
@@ -84992,6 +86561,29 @@
       "promotedAt": "2026-09-08T09:37:44.914Z"
     },
     {
+      "sourceKey": "keka:wealthindia/08b1fec2-e1e2-4f88-a6f5-b8fde9f8c77f",
+      "sourceUrl": "https://wealthindia.keka.com/careers/api/embedjobs/default/active/08b1fec2-e1e2-4f88-a6f5-b8fde9f8c77f",
+      "ats": "keka",
+      "token": "wealthindia/08b1fec2-e1e2-4f88-a6f5-b8fde9f8c77f",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://wealthindia.keka.com/careers"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:06.633Z",
+          "outcome": "success",
+          "category": "provider_board",
+          "detail": "1 jobs"
+        }
+      ],
+      "promotedAt": "2026-09-08T09:48:06.633Z"
+    },
+    {
       "sourceKey": "keka:webvillee/733d18c2-42a4-47a2-a963-b153905374e1",
       "sourceUrl": "https://webvillee.keka.com/careers/api/embedjobs/default/active/733d18c2-42a4-47a2-a963-b153905374e1",
       "ats": "keka",
@@ -85030,6 +86622,29 @@
       "promotedAt": "2026-09-08T09:37:44.967Z"
     },
     {
+      "sourceKey": "keka:wishlink/f5437a79-d84a-4e36-a1ae-81c1d1dfb5c4",
+      "sourceUrl": "https://wishlink.keka.com/careers/api/embedjobs/default/active/f5437a79-d84a-4e36-a1ae-81c1d1dfb5c4",
+      "ats": "keka",
+      "token": "wishlink/f5437a79-d84a-4e36-a1ae-81c1d1dfb5c4",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://wishlink.keka.com/careers"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:06.753Z",
+          "outcome": "success",
+          "category": "provider_board",
+          "detail": "17 jobs"
+        }
+      ],
+      "promotedAt": "2026-09-08T09:48:06.753Z"
+    },
+    {
       "sourceKey": "keka:wohlig/d5c7d2b6-2a31-443b-9606-02f366ad3b06",
       "sourceUrl": "https://wohlig.keka.com/careers/api/embedjobs/default/active/d5c7d2b6-2a31-443b-9606-02f366ad3b06",
       "ats": "keka",
@@ -85051,6 +86666,52 @@
         }
       ],
       "promotedAt": "2026-09-08T09:37:45.092Z"
+    },
+    {
+      "sourceKey": "keka:woundtech/24cf28a2-1b7a-43a2-9395-f56ee32f6fba",
+      "sourceUrl": "https://woundtech.keka.com/careers/api/embedjobs/default/active/24cf28a2-1b7a-43a2-9395-f56ee32f6fba",
+      "ats": "keka",
+      "token": "woundtech/24cf28a2-1b7a-43a2-9395-f56ee32f6fba",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://woundtech.keka.com/careers"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:07.031Z",
+          "outcome": "success",
+          "category": "provider_board",
+          "detail": "27 jobs"
+        }
+      ],
+      "promotedAt": "2026-09-08T09:48:07.031Z"
+    },
+    {
+      "sourceKey": "keka:yashrajbio/44e0c9a2-f3c5-4cf3-a6f7-76aaadee9be0",
+      "sourceUrl": "https://yashrajbio.keka.com/careers/api/embedjobs/default/active/44e0c9a2-f3c5-4cf3-a6f7-76aaadee9be0",
+      "ats": "keka",
+      "token": "yashrajbio/44e0c9a2-f3c5-4cf3-a6f7-76aaadee9be0",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://yashrajbio.keka.com/careers"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:07.110Z",
+          "outcome": "success",
+          "category": "provider_board",
+          "detail": "20 jobs"
+        }
+      ],
+      "promotedAt": "2026-09-08T09:48:07.110Z"
     },
     {
       "sourceKey": "keka:zebu/95c7a8f4-720f-4dad-9631-b2b724910bc3",
@@ -85089,6 +86750,52 @@
         }
       ],
       "promotedAt": "2026-09-08T09:37:45.210Z"
+    },
+    {
+      "sourceKey": "keka:zippee/aa6004f9-c7f2-4795-b424-49b1a4b45cfc",
+      "sourceUrl": "https://zippee.keka.com/careers/api/embedjobs/default/active/aa6004f9-c7f2-4795-b424-49b1a4b45cfc",
+      "ats": "keka",
+      "token": "zippee/aa6004f9-c7f2-4795-b424-49b1a4b45cfc",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://zippee.keka.com/careers"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:07.170Z",
+          "outcome": "success",
+          "category": "provider_board",
+          "detail": "58 jobs"
+        }
+      ],
+      "promotedAt": "2026-09-08T09:48:07.170Z"
+    },
+    {
+      "sourceKey": "keka:zono/5421e060-c98c-4383-8744-81fc286f7bda",
+      "sourceUrl": "https://zono.keka.com/careers/api/embedjobs/default/active/5421e060-c98c-4383-8744-81fc286f7bda",
+      "ats": "keka",
+      "token": "zono/5421e060-c98c-4383-8744-81fc286f7bda",
+      "discoveredFrom": [
+        {
+          "channel": "provider_directory",
+          "reference": "https://zono.keka.com/careers"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:07.638Z",
+          "outcome": "success",
+          "category": "provider_board",
+          "detail": "8 jobs"
+        }
+      ],
+      "promotedAt": "2026-09-08T09:48:07.638Z"
     },
     {
       "sourceKey": "keka:zupersoft/7339055c-2666-48e7-937b-d4f56eb3ce6d",
@@ -182100,6 +183807,14 @@
       "discoveredFrom": [
         {
           "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-21-index"
+        },
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-25-index"
+        },
+        {
+          "channel": "dataset",
           "reference": "https://index.commoncrawl.org/CC-MAIN-2026-34-index"
         }
       ],
@@ -182130,6 +183845,28 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-08T09:37:46.333Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
+      "sourceKey": "zohorecruit:adaptivemindscoaching.zohorecruit.com",
+      "sourceUrl": "https://adaptivemindscoaching.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "adaptivemindscoaching.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-21-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:08.120Z",
           "outcome": "permanent_failure",
           "category": "invalid_payload",
           "detail": "Payload does not contain the expected jobs array"
@@ -182181,6 +183918,50 @@
       ]
     },
     {
+      "sourceKey": "zohorecruit:advanc.zohorecruit.com",
+      "sourceUrl": "https://advanc.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "advanc.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:08.187Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
+      "sourceKey": "zohorecruit:advice.zohorecruit.com",
+      "sourceUrl": "https://advice.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "advice.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:08.387Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
       "sourceKey": "zohorecruit:africadyslexia.zohorecruit.com",
       "sourceUrl": "https://africadyslexia.zohorecruit.com/jobs/Careers",
       "ats": "zohorecruit",
@@ -182201,6 +183982,29 @@
           "detail": "Payload does not contain the expected jobs array"
         }
       ]
+    },
+    {
+      "sourceKey": "zohorecruit:africanmanagers.zohorecruit.com",
+      "sourceUrl": "https://africanmanagers.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "africanmanagers.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:08.464Z",
+          "outcome": "success",
+          "category": "provider_board",
+          "detail": "13 jobs"
+        }
+      ],
+      "promotedAt": "2026-09-08T09:48:08.464Z"
     },
     {
       "sourceKey": "zohorecruit:agostini.zohorecruit.com",
@@ -182335,6 +184139,28 @@
       ]
     },
     {
+      "sourceKey": "zohorecruit:andonyc.zohorecruit.com",
+      "sourceUrl": "https://andonyc.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "andonyc.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-21-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:08.465Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
       "sourceKey": "zohorecruit:anewenergy.zohorecruit.com",
       "sourceUrl": "https://anewenergy.zohorecruit.com/jobs/Careers",
       "ats": "zohorecruit",
@@ -182357,6 +184183,117 @@
       ]
     },
     {
+      "sourceKey": "zohorecruit:applycourses.zohorecruit.in",
+      "sourceUrl": "https://applycourses.zohorecruit.in/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "applycourses.zohorecruit.in",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-21-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:08.568Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
+      "sourceKey": "zohorecruit:approvely.zohorecruit.com",
+      "sourceUrl": "https://approvely.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "approvely.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-21-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:08.697Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
+      "sourceKey": "zohorecruit:arcticinvent.zohorecruit.in",
+      "sourceUrl": "https://arcticinvent.zohorecruit.in/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "arcticinvent.zohorecruit.in",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-25-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:08.758Z",
+          "outcome": "success",
+          "category": "provider_board",
+          "detail": "5 jobs"
+        }
+      ],
+      "promotedAt": "2026-09-08T09:48:08.758Z"
+    },
+    {
+      "sourceKey": "zohorecruit:ariana.zohorecruit.com",
+      "sourceUrl": "https://ariana.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "ariana.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-25-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:08.782Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
+      "sourceKey": "zohorecruit:aristo-india.zohorecruit.in",
+      "sourceUrl": "https://aristo-india.zohorecruit.in/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "aristo-india.zohorecruit.in",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:08.808Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
       "sourceKey": "zohorecruit:askdoctorfaith.zohorecruit.com",
       "sourceUrl": "https://askdoctorfaith.zohorecruit.com/jobs/Careers",
       "ats": "zohorecruit",
@@ -182372,6 +184309,50 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-08T09:37:47.150Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
+      "sourceKey": "zohorecruit:astrohire.zohorecruit.com",
+      "sourceUrl": "https://astrohire.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "astrohire.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-25-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:08.977Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
+      "sourceKey": "zohorecruit:auray.zohorecruit.com",
+      "sourceUrl": "https://auray.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "auray.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-21-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:09.103Z",
           "outcome": "permanent_failure",
           "category": "invalid_payload",
           "detail": "Payload does not contain the expected jobs array"
@@ -182467,6 +184448,74 @@
       ]
     },
     {
+      "sourceKey": "zohorecruit:be-consultancy-group.zohorecruit.com",
+      "sourceUrl": "https://be-consultancy-group.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "be-consultancy-group.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:09.240Z",
+          "outcome": "success",
+          "category": "provider_board",
+          "detail": "150 jobs"
+        }
+      ],
+      "promotedAt": "2026-09-08T09:48:09.240Z"
+    },
+    {
+      "sourceKey": "zohorecruit:bgrh.zohorecruit.com",
+      "sourceUrl": "https://bgrh.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "bgrh.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-25-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:09.356Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
+      "sourceKey": "zohorecruit:biglittle.zohorecruit.in",
+      "sourceUrl": "https://biglittle.zohorecruit.in/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "biglittle.zohorecruit.in",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-21-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:09.570Z",
+          "outcome": "success",
+          "category": "provider_board",
+          "detail": "1 jobs"
+        }
+      ],
+      "promotedAt": "2026-09-08T09:48:09.570Z"
+    },
+    {
       "sourceKey": "zohorecruit:bilingual-ls.zohorecruit.com",
       "sourceUrl": "https://bilingual-ls.zohorecruit.com/jobs/Careers",
       "ats": "zohorecruit",
@@ -182509,6 +184558,29 @@
           "detail": "Payload does not contain the expected jobs array"
         }
       ]
+    },
+    {
+      "sourceKey": "zohorecruit:bluedotinsights.zohorecruit.com",
+      "sourceUrl": "https://bluedotinsights.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "bluedotinsights.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:09.613Z",
+          "outcome": "success",
+          "category": "provider_board",
+          "detail": "9 jobs"
+        }
+      ],
+      "promotedAt": "2026-09-08T09:48:09.613Z"
     },
     {
       "sourceKey": "zohorecruit:bothand.zohorecruit.com",
@@ -182555,6 +184627,28 @@
       ]
     },
     {
+      "sourceKey": "zohorecruit:brightbiz.zohorecruit.com",
+      "sourceUrl": "https://brightbiz.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "brightbiz.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:09.636Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
       "sourceKey": "zohorecruit:callieregroup.zohorecruit.com",
       "sourceUrl": "https://callieregroup.zohorecruit.com/jobs/Careers",
       "ats": "zohorecruit",
@@ -182576,6 +184670,28 @@
         }
       ],
       "promotedAt": "2026-09-08T09:37:47.573Z"
+    },
+    {
+      "sourceKey": "zohorecruit:cancapital.zohorecruit.com",
+      "sourceUrl": "https://cancapital.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "cancapital.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-25-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:09.891Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
     },
     {
       "sourceKey": "zohorecruit:capitalsage.zohorecruit.com",
@@ -182637,6 +184753,50 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-08T09:37:47.767Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
+      "sourceKey": "zohorecruit:careernexus.zohorecruit.com",
+      "sourceUrl": "https://careernexus.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "careernexus.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-21-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:09.892Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
+      "sourceKey": "zohorecruit:careersinghana.zohorecruit.com",
+      "sourceUrl": "https://careersinghana.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "careersinghana.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:09.927Z",
           "outcome": "permanent_failure",
           "category": "invalid_payload",
           "detail": "Payload does not contain the expected jobs array"
@@ -182717,6 +184877,14 @@
       "discoveredFrom": [
         {
           "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-25-index"
+        },
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+        },
+        {
+          "channel": "dataset",
           "reference": "https://index.commoncrawl.org/CC-MAIN-2026-34-index"
         }
       ],
@@ -182739,6 +184907,18 @@
       "discoveredFrom": [
         {
           "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-21-index"
+        },
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-25-index"
+        },
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+        },
+        {
+          "channel": "dataset",
           "reference": "https://index.commoncrawl.org/CC-MAIN-2026-34-index"
         }
       ],
@@ -182752,6 +184932,29 @@
           "detail": "Payload does not contain the expected jobs array"
         }
       ]
+    },
+    {
+      "sourceKey": "zohorecruit:cdl.zohorecruit.com",
+      "sourceUrl": "https://cdl.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "cdl.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-21-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:10.124Z",
+          "outcome": "success",
+          "category": "provider_board",
+          "detail": "69 jobs"
+        }
+      ],
+      "promotedAt": "2026-09-08T09:48:10.124Z"
     },
     {
       "sourceKey": "zohorecruit:chemexglobal.zohorecruit.com",
@@ -182777,6 +184980,28 @@
       "promotedAt": "2026-09-08T09:37:48.055Z"
     },
     {
+      "sourceKey": "zohorecruit:cheq.zohorecruit.in",
+      "sourceUrl": "https://cheq.zohorecruit.in/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "cheq.zohorecruit.in",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-21-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:10.140Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
       "sourceKey": "zohorecruit:cidconsulting.zohorecruit.com",
       "sourceUrl": "https://cidconsulting.zohorecruit.com/jobs/Careers",
       "ats": "zohorecruit",
@@ -182792,6 +185017,51 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-08T09:37:48.088Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
+      "sourceKey": "zohorecruit:cigmotors.zohorecruit.com",
+      "sourceUrl": "https://cigmotors.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "cigmotors.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:10.175Z",
+          "outcome": "success",
+          "category": "provider_board",
+          "detail": "11 jobs"
+        }
+      ],
+      "promotedAt": "2026-09-08T09:48:10.175Z"
+    },
+    {
+      "sourceKey": "zohorecruit:citygreens.zohorecruit.in",
+      "sourceUrl": "https://citygreens.zohorecruit.in/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "citygreens.zohorecruit.in",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-25-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:10.197Z",
           "outcome": "permanent_failure",
           "category": "invalid_payload",
           "detail": "Payload does not contain the expected jobs array"
@@ -182821,6 +185091,99 @@
       ]
     },
     {
+      "sourceKey": "zohorecruit:cofinia.zohorecruit.com",
+      "sourceUrl": "https://cofinia.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "cofinia.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-21-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:10.202Z",
+          "outcome": "success",
+          "category": "provider_board",
+          "detail": "4 jobs"
+        }
+      ],
+      "promotedAt": "2026-09-08T09:48:10.202Z"
+    },
+    {
+      "sourceKey": "zohorecruit:cognethro.zohorecruit.in",
+      "sourceUrl": "https://cognethro.zohorecruit.in/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "cognethro.zohorecruit.in",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-25-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:10.629Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
+      "sourceKey": "zohorecruit:cognustechnology.zohorecruit.in",
+      "sourceUrl": "https://cognustechnology.zohorecruit.in/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "cognustechnology.zohorecruit.in",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-21-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:10.638Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
+      "sourceKey": "zohorecruit:collectivenewsroom.zohorecruit.in",
+      "sourceUrl": "https://collectivenewsroom.zohorecruit.in/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "collectivenewsroom.zohorecruit.in",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-25-index"
+        },
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:10.897Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
       "sourceKey": "zohorecruit:concreteworkseast.zohorecruit.com",
       "sourceUrl": "https://concreteworkseast.zohorecruit.com/jobs/Careers",
       "ats": "zohorecruit",
@@ -182836,6 +185199,51 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-08T09:37:48.336Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
+      "sourceKey": "zohorecruit:coopersinc.zohorecruit.com",
+      "sourceUrl": "https://coopersinc.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "coopersinc.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-21-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:11.250Z",
+          "outcome": "success",
+          "category": "provider_board",
+          "detail": "43 jobs"
+        }
+      ],
+      "promotedAt": "2026-09-08T09:48:11.250Z"
+    },
+    {
+      "sourceKey": "zohorecruit:coworkzen.zohorecruit.in",
+      "sourceUrl": "https://coworkzen.zohorecruit.in/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "coworkzen.zohorecruit.in",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-21-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:11.284Z",
           "outcome": "permanent_failure",
           "category": "invalid_payload",
           "detail": "Payload does not contain the expected jobs array"
@@ -182861,6 +185269,28 @@
           "outcome": "permanent_failure",
           "category": "empty_board",
           "detail": "Board has no jobs"
+        }
+      ]
+    },
+    {
+      "sourceKey": "zohorecruit:criderlaw.zohorecruit.com",
+      "sourceUrl": "https://criderlaw.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "criderlaw.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-21-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:11.413Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
         }
       ]
     },
@@ -182931,6 +185361,28 @@
       ]
     },
     {
+      "sourceKey": "zohorecruit:dataeconomy.zohorecruit.com",
+      "sourceUrl": "https://dataeconomy.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "dataeconomy.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-21-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:11.421Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
       "sourceKey": "zohorecruit:davisconsultsolutions.zohorecruit.com",
       "sourceUrl": "https://davisconsultsolutions.zohorecruit.com/jobs/Careers",
       "ats": "zohorecruit",
@@ -182954,6 +185406,72 @@
       "promotedAt": "2026-09-08T09:37:48.615Z"
     },
     {
+      "sourceKey": "zohorecruit:delsys.zohorecruit.com",
+      "sourceUrl": "https://delsys.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "delsys.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-25-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:11.668Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
+      "sourceKey": "zohorecruit:dhk.zohorecruit.com",
+      "sourceUrl": "https://dhk.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "dhk.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:11.687Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
+      "sourceKey": "zohorecruit:donweb.zohorecruit.com",
+      "sourceUrl": "https://donweb.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "donweb.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-21-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:11.711Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
       "sourceKey": "zohorecruit:dotit.zohorecruit.com",
       "sourceUrl": "https://dotit.zohorecruit.com/jobs/Careers",
       "ats": "zohorecruit",
@@ -182975,6 +185493,51 @@
         }
       ],
       "promotedAt": "2026-09-08T09:37:48.618Z"
+    },
+    {
+      "sourceKey": "zohorecruit:drivex.zohorecruit.com",
+      "sourceUrl": "https://drivex.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "drivex.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:11.800Z",
+          "outcome": "success",
+          "category": "provider_board",
+          "detail": "21 jobs"
+        }
+      ],
+      "promotedAt": "2026-09-08T09:48:11.800Z"
+    },
+    {
+      "sourceKey": "zohorecruit:e2ecleaning.zohorecruit.com",
+      "sourceUrl": "https://e2ecleaning.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "e2ecleaning.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:11.954Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
     },
     {
       "sourceKey": "zohorecruit:ecobank.zohorecruit.com",
@@ -183021,6 +185584,29 @@
       ]
     },
     {
+      "sourceKey": "zohorecruit:ekonid.zohorecruit.com",
+      "sourceUrl": "https://ekonid.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "ekonid.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-25-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:11.974Z",
+          "outcome": "success",
+          "category": "provider_board",
+          "detail": "1 jobs"
+        }
+      ],
+      "promotedAt": "2026-09-08T09:48:11.974Z"
+    },
+    {
       "sourceKey": "zohorecruit:elevateab.zohorecruit.com",
       "sourceUrl": "https://elevateab.zohorecruit.com/jobs/Careers",
       "ats": "zohorecruit",
@@ -183048,6 +185634,10 @@
       "ats": "zohorecruit",
       "token": "ellasotconsulting.zohorecruit.com",
       "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+        },
         {
           "channel": "dataset",
           "reference": "https://index.commoncrawl.org/CC-MAIN-2026-34-index"
@@ -183087,6 +185677,29 @@
       ]
     },
     {
+      "sourceKey": "zohorecruit:enflux.zohorecruit.com",
+      "sourceUrl": "https://enflux.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "enflux.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:11.986Z",
+          "outcome": "success",
+          "category": "provider_board",
+          "detail": "1 jobs"
+        }
+      ],
+      "promotedAt": "2026-09-08T09:48:11.986Z"
+    },
+    {
       "sourceKey": "zohorecruit:enovative.zohorecruit.com",
       "sourceUrl": "https://enovative.zohorecruit.com/jobs/Careers",
       "ats": "zohorecruit",
@@ -183116,6 +185729,10 @@
       "discoveredFrom": [
         {
           "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-21-index"
+        },
+        {
+          "channel": "dataset",
           "reference": "https://index.commoncrawl.org/CC-MAIN-2026-34-index"
         }
       ],
@@ -183124,6 +185741,28 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-08T09:37:49.082Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
+      "sourceKey": "zohorecruit:erxgroup.zohorecruit.com",
+      "sourceUrl": "https://erxgroup.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "erxgroup.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-25-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:12.227Z",
           "outcome": "permanent_failure",
           "category": "invalid_payload",
           "detail": "Payload does not contain the expected jobs array"
@@ -183175,6 +185814,50 @@
       ]
     },
     {
+      "sourceKey": "zohorecruit:everrenew.zohorecruit.in",
+      "sourceUrl": "https://everrenew.zohorecruit.in/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "everrenew.zohorecruit.in",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-21-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:12.260Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
+      "sourceKey": "zohorecruit:execo.zohorecruit.com",
+      "sourceUrl": "https://execo.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "execo.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-21-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:12.287Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
       "sourceKey": "zohorecruit:exeterpremedia.zohorecruit.com",
       "sourceUrl": "https://exeterpremedia.zohorecruit.com/jobs/Careers",
       "ats": "zohorecruit",
@@ -183213,6 +185896,32 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-08T09:37:49.234Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
+      "sourceKey": "zohorecruit:f22labs.zohorecruit.in",
+      "sourceUrl": "https://f22labs.zohorecruit.in/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "f22labs.zohorecruit.in",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-21-index"
+        },
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:12.290Z",
           "outcome": "permanent_failure",
           "category": "invalid_payload",
           "detail": "Payload does not contain the expected jobs array"
@@ -183286,6 +185995,28 @@
       ]
     },
     {
+      "sourceKey": "zohorecruit:flydocs.zohorecruit.in",
+      "sourceUrl": "https://flydocs.zohorecruit.in/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "flydocs.zohorecruit.in",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-21-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:12.333Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
       "sourceKey": "zohorecruit:formunauts.zohorecruit.com",
       "sourceUrl": "https://formunauts.zohorecruit.com/jobs/Careers",
       "ats": "zohorecruit",
@@ -183301,6 +186032,50 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-08T09:37:49.377Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
+      "sourceKey": "zohorecruit:futuristiclabs.zohorecruit.in",
+      "sourceUrl": "https://futuristiclabs.zohorecruit.in/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "futuristiclabs.zohorecruit.in",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-21-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:12.526Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
+      "sourceKey": "zohorecruit:fyerx.zohorecruit.in",
+      "sourceUrl": "https://fyerx.zohorecruit.in/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "fyerx.zohorecruit.in",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-21-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:12.551Z",
           "outcome": "permanent_failure",
           "category": "invalid_payload",
           "detail": "Payload does not contain the expected jobs array"
@@ -183398,6 +186173,50 @@
       ]
     },
     {
+      "sourceKey": "zohorecruit:geneva-msf.zohorecruit.com",
+      "sourceUrl": "https://geneva-msf.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "geneva-msf.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-21-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:12.611Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
+      "sourceKey": "zohorecruit:getdatabees.zohorecruit.com",
+      "sourceUrl": "https://getdatabees.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "getdatabees.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-25-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:12.903Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
       "sourceKey": "zohorecruit:global.zohorecruit.com",
       "sourceUrl": "https://global.zohorecruit.com/jobs/Careers",
       "ats": "zohorecruit",
@@ -183413,6 +186232,95 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-08T09:37:49.662Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
+      "sourceKey": "zohorecruit:glorinz.zohorecruit.com",
+      "sourceUrl": "https://glorinz.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "glorinz.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-25-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:13.146Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
+      "sourceKey": "zohorecruit:go-yubi.zohorecruit.in",
+      "sourceUrl": "https://go-yubi.zohorecruit.in/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "go-yubi.zohorecruit.in",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-21-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:13.256Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
+      "sourceKey": "zohorecruit:goabbeyroad.zohorecruit.com",
+      "sourceUrl": "https://goabbeyroad.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "goabbeyroad.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-25-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:13.335Z",
+          "outcome": "success",
+          "category": "provider_board",
+          "detail": "6 jobs"
+        }
+      ],
+      "promotedAt": "2026-09-08T09:48:13.335Z"
+    },
+    {
+      "sourceKey": "zohorecruit:gobluegreen.zohorecruit.com",
+      "sourceUrl": "https://gobluegreen.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "gobluegreen.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-25-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:13.349Z",
           "outcome": "permanent_failure",
           "category": "invalid_payload",
           "detail": "Payload does not contain the expected jobs array"
@@ -183465,6 +186373,50 @@
       ]
     },
     {
+      "sourceKey": "zohorecruit:govease.zohorecruit.com",
+      "sourceUrl": "https://govease.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "govease.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:13.393Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
+      "sourceKey": "zohorecruit:greenpowerint.zohorecruit.com",
+      "sourceUrl": "https://greenpowerint.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "greenpowerint.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-21-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:13.555Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
       "sourceKey": "zohorecruit:growthmarketingpro.zohorecruit.com",
       "sourceUrl": "https://growthmarketingpro.zohorecruit.com/jobs/Careers",
       "ats": "zohorecruit",
@@ -183494,6 +186446,10 @@
       "discoveredFrom": [
         {
           "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+        },
+        {
+          "channel": "dataset",
           "reference": "https://index.commoncrawl.org/CC-MAIN-2026-34-index"
         }
       ],
@@ -183507,6 +186463,51 @@
           "detail": "Payload does not contain the expected jobs array"
         }
       ]
+    },
+    {
+      "sourceKey": "zohorecruit:gtcoplc.zohorecruit.com",
+      "sourceUrl": "https://gtcoplc.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "gtcoplc.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:13.561Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
+      "sourceKey": "zohorecruit:gwgllc.zohorecruit.com",
+      "sourceUrl": "https://gwgllc.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "gwgllc.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-21-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:13.610Z",
+          "outcome": "success",
+          "category": "provider_board",
+          "detail": "5 jobs"
+        }
+      ],
+      "promotedAt": "2026-09-08T09:48:13.610Z"
     },
     {
       "sourceKey": "zohorecruit:haikan.zohorecruit.com",
@@ -183531,11 +186532,201 @@
       ]
     },
     {
+      "sourceKey": "zohorecruit:hccm.zohorecruit.com",
+      "sourceUrl": "https://hccm.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "hccm.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-25-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:13.641Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
+      "sourceKey": "zohorecruit:hireseniors.zohorecruit.com",
+      "sourceUrl": "https://hireseniors.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "hireseniors.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-25-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:13.650Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
+      "sourceKey": "zohorecruit:houstonjewish.zohorecruit.com",
+      "sourceUrl": "https://houstonjewish.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "houstonjewish.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:13.845Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
+      "sourceKey": "zohorecruit:hrknowledgesource.zohorecruit.com",
+      "sourceUrl": "https://hrknowledgesource.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "hrknowledgesource.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-21-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:13.845Z",
+          "outcome": "success",
+          "category": "provider_board",
+          "detail": "3 jobs"
+        }
+      ],
+      "promotedAt": "2026-09-08T09:48:13.845Z"
+    },
+    {
+      "sourceKey": "zohorecruit:humaniaressourceshumaines.zohorecruit.com",
+      "sourceUrl": "https://humaniaressourceshumaines.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "humaniaressourceshumaines.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-25-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:13.906Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
+      "sourceKey": "zohorecruit:icanpr.zohorecruit.com",
+      "sourceUrl": "https://icanpr.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "icanpr.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-21-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:13.927Z",
+          "outcome": "success",
+          "category": "provider_board",
+          "detail": "137 jobs"
+        }
+      ],
+      "promotedAt": "2026-09-08T09:48:13.927Z"
+    },
+    {
+      "sourceKey": "zohorecruit:impacttohealth.zohorecruit.com",
+      "sourceUrl": "https://impacttohealth.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "impacttohealth.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:14.108Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
+      "sourceKey": "zohorecruit:incubxperts.zohorecruit.com",
+      "sourceUrl": "https://incubxperts.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "incubxperts.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:14.130Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
       "sourceKey": "zohorecruit:indiumsoft.zohorecruit.com",
       "sourceUrl": "https://indiumsoft.zohorecruit.com/jobs/Careers",
       "ats": "zohorecruit",
       "token": "indiumsoft.zohorecruit.com",
       "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-21-index"
+        },
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-25-index"
+        },
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+        },
         {
           "channel": "dataset",
           "reference": "https://index.commoncrawl.org/CC-MAIN-2026-34-index"
@@ -183546,6 +186737,95 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-08T09:37:50.007Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
+      "sourceKey": "zohorecruit:innofied.zohorecruit.in",
+      "sourceUrl": "https://innofied.zohorecruit.in/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "innofied.zohorecruit.in",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:14.158Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
+      "sourceKey": "zohorecruit:ins-globalconsulting.zohorecruit.com",
+      "sourceUrl": "https://ins-globalconsulting.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "ins-globalconsulting.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:14.181Z",
+          "outcome": "success",
+          "category": "provider_board",
+          "detail": "3 jobs"
+        }
+      ],
+      "promotedAt": "2026-09-08T09:48:14.181Z"
+    },
+    {
+      "sourceKey": "zohorecruit:interlinkmanagementltd.zohorecruit.com",
+      "sourceUrl": "https://interlinkmanagementltd.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "interlinkmanagementltd.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:14.408Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
+      "sourceKey": "zohorecruit:islandpezi.zohorecruit.com",
+      "sourceUrl": "https://islandpezi.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "islandpezi.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-25-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:14.411Z",
           "outcome": "permanent_failure",
           "category": "invalid_payload",
           "detail": "Payload does not contain the expected jobs array"
@@ -183663,6 +186943,28 @@
       ]
     },
     {
+      "sourceKey": "zohorecruit:jungleworks.zohorecruit.in",
+      "sourceUrl": "https://jungleworks.zohorecruit.in/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "jungleworks.zohorecruit.in",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-25-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:14.475Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
       "sourceKey": "zohorecruit:k-obusiness.zohorecruit.com",
       "sourceUrl": "https://k-obusiness.zohorecruit.com/jobs/Careers",
       "ats": "zohorecruit",
@@ -183678,6 +186980,72 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-08T09:37:50.393Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
+      "sourceKey": "zohorecruit:karomi.zohorecruit.in",
+      "sourceUrl": "https://karomi.zohorecruit.in/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "karomi.zohorecruit.in",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-25-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:14.507Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
+      "sourceKey": "zohorecruit:kgcrmsolutions.zohorecruit.com",
+      "sourceUrl": "https://kgcrmsolutions.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "kgcrmsolutions.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:14.718Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
+      "sourceKey": "zohorecruit:kissolutions.zohorecruit.com",
+      "sourceUrl": "https://kissolutions.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "kissolutions.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-25-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:14.730Z",
           "outcome": "permanent_failure",
           "category": "invalid_payload",
           "detail": "Payload does not contain the expected jobs array"
@@ -183722,6 +187090,28 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-08T09:37:50.458Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
+      "sourceKey": "zohorecruit:kn-it.zohorecruit.com",
+      "sourceUrl": "https://kn-it.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "kn-it.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:14.948Z",
           "outcome": "permanent_failure",
           "category": "invalid_payload",
           "detail": "Payload does not contain the expected jobs array"
@@ -183840,6 +187230,76 @@
       ]
     },
     {
+      "sourceKey": "zohorecruit:longhornenergyandtransportationllc.zohorecruit.com",
+      "sourceUrl": "https://longhornenergyandtransportationllc.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "longhornenergyandtransportationllc.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-25-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:14.979Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
+      "sourceKey": "zohorecruit:maan-ctr.zohorecruit.com",
+      "sourceUrl": "https://maan-ctr.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "maan-ctr.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-25-index"
+        },
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:15.014Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
+      "sourceKey": "zohorecruit:machstatz.zohorecruit.com",
+      "sourceUrl": "https://machstatz.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "machstatz.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-25-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:15.220Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
       "sourceKey": "zohorecruit:madiffpl.zohorecruit.com",
       "sourceUrl": "https://madiffpl.zohorecruit.com/jobs/Careers",
       "ats": "zohorecruit",
@@ -183899,6 +187359,72 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-08T09:37:51.026Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
+      "sourceKey": "zohorecruit:mediacent.zohorecruit.com",
+      "sourceUrl": "https://mediacent.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "mediacent.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-21-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:15.244Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
+      "sourceKey": "zohorecruit:menaalliances.zohorecruit.com",
+      "sourceUrl": "https://menaalliances.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "menaalliances.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-25-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:15.297Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
+      "sourceKey": "zohorecruit:menengage.zohorecruit.in",
+      "sourceUrl": "https://menengage.zohorecruit.in/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "menengage.zohorecruit.in",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-25-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:15.408Z",
           "outcome": "permanent_failure",
           "category": "invalid_payload",
           "detail": "Payload does not contain the expected jobs array"
@@ -184038,6 +187564,72 @@
       ]
     },
     {
+      "sourceKey": "zohorecruit:mwsb.zohorecruit.com",
+      "sourceUrl": "https://mwsb.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "mwsb.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-25-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:15.481Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
+      "sourceKey": "zohorecruit:myhredge.zohorecruit.com",
+      "sourceUrl": "https://myhredge.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "myhredge.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-25-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:15.513Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
+      "sourceKey": "zohorecruit:mypaisaa.zohorecruit.in",
+      "sourceUrl": "https://mypaisaa.zohorecruit.in/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "mypaisaa.zohorecruit.in",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:15.548Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
       "sourceKey": "zohorecruit:mypayco.zohorecruit.com",
       "sourceUrl": "https://mypayco.zohorecruit.com/jobs/Careers",
       "ats": "zohorecruit",
@@ -184060,6 +187652,28 @@
       ]
     },
     {
+      "sourceKey": "zohorecruit:naturalvert.zohorecruit.com",
+      "sourceUrl": "https://naturalvert.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "naturalvert.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-25-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:15.580Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
       "sourceKey": "zohorecruit:ncet.zohorecruit.com",
       "sourceUrl": "https://ncet.zohorecruit.com/jobs/Careers",
       "ats": "zohorecruit",
@@ -184075,6 +187689,28 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-08T09:37:51.350Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
+      "sourceKey": "zohorecruit:nestack.zohorecruit.in",
+      "sourceUrl": "https://nestack.zohorecruit.in/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "nestack.zohorecruit.in",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-21-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:15.607Z",
           "outcome": "permanent_failure",
           "category": "invalid_payload",
           "detail": "Payload does not contain the expected jobs array"
@@ -184126,11 +187762,60 @@
       ]
     },
     {
+      "sourceKey": "zohorecruit:noct.zohorecruit.in",
+      "sourceUrl": "https://noct.zohorecruit.in/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "noct.zohorecruit.in",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-21-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:15.745Z",
+          "outcome": "success",
+          "category": "provider_board",
+          "detail": "11 jobs"
+        }
+      ],
+      "promotedAt": "2026-09-08T09:48:15.745Z"
+    },
+    {
+      "sourceKey": "zohorecruit:noponano.zohorecruit.in",
+      "sourceUrl": "https://noponano.zohorecruit.in/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "noponano.zohorecruit.in",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-25-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:15.801Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
       "sourceKey": "zohorecruit:nppn.zohorecruit.com",
       "sourceUrl": "https://nppn.zohorecruit.com/jobs/Careers",
       "ats": "zohorecruit",
       "token": "nppn.zohorecruit.com",
       "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-21-index"
+        },
         {
           "channel": "dataset",
           "reference": "https://index.commoncrawl.org/CC-MAIN-2026-34-index"
@@ -184141,6 +187826,28 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-08T09:37:51.528Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
+      "sourceKey": "zohorecruit:okuloaerospace.zohorecruit.in",
+      "sourceUrl": "https://okuloaerospace.zohorecruit.in/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "okuloaerospace.zohorecruit.in",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-25-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:15.830Z",
           "outcome": "permanent_failure",
           "category": "invalid_payload",
           "detail": "Payload does not contain the expected jobs array"
@@ -184163,6 +187870,28 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-08T09:37:51.568Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
+      "sourceKey": "zohorecruit:operisoft.zohorecruit.in",
+      "sourceUrl": "https://operisoft.zohorecruit.in/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "operisoft.zohorecruit.in",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:16.439Z",
           "outcome": "permanent_failure",
           "category": "invalid_payload",
           "detail": "Payload does not contain the expected jobs array"
@@ -184221,6 +187950,10 @@
       "discoveredFrom": [
         {
           "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-21-index"
+        },
+        {
+          "channel": "dataset",
           "reference": "https://index.commoncrawl.org/CC-MAIN-2026-34-index"
         }
       ],
@@ -184251,6 +187984,28 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-08T09:37:51.780Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
+      "sourceKey": "zohorecruit:ownthespace.zohorecruit.com",
+      "sourceUrl": "https://ownthespace.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "ownthespace.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-25-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:16.592Z",
           "outcome": "permanent_failure",
           "category": "invalid_payload",
           "detail": "Payload does not contain the expected jobs array"
@@ -184324,11 +188079,63 @@
       ]
     },
     {
+      "sourceKey": "zohorecruit:partner-demohdfunaisoken.zohorecruit.com",
+      "sourceUrl": "https://partner-demohdfunaisoken.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "partner-demohdfunaisoken.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-25-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:16.647Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
+      "sourceKey": "zohorecruit:pattentitle.zohorecruit.com",
+      "sourceUrl": "https://pattentitle.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "pattentitle.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:16.867Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
       "sourceKey": "zohorecruit:peaklandscape.zohorecruit.com",
       "sourceUrl": "https://peaklandscape.zohorecruit.com/jobs/Careers",
       "ats": "zohorecruit",
       "token": "peaklandscape.zohorecruit.com",
       "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-25-index"
+        },
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+        },
         {
           "channel": "dataset",
           "reference": "https://index.commoncrawl.org/CC-MAIN-2026-34-index"
@@ -184398,6 +188205,14 @@
       "discoveredFrom": [
         {
           "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-21-index"
+        },
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-25-index"
+        },
+        {
+          "channel": "dataset",
           "reference": "https://index.commoncrawl.org/CC-MAIN-2026-34-index"
         }
       ],
@@ -184418,6 +188233,10 @@
       "ats": "zohorecruit",
       "token": "piedmontglobal.zohorecruit.com",
       "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+        },
         {
           "channel": "dataset",
           "reference": "https://index.commoncrawl.org/CC-MAIN-2026-34-index"
@@ -184502,6 +188321,28 @@
       ]
     },
     {
+      "sourceKey": "zohorecruit:posimind.zohorecruit.in",
+      "sourceUrl": "https://posimind.zohorecruit.in/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "posimind.zohorecruit.in",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:16.876Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
       "sourceKey": "zohorecruit:potentiahr.zohorecruit.com",
       "sourceUrl": "https://potentiahr.zohorecruit.com/jobs/Careers",
       "ats": "zohorecruit",
@@ -184570,11 +188411,46 @@
       ]
     },
     {
+      "sourceKey": "zohorecruit:pulselive.zohorecruit.com",
+      "sourceUrl": "https://pulselive.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "pulselive.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-25-index"
+        },
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:16.919Z",
+          "outcome": "success",
+          "category": "provider_board",
+          "detail": "1 jobs"
+        }
+      ],
+      "promotedAt": "2026-09-08T09:48:16.919Z"
+    },
+    {
       "sourceKey": "zohorecruit:qsourcing.zohorecruit.com",
       "sourceUrl": "https://qsourcing.zohorecruit.com/jobs/Careers",
       "ats": "zohorecruit",
       "token": "qsourcing.zohorecruit.com",
       "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-21-index"
+        },
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-25-index"
+        },
         {
           "channel": "dataset",
           "reference": "https://index.commoncrawl.org/CC-MAIN-2026-34-index"
@@ -184703,6 +188579,51 @@
       ]
     },
     {
+      "sourceKey": "zohorecruit:r-2.zohorecruit.com",
+      "sourceUrl": "https://r-2.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "r-2.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-21-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:16.940Z",
+          "outcome": "success",
+          "category": "provider_board",
+          "detail": "20 jobs"
+        }
+      ],
+      "promotedAt": "2026-09-08T09:48:16.940Z"
+    },
+    {
+      "sourceKey": "zohorecruit:raqmiyat.zohorecruit.com",
+      "sourceUrl": "https://raqmiyat.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "raqmiyat.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-25-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:17.161Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
       "sourceKey": "zohorecruit:rcgt.zohorecruit.com",
       "sourceUrl": "https://rcgt.zohorecruit.com/jobs/Careers",
       "ats": "zohorecruit",
@@ -184813,6 +188734,94 @@
       ]
     },
     {
+      "sourceKey": "zohorecruit:renmoney.zohorecruit.com",
+      "sourceUrl": "https://renmoney.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "renmoney.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-25-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:17.230Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
+      "sourceKey": "zohorecruit:resal.zohorecruit.com",
+      "sourceUrl": "https://resal.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "resal.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:17.285Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
+      "sourceKey": "zohorecruit:retailo.zohorecruit.com",
+      "sourceUrl": "https://retailo.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "retailo.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-25-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:17.440Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
+      "sourceKey": "zohorecruit:rksdesign.zohorecruit.com",
+      "sourceUrl": "https://rksdesign.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "rksdesign.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-21-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:17.470Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
       "sourceKey": "zohorecruit:roam.zohorecruit.com",
       "sourceUrl": "https://roam.zohorecruit.com/jobs/Careers",
       "ats": "zohorecruit",
@@ -184828,6 +188837,50 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-08T09:37:53.528Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
+      "sourceKey": "zohorecruit:rossorecruiting.zohorecruit.com",
+      "sourceUrl": "https://rossorecruiting.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "rossorecruiting.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-25-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:17.507Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
+      "sourceKey": "zohorecruit:royalbasketballschool.zohorecruit.com",
+      "sourceUrl": "https://royalbasketballschool.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "royalbasketballschool.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:17.578Z",
           "outcome": "permanent_failure",
           "category": "invalid_payload",
           "detail": "Payload does not contain the expected jobs array"
@@ -184908,6 +188961,10 @@
       "discoveredFrom": [
         {
           "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+        },
+        {
+          "channel": "dataset",
           "reference": "https://index.commoncrawl.org/CC-MAIN-2026-34-index"
         }
       ],
@@ -184916,6 +188973,28 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-08T09:37:53.785Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
+      "sourceKey": "zohorecruit:sarasanalytics.zohorecruit.com",
+      "sourceUrl": "https://sarasanalytics.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "sarasanalytics.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:17.578Z",
           "outcome": "permanent_failure",
           "category": "invalid_payload",
           "detail": "Payload does not contain the expected jobs array"
@@ -184946,6 +189025,51 @@
       "promotedAt": "2026-09-08T09:37:53.882Z"
     },
     {
+      "sourceKey": "zohorecruit:seaplaneasia.zohorecruit.com",
+      "sourceUrl": "https://seaplaneasia.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "seaplaneasia.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:17.723Z",
+          "outcome": "success",
+          "category": "provider_board",
+          "detail": "8 jobs"
+        }
+      ],
+      "promotedAt": "2026-09-08T09:48:17.723Z"
+    },
+    {
+      "sourceKey": "zohorecruit:seemahospital.zohorecruit.in",
+      "sourceUrl": "https://seemahospital.zohorecruit.in/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "seemahospital.zohorecruit.in",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-21-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:17.723Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
       "sourceKey": "zohorecruit:serpe.zohorecruit.com",
       "sourceUrl": "https://serpe.zohorecruit.com/jobs/Careers",
       "ats": "zohorecruit",
@@ -184968,11 +189092,45 @@
       ]
     },
     {
+      "sourceKey": "zohorecruit:shift.zohorecruit.in",
+      "sourceUrl": "https://shift.zohorecruit.in/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "shift.zohorecruit.in",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-25-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:17.796Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
       "sourceKey": "zohorecruit:shugulika.zohorecruit.com",
       "sourceUrl": "https://shugulika.zohorecruit.com/jobs/Careers",
       "ats": "zohorecruit",
       "token": "shugulika.zohorecruit.com",
       "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-21-index"
+        },
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-25-index"
+        },
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+        },
         {
           "channel": "dataset",
           "reference": "https://index.commoncrawl.org/CC-MAIN-2026-34-index"
@@ -185005,6 +189163,50 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-08T09:37:54.403Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
+      "sourceKey": "zohorecruit:simbian.zohorecruit.in",
+      "sourceUrl": "https://simbian.zohorecruit.in/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "simbian.zohorecruit.in",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:17.855Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
+      "sourceKey": "zohorecruit:simpleeducationfoundation.zohorecruit.in",
+      "sourceUrl": "https://simpleeducationfoundation.zohorecruit.in/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "simpleeducationfoundation.zohorecruit.in",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:17.869Z",
           "outcome": "permanent_failure",
           "category": "invalid_payload",
           "detail": "Payload does not contain the expected jobs array"
@@ -185085,6 +189287,14 @@
       "discoveredFrom": [
         {
           "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-21-index"
+        },
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+        },
+        {
+          "channel": "dataset",
           "reference": "https://index.commoncrawl.org/CC-MAIN-2026-34-index"
         }
       ],
@@ -185120,6 +189330,33 @@
           "detail": "Payload does not contain the expected jobs array"
         }
       ]
+    },
+    {
+      "sourceKey": "zohorecruit:sorensenstaffing.zohorecruit.com",
+      "sourceUrl": "https://sorensenstaffing.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "sorensenstaffing.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-21-index"
+        },
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:17.918Z",
+          "outcome": "success",
+          "category": "provider_board",
+          "detail": "8 jobs"
+        }
+      ],
+      "promotedAt": "2026-09-08T09:48:17.918Z"
     },
     {
       "sourceKey": "zohorecruit:sparkleandshine.zohorecruit.com",
@@ -185160,6 +189397,28 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-08T09:37:54.907Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
+      "sourceKey": "zohorecruit:starburst.zohorecruit.com",
+      "sourceUrl": "https://starburst.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "starburst.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-21-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:18.427Z",
           "outcome": "permanent_failure",
           "category": "invalid_payload",
           "detail": "Payload does not contain the expected jobs array"
@@ -185212,11 +189471,45 @@
       ]
     },
     {
+      "sourceKey": "zohorecruit:swaniti.zohorecruit.in",
+      "sourceUrl": "https://swaniti.zohorecruit.in/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "swaniti.zohorecruit.in",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-21-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:18.519Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
       "sourceKey": "zohorecruit:taxconnex.zohorecruit.com",
       "sourceUrl": "https://taxconnex.zohorecruit.com/jobs/Careers",
       "ats": "zohorecruit",
       "token": "taxconnex.zohorecruit.com",
       "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-21-index"
+        },
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-25-index"
+        },
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+        },
         {
           "channel": "dataset",
           "reference": "https://index.commoncrawl.org/CC-MAIN-2026-34-index"
@@ -185227,6 +189520,50 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-08T09:37:55.077Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
+      "sourceKey": "zohorecruit:teamapt.zohorecruit.com",
+      "sourceUrl": "https://teamapt.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "teamapt.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-25-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:18.703Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
+      "sourceKey": "zohorecruit:teaminterval.zohorecruit.in",
+      "sourceUrl": "https://teaminterval.zohorecruit.in/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "teaminterval.zohorecruit.in",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:18.789Z",
           "outcome": "permanent_failure",
           "category": "invalid_payload",
           "detail": "Payload does not contain the expected jobs array"
@@ -185249,6 +189586,73 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-08T09:37:55.153Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
+      "sourceKey": "zohorecruit:technobraingroup.zohorecruit.in",
+      "sourceUrl": "https://technobraingroup.zohorecruit.in/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "technobraingroup.zohorecruit.in",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-25-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:18.850Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
+      "sourceKey": "zohorecruit:theenrichery.zohorecruit.com",
+      "sourceUrl": "https://theenrichery.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "theenrichery.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-21-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:18.934Z",
+          "outcome": "success",
+          "category": "provider_board",
+          "detail": "6 jobs"
+        }
+      ],
+      "promotedAt": "2026-09-08T09:48:18.934Z"
+    },
+    {
+      "sourceKey": "zohorecruit:thehrsource.zohorecruit.com",
+      "sourceUrl": "https://thehrsource.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "thehrsource.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:19.089Z",
           "outcome": "permanent_failure",
           "category": "invalid_payload",
           "detail": "Payload does not contain the expected jobs array"
@@ -185302,6 +189706,54 @@
       "promotedAt": "2026-09-08T09:37:55.386Z"
     },
     {
+      "sourceKey": "zohorecruit:topring.zohorecruit.com",
+      "sourceUrl": "https://topring.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "topring.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-21-index"
+        },
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-25-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:19.138Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
+      "sourceKey": "zohorecruit:trinitypension.zohorecruit.com",
+      "sourceUrl": "https://trinitypension.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "trinitypension.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-21-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:19.347Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
       "sourceKey": "zohorecruit:twentyseven.zohorecruit.com",
       "sourceUrl": "https://twentyseven.zohorecruit.com/jobs/Careers",
       "ats": "zohorecruit",
@@ -185347,6 +189799,28 @@
       ]
     },
     {
+      "sourceKey": "zohorecruit:unit21.zohorecruit.com",
+      "sourceUrl": "https://unit21.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "unit21.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:19.402Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
       "sourceKey": "zohorecruit:universalweather.zohorecruit.in",
       "sourceUrl": "https://universalweather.zohorecruit.in/jobs/Careers",
       "ats": "zohorecruit",
@@ -185362,6 +189836,54 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-08T09:37:55.661Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
+      "sourceKey": "zohorecruit:upestagio.zohorecruit.com",
+      "sourceUrl": "https://upestagio.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "upestagio.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-21-index"
+        },
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-25-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:19.501Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
+      "sourceKey": "zohorecruit:verifitech.zohorecruit.in",
+      "sourceUrl": "https://verifitech.zohorecruit.in/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "verifitech.zohorecruit.in",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:19.616Z",
           "outcome": "permanent_failure",
           "category": "invalid_payload",
           "detail": "Payload does not contain the expected jobs array"
@@ -185389,6 +189911,77 @@
           "detail": "Payload does not contain the expected jobs array"
         }
       ]
+    },
+    {
+      "sourceKey": "zohorecruit:virtual-pay.zohorecruit.com",
+      "sourceUrl": "https://virtual-pay.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "virtual-pay.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-21-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:19.664Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
+      "sourceKey": "zohorecruit:virtualcolleague.zohorecruit.com",
+      "sourceUrl": "https://virtualcolleague.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "virtualcolleague.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-25-index"
+        },
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:19.755Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
+      "sourceKey": "zohorecruit:virtualcoworker.zohorecruit.com",
+      "sourceUrl": "https://virtualcoworker.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "virtualcoworker.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:19.802Z",
+          "outcome": "success",
+          "category": "provider_board",
+          "detail": "34 jobs"
+        }
+      ],
+      "promotedAt": "2026-09-08T09:48:19.802Z"
     },
     {
       "sourceKey": "zohorecruit:voxus.zohorecruit.com",
@@ -185458,11 +190051,37 @@
       ]
     },
     {
+      "sourceKey": "zohorecruit:webnotics.zohorecruit.com",
+      "sourceUrl": "https://webnotics.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "webnotics.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-21-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:19.950Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
       "sourceKey": "zohorecruit:weddedwonderland.zohorecruit.com",
       "sourceUrl": "https://weddedwonderland.zohorecruit.com/jobs/Careers",
       "ats": "zohorecruit",
       "token": "weddedwonderland.zohorecruit.com",
       "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-25-index"
+        },
         {
           "channel": "dataset",
           "reference": "https://index.commoncrawl.org/CC-MAIN-2026-34-index"
@@ -185473,6 +190092,28 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-08T09:37:56.137Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
+      "sourceKey": "zohorecruit:wellthytherapeutics.zohorecruit.in",
+      "sourceUrl": "https://wellthytherapeutics.zohorecruit.in/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "wellthytherapeutics.zohorecruit.in",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-21-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:20.077Z",
           "outcome": "permanent_failure",
           "category": "invalid_payload",
           "detail": "Payload does not contain the expected jobs array"
@@ -185492,7 +190133,14 @@
       ],
       "companyMatches": [],
       "identityEvidence": [],
-      "attempts": []
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:20.096Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
     },
     {
       "sourceKey": "zohorecruit:wineadore.zohorecruit.com",
@@ -185507,7 +190155,36 @@
       ],
       "companyMatches": [],
       "identityEvidence": [],
-      "attempts": []
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:20.115Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
+      "sourceKey": "zohorecruit:wingmanlog.zohorecruit.com",
+      "sourceUrl": "https://wingmanlog.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "wingmanlog.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:20.275Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
     },
     {
       "sourceKey": "zohorecruit:worldlink-us.zohorecruit.com",
@@ -185522,7 +190199,14 @@
       ],
       "companyMatches": [],
       "identityEvidence": [],
-      "attempts": []
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:20.288Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
     },
     {
       "sourceKey": "zohorecruit:wwfindia.zohorecruit.com",
@@ -185537,7 +190221,103 @@
       ],
       "companyMatches": [],
       "identityEvidence": [],
-      "attempts": []
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:20.384Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
+      "sourceKey": "zohorecruit:xyntekinc.zohorecruit.com",
+      "sourceUrl": "https://xyntekinc.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "xyntekinc.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-25-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:20.398Z",
+          "outcome": "success",
+          "category": "provider_board",
+          "detail": "16 jobs"
+        }
+      ],
+      "promotedAt": "2026-09-08T09:48:20.398Z"
+    },
+    {
+      "sourceKey": "zohorecruit:yinternational.zohorecruit.com",
+      "sourceUrl": "https://yinternational.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "yinternational.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:20.565Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
+      "sourceKey": "zohorecruit:yrgcare.zohorecruit.in",
+      "sourceUrl": "https://yrgcare.zohorecruit.in/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "yrgcare.zohorecruit.in",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-25-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:20.603Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
+    },
+    {
+      "sourceKey": "zohorecruit:zentechnologies.zohorecruit.com",
+      "sourceUrl": "https://zentechnologies.zohorecruit.com/jobs/Careers",
+      "ats": "zohorecruit",
+      "token": "zentechnologies.zohorecruit.com",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-25-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:20.647Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
     },
     {
       "sourceKey": "zohorecruit:ziplyfiber.zohorecruit.com",
@@ -185552,7 +190332,14 @@
       ],
       "companyMatches": [],
       "identityEvidence": [],
-      "attempts": []
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:20.674Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
     },
     {
       "sourceKey": "zohorecruit:zonenetwork.zohorecruit.com",
@@ -185567,7 +190354,14 @@
       ],
       "companyMatches": [],
       "identityEvidence": [],
-      "attempts": []
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-08T09:48:20.820Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "Payload does not contain the expected jobs array"
+        }
+      ]
     }
   ]
 }

@@ -1025,6 +1025,30 @@
       "canonicalSourceUrl": "https://job-boards.greenhouse.io/3redpartners"
     }
   },
+  "3scsolution": {
+    "name": "SS SUPPLY CHAIN SOLUTION PVT. LTD.",
+    "ats": "keka",
+    "token": "3scsolution/6f255cd1-b94d-4a2e-a30c-6c75aced8f3a",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "3scsolution.com",
+    "sourceUrl": "https://3scsolution.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://3scsolution.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "SS SUPPLY CHAIN SOLUTION PVT. LTD.",
+      "providerLinksDomain": true,
+      "identityEvidence": "structured_domain_link",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 12,
+      "checkedAt": "2026-09-08T09:47:48.578Z",
+      "canonicalSourceUrl": "https://3scsolution.keka.com/careers"
+    }
+  },
   "42dot": {
     "name": "42dot",
     "ats": "ashby",
@@ -2058,6 +2082,25 @@
       "jobCount": 24,
       "checkedAt": "2026-09-07T12:01:30.122Z",
       "canonicalSourceUrl": "https://job-boards.greenhouse.io/abcellera"
+    }
+  },
+  "abcoffee-b93ec546-d6ae-4849-9295-f9b79efe8059": {
+    "name": "Brewbay Innovations",
+    "ats": "keka",
+    "token": "abcoffee/b93ec546-d6ae-4849-9295-f9b79efe8059",
+    "sourceUrl": "https://abcoffee.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://abcoffee.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "Brewbay Innovations",
+      "identityEvidence": "provider_board",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 11,
+      "checkedAt": "2026-09-08T09:47:58.994Z",
+      "canonicalSourceUrl": "https://abcoffee.keka.com/careers"
     }
   },
   "abcsupply": {
@@ -5149,6 +5192,30 @@
       "canonicalSourceUrl": "https://apply.workable.com/aetos-systems-inc/"
     }
   },
+  "aetrafo": {
+    "name": "Atlanta Electricals Private Limited",
+    "ats": "keka",
+    "token": "atlanta/642e5b37-ccf7-467b-8a95-2ae6ae5f6798",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "aetrafo.com",
+    "sourceUrl": "https://atlanta.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://atlanta.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "Atlanta Electricals Private Limited",
+      "providerLinksDomain": true,
+      "identityEvidence": "structured_domain_link",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 74,
+      "checkedAt": "2026-09-08T09:47:49.741Z",
+      "canonicalSourceUrl": "https://atlanta.keka.com/careers"
+    }
+  },
   "aevexaerospace": {
     "name": "AEVEX",
     "ats": "greenhouse",
@@ -5309,6 +5376,30 @@
       "canonicalSourceUrl": "https://job-boards.greenhouse.io/affirmedrxpbc"
     }
   },
+  "afreespace": {
+    "name": "Freespace",
+    "ats": "keka",
+    "token": "afreespace/e26a6298-e5f7-4948-8950-39198db5b1e8",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "afreespace.com",
+    "sourceUrl": "https://afreespace.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://afreespace.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "Freespace",
+      "providerLinksDomain": true,
+      "identityEvidence": "structured_domain_link",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 7,
+      "checkedAt": "2026-09-08T09:47:48.722Z",
+      "canonicalSourceUrl": "https://afreespace.keka.com/careers"
+    }
+  },
   "afresh": {
     "name": "Afresh",
     "ats": "greenhouse",
@@ -5326,6 +5417,25 @@
       "jobCount": 16,
       "checkedAt": "2026-09-07T12:01:36.507Z",
       "canonicalSourceUrl": "https://job-boards.greenhouse.io/afresh"
+    }
+  },
+  "africanmanagers-zohorecruit-com": {
+    "name": "African Management Institute",
+    "ats": "zohorecruit",
+    "token": "africanmanagers.zohorecruit.com",
+    "sourceUrl": "https://africanmanagers.zohorecruit.com/jobs/Careers",
+    "discoveredFrom": {
+      "channel": "dataset",
+      "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+    },
+    "verification": {
+      "observedCompanyName": "African Management Institute",
+      "identityEvidence": "provider_board",
+      "contentType": "application/rss+xml;charset=utf-8",
+      "payloadVersion": "zohorecruit-rss:v1",
+      "jobCount": 13,
+      "checkedAt": "2026-09-08T09:48:08.464Z",
+      "canonicalSourceUrl": "https://africanmanagers.zohorecruit.com/jobs/Careers"
     }
   },
   "afry": {
@@ -6789,6 +6899,25 @@
       "canonicalSourceUrl": "https://jobs.ashbyhq.com/aisle"
     }
   },
+  "aitmc-b7c5bfc7-0b04-476d-9b5c-cd96d5ce2607": {
+    "name": "AITMC VENTURES LTD",
+    "ats": "keka",
+    "token": "aitmc/b7c5bfc7-0b04-476d-9b5c-cd96d5ce2607",
+    "sourceUrl": "https://aitmc.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://aitmc.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "AITMC VENTURES LTD",
+      "identityEvidence": "provider_board",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 2,
+      "checkedAt": "2026-09-08T09:47:58.995Z",
+      "canonicalSourceUrl": "https://aitmc.keka.com/careers"
+    }
+  },
   "aiuc": {
     "name": "Aiuc",
     "ats": "ashby",
@@ -6806,6 +6935,30 @@
       "jobCount": 13,
       "checkedAt": "2026-09-07T13:59:52.954Z",
       "canonicalSourceUrl": "https://jobs.ashbyhq.com/aiuc"
+    }
+  },
+  "aivar": {
+    "name": "AIVAR INNOVATIONS",
+    "ats": "keka",
+    "token": "aivarinnovations/eadb454f-9877-4d58-b2f8-facbcaf6647c",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "aivar.tech",
+    "sourceUrl": "https://aivarinnovations.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://aivarinnovations.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "AIVAR INNOVATIONS",
+      "providerLinksDomain": true,
+      "identityEvidence": "structured_domain_link",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 39,
+      "checkedAt": "2026-09-08T09:47:48.984Z",
+      "canonicalSourceUrl": "https://aivarinnovations.keka.com/careers"
     }
   },
   "aiwyn": {
@@ -10596,6 +10749,30 @@
       "canonicalSourceUrl": "https://jobs.ashbyhq.com/amigo"
     }
   },
+  "aminu": {
+    "name": "AMINU",
+    "ats": "keka",
+    "token": "aminu/7b422dd9-ff3e-4cb8-afea-28210ebd0c84",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "aminu.life",
+    "sourceUrl": "https://aminu.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://aminu.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "AMINU",
+      "providerLinksDomain": true,
+      "identityEvidence": "structured_domain_link",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 24,
+      "checkedAt": "2026-09-08T09:47:48.650Z",
+      "canonicalSourceUrl": "https://aminu.keka.com/careers"
+    }
+  },
   "amiralearning": {
     "name": "Amira Learning",
     "ats": "greenhouse",
@@ -10982,6 +11159,30 @@
       "jobCount": 33,
       "checkedAt": "2026-09-07T12:01:47.011Z",
       "canonicalSourceUrl": "https://job-boards.greenhouse.io/amtechsoftware"
+    }
+  },
+  "amuratech": {
+    "name": "Amura Marketing Technologies",
+    "ats": "keka",
+    "token": "amura/be159503-8804-4be4-adda-619b1650d289",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "amuratech.com",
+    "sourceUrl": "https://amura.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://amura.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "Amura Marketing Technologies",
+      "providerLinksDomain": true,
+      "identityEvidence": "structured_domain_link",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 14,
+      "checkedAt": "2026-09-08T09:47:48.893Z",
+      "canonicalSourceUrl": "https://amura.keka.com/careers"
     }
   },
   "amuse": {
@@ -11848,6 +12049,30 @@
       "canonicalSourceUrl": "https://jobs.ashbyhq.com/ansiblehealth"
     }
   },
+  "ansibytecode": {
+    "name": "Ansi ByteCode",
+    "ats": "keka",
+    "token": "ansibytecode/d29c1a78-a8c0-4c81-a349-191293d3e48a",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "ansibytecode.com",
+    "sourceUrl": "https://ansibytecode.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://ansibytecode.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "Ansi ByteCode",
+      "providerLinksDomain": true,
+      "identityEvidence": "structured_domain_link",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 9,
+      "checkedAt": "2026-09-08T09:47:48.661Z",
+      "canonicalSourceUrl": "https://ansibytecode.keka.com/careers"
+    }
+  },
   "ansira": {
     "name": "Ansira",
     "ats": "workday",
@@ -11884,6 +12109,30 @@
       "jobCount": 5,
       "checkedAt": "2026-09-07T13:59:53.172Z",
       "canonicalSourceUrl": "https://jobs.ashbyhq.com/answersnow"
+    }
+  },
+  "antarafoundation": {
+    "name": "The Antara Foundation",
+    "ats": "keka",
+    "token": "antara/316b2aa8-f1b4-48a1-9bea-5f2b74b0c86a",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "antarafoundation.org",
+    "sourceUrl": "https://antara.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://antara.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "The Antara Foundation",
+      "providerLinksDomain": true,
+      "identityEvidence": "structured_domain_link",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 14,
+      "checkedAt": "2026-09-08T09:47:48.820Z",
+      "canonicalSourceUrl": "https://antara.keka.com/careers"
     }
   },
   "antares": {
@@ -14153,6 +14402,25 @@
       "canonicalSourceUrl": "https://job-boards.greenhouse.io/arcoeducacao"
     }
   },
+  "arcticinvent-zohorecruit-in": {
+    "name": "Arctic Invent",
+    "ats": "zohorecruit",
+    "token": "arcticinvent.zohorecruit.in",
+    "sourceUrl": "https://arcticinvent.zohorecruit.in/jobs/Careers",
+    "discoveredFrom": {
+      "channel": "dataset",
+      "reference": "https://index.commoncrawl.org/CC-MAIN-2026-25-index"
+    },
+    "verification": {
+      "observedCompanyName": "Arctic Invent",
+      "identityEvidence": "provider_board",
+      "contentType": "application/rss+xml;charset=utf-8",
+      "payloadVersion": "zohorecruit-rss:v1",
+      "jobCount": 5,
+      "checkedAt": "2026-09-08T09:48:08.758Z",
+      "canonicalSourceUrl": "https://arcticinvent.zohorecruit.in/jobs/Careers"
+    }
+  },
   "arcticwolf": {
     "name": "Arcticwolf",
     "ats": "workday",
@@ -15678,6 +15946,30 @@
       "canonicalSourceUrl": "https://jobs.ashbyhq.com/asimov"
     }
   },
+  "asint": {
+    "name": "AsInt India Private Limited",
+    "ats": "keka",
+    "token": "asint/a562a3f7-6fb6-4934-a011-db912dcbf92a",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "asint.net",
+    "sourceUrl": "https://asint.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://asint.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "AsInt India Private Limited",
+      "providerLinksDomain": true,
+      "identityEvidence": "structured_domain_link",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 3,
+      "checkedAt": "2026-09-08T09:47:48.627Z",
+      "canonicalSourceUrl": "https://asint.keka.com/careers"
+    }
+  },
   "asmglobal": {
     "name": "Asmglobal",
     "ats": "workday",
@@ -16835,6 +17127,30 @@
       "canonicalSourceUrl": "https://athenahealth.wd1.myworkdayjobs.com/en-US/external"
     }
   },
+  "athenainfonomics": {
+    "name": "ATHENA INFONOMICS",
+    "ats": "keka",
+    "token": "athenainfonomics/62e62fb4-aefd-4262-89d4-79d1561f2e13",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "athenainfonomics.com",
+    "sourceUrl": "https://athenainfonomics.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://athenainfonomics.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "ATHENA INFONOMICS",
+      "providerLinksDomain": true,
+      "identityEvidence": "structured_domain_link",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 31,
+      "checkedAt": "2026-09-08T09:47:49.248Z",
+      "canonicalSourceUrl": "https://athenainfonomics.keka.com/careers"
+    }
+  },
   "athensservices": {
     "name": "Athensservices",
     "ats": "workday",
@@ -17804,6 +18120,30 @@
       "canonicalSourceUrl": "https://job-boards.greenhouse.io/atwellgroup"
     }
   },
+  "auberginesolutions": {
+    "name": "Aubergine Solutions Pvt Ltd",
+    "ats": "keka",
+    "token": "aubergine/547ba132-1571-4570-a7a6-bb96f892e39a",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "auberginesolutions.com",
+    "sourceUrl": "https://aubergine.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://aubergine.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "Aubergine Solutions Pvt Ltd",
+      "providerLinksDomain": true,
+      "identityEvidence": "structured_domain_link",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 2,
+      "checkedAt": "2026-09-08T09:47:50.260Z",
+      "canonicalSourceUrl": "https://aubergine.keka.com/careers"
+    }
+  },
   "auckland-one-rail": {
     "name": "Auckland One Rail",
     "ats": "workable",
@@ -18206,6 +18546,30 @@
       "jobCount": 18,
       "checkedAt": "2026-09-07T12:01:05.922Z",
       "canonicalSourceUrl": "https://jobs.ashbyhq.com/aureliussystems"
+    }
+  },
+  "aurigait": {
+    "name": "Auriga",
+    "ats": "keka",
+    "token": "aurigait/90b626eb-bc27-4839-ae4e-fa3aba4fc5bb",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "aurigait.com",
+    "sourceUrl": "https://aurigait.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://aurigait.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "Auriga",
+      "providerLinksDomain": true,
+      "identityEvidence": "structured_domain_link",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 12,
+      "checkedAt": "2026-09-08T09:47:49.913Z",
+      "canonicalSourceUrl": "https://aurigait.keka.com/careers"
     }
   },
   "aurochs": {
@@ -19638,6 +20002,30 @@
       "canonicalSourceUrl": "https://job-boards.greenhouse.io/awin"
     }
   },
+  "awiros": {
+    "name": "Awiros",
+    "ats": "keka",
+    "token": "awiros/69d29d47-afd1-4db7-8828-81d4a72b112c",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "awiros.com",
+    "sourceUrl": "https://awiros.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://awiros.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "Awiros",
+      "providerLinksDomain": true,
+      "identityEvidence": "structured_domain_link",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 4,
+      "checkedAt": "2026-09-08T09:47:49.693Z",
+      "canonicalSourceUrl": "https://awiros.keka.com/careers"
+    }
+  },
   "awpsafety": {
     "name": "AWP Safety",
     "ats": "smartrecruiters",
@@ -20460,6 +20848,25 @@
       "canonicalSourceUrl": "https://babylonstoren.breezy.hr"
     }
   },
+  "babyorgano-fed88a6e-0828-468a-b5e7-1442d18e0805": {
+    "name": "BabyOrgano",
+    "ats": "keka",
+    "token": "babyorgano/fed88a6e-0828-468a-b5e7-1442d18e0805",
+    "sourceUrl": "https://babyorgano.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://babyorgano.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "BabyOrgano",
+      "identityEvidence": "provider_board",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 11,
+      "checkedAt": "2026-09-08T09:47:58.995Z",
+      "canonicalSourceUrl": "https://babyorgano.keka.com/careers"
+    }
+  },
   "backblaze": {
     "name": "Backblaze External Website",
     "ats": "greenhouse",
@@ -20728,6 +21135,30 @@
       "jobCount": 5,
       "checkedAt": "2026-09-07T12:39:27.097Z",
       "canonicalSourceUrl": "https://balani-custom-clothiers.breezy.hr"
+    }
+  },
+  "balavikasa": {
+    "name": "Bala Vikasa",
+    "ats": "keka",
+    "token": "balavikasa/0fbf3dc4-a269-4013-8e38-5b5073c2dc3f",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "balavikasa.org",
+    "sourceUrl": "https://balavikasa.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://balavikasa.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "Bala Vikasa",
+      "providerLinksDomain": true,
+      "identityEvidence": "structured_domain_link",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 8,
+      "checkedAt": "2026-09-08T09:47:49.797Z",
+      "canonicalSourceUrl": "https://balavikasa.keka.com/careers"
     }
   },
   "baldwin": {
@@ -22153,6 +22584,25 @@
       "jobCount": 14,
       "checkedAt": "2026-09-07T12:39:27.382Z",
       "canonicalSourceUrl": "https://be-caring-ltd.breezy.hr"
+    }
+  },
+  "be-consultancy-group-zohorecruit-com": {
+    "name": "All European Careers, S.L.",
+    "ats": "zohorecruit",
+    "token": "be-consultancy-group.zohorecruit.com",
+    "sourceUrl": "https://be-consultancy-group.zohorecruit.com/jobs/Careers",
+    "discoveredFrom": {
+      "channel": "dataset",
+      "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+    },
+    "verification": {
+      "observedCompanyName": "All European Careers, S.L.",
+      "identityEvidence": "provider_board",
+      "contentType": "application/rss+xml;charset=utf-8",
+      "payloadVersion": "zohorecruit-rss:v1",
+      "jobCount": 150,
+      "checkedAt": "2026-09-08T09:48:09.240Z",
+      "canonicalSourceUrl": "https://be-consultancy-group.zohorecruit.com/jobs/Careers"
     }
   },
   "be-love": {
@@ -23713,6 +24163,25 @@
       "canonicalSourceUrl": "https://job-boards.greenhouse.io/beyondfinance"
     }
   },
+  "beyondkey-30b8e0b4-8900-4308-91ac-2a0b168a64e9": {
+    "name": "Beyond Key",
+    "ats": "keka",
+    "token": "beyondkey/30b8e0b4-8900-4308-91ac-2a0b168a64e9",
+    "sourceUrl": "https://beyondkey.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://beyondkey.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "Beyond Key",
+      "identityEvidence": "provider_board",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 19,
+      "checkedAt": "2026-09-08T09:47:58.995Z",
+      "canonicalSourceUrl": "https://beyondkey.keka.com/careers"
+    }
+  },
   "beyondmath": {
     "name": "Beyondmath",
     "ats": "ashby",
@@ -24207,6 +24676,49 @@
       "canonicalSourceUrl": "https://jobs.ashbyhq.com/biggergames"
     }
   },
+  "biglittle-zohorecruit-in": {
+    "name": "Biglittle.ai",
+    "ats": "zohorecruit",
+    "token": "biglittle.zohorecruit.in",
+    "sourceUrl": "https://biglittle.zohorecruit.in/jobs/Careers",
+    "discoveredFrom": {
+      "channel": "dataset",
+      "reference": "https://index.commoncrawl.org/CC-MAIN-2026-21-index"
+    },
+    "verification": {
+      "observedCompanyName": "Biglittle.ai",
+      "identityEvidence": "provider_board",
+      "contentType": "application/rss+xml;charset=utf-8",
+      "payloadVersion": "zohorecruit-rss:v1",
+      "jobCount": 1,
+      "checkedAt": "2026-09-08T09:48:09.570Z",
+      "canonicalSourceUrl": "https://biglittle.zohorecruit.in/jobs/Careers"
+    }
+  },
+  "bigship": {
+    "name": "BIGSHIP TECHNOLOGIES",
+    "ats": "keka",
+    "token": "bigship/19a3e901-9a37-40c7-bcc9-c43ce4daed7a",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "bigship.in",
+    "sourceUrl": "https://bigship.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://bigship.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "BIGSHIP TECHNOLOGIES",
+      "providerLinksDomain": true,
+      "identityEvidence": "structured_domain_link",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 29,
+      "checkedAt": "2026-09-08T09:47:50.201Z",
+      "canonicalSourceUrl": "https://bigship.keka.com/careers"
+    }
+  },
   "bik": {
     "name": "BIK",
     "ats": "keka",
@@ -24324,6 +24836,25 @@
       "jobCount": 10,
       "checkedAt": "2026-09-07T12:01:07.764Z",
       "canonicalSourceUrl": "https://jobs.ashbyhq.com/billups"
+    }
+  },
+  "bimakavach-a3947a25-9d78-4d3a-817e-699e00c2550f": {
+    "name": "BIMAKAVACH",
+    "ats": "keka",
+    "token": "bimakavach/a3947a25-9d78-4d3a-817e-699e00c2550f",
+    "sourceUrl": "https://bimakavach.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://bimakavach.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "BIMAKAVACH",
+      "identityEvidence": "provider_board",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 5,
+      "checkedAt": "2026-09-08T09:47:58.995Z",
+      "canonicalSourceUrl": "https://bimakavach.keka.com/careers"
     }
   },
   "binalyze": {
@@ -25193,6 +25724,30 @@
       "canonicalSourceUrl": "https://job-boards.greenhouse.io/blackedgecapital"
     }
   },
+  "blackfigtech": {
+    "name": "Blackfig Technologies",
+    "ats": "keka",
+    "token": "blackfigtech/08b9d132-b5fe-43b2-9ed1-d476e57c4ba7",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "blackfigtech.com",
+    "sourceUrl": "https://blackfigtech.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://blackfigtech.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "Blackfig Technologies",
+      "providerLinksDomain": true,
+      "identityEvidence": "structured_domain_link",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 11,
+      "checkedAt": "2026-09-08T09:47:50.297Z",
+      "canonicalSourceUrl": "https://blackfigtech.keka.com/careers"
+    }
+  },
   "blacklane": {
     "name": "BLACKLANE",
     "ats": "greenhouse",
@@ -25408,6 +25963,30 @@
       "jobCount": 23,
       "checkedAt": "2026-09-07T12:40:49.534Z",
       "canonicalSourceUrl": "https://apply.workable.com/blairco/"
+    }
+  },
+  "blallab": {
+    "name": "Dr. B. Lal Clinical Laboratory",
+    "ats": "keka",
+    "token": "drblal/13f74076-48a5-4397-a70b-4ad65af93264",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "blallab.com",
+    "sourceUrl": "https://drblal.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://drblal.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "Dr. B. Lal Clinical Laboratory",
+      "providerLinksDomain": true,
+      "identityEvidence": "structured_domain_link",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 11,
+      "checkedAt": "2026-09-08T09:47:52.060Z",
+      "canonicalSourceUrl": "https://drblal.keka.com/careers"
     }
   },
   "bland": {
@@ -26373,6 +26952,25 @@
       "canonicalSourceUrl": "https://apply.workable.com/bluedot-cares/"
     }
   },
+  "bluedotinsights-zohorecruit-com": {
+    "name": "Bluedot",
+    "ats": "zohorecruit",
+    "token": "bluedotinsights.zohorecruit.com",
+    "sourceUrl": "https://bluedotinsights.zohorecruit.com/jobs/Careers",
+    "discoveredFrom": {
+      "channel": "dataset",
+      "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+    },
+    "verification": {
+      "observedCompanyName": "Bluedot",
+      "identityEvidence": "provider_board",
+      "contentType": "application/rss+xml;charset=utf-8",
+      "payloadVersion": "zohorecruit-rss:v1",
+      "jobCount": 9,
+      "checkedAt": "2026-09-08T09:48:09.613Z",
+      "canonicalSourceUrl": "https://bluedotinsights.zohorecruit.com/jobs/Careers"
+    }
+  },
   "bluefishai": {
     "name": "Bluefish AI",
     "ats": "greenhouse",
@@ -26390,6 +26988,25 @@
       "jobCount": 22,
       "checkedAt": "2026-09-07T12:02:03.149Z",
       "canonicalSourceUrl": "https://job-boards.greenhouse.io/bluefishai"
+    }
+  },
+  "blueflamelabs-b396db82-ae3e-41af-9ce7-6a02a3bd6a1b": {
+    "name": "Blueflame Labs",
+    "ats": "keka",
+    "token": "blueflamelabs/b396db82-ae3e-41af-9ce7-6a02a3bd6a1b",
+    "sourceUrl": "https://blueflamelabs.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://blueflamelabs.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "Blueflame Labs",
+      "identityEvidence": "provider_board",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 14,
+      "checkedAt": "2026-09-08T09:47:59.631Z",
+      "canonicalSourceUrl": "https://blueflamelabs.keka.com/careers"
     }
   },
   "blueground": {
@@ -27335,6 +27952,30 @@
       "canonicalSourceUrl": "https://jobs.ashbyhq.com/bookkeeper360"
     }
   },
+  "bookmytournow": {
+    "name": "Book My Tour Now",
+    "ats": "keka",
+    "token": "bookmytournow/f95d4027-d35c-43d1-8964-7cac9de76ea3",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "bookmytournow.com",
+    "sourceUrl": "https://bookmytournow.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://bookmytournow.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "Book My Tour Now",
+      "providerLinksDomain": true,
+      "identityEvidence": "structured_domain_link",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 16,
+      "checkedAt": "2026-09-08T09:47:50.808Z",
+      "canonicalSourceUrl": "https://bookmytournow.keka.com/careers"
+    }
+  },
   "booknook-inc": {
     "name": "BookNook",
     "ats": "workable",
@@ -27732,6 +28373,30 @@
       "jobCount": 29,
       "checkedAt": "2026-09-07T12:02:04.353Z",
       "canonicalSourceUrl": "https://job-boards.greenhouse.io/bottomlinetechnologies"
+    }
+  },
+  "botvfx": {
+    "name": "BOT VFX (INDIA) PRIVATE LIMITED",
+    "ats": "keka",
+    "token": "botvfx/a722a3d3-fe79-408e-9da2-cfa08982b7a7",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "botvfx.com",
+    "sourceUrl": "https://botvfx.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://botvfx.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "BOT VFX (INDIA) PRIVATE LIMITED",
+      "providerLinksDomain": true,
+      "identityEvidence": "structured_domain_link",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 13,
+      "checkedAt": "2026-09-08T09:47:50.770Z",
+      "canonicalSourceUrl": "https://botvfx.keka.com/careers"
     }
   },
   "boulanger": {
@@ -28570,6 +29235,25 @@
       "canonicalSourceUrl": "https://job-boards.greenhouse.io/braveheartbio"
     }
   },
+  "braves-ccbe16d7-aff5-4b3b-a459-3bb55cbb8671": {
+    "name": "Braves Offshore Management Services Private Limited",
+    "ats": "keka",
+    "token": "braves/ccbe16d7-aff5-4b3b-a459-3bb55cbb8671",
+    "sourceUrl": "https://braves.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://braves.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "Braves Offshore Management Services Private Limited",
+      "identityEvidence": "provider_board",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 5,
+      "checkedAt": "2026-09-08T09:47:59.849Z",
+      "canonicalSourceUrl": "https://braves.keka.com/careers"
+    }
+  },
   "bravo": {
     "name": "BRAVO - A Cooperative Company",
     "ats": "greenhouse",
@@ -28663,6 +29347,25 @@
       "jobCount": 3,
       "checkedAt": "2026-09-07T12:01:09.105Z",
       "canonicalSourceUrl": "https://jobs.ashbyhq.com/breaker"
+    }
+  },
+  "breakinbrew-d1eb2433-f620-4a5c-8e49-57cc4db102cc": {
+    "name": "breakin brew",
+    "ats": "keka",
+    "token": "breakinbrew/d1eb2433-f620-4a5c-8e49-57cc4db102cc",
+    "sourceUrl": "https://breakinbrew.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://breakinbrew.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "breakin brew",
+      "identityEvidence": "provider_board",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 13,
+      "checkedAt": "2026-09-08T09:47:59.849Z",
+      "canonicalSourceUrl": "https://breakinbrew.keka.com/careers"
     }
   },
   "breakmark": {
@@ -29119,6 +29822,30 @@
       "jobCount": 12,
       "checkedAt": "2026-09-07T12:02:05.280Z",
       "canonicalSourceUrl": "https://job-boards.greenhouse.io/brightcoreenergy"
+    }
+  },
+  "brightfutureindia": {
+    "name": "Bright Future",
+    "ats": "keka",
+    "token": "100/7e2f830e-7500-440f-992f-5013e438f8b4",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "brightfutureindia.org",
+    "sourceUrl": "https://100.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://100.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "Bright Future",
+      "providerLinksDomain": true,
+      "identityEvidence": "structured_domain_link",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 94,
+      "checkedAt": "2026-09-08T09:47:49.400Z",
+      "canonicalSourceUrl": "https://100.keka.com/careers"
     }
   },
   "brightorder": {
@@ -31280,6 +32007,25 @@
       "canonicalSourceUrl": "https://job-boards.greenhouse.io/cais"
     }
   },
+  "caizin-0bfb8123-ed64-49c3-a58e-f518f1fe44c0": {
+    "name": "Caizin",
+    "ats": "keka",
+    "token": "caizin/0bfb8123-ed64-49c3-a58e-f518f1fe44c0",
+    "sourceUrl": "https://caizin.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://caizin.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "Caizin",
+      "identityEvidence": "provider_board",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 2,
+      "checkedAt": "2026-09-08T09:48:00.123Z",
+      "canonicalSourceUrl": "https://caizin.keka.com/careers"
+    }
+  },
   "cakeai": {
     "name": "Cake",
     "ats": "greenhouse",
@@ -31373,6 +32119,30 @@
       "jobCount": 10,
       "checkedAt": "2026-09-07T12:02:06.618Z",
       "canonicalSourceUrl": "https://job-boards.greenhouse.io/calendly"
+    }
+  },
+  "calibraint": {
+    "name": "Calibraint",
+    "ats": "keka",
+    "token": "calibraint/905677ee-8c66-4039-b603-c238f7c2c2a7",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "calibraint.com",
+    "sourceUrl": "https://calibraint.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://calibraint.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "Calibraint",
+      "providerLinksDomain": true,
+      "identityEvidence": "structured_domain_link",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 11,
+      "checkedAt": "2026-09-08T09:47:50.760Z",
+      "canonicalSourceUrl": "https://calibraint.keka.com/careers"
     }
   },
   "californiaiso": {
@@ -33601,6 +34371,30 @@
       "canonicalSourceUrl": "https://jobs.ashbyhq.com/casca"
     }
   },
+  "casepoint": {
+    "name": "Casepoint Private Limited",
+    "ats": "keka",
+    "token": "casepoint/898e18ec-f5aa-44a9-b993-a3ccd6f94d11",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "casepoint.com",
+    "sourceUrl": "https://casepoint.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://casepoint.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "Casepoint Private Limited",
+      "providerLinksDomain": true,
+      "identityEvidence": "structured_domain_link",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 5,
+      "checkedAt": "2026-09-08T09:47:50.782Z",
+      "canonicalSourceUrl": "https://casepoint.keka.com/careers"
+    }
+  },
   "cashflo-talent": {
     "name": "Cashflo Talent",
     "ats": "freshteam",
@@ -34131,6 +34925,25 @@
       "jobCount": 4,
       "checkedAt": "2026-09-07T12:40:54.093Z",
       "canonicalSourceUrl": "https://apply.workable.com/cdc-small-business-finance/"
+    }
+  },
+  "cdl-zohorecruit-com": {
+    "name": "Career Directions Limited (CDL)",
+    "ats": "zohorecruit",
+    "token": "cdl.zohorecruit.com",
+    "sourceUrl": "https://cdl.zohorecruit.com/jobs/Careers",
+    "discoveredFrom": {
+      "channel": "dataset",
+      "reference": "https://index.commoncrawl.org/CC-MAIN-2026-21-index"
+    },
+    "verification": {
+      "observedCompanyName": "Career Directions Limited (CDL)",
+      "identityEvidence": "provider_board",
+      "contentType": "application/rss+xml;charset=utf-8",
+      "payloadVersion": "zohorecruit-rss:v1",
+      "jobCount": 69,
+      "checkedAt": "2026-09-08T09:48:10.124Z",
+      "canonicalSourceUrl": "https://cdl.zohorecruit.com/jobs/Careers"
     }
   },
   "cdpdoctor": {
@@ -35910,6 +36723,25 @@
       "canonicalSourceUrl": "https://apply.workable.com/chuva-inc/"
     }
   },
+  "cigmotors-zohorecruit-com": {
+    "name": "CIG Motors",
+    "ats": "zohorecruit",
+    "token": "cigmotors.zohorecruit.com",
+    "sourceUrl": "https://cigmotors.zohorecruit.com/jobs/Careers",
+    "discoveredFrom": {
+      "channel": "dataset",
+      "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+    },
+    "verification": {
+      "observedCompanyName": "CIG Motors",
+      "identityEvidence": "provider_board",
+      "contentType": "application/rss+xml;charset=utf-8",
+      "payloadVersion": "zohorecruit-rss:v1",
+      "jobCount": 11,
+      "checkedAt": "2026-09-08T09:48:10.175Z",
+      "canonicalSourceUrl": "https://cigmotors.zohorecruit.com/jobs/Careers"
+    }
+  },
   "cimcor": {
     "name": "Cimcor",
     "ats": "freshteam",
@@ -36136,6 +36968,25 @@
       "jobCount": 2,
       "checkedAt": "2026-09-07T12:40:55.291Z",
       "canonicalSourceUrl": "https://apply.workable.com/cirrusmd/"
+    }
+  },
+  "cis-c6f9da0f-0141-4e7c-a294-d0768b0d8a88": {
+    "name": "candiidus international school",
+    "ats": "keka",
+    "token": "cis/c6f9da0f-0141-4e7c-a294-d0768b0d8a88",
+    "sourceUrl": "https://cis.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://cis.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "candiidus international school",
+      "identityEvidence": "provider_board",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 81,
+      "checkedAt": "2026-09-08T09:48:00.273Z",
+      "canonicalSourceUrl": "https://cis.keka.com/careers"
     }
   },
   "cisco": {
@@ -37500,6 +38351,30 @@
       "canonicalSourceUrl": "https://apply.workable.com/clipt/"
     }
   },
+  "clirnet": {
+    "name": "Clirnet",
+    "ats": "keka",
+    "token": "clirnet/4b24ae07-2a6a-4d7a-927a-e40f1216a5fa",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "clirnet.com",
+    "sourceUrl": "https://clirnet.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://clirnet.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "Clirnet",
+      "providerLinksDomain": true,
+      "identityEvidence": "structured_domain_link",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 26,
+      "checkedAt": "2026-09-08T09:47:51.072Z",
+      "canonicalSourceUrl": "https://clirnet.keka.com/careers"
+    }
+  },
   "cloaked": {
     "name": "Cloaked",
     "ats": "ashby",
@@ -38479,6 +39354,25 @@
       "canonicalSourceUrl": "https://jobs.smartrecruiters.com/CoffmanEngineersInc"
     }
   },
+  "cofinia-zohorecruit-com": {
+    "name": "Cofinia conseil inc",
+    "ats": "zohorecruit",
+    "token": "cofinia.zohorecruit.com",
+    "sourceUrl": "https://cofinia.zohorecruit.com/jobs/Careers",
+    "discoveredFrom": {
+      "channel": "dataset",
+      "reference": "https://index.commoncrawl.org/CC-MAIN-2026-21-index"
+    },
+    "verification": {
+      "observedCompanyName": "Cofinia conseil inc",
+      "identityEvidence": "provider_board",
+      "contentType": "application/rss+xml;charset=utf-8",
+      "payloadVersion": "zohorecruit-rss:v1",
+      "jobCount": 4,
+      "checkedAt": "2026-09-08T09:48:10.202Z",
+      "canonicalSourceUrl": "https://cofinia.zohorecruit.com/jobs/Careers"
+    }
+  },
   "coframe": {
     "name": "Coframe",
     "ats": "ashby",
@@ -38534,6 +39428,30 @@
       "jobCount": 10,
       "checkedAt": "2026-09-07T12:39:34.799Z",
       "canonicalSourceUrl": "https://cogentlabs.breezy.hr"
+    }
+  },
+  "cognine": {
+    "name": "cognine",
+    "ats": "keka",
+    "token": "cognine/d3b4f6a2-d826-4d06-8eb6-9c6fd737a910",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "cognine.com",
+    "sourceUrl": "https://cognine.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://cognine.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "cognine",
+      "providerLinksDomain": true,
+      "identityEvidence": "structured_domain_link",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 8,
+      "checkedAt": "2026-09-08T09:47:50.999Z",
+      "canonicalSourceUrl": "https://cognine.keka.com/careers"
     }
   },
   "cognita-imaging": {
@@ -40373,6 +41291,25 @@
       "canonicalSourceUrl": "https://convatec.wd1.myworkdayjobs.com/en-US/180Medical"
     }
   },
+  "convegenius-0c764aaa-3be8-4767-b051-a188dd5c0cb6": {
+    "name": "Convegenius",
+    "ats": "keka",
+    "token": "convegenius/0c764aaa-3be8-4767-b051-a188dd5c0cb6",
+    "sourceUrl": "https://convegenius.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://convegenius.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "Convegenius",
+      "identityEvidence": "provider_board",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 47,
+      "checkedAt": "2026-09-08T09:48:00.337Z",
+      "canonicalSourceUrl": "https://convegenius.keka.com/careers"
+    }
+  },
   "conveo": {
     "name": "Conveo",
     "ats": "ashby",
@@ -40449,6 +41386,30 @@
       "canonicalSourceUrl": "https://jobs.ashbyhq.com/conversion"
     }
   },
+  "convertcart": {
+    "name": "ConvertCart",
+    "ats": "keka",
+    "token": "convertcart/456baa77-8d84-408a-8d4e-e7ed841104d4",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "convertcart.com",
+    "sourceUrl": "https://convertcart.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://convertcart.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "ConvertCart",
+      "providerLinksDomain": true,
+      "identityEvidence": "structured_domain_link",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 8,
+      "checkedAt": "2026-09-08T09:47:51.297Z",
+      "canonicalSourceUrl": "https://convertcart.keka.com/careers"
+    }
+  },
   "convex-dev": {
     "name": "Convex Dev",
     "ats": "ashby",
@@ -40504,6 +41465,25 @@
       "jobCount": 100,
       "checkedAt": "2026-09-07T13:53:44.514Z",
       "canonicalSourceUrl": "https://cooley.wd1.myworkdayjobs.com/en-US/Cooley_US_LLP"
+    }
+  },
+  "coopersinc-zohorecruit-com": {
+    "name": "Cooper's",
+    "ats": "zohorecruit",
+    "token": "coopersinc.zohorecruit.com",
+    "sourceUrl": "https://coopersinc.zohorecruit.com/jobs/Careers",
+    "discoveredFrom": {
+      "channel": "dataset",
+      "reference": "https://index.commoncrawl.org/CC-MAIN-2026-21-index"
+    },
+    "verification": {
+      "observedCompanyName": "Cooper's",
+      "identityEvidence": "provider_board",
+      "contentType": "application/rss+xml;charset=utf-8",
+      "payloadVersion": "zohorecruit-rss:v1",
+      "jobCount": 43,
+      "checkedAt": "2026-09-08T09:48:11.250Z",
+      "canonicalSourceUrl": "https://coopersinc.zohorecruit.com/jobs/Careers"
     }
   },
   "coorstek": {
@@ -40775,6 +41755,30 @@
       "jobCount": 100,
       "checkedAt": "2026-09-07T12:40:11.845Z",
       "canonicalSourceUrl": "https://jobs.smartrecruiters.com/CornerstoneBuildingBrandsCareers"
+    }
+  },
+  "coronaremedies": {
+    "name": "Corona Remedies",
+    "ats": "keka",
+    "token": "coronaremedies/303f84a4-4a39-48d4-8d05-ac0f487928bd",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "coronaremedies.com",
+    "sourceUrl": "https://coronaremedies.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://coronaremedies.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "Corona Remedies",
+      "providerLinksDomain": true,
+      "identityEvidence": "structured_domain_link",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 15,
+      "checkedAt": "2026-09-08T09:47:51.332Z",
+      "canonicalSourceUrl": "https://coronaremedies.keka.com/careers"
     }
   },
   "corporate-traffic-logistics": {
@@ -42926,6 +43930,25 @@
       "canonicalSourceUrl": "https://jobs.ashbyhq.com/dash0"
     }
   },
+  "databeat-13a9fa32-8904-41e9-9005-ec169bd0a861": {
+    "name": "DATABEAT",
+    "ats": "keka",
+    "token": "databeat/13a9fa32-8904-41e9-9005-ec169bd0a861",
+    "sourceUrl": "https://databeat.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://databeat.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "DATABEAT",
+      "identityEvidence": "provider_board",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 18,
+      "checkedAt": "2026-09-08T09:48:00.795Z",
+      "canonicalSourceUrl": "https://databeat.keka.com/careers"
+    }
+  },
   "dataction-b480b9a2-d51e-4f77-931c-52bbd908eb23": {
     "name": "keka",
     "ats": "keka",
@@ -44507,6 +45530,30 @@
       "canonicalSourceUrl": "https://digisay.breezy.hr"
     }
   },
+  "digit88": {
+    "name": "Digit88 Technologies Private Limited",
+    "ats": "keka",
+    "token": "digit88/0c164d8c-75cd-41d3-8189-4c23bd6c4a29",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "digit88.com",
+    "sourceUrl": "https://digit88.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://digit88.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "Digit88 Technologies Private Limited",
+      "providerLinksDomain": true,
+      "identityEvidence": "structured_domain_link",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 13,
+      "checkedAt": "2026-09-08T09:47:51.544Z",
+      "canonicalSourceUrl": "https://digit88.keka.com/careers"
+    }
+  },
   "digitap": {
     "name": "Digitap",
     "ats": "freshteam",
@@ -45619,6 +46666,30 @@
       "canonicalSourceUrl": "https://jobs.ashbyhq.com/dreamthree"
     }
   },
+  "dreamtimelearning": {
+    "name": "Dreamtime",
+    "ats": "keka",
+    "token": "dreamtime/b3a37d4b-9a50-485f-ba69-7a372bcbc10f",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "dreamtimelearning.com",
+    "sourceUrl": "https://dreamtime.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://dreamtime.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "Dreamtime",
+      "providerLinksDomain": true,
+      "identityEvidence": "structured_domain_link",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 80,
+      "checkedAt": "2026-09-08T09:47:52.191Z",
+      "canonicalSourceUrl": "https://dreamtime.keka.com/careers"
+    }
+  },
   "drhouse-inc": {
     "name": "DrHouse, Inc.",
     "ats": "breezy",
@@ -45674,6 +46745,44 @@
       "jobCount": 1,
       "checkedAt": "2026-09-07T12:39:40.973Z",
       "canonicalSourceUrl": "https://driver-ai-inc.breezy.hr"
+    }
+  },
+  "driverlogistics-69f8212b-b8b7-4c3f-acf9-4062aaf9acda": {
+    "name": "Driver Logistics LLP",
+    "ats": "keka",
+    "token": "driverlogistics/69f8212b-b8b7-4c3f-acf9-4062aaf9acda",
+    "sourceUrl": "https://driverlogistics.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://driverlogistics.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "Driver Logistics LLP",
+      "identityEvidence": "provider_board",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 12,
+      "checkedAt": "2026-09-08T09:48:00.880Z",
+      "canonicalSourceUrl": "https://driverlogistics.keka.com/careers"
+    }
+  },
+  "drivex-zohorecruit-com": {
+    "name": "DriveX Mobility Pvt Ltd",
+    "ats": "zohorecruit",
+    "token": "drivex.zohorecruit.com",
+    "sourceUrl": "https://drivex.zohorecruit.com/jobs/Careers",
+    "discoveredFrom": {
+      "channel": "dataset",
+      "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+    },
+    "verification": {
+      "observedCompanyName": "DriveX Mobility Pvt Ltd",
+      "identityEvidence": "provider_board",
+      "contentType": "application/rss+xml;charset=utf-8",
+      "payloadVersion": "zohorecruit-rss:v1",
+      "jobCount": 21,
+      "checkedAt": "2026-09-08T09:48:11.800Z",
+      "canonicalSourceUrl": "https://drivex.zohorecruit.com/jobs/Careers"
     }
   },
   "driving-academy": {
@@ -46973,6 +48082,25 @@
       "canonicalSourceUrl": "https://eisneramper.wd1.myworkdayjobs.com/en-US/EisnerAmper_External"
     }
   },
+  "ekacare-114ba46e-561d-4002-9403-a55b0bba5f1a": {
+    "name": "Eka.care",
+    "ats": "keka",
+    "token": "ekacare/114ba46e-561d-4002-9403-a55b0bba5f1a",
+    "sourceUrl": "https://ekacare.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://ekacare.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "Eka.care",
+      "identityEvidence": "provider_board",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 22,
+      "checkedAt": "2026-09-08T09:48:01.177Z",
+      "canonicalSourceUrl": "https://ekacare.keka.com/careers"
+    }
+  },
   "ekarobotics": {
     "name": "Ekarobotics",
     "ats": "ashby",
@@ -47009,6 +48137,25 @@
       "jobCount": 4,
       "checkedAt": "2026-09-07T12:01:17.958Z",
       "canonicalSourceUrl": "https://jobs.ashbyhq.com/ekho"
+    }
+  },
+  "ekonid-zohorecruit-com": {
+    "name": "PERKUMPULAN EKONOMI INDONESIA JERMAN (EKONID)",
+    "ats": "zohorecruit",
+    "token": "ekonid.zohorecruit.com",
+    "sourceUrl": "https://ekonid.zohorecruit.com/jobs/Careers",
+    "discoveredFrom": {
+      "channel": "dataset",
+      "reference": "https://index.commoncrawl.org/CC-MAIN-2026-25-index"
+    },
+    "verification": {
+      "observedCompanyName": "PERKUMPULAN EKONOMI INDONESIA JERMAN (EKONID)",
+      "identityEvidence": "provider_board",
+      "contentType": "application/rss+xml;charset=utf-8",
+      "payloadVersion": "zohorecruit-rss:v1",
+      "jobCount": 1,
+      "checkedAt": "2026-09-08T09:48:11.974Z",
+      "canonicalSourceUrl": "https://ekonid.zohorecruit.com/jobs/Careers"
     }
   },
   "eku-energy": {
@@ -48151,6 +49298,25 @@
       "canonicalSourceUrl": "https://jobs.smartrecruiters.com/Enero"
     }
   },
+  "enflux-zohorecruit-com": {
+    "name": "Enflux",
+    "ats": "zohorecruit",
+    "token": "enflux.zohorecruit.com",
+    "sourceUrl": "https://enflux.zohorecruit.com/jobs/Careers",
+    "discoveredFrom": {
+      "channel": "dataset",
+      "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+    },
+    "verification": {
+      "observedCompanyName": "Enflux",
+      "identityEvidence": "provider_board",
+      "contentType": "application/rss+xml;charset=utf-8",
+      "payloadVersion": "zohorecruit-rss:v1",
+      "jobCount": 1,
+      "checkedAt": "2026-09-08T09:48:11.986Z",
+      "canonicalSourceUrl": "https://enflux.zohorecruit.com/jobs/Careers"
+    }
+  },
   "engage-squared": {
     "name": "Engage Squared",
     "ats": "breezy",
@@ -48301,6 +49467,30 @@
       "jobCount": 159,
       "checkedAt": "2026-09-07T12:01:18.661Z",
       "canonicalSourceUrl": "https://jobs.ashbyhq.com/enpal"
+    }
+  },
+  "enproindustries": {
+    "name": "Careers at Enpro Industries",
+    "ats": "keka",
+    "token": "enpro/ed00b274-82e4-4385-8429-1f5b1c091f7a",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "enproindustries.in",
+    "sourceUrl": "https://enpro.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://enpro.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "Careers at Enpro Industries",
+      "providerLinksDomain": true,
+      "identityEvidence": "structured_domain_link",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 10,
+      "checkedAt": "2026-09-08T09:47:51.796Z",
+      "canonicalSourceUrl": "https://enpro.keka.com/careers"
     }
   },
   "ensemble-performing-arts": {
@@ -48512,6 +49702,25 @@
       "canonicalSourceUrl": "https://apply.workable.com/entouragevc/"
     }
   },
+  "entropik-72f54fa8-901f-4481-b3ed-8cbaaa838d80": {
+    "name": "Entropik",
+    "ats": "keka",
+    "token": "entropik/72f54fa8-901f-4481-b3ed-8cbaaa838d80",
+    "sourceUrl": "https://entropik.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://entropik.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "Entropik",
+      "identityEvidence": "provider_board",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 3,
+      "checkedAt": "2026-09-08T09:48:01.563Z",
+      "canonicalSourceUrl": "https://entropik.keka.com/careers"
+    }
+  },
   "entrust": {
     "name": "Entrust",
     "ats": "workday",
@@ -48610,6 +49819,30 @@
       "jobCount": 18,
       "checkedAt": "2026-09-07T12:01:18.721Z",
       "canonicalSourceUrl": "https://jobs.ashbyhq.com/envoy"
+    }
+  },
+  "enzigma": {
+    "name": "Enzigma",
+    "ats": "keka",
+    "token": "enzigma/8e7d0486-e63a-49c2-9347-eb1e18ce2130",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "enzigma.com",
+    "sourceUrl": "https://enzigma.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://enzigma.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "Enzigma",
+      "providerLinksDomain": true,
+      "identityEvidence": "structured_domain_link",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 3,
+      "checkedAt": "2026-09-08T09:47:51.753Z",
+      "canonicalSourceUrl": "https://enzigma.keka.com/careers"
     }
   },
   "eosfrance": {
@@ -50191,6 +51424,30 @@
       "jobCount": 10,
       "checkedAt": "2026-09-07T13:59:54.900Z",
       "canonicalSourceUrl": "https://jobs.ashbyhq.com/fabrion"
+    }
+  },
+  "factentry": {
+    "name": "FACTENTRY",
+    "ats": "keka",
+    "token": "factentry/c669fb33-e359-41e2-92a4-ef9c6fcaac18",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "factentry.com",
+    "sourceUrl": "https://factentry.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://factentry.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "FACTENTRY",
+      "providerLinksDomain": true,
+      "identityEvidence": "structured_domain_link",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 10,
+      "checkedAt": "2026-09-08T09:47:51.871Z",
+      "canonicalSourceUrl": "https://factentry.keka.com/careers"
     }
   },
   "faction": {
@@ -51820,6 +53077,30 @@
       "canonicalSourceUrl": "https://jobs.ashbyhq.com/fleetcraft"
     }
   },
+  "fleetpanda": {
+    "name": "FleetPanda",
+    "ats": "keka",
+    "token": "fleetpanda/23801e8b-d0f3-4bbd-a7ae-09924e1e42cb",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "fleetpanda.com",
+    "sourceUrl": "https://fleetpanda.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://fleetpanda.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "FleetPanda",
+      "providerLinksDomain": true,
+      "identityEvidence": "structured_domain_link",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 1,
+      "checkedAt": "2026-09-08T09:47:51.861Z",
+      "canonicalSourceUrl": "https://fleetpanda.keka.com/careers"
+    }
+  },
   "fleetpride": {
     "name": "Fleetpride",
     "ats": "workday",
@@ -52146,6 +53427,30 @@
       "jobCount": 4,
       "checkedAt": "2026-09-07T12:01:21.221Z",
       "canonicalSourceUrl": "https://jobs.ashbyhq.com/FloatMe"
+    }
+  },
+  "flobiz": {
+    "name": "FloBiz",
+    "ats": "keka",
+    "token": "valorem/6530c1b8-e9b5-4e70-97f7-21b5f6d9b19e",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "flobiz.in",
+    "sourceUrl": "https://valorem.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://valorem.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "FloBiz",
+      "providerLinksDomain": true,
+      "identityEvidence": "structured_domain_link",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 8,
+      "checkedAt": "2026-09-08T09:47:58.545Z",
+      "canonicalSourceUrl": "https://valorem.keka.com/careers"
     }
   },
   "flora": {
@@ -54583,6 +55888,25 @@
       "canonicalSourceUrl": "https://jobs.smartrecruiters.com/GameOnStudio"
     }
   },
+  "gamlaa-b27be6a9-aef7-414c-aea3-4ec14f50ec13": {
+    "name": "Gamlaa",
+    "ats": "keka",
+    "token": "gamlaa/b27be6a9-aef7-414c-aea3-4ec14f50ec13",
+    "sourceUrl": "https://gamlaa.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://gamlaa.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "Gamlaa",
+      "identityEvidence": "provider_board",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 44,
+      "checkedAt": "2026-09-08T09:48:01.817Z",
+      "canonicalSourceUrl": "https://gamlaa.keka.com/careers"
+    }
+  },
   "gamma": {
     "name": "Gamma",
     "ats": "ashby",
@@ -55794,6 +57118,30 @@
       "canonicalSourceUrl": "https://getinz-people.freshteam.com/jobs"
     }
   },
+  "getmaxiq": {
+    "name": "MaxIQ",
+    "ats": "keka",
+    "token": "maxiq/66fb23ce-e1f6-441b-88d6-bd88db607f0a",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "getmaxiq.com",
+    "sourceUrl": "https://maxiq.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://maxiq.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "MaxIQ",
+      "providerLinksDomain": true,
+      "identityEvidence": "structured_domain_link",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 18,
+      "checkedAt": "2026-09-08T09:47:54.672Z",
+      "canonicalSourceUrl": "https://maxiq.keka.com/careers"
+    }
+  },
   "getresponse": {
     "name": "GetResponse",
     "ats": "workable",
@@ -56191,6 +57539,25 @@
       "jobCount": 3,
       "checkedAt": "2026-09-07T13:59:57.963Z",
       "canonicalSourceUrl": "https://ginbits.freshteam.com/jobs"
+    }
+  },
+  "ginesysone-81ab5744-744b-438a-8efe-4fbde810ebaa": {
+    "name": "Ginni Systems Ltd.",
+    "ats": "keka",
+    "token": "ginesysone/81ab5744-744b-438a-8efe-4fbde810ebaa",
+    "sourceUrl": "https://ginesysone.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://ginesysone.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "Ginni Systems Ltd.",
+      "identityEvidence": "provider_board",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 12,
+      "checkedAt": "2026-09-08T09:48:01.993Z",
+      "canonicalSourceUrl": "https://ginesysone.keka.com/careers"
     }
   },
   "gitbook": {
@@ -56600,6 +57967,25 @@
       "canonicalSourceUrl": "https://jobs.ashbyhq.com/go-nimbly"
     }
   },
+  "goabbeyroad-zohorecruit-com": {
+    "name": "Abbey Road Programs",
+    "ats": "zohorecruit",
+    "token": "goabbeyroad.zohorecruit.com",
+    "sourceUrl": "https://goabbeyroad.zohorecruit.com/jobs/Careers",
+    "discoveredFrom": {
+      "channel": "dataset",
+      "reference": "https://index.commoncrawl.org/CC-MAIN-2026-25-index"
+    },
+    "verification": {
+      "observedCompanyName": "Abbey Road Programs",
+      "identityEvidence": "provider_board",
+      "contentType": "application/rss+xml;charset=utf-8",
+      "payloadVersion": "zohorecruit-rss:v1",
+      "jobCount": 6,
+      "checkedAt": "2026-09-08T09:48:13.335Z",
+      "canonicalSourceUrl": "https://goabbeyroad.zohorecruit.com/jobs/Careers"
+    }
+  },
   "goanagram": {
     "name": "Goanagram",
     "ats": "ashby",
@@ -56617,6 +58003,30 @@
       "jobCount": 2,
       "checkedAt": "2026-09-07T12:01:23.683Z",
       "canonicalSourceUrl": "https://jobs.ashbyhq.com/goanagram"
+    }
+  },
+  "godesi": {
+    "name": "GODESI MANDI",
+    "ats": "keka",
+    "token": "godesi/c6e65e22-623e-4709-b421-8060f6b6cf26",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "godesi.in",
+    "sourceUrl": "https://godesi.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://godesi.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "GODESI MANDI",
+      "providerLinksDomain": true,
+      "identityEvidence": "structured_domain_link",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 26,
+      "checkedAt": "2026-09-08T09:47:52.546Z",
+      "canonicalSourceUrl": "https://godesi.keka.com/careers"
     }
   },
   "godotcg": {
@@ -58524,6 +59934,30 @@
       "canonicalSourceUrl": "https://growndiamondcorp.keka.com/careers"
     }
   },
+  "growsolutions": {
+    "name": "Grow Solutions",
+    "ats": "keka",
+    "token": "grow/681e0f5b-9374-4bb6-a59a-89e64ecdb557",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "growsolutions.in",
+    "sourceUrl": "https://grow.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://grow.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "Grow Solutions",
+      "providerLinksDomain": true,
+      "identityEvidence": "structured_domain_link",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 2,
+      "checkedAt": "2026-09-08T09:47:52.200Z",
+      "canonicalSourceUrl": "https://grow.keka.com/careers"
+    }
+  },
   "growthprotocol": {
     "name": "Growthprotocol",
     "ats": "ashby",
@@ -58791,6 +60225,25 @@
       "canonicalSourceUrl": "https://jobs.ashbyhq.com/gumloop"
     }
   },
+  "gwgllc-zohorecruit-com": {
+    "name": "G William Group LLC",
+    "ats": "zohorecruit",
+    "token": "gwgllc.zohorecruit.com",
+    "sourceUrl": "https://gwgllc.zohorecruit.com/jobs/Careers",
+    "discoveredFrom": {
+      "channel": "dataset",
+      "reference": "https://index.commoncrawl.org/CC-MAIN-2026-21-index"
+    },
+    "verification": {
+      "observedCompanyName": "G William Group LLC",
+      "identityEvidence": "provider_board",
+      "contentType": "application/rss+xml;charset=utf-8",
+      "payloadVersion": "zohorecruit-rss:v1",
+      "jobCount": 5,
+      "checkedAt": "2026-09-08T09:48:13.610Z",
+      "canonicalSourceUrl": "https://gwgllc.zohorecruit.com/jobs/Careers"
+    }
+  },
   "gypsy": {
     "name": "Gypsy Collective",
     "ats": "workable",
@@ -58865,6 +60318,30 @@
       "jobCount": 7,
       "checkedAt": "2026-09-07T12:01:25.162Z",
       "canonicalSourceUrl": "https://jobs.ashbyhq.com/haast"
+    }
+  },
+  "habuild": {
+    "name": "Habuild",
+    "ats": "keka",
+    "token": "habuild/8fb09d9a-b5b3-4af5-982e-11f428ef164a",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "habuild.in",
+    "sourceUrl": "https://habuild.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://habuild.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "Habuild",
+      "providerLinksDomain": true,
+      "identityEvidence": "structured_domain_link",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 9,
+      "checkedAt": "2026-09-08T09:47:52.704Z",
+      "canonicalSourceUrl": "https://habuild.keka.com/careers"
     }
   },
   "hack-the-box-ltd": {
@@ -60051,6 +61528,30 @@
       "jobCount": 9,
       "checkedAt": "2026-09-07T13:53:18.088Z",
       "canonicalSourceUrl": "https://apply.workable.com/healingus-centers/"
+    }
+  },
+  "healthasyst": {
+    "name": "HealthAsyst",
+    "ats": "keka",
+    "token": "healthasyst/fe7344d1-1c3f-4c9e-bcb2-c076888186f5",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "healthasyst.com",
+    "sourceUrl": "https://healthasyst.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://healthasyst.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "HealthAsyst",
+      "providerLinksDomain": true,
+      "identityEvidence": "structured_domain_link",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 9,
+      "checkedAt": "2026-09-08T09:47:53.081Z",
+      "canonicalSourceUrl": "https://healthasyst.keka.com/careers"
     }
   },
   "healthaxis": {
@@ -61786,6 +63287,25 @@
       "canonicalSourceUrl": "https://jobs.smartrecruiters.com/Hivemapper"
     }
   },
+  "hiveminds-ba2656db-0fdb-4859-a652-f6eec08f8d7e": {
+    "name": "Hiveminds Innovative Market Solution Pvt Ltd",
+    "ats": "keka",
+    "token": "hiveminds/ba2656db-0fdb-4859-a652-f6eec08f8d7e",
+    "sourceUrl": "https://hiveminds.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://hiveminds.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "Hiveminds Innovative Market Solution Pvt Ltd",
+      "identityEvidence": "provider_board",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 40,
+      "checkedAt": "2026-09-08T09:48:02.000Z",
+      "canonicalSourceUrl": "https://hiveminds.keka.com/careers"
+    }
+  },
   "hivemq": {
     "name": "Hivemq",
     "ats": "ashby",
@@ -62565,6 +64085,25 @@
       "canonicalSourceUrl": "https://apply.workable.com/hrfactory-lithuania/"
     }
   },
+  "hrknowledgesource-zohorecruit-com": {
+    "name": "HR Knowledge Source",
+    "ats": "zohorecruit",
+    "token": "hrknowledgesource.zohorecruit.com",
+    "sourceUrl": "https://hrknowledgesource.zohorecruit.com/jobs/Careers",
+    "discoveredFrom": {
+      "channel": "dataset",
+      "reference": "https://index.commoncrawl.org/CC-MAIN-2026-21-index"
+    },
+    "verification": {
+      "observedCompanyName": "HR Knowledge Source",
+      "identityEvidence": "provider_board",
+      "contentType": "application/rss+xml;charset=utf-8",
+      "payloadVersion": "zohorecruit-rss:v1",
+      "jobCount": 3,
+      "checkedAt": "2026-09-08T09:48:13.845Z",
+      "canonicalSourceUrl": "https://hrknowledgesource.zohorecruit.com/jobs/Careers"
+    }
+  },
   "hrmcglobal-team": {
     "name": "Hrmcglobal Team",
     "ats": "freshteam",
@@ -62848,6 +64387,30 @@
       "jobCount": 5,
       "checkedAt": "2026-09-07T12:39:52.519Z",
       "canonicalSourceUrl": "https://hudhud.breezy.hr"
+    }
+  },
+  "hudle": {
+    "name": "HUDLE",
+    "ats": "keka",
+    "token": "hsquare/704ae390-fa5e-474f-ba4c-4c177315ecd9",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "hudle.in",
+    "sourceUrl": "https://hsquare.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://hsquare.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "HUDLE",
+      "providerLinksDomain": true,
+      "identityEvidence": "structured_domain_link",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 22,
+      "checkedAt": "2026-09-08T09:47:53.824Z",
+      "canonicalSourceUrl": "https://hsquare.keka.com/careers"
     }
   },
   "hudu": {
@@ -63656,6 +65219,54 @@
       "canonicalSourceUrl": "https://jobs.ashbyhq.com/iambic-therapeutics"
     }
   },
+  "iamneo": {
+    "name": "iamneo",
+    "ats": "keka",
+    "token": "iamneo/4ce06eef-5046-4d49-9a10-57a546e5f2ca",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "iamneo.ai",
+    "sourceUrl": "https://iamneo.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://iamneo.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "iamneo",
+      "providerLinksDomain": true,
+      "identityEvidence": "structured_domain_link",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 9,
+      "checkedAt": "2026-09-08T09:47:52.909Z",
+      "canonicalSourceUrl": "https://iamneo.keka.com/careers"
+    }
+  },
+  "ibexlabs": {
+    "name": "Ibexlabs",
+    "ats": "keka",
+    "token": "ibexlabs/44be2085-4919-4760-a12b-ed95bc7b7f38",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "ibexlabs.com",
+    "sourceUrl": "https://ibexlabs.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://ibexlabs.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "Ibexlabs",
+      "providerLinksDomain": true,
+      "identityEvidence": "structured_domain_link",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 6,
+      "checkedAt": "2026-09-08T09:47:52.928Z",
+      "canonicalSourceUrl": "https://ibexlabs.keka.com/careers"
+    }
+  },
   "ibotta": {
     "name": "Ibotta",
     "ats": "ashby",
@@ -63692,6 +65303,25 @@
       "jobCount": 10,
       "checkedAt": "2026-09-07T12:39:52.879Z",
       "canonicalSourceUrl": "https://ic-automation.breezy.hr"
+    }
+  },
+  "icanpr-zohorecruit-com": {
+    "name": "CTY TNHH ICAN PR",
+    "ats": "zohorecruit",
+    "token": "icanpr.zohorecruit.com",
+    "sourceUrl": "https://icanpr.zohorecruit.com/jobs/Careers",
+    "discoveredFrom": {
+      "channel": "dataset",
+      "reference": "https://index.commoncrawl.org/CC-MAIN-2026-21-index"
+    },
+    "verification": {
+      "observedCompanyName": "CTY TNHH ICAN PR",
+      "identityEvidence": "provider_board",
+      "contentType": "application/rss+xml;charset=utf-8",
+      "payloadVersion": "zohorecruit-rss:v1",
+      "jobCount": 137,
+      "checkedAt": "2026-09-08T09:48:13.927Z",
+      "canonicalSourceUrl": "https://icanpr.zohorecruit.com/jobs/Careers"
     }
   },
   "icarda": {
@@ -64150,6 +65780,30 @@
       "canonicalSourceUrl": "https://jobs.smartrecruiters.com/IHUB"
     }
   },
+  "iion": {
+    "name": "iion",
+    "ats": "keka",
+    "token": "iion/0639d232-3c81-4bb6-a603-cbaf9830c9e9",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "iion.io",
+    "sourceUrl": "https://iion.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://iion.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "iion",
+      "providerLinksDomain": true,
+      "identityEvidence": "structured_domain_link",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 3,
+      "checkedAt": "2026-09-08T09:47:53.069Z",
+      "canonicalSourceUrl": "https://iion.keka.com/careers"
+    }
+  },
   "iita": {
     "name": "International Institute of Tropical Agriculture(IITA)",
     "ats": "workable",
@@ -64262,6 +65916,30 @@
       "jobCount": 2,
       "checkedAt": "2026-09-07T13:53:19.201Z",
       "canonicalSourceUrl": "https://apply.workable.com/illuma-technology/"
+    }
+  },
+  "illuminei": {
+    "name": "Illumine",
+    "ats": "keka",
+    "token": "illumine/1e09ae50-8b97-43f4-b4c1-a826a960a31d",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "illuminei.com",
+    "sourceUrl": "https://illumine.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://illumine.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "Illumine",
+      "providerLinksDomain": true,
+      "identityEvidence": "structured_domain_link",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 12,
+      "checkedAt": "2026-09-08T09:47:53.425Z",
+      "canonicalSourceUrl": "https://illumine.keka.com/careers"
     }
   },
   "illumio": {
@@ -65186,6 +66864,30 @@
       "canonicalSourceUrl": "https://jobs.ashbyhq.com/Inferact"
     }
   },
+  "infilect": {
+    "name": "Infilect",
+    "ats": "keka",
+    "token": "infilect/b8544583-ca7e-4341-a32c-814a2233a94f",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "infilect.com",
+    "sourceUrl": "https://infilect.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://infilect.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "Infilect",
+      "providerLinksDomain": true,
+      "identityEvidence": "structured_domain_link",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 5,
+      "checkedAt": "2026-09-08T09:47:53.343Z",
+      "canonicalSourceUrl": "https://infilect.keka.com/careers"
+    }
+  },
   "infinit-us": {
     "name": "infinIT.us",
     "ats": "breezy",
@@ -65647,6 +67349,30 @@
       "canonicalSourceUrl": "https://jobs.smartrecruiters.com/IngramBargeCompany"
     }
   },
+  "inheritx": {
+    "name": "Inheritx",
+    "ats": "keka",
+    "token": "inheritx/60db7a0a-1cce-4ad3-b1ae-7e9e67169d99",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "inheritx.com",
+    "sourceUrl": "https://inheritx.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://inheritx.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "Inheritx",
+      "providerLinksDomain": true,
+      "identityEvidence": "structured_domain_link",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 5,
+      "checkedAt": "2026-09-08T09:47:53.760Z",
+      "canonicalSourceUrl": "https://inheritx.keka.com/careers"
+    }
+  },
   "inhouseai": {
     "name": "InHouseAI",
     "ats": "breezy",
@@ -65778,6 +67504,25 @@
       "jobCount": 10,
       "checkedAt": "2026-09-07T12:40:17.773Z",
       "canonicalSourceUrl": "https://jobs.smartrecruiters.com/INNERGY1"
+    }
+  },
+  "innocean-c0ee55a0-6538-4f37-868d-a374f1b761df": {
+    "name": "Innocean Worldwide Communication",
+    "ats": "keka",
+    "token": "innocean/c0ee55a0-6538-4f37-868d-a374f1b761df",
+    "sourceUrl": "https://innocean.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://innocean.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "Innocean Worldwide Communication",
+      "identityEvidence": "provider_board",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 11,
+      "checkedAt": "2026-09-08T09:48:02.026Z",
+      "canonicalSourceUrl": "https://innocean.keka.com/careers"
     }
   },
   "innocence-project": {
@@ -65930,6 +67675,25 @@
       "jobCount": 100,
       "checkedAt": "2026-09-07T12:40:17.832Z",
       "canonicalSourceUrl": "https://jobs.smartrecruiters.com/InPost"
+    }
+  },
+  "ins-globalconsulting-zohorecruit-com": {
+    "name": "INS Global",
+    "ats": "zohorecruit",
+    "token": "ins-globalconsulting.zohorecruit.com",
+    "sourceUrl": "https://ins-globalconsulting.zohorecruit.com/jobs/Careers",
+    "discoveredFrom": {
+      "channel": "dataset",
+      "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+    },
+    "verification": {
+      "observedCompanyName": "INS Global",
+      "identityEvidence": "provider_board",
+      "contentType": "application/rss+xml;charset=utf-8",
+      "payloadVersion": "zohorecruit-rss:v1",
+      "jobCount": 3,
+      "checkedAt": "2026-09-08T09:48:14.181Z",
+      "canonicalSourceUrl": "https://ins-globalconsulting.zohorecruit.com/jobs/Careers"
     }
   },
   "inscribeai": {
@@ -66212,6 +67976,30 @@
       "jobCount": 4,
       "checkedAt": "2026-09-07T13:53:19.660Z",
       "canonicalSourceUrl": "https://apply.workable.com/intale/"
+    }
+  },
+  "intangles": {
+    "name": "Intangles",
+    "ats": "keka",
+    "token": "intangles/b961bbca-9cf1-427f-b08d-abc6bb7ef793",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "intangles.ai",
+    "sourceUrl": "https://intangles.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://intangles.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "Intangles",
+      "providerLinksDomain": true,
+      "identityEvidence": "structured_domain_link",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 25,
+      "checkedAt": "2026-09-08T09:47:53.732Z",
+      "canonicalSourceUrl": "https://intangles.keka.com/careers"
     }
   },
   "integrant": {
@@ -70159,6 +71947,30 @@
       "canonicalSourceUrl": "https://kredivo-group.breezy.hr"
     }
   },
+  "kristal": {
+    "name": "Kristal.ai",
+    "ats": "keka",
+    "token": "kristal/5c28016e-f685-4f03-8f19-6bc907b2b539",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "kristal.ai",
+    "sourceUrl": "https://kristal.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://kristal.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "Kristal.ai",
+      "providerLinksDomain": true,
+      "identityEvidence": "structured_domain_link",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 3,
+      "checkedAt": "2026-09-08T09:47:53.920Z",
+      "canonicalSourceUrl": "https://kristal.keka.com/careers"
+    }
+  },
   "kroff": {
     "name": "Kroff Inc.",
     "ats": "workable",
@@ -71023,6 +72835,44 @@
       "canonicalSourceUrl": "https://apply.workable.com/lead-for-america/"
     }
   },
+  "leadecservices-80a7c6a6-daf7-4877-9af1-35d844bb9fe7": {
+    "name": "LEADEC INDIA",
+    "ats": "keka",
+    "token": "leadecservices/80a7c6a6-daf7-4877-9af1-35d844bb9fe7",
+    "sourceUrl": "https://leadecservices.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://leadecservices.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "LEADEC INDIA",
+      "identityEvidence": "provider_board",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 38,
+      "checkedAt": "2026-09-08T09:48:02.510Z",
+      "canonicalSourceUrl": "https://leadecservices.keka.com/careers"
+    }
+  },
+  "leadership-e35e2146-9fc3-4f66-bac4-bd0addd61c4d": {
+    "name": "Leadership For Skilled Education Foundation",
+    "ats": "keka",
+    "token": "leadership/e35e2146-9fc3-4f66-bac4-bd0addd61c4d",
+    "sourceUrl": "https://leadership.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://leadership.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "Leadership For Skilled Education Foundation",
+      "identityEvidence": "provider_board",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 24,
+      "checkedAt": "2026-09-08T09:48:02.550Z",
+      "canonicalSourceUrl": "https://leadership.keka.com/careers"
+    }
+  },
   "leadfuze": {
     "name": "LeadFuze",
     "ats": "breezy",
@@ -71270,6 +73120,30 @@
       "canonicalSourceUrl": "https://lemonlight.breezy.hr"
     }
   },
+  "lemonyellow": {
+    "name": "LEMON YELLOW LLP",
+    "ats": "keka",
+    "token": "lydesign/df09d107-a494-4031-aab8-14421cdd1c2b",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "lemonyellow.design",
+    "sourceUrl": "https://lydesign.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://lydesign.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "LEMON YELLOW LLP",
+      "providerLinksDomain": true,
+      "identityEvidence": "structured_domain_link",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 17,
+      "checkedAt": "2026-09-08T09:47:54.562Z",
+      "canonicalSourceUrl": "https://lydesign.keka.com/careers"
+    }
+  },
   "lendigroup1": {
     "name": "Lendi Group",
     "ats": "smartrecruiters",
@@ -71306,6 +73180,49 @@
       "jobCount": 4,
       "checkedAt": "2026-09-07T13:53:21.780Z",
       "canonicalSourceUrl": "https://apply.workable.com/lengow/"
+    }
+  },
+  "leptonsoftware-daadeff4-b51f-49dc-9965-e1a8701fdbb0": {
+    "name": "LEPTON SOFTWARE",
+    "ats": "keka",
+    "token": "leptonsoftware/daadeff4-b51f-49dc-9965-e1a8701fdbb0",
+    "sourceUrl": "https://leptonsoftware.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://leptonsoftware.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "LEPTON SOFTWARE",
+      "identityEvidence": "provider_board",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 17,
+      "checkedAt": "2026-09-08T09:48:03.130Z",
+      "canonicalSourceUrl": "https://leptonsoftware.keka.com/careers"
+    }
+  },
+  "lera": {
+    "name": "Lera Technologies Pvt. Ltd.",
+    "ats": "keka",
+    "token": "lera/37d01fa6-9fd3-4626-93e0-101239d212a3",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "lera.us",
+    "sourceUrl": "https://lera.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://lera.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "Lera Technologies Pvt. Ltd.",
+      "providerLinksDomain": true,
+      "identityEvidence": "structured_domain_link",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 3,
+      "checkedAt": "2026-09-08T09:47:54.180Z",
+      "canonicalSourceUrl": "https://lera.keka.com/careers"
     }
   },
   "lestars-management-consultancy-l-l-c": {
@@ -71577,6 +73494,25 @@
       "jobCount": 2,
       "checkedAt": "2026-09-07T13:53:21.881Z",
       "canonicalSourceUrl": "https://apply.workable.com/lilli/"
+    }
+  },
+  "liminal-44fcd779-dfa4-4e94-a077-e18fcd4338d4": {
+    "name": "Liminal",
+    "ats": "keka",
+    "token": "liminal/44fcd779-dfa4-4e94-a077-e18fcd4338d4",
+    "sourceUrl": "https://liminal.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://liminal.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "Liminal",
+      "identityEvidence": "provider_board",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 15,
+      "checkedAt": "2026-09-08T09:48:03.233Z",
+      "canonicalSourceUrl": "https://liminal.keka.com/careers"
     }
   },
   "limitless-care-3": {
@@ -72534,6 +74470,25 @@
       "canonicalSourceUrl": "https://lumio-dental-practice-locations.breezy.hr"
     }
   },
+  "luna-ff6af769-72a5-43bf-84a1-b751a399c72e": {
+    "name": "Luna PR",
+    "ats": "keka",
+    "token": "luna/ff6af769-72a5-43bf-84a1-b751a399c72e",
+    "sourceUrl": "https://luna.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://luna.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "Luna PR",
+      "identityEvidence": "provider_board",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 7,
+      "checkedAt": "2026-09-08T09:48:03.236Z",
+      "canonicalSourceUrl": "https://luna.keka.com/careers"
+    }
+  },
   "lunit": {
     "name": "Lunit",
     "ats": "workable",
@@ -72741,6 +74696,25 @@
       "jobCount": 6,
       "checkedAt": "2026-09-07T13:53:22.392Z",
       "canonicalSourceUrl": "https://apply.workable.com/macphie-ltd/"
+    }
+  },
+  "madhusgarage-fbce37ea-abe4-4c63-b666-b420b43dae01": {
+    "name": "MADHUS GARAGE EQUIPMENT",
+    "ats": "keka",
+    "token": "madhusgarage/fbce37ea-abe4-4c63-b666-b420b43dae01",
+    "sourceUrl": "https://madhusgarage.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://madhusgarage.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "MADHUS GARAGE EQUIPMENT",
+      "identityEvidence": "provider_board",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 7,
+      "checkedAt": "2026-09-08T09:48:03.701Z",
+      "canonicalSourceUrl": "https://madhusgarage.keka.com/careers"
     }
   },
   "madison-core-laboratories": {
@@ -73553,6 +75527,30 @@
       "canonicalSourceUrl": "https://matrix-technologies-inc.breezy.hr"
     }
   },
+  "matrixcomsec": {
+    "name": "Matrix Comsec",
+    "ats": "keka",
+    "token": "matrixcomsec/55bad331-f2d5-4b37-b479-e1ca0a7a9d48",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "matrixcomsec.com",
+    "sourceUrl": "https://matrixcomsec.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://matrixcomsec.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "Matrix Comsec",
+      "providerLinksDomain": true,
+      "identityEvidence": "structured_domain_link",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 22,
+      "checkedAt": "2026-09-08T09:47:54.996Z",
+      "canonicalSourceUrl": "https://matrixcomsec.keka.com/careers"
+    }
+  },
   "matrixprofessionalstaffingsoluti": {
     "name": "Matrix_Professional_Staffing_Solutions_Inc.",
     "ats": "smartrecruiters",
@@ -73781,6 +75779,25 @@
       "canonicalSourceUrl": "https://jobs.smartrecruiters.com/medmix"
     }
   },
+  "medon-ef6ab67e-5192-4992-8d8d-daff323a5e52": {
+    "name": "Medon",
+    "ats": "keka",
+    "token": "medon/ef6ab67e-5192-4992-8d8d-daff323a5e52",
+    "sourceUrl": "https://medon.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://medon.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "Medon",
+      "identityEvidence": "provider_board",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 5,
+      "checkedAt": "2026-09-08T09:48:03.879Z",
+      "canonicalSourceUrl": "https://medon.keka.com/careers"
+    }
+  },
   "medschoolcoach": {
     "name": "MedSchoolCoach",
     "ats": "breezy",
@@ -73842,6 +75859,30 @@
       "canonicalSourceUrl": "https://megasol-energie-ag.breezy.hr"
     }
   },
+  "mellowdesigns": {
+    "name": "Mellow Designs",
+    "ats": "keka",
+    "token": "mellowdesigns/ec188728-e2ff-4d30-8e17-7ca5d732b5da",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "mellowdesigns.co",
+    "sourceUrl": "https://mellowdesigns.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://mellowdesigns.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "Mellow Designs",
+      "providerLinksDomain": true,
+      "identityEvidence": "structured_domain_link",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 20,
+      "checkedAt": "2026-09-08T09:47:55.097Z",
+      "canonicalSourceUrl": "https://mellowdesigns.keka.com/careers"
+    }
+  },
   "mendota-insurance-company": {
     "name": "Mendota Insurance Company",
     "ats": "breezy",
@@ -73878,6 +75919,30 @@
       "jobCount": 3,
       "checkedAt": "2026-09-07T12:40:21.423Z",
       "canonicalSourceUrl": "https://jobs.smartrecruiters.com/MenkitiGroup"
+    }
+  },
+  "meragi": {
+    "name": "MERAGI EVENTS",
+    "ats": "keka",
+    "token": "meragi/f815ee73-022c-44d2-8771-5f921afd0ed4",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "meragi.com",
+    "sourceUrl": "https://meragi.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://meragi.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "MERAGI EVENTS",
+      "providerLinksDomain": true,
+      "identityEvidence": "structured_domain_link",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 28,
+      "checkedAt": "2026-09-08T09:47:55.061Z",
+      "canonicalSourceUrl": "https://meragi.keka.com/careers"
     }
   },
   "meron-financial-agency": {
@@ -74571,6 +76636,25 @@
       "jobCount": 9,
       "checkedAt": "2026-09-08T09:37:40.670Z",
       "canonicalSourceUrl": "https://montycloud.keka.com/careers"
+    }
+  },
+  "moolya-3867ca4d-3132-4f6a-a6c4-7d10c3832cfc": {
+    "name": "Moolya Software Testing",
+    "ats": "keka",
+    "token": "moolya/3867ca4d-3132-4f6a-a6c4-7d10c3832cfc",
+    "sourceUrl": "https://moolya.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://moolya.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "Moolya Software Testing",
+      "identityEvidence": "provider_board",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 5,
+      "checkedAt": "2026-09-08T09:48:04.281Z",
+      "canonicalSourceUrl": "https://moolya.keka.com/careers"
     }
   },
   "moonback": {
@@ -75659,6 +77743,25 @@
       "canonicalSourceUrl": "https://jobs.smartrecruiters.com/NETZSCHGroup"
     }
   },
+  "neuralgo-a018b201-41a7-4f69-8503-6fe6b2e2043a": {
+    "name": "GoML",
+    "ats": "keka",
+    "token": "neuralgo/a018b201-41a7-4f69-8503-6fe6b2e2043a",
+    "sourceUrl": "https://neuralgo.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://neuralgo.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "GoML",
+      "identityEvidence": "provider_board",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 17,
+      "checkedAt": "2026-09-08T09:48:04.363Z",
+      "canonicalSourceUrl": "https://neuralgo.keka.com/careers"
+    }
+  },
   "neuro-wellness-spa": {
     "name": "Neuro Wellness Spa",
     "ats": "breezy",
@@ -75952,6 +78055,30 @@
       "canonicalSourceUrl": "https://jobs.smartrecruiters.com/Nexthink"
     }
   },
+  "ngenioussolutions": {
+    "name": "NGenious Solutions",
+    "ats": "keka",
+    "token": "ngenious/38b8288f-4aae-422c-9699-b64c1dce47d1",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "ngenioussolutions.com",
+    "sourceUrl": "https://ngenious.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://ngenious.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "NGenious Solutions",
+      "providerLinksDomain": true,
+      "identityEvidence": "structured_domain_link",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 7,
+      "checkedAt": "2026-09-08T09:47:55.047Z",
+      "canonicalSourceUrl": "https://ngenious.keka.com/careers"
+    }
+  },
   "nickscali": {
     "name": "Nick Scali",
     "ats": "smartrecruiters",
@@ -75988,6 +78115,30 @@
       "jobCount": 100,
       "checkedAt": "2026-09-07T12:40:23.935Z",
       "canonicalSourceUrl": "https://jobs.smartrecruiters.com/NielsenIQ"
+    }
+  },
+  "nimt": {
+    "name": "NIMT Educational Institutions",
+    "ats": "keka",
+    "token": "nimt/5892f24a-df65-4a38-afa8-f9c97b1410ed",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "nimt.ac.in",
+    "sourceUrl": "https://nimt.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://nimt.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "NIMT Educational Institutions",
+      "providerLinksDomain": true,
+      "identityEvidence": "structured_domain_link",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 103,
+      "checkedAt": "2026-09-08T09:47:55.177Z",
+      "canonicalSourceUrl": "https://nimt.keka.com/careers"
     }
   },
   "ninjacart": {
@@ -76045,6 +78196,25 @@
       "jobCount": 7,
       "checkedAt": "2026-09-07T12:40:24.065Z",
       "canonicalSourceUrl": "https://jobs.smartrecruiters.com/NoblesseRecruitment"
+    }
+  },
+  "noct-zohorecruit-in": {
+    "name": "Network of Creative Thinkers",
+    "ats": "zohorecruit",
+    "token": "noct.zohorecruit.in",
+    "sourceUrl": "https://noct.zohorecruit.in/jobs/Careers",
+    "discoveredFrom": {
+      "channel": "dataset",
+      "reference": "https://index.commoncrawl.org/CC-MAIN-2026-21-index"
+    },
+    "verification": {
+      "observedCompanyName": "Network of Creative Thinkers",
+      "identityEvidence": "provider_board",
+      "contentType": "application/rss+xml;charset=utf-8",
+      "payloadVersion": "zohorecruit-rss:v1",
+      "jobCount": 11,
+      "checkedAt": "2026-09-08T09:48:15.745Z",
+      "canonicalSourceUrl": "https://noct.zohorecruit.in/jobs/Careers"
     }
   },
   "nonstopio-006a0824-d687-4948-991a-fa6efc4d048d": {
@@ -76417,6 +78587,54 @@
       "canonicalSourceUrl": "https://oneture.keka.com/careers"
     }
   },
+  "opendestinations": {
+    "name": "Open Destinations",
+    "ats": "keka",
+    "token": "opendestinations/a8e03dfe-6ef9-4ea9-8907-6366a2c13e88",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "opendestinations.com",
+    "sourceUrl": "https://opendestinations.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://opendestinations.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "Open Destinations",
+      "providerLinksDomain": true,
+      "identityEvidence": "structured_domain_link",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 18,
+      "checkedAt": "2026-09-08T09:47:54.983Z",
+      "canonicalSourceUrl": "https://opendestinations.keka.com/careers"
+    }
+  },
+  "orbitanalytics": {
+    "name": "ORBIT BI PRIVATE LIMITED",
+    "ats": "keka",
+    "token": "orbitbi/90b2d47e-8ed0-417c-82c2-7e234c4d7444",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "orbitanalytics.com",
+    "sourceUrl": "https://orbitbi.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://orbitbi.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "ORBIT BI PRIVATE LIMITED",
+      "providerLinksDomain": true,
+      "identityEvidence": "structured_domain_link",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 2,
+      "checkedAt": "2026-09-08T09:47:55.033Z",
+      "canonicalSourceUrl": "https://orbitbi.keka.com/careers"
+    }
+  },
   "order": {
     "name": "Order",
     "ats": "smartrecruiters",
@@ -76763,6 +78981,30 @@
       "canonicalSourceUrl": "https://jobs.smartrecruiters.com/PenFinancialCreditUnion"
     }
   },
+  "pennanttech": {
+    "name": "Pennant Technologies",
+    "ats": "keka",
+    "token": "pennanttech/376d9c3f-945f-45f3-8812-abfd9bad9c03",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "pennanttech.com",
+    "sourceUrl": "https://pennanttech.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://pennanttech.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "Pennant Technologies",
+      "providerLinksDomain": true,
+      "identityEvidence": "structured_domain_link",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 2,
+      "checkedAt": "2026-09-08T09:47:55.470Z",
+      "canonicalSourceUrl": "https://pennanttech.keka.com/careers"
+    }
+  },
   "peoplecanfly": {
     "name": "People Can Fly",
     "ats": "smartrecruiters",
@@ -76780,6 +79022,49 @@
       "jobCount": 16,
       "checkedAt": "2026-09-07T12:40:25.295Z",
       "canonicalSourceUrl": "https://jobs.smartrecruiters.com/PeopleCanFly"
+    }
+  },
+  "peoplelogic": {
+    "name": "PeopleLogic Business Solutions",
+    "ats": "keka",
+    "token": "peoplelogic/5efdfd71-99bc-499f-b3d7-7cfa15b4a68b",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "peoplelogic.in",
+    "sourceUrl": "https://peoplelogic.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://peoplelogic.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "PeopleLogic Business Solutions",
+      "providerLinksDomain": true,
+      "identityEvidence": "structured_domain_link",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 18,
+      "checkedAt": "2026-09-08T09:47:55.535Z",
+      "canonicalSourceUrl": "https://peoplelogic.keka.com/careers"
+    }
+  },
+  "perstorp-1ec5c96b-2d10-45fa-ba86-9718baea7d66": {
+    "name": "Perstorp",
+    "ats": "keka",
+    "token": "perstorp/1ec5c96b-2d10-45fa-ba86-9718baea7d66",
+    "sourceUrl": "https://perstorp.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://perstorp.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "Perstorp",
+      "identityEvidence": "provider_board",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 9,
+      "checkedAt": "2026-09-08T09:48:04.369Z",
+      "canonicalSourceUrl": "https://perstorp.keka.com/careers"
     }
   },
   "petrobottechnologiespvtltd": {
@@ -76971,6 +79256,25 @@
       "jobCount": 4,
       "checkedAt": "2026-09-08T09:37:52.470Z",
       "canonicalSourceUrl": "https://potentiahr.zohorecruit.com/jobs/Careers"
+    }
+  },
+  "pramana-53c338a9-d925-4e6a-b626-b802e2b89f13": {
+    "name": "Pramana",
+    "ats": "keka",
+    "token": "pramana/53c338a9-d925-4e6a-b626-b802e2b89f13",
+    "sourceUrl": "https://pramana.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://pramana.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "Pramana",
+      "identityEvidence": "provider_board",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 11,
+      "checkedAt": "2026-09-08T09:48:04.494Z",
+      "canonicalSourceUrl": "https://pramana.keka.com/careers"
     }
   },
   "prbythebook-zohorecruit-com": {
@@ -77184,6 +79488,30 @@
       "canonicalSourceUrl": "https://job-boards.greenhouse.io/prophecysimpledatalabs"
     }
   },
+  "proshort": {
+    "name": "PROSHORT",
+    "ats": "keka",
+    "token": "proshort/3874355f-5d4b-4054-aef8-5413fc460e40",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "proshort.ai",
+    "sourceUrl": "https://proshort.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://proshort.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "PROSHORT",
+      "providerLinksDomain": true,
+      "identityEvidence": "structured_domain_link",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 2,
+      "checkedAt": "2026-09-08T09:47:55.579Z",
+      "canonicalSourceUrl": "https://proshort.keka.com/careers"
+    }
+  },
   "provalliance": {
     "name": "PROVALLIANCE",
     "ats": "smartrecruiters",
@@ -77260,6 +79588,25 @@
       "canonicalSourceUrl": "https://jobs.smartrecruiters.com/publicstorage"
     }
   },
+  "pulselive-zohorecruit-com": {
+    "name": "Pulse Africa",
+    "ats": "zohorecruit",
+    "token": "pulselive.zohorecruit.com",
+    "sourceUrl": "https://pulselive.zohorecruit.com/jobs/Careers",
+    "discoveredFrom": {
+      "channel": "dataset",
+      "reference": "https://index.commoncrawl.org/CC-MAIN-2026-25-index"
+    },
+    "verification": {
+      "observedCompanyName": "Pulse Africa",
+      "identityEvidence": "provider_board",
+      "contentType": "application/rss+xml;charset=utf-8",
+      "payloadVersion": "zohorecruit-rss:v1",
+      "jobCount": 1,
+      "checkedAt": "2026-09-08T09:48:16.919Z",
+      "canonicalSourceUrl": "https://pulselive.zohorecruit.com/jobs/Careers"
+    }
+  },
   "pulserisetechnologies": {
     "name": "Pulserisetechnologies",
     "ats": "freshteam",
@@ -77279,6 +79626,54 @@
       "canonicalSourceUrl": "https://pulserisetechnologies.freshteam.com/jobs"
     }
   },
+  "punjabjewels": {
+    "name": "Punjab Jewels (A Unit Punjab Retail Pvt. Ltd.)",
+    "ats": "keka",
+    "token": "punjabjewels/8c513d18-63f1-4699-a779-3a406a7c3d0e",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "punjabjewels.com",
+    "sourceUrl": "https://punjabjewels.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://punjabjewels.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "Punjab Jewels (A Unit Punjab Retail Pvt. Ltd.)",
+      "providerLinksDomain": true,
+      "identityEvidence": "structured_domain_link",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 12,
+      "checkedAt": "2026-09-08T09:47:55.963Z",
+      "canonicalSourceUrl": "https://punjabjewels.keka.com/careers"
+    }
+  },
+  "pyxismcg": {
+    "name": "PYXIS Management Consulting Group LLC",
+    "ats": "keka",
+    "token": "pyxis/a52ced03-7d14-448d-8ea9-0904190b60d9",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "pyxismcg.com",
+    "sourceUrl": "https://pyxis.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://pyxis.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "PYXIS Management Consulting Group LLC",
+      "providerLinksDomain": true,
+      "identityEvidence": "structured_domain_link",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 3,
+      "checkedAt": "2026-09-08T09:47:55.656Z",
+      "canonicalSourceUrl": "https://pyxis.keka.com/careers"
+    }
+  },
   "qadinc": {
     "name": "QAD, Inc.",
     "ats": "smartrecruiters",
@@ -77296,6 +79691,30 @@
       "jobCount": 54,
       "checkedAt": "2026-09-07T12:40:25.895Z",
       "canonicalSourceUrl": "https://jobs.smartrecruiters.com/QADInc"
+    }
+  },
+  "qmaxtest": {
+    "name": "Qmax Group",
+    "ats": "keka",
+    "token": "qmaxgroup/ee260a59-070a-44c5-ac93-8337c78aed9d",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "qmaxtest.com",
+    "sourceUrl": "https://qmaxgroup.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://qmaxgroup.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "Qmax Group",
+      "providerLinksDomain": true,
+      "identityEvidence": "structured_domain_link",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 13,
+      "checkedAt": "2026-09-08T09:47:56.550Z",
+      "canonicalSourceUrl": "https://qmaxgroup.keka.com/careers"
     }
   },
   "qservicesit": {
@@ -77377,6 +79796,30 @@
       "jobCount": 60,
       "checkedAt": "2026-09-07T12:40:25.960Z",
       "canonicalSourceUrl": "https://jobs.smartrecruiters.com/Quadient1"
+    }
+  },
+  "qualminds": {
+    "name": "QualMinds Technologies",
+    "ats": "keka",
+    "token": "qualminds/1495ea23-0898-4de4-acf9-fcafc4ac6bf2",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "qualminds.com",
+    "sourceUrl": "https://qualminds.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://qualminds.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "QualMinds Technologies",
+      "providerLinksDomain": true,
+      "identityEvidence": "structured_domain_link",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 13,
+      "checkedAt": "2026-09-08T09:47:56.284Z",
+      "canonicalSourceUrl": "https://qualminds.keka.com/careers"
     }
   },
   "qualys": {
@@ -77462,6 +79905,25 @@
       "jobCount": 8,
       "checkedAt": "2026-09-08T09:36:13.356Z",
       "canonicalSourceUrl": "https://queuebuster.keka.com/careers"
+    }
+  },
+  "r-2-zohorecruit-com": {
+    "name": "MHRP/MPRH (by/par R-2)",
+    "ats": "zohorecruit",
+    "token": "r-2.zohorecruit.com",
+    "sourceUrl": "https://r-2.zohorecruit.com/jobs/Careers",
+    "discoveredFrom": {
+      "channel": "dataset",
+      "reference": "https://index.commoncrawl.org/CC-MAIN-2026-21-index"
+    },
+    "verification": {
+      "observedCompanyName": "MHRP/MPRH (by/par R-2)",
+      "identityEvidence": "provider_board",
+      "contentType": "application/rss+xml;charset=utf-8",
+      "payloadVersion": "zohorecruit-rss:v1",
+      "jobCount": 20,
+      "checkedAt": "2026-09-08T09:48:16.940Z",
+      "canonicalSourceUrl": "https://r-2.zohorecruit.com/jobs/Careers"
     }
   },
   "ramboll3": {
@@ -77601,6 +80063,30 @@
       "canonicalSourceUrl": "https://jobs.smartrecruiters.com/RedPoints1"
     }
   },
+  "redwinglabs": {
+    "name": "KITEMAPS AERIAL MAPPING SERVICES PRIVATE LIMITED",
+    "ats": "keka",
+    "token": "kitemaps/74a38bdf-b701-4c3b-9967-69546980d80e",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "redwinglabs.in",
+    "sourceUrl": "https://kitemaps.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://kitemaps.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "KITEMAPS AERIAL MAPPING SERVICES PRIVATE LIMITED",
+      "providerLinksDomain": true,
+      "identityEvidence": "structured_domain_link",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 6,
+      "checkedAt": "2026-09-08T09:47:53.974Z",
+      "canonicalSourceUrl": "https://kitemaps.keka.com/careers"
+    }
+  },
   "redwingshoecompany": {
     "name": "Red Wing Shoe Company",
     "ats": "smartrecruiters",
@@ -77658,6 +80144,30 @@
       "canonicalSourceUrl": "https://jobs.smartrecruiters.com/RelaisChateaux"
     }
   },
+  "relanto": {
+    "name": "Relanto",
+    "ats": "keka",
+    "token": "relanto/02b7fe40-b031-4feb-9965-e44257ddd8e5",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "relanto.ai",
+    "sourceUrl": "https://relanto.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://relanto.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "Relanto",
+      "providerLinksDomain": true,
+      "identityEvidence": "structured_domain_link",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 62,
+      "checkedAt": "2026-09-08T09:47:56.394Z",
+      "canonicalSourceUrl": "https://relanto.keka.com/careers"
+    }
+  },
   "remidio-960a41d6-5947-4648-888a-d99c9e9412b5": {
     "name": "Remidio",
     "ats": "keka",
@@ -77713,6 +80223,30 @@
       "jobCount": 87,
       "checkedAt": "2026-09-07T12:40:26.580Z",
       "canonicalSourceUrl": "https://jobs.smartrecruiters.com/Renaud-Bray"
+    }
+  },
+  "reneecosmetics": {
+    "name": "Renee Cosmetics",
+    "ats": "keka",
+    "token": "reneecosmetics/07f94698-fe54-4d47-a743-6e50d432e32a",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "reneecosmetics.in",
+    "sourceUrl": "https://reneecosmetics.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://reneecosmetics.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "Renee Cosmetics",
+      "providerLinksDomain": true,
+      "identityEvidence": "structured_domain_link",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 11,
+      "checkedAt": "2026-09-08T09:47:56.131Z",
+      "canonicalSourceUrl": "https://reneecosmetics.keka.com/careers"
     }
   },
   "renesaselectronics": {
@@ -77952,6 +80486,25 @@
       "canonicalSourceUrl": "https://erhospitality.keka.com/careers"
     }
   },
+  "rootquotient-e0cde6c5-5ff3-41c0-9877-f5aa6551db0d": {
+    "name": "Rootquotient Technologies",
+    "ats": "keka",
+    "token": "rootquotient/e0cde6c5-5ff3-41c0-9877-f5aa6551db0d",
+    "sourceUrl": "https://rootquotient.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://rootquotient.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "Rootquotient Technologies",
+      "identityEvidence": "provider_board",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 4,
+      "checkedAt": "2026-09-08T09:48:04.891Z",
+      "canonicalSourceUrl": "https://rootquotient.keka.com/careers"
+    }
+  },
   "rrdonnelley": {
     "name": "RR Donnelley",
     "ats": "smartrecruiters",
@@ -78108,6 +80661,30 @@
       "canonicalSourceUrl": "https://jobs.smartrecruiters.com/Sandisk"
     }
   },
+  "saneforce": {
+    "name": "SANeForce",
+    "ats": "keka",
+    "token": "saneforce/1ae6ff5b-4d28-4355-a54e-29a06c7eb5ad",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "saneforce.com",
+    "sourceUrl": "https://saneforce.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://saneforce.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "SANeForce",
+      "providerLinksDomain": true,
+      "identityEvidence": "structured_domain_link",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 5,
+      "checkedAt": "2026-09-08T09:47:56.282Z",
+      "canonicalSourceUrl": "https://saneforce.keka.com/careers"
+    }
+  },
   "sapconsteels": {
     "name": "Sapcon",
     "ats": "keka",
@@ -78176,6 +80753,30 @@
       "jobCount": 9,
       "checkedAt": "2026-09-08T04:03:20.474Z",
       "canonicalSourceUrl": "https://job-boards.greenhouse.io/saucelabs"
+    }
+  },
+  "savaglobal": {
+    "name": "SAVA HEALTHCARE",
+    "ats": "keka",
+    "token": "savaglobal/b2af0ff0-71df-4b8e-9729-f5104d5f232d",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "savaglobal.com",
+    "sourceUrl": "https://savaglobal.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://savaglobal.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "SAVA HEALTHCARE",
+      "providerLinksDomain": true,
+      "identityEvidence": "structured_domain_link",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 40,
+      "checkedAt": "2026-09-08T09:47:56.759Z",
+      "canonicalSourceUrl": "https://savaglobal.keka.com/careers"
     }
   },
   "sbbcargodeutschlandgmbh": {
@@ -78278,6 +80879,30 @@
       "canonicalSourceUrl": "https://scimplify.keka.com/careers"
     }
   },
+  "scryanalytics": {
+    "name": "Scry Analytics India Pvt Ltd",
+    "ats": "keka",
+    "token": "scryai/a60fb96f-46e7-457e-876c-126d789372b3",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "scryanalytics.ai",
+    "sourceUrl": "https://scryai.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://scryai.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "Scry Analytics India Pvt Ltd",
+      "providerLinksDomain": true,
+      "identityEvidence": "structured_domain_link",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 19,
+      "checkedAt": "2026-09-08T09:47:56.856Z",
+      "canonicalSourceUrl": "https://scryai.keka.com/careers"
+    }
+  },
   "seamedu": {
     "name": "SEAMLESS EDUCATION AND SERVICES PRIVATE LIMITED",
     "ats": "keka",
@@ -78300,6 +80925,25 @@
       "jobCount": 31,
       "checkedAt": "2026-09-08T09:36:14.116Z",
       "canonicalSourceUrl": "https://seas.keka.com/careers"
+    }
+  },
+  "seaplaneasia-zohorecruit-com": {
+    "name": "Seaplane Asia",
+    "ats": "zohorecruit",
+    "token": "seaplaneasia.zohorecruit.com",
+    "sourceUrl": "https://seaplaneasia.zohorecruit.com/jobs/Careers",
+    "discoveredFrom": {
+      "channel": "dataset",
+      "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+    },
+    "verification": {
+      "observedCompanyName": "Seaplane Asia",
+      "identityEvidence": "provider_board",
+      "contentType": "application/rss+xml;charset=utf-8",
+      "payloadVersion": "zohorecruit-rss:v1",
+      "jobCount": 8,
+      "checkedAt": "2026-09-08T09:48:17.723Z",
+      "canonicalSourceUrl": "https://seaplaneasia.zohorecruit.com/jobs/Careers"
     }
   },
   "sectigo": {
@@ -78454,6 +81098,25 @@
       "canonicalSourceUrl": "https://jobs.smartrecruiters.com/servicenow"
     }
   },
+  "serviqual-83e7a588-9e85-4da4-8a83-edff49ea84ce": {
+    "name": "Serviqual - Jobs",
+    "ats": "keka",
+    "token": "serviqual/83e7a588-9e85-4da4-8a83-edff49ea84ce",
+    "sourceUrl": "https://serviqual.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://serviqual.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "Serviqual - Jobs",
+      "identityEvidence": "provider_board",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 5,
+      "checkedAt": "2026-09-08T09:48:05.157Z",
+      "canonicalSourceUrl": "https://serviqual.keka.com/careers"
+    }
+  },
   "sgs": {
     "name": "SGS",
     "ats": "smartrecruiters",
@@ -78572,6 +81235,30 @@
       "canonicalSourceUrl": "https://shipthis.keka.com/careers"
     }
   },
+  "shopflo": {
+    "name": "Shopflo",
+    "ats": "keka",
+    "token": "shopflo/637eb1c9-6479-427b-8ec9-04f9ff715a4f",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "shopflo.com",
+    "sourceUrl": "https://shopflo.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://shopflo.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "Shopflo",
+      "providerLinksDomain": true,
+      "identityEvidence": "structured_domain_link",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 6,
+      "checkedAt": "2026-09-08T09:47:56.452Z",
+      "canonicalSourceUrl": "https://shopflo.keka.com/careers"
+    }
+  },
   "shopos": {
     "name": "SI HOUSE OF MODELS PRIVATE LIMITED",
     "ats": "keka",
@@ -78594,6 +81281,25 @@
       "jobCount": 25,
       "checkedAt": "2026-09-08T09:36:14.198Z",
       "canonicalSourceUrl": "https://shopos.keka.com/careers"
+    }
+  },
+  "shott-2adbd200-3179-4974-a2e2-2ef4f53bbcdd": {
+    "name": "Careers at SHOTT Amusement Limited",
+    "ats": "keka",
+    "token": "shott/2adbd200-3179-4974-a2e2-2ef4f53bbcdd",
+    "sourceUrl": "https://shott.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://shott.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "Careers at SHOTT Amusement Limited",
+      "identityEvidence": "provider_board",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 11,
+      "checkedAt": "2026-09-08T09:48:05.448Z",
+      "canonicalSourceUrl": "https://shott.keka.com/careers"
     }
   },
   "shreenm-14f6aed4-e273-43c5-a220-001b612e8945": {
@@ -78899,6 +81605,30 @@
       "canonicalSourceUrl": "https://sjcontractspvtltd.keka.com/careers"
     }
   },
+  "skeirongreenenergy": {
+    "name": "Synergen Green Energy",
+    "ats": "keka",
+    "token": "synefra/ed15e2d4-0df3-4485-9f77-b0c4a6a19232",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "skeirongreenenergy.com",
+    "sourceUrl": "https://synefra.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://synefra.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "Synergen Green Energy",
+      "providerLinksDomain": true,
+      "identityEvidence": "structured_domain_link",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 1,
+      "checkedAt": "2026-09-08T09:47:56.505Z",
+      "canonicalSourceUrl": "https://synefra.keka.com/careers"
+    }
+  },
   "skylarkdrones-37b28e33-c80d-4ffd-9dce-1ca7b025cc96": {
     "name": "Skylark Drones",
     "ats": "keka",
@@ -78916,6 +81646,30 @@
       "jobCount": 22,
       "checkedAt": "2026-09-08T09:37:43.594Z",
       "canonicalSourceUrl": "https://skylarkdrones.keka.com/careers"
+    }
+  },
+  "smart": {
+    "name": "Tohands",
+    "ats": "keka",
+    "token": "tohands/170c903a-76c6-4448-89a3-2bd9de9c5936",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "smart.tohands.in",
+    "sourceUrl": "https://tohands.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://tohands.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "Tohands",
+      "providerLinksDomain": true,
+      "identityEvidence": "structured_domain_link",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 8,
+      "checkedAt": "2026-09-08T09:47:57.178Z",
+      "canonicalSourceUrl": "https://tohands.keka.com/careers"
     }
   },
   "smartdev1": {
@@ -79121,6 +81875,25 @@
       "canonicalSourceUrl": "https://jobs.smartrecruiters.com/SodexoCanadaLtd"
     }
   },
+  "softobiz-433d2f00-7636-4f9d-9ae7-6c471a3b0d76": {
+    "name": "Softobiz Technologies Pvt. Ltd.",
+    "ats": "keka",
+    "token": "softobiz/433d2f00-7636-4f9d-9ae7-6c471a3b0d76",
+    "sourceUrl": "https://softobiz.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://softobiz.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "Softobiz Technologies Pvt. Ltd.",
+      "identityEvidence": "provider_board",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 46,
+      "checkedAt": "2026-09-08T09:48:05.563Z",
+      "canonicalSourceUrl": "https://softobiz.keka.com/careers"
+    }
+  },
   "softprodigy": {
     "name": "SoftProdigy System Solutions Pvt. Ltd.",
     "ats": "keka",
@@ -79227,6 +82000,25 @@
       "jobCount": 100,
       "checkedAt": "2026-09-07T12:40:28.829Z",
       "canonicalSourceUrl": "https://jobs.smartrecruiters.com/SopraSteria1"
+    }
+  },
+  "sorensenstaffing-zohorecruit-com": {
+    "name": "Sorensen Staffing",
+    "ats": "zohorecruit",
+    "token": "sorensenstaffing.zohorecruit.com",
+    "sourceUrl": "https://sorensenstaffing.zohorecruit.com/jobs/Careers",
+    "discoveredFrom": {
+      "channel": "dataset",
+      "reference": "https://index.commoncrawl.org/CC-MAIN-2026-21-index"
+    },
+    "verification": {
+      "observedCompanyName": "Sorensen Staffing",
+      "identityEvidence": "provider_board",
+      "contentType": "application/rss+xml;charset=utf-8",
+      "payloadVersion": "zohorecruit-rss:v1",
+      "jobCount": 8,
+      "checkedAt": "2026-09-08T09:48:17.918Z",
+      "canonicalSourceUrl": "https://sorensenstaffing.zohorecruit.com/jobs/Careers"
     }
   },
   "sosi1": {
@@ -79379,6 +82171,25 @@
       "jobCount": 5,
       "checkedAt": "2026-09-07T12:40:29.271Z",
       "canonicalSourceUrl": "https://jobs.smartrecruiters.com/SpringVentureGroup1"
+    }
+  },
+  "squadrun-c750f148-70b8-4a21-868e-f891a1b2d818": {
+    "name": "SquadStack",
+    "ats": "keka",
+    "token": "squadrun/c750f148-70b8-4a21-868e-f891a1b2d818",
+    "sourceUrl": "https://squadrun.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://squadrun.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "SquadStack",
+      "identityEvidence": "provider_board",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 13,
+      "checkedAt": "2026-09-08T09:48:05.630Z",
+      "canonicalSourceUrl": "https://squadrun.keka.com/careers"
     }
   },
   "squaretrade1": {
@@ -79709,6 +82520,25 @@
       "canonicalSourceUrl": "https://job-boards.greenhouse.io/sumologic"
     }
   },
+  "sunflowerlab-3d645e19-58f1-438e-894c-c9dacda2f8c6": {
+    "name": "Sunflower Lab",
+    "ats": "keka",
+    "token": "sunflowerlab/3d645e19-58f1-438e-894c-c9dacda2f8c6",
+    "sourceUrl": "https://sunflowerlab.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://sunflowerlab.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "Sunflower Lab",
+      "identityEvidence": "provider_board",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 6,
+      "checkedAt": "2026-09-08T09:48:06.043Z",
+      "canonicalSourceUrl": "https://sunflowerlab.keka.com/careers"
+    }
+  },
   "sunokitaab": {
     "name": "Sunokitaab",
     "ats": "freshteam",
@@ -79726,6 +82556,25 @@
       "jobCount": 1,
       "checkedAt": "2026-09-07T14:00:01.353Z",
       "canonicalSourceUrl": "https://sunokitaab.freshteam.com/jobs"
+    }
+  },
+  "superplum-fa6b6afa-55f3-440b-9920-8c2dd7c10f1c": {
+    "name": "Superplum Careers",
+    "ats": "keka",
+    "token": "superplum/fa6b6afa-55f3-440b-9920-8c2dd7c10f1c",
+    "sourceUrl": "https://superplum.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://superplum.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "Superplum Careers",
+      "identityEvidence": "provider_board",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 9,
+      "checkedAt": "2026-09-08T09:48:06.115Z",
+      "canonicalSourceUrl": "https://superplum.keka.com/careers"
     }
   },
   "surveysparrow-ffab7c1d-4cc3-4518-b0a7-7e0b9ebb461e": {
@@ -79980,6 +82829,30 @@
       "canonicalSourceUrl": "https://jobs.smartrecruiters.com/TALENT2AFRICA"
     }
   },
+  "tandemloop": {
+    "name": "TANDEMLOOP TECHNOLOGIES PRIVATE LIMITED",
+    "ats": "keka",
+    "token": "tandemloop/b95799bd-a84d-4015-b756-1e2b6357ab9c",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "tandemloop.in",
+    "sourceUrl": "https://tandemloop.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://tandemloop.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "TANDEMLOOP TECHNOLOGIES PRIVATE LIMITED",
+      "providerLinksDomain": true,
+      "identityEvidence": "structured_domain_link",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 3,
+      "checkedAt": "2026-09-08T09:47:56.820Z",
+      "canonicalSourceUrl": "https://tandemloop.keka.com/careers"
+    }
+  },
   "target": {
     "name": "Target",
     "ats": "workday",
@@ -80096,6 +82969,30 @@
       "jobCount": 6,
       "checkedAt": "2026-09-07T14:00:01.536Z",
       "canonicalSourceUrl": "https://techamericas.freshteam.com/jobs"
+    }
+  },
+  "techdefencelabs": {
+    "name": "Techdefence Labs",
+    "ats": "keka",
+    "token": "techdefencelabs/84895a4b-637c-4f91-87b6-ad7da6e03642",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "techdefencelabs.com",
+    "sourceUrl": "https://techdefencelabs.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://techdefencelabs.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "Techdefence Labs",
+      "providerLinksDomain": true,
+      "identityEvidence": "structured_domain_link",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 18,
+      "checkedAt": "2026-09-08T09:47:57.742Z",
+      "canonicalSourceUrl": "https://techdefencelabs.keka.com/careers"
     }
   },
   "techdome-db914ff9-927c-40ee-8942-23c09ee515ce": {
@@ -80255,6 +83152,30 @@
       "canonicalSourceUrl": "https://jobs.smartrecruiters.com/TheAdaptavistGroup"
     }
   },
+  "theapprenticeproject": {
+    "name": "The Apprentice Project",
+    "ats": "keka",
+    "token": "tap/1e03926b-8dc8-4514-9c72-6368f4c22ab5",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "theapprenticeproject.org",
+    "sourceUrl": "https://tap.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://tap.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "The Apprentice Project",
+      "providerLinksDomain": true,
+      "identityEvidence": "structured_domain_link",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 8,
+      "checkedAt": "2026-09-08T09:47:57.248Z",
+      "canonicalSourceUrl": "https://tap.keka.com/careers"
+    }
+  },
   "thebdschool": {
     "name": "Thebdschool",
     "ats": "freshteam",
@@ -80272,6 +83193,25 @@
       "jobCount": 2,
       "checkedAt": "2026-09-07T14:00:01.536Z",
       "canonicalSourceUrl": "https://thebdschool.freshteam.com/jobs"
+    }
+  },
+  "theenrichery-zohorecruit-com": {
+    "name": "The Enrichery",
+    "ats": "zohorecruit",
+    "token": "theenrichery.zohorecruit.com",
+    "sourceUrl": "https://theenrichery.zohorecruit.com/jobs/Careers",
+    "discoveredFrom": {
+      "channel": "dataset",
+      "reference": "https://index.commoncrawl.org/CC-MAIN-2026-21-index"
+    },
+    "verification": {
+      "observedCompanyName": "The Enrichery",
+      "identityEvidence": "provider_board",
+      "contentType": "application/rss+xml;charset=utf-8",
+      "payloadVersion": "zohorecruit-rss:v1",
+      "jobCount": 6,
+      "checkedAt": "2026-09-08T09:48:18.934Z",
+      "canonicalSourceUrl": "https://theenrichery.zohorecruit.com/jobs/Careers"
     }
   },
   "thehansfoundation": {
@@ -80606,6 +83546,25 @@
       "canonicalSourceUrl": "https://jobs.smartrecruiters.com/Tomra"
     }
   },
+  "toprankers-8404ec19-5bc9-43eb-b5b6-a7b261b8657f": {
+    "name": "Toprankers",
+    "ats": "keka",
+    "token": "toprankers/8404ec19-5bc9-43eb-b5b6-a7b261b8657f",
+    "sourceUrl": "https://toprankers.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://toprankers.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "Toprankers",
+      "identityEvidence": "provider_board",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 119,
+      "checkedAt": "2026-09-08T09:48:06.570Z",
+      "canonicalSourceUrl": "https://toprankers.keka.com/careers"
+    }
+  },
   "torstar": {
     "name": "Torstar",
     "ats": "smartrecruiters",
@@ -80832,6 +83791,30 @@
       "canonicalSourceUrl": "https://trimble.wd1.myworkdayjobs.com/en-US/TrimbleCareers"
     }
   },
+  "tru": {
+    "name": "TRU",
+    "ats": "keka",
+    "token": "truagency/49a94e4f-5023-4130-9f37-3785df0623d4",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "tru.agency",
+    "sourceUrl": "https://truagency.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://truagency.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "TRU",
+      "providerLinksDomain": true,
+      "identityEvidence": "structured_domain_link",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 12,
+      "checkedAt": "2026-09-08T09:47:57.762Z",
+      "canonicalSourceUrl": "https://truagency.keka.com/careers"
+    }
+  },
   "trupanion1": {
     "name": "Trupanion",
     "ats": "smartrecruiters",
@@ -81006,6 +83989,30 @@
       "jobCount": 46,
       "checkedAt": "2026-09-07T12:40:32.595Z",
       "canonicalSourceUrl": "https://jobs.smartrecruiters.com/UKAtomicEnergyAuthority"
+    }
+  },
+  "ulipsu": {
+    "name": "Kidvento Education and Research",
+    "ats": "keka",
+    "token": "kidvento/79e3ba6e-9a27-4031-8af7-4c7bca97a921",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "ulipsu.com",
+    "sourceUrl": "https://kidvento.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://kidvento.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "Kidvento Education and Research",
+      "providerLinksDomain": true,
+      "identityEvidence": "structured_domain_link",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 29,
+      "checkedAt": "2026-09-08T09:47:53.918Z",
+      "canonicalSourceUrl": "https://kidvento.keka.com/careers"
     }
   },
   "umdaschgroup": {
@@ -81268,6 +84275,30 @@
       "jobCount": 100,
       "checkedAt": "2026-09-07T12:40:33.003Z",
       "canonicalSourceUrl": "https://jobs.smartrecruiters.com/UniversityHealthNetwork"
+    }
+  },
+  "universityliving": {
+    "name": "University Living Accommodations Pvt Ltd.",
+    "ats": "keka",
+    "token": "universityliving/293c29ff-14fe-497b-a04a-a8e67ed0ed81",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "universityliving.com",
+    "sourceUrl": "https://universityliving.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://universityliving.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "University Living Accommodations Pvt Ltd.",
+      "providerLinksDomain": true,
+      "identityEvidence": "structured_domain_link",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 11,
+      "checkedAt": "2026-09-08T09:47:57.795Z",
+      "canonicalSourceUrl": "https://universityliving.keka.com/careers"
     }
   },
   "upeducation": {
@@ -81701,6 +84732,49 @@
       "canonicalSourceUrl": "https://jobs.smartrecruiters.com/VillageGreen1"
     }
   },
+  "vinove": {
+    "name": "Vinove",
+    "ats": "keka",
+    "token": "vinove/efdbfe8f-0c89-43a7-b197-ff60d832994a",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "vinove.com",
+    "sourceUrl": "https://vinove.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://vinove.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "Vinove",
+      "providerLinksDomain": true,
+      "identityEvidence": "structured_domain_link",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 35,
+      "checkedAt": "2026-09-08T09:47:58.199Z",
+      "canonicalSourceUrl": "https://vinove.keka.com/careers"
+    }
+  },
+  "virtualcoworker-zohorecruit-com": {
+    "name": "Virtual Coworker",
+    "ats": "zohorecruit",
+    "token": "virtualcoworker.zohorecruit.com",
+    "sourceUrl": "https://virtualcoworker.zohorecruit.com/jobs/Careers",
+    "discoveredFrom": {
+      "channel": "dataset",
+      "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
+    },
+    "verification": {
+      "observedCompanyName": "Virtual Coworker",
+      "identityEvidence": "provider_board",
+      "contentType": "application/rss+xml;charset=utf-8",
+      "payloadVersion": "zohorecruit-rss:v1",
+      "jobCount": 34,
+      "checkedAt": "2026-09-08T09:48:19.802Z",
+      "canonicalSourceUrl": "https://virtualcoworker.zohorecruit.com/jobs/Careers"
+    }
+  },
   "visa": {
     "name": "Visa",
     "ats": "workday",
@@ -82061,6 +85135,25 @@
       "canonicalSourceUrl": "https://jobs.smartrecruiters.com/WDGroup"
     }
   },
+  "wealthindia-08b1fec2-e1e2-4f88-a6f5-b8fde9f8c77f": {
+    "name": "Wealth India",
+    "ats": "keka",
+    "token": "wealthindia/08b1fec2-e1e2-4f88-a6f5-b8fde9f8c77f",
+    "sourceUrl": "https://wealthindia.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://wealthindia.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "Wealth India",
+      "identityEvidence": "provider_board",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 1,
+      "checkedAt": "2026-09-08T09:48:06.633Z",
+      "canonicalSourceUrl": "https://wealthindia.keka.com/careers"
+    }
+  },
   "webitoinfotech": {
     "name": "Webito Infotech",
     "ats": "keka",
@@ -82104,6 +85197,30 @@
       "canonicalSourceUrl": "https://jobs.smartrecruiters.com/WebleeTechnologies"
     }
   },
+  "wedogood": {
+    "name": "Careers at WeDoGood",
+    "ats": "keka",
+    "token": "wedogood/50a55816-8133-4d2c-b85a-c50352e7a669",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "wedogood.in",
+    "sourceUrl": "https://wedogood.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://wedogood.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "Careers at WeDoGood",
+      "providerLinksDomain": true,
+      "identityEvidence": "structured_domain_link",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 5,
+      "checkedAt": "2026-09-08T09:47:58.104Z",
+      "canonicalSourceUrl": "https://wedogood.keka.com/careers"
+    }
+  },
   "weledabeneluxse": {
     "name": "Weleda Benelux SE",
     "ats": "smartrecruiters",
@@ -82121,6 +85238,30 @@
       "jobCount": 5,
       "checkedAt": "2026-09-07T12:40:35.633Z",
       "canonicalSourceUrl": "https://jobs.smartrecruiters.com/WeledaBeneluxSE"
+    }
+  },
+  "welfare": {
+    "name": "Welfare Group Global",
+    "ats": "keka",
+    "token": "wbg/9307dc16-be7c-4e03-a148-4f3113bf3cb7",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "welfare.group",
+    "sourceUrl": "https://wbg.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://wbg.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "Welfare Group Global",
+      "providerLinksDomain": true,
+      "identityEvidence": "structured_domain_link",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 2,
+      "checkedAt": "2026-09-08T09:47:57.694Z",
+      "canonicalSourceUrl": "https://wbg.keka.com/careers"
     }
   },
   "westerndigital": {
@@ -82180,6 +85321,30 @@
       "canonicalSourceUrl": "https://jobs.smartrecruiters.com/wildbrain"
     }
   },
+  "wildnettechnologies": {
+    "name": "Wildnet Technologies Limited",
+    "ats": "keka",
+    "token": "wildnet/c15879b0-218b-429d-9e63-ccdb194ef6eb",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "wildnettechnologies.com",
+    "sourceUrl": "https://wildnet.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://wildnet.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "Wildnet Technologies Limited",
+      "providerLinksDomain": true,
+      "identityEvidence": "structured_domain_link",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 12,
+      "checkedAt": "2026-09-08T09:47:58.386Z",
+      "canonicalSourceUrl": "https://wildnet.keka.com/careers"
+    }
+  },
   "williamoslerhealthsystem1": {
     "name": "William Osler Health System",
     "ats": "smartrecruiters",
@@ -82235,6 +85400,25 @@
       "jobCount": 35,
       "checkedAt": "2026-09-08T09:37:44.967Z",
       "canonicalSourceUrl": "https://winfosolutions.keka.com/careers"
+    }
+  },
+  "wishlink-f5437a79-d84a-4e36-a1ae-81c1d1dfb5c4": {
+    "name": "Wishlink",
+    "ats": "keka",
+    "token": "wishlink/f5437a79-d84a-4e36-a1ae-81c1d1dfb5c4",
+    "sourceUrl": "https://wishlink.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://wishlink.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "Wishlink",
+      "identityEvidence": "provider_board",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 17,
+      "checkedAt": "2026-09-08T09:48:06.753Z",
+      "canonicalSourceUrl": "https://wishlink.keka.com/careers"
     }
   },
   "wix2": {
@@ -83282,6 +86466,25 @@
       "canonicalSourceUrl": "https://jobs.smartrecruiters.com/WorldWildlifeFundInc1"
     }
   },
+  "woundtech-24cf28a2-1b7a-43a2-9395-f56ee32f6fba": {
+    "name": "Woundtech",
+    "ats": "keka",
+    "token": "woundtech/24cf28a2-1b7a-43a2-9395-f56ee32f6fba",
+    "sourceUrl": "https://woundtech.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://woundtech.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "Woundtech",
+      "identityEvidence": "provider_board",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 27,
+      "checkedAt": "2026-09-08T09:48:07.031Z",
+      "canonicalSourceUrl": "https://woundtech.keka.com/careers"
+    }
+  },
   "wshgroup": {
     "name": "WSH Group",
     "ats": "smartrecruiters",
@@ -83337,6 +86540,44 @@
       "jobCount": 88,
       "checkedAt": "2026-09-07T12:40:36.861Z",
       "canonicalSourceUrl": "https://jobs.smartrecruiters.com/XPPower2"
+    }
+  },
+  "xyntekinc-zohorecruit-com": {
+    "name": "Catalyx",
+    "ats": "zohorecruit",
+    "token": "xyntekinc.zohorecruit.com",
+    "sourceUrl": "https://xyntekinc.zohorecruit.com/jobs/Careers",
+    "discoveredFrom": {
+      "channel": "dataset",
+      "reference": "https://index.commoncrawl.org/CC-MAIN-2026-25-index"
+    },
+    "verification": {
+      "observedCompanyName": "Catalyx",
+      "identityEvidence": "provider_board",
+      "contentType": "application/rss+xml;charset=utf-8",
+      "payloadVersion": "zohorecruit-rss:v1",
+      "jobCount": 16,
+      "checkedAt": "2026-09-08T09:48:20.398Z",
+      "canonicalSourceUrl": "https://xyntekinc.zohorecruit.com/jobs/Careers"
+    }
+  },
+  "yashrajbio-44e0c9a2-f3c5-4cf3-a6f7-76aaadee9be0": {
+    "name": "Yashraj Biotechnology Limited",
+    "ats": "keka",
+    "token": "yashrajbio/44e0c9a2-f3c5-4cf3-a6f7-76aaadee9be0",
+    "sourceUrl": "https://yashrajbio.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://yashrajbio.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "Yashraj Biotechnology Limited",
+      "identityEvidence": "provider_board",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 20,
+      "checkedAt": "2026-09-08T09:48:07.110Z",
+      "canonicalSourceUrl": "https://yashrajbio.keka.com/careers"
     }
   },
   "yellltd": {
@@ -83559,6 +86800,25 @@
       "canonicalSourceUrl": "https://job-boards.greenhouse.io/zinnia"
     }
   },
+  "zippee-aa6004f9-c7f2-4795-b424-49b1a4b45cfc": {
+    "name": "Zippee",
+    "ats": "keka",
+    "token": "zippee/aa6004f9-c7f2-4795-b424-49b1a4b45cfc",
+    "sourceUrl": "https://zippee.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://zippee.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "Zippee",
+      "identityEvidence": "provider_board",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 58,
+      "checkedAt": "2026-09-08T09:48:07.170Z",
+      "canonicalSourceUrl": "https://zippee.keka.com/careers"
+    }
+  },
   "zolve": {
     "name": "Zolve",
     "ats": "freshteam",
@@ -83576,6 +86836,25 @@
       "jobCount": 19,
       "checkedAt": "2026-09-07T14:00:02.859Z",
       "canonicalSourceUrl": "https://zolve.freshteam.com/jobs"
+    }
+  },
+  "zono-5421e060-c98c-4383-8744-81fc286f7bda": {
+    "name": "ZoTok",
+    "ats": "keka",
+    "token": "zono/5421e060-c98c-4383-8744-81fc286f7bda",
+    "sourceUrl": "https://zono.keka.com/careers",
+    "discoveredFrom": {
+      "channel": "provider_directory",
+      "reference": "https://zono.keka.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "ZoTok",
+      "identityEvidence": "provider_board",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "keka-embedjobs:v1",
+      "jobCount": 8,
+      "checkedAt": "2026-09-08T09:48:07.638Z",
+      "canonicalSourceUrl": "https://zono.keka.com/careers"
     }
   },
   "zoom": {
