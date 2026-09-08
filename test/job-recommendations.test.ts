@@ -364,3 +364,22 @@ function makeSnapshot(jobs: Job[], updatedAt = "2026-08-10T00:00:00Z"): JobSnaps
     lastCrawl: { startedAt: updatedAt, finishedAt: updatedAt, selected: 1, succeeded: 1, failed: [] },
   };
 }
+
+test("the recommendation payload stays small over a large index with long descriptions", async () => {
+  const long = "Java is required. " + "Build distributed services and own delivery end to end. ".repeat(120);
+  const jobs = Array.from({ length: 4000 }, (_, index) => ({ ...job(`j${index}`, index % 4 === 0 ? long : "Ruby on Rails is required. " + "Ship features. ".repeat(200)), title: index % 4 === 0 ? "Backend Engineer" : "Rails Developer" }));
+  const recommender = createJobRecommender({
+    sources: [source],
+    store: { read: async () => makeSnapshot(jobs, "2026-08-10T00:00:00Z"), write: async () => undefined },
+    crawl: async () => { throw new Error("must not crawl"); },
+    now: () => new Date("2026-08-11T00:00:00Z"),
+  });
+  const result = await recommender.recommend({ resume: { content: "Skills\nJava", format: "text" }, intent: { countries: ["IN"], roles: ["backend engineer"], excludedRoles: ["rails developer"] }, refresh: { policy: "never", staleDays: 14 }, limit: 20 });
+  const bytes = JSON.stringify(result).length;
+  expect(result.matches).toHaveLength(20);
+  expect(result.matches[0]!.job.description.length).toBeLessThanOrEqual(281);
+  expect(result.filteredOut.total).toBe(3000);
+  expect(result.filteredOut.byReason).toEqual({ role_excluded: 3000 });
+  expect(result.filteredOut.sample.length).toBeLessThanOrEqual(20);
+  expect(bytes).toBeLessThan(150_000);
+});

@@ -22,7 +22,8 @@ export interface RecommendJobsResult {
   profile: CandidateProfile;
   matches: JobMatch[];
   exploration: ReturnType<typeof matchJobs>["exploration"];
-  filteredOut: FilteredJob[];
+  /** Counts by reason plus a small sample: the full list once ran to every job in the index and blew past MCP payload limits. */
+  filteredOut: { total: number; byReason: Record<string, number>; sample: FilteredJob[] };
   assumptions: string[];
   ranking: { mode: "evidence" | "keyword"; minimumPercent: number };
   snapshot: SnapshotStatus;
@@ -143,15 +144,20 @@ function matchSnapshot(profile: CandidateProfile, intent: CandidateIntent, snaps
   return matchJobs(profile, intent, jobs, jobs.length, ranking);
 }
 
-function limitMatching<T extends ReturnType<typeof matchSnapshot>>(matching: T, limit = 20): T {
-  const matches = matching.matches.slice(0, Math.max(0, limit));
-  const ids = new Set(matches.map((match) => match.job.id));
-  return { ...matching, matches, exploration: {
-    ...matching.exploration,
-    directMatches: matching.exploration.directMatches.filter((match) => ids.has(match.job.id)),
-    hiddenMatches: matching.exploration.hiddenMatches.filter((match) => ids.has(match.job.id)),
-    stretchMatches: matching.exploration.stretchMatches.filter((match) => ids.has(match.job.id)),
-  } };
+const EXCERPT_CHARS = 280;
+/** Transport shape: descriptions become excerpts (get_job returns the full text), exploration lists carry the same compact matches, filtered jobs are summarised. */
+function limitMatching(matching: ReturnType<typeof matchSnapshot>, limit = 20): Omit<ReturnType<typeof matchSnapshot>, "filteredOut"> & { filteredOut: RecommendJobsResult["filteredOut"] } {
+  const compact = (match: JobMatch): JobMatch => ({ ...match, job: { ...match.job, description: match.job.description.length > EXCERPT_CHARS ? `${match.job.description.slice(0, EXCERPT_CHARS).trimEnd()}…` : match.job.description } });
+  const matches = matching.matches.slice(0, Math.max(0, limit)).map(compact);
+  const byId = new Map(matches.map((match) => [match.job.id, match]));
+  const pick = (list: JobMatch[]) => list.filter((match) => byId.has(match.job.id)).map((match) => byId.get(match.job.id)!);
+  const byReason: Record<string, number> = {};
+  for (const entry of matching.filteredOut) for (const reason of entry.reasons) { const key = reason.split(":")[0]!; byReason[key] = (byReason[key] ?? 0) + 1; }
+  return {
+    ...matching, matches,
+    exploration: { ...matching.exploration, directMatches: pick(matching.exploration.directMatches), hiddenMatches: pick(matching.exploration.hiddenMatches), stretchMatches: pick(matching.exploration.stretchMatches) },
+    filteredOut: { total: matching.filteredOut.length, byReason, sample: matching.filteredOut.slice(0, 20) },
+  };
 }
 
 function preCutoffMatchCount(matching: ReturnType<typeof matchSnapshot>): number {
