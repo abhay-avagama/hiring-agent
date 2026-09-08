@@ -164,16 +164,21 @@ async function probe(candidate: SourceCandidate, source: ResolvedSource, fetcher
       throw new VerificationError("unreachable", `HTTP ${response.status}`);
     }
     const contentType = response.headers.get("content-type") ?? "unknown";
-    let body: unknown;
-    try { body = await response.json(); } catch { throw new VerificationError("invalid_payload", "Endpoint did not return JSON"); }
     const spec = providerSpec(source.ats);
+    let body: unknown;
+    try { body = spec?.bodyFormat === "text" ? await response.text() : await response.json(); } catch { throw new VerificationError("invalid_payload", "Endpoint did not return JSON"); }
     const jobs = spec ? spec.jobsFromBody(body) : source.ats === "greenhouse" ? recordArray(body, "jobs") : source.ats === "lever" ? array(body) : source.ats === "workday" ? recordArray(body, "jobPostings") : source.ats === "recruitee" ? recordArray(body, "offers") : recordArray(body, "jobs");
     if (!jobs) throw new VerificationError("invalid_payload", "Payload does not contain the expected jobs array");
     if (jobs.length === 0) throw new VerificationError("empty_board", "Source has no jobs, so identity cannot be verified");
-    const providerName = spec ? spec.providerName(jobs, body) : source.ats === "greenhouse" ? majority(jobs.map((job) => stringField(job, "company_name")).filter(Boolean)) : source.ats === "workday" ? workday!.tenant : "";
+    let providerName = spec ? spec.providerName(jobs, body) : source.ats === "greenhouse" ? majority(jobs.map((job) => stringField(job, "company_name")).filter(Boolean)) : source.ats === "workday" ? workday!.tenant : "";
+    let infoWebsite = "";
+    if (spec?.companyInfo && !providerName) {
+      const info = await spec.companyInfo(source.token, async (url, format = "json") => { const reply = await fetchProbeWithRetry(fetcher, url, { signal: controller.signal }); if (!reply.ok) { await reply.body?.cancel().catch(() => undefined); throw new VerificationError("unreachable", `HTTP ${reply.status}`); } return format === "text" ? reply.text() : reply.json(); }).catch((): { name: string; website?: string } => ({ name: "" }));
+      providerName = info.name; infoWebsite = info.website ?? "";
+    }
     const tenantMatches = source.ats === "workday" && identityMatches(candidate.companyName, candidate.companyDomain, workday!.tenant, source.token);
     const namedProvider = source.ats === "greenhouse" || tenantMatches || Boolean(spec && providerName);
-    const hasDomainLink = !namedProvider && structuredIdentityLinksDomain(jobs, candidate.companyDomain);
+    const hasDomainLink = !namedProvider && (structuredIdentityLinksDomain(jobs, candidate.companyDomain) || Boolean(infoWebsite) && (infoWebsite === candidate.companyDomain.toLowerCase().replace(/^www\./, "") || infoWebsite.endsWith(`.${candidate.companyDomain.toLowerCase().replace(/^www\./, "")}`)));
     const hasRedirectEvidence = !namedProvider && await verifiedCompanyRedirect(candidate, source, resolveHost, headTransport, timeoutMs);
     const hasPageLink = !namedProvider && !hasDomainLink && !hasRedirectEvidence && await verifiedCompanyPageLink(candidate, source, resolveHost, pageTransport, timeoutMs);
     if (!namedProvider && !hasDomainLink && !hasRedirectEvidence && !hasPageLink) throw new VerificationError("identity_mismatch", `Neither structured identity fields, a verified company redirect, nor a company careers-page link point to ${candidate.companyDomain}`);

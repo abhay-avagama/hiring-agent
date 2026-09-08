@@ -34,3 +34,10 @@ test("US state codes in City, ST locations are states, not countries", () => {
   expect(classifyJob(job("IN - Pune")).eligibleCountries).toEqual(["IN"]);
   expect(classifyJob(job("IN-Maharashtra-Pune-7th-Floor")).eligibleCountries).toEqual(["IN"]);
 });
+
+test("Indian state codes beside a named India are states, not countries", () => {
+  for (const location of ["Hyderabad, TG, India", "Bengaluru, KA, India", "Mumbai, MH, India", "Panaji, GA, India"]) {
+    expect(classifyJob(job(location)).eligibleCountries).toEqual(["IN"]);
+  }
+  expect(classifyJob(job("Lomé, TG")).eligibleCountries).toEqual(["TG"]);
+});

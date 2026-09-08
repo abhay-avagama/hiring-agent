@@ -1,6 +1,6 @@
 import { expect, test } from "bun:test";
 import { createCatalog, fetchSourceJobs } from "../src/catalog.ts";
-import { plainText, resolveProviderSource } from "../src/providers.ts";
+import { plainText, providerSpec, resolveProviderSource } from "../src/providers.ts";
 import { resolveSource } from "../src/source-verification.ts";
 import { verifyBoards } from "../src/board-verification.ts";
 import type { Company } from "../src/types.ts";
@@ -84,4 +84,34 @@ test("Freshteam widget jobs carry branch locations, descriptions, and provider-h
   expect(jobs).toHaveLength(1);
   expect(jobs[0]).toMatchObject({ id: "freshteam:acme:hSxg4m", title: "Sales Specialist", location: "Delhi, Delhi, India", description: "Sell & grow", url: "https://tentimes.freshteam.com/jobs/hSxg4m", eligibleCountries: ["IN"] });
   expect(resolveSource("https://tentimes.freshteam.com/jobs/hSxg4m")).toMatchObject({ ats: "freshteam", token: "tentimes", structuredEndpoint: "https://tentimes.freshteam.com/hire/widgets/jobs.json" });
+});
+
+test("Keka tenants resolve with their org id, read the embed jobs API, and take the company name and website from the portal info", async () => {
+  const org = "24040a7e-a7c5-47a5-9cd5-019962c66385";
+  expect(resolveSource(`https://scimplify.keka.com/careers/api/embedjobs/default/active/${org}`)).toMatchObject({ ats: "keka", token: `scimplify/${org}`, canonicalSourceUrl: "https://scimplify.keka.com/careers" });
+  expect(resolveSource("https://scimplify.keka.com/careers")).toBeNull();
+  expect(resolveSource("https://www.keka.com/careers")).toBeNull();
+  const fetcher = (async (input: string | URL | Request) => {
+    const url = String(input);
+    if (url.endsWith("/careerportalinfo")) return Response.json({ name: "Scimplify", companyWebsite: "www.scimplify.com" });
+    return Response.json([{ id: 139355, title: "SDR Intern", description: "<p>Call <b>people</b></p>", jobLocations: [{ city: "Hyderabad", state: "TG", countryCode: "IN" }], publishedOn: "2026-08-31T09:45:24.62Z", jobType: 2 }]);
+  }) as unknown as typeof fetch;
+  const jobs = await fetchSourceJobs(company("keka", `scimplify/${org}`), fetcher);
+  expect(jobs[0]).toEqual(expect.objectContaining({ id: "keka:acme:139355", title: "SDR Intern", location: "Hyderabad, TG, India", eligibleCountries: ["IN"], updatedAt: "2026-08-31T09:45:24.62Z", url: "https://scimplify.keka.com/careers/jobdetails/139355", description: "Call people" }));
+  const spec = providerSpec("keka")!;
+  expect(await spec.companyInfo!(`scimplify/${org}`, async (url) => (await fetcher(url)).json())).toEqual({ name: "Scimplify", website: "scimplify.com" });
+});
+
+test("Zoho Recruit portals resolve from the careers path and read the RSS feed of open positions", async () => {
+  expect(resolveSource("https://gatesourcehrus.zohorecruit.com/jobs/Careers/730923000001270086/Remote-Tax-Manager")).toMatchObject({ ats: "zohorecruit", token: "gatesourcehrus.zohorecruit.com", structuredEndpoint: "https://gatesourcehrus.zohorecruit.com/jobs/Careers/rss" });
+  expect(resolveSource("https://acme.zohorecruit.in/jobs/Careers")).toMatchObject({ ats: "zohorecruit", token: "acme.zohorecruit.in" });
+  expect(resolveSource("https://acme.zohorecruit.com/recruit/Login")).toBeNull();
+  const rss = `<?xml version="1.0"?><rss version="2.0"><channel><title><![CDATA[GATESOURCE HR - Careers]]></title><link>https://gatesourcehrus.zohorecruit.com/jobs/Careers/rss</link>
+<item><title><![CDATA[Remote Tax Manager]]></title><link>https://gatesourcehrus.zohorecruit.com/jobs/Careers/730923000001270086/Remote-Tax-Manager?source=RSS</link><description><![CDATA[Category: Accounting <br><br>Location: Bengaluru Karnataka India <br><br><br><span id="spandesc"><div>A firm is hiring.</div></span>]]></description><guid isPermaLink="false">730923000001270086</guid><pubDate>Wed, 09 Aug 2023 12:00:00 PDT</pubDate></item></channel></rss>`;
+  const fetcher = (async () => new Response(rss, { status: 200, headers: { "content-type": "application/rss+xml" } })) as unknown as typeof fetch;
+  const jobs = await fetchSourceJobs(company("zohorecruit", "gatesourcehrus.zohorecruit.com"), fetcher);
+  expect(jobs[0]).toEqual(expect.objectContaining({ id: "zohorecruit:acme:730923000001270086", title: "Remote Tax Manager", location: "Bengaluru Karnataka India", eligibleCountries: ["IN"], url: "https://gatesourcehrus.zohorecruit.com/jobs/Careers/730923000001270086/Remote-Tax-Manager", description: "A firm is hiring." }));
+  expect(jobs[0]?.updatedAt).toBe("2023-08-09T19:00:00.000Z");
+  const spec = providerSpec("zohorecruit")!;
+  expect(spec.providerName([], rss)).toBe("GATESOURCE HR");
 });

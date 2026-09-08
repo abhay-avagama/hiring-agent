@@ -123,8 +123,12 @@ function detectCountries(location: string): string[] {
     return [...new Set(["US", ...byCode.filter((code) => !US_STATE_CODES.has(code))])];
   }
   if (byName.includes("US")) return [...new Set([...byName, ...byCode.filter((code) => !US_STATE_CODES.has(code))])];
+  // "Hyderabad, TG, India": a bare code next to a named India is an Indian state (TG Telangana, KA Karnataka), not Togo or Kazakhstan.
+  if (byName.includes("IN") || INDIA_PATTERN.test(location)) return [...new Set([...byName, ...byCode.filter((code) => !INDIA_STATE_CODES.has(code))])];
   return [...new Set([...byName, ...byCode])];
 }
+
+const INDIA_STATE_CODES = new Set(["AP", "AR", "AS", "BR", "CG", "CT", "GA", "GJ", "HR", "HP", "JH", "KA", "KL", "MP", "MH", "MN", "ML", "MZ", "NL", "OD", "OR", "PB", "RJ", "SK", "TN", "TG", "TS", "TR", "UP", "UK", "UT", "WB", "AN", "CH", "DN", "DD", "DL", "JK", "LA", "LD", "PY"]);
 
 function detectEligibleCountries(description: string): string[] {
   const matches: string[] = [];

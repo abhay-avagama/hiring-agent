@@ -129,14 +129,15 @@ async function probeBoard(lead: EnrichmentLead, fetcher: Fetch, timeoutMs: numbe
       : { signal: controller.signal };
     const response = await fetcher(source.structuredEndpoint, init);
     if (!response.ok) { await response.body?.cancel().catch(() => undefined); throw new BoardError(response.status === 404 || response.status === 410 ? "invalid_payload" : "unreachable", `HTTP ${response.status}`); }
-    let body: unknown;
-    try { body = await response.json(); } catch { throw new BoardError("invalid_payload", "Endpoint did not return JSON"); }
     const spec = providerSpec(source.ats);
+    let body: unknown;
+    try { body = spec?.bodyFormat === "text" ? await response.text() : await response.json(); } catch { throw new BoardError("invalid_payload", "Endpoint did not return JSON"); }
     const jobs = spec ? spec.jobsFromBody(body) : source.ats === "lever" ? asArray(body) : asArray(isRecord(body) ? body[source.ats === "recruitee" ? "offers" : source.ats === "workday" ? "jobPostings" : "jobs"] : undefined);
     if (!jobs) throw new BoardError("invalid_payload", "Payload does not contain the expected jobs array");
     if (jobs.length === 0) throw new BoardError("empty_board", "Board has no jobs");
-    const providerName = spec ? spec.providerName(jobs, body) : source.ats === "greenhouse" ? majority(jobs.map((job) => typeof job.company_name === "string" ? job.company_name.trim() : "").filter(Boolean)) : source.ats === "workday" ? humanize(source.token.split("/")[1] ?? source.token) : "";
+    let providerName = spec ? spec.providerName(jobs, body) : source.ats === "greenhouse" ? majority(jobs.map((job) => typeof job.company_name === "string" ? job.company_name.trim() : "").filter(Boolean)) : source.ats === "workday" ? humanize(source.token.split("/")[1] ?? source.token) : "";
     const payloadVersion = spec ? spec.payloadVersion(body) : source.ats === "greenhouse" ? "greenhouse-job-board:v1" : source.ats === "lever" ? "lever-postings:v0" : source.ats === "recruitee" ? "recruitee-careers:v1" : source.ats === "workday" ? "workday-cxs:v1" : `ashby-job-board:${isRecord(body) && typeof body.apiVersion === "string" ? body.apiVersion : "unknown"}`;
+    if (spec?.companyInfo && !providerName) providerName = (await spec.companyInfo(source.token, async (url, format = "json") => { const reply = await fetcher(url, { signal: controller.signal }); if (!reply.ok) { await reply.body?.cancel().catch(() => undefined); throw new BoardError("unreachable", `HTTP ${reply.status}`); } return format === "text" ? reply.text() : reply.json(); }).catch(() => ({ name: "" }))).name;
     const jobCount = source.ats === "workday" && isRecord(body) && typeof body.total === "number" ? body.total : jobs.length;
     return { providerName, contentType: response.headers.get("content-type") ?? "unknown", payloadVersion, jobCount };
   } finally { clearTimeout(timer); }

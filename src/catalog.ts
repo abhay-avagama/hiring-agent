@@ -143,7 +143,7 @@ export async function fetchSourceJobs(company: Company, fetcher: Fetch = globalT
   const spec = providerSpec(company.ats);
   if (spec) {
     const get = jsonGetter(fetcher, company.name, signal, observer);
-    const records = spec.fetchAll ? await spec.fetchAll(company.token, get) : spec.jobsFromBody(await get(spec.endpoint(company.token)));
+    const records = spec.fetchAll ? await spec.fetchAll(company.token, get) : spec.jobsFromBody(await get(spec.endpoint(company.token), spec.bodyFormat ?? "json"));
     if (!records) throw new Error(`${company.name} job board returned an invalid payload`);
     return records.map((record) => spec.normalize(company, record));
   }
@@ -249,10 +249,10 @@ async function fetchWorkdayJobs(company: Company, fetcher: Fetch, signal?: Abort
 
 /** JSON fetch with the catalog's retry and backoff, shaped for the table-driven providers. */
 function jsonGetter(fetcher: Fetch, companyName: string, signal?: AbortSignal, observer?: FetchJobsObserver): JsonGet {
-  return async (url) => {
+  return async (url, format = "json") => {
     const response = await fetchWithRetry(fetcher, url, signal ? { signal } : undefined, companyName, observer);
     if (!response.ok) { await response.body?.cancel().catch(() => undefined); throw new Error(`${companyName} job board returned HTTP ${response.status}`); }
-    return response.json();
+    return format === "text" ? response.text() : response.json();
   };
 }
 

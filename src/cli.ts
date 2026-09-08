@@ -19,6 +19,7 @@ import { generateCountryCoverageReport } from "./country-coverage.ts";
 import { probeJobPostingJsonLd } from "./jobposting-probe.ts";
 import { probeSites } from "./site-probe.ts";
 import { admitSites } from "./site-admission.ts";
+import { kekaTenantCandidates } from "./keka-tenants.ts";
 import { mergeAttemptedRoundLeads, prepareRecruiteeRoundArtifacts } from "./recruitee-round.ts";
 
 const HELP = `Openings — search public company job boards
@@ -39,6 +40,7 @@ Usage:
   openings sources probe-jobposting COMPANIES.md [--catalog FILE] [--report FILE] [--company-limit 10|20]
   openings sources probe-sites SEEDS.json [--sample N] [--limit N] [--concurrency N] [--max-pages N] [--delay-ms N] [--report FILE]
   openings sources admit-sites REPORT.json [--catalog FILE] [--min-postings N]
+  openings sources keka-tenants HOSTS.txt [--output FILE] [--concurrency N]
   openings sources prepare-recruitee-round IDENTITIES.json [--catalog FILE] [--artifacts DIR]
   openings sources merge-attempted-round-leads ISOLATED_REGISTRY [--registry FILE]
   openings search [words] [--country CODE|--india] [--location PLACE] [--remote|--onsite]
@@ -127,6 +129,15 @@ export async function run(args: string[]): Promise<number> {
       const report = await probeSites(inputPath, reportIndex >= 0 ? args[reportIndex + 1]! : ".openings/site-probe.json", { sample: num("--sample"), limit: num("--limit"), concurrency: num("--concurrency"), maxPages: num("--max-pages"), delayMs: num("--delay-ms") });
       const { sites, ...summary } = report;
       console.log(JSON.stringify({ ...summary, topSites: sites.slice(0, 15) }, null, 2));
+      return 0;
+    }
+    if (rest[0] === "keka-tenants") {
+      const args = rest.slice(1);
+      const hostsPath = args[0];
+      if (!hostsPath || hostsPath.startsWith("--")) return fail("sources keka-tenants requires a hosts file, one tenant host per line");
+      const outputIndex = args.indexOf("--output");
+      const concurrencyIndex = args.indexOf("--concurrency");
+      console.log(JSON.stringify(await kekaTenantCandidates(hostsPath, outputIndex >= 0 ? args[outputIndex + 1]! : "data/source-candidates.json", { concurrency: concurrencyIndex >= 0 ? Number(args[concurrencyIndex + 1]) : undefined }), null, 2));
       return 0;
     }
     if (rest[0] === "admit-sites") {

@@ -8,8 +8,8 @@ import type { Ats, Company, Job } from "./types.ts";
  */
 
 type Rec = Record<string, unknown>;
-/** Fetches a URL and returns its parsed JSON body; the caller supplies retry and pacing. */
-export type JsonGet = (url: string) => Promise<unknown>;
+/** Fetches a URL and returns its parsed JSON body (or the raw text when asked); the caller supplies retry and pacing. */
+export type JsonGet = (url: string, format?: "json" | "text") => Promise<unknown>;
 
 export interface ProviderSpec {
   ats: Ats;
@@ -21,8 +21,12 @@ export interface ProviderSpec {
   resolve(url: URL): string | null;
   canonicalUrl(token: string): string;
   endpoint(token: string): string;
+  /** "text" when the structured endpoint is not JSON (an RSS feed); `jobsFromBody` then receives the raw string. */
+  bodyFormat?: "json" | "text";
   jobsFromBody(body: unknown): Rec[] | null;
   providerName(jobs: Rec[], body: unknown): string;
+  /** Company identity from a separate tenant endpoint when the jobs payload carries no name; `website` is the company's own domain when the provider exposes it. */
+  companyInfo?(token: string, get: JsonGet): Promise<{ name: string; website?: string }>;
   payloadVersion(body: unknown): string;
   normalize(company: Company, job: Rec): Job;
   /** Fetches every record when the endpoint paginates. Defaults to one request to `endpoint`. */
@@ -179,7 +183,84 @@ const freshteam: ProviderSpec = {
   },
 };
 
-export const PROVIDERS: ReadonlyArray<ProviderSpec> = [smartrecruiters, workable, breezy, freshteam];
+/** Keka (India HRMS): the careers portal calls an unauthenticated embed API. Token is `tenant/orgId`; the org id sits in the portal shell. */
+const keka: ProviderSpec = {
+  ats: "keka",
+  label: "Keka",
+  hosts: ["keka.com"],
+  crawlPatterns: ["*.keka.com/careers*"],
+  resolve(url) {
+    const tenant = /^([a-z0-9-]+)\.keka\.com$/i.exec(url.hostname)?.[1]?.toLowerCase();
+    if (!tenant || ["www", "app", "hr", "academy", "developers", "help", "cdn", "api"].includes(tenant) && tenant !== "hr") return null;
+    const org = /\/(?:careers\/api\/embedjobs\/default\/active|ats\/documents)\/([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})/i.exec(url.pathname)?.[1];
+    return org ? `${tenant}/${org.toLowerCase()}` : null;
+  },
+  canonicalUrl: (token) => `https://${token.split("/")[0]}.keka.com/careers`,
+  endpoint: (token) => `https://${token.split("/")[0]}.keka.com/careers/api/embedjobs/default/active/${token.split("/")[1] ?? ""}`,
+  jobsFromBody: (body) => asRecords(body),
+  providerName: () => "",
+  async companyInfo(token, get) {
+    const body = await get(`https://${token.split("/")[0]}.keka.com/careers/api/organization/default/careerportalinfo`);
+    const website = isRecord(body) ? str(body.companyWebsite).replace(/^https?:\/\//, "").replace(/^www\./, "").split("/")[0] ?? "" : "";
+    return { name: isRecord(body) ? str(body.name) || str(body.shortName) : "", ...(website && !/keka\.com$/i.test(website) ? { website } : {}) };
+  },
+  payloadVersion: () => "keka-embedjobs:v1",
+  normalize(company, job) {
+    const places = asRecords(job.jobLocations) ?? [];
+    const location = places.map((place) => [str(place.city) || str(place.name), str(place.state), countryLabel(str(place.countryCode)) || str(place.countryName)].filter(Boolean).join(", ")).filter(Boolean).join("; ") || "Unspecified";
+    const remote = /remote/i.test(location) || job.jobType === 3;
+    return classifyJob({
+      id: `keka:${company.slug}:${str(job.id)}`, company: company.name, title: str(job.title), location,
+      remote, workMode: remote ? "remote" : "unknown",
+      eligibleCountries: [], excludedCountries: [], eligibleRegions: [], eligibilityConfidence: "unknown",
+      url: `https://${company.token.split("/")[0]}.keka.com/careers/jobdetails/${encodeURIComponent(str(job.id))}`,
+      updatedAt: str(job.publishedOn) || undefined, description: plainText(str(job.description)),
+    });
+  },
+};
+
+/** Zoho Recruit careers portals publish an RSS feed of open positions. Token is the portal host (tenant.zohorecruit.com or .in). */
+const zohorecruit: ProviderSpec = {
+  ats: "zohorecruit",
+  label: "Zoho Recruit",
+  hosts: ["zohorecruit.com", "zohorecruit.in", "zohorecruit.eu"],
+  crawlPatterns: ["*.zohorecruit.com/jobs/Careers*", "*.zohorecruit.in/jobs/Careers*"],
+  resolve(url) {
+    const match = /^([a-z0-9-]+)\.(zohorecruit\.(?:com|in|eu))$/i.exec(url.hostname);
+    if (!match || ["www", "help", "static", "img", "js", "css", "accounts"].includes(match[1]!.toLowerCase())) return null;
+    return /^\/jobs\/careers/i.test(url.pathname) ? url.hostname.toLowerCase() : null;
+  },
+  canonicalUrl: (token) => `https://${token}/jobs/Careers`,
+  endpoint: (token) => `https://${token}/jobs/Careers/rss`,
+  bodyFormat: "text",
+  jobsFromBody(body) {
+    if (typeof body !== "string" || !/<rss/i.test(body)) return null;
+    return [...body.matchAll(/<item>([\s\S]*?)<\/item>/gi)].map(([, item]) => ({
+      title: cdata(tag(item!, "title")), link: tag(item!, "link"), guid: cdata(tag(item!, "guid")), pubDate: tag(item!, "pubDate"), description: cdata(tag(item!, "description")),
+    }));
+  },
+  providerName: (_jobs, body) => (typeof body === "string" ? cdata(tag(body.split(/<item>/i)[0] ?? "", "title")).replace(/\s*[-–|]\s*careers?$/i, "").trim() : ""),
+  payloadVersion: () => "zohorecruit-rss:v1",
+  normalize(company, job) {
+    const html = str(job.description);
+    const locationText = plainText(/Location:\s*([\s\S]*?)(?:<br|<span|$)/i.exec(html)?.[1] ?? "").trim();
+    const description = plainText(html.replace(/^[\s\S]*?<span id="spandesc">/i, ""));
+    const remote = /remote/i.test(str(job.title)) || /remote/i.test(locationText);
+    const id = str(job.guid) || /\/jobs\/Careers\/(\d+)/i.exec(str(job.link))?.[1] || str(job.link);
+    const posted = Date.parse(str(job.pubDate));
+    return classifyJob({
+      id: `zohorecruit:${company.slug}:${id}`, company: company.name, title: str(job.title), location: locationText || "Unspecified",
+      remote, workMode: remote ? "remote" : "unknown",
+      eligibleCountries: [], excludedCountries: [], eligibleRegions: [], eligibilityConfidence: "unknown",
+      url: str(job.link).replace(/\?source=RSS$/i, ""), ...(Number.isFinite(posted) ? { updatedAt: new Date(posted).toISOString() } : {}), description,
+    });
+  },
+};
+
+function tag(xml: string, name: string): string { return new RegExp(`<${name}(?:\\s[^>]*)?>([\\s\\S]*?)</${name}>`, "i").exec(xml)?.[1]?.trim() ?? ""; }
+function cdata(value: string): string { return value.replace(/^<!\[CDATA\[([\s\S]*?)\]\]>$/, "$1").trim(); }
+
+export const PROVIDERS: ReadonlyArray<ProviderSpec> = [smartrecruiters, workable, breezy, freshteam, keka, zohorecruit];
 
 export function providerSpec(ats: string): ProviderSpec | undefined {
   return PROVIDERS.find((spec) => spec.ats === ats);
