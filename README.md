@@ -4,7 +4,7 @@ A free, candidate-safe job search for AI agents.
 
 Openings indexes public company job boards into a private index on your machine and exposes it to any MCP client. Your agent can find roles that fit a resume, explain the fit with evidence, and propose truthful resume improvements. There are no accounts, no API keys, no model calls, and no way to submit an application.
 
-- **Nine providers.** Greenhouse, Lever, Ashby, Workday, Recruitee, SmartRecruiters, Workable, Breezy, and Freshteam, crawled from their public structured endpoints. No HTML scraping.
+- **Eleven providers plus company sites.** Greenhouse, Lever, Ashby, Workday, Recruitee, SmartRecruiters, Workable, Breezy, Freshteam, Keka, and Zoho Recruit, crawled from their public structured endpoints, plus employer career sites read only through the schema.org JobPosting markup they publish for search engines. No free-form HTML scraping.
 - **Verified sources only.** Every company in the catalog passed an identity check against its own board.
 - **Resumes stay in memory.** Resume content is parsed for a single request and never written to disk.
 - **Honest coverage.** Before you share a resume, Openings tells you how many employers and jobs it actually has for your countries.
