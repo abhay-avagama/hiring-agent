@@ -1,6 +1,6 @@
 {
   "name": "openings",
-  "version": "0.1.22",
+  "version": "0.1.23",
   "description": "Find evidence-grounded jobs, including relevant roles you may not have searched for, without accounts or API keys.",
   "author": { "name": "Openings contributors" },
   "license": "MIT",
