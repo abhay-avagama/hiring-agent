@@ -21,6 +21,7 @@ import { probeSites } from "./site-probe.ts";
 import { admitSites } from "./site-admission.ts";
 import { kekaTenantCandidates } from "./keka-tenants.ts";
 import { collectJoobleSignals } from "./jooble-signals.ts";
+import { collectAdzunaSignals } from "./adzuna-signals.ts";
 import { mergeAttemptedRoundLeads, prepareRecruiteeRoundArtifacts } from "./recruitee-round.ts";
 
 const HELP = `Openings — search public company job boards
@@ -43,6 +44,7 @@ Usage:
   openings sources admit-sites REPORT.json [--catalog FILE] [--min-postings N]
   openings sources keka-tenants HOSTS.txt [--output FILE] [--registry FILE] [--concurrency N]
   openings sources jooble-signals [--location PLACE] [--max-pages N] [--output FILE]   (key from JOOBLE_API_KEY)
+  openings sources adzuna-signals [--country in] [--max-hits N] [--max-days-old N] [--output FILE]   (ADZUNA_APP_ID and ADZUNA_APP_KEY)
   openings sources prepare-recruitee-round IDENTITIES.json [--catalog FILE] [--artifacts DIR]
   openings sources merge-attempted-round-leads ISOLATED_REGISTRY [--registry FILE]
   openings search [words] [--country CODE|--india] [--location PLACE] [--remote|--onsite]
@@ -131,6 +133,15 @@ export async function run(args: string[]): Promise<number> {
       const report = await probeSites(inputPath, reportIndex >= 0 ? args[reportIndex + 1]! : ".openings/site-probe.json", { sample: num("--sample"), limit: num("--limit"), concurrency: num("--concurrency"), maxPages: num("--max-pages"), delayMs: num("--delay-ms") });
       const { sites, ...summary } = report;
       console.log(JSON.stringify({ ...summary, topSites: sites.slice(0, 15) }, null, 2));
+      return 0;
+    }
+    if (rest[0] === "adzuna-signals") {
+      const args = rest.slice(1);
+      const appId = process.env.ADZUNA_APP_ID; const appKey = process.env.ADZUNA_APP_KEY;
+      if (!appId || !appKey) return fail("sources adzuna-signals requires ADZUNA_APP_ID and ADZUNA_APP_KEY in the environment");
+      const value = (flag: string) => { const index = args.indexOf(flag); return index >= 0 ? args[index + 1] : undefined; };
+      const report = await collectAdzunaSignals(appId, appKey, value("--output") ?? ".openings/adzuna-signals.json", { country: value("--country"), maxHits: value("--max-hits") ? Number(value("--max-hits")) : undefined, maxDaysOld: value("--max-days-old") ? Number(value("--max-days-old")) : undefined });
+      console.log(JSON.stringify({ country: report.country, hits: report.hits, jobsSeen: report.jobsSeen, totalReported: report.totalReported, employers: report.employers.length, top: report.employers.slice(0, 10) }, null, 2));
       return 0;
     }
     if (rest[0] === "jooble-signals") {
