@@ -17,6 +17,7 @@ import { enrichSourcesFromCompanies } from "./source-enrichment.ts";
 import { forceReleaseFileLock, inspectFileLock } from "./file-lock.ts";
 import { generateCountryCoverageReport } from "./country-coverage.ts";
 import { probeJobPostingJsonLd } from "./jobposting-probe.ts";
+import { probeSites } from "./site-probe.ts";
 import { mergeAttemptedRoundLeads, prepareRecruiteeRoundArtifacts } from "./recruitee-round.ts";
 
 const HELP = `Openings — search public company job boards
@@ -35,6 +36,7 @@ Usage:
   openings sources enrich COMPANIES.json [--companies FILE]... [--evidence-kind authoritative_dataset|company_registry] [--registry FILE] [--output FILE] [--report FILE]
   openings sources trace-careers COMPANIES.json [--country CODE] [--registry FILE] [--common-crawl-report FILE] [--search-key-env NAME] [--output FILE] [--catalog FILE] [--report FILE]
   openings sources probe-jobposting COMPANIES.md [--catalog FILE] [--report FILE] [--company-limit 10|20]
+  openings sources probe-sites SEEDS.json [--sample N] [--limit N] [--concurrency N] [--max-pages N] [--delay-ms N] [--report FILE]
   openings sources prepare-recruitee-round IDENTITIES.json [--catalog FILE] [--artifacts DIR]
   openings sources merge-attempted-round-leads ISOLATED_REGISTRY [--registry FILE]
   openings search [words] [--country CODE|--india] [--location PLACE] [--remote|--onsite]
@@ -112,6 +114,17 @@ export async function run(args: string[]): Promise<number> {
       const parsed = parseMergeAttemptedRoundLeads(rest.slice(1));
       if (typeof parsed === "string") return fail(parsed);
       console.log(JSON.stringify(await mergeAttemptedRoundLeads(parsed.isolatedRegistryPath, parsed.registry), null, 2));
+      return 0;
+    }
+    if (rest[0] === "probe-sites") {
+      const args = rest.slice(1);
+      const inputPath = args[0];
+      if (!inputPath || inputPath.startsWith("--")) return fail("sources probe-sites requires a seeds JSON file");
+      const num = (flag: string) => { const index = args.indexOf(flag); return index >= 0 ? Number(args[index + 1]) : undefined; };
+      const reportIndex = args.indexOf("--report");
+      const report = await probeSites(inputPath, reportIndex >= 0 ? args[reportIndex + 1]! : ".openings/site-probe.json", { sample: num("--sample"), limit: num("--limit"), concurrency: num("--concurrency"), maxPages: num("--max-pages"), delayMs: num("--delay-ms") });
+      const { sites, ...summary } = report;
+      console.log(JSON.stringify({ ...summary, topSites: sites.slice(0, 15) }, null, 2));
       return 0;
     }
     if (rest[0] === "probe-jobposting") {
