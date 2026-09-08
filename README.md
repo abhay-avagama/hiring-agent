@@ -95,6 +95,8 @@ The packaged server reports each source you crawl to the shared Openings aggrega
 
 The server also sends anonymous usage events so we can see what people search for and improve coverage. Each install gets a random ID on first run, stored in the data directory. An event records the tool that ran, the countries, the intent fields you passed (roles, seniority, skills, remote, query text), the IDs of jobs you opened, and the skill and title values the parser extracted from a resume. It never includes the resume text, the quoted evidence, your name, or contact details, and no IP address is stored with it. Set `OPENINGS_USAGE=off` to stop usage events while keeping the shared index, or set `OPENINGS_AGGREGATOR_URL` to an empty string to keep everything local. The source entrypoint reports only when the aggregator variable is set.
 
+On startup the server makes one request to the npm registry to learn the latest version. If yours is older, every tool result carries an `updateAvailable` note so your AI app can tell you to run `bun add --global openings`. Nothing on your machine is changed automatically. Set `OPENINGS_UPDATE_CHECK=off` to skip the check.
+
 ## Privacy
 
 Job data comes straight from public ATS endpoints and is stored only on your machine. Your MCP client reads the resume file and passes its content to a tool; Openings never sees the path and never persists the content or anything derived from it. Every proposed change stays subject to your review.

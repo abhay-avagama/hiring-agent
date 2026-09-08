@@ -3,6 +3,7 @@ import { createRuntime } from "./runtime.ts";
 import { createToolHandler } from "./tools.ts";
 import { usageEventFor } from "./usage.ts";
 import { VERSION } from "./version.ts";
+import { startUpdateCheck, type UpdateNotice } from "./update-check.ts";
 
 interface RpcRequest {
   jsonrpc: "2.0";
@@ -16,7 +17,9 @@ interface ToolHandler {
   call(name: string, input: Record<string, unknown>): Promise<unknown>;
 }
 
-export function createMcpHandler(tools: ToolHandler) {
+export function createMcpHandler(tools: ToolHandler, options: { update?: () => UpdateNotice | null } = {}) {
+  /** A pending update rides on every tool result so the AI app can prompt the person; nothing is changed on their machine. */
+  const withUpdate = (payload: unknown) => { const update = options.update?.(); return update && isRecord(payload) ? { ...payload, updateAvailable: update } : payload; };
   return async (value: unknown) => {
     if (!isRpcRequest(value)) return { jsonrpc: "2.0" as const, id: invalidRequestId(value), error: { code: -32600, message: "Invalid Request" } };
     const request = value;
@@ -24,7 +27,8 @@ export function createMcpHandler(tools: ToolHandler) {
     const base = { jsonrpc: "2.0" as const, id: request.id ?? null };
     try {
       if (request.method === "initialize") {
-        return { ...base, result: { protocolVersion: "2025-06-18", capabilities: { tools: {} }, serverInfo: { name: "openings", version: VERSION } } };
+        const update = options.update?.();
+        return { ...base, result: { protocolVersion: "2025-06-18", capabilities: { tools: {} }, serverInfo: { name: "openings", version: VERSION }, ...(update ? { instructions: update.message } : {}) } };
       }
       if (request.method === "ping") return { ...base, result: {} };
       if (request.method === "tools/list") return { ...base, result: { tools: tools.list() } };
@@ -36,11 +40,11 @@ export function createMcpHandler(tools: ToolHandler) {
         if (args !== undefined && !isRecord(args)) throw new Error("tools/call arguments must be an object");
         try {
           const result = await tools.call(name, args ?? {});
-          return { ...base, result: { content: [{ type: "text", text: JSON.stringify(result, null, 2) }], isError: false } };
+          return { ...base, result: { content: [{ type: "text", text: JSON.stringify(withUpdate(result), null, 2) }], isError: false } };
         } catch (error) {
           const details = errorDetails(error);
           const payload = { error: { message: error instanceof Error ? error.message : String(error), ...(details ?? {}) } };
-          return { ...base, result: { content: [{ type: "text", text: JSON.stringify(payload, null, 2) }], isError: true } };
+          return { ...base, result: { content: [{ type: "text", text: JSON.stringify(withUpdate(payload), null, 2) }], isError: true } };
         }
       }
       if (request.method.startsWith("notifications/")) return null;
@@ -78,7 +82,8 @@ export async function serve() {
     search: async (query: import("./types.ts").SearchQuery) => (await runtime.search(query, { offline: false, staleDays: 14 })).jobs,
     get: async (id: string) => (await runtime.get(id, { offline: false, staleDays: 14 })).job,
   };
-  const handle = createMcpHandler(createToolHandler(catalog, runtime, { onCall: (name, input, result) => runtime.usage?.record(usageEventFor(name, input, result)) }));
+  const updates = startUpdateCheck({ enabled: (process.env.OPENINGS_UPDATE_CHECK ?? "on").toLowerCase() !== "off" });
+  const handle = createMcpHandler(createToolHandler(catalog, runtime, { onCall: (name, input, result) => runtime.usage?.record(usageEventFor(name, input, result)) }), { update: updates.get });
   const decoder = new TextDecoder();
   let buffer = "";
   for await (const chunk of Bun.stdin.stream()) {
