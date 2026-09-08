@@ -42,7 +42,10 @@ export async function resolveEmployers(signalsPath: string, options: { catalogPa
     async (guess) => { const reply = await ok(`https://boards-api.greenhouse.io/v1/boards/${encodeURIComponent(guess)}/jobs`); return reply?.ok ? `https://job-boards.greenhouse.io/${guess}` : null; },
     async (guess) => { const reply = await ok(`https://api.lever.co/v0/postings/${encodeURIComponent(guess)}?mode=json`); return reply?.ok ? `https://jobs.lever.co/${guess}` : null; },
     async (guess) => { const reply = await ok(`https://api.ashbyhq.com/posting-api/job-board/${encodeURIComponent(guess)}`); return reply?.ok ? `https://jobs.ashbyhq.com/${guess}` : null; },
-    async (guess) => { const reply = await ok(`https://api.smartrecruiters.com/v1/companies/${encodeURIComponent(guess)}/postings?limit=1`); return reply?.ok ? `https://jobs.smartrecruiters.com/${guess}` : null; },
+    async (guess) => { // SmartRecruiters answers 200 with an empty list for any name, so only a posting proves the company exists
+      report.requests += 1;
+      try { const reply = await fetcher(`https://api.smartrecruiters.com/v1/companies/${encodeURIComponent(guess)}/postings?limit=1`, { signal: AbortSignal.timeout(timeout) }); if (!reply.ok) { await reply.body?.cancel().catch(() => undefined); return null; } const body = await reply.json() as { totalFound?: number }; return (body.totalFound ?? 0) > 0 ? `https://jobs.smartrecruiters.com/${guess}` : null; } catch { return null; }
+    },
     async (guess) => { const reply = await ok(`https://apply.workable.com/api/v1/widget/accounts/${encodeURIComponent(guess)}`); return reply?.ok ? `https://apply.workable.com/${guess}/` : null; },
     async (guess) => { if (!/^[a-z0-9-]+$/.test(guess)) return null; const reply = await ok(`https://${guess}.keka.com/careers`); if (!reply?.ok) return null; try { const shell = await (await fetcher(`https://${guess}.keka.com/careers`, { signal: AbortSignal.timeout(timeout) })).text(); const org = /\/ats\/documents\/([0-9a-f-]{36})\//i.exec(shell)?.[1]; return org ? `https://${guess}.keka.com/careers/api/embedjobs/default/active/${org.toLowerCase()}` : null; } catch { return null; } },
   ];

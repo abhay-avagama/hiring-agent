@@ -13,6 +13,7 @@ test("employer names become token guesses and provider probes turn hits into boa
   await writeFile(catalogPath, JSON.stringify({ acme: { name: "Acme", companyDomain: "acme.test" } }));
   const fetcher = (async (url: string) => {
     if (url.startsWith("https://boards-api.greenhouse.io/v1/boards/livspace/")) return Response.json({ jobs: [] });
+    if (url.includes("api.smartrecruiters.com")) return Response.json({ totalFound: 0, content: [] });
     return new Response("", { status: 404 });
   }) as never;
   const headTransport = async (url: URL) => url.hostname !== "novartis.wd3.myworkdayjobs.com" ? new Response(null, { status: 404 }) : url.pathname === "/" ? new Response(null, { status: 302, headers: { location: "https://novartis.wd3.myworkdayjobs.com/en-US/Novartis_Careers" } }) : new Response(null, { status: 200 });
