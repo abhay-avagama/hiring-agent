@@ -13,7 +13,7 @@ import { createFileSnapshotStore } from "./snapshot-store.ts";
 import { createJobCoverageReader } from "./job-coverage.ts";
 import { createJobSearchPreparer } from "./job-search-preparation.ts";
 
-export function createRuntime(options: { dataDir?: string; concurrency?: number; crawlDelayMs?: number; workdayPageDelayMs?: number; workdayCountries?: string[]; sourceCacheHours?: number; sourceLimit?: number } = {}) {
+export function createRuntime(options: { dataDir?: string; concurrency?: number; crawlDelayMs?: number; workdayPageDelayMs?: number; workdayCountries?: string[]; sourceCacheHours?: number; sourceLimit?: number; timeoutMs?: number } = {}) {
   const workdayCountries = options.workdayCountries ?? (process.env.OPENINGS_WORKDAY_COUNTRIES ?? "IN,US").split(",").map((code) => code.trim().toUpperCase()).filter((code) => /^[A-Z]{2}$/.test(code));
   const dataDir = options.dataDir ?? process.env.OPENINGS_DATA_DIR ?? join(process.cwd(), ".openings");
   const store = createFileSnapshotStore(join(dataDir, "snapshot.json"));
@@ -25,6 +25,7 @@ export function createRuntime(options: { dataDir?: string; concurrency?: number;
     store,
     fetchJobs: (source, signal, observer) => fetchSourceJobs(source, globalThis.fetch, signal, observer),
     concurrency: options.concurrency,
+    timeoutMs: options.timeoutMs,
     sourceStartDelayMs: options.crawlDelayMs,
     sourceFreshnessMs: (options.sourceCacheHours ?? 0) * 60 * 60 * 1000,
     sourceLimit: options.sourceLimit,
