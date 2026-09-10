@@ -193,9 +193,34 @@ export async function fetchSourceJobs(company: Company, fetcher: Fetch = globalT
 }
 
 const WORKDAY_LISTING_CAP = 2000;
-/** Workday's country facet ids are the same on every tenant. Verified live on 2026-09-07. */
-const WORKDAY_COUNTRY_FACETS: Record<string, string> = { IN: "c4f78be1a8f14da0ab49ce1162348a5e", US: "bc33aa3152ec42d4995f4791a106ed09" };
+/** Country names as Workday tenants spell them in their facet lists. */
+const WORKDAY_COUNTRY_NAMES: Record<string, string[]> = { IN: ["india"], US: ["united states of america", "united states", "usa"] };
+/** Countries whose multi-location postings ("2 Locations") are labelled from the tenant's own country filter, not only on capped tenants. */
+const WORKDAY_LABEL_COUNTRIES = new Set(["IN"]);
 function workdayJobKey(job: WorkdayJob): string { return job.bulletFields?.[0] ?? job.externalPath; }
+
+export interface WorkdayCountryFacet { parameter: string; id: string; count: number }
+/**
+ * The tenant's own country filter, read from the facets of an unfiltered listing. Tenants name the parameter
+ * differently (locationCountry, Location_Country, custom fields), and a tenant that does not recognise a parameter
+ * silently returns everything, so the name must come from the tenant, never from a constant.
+ */
+export function workdayCountryFacets(facets: unknown): Map<string, WorkdayCountryFacet> {
+  const found = new Map<string, WorkdayCountryFacet>();
+  const walk = (node: unknown, parameter?: string) => {
+    if (Array.isArray(node)) { for (const child of node) walk(child, parameter); return; }
+    if (typeof node !== "object" || node === null) return;
+    const record = node as Record<string, unknown>;
+    const own = typeof record.facetParameter === "string" ? record.facetParameter : parameter;
+    if (own && /country/i.test(own) && typeof record.descriptor === "string" && typeof record.id === "string" && typeof record.count === "number") {
+      const name = record.descriptor.trim().toLowerCase();
+      for (const [code, names] of Object.entries(WORKDAY_COUNTRY_NAMES)) if (names.includes(name) && !found.has(code)) found.set(code, { parameter: own, id: record.id, count: record.count });
+    }
+    for (const value of Object.values(record)) if (typeof value === "object" && value !== null) walk(value, own);
+  };
+  walk(facets);
+  return found;
+}
 
 async function fetchWorkdayJobs(company: Company, fetcher: Fetch, signal?: AbortSignal, observer?: FetchJobsObserver): Promise<Job[]> {
   const source = parseWorkdayToken(company.token);
@@ -218,14 +243,14 @@ async function fetchWorkdayJobs(company: Company, fetcher: Fetch, signal?: Abort
       previousPageStart = pacingNow();
     } finally { release(); }
   }
-  async function page(offset: number, appliedFacets: Record<string, string[]> = {}): Promise<{ total: number; jobs: WorkdayJob[] }> {
+  async function page(offset: number, appliedFacets: Record<string, string[]> = {}): Promise<{ total: number; jobs: WorkdayJob[]; facets?: unknown }> {
     for (let attempt = 0; attempt < 3; attempt += 1) {
       await pacePageStart();
       const response = await fetcher(endpoint, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ appliedFacets, limit, offset, searchText: "" }), signal });
       if (response.ok) {
-        const body = await response.json() as { total?: unknown; jobPostings?: unknown };
+        const body = await response.json() as { total?: unknown; jobPostings?: unknown; facets?: unknown };
         if (!Number.isInteger(body.total) || !Array.isArray(body.jobPostings)) throw new Error(`${company.name} Workday source returned an invalid payload`);
-        return { total: body.total as number, jobs: body.jobPostings as WorkdayJob[] };
+        return { total: body.total as number, jobs: body.jobPostings as WorkdayJob[], facets: body.facets };
       }
       if (!isTransientStatus(response.status) || attempt === 2) { await response.body?.cancel().catch(() => undefined); throw new Error(`${company.name} job board returned HTTP ${response.status}`); }
       const delayMs = retryDelayMs(response, attempt);
@@ -253,24 +278,44 @@ async function fetchWorkdayJobs(company: Company, fetcher: Fetch, signal?: Abort
   await Promise.all(Array.from({ length: workerCount }, worker));
   const jobs = [first.jobs, ...pages].flat().slice(0, first.total);
   if (jobs.length !== first.total) throw new Error(`${company.name} Workday source returned ${jobs.length} of ${first.total} jobs`);
-  // Workday stops an unfiltered listing at 2,000 postings. For capped tenants, a per-country pass sees past the cap.
-  if (first.total >= WORKDAY_LISTING_CAP) {
-    const seen = new Set(jobs.map((job) => workdayJobKey(job)));
-    for (const code of observer?.workdayCountries ?? []) {
-      const facet = WORKDAY_COUNTRY_FACETS[code.toUpperCase()];
-      if (!facet) continue;
-      // Best effort: some tenants reject the facet with HTTP 400. The unfiltered 2,000 are still a valid crawl, so a failed pass is skipped, not fatal.
-      try {
-        const head = await page(0, { locationCountry: [facet] });
-        const extra = [head.jobs];
-        for (let offset = limit; offset < Math.min(head.total, WORKDAY_LISTING_CAP); offset += limit) extra.push((await page(offset, { locationCountry: [facet] })).jobs);
-        for (const job of extra.flat()) { const key = workdayJobKey(job); if (!seen.has(key)) { seen.add(key); jobs.push(job); } }
-      } catch (error) {
-        if (signal?.aborted) throw error;
+  // Two reasons to run a country pass with the tenant's own filter: past 2,000 postings the unfiltered listing stops,
+  // and multi-location postings read "2 Locations" there, so their countries are invisible without the filter.
+  const countryFacets = workdayCountryFacets(first.facets);
+  const seen = new Set(jobs.map((job) => workdayJobKey(job)));
+  const countryKeys = new Map<string, Set<string>>();
+  const normalizedFirst = jobs.map((job) => normalizeWorkday(company, source, job));
+  for (const code of (observer?.workdayCountries ?? []).map((value) => value.toUpperCase())) {
+    const facet = countryFacets.get(code);
+    if (!facet || facet.count === 0) continue;
+    const detected = normalizedFirst.filter((job) => job.eligibleCountries.includes(code)).length;
+    const capped = first.total >= WORKDAY_LISTING_CAP;
+    const unlabelled = WORKDAY_LABEL_COUNTRIES.has(code) && facet.count > detected;
+    if (!capped && !unlabelled) continue;
+    const applied = { [facet.parameter]: [facet.id] };
+    // Best effort: some tenants reject a filter with HTTP 400. The unfiltered listing is still a valid crawl.
+    try {
+      const head = await page(0, applied);
+      // A tenant that ignores the filter returns its whole listing; a total above the facet count means the filter did not apply.
+      if (head.total > facet.count + 5) continue;
+      const pages = [head.jobs];
+      for (let offset = limit; offset < Math.min(head.total, WORKDAY_LISTING_CAP); offset += limit) pages.push((await page(offset, applied)).jobs);
+      const keys = countryKeys.get(code) ?? new Set<string>();
+      for (const job of pages.flat()) {
+        const key = workdayJobKey(job);
+        keys.add(key);
+        if (!seen.has(key)) { seen.add(key); jobs.push(job); }
       }
+      countryKeys.set(code, keys);
+    } catch (error) {
+      if (signal?.aborted) throw error;
     }
   }
-  return jobs.map((job) => normalizeWorkday(company, source, job));
+  return jobs.map((job) => {
+    const normalized = normalizeWorkday(company, source, job);
+    const key = workdayJobKey(job);
+    const add = [...countryKeys].filter(([code, keys]) => keys.has(key) && !normalized.eligibleCountries.includes(code)).map(([code]) => code);
+    return add.length ? { ...normalized, eligibleCountries: [...normalized.eligibleCountries, ...add].sort(), excludedCountries: normalized.excludedCountries.filter((code) => !add.includes(code)), eligibilityConfidence: "explicit" as const } : normalized;
+  });
 }
 
 /** JSON fetch with the catalog's retry and backoff, shaped for the table-driven providers. */
