@@ -41,3 +41,5 @@ export { createToolHandler } from "./tools.ts";
 export { createMcpHandler, FLOW_INSTRUCTIONS } from "./mcp.ts";
 export type { UpdateNotice } from "./update-check.ts";
 export { VERSION } from "./version.ts";
+export { usageEventFor } from "./usage.ts";
+export type { UsageEvent } from "./usage.ts";
