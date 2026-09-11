@@ -1,7 +1,7 @@
 import { join } from "node:path";
 import type { SnapshotStore } from "./crawler.ts";
 import type { Company, SearchQuery } from "./types.ts";
-import { fetchSourceJobs } from "./catalog.ts";
+import { fetchJobDescription, fetchSourceJobs } from "./catalog.ts";
 import { createCrawlReporter, fetchSeedSnapshot, resolveAggregatorUrl } from "./crawl-reporting.ts";
 import { createUsageReporter, type UsageReporter } from "./usage.ts";
 import { VERSION } from "./version.ts";
@@ -33,6 +33,9 @@ export function createRuntime(options: { dataDir?: string; concurrency?: number;
     sourceLimit: options.sourceLimit,
     workdayPageDelayMs: options.workdayPageDelayMs,
     workdayCountries,
+    // Server crawls set OPENINGS_DESCRIBE_COUNTRIES (IN) to read required experience from Workday detail pages; installs skip the extra requests.
+    describe: (source, job) => fetchJobDescription(source, job, globalThis.fetch),
+    describeCountries: (process.env.OPENINGS_DESCRIBE_COUNTRIES ?? "").split(",").map((code) => code.trim().toUpperCase()).filter((code) => /^[A-Z]{2}$/.test(code)),
     onCrawled,
   });
   const recommender = createJobRecommender({ sources: companies, store, crawl: local.crawl });

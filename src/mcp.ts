@@ -21,6 +21,7 @@ interface ToolHandler {
 export const FLOW_INSTRUCTIONS = [
   "Openings flow: 1) call prepare_job_search for the person's countries; it is normally ready in one call. 2) Ask for the resume before exploring roles, because recommend_jobs ranks by evidence from it. 3) If the person declines a resume, use search_jobs with their keywords. 4) If they decline that too, use your judgement.",
   "Freshness: results start with roles posted in the last 7 days and widen to 14, 30, then everything only when fewer than 5 appear; each result carries age (new, older, stale, undated) and postedDaysAgo. Say which window results came from and present older or stale roles as possibly still open, never as current.",
+  "Experience: a job's experience field is the years its posting states ({ min, max }); null means the posting states none, and absent means it was not read. Quote it as the employer's requirement.",
   "Every match carries applyUrl, the employer's own posting; include it. When recommend_jobs reports no_matches, relay its explanation and nextMoves instead of searching silently.",
 ].join("\n");
 

@@ -66,6 +66,8 @@ export interface SourceVerificationResult {
   rejected: RejectedSource[];
 }
 
+import type { Experience } from "./experience.ts";
+
 export type WorkMode = "remote" | "hybrid" | "onsite" | "unknown";
 export type EligibilityConfidence = "explicit" | "inferred" | "unknown";
 
@@ -83,6 +85,8 @@ export interface JobSummary {
   url: string;
   /** Posting date when the board exposes one (Workday's relative label is approximate), otherwise the board's last-update time. */
   updatedAt?: string;
+  /** Years of experience the posting states, read from its description. null: the description states none. Absent: not read yet. */
+  experience?: Experience | null;
   /** Days since the posting date at the time of the search; absent when the board gave no date. */
   postedDaysAgo?: number;
   /** new = 7 days or less, older = 8 to 30, stale = beyond 30, undated = no posting date. Present it as such; a stale listing may still be open. */

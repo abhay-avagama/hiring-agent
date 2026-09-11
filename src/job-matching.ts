@@ -1,3 +1,4 @@
+import { experienceLabel } from "./experience.ts";
 import { validateCandidateProfileEvidence, type CandidateProfile } from "./candidate-profile.ts";
 import { isEligibleForCountry, normalizeLocation } from "./locations.ts";
 import { detectRequirementTerms, findTransferability, matchesExactSkillEvidence, requiresExactSkillEvidence, type TransferabilityKind } from "./requirement-vocabulary.ts";
@@ -258,6 +259,13 @@ function supportedRequirements(profile: CandidateProfile, requirements: string[]
 const seniorityTerms = ["manager", "principal", "staff", "lead", "senior", "mid", "junior", "intern"] as const;
 function seniorityAlignment(profile: CandidateProfile, intent: CandidateIntent, job: Job): { score: number; reason?: string } {
   const requested = intent.seniority?.map((value) => value.toLocaleLowerCase()) ?? profile.inferences.filter((inference) => inference.kind === "seniority").map((inference) => inference.value);
+  const resumeYears = profile.inferences.find((inference) => inference.kind === "approximate_experience_years")?.value;
+  if (job.experience && typeof resumeYears === "number" && !intent.seniority?.length) {
+    // The posting's own range is better evidence than a seniority word in the title. A year short or a few over still fits.
+    const asked = experienceLabel(job.experience);
+    const fits = resumeYears >= job.experience.min - 1 && (job.experience.max === undefined || resumeYears <= job.experience.max + 3);
+    return { score: fits ? 3 : -3, reason: `posting asks for ${asked}; resume shows about ${resumeYears} years` };
+  }
   const jobSeniority = seniorityTerms.find((term) => includesPhrase(job.title, term));
   if (!jobSeniority) return { score: 0 };
   if (!requested.length) {

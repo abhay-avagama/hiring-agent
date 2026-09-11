@@ -197,3 +197,30 @@ test("zero source delay preserves concurrent crawl behavior without sleeping", a
   await crawler.crawl([{ slug: "immediate", name: "Immediate", ats: "lever", token: "immediate" }]);
   expect(sleeps).toBe(0);
 });
+
+test("required experience comes from the description, the last crawl, or one detail fetch for recent roles in the chosen countries", async () => {
+  const listed = (id: string, extra: Partial<Job>): Job => ({ ...job(id, "Acme"), description: "", eligibleCountries: ["IN"], updatedAt: "2026-08-08", ...extra });
+  let snapshot: JobSnapshot = {
+    version: 1, updatedAt: "2026-08-09T00:00:00.000Z",
+    partitions: { acme: { fetchedAt: "2026-08-09T00:00:00.000Z", jobs: [{ ...listed("workday:acme:known", {}), experience: { min: 4 } }] } },
+    lastCrawl: { startedAt: "2026-08-09T00:00:00.000Z", finishedAt: "2026-08-09T00:00:00.000Z", selected: 1, succeeded: 1, failed: [] },
+  };
+  const store: SnapshotStore = { read: async () => snapshot, write: async (next) => { snapshot = next; } };
+  const described: string[] = [];
+  const crawler = createCrawler({
+    store, now: () => new Date("2026-08-10T10:00:00.000Z"), describeCountries: ["IN"],
+    describe: async (_source, target) => { described.push(target.id); return target.id.endsWith("silent") ? "Join a great team." : "Experience: 2-5 years"; },
+    fetchJobs: async () => [
+      listed("workday:acme:inline", { description: "7+ years of experience in Java" }),
+      listed("workday:acme:known", {}),
+      listed("workday:acme:new", {}),
+      listed("workday:acme:silent", {}),
+      listed("workday:acme:us", { eligibleCountries: ["US"] }),
+      listed("workday:acme:old", { updatedAt: "2026-06-01" }),
+    ],
+  });
+  await crawler.crawl([{ slug: "acme", name: "Acme", ats: "workday", token: "acme.wd1.myworkdayjobs.com/acme/Careers" }]);
+  const experience = Object.fromEntries(snapshot.partitions.acme!.jobs.map((item) => [item.id.split(":")[2], item.experience]));
+  expect(experience).toEqual({ inline: { min: 7 }, known: { min: 4 }, new: { min: 2, max: 5 }, silent: null, us: undefined, old: undefined });
+  expect(described).toEqual(["workday:acme:new", "workday:acme:silent"]);
+});

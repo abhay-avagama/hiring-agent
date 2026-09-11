@@ -99,12 +99,7 @@ export function createCatalog(options: CatalogOptions): Catalog {
       const company = options.companies.find((candidate) => candidate.ats === ats && candidate.slug === slug);
       if (!company) return null;
       let job = (await fetchJobs(company)).find((candidate) => candidate.id === id) ?? null;
-      if (job && company.ats === "workday" && !job.description.trim()) {
-        const description = await fetchWorkdayDescription(company, job.url, fetcher);
-        job = { ...job, description };
-      }
-      const spec = job && !job.description.trim() ? providerSpec(company.ats) : undefined;
-      if (job && spec?.detail) job = { ...job, description: await spec.detail(company, job, jsonGetter(fetcher, company.name)) };
+      if (job && !job.description.trim()) job = { ...job, description: await fetchJobDescription(company, job, fetcher) };
       if (job && !job.description.trim()) throw new Error(`Full description unavailable for job: ${id}`);
       return job;
     },
@@ -400,6 +395,13 @@ export function workdayPostedAt(label: string | undefined, now: number = Date.no
   else { const match = /(\d+)\+?\s*days?\s*ago/.exec(text); if (match) days = Number(match[1]) + (text.includes("+") ? 1 : 0); }
   if (days === undefined) return undefined;
   return new Date(now - days * 86_400_000).toISOString().slice(0, 10);
+}
+
+/** The full description for a job whose listing carried none (Workday and providers with a detail endpoint); "" when there is no detail source. */
+export async function fetchJobDescription(company: Company, job: Job, fetcher: Fetch): Promise<string> {
+  if (company.ats === "workday") return fetchWorkdayDescription(company, job.url, fetcher);
+  const spec = providerSpec(company.ats);
+  return spec?.detail ? spec.detail(company, job, jsonGetter(fetcher, company.name)) : "";
 }
 
 async function fetchWorkdayDescription(company: Company, jobUrl: string, fetcher: Fetch): Promise<string> {
