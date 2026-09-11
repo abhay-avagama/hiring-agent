@@ -117,4 +117,36 @@ const capgemini: ProviderSpec = {
   },
 };
 
-export const PORTALS: ProviderSpec[] = [accenture, infosys, capgemini];
+/** Amazon's public job search (amazon.jobs/en/search.json; robots.txt disallows only /internal). Token is the ISO-3 country code. */
+const amazon: ProviderSpec = {
+  ats: "amazon", label: "Amazon jobs", hosts: ["amazon.jobs"], crawlPatterns: [],
+  resolve(url) { return /(^|\.)amazon\.jobs$/i.test(url.hostname) ? (url.searchParams.get("normalized_country_code[]") ?? null) : null; },
+  canonicalUrl: (token) => `https://www.amazon.jobs/en/search?normalized_country_code%5B%5D=${encodeURIComponent(token)}`,
+  endpoint: (token) => `https://www.amazon.jobs/en/search.json?normalized_country_code%5B%5D=${encodeURIComponent(token)}&result_limit=100&sort=recent&offset=0`,
+  jobsFromBody: (body) => (isRecord(body) ? asRecords(body.jobs) : null),
+  providerName: () => "Amazon",
+  payloadVersion: () => "amazon-jobs-search:v1",
+  async fetchAll(token, get) {
+    const records: Rec[] = [];
+    for (let offset = 0; offset < 10_000; offset += 100) {
+      const reply = await get(`https://www.amazon.jobs/en/search.json?normalized_country_code%5B%5D=${encodeURIComponent(token)}&result_limit=100&sort=recent&offset=${offset}`);
+      const page = amazon.jobsFromBody(reply) ?? [];
+      records.push(...page.map((row) => Object.fromEntries(AMAZON_FIELDS.map((key) => [key, row[key]]))));
+      const total = isRecord(reply) ? Number(reply.hits) : 0;
+      if (page.length < 100 || records.length >= total) break;
+    }
+    return records;
+  },
+  normalize(company, record) {
+    const posted = Date.parse(`${str(record.posted_date)} 00:00:00 UTC`);
+    const description = [plainText(str(record.description_short)), str(record.basic_qualifications) && `Basic qualifications:\n${plainText(str(record.basic_qualifications))}`, str(record.preferred_qualifications) && `Preferred qualifications:\n${plainText(str(record.preferred_qualifications))}`].filter(Boolean).join("\n\n").slice(0, 3_000);
+    const country = str(record.country_code) === "IND" ? "India" : str(record.country_code) === "USA" ? "United States" : str(record.country_code);
+    return job(company, str(record.id_icims) || str(record.id), {
+      title: str(record.title), location: [str(record.city), str(record.state), country].filter(Boolean).join(", "),
+      url: `https://www.amazon.jobs${str(record.job_path)}`, ...(Number.isFinite(posted) ? { updatedAt: iso(posted) } : {}), description,
+    });
+  },
+};
+const AMAZON_FIELDS = ["id", "id_icims", "title", "city", "state", "country_code", "posted_date", "job_path", "description_short", "basic_qualifications", "preferred_qualifications"];
+
+export const PORTALS: ProviderSpec[] = [accenture, infosys, capgemini, amazon];

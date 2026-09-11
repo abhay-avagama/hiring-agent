@@ -108176,5 +108176,28 @@
       "payloadVersion": "capgemini-jobstream:v1",
       "jobCount": 922
     }
+  },
+  "amazon-india": {
+    "name": "Amazon",
+    "ats": "amazon",
+    "token": "IND",
+    "companyDomain": "amazon.jobs",
+    "sourceUrl": "https://www.amazon.jobs/en/search?normalized_country_code%5B%5D=IND",
+    "cohorts": [
+      "IN"
+    ],
+    "discoveredFrom": {
+      "channel": "career_page",
+      "reference": "https://www.amazon.jobs/en/search?normalized_country_code%5B%5D=IND"
+    },
+    "verification": {
+      "checkedAt": "2026-09-11T06:43:09.522600+00:00",
+      "canonicalSourceUrl": "https://www.amazon.jobs/en/search?normalized_country_code%5B%5D=IND",
+      "observedCompanyName": "Amazon",
+      "identityEvidence": "company_site",
+      "contentType": "application/json",
+      "payloadVersion": "amazon-jobs-search:v1",
+      "jobCount": 2368
+    }
   }
 }

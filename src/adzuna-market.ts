@@ -77,8 +77,12 @@ function keysFor(name: string): string[] {
   const words = name.toLowerCase().replace(/&/g, " and ").replace(/[^a-z0-9 ]+/g, " ").split(/\s+/).filter(Boolean);
   const core = words.filter((word) => !STOP.has(word));
   const base = core.length ? core : words;
-  return [...new Set([base.join(""), words.join(""), base[0] ?? ""].filter((key) => key.length >= 4))];
+  const full = base.join("");
+  // A short whole name (JLL, MSD, ABB) is still a name; only a lone first word needs four letters to avoid false matches.
+  return [...new Set([full, words.join(""), ...(ALIASES[full] ?? []), ...(base[0] && base[0].length >= 4 ? [base[0]] : [])].filter((key) => key.length >= 2))];
 }
+/** Employers our catalog knows under a provider tenant that looks nothing like the name Adzuna shows. */
+const ALIASES: Record<string, string[]> = { pricewaterhousecoopers: ["pwc"], deutschebank: ["db"], standardchartered: ["standard"], spglobal: ["spgi"], jonesianglasalle: ["jll"], merck: ["msd"], johnsonandjohnson: ["jj"], wellsfargo: ["wf"], northropgrumman: ["ngc"] };
 
 /** Which of the market's employers the catalog covers, matched on slugs, names, provider tenants, and company domains. */
 export function marketCoverage(state: MarketState, catalog: Record<string, { name: string; token: string; companyDomain?: string }>, limit = 50): MarketCoverage {

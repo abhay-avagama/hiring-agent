@@ -25,3 +25,14 @@ test("the market map samples pages evenly within the allowance, dedupes across r
   expect(coverage).toEqual(expect.objectContaining({ employers: 2, coveredEmployers: 1, coveredPostings: 25 }));
   expect(coverage.uncovered[0]).toEqual({ name: "Zeta Labs Pvt Ltd", postings: 25, cities: ["Bengaluru"] });
 });
+
+test("short names and known aliases count as covered", () => {
+  const state = { country: "in", updatedAt: "", runs: 1, hitsUsed: 1, seen: {}, employers: {
+    jll: { name: "JLL", postings: 11, firstSeen: "", lastSeen: "", cities: {}, categories: {} },
+    pwc: { name: "PricewaterhouseCoopers", postings: 28, firstSeen: "", lastSeen: "", cities: {}, categories: {} },
+    acme: { name: "Acme", postings: 2, firstSeen: "", lastSeen: "", cities: {}, categories: {} },
+  } };
+  const coverage = marketCoverage(state, { jll: { name: "Jll", token: "jll.wd1.myworkdayjobs.com/jll/jllcareers" }, pwc: { name: "Pwc", token: "pwc.wd3.myworkdayjobs.com/pwc/Global_Experienced_Careers" } });
+  expect(coverage.coveredEmployers).toBe(2);
+  expect(coverage.uncovered.map((employer) => employer.name)).toEqual(["Acme"]);
+});

@@ -33,3 +33,14 @@ test("Infosys and Capgemini normalise to India roles with the employer's own lin
   const capgemini = await fetchSourceJobs(company("capgemini", "in-en"), (async () => Response.json({ data: [{ id: "1-en_GB_SAPBTP", ref: "1-en_GB", source: "SAP_BTP", title: "WMS Lead", location: "Bangalore", country_name: "India", updated_at: "2026-09-10T14:36:26.000Z", description_stripped: "Lead WMS rollouts" }] })) as unknown as typeof fetch);
   expect(capgemini[0]).toEqual(expect.objectContaining({ title: "WMS Lead", eligibleCountries: ["IN"], url: "https://www.capgemini.com/in-en/jobs/1-en_GB+sap_btp" }));
 });
+
+test("Amazon pages by country until its total and keeps exact posting dates", async () => {
+  const pages = [Array.from({ length: 100 }, (_, i) => ({ id_icims: `A${i}`, title: "Software Dev Engineer 2", city: "Bengaluru", state: "KA", country_code: "IND", posted_date: "September 10, 2026", job_path: `/en/jobs/A${i}/sde`, description_short: "Build services", basic_qualifications: "- 3+ years", description: "x".repeat(5000) })), [{ id_icims: "B1", title: "Program Manager", city: "Hyderabad", state: "TG", country_code: "IND", posted_date: "September  7, 2026", job_path: "/en/jobs/B1/pm" }]];
+  let call = 0;
+  const jobs = await fetchSourceJobs(company("amazon", "IND"), (async () => Response.json({ hits: 101, jobs: pages[call++] ?? [] })) as unknown as typeof fetch);
+  expect(call).toBe(2);
+  expect(jobs).toHaveLength(101);
+  expect(jobs[0]).toEqual(expect.objectContaining({ id: "amazon:acme:A0", location: "Bengaluru, KA, India", eligibleCountries: ["IN"], updatedAt: "2026-09-10T00:00:00.000Z", url: "https://www.amazon.jobs/en/jobs/A0/sde" }));
+  expect(jobs[100]!.location).toBe("Hyderabad, TG, India"); // Telangana, not Togo
+  expect(jobs[0]!.description).toContain("Basic qualifications");
+});
