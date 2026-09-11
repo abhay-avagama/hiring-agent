@@ -23,6 +23,7 @@ import { kekaTenantCandidates } from "./keka-tenants.ts";
 import { collectJoobleSignals } from "./jooble-signals.ts";
 import { collectAdzunaSignals } from "./adzuna-signals.ts";
 import { resolveEmployers } from "./employer-resolver.ts";
+import { marketCoverage, sampleAdzunaMarket } from "./adzuna-market.ts";
 import { mergeAttemptedRoundLeads, prepareRecruiteeRoundArtifacts } from "./recruitee-round.ts";
 
 const HELP = `Openings — search public company job boards
@@ -46,6 +47,7 @@ Usage:
   openings sources keka-tenants HOSTS.txt [--output FILE] [--registry FILE] [--concurrency N]
   openings sources jooble-signals [--location PLACE] [--max-pages N] [--output FILE]   (key from JOOBLE_API_KEY)
   openings sources adzuna-signals [--country in] [--max-hits N] [--max-days-old N] [--output FILE]   (ADZUNA_APP_ID and ADZUNA_APP_KEY)
+  openings sources adzuna-market [--country in] [--max-hits 75] [--state FILE] [--catalog FILE]   (daily sample of who is hiring; ADZUNA_APP_ID and ADZUNA_APP_KEY)
   openings sources resolve-employers SIGNALS.json [--catalog FILE] [--registry FILE] [--min-jobs N] [--limit N] [--concurrency N] [--report FILE]
   openings sources prepare-recruitee-round IDENTITIES.json [--catalog FILE] [--artifacts DIR]
   openings sources merge-attempted-round-leads ISOLATED_REGISTRY [--registry FILE]
@@ -135,6 +137,18 @@ export async function run(args: string[]): Promise<number> {
       const report = await probeSites(inputPath, reportIndex >= 0 ? args[reportIndex + 1]! : ".openings/site-probe.json", { sample: num("--sample"), limit: num("--limit"), concurrency: num("--concurrency"), maxPages: num("--max-pages"), delayMs: num("--delay-ms") });
       const { sites, ...summary } = report;
       console.log(JSON.stringify({ ...summary, topSites: sites.slice(0, 15) }, null, 2));
+      return 0;
+    }
+    if (rest[0] === "adzuna-market") {
+      const args = rest.slice(1);
+      const appId = process.env.ADZUNA_APP_ID; const appKey = process.env.ADZUNA_APP_KEY;
+      if (!appId || !appKey) return fail("sources adzuna-market requires ADZUNA_APP_ID and ADZUNA_APP_KEY in the environment");
+      const value = (flag: string) => { const index = args.indexOf(flag); return index >= 0 ? args[index + 1] : undefined; };
+      const statePath = value("--state") ?? ".openings/adzuna-market.json";
+      const run = await sampleAdzunaMarket(appId, appKey, statePath, { country: value("--country"), maxHits: value("--max-hits") ? Number(value("--max-hits")) : undefined });
+      const catalog = JSON.parse(await readFile(value("--catalog") ?? "data/companies.json", "utf8"));
+      const coverage = marketCoverage(run.state, catalog, 40);
+      console.log(JSON.stringify({ run: { hits: run.hits, postingsInLastDay: run.dayTotal, newPostings: run.newPostings, newEmployers: run.newEmployers, runs: run.state.runs, hitsUsed: run.state.hitsUsed }, market: { employers: coverage.employers, postings: coverage.postings, coveredEmployers: coverage.coveredEmployers, coveredPostings: coverage.coveredPostings, coveredShare: coverage.postings ? Math.round((100 * coverage.coveredPostings) / coverage.postings) : 0 }, uncovered: coverage.uncovered }, null, 2));
       return 0;
     }
     if (rest[0] === "resolve-employers") {
