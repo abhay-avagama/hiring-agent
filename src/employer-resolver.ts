@@ -46,7 +46,10 @@ export async function resolveEmployers(signalsPath: string, options: { catalogPa
       report.requests += 1;
       try { const reply = await fetcher(`https://api.smartrecruiters.com/v1/companies/${encodeURIComponent(guess)}/postings?limit=1`, { signal: AbortSignal.timeout(timeout) }); if (!reply.ok) { await reply.body?.cancel().catch(() => undefined); return null; } const body = await reply.json() as { totalFound?: number }; return (body.totalFound ?? 0) > 0 ? `https://jobs.smartrecruiters.com/${guess}` : null; } catch { return null; }
     },
-    async (guess) => { const reply = await ok(`https://apply.workable.com/api/v1/widget/accounts/${encodeURIComponent(guess)}`); return reply?.ok ? `https://apply.workable.com/${guess}/` : null; },
+    async (guess) => { // Workable answers any account name; only a board with jobs proves the company exists
+      report.requests += 1;
+      try { const reply = await fetcher(`https://apply.workable.com/api/v1/widget/accounts/${encodeURIComponent(guess)}`, { signal: AbortSignal.timeout(timeout) }); if (!reply.ok) { await reply.body?.cancel().catch(() => undefined); return null; } const body = await reply.json() as { jobs?: unknown[] }; return Array.isArray(body.jobs) && body.jobs.length > 0 ? `https://apply.workable.com/${guess}/` : null; } catch { return null; }
+    },
     async (guess) => { if (!/^[a-z0-9-]+$/.test(guess)) return null; const reply = await ok(`https://${guess}.keka.com/careers`); if (!reply?.ok) return null; try { const shell = await (await fetcher(`https://${guess}.keka.com/careers`, { signal: AbortSignal.timeout(timeout) })).text(); const org = /\/ats\/documents\/([0-9a-f-]{36})\//i.exec(shell)?.[1]; return org ? `https://${guess}.keka.com/careers/api/embedjobs/default/active/${org.toLowerCase()}` : null; } catch { return null; } },
   ];
   const leads: EnrichmentLead[] = [];
