@@ -969,7 +969,7 @@
     }
   },
   "3m": {
-    "name": "3m",
+    "name": "3M",
     "ats": "workday",
     "token": "3m.wd1.myworkdayjobs.com/3m/Search",
     "sourceUrl": "https://3m.wd1.myworkdayjobs.com/en-US/Search",
@@ -978,7 +978,7 @@
       "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
     },
     "verification": {
-      "observedCompanyName": "3m",
+      "observedCompanyName": "3M",
       "identityEvidence": "provider_board",
       "contentType": "application/json",
       "payloadVersion": "workday-cxs:v1",
@@ -11034,7 +11034,7 @@
     }
   },
   "amat": {
-    "name": "Amat",
+    "name": "Applied Materials",
     "ats": "workday",
     "token": "amat.wd1.myworkdayjobs.com/amat/External",
     "sourceUrl": "https://amat.wd1.myworkdayjobs.com/en-US/External",
@@ -11043,7 +11043,7 @@
       "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
     },
     "verification": {
-      "observedCompanyName": "Amat",
+      "observedCompanyName": "Applied Materials",
       "identityEvidence": "provider_board",
       "contentType": "application/json",
       "payloadVersion": "workday-cxs:v1",
@@ -23127,7 +23127,7 @@
     }
   },
   "bakertilly": {
-    "name": "Bakertilly",
+    "name": "Baker Tilly",
     "ats": "workday",
     "token": "bakertilly.wd5.myworkdayjobs.com/bakertilly/BTCareers",
     "sourceUrl": "https://bakertilly.wd5.myworkdayjobs.com/en-US/BTCareers",
@@ -23136,7 +23136,7 @@
       "reference": "common-crawl-workday-host:bakertilly"
     },
     "verification": {
-      "observedCompanyName": "Bakertilly",
+      "observedCompanyName": "Baker Tilly",
       "identityEvidence": "provider_board",
       "contentType": "application/json",
       "payloadVersion": "workday-cxs:v1",
@@ -36962,6 +36962,25 @@
       "canonicalSourceUrl": "https://sjinnovation.keka.com/careers"
     }
   },
+  "careerbloc": {
+    "name": "Career bloc",
+    "ats": "smartrecruiters",
+    "token": "careerbloc",
+    "sourceUrl": "https://jobs.smartrecruiters.com/careerbloc",
+    "discoveredFrom": {
+      "channel": "search",
+      "reference": "hiring-signal:Careerbloc"
+    },
+    "verification": {
+      "observedCompanyName": "Career bloc",
+      "identityEvidence": "provider_board",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "smartrecruiters-postings:v1",
+      "jobCount": 1,
+      "checkedAt": "2026-09-11T06:50:14.702Z",
+      "canonicalSourceUrl": "https://jobs.smartrecruiters.com/careerbloc"
+    }
+  },
   "careers": {
     "name": "Toddle",
     "ats": "keka",
@@ -42562,7 +42581,7 @@
     }
   },
   "cnx": {
-    "name": "Cnx",
+    "name": "Concentrix",
     "ats": "workday",
     "token": "cnx.wd1.myworkdayjobs.com/cnx/external_global",
     "sourceUrl": "https://cnx.wd1.myworkdayjobs.com/en-US/external_global",
@@ -42571,7 +42590,7 @@
       "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
     },
     "verification": {
-      "observedCompanyName": "Cnx",
+      "observedCompanyName": "Concentrix",
       "identityEvidence": "provider_board",
       "contentType": "application/json",
       "payloadVersion": "workday-cxs:v1",
@@ -48203,7 +48222,7 @@
     }
   },
   "cw": {
-    "name": "Cw",
+    "name": "Cushman & Wakefield",
     "ats": "workday",
     "token": "cw.wd1.myworkdayjobs.com/cw/external",
     "sourceUrl": "https://cw.wd1.myworkdayjobs.com/en-US/external",
@@ -48212,7 +48231,7 @@
       "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
     },
     "verification": {
-      "observedCompanyName": "Cw",
+      "observedCompanyName": "Cushman & Wakefield",
       "identityEvidence": "provider_board",
       "contentType": "application/json",
       "payloadVersion": "workday-cxs:v1",
@@ -49656,7 +49675,7 @@
     }
   },
   "db": {
-    "name": "Db",
+    "name": "Deutsche Bank",
     "ats": "workday",
     "token": "db.wd3.myworkdayjobs.com/db/DBWebsite",
     "sourceUrl": "https://db.wd3.myworkdayjobs.com/en-US/DBWebsite",
@@ -49665,7 +49684,7 @@
       "reference": "common-crawl-workday-host:db"
     },
     "verification": {
-      "observedCompanyName": "Db",
+      "observedCompanyName": "Deutsche Bank",
       "identityEvidence": "provider_board",
       "contentType": "application/json",
       "payloadVersion": "workday-cxs:v1",
@@ -50591,7 +50610,7 @@
     }
   },
   "dentsuaegis": {
-    "name": "Dentsuaegis",
+    "name": "Dentsu",
     "ats": "workday",
     "token": "dentsuaegis.wd3.myworkdayjobs.com/dentsuaegis/DAN_GLOBAL",
     "sourceUrl": "https://dentsuaegis.wd3.myworkdayjobs.com/en-US/DAN_GLOBAL",
@@ -50600,7 +50619,7 @@
       "reference": "common-crawl-workday-host:dentsuaegis"
     },
     "verification": {
-      "observedCompanyName": "Dentsuaegis",
+      "observedCompanyName": "Dentsu",
       "identityEvidence": "provider_board",
       "contentType": "application/json",
       "payloadVersion": "workday-cxs:v1",
@@ -53024,7 +53043,7 @@
     }
   },
   "dxctechnology": {
-    "name": "Dxctechnology",
+    "name": "DXC Technology",
     "ats": "workday",
     "token": "dxctechnology.wd1.myworkdayjobs.com/dxctechnology/DXCJobs",
     "sourceUrl": "https://dxctechnology.wd1.myworkdayjobs.com/en-US/DXCJobs",
@@ -53033,7 +53052,7 @@
       "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
     },
     "verification": {
-      "observedCompanyName": "Dxctechnology",
+      "observedCompanyName": "DXC Technology",
       "identityEvidence": "provider_board",
       "contentType": "application/json",
       "payloadVersion": "workday-cxs:v1",
@@ -54371,6 +54390,25 @@
       "jobCount": 253,
       "checkedAt": "2026-09-07T12:01:18.120Z",
       "canonicalSourceUrl": "https://jobs.ashbyhq.com/elevenlabs"
+    }
+  },
+  "elfbeauty": {
+    "name": "Elfbeauty",
+    "ats": "lever",
+    "token": "elfbeauty",
+    "sourceUrl": "https://jobs.lever.co/elfbeauty",
+    "discoveredFrom": {
+      "channel": "search",
+      "reference": "hiring-signal:Elf Beauty"
+    },
+    "verification": {
+      "observedCompanyName": "Elfbeauty",
+      "identityEvidence": "provider_board",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "lever-postings:v0",
+      "jobCount": 78,
+      "checkedAt": "2026-09-11T06:50:14.584Z",
+      "canonicalSourceUrl": "https://jobs.lever.co/elfbeauty"
     }
   },
   "eli": {
@@ -63184,7 +63222,7 @@
     }
   },
   "gehc": {
-    "name": "Gehc",
+    "name": "GE HealthCare",
     "ats": "workday",
     "token": "gehc.wd5.myworkdayjobs.com/gehc/GEHC_ExternalSite",
     "sourceUrl": "https://gehc.wd5.myworkdayjobs.com/en-US/GEHC_ExternalSite",
@@ -63193,7 +63231,7 @@
       "reference": "common-crawl-workday-host:gehc"
     },
     "verification": {
-      "observedCompanyName": "Gehc",
+      "observedCompanyName": "GE HealthCare",
       "identityEvidence": "provider_board",
       "contentType": "application/json",
       "payloadVersion": "workday-cxs:v1",
@@ -64130,7 +64168,7 @@
     }
   },
   "gevernova": {
-    "name": "Gevernova",
+    "name": "GE Vernova",
     "ats": "workday",
     "token": "gevernova.wd5.myworkdayjobs.com/gevernova/Vernova_ExternalSite",
     "sourceUrl": "https://gevernova.wd5.myworkdayjobs.com/en-US/Vernova_ExternalSite",
@@ -64139,7 +64177,7 @@
       "reference": "common-crawl-workday-host:gevernova"
     },
     "verification": {
-      "observedCompanyName": "Gevernova",
+      "observedCompanyName": "GE Vernova",
       "identityEvidence": "provider_board",
       "contentType": "application/json",
       "payloadVersion": "workday-cxs:v1",
@@ -64841,7 +64879,7 @@
     }
   },
   "globalfoundries": {
-    "name": "Globalfoundries",
+    "name": "GlobalFoundries",
     "ats": "workday",
     "token": "globalfoundries.wd1.myworkdayjobs.com/globalfoundries/External",
     "sourceUrl": "https://globalfoundries.wd1.myworkdayjobs.com/en-US/External",
@@ -64850,7 +64888,7 @@
       "reference": "common-crawl-workday-host:globalfoundries"
     },
     "verification": {
-      "observedCompanyName": "Globalfoundries",
+      "observedCompanyName": "GlobalFoundries",
       "identityEvidence": "provider_board",
       "contentType": "application/json",
       "payloadVersion": "workday-cxs:v1",
@@ -64860,7 +64898,7 @@
     }
   },
   "globalhr": {
-    "name": "Globalhr",
+    "name": "RTX",
     "ats": "workday",
     "token": "globalhr.wd5.myworkdayjobs.com/globalhr/REC_RTX_Ext_Gateway",
     "sourceUrl": "https://globalhr.wd5.myworkdayjobs.com/en-US/REC_RTX_Ext_Gateway",
@@ -64869,7 +64907,7 @@
       "reference": "common-crawl-workday-host:globalhr"
     },
     "verification": {
-      "observedCompanyName": "Globalhr",
+      "observedCompanyName": "RTX",
       "identityEvidence": "provider_board",
       "contentType": "application/json",
       "payloadVersion": "workday-cxs:v1",
@@ -69191,7 +69229,7 @@
     }
   },
   "hcmportal": {
-    "name": "Hcmportal",
+    "name": "UPS",
     "ats": "workday",
     "token": "hcmportal.wd5.myworkdayjobs.com/hcmportal/Search",
     "sourceUrl": "https://hcmportal.wd5.myworkdayjobs.com/en-US/Search",
@@ -69200,7 +69238,7 @@
       "reference": "common-crawl-workday-host:hcmportal"
     },
     "verification": {
-      "observedCompanyName": "Hcmportal",
+      "observedCompanyName": "UPS",
       "identityEvidence": "provider_board",
       "contentType": "application/json",
       "payloadVersion": "workday-cxs:v1",
@@ -69752,7 +69790,7 @@
     }
   },
   "heinz": {
-    "name": "Heinz",
+    "name": "Kraft Heinz",
     "ats": "workday",
     "token": "heinz.wd1.myworkdayjobs.com/heinz/KraftHeinz_Careers",
     "sourceUrl": "https://heinz.wd1.myworkdayjobs.com/en-US/KraftHeinz_Careers",
@@ -69761,7 +69799,7 @@
       "reference": "common-crawl-workday-host:heinz"
     },
     "verification": {
-      "observedCompanyName": "Heinz",
+      "observedCompanyName": "Kraft Heinz",
       "identityEvidence": "provider_board",
       "contentType": "application/json",
       "payloadVersion": "workday-cxs:v1",
@@ -72326,7 +72364,7 @@
     }
   },
   "hp": {
-    "name": "Hp",
+    "name": "HP",
     "ats": "workday",
     "token": "hp.wd5.myworkdayjobs.com/hp/ExternalCareerSite",
     "sourceUrl": "https://hp.wd5.myworkdayjobs.com/en-US/ExternalCareerSite",
@@ -72335,7 +72373,7 @@
       "reference": "common-crawl-workday-host:hp"
     },
     "verification": {
-      "observedCompanyName": "Hp",
+      "observedCompanyName": "HP",
       "identityEvidence": "provider_board",
       "contentType": "application/json",
       "payloadVersion": "workday-cxs:v1",
@@ -72364,7 +72402,7 @@
     }
   },
   "hpe": {
-    "name": "Hpe",
+    "name": "Hewlett Packard Enterprise",
     "ats": "workday",
     "token": "hpe.wd5.myworkdayjobs.com/hpe/Jobsathpe",
     "sourceUrl": "https://hpe.wd5.myworkdayjobs.com/en-US/Jobsathpe",
@@ -72373,7 +72411,7 @@
       "reference": "common-crawl-workday-host:hpe"
     },
     "verification": {
-      "observedCompanyName": "Hpe",
+      "observedCompanyName": "Hewlett Packard Enterprise",
       "identityEvidence": "provider_board",
       "contentType": "application/json",
       "payloadVersion": "workday-cxs:v1",
@@ -76363,7 +76401,7 @@
     }
   },
   "ingrammicro": {
-    "name": "Ingrammicro",
+    "name": "Ingram Micro",
     "ats": "workday",
     "token": "ingrammicro.wd5.myworkdayjobs.com/ingrammicro/IngramMicro",
     "sourceUrl": "https://ingrammicro.wd5.myworkdayjobs.com/en-US/IngramMicro",
@@ -76372,7 +76410,7 @@
       "reference": "common-crawl-workday-host:ingrammicro"
     },
     "verification": {
-      "observedCompanyName": "Ingrammicro",
+      "observedCompanyName": "Ingram Micro",
       "identityEvidence": "provider_board",
       "contentType": "application/json",
       "payloadVersion": "workday-cxs:v1",
@@ -77682,6 +77720,25 @@
       "jobCount": 114,
       "checkedAt": "2026-09-07T13:53:19.855Z",
       "canonicalSourceUrl": "https://apply.workable.com/interpath-advisory/"
+    }
+  },
+  "interviewkickstart": {
+    "name": "Interview Kickstart",
+    "ats": "smartrecruiters",
+    "token": "interviewkickstart",
+    "sourceUrl": "https://jobs.smartrecruiters.com/interviewkickstart",
+    "discoveredFrom": {
+      "channel": "search",
+      "reference": "hiring-signal:Interview Kickstart"
+    },
+    "verification": {
+      "observedCompanyName": "Interview Kickstart",
+      "identityEvidence": "provider_board",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "smartrecruiters-postings:v1",
+      "jobCount": 3,
+      "checkedAt": "2026-09-11T06:50:14.703Z",
+      "canonicalSourceUrl": "https://jobs.smartrecruiters.com/interviewkickstart"
     }
   },
   "interweave": {
@@ -79242,7 +79299,7 @@
     }
   },
   "jci": {
-    "name": "Jci",
+    "name": "Johnson Controls",
     "ats": "workday",
     "token": "jci.wd5.myworkdayjobs.com/jci/JCI",
     "sourceUrl": "https://jci.wd5.myworkdayjobs.com/en-US/JCI",
@@ -79251,7 +79308,7 @@
       "reference": "common-crawl-workday-host:jci"
     },
     "verification": {
-      "observedCompanyName": "Jci",
+      "observedCompanyName": "Johnson Controls",
       "identityEvidence": "provider_board",
       "contentType": "application/json",
       "payloadVersion": "workday-cxs:v1",
@@ -79394,7 +79451,7 @@
     }
   },
   "jj": {
-    "name": "Jj",
+    "name": "Johnson & Johnson",
     "ats": "workday",
     "token": "jj.wd5.myworkdayjobs.com/jj/JJ",
     "sourceUrl": "https://jj.wd5.myworkdayjobs.com/en-US/JJ",
@@ -79403,7 +79460,7 @@
       "reference": "common-crawl-workday-host:jj"
     },
     "verification": {
-      "observedCompanyName": "Jj",
+      "observedCompanyName": "Johnson & Johnson",
       "identityEvidence": "provider_board",
       "contentType": "application/json",
       "payloadVersion": "workday-cxs:v1",
@@ -79509,6 +79566,25 @@
       "jobCount": 46,
       "checkedAt": "2026-09-07T12:39:56.153Z",
       "canonicalSourceUrl": "https://jnd-inc.breezy.hr"
+    }
+  },
+  "jobgether": {
+    "name": "Jobgether",
+    "ats": "lever",
+    "token": "jobgether",
+    "sourceUrl": "https://jobs.lever.co/jobgether",
+    "discoveredFrom": {
+      "channel": "search",
+      "reference": "hiring-signal:Jobgether"
+    },
+    "verification": {
+      "observedCompanyName": "Jobgether",
+      "identityEvidence": "provider_board",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "lever-postings:v0",
+      "jobCount": 4324,
+      "checkedAt": "2026-09-11T06:50:14.610Z",
+      "canonicalSourceUrl": "https://jobs.lever.co/jobgether"
     }
   },
   "jobhire": {
@@ -83651,6 +83727,25 @@
       "canonicalSourceUrl": "https://apply.workable.com/levelagency/"
     }
   },
+  "levelai": {
+    "name": "Levelai",
+    "ats": "lever",
+    "token": "levelai",
+    "sourceUrl": "https://jobs.lever.co/levelai",
+    "discoveredFrom": {
+      "channel": "search",
+      "reference": "hiring-signal:Level AI"
+    },
+    "verification": {
+      "observedCompanyName": "Levelai",
+      "identityEvidence": "provider_board",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "lever-postings:v0",
+      "jobCount": 19,
+      "checkedAt": "2026-09-11T06:50:14.626Z",
+      "canonicalSourceUrl": "https://jobs.lever.co/levelai"
+    }
+  },
   "levelall": {
     "name": "Level All",
     "ats": "smartrecruiters",
@@ -85105,7 +85200,7 @@
     }
   },
   "lseg": {
-    "name": "Lseg",
+    "name": "LSEG",
     "ats": "workday",
     "token": "lseg.wd3.myworkdayjobs.com/lseg/Careers",
     "sourceUrl": "https://lseg.wd3.myworkdayjobs.com/en-US/Careers",
@@ -85114,7 +85209,7 @@
       "reference": "common-crawl-workday-host:lseg"
     },
     "verification": {
-      "observedCompanyName": "Lseg",
+      "observedCompanyName": "LSEG",
       "identityEvidence": "provider_board",
       "contentType": "application/json",
       "payloadVersion": "workday-cxs:v1",
@@ -88901,7 +88996,7 @@
     }
   },
   "ms": {
-    "name": "Ms",
+    "name": "Morgan Stanley",
     "ats": "workday",
     "token": "ms.wd5.myworkdayjobs.com/ms/External",
     "sourceUrl": "https://ms.wd5.myworkdayjobs.com/en-US/External",
@@ -88910,7 +89005,7 @@
       "reference": "common-crawl-workday-host:ms"
     },
     "verification": {
-      "observedCompanyName": "Ms",
+      "observedCompanyName": "Morgan Stanley",
       "identityEvidence": "provider_board",
       "contentType": "application/json",
       "payloadVersion": "workday-cxs:v1",
@@ -89091,7 +89186,7 @@
     }
   },
   "mufgub": {
-    "name": "Mufgub",
+    "name": "MUFG Bank",
     "ats": "workday",
     "token": "mufgub.wd3.myworkdayjobs.com/mufgub/MUFG-Careers",
     "sourceUrl": "https://mufgub.wd3.myworkdayjobs.com/en-US/MUFG-Careers",
@@ -89100,7 +89195,7 @@
       "reference": "common-crawl-workday-host:mufgub"
     },
     "verification": {
-      "observedCompanyName": "Mufgub",
+      "observedCompanyName": "MUFG Bank",
       "identityEvidence": "provider_board",
       "contentType": "application/json",
       "payloadVersion": "workday-cxs:v1",
@@ -89448,7 +89543,7 @@
     }
   },
   "myhrabc": {
-    "name": "Myhrabc",
+    "name": "Cencora",
     "ats": "workday",
     "token": "myhrabc.wd5.myworkdayjobs.com/myhrabc/Global",
     "sourceUrl": "https://myhrabc.wd5.myworkdayjobs.com/en-US/Global",
@@ -89457,7 +89552,7 @@
       "reference": "common-crawl-workday-host:myhrabc"
     },
     "verification": {
-      "observedCompanyName": "Myhrabc",
+      "observedCompanyName": "Cencora",
       "identityEvidence": "provider_board",
       "contentType": "application/json",
       "payloadVersion": "workday-cxs:v1",
@@ -89600,7 +89695,7 @@
     }
   },
   "nab": {
-    "name": "Nab",
+    "name": "National Australia Bank",
     "ats": "workday",
     "token": "nab.wd3.myworkdayjobs.com/nab/nab_careers",
     "sourceUrl": "https://nab.wd3.myworkdayjobs.com/en-US/nab_careers",
@@ -89609,7 +89704,7 @@
       "reference": "common-crawl-workday-host:nab"
     },
     "verification": {
-      "observedCompanyName": "Nab",
+      "observedCompanyName": "National Australia Bank",
       "identityEvidence": "provider_board",
       "contentType": "application/json",
       "payloadVersion": "workday-cxs:v1",
@@ -89696,6 +89791,25 @@
       "jobCount": 2,
       "checkedAt": "2026-09-07T12:40:22.458Z",
       "canonicalSourceUrl": "https://jobs.smartrecruiters.com/Nanoheal1"
+    }
+  },
+  "nanonets": {
+    "name": "Nanonets",
+    "ats": "ashby",
+    "token": "nanonets",
+    "sourceUrl": "https://jobs.ashbyhq.com/nanonets",
+    "discoveredFrom": {
+      "channel": "search",
+      "reference": "hiring-signal:Nanonets"
+    },
+    "verification": {
+      "observedCompanyName": "Nanonets",
+      "identityEvidence": "provider_board",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "ashby-job-board:1",
+      "jobCount": 9,
+      "checkedAt": "2026-09-11T06:50:14.392Z",
+      "canonicalSourceUrl": "https://jobs.ashbyhq.com/nanonets"
     }
   },
   "napaautoparts33": {
@@ -91251,7 +91365,7 @@
     }
   },
   "ntrs": {
-    "name": "Ntrs",
+    "name": "Northern Trust",
     "ats": "workday",
     "token": "ntrs.wd1.myworkdayjobs.com/ntrs/northerntrust",
     "sourceUrl": "https://ntrs.wd1.myworkdayjobs.com/en-US/northerntrust",
@@ -91260,7 +91374,7 @@
       "reference": "common-crawl-workday-host:ntrs"
     },
     "verification": {
-      "observedCompanyName": "Ntrs",
+      "observedCompanyName": "Northern Trust",
       "identityEvidence": "provider_board",
       "contentType": "application/json",
       "payloadVersion": "workday-cxs:v1",
@@ -91310,6 +91424,25 @@
       "jobCount": 16,
       "checkedAt": "2026-09-08T09:36:16.790Z",
       "canonicalSourceUrl": "https://zanskar.keka.com/careers"
+    }
+  },
+  "numeric": {
+    "name": "Numeric",
+    "ats": "ashby",
+    "token": "numeric",
+    "sourceUrl": "https://jobs.ashbyhq.com/numeric",
+    "discoveredFrom": {
+      "channel": "search",
+      "reference": "hiring-signal:Numeric Technologies Incorporation"
+    },
+    "verification": {
+      "observedCompanyName": "Numeric",
+      "identityEvidence": "provider_board",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "ashby-job-board:1",
+      "jobCount": 16,
+      "checkedAt": "2026-09-11T06:50:14.392Z",
+      "canonicalSourceUrl": "https://jobs.ashbyhq.com/numeric"
     }
   },
   "nurix": {
@@ -91441,7 +91574,7 @@
     }
   },
   "nxp": {
-    "name": "Nxp",
+    "name": "NXP Semiconductors",
     "ats": "workday",
     "token": "nxp.wd3.myworkdayjobs.com/nxp/careers",
     "sourceUrl": "https://nxp.wd3.myworkdayjobs.com/en-US/careers",
@@ -91450,7 +91583,7 @@
       "reference": "common-crawl-workday-host:nxp"
     },
     "verification": {
-      "observedCompanyName": "Nxp",
+      "observedCompanyName": "NXP Semiconductors",
       "identityEvidence": "provider_board",
       "contentType": "application/json",
       "payloadVersion": "workday-cxs:v1",
@@ -91845,7 +91978,7 @@
     }
   },
   "onetp": {
-    "name": "Onetp",
+    "name": "Teleperformance",
     "ats": "workday",
     "token": "onetp.wd1.myworkdayjobs.com/onetp/Teleperformance",
     "sourceUrl": "https://onetp.wd1.myworkdayjobs.com/en-US/Teleperformance",
@@ -91854,7 +91987,7 @@
       "reference": "common-crawl-workday-host:onetp"
     },
     "verification": {
-      "observedCompanyName": "Onetp",
+      "observedCompanyName": "Teleperformance",
       "identityEvidence": "provider_board",
       "contentType": "application/json",
       "payloadVersion": "workday-cxs:v1",
@@ -92548,6 +92681,25 @@
       "jobCount": 209,
       "checkedAt": "2026-09-08T13:07:50.434Z",
       "canonicalSourceUrl": "https://jobs.lever.co/paytm"
+    }
+  },
+  "paytmpayments": {
+    "name": "Paytmpayments",
+    "ats": "lever",
+    "token": "paytmpayments",
+    "sourceUrl": "https://jobs.lever.co/paytmpayments",
+    "discoveredFrom": {
+      "channel": "search",
+      "reference": "hiring-signal:Paytm Payments Services"
+    },
+    "verification": {
+      "observedCompanyName": "Paytmpayments",
+      "identityEvidence": "provider_board",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "lever-postings:v0",
+      "jobCount": 921,
+      "checkedAt": "2026-09-11T06:50:14.691Z",
+      "canonicalSourceUrl": "https://jobs.lever.co/paytmpayments"
     }
   },
   "pbjcal": {
@@ -94118,7 +94270,7 @@
     }
   },
   "pwc": {
-    "name": "Pwc",
+    "name": "PwC",
     "ats": "workday",
     "token": "pwc.wd3.myworkdayjobs.com/pwc/Global_Experienced_Careers",
     "sourceUrl": "https://pwc.wd3.myworkdayjobs.com/en-US/Global_Experienced_Careers",
@@ -94127,7 +94279,7 @@
       "reference": "common-crawl-workday-host:pwc"
     },
     "verification": {
-      "observedCompanyName": "Pwc",
+      "observedCompanyName": "PwC",
       "identityEvidence": "provider_board",
       "contentType": "application/json",
       "payloadVersion": "workday-cxs:v1",
@@ -94489,7 +94641,7 @@
     }
   },
   "r1rcm": {
-    "name": "R1rcm",
+    "name": "R1 RCM",
     "ats": "workday",
     "token": "r1rcm.wd1.myworkdayjobs.com/r1rcm/R1RCM",
     "sourceUrl": "https://r1rcm.wd1.myworkdayjobs.com/en-US/R1RCM",
@@ -94498,7 +94650,7 @@
       "reference": "common-crawl-workday-host:r1rcm"
     },
     "verification": {
-      "observedCompanyName": "R1rcm",
+      "observedCompanyName": "R1 RCM",
       "identityEvidence": "provider_board",
       "contentType": "application/json",
       "payloadVersion": "workday-cxs:v1",
@@ -95727,7 +95879,7 @@
     }
   },
   "rsm": {
-    "name": "Rsm",
+    "name": "RSM",
     "ats": "workday",
     "token": "rsm.wd1.myworkdayjobs.com/rsm/RSMCareers",
     "sourceUrl": "https://rsm.wd1.myworkdayjobs.com/en-US/RSMCareers",
@@ -95736,7 +95888,7 @@
       "reference": "common-crawl-workday-host:RSM US LLP"
     },
     "verification": {
-      "observedCompanyName": "Rsm",
+      "observedCompanyName": "RSM",
       "identityEvidence": "provider_board",
       "contentType": "application/json",
       "payloadVersion": "workday-cxs:v1",
@@ -97898,7 +98050,7 @@
     }
   },
   "slihrms": {
-    "name": "Slihrms",
+    "name": "AtkinsR\u00e9alis",
     "ats": "workday",
     "token": "slihrms.wd3.myworkdayjobs.com/slihrms/Careers",
     "sourceUrl": "https://slihrms.wd3.myworkdayjobs.com/en-US/Careers",
@@ -97907,7 +98059,7 @@
       "reference": "common-crawl-workday-host:slihrms"
     },
     "verification": {
-      "observedCompanyName": "Slihrms",
+      "observedCompanyName": "AtkinsR\u00e9alis",
       "identityEvidence": "provider_board",
       "contentType": "application/json",
       "payloadVersion": "workday-cxs:v1",
@@ -98800,6 +98952,25 @@
       "jobCount": 79,
       "checkedAt": "2026-09-07T12:40:29.140Z",
       "canonicalSourceUrl": "https://jobs.smartrecruiters.com/Sportradar"
+    }
+  },
+  "spotdraft": {
+    "name": "Spotdraft",
+    "ats": "ashby",
+    "token": "spotdraft",
+    "sourceUrl": "https://jobs.ashbyhq.com/spotdraft",
+    "discoveredFrom": {
+      "channel": "search",
+      "reference": "hiring-signal:SpotDraft"
+    },
+    "verification": {
+      "observedCompanyName": "Spotdraft",
+      "identityEvidence": "provider_board",
+      "contentType": "application/json; charset=utf-8",
+      "payloadVersion": "ashby-job-board:1",
+      "jobCount": 13,
+      "checkedAt": "2026-09-11T06:50:14.392Z",
+      "canonicalSourceUrl": "https://jobs.ashbyhq.com/spotdraft"
     }
   },
   "springernature": {
@@ -99819,7 +99990,7 @@
     }
   },
   "syneoshealth": {
-    "name": "Syneoshealth",
+    "name": "Syneos Health",
     "ats": "workday",
     "token": "syneoshealth.wd12.myworkdayjobs.com/syneoshealth/Syneos_Health_External_Site",
     "sourceUrl": "https://syneoshealth.wd12.myworkdayjobs.com/en-US/Syneos_Health_External_Site",
@@ -99828,7 +99999,7 @@
       "reference": "common-crawl-workday-host:syneoshealth"
     },
     "verification": {
-      "observedCompanyName": "Syneoshealth",
+      "observedCompanyName": "Syneos Health",
       "identityEvidence": "provider_board",
       "contentType": "application/json",
       "payloadVersion": "workday-cxs:v1",
@@ -100141,7 +100312,7 @@
     }
   },
   "taskus": {
-    "name": "Taskus",
+    "name": "TaskUs",
     "ats": "workday",
     "token": "taskus.wd1.myworkdayjobs.com/taskus/Careers",
     "sourceUrl": "https://taskus.wd1.myworkdayjobs.com/en-US/Careers",
@@ -100150,7 +100321,7 @@
       "reference": "common-crawl-workday-host:taskus"
     },
     "verification": {
-      "observedCompanyName": "Taskus",
+      "observedCompanyName": "TaskUs",
       "identityEvidence": "provider_board",
       "contentType": "application/json",
       "payloadVersion": "workday-cxs:v1",
@@ -101783,7 +101954,7 @@
     }
   },
   "tranetechnologies": {
-    "name": "Tranetechnologies",
+    "name": "Trane Technologies",
     "ats": "workday",
     "token": "tranetechnologies.wd12.myworkdayjobs.com/tranetechnologies/Trane_Technologies_Careers",
     "sourceUrl": "https://tranetechnologies.wd12.myworkdayjobs.com/en-US/Trane_Technologies_Careers",
@@ -101792,7 +101963,7 @@
       "reference": "common-crawl-workday-host:tranetechnologies"
     },
     "verification": {
-      "observedCompanyName": "Tranetechnologies",
+      "observedCompanyName": "Trane Technologies",
       "identityEvidence": "provider_board",
       "contentType": "application/json",
       "payloadVersion": "workday-cxs:v1",
@@ -105492,7 +105663,7 @@
     }
   },
   "wf": {
-    "name": "Wf",
+    "name": "Wells Fargo",
     "ats": "workday",
     "token": "wf.wd1.myworkdayjobs.com/wf/WellsFargoJobs",
     "sourceUrl": "https://wf.wd1.myworkdayjobs.com/en-US/WellsFargoJobs",
@@ -105501,7 +105672,7 @@
       "reference": "common-crawl-workday-host:wf"
     },
     "verification": {
-      "observedCompanyName": "Wf",
+      "observedCompanyName": "Wells Fargo",
       "identityEvidence": "provider_board",
       "contentType": "application/json",
       "payloadVersion": "workday-cxs:v1",
@@ -105782,7 +105953,7 @@
     }
   },
   "wk": {
-    "name": "Wk",
+    "name": "Wolters Kluwer",
     "ats": "workday",
     "token": "wk.wd3.myworkdayjobs.com/wk/External",
     "sourceUrl": "https://wk.wd3.myworkdayjobs.com/en-US/External",
@@ -105791,7 +105962,7 @@
       "reference": "common-crawl-workday-host:wk"
     },
     "verification": {
-      "observedCompanyName": "Wk",
+      "observedCompanyName": "Wolters Kluwer",
       "identityEvidence": "provider_board",
       "contentType": "application/json",
       "payloadVersion": "workday-cxs:v1",
@@ -106960,7 +107131,7 @@
     }
   },
   "workday-icon": {
-    "name": "Icon",
+    "name": "ICON plc",
     "ats": "workday",
     "token": "icon.wd3.myworkdayjobs.com/icon/broadbean_external",
     "sourceUrl": "https://icon.wd3.myworkdayjobs.com/en-US/broadbean_external",
@@ -106969,7 +107140,7 @@
       "reference": "common-crawl-workday-host:icon"
     },
     "verification": {
-      "observedCompanyName": "Icon",
+      "observedCompanyName": "ICON plc",
       "identityEvidence": "provider_board",
       "contentType": "application/json",
       "payloadVersion": "workday-cxs:v1",
@@ -107649,7 +107820,7 @@
     }
   },
   "zeissgroup": {
-    "name": "Zeissgroup",
+    "name": "ZEISS",
     "ats": "workday",
     "token": "zeissgroup.wd3.myworkdayjobs.com/zeissgroup/external",
     "sourceUrl": "https://zeissgroup.wd3.myworkdayjobs.com/en-US/external",
@@ -107658,7 +107829,7 @@
       "reference": "common-crawl-workday-host:zeissgroup"
     },
     "verification": {
-      "observedCompanyName": "Zeissgroup",
+      "observedCompanyName": "ZEISS",
       "identityEvidence": "provider_board",
       "contentType": "application/json",
       "payloadVersion": "workday-cxs:v1",

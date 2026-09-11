@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-09-08T13:13:05.127Z",
+  "updatedAt": "2026-09-11T06:50:18.717Z",
   "leads": [
     {
       "sourceKey": "ashby:0g",
@@ -35866,6 +35866,52 @@
       "promotedAt": "2026-09-08T13:07:47.495Z"
     },
     {
+      "sourceKey": "ashby:nanonets",
+      "sourceUrl": "https://jobs.ashbyhq.com/nanonets",
+      "ats": "ashby",
+      "token": "nanonets",
+      "discoveredFrom": [
+        {
+          "channel": "search",
+          "reference": "hiring-signal:Nanonets"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-11T06:50:14.392Z",
+          "outcome": "success",
+          "category": "provider_board",
+          "detail": "9 jobs"
+        }
+      ],
+      "promotedAt": "2026-09-11T06:50:14.392Z"
+    },
+    {
+      "sourceKey": "ashby:numeric",
+      "sourceUrl": "https://jobs.ashbyhq.com/numeric",
+      "ats": "ashby",
+      "token": "numeric",
+      "discoveredFrom": [
+        {
+          "channel": "search",
+          "reference": "hiring-signal:Numeric Technologies Incorporation"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-11T06:50:14.392Z",
+          "outcome": "success",
+          "category": "provider_board",
+          "detail": "16 jobs"
+        }
+      ],
+      "promotedAt": "2026-09-11T06:50:14.392Z"
+    },
+    {
       "sourceKey": "ashby:omni",
       "sourceUrl": "https://jobs.ashbyhq.com/omni",
       "ats": "ashby",
@@ -35917,6 +35963,10 @@
       "ats": "ashby",
       "token": "quantum",
       "discoveredFrom": [
+        {
+          "channel": "search",
+          "reference": "hiring-signal:Quantum IT Innovation"
+        },
         {
           "channel": "search",
           "reference": "hiring-signal:Quantum Leap Learning Solutions Pvt Ltd"
@@ -35978,6 +36028,29 @@
         }
       ],
       "promotedAt": "2026-09-08T13:07:47.632Z"
+    },
+    {
+      "sourceKey": "ashby:spotdraft",
+      "sourceUrl": "https://jobs.ashbyhq.com/spotdraft",
+      "ats": "ashby",
+      "token": "spotdraft",
+      "discoveredFrom": [
+        {
+          "channel": "search",
+          "reference": "hiring-signal:SpotDraft"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-11T06:50:14.392Z",
+          "outcome": "success",
+          "category": "provider_board",
+          "detail": "13 jobs"
+        }
+      ],
+      "promotedAt": "2026-09-11T06:50:14.392Z"
     },
     {
       "sourceKey": "ashby:telus-digital",
@@ -63973,6 +64046,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 500"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:14.392Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 500"
         }
       ]
     },
@@ -65294,6 +65373,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 500"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:14.393Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 500"
         }
       ]
     },
@@ -65900,6 +65985,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T13:59:59.351Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 500"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:14.393Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 500"
@@ -67071,6 +67162,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 500"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:14.416Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 500"
         }
       ]
     },
@@ -67359,6 +67456,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T14:00:02.287Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 500"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:14.418Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 500"
@@ -82862,6 +82965,28 @@
       "promotedAt": "2026-09-08T04:03:34.931Z"
     },
     {
+      "sourceKey": "greenhouse:icon",
+      "sourceUrl": "https://job-boards.greenhouse.io/icon",
+      "ats": "greenhouse",
+      "token": "icon",
+      "discoveredFrom": [
+        {
+          "channel": "search",
+          "reference": "hiring-signal:ICON plc"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-11T06:50:14.444Z",
+          "outcome": "permanent_failure",
+          "category": "empty_board",
+          "detail": "Board has no jobs"
+        }
+      ]
+    },
+    {
       "sourceKey": "greenhouse:instawork",
       "sourceUrl": "https://job-boards.greenhouse.io/instawork",
       "ats": "greenhouse",
@@ -84027,6 +84152,12 @@
           "category": "unreachable",
           "detail": "HTTP 404",
           "nextEligibleAt": "2026-09-08T04:11:34.931Z"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:14.526Z",
+          "outcome": "permanent_failure",
+          "category": "invalid_payload",
+          "detail": "HTTP 404"
         }
       ]
     },
@@ -88375,6 +88506,29 @@
       "promotedAt": "2026-09-08T13:07:50.054Z"
     },
     {
+      "sourceKey": "lever:elfbeauty",
+      "sourceUrl": "https://jobs.lever.co/elfbeauty",
+      "ats": "lever",
+      "token": "elfbeauty",
+      "discoveredFrom": [
+        {
+          "channel": "search",
+          "reference": "hiring-signal:Elf Beauty"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-11T06:50:14.584Z",
+          "outcome": "success",
+          "category": "provider_board",
+          "detail": "78 jobs"
+        }
+      ],
+      "promotedAt": "2026-09-11T06:50:14.584Z"
+    },
+    {
       "sourceKey": "lever:employ",
       "sourceUrl": "https://jobs.lever.co/employ",
       "ats": "lever",
@@ -88444,6 +88598,29 @@
       "promotedAt": "2026-09-08T13:07:50.274Z"
     },
     {
+      "sourceKey": "lever:jobgether",
+      "sourceUrl": "https://jobs.lever.co/jobgether",
+      "ats": "lever",
+      "token": "jobgether",
+      "discoveredFrom": [
+        {
+          "channel": "search",
+          "reference": "hiring-signal:Jobgether"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-11T06:50:14.610Z",
+          "outcome": "success",
+          "category": "provider_board",
+          "detail": "4324 jobs"
+        }
+      ],
+      "promotedAt": "2026-09-11T06:50:14.610Z"
+    },
+    {
       "sourceKey": "lever:kpmg",
       "sourceUrl": "https://jobs.lever.co/kpmg",
       "ats": "lever",
@@ -88464,6 +88641,29 @@
           "detail": "Board has no jobs"
         }
       ]
+    },
+    {
+      "sourceKey": "lever:levelai",
+      "sourceUrl": "https://jobs.lever.co/levelai",
+      "ats": "lever",
+      "token": "levelai",
+      "discoveredFrom": [
+        {
+          "channel": "search",
+          "reference": "hiring-signal:Level AI"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-11T06:50:14.626Z",
+          "outcome": "success",
+          "category": "provider_board",
+          "detail": "19 jobs"
+        }
+      ],
+      "promotedAt": "2026-09-11T06:50:14.626Z"
     },
     {
       "sourceKey": "lever:mindtickle",
@@ -88604,6 +88804,29 @@
         }
       ],
       "promotedAt": "2026-09-08T13:07:50.434Z"
+    },
+    {
+      "sourceKey": "lever:paytmpayments",
+      "sourceUrl": "https://jobs.lever.co/paytmpayments",
+      "ats": "lever",
+      "token": "paytmpayments",
+      "discoveredFrom": [
+        {
+          "channel": "search",
+          "reference": "hiring-signal:Paytm Payments Services"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-11T06:50:14.691Z",
+          "outcome": "success",
+          "category": "provider_board",
+          "detail": "921 jobs"
+        }
+      ],
+      "promotedAt": "2026-09-11T06:50:14.691Z"
     },
     {
       "sourceKey": "lever:pocketfm",
@@ -91834,6 +92057,29 @@
         }
       ],
       "promotedAt": "2026-09-07T12:40:10.148Z"
+    },
+    {
+      "sourceKey": "smartrecruiters:careerbloc",
+      "sourceUrl": "https://jobs.smartrecruiters.com/careerbloc",
+      "ats": "smartrecruiters",
+      "token": "careerbloc",
+      "discoveredFrom": [
+        {
+          "channel": "search",
+          "reference": "hiring-signal:Careerbloc"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-11T06:50:14.702Z",
+          "outcome": "success",
+          "category": "provider_board",
+          "detail": "1 jobs"
+        }
+      ],
+      "promotedAt": "2026-09-11T06:50:14.702Z"
     },
     {
       "sourceKey": "smartrecruiters:carepartners1",
@@ -97024,6 +97270,29 @@
         }
       ],
       "promotedAt": "2026-09-07T12:40:18.176Z"
+    },
+    {
+      "sourceKey": "smartrecruiters:interviewkickstart",
+      "sourceUrl": "https://jobs.smartrecruiters.com/interviewkickstart",
+      "ats": "smartrecruiters",
+      "token": "interviewkickstart",
+      "discoveredFrom": [
+        {
+          "channel": "search",
+          "reference": "hiring-signal:Interview Kickstart"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-11T06:50:14.703Z",
+          "outcome": "success",
+          "category": "provider_board",
+          "detail": "3 jobs"
+        }
+      ],
+      "promotedAt": "2026-09-11T06:50:14.703Z"
     },
     {
       "sourceKey": "smartrecruiters:intevity",
@@ -108444,6 +108713,28 @@
         }
       ],
       "promotedAt": "2026-09-07T12:40:42.948Z"
+    },
+    {
+      "sourceKey": "workable:amazon",
+      "sourceUrl": "https://apply.workable.com/amazon/",
+      "ats": "workable",
+      "token": "amazon",
+      "discoveredFrom": [
+        {
+          "channel": "search",
+          "reference": "hiring-signal:Amazon"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-11T06:50:15.113Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        }
+      ]
     },
     {
       "sourceKey": "workable:amc-studio",
@@ -122876,6 +123167,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.115Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -122895,6 +123192,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:01.485Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.134Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -122920,6 +123223,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.140Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -122939,6 +123248,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:01.507Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.161Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -122964,6 +123279,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.167Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -122983,6 +123304,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:01.541Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.177Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -123008,6 +123335,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.190Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -123027,6 +123360,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:01.615Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.198Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -123052,6 +123391,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.212Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -123071,6 +123416,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:01.682Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.220Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -123096,6 +123447,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.221Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -123115,6 +123472,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:01.792Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.238Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -123140,6 +123503,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.240Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -123156,7 +123525,14 @@
       ],
       "companyMatches": [],
       "identityEvidence": [],
-      "attempts": []
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-11T06:50:15.242Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        }
+      ]
     },
     {
       "sourceKey": "workable:dephy",
@@ -123174,6 +123550,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:01.830Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.260Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -123199,6 +123581,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.262Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -123221,6 +123609,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.265Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -123237,7 +123631,14 @@
       ],
       "companyMatches": [],
       "identityEvidence": [],
-      "attempts": []
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-11T06:50:15.276Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        }
+      ]
     },
     {
       "sourceKey": "workable:designer-group-1",
@@ -123255,6 +123656,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:01.949Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.283Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -123277,6 +123684,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:01.968Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.292Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -123324,6 +123737,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.297Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -123343,6 +123762,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:02.001Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.307Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -123368,6 +123793,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.307Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -123387,6 +123818,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:02.145Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.317Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -123412,6 +123849,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.328Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -123431,6 +123874,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:02.201Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.332Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -123456,6 +123905,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.342Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -123475,6 +123930,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:02.233Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.351Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -123500,6 +123961,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.357Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -123519,6 +123986,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:02.299Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.364Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -123544,6 +124017,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.366Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -123563,6 +124042,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:02.367Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.378Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -123588,6 +124073,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.387Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -123607,6 +124098,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:02.476Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.393Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -123632,6 +124129,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.394Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -123651,6 +124154,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:02.518Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.408Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -123676,6 +124185,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.411Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -123695,6 +124210,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:02.581Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.425Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -123720,6 +124241,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.425Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -123739,6 +124266,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:02.612Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.437Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -123764,6 +124297,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.441Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -123783,6 +124322,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:02.666Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.442Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -123808,6 +124353,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.459Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -123827,6 +124378,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:02.713Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.459Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -123852,6 +124409,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.464Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -123871,6 +124434,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:02.856Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.480Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -123896,6 +124465,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.483Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -123915,6 +124490,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:02.900Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.484Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -123963,6 +124544,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.497Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -123982,6 +124569,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:02.955Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.503Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -124007,6 +124600,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.503Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -124026,6 +124625,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:03.036Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.511Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -124051,6 +124656,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.521Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -124070,6 +124681,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:03.186Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.525Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -124095,6 +124712,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.533Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -124114,6 +124737,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:03.223Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.538Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -124139,6 +124768,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.539Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -124158,6 +124793,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:03.293Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.548Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -124183,6 +124824,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.553Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -124202,6 +124849,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:03.347Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.555Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -124227,6 +124880,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.565Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -124246,6 +124905,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:03.477Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.570Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -124271,6 +124936,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.580Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -124290,6 +124961,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:03.501Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.582Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -124315,6 +124992,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.586Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -124334,6 +125017,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:03.571Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.602Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -124359,6 +125048,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.605Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -124378,6 +125073,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:03.608Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.609Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -124403,6 +125104,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.615Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -124422,6 +125129,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:03.637Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.622Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -124447,6 +125160,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.627Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -124466,6 +125185,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:03.670Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.630Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -124491,6 +125216,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.639Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -124510,6 +125241,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:03.783Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.644Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -124535,6 +125272,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.648Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -124554,6 +125297,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:03.820Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.652Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -124579,6 +125328,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.661Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -124598,6 +125353,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:03.883Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.664Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -124623,6 +125384,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.667Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -124642,6 +125409,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:03.952Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.680Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -124667,6 +125440,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.690Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -124686,6 +125465,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:04.055Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.690Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -124711,6 +125496,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.698Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -124730,6 +125521,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:04.096Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.704Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -124755,6 +125552,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.713Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -124774,6 +125577,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:04.136Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.715Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -124799,6 +125608,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.725Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -124818,6 +125633,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:04.185Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.727Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -124843,6 +125664,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.732Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -124865,6 +125692,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.741Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -124884,6 +125717,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:04.324Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.742Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -124932,6 +125771,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.745Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -124951,6 +125796,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:04.388Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.759Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -124976,6 +125827,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.760Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -124995,6 +125852,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:04.436Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.774Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -125020,6 +125883,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.777Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -125039,6 +125908,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:04.560Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.778Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -125064,6 +125939,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.792Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -125083,6 +125964,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:04.624Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.796Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -125108,6 +125995,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.799Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -125127,6 +126020,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:04.672Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.834Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -125152,6 +126051,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.834Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -125171,6 +126076,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:04.735Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.834Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -125196,6 +126107,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.834Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -125212,7 +126129,14 @@
       ],
       "companyMatches": [],
       "identityEvidence": [],
-      "attempts": []
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-11T06:50:15.852Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        }
+      ]
     },
     {
       "sourceKey": "workable:ec-electric",
@@ -125230,6 +126154,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:04.921Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.853Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -125255,6 +126185,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.862Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -125274,6 +126210,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:04.945Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.864Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -125299,6 +126241,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.869Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -125318,6 +126266,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:04.979Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.870Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -125343,6 +126297,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.884Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -125362,6 +126322,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:05.014Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.887Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -125387,6 +126353,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.893Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -125406,6 +126378,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:05.051Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.896Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -125431,6 +126409,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.899Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -125450,6 +126434,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:05.218Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.902Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -125475,6 +126465,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.914Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -125494,6 +126490,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:05.248Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.916Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -125519,6 +126521,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.917Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -125538,6 +126546,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:05.302Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.924Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -125563,6 +126577,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.931Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -125582,6 +126602,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:05.336Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.936Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -125607,6 +126633,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.940Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -125629,6 +126661,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.946Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -125648,6 +126686,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:05.411Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.947Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -125696,6 +126740,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.950Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -125715,6 +126765,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:05.524Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.960Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -125740,6 +126796,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.963Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -125759,6 +126821,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:05.607Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.964Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -125784,6 +126852,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.974Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -125803,6 +126877,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:05.657Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.977Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -125828,6 +126908,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.981Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -125847,6 +126933,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:05.807Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.987Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -125872,6 +126964,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.993Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -125891,6 +126989,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:05.875Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.997Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -125916,6 +127020,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:15.997Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -125935,6 +127045,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:05.903Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.001Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -125960,6 +127076,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.012Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -125979,6 +127101,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:05.963Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.012Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -126024,6 +127152,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:06.079Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.014Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -126094,6 +127228,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.017Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -126113,6 +127253,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:06.130Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.031Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -126138,6 +127284,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.034Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -126157,6 +127309,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:06.169Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.037Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -126182,6 +127340,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.044Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -126201,6 +127365,34 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:06.184Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.049Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        }
+      ]
+    },
+    {
+      "sourceKey": "workable:emerson",
+      "sourceUrl": "https://apply.workable.com/emerson/",
+      "ats": "workable",
+      "token": "emerson",
+      "discoveredFrom": [
+        {
+          "channel": "search",
+          "reference": "hiring-signal:Emerson"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-11T06:50:16.051Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -126226,6 +127418,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.061Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -126245,6 +127443,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:06.295Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.064Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -126270,6 +127474,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.070Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -126289,6 +127499,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:06.431Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.076Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -126314,6 +127530,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.076Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -126333,6 +127555,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:06.460Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.080Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -126358,6 +127586,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.084Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -126377,6 +127611,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:06.485Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.095Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -126402,6 +127642,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.095Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -126421,6 +127667,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:06.526Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.103Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -126446,6 +127698,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.104Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -126465,6 +127723,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:06.763Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.112Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -126490,6 +127754,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.117Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -126509,6 +127779,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:06.769Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.121Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -126534,6 +127810,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.126Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -126553,6 +127835,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:06.809Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.127Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -126578,6 +127866,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.135Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -126597,6 +127891,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:06.821Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.138Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -126622,6 +127922,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.142Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -126641,6 +127947,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:06.927Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.151Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -126666,6 +127978,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.153Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -126685,6 +128003,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:07.044Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.155Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -126733,6 +128057,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.156Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -126752,6 +128082,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:07.075Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.165Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -126777,6 +128113,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.173Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -126796,6 +128138,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:07.104Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.174Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -126821,6 +128169,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.180Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -126840,6 +128194,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:07.175Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.180Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -126865,6 +128225,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.186Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -126884,6 +128250,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:07.213Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.193Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -126909,6 +128281,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.194Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -126928,6 +128306,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:07.314Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.203Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -126953,6 +128337,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.213Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -126972,6 +128362,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:07.356Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.214Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -126997,6 +128393,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.228Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -127016,6 +128418,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:07.533Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.228Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -127041,6 +128449,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.228Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -127060,6 +128474,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:07.578Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.243Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -127085,6 +128505,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.245Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -127104,6 +128530,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:07.602Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.245Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -127129,6 +128561,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.247Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -127148,6 +128586,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:07.641Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.258Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -127173,6 +128617,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.263Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -127192,6 +128642,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:07.736Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.263Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -127217,6 +128673,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.272Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -127236,6 +128698,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:07.845Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.273Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -127261,6 +128729,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.280Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -127280,6 +128754,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:07.882Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.281Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -127305,6 +128785,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.288Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -127324,6 +128810,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:07.917Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.291Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -127349,6 +128841,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.296Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -127368,6 +128866,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:07.942Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.297Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -127415,6 +128919,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.304Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -127434,6 +128944,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:08.143Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.305Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -127459,6 +128975,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.312Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -127478,6 +129000,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:08.171Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.314Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -127526,6 +129054,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.320Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -127545,6 +129079,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:08.222Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.322Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -127570,6 +129110,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.326Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -127589,6 +129135,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:08.265Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.328Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -127614,6 +129166,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.335Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -127636,6 +129194,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.338Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -127652,7 +129216,14 @@
       ],
       "companyMatches": [],
       "identityEvidence": [],
-      "attempts": []
+      "attempts": [
+        {
+          "attemptedAt": "2026-09-11T06:50:16.340Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        }
+      ]
     },
     {
       "sourceKey": "workable:expereo",
@@ -127670,6 +129241,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:08.471Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.347Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -127695,6 +129272,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.351Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -127714,6 +129297,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:08.504Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.353Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -127739,6 +129328,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.357Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -127758,6 +129353,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:08.533Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.362Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -127783,6 +129384,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.369Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -127802,6 +129409,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:08.578Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.371Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -127827,6 +129440,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.372Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -127846,6 +129465,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:08.663Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.377Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -127871,6 +129496,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.386Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -127890,6 +129521,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:08.763Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.388Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -127915,6 +129552,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.388Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -127934,6 +129577,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:08.803Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.395Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -127959,6 +129608,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.400Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -127978,6 +129633,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:08.827Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.404Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -128003,6 +129664,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.404Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -128022,6 +129689,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:08.839Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.409Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -128047,6 +129720,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.421Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -128066,6 +129745,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:08.869Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.422Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -128091,6 +129776,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.425Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -128113,6 +129804,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.439Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -128132,6 +129829,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:09.111Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.440Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -128180,6 +129883,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.440Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -128199,6 +129908,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:09.135Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.442Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -128224,6 +129939,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.452Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -128243,6 +129964,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:09.158Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.454Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -128268,6 +129995,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.456Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -128287,6 +130020,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:09.175Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.467Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -128312,6 +130051,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.469Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -128331,6 +130076,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:09.285Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.470Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -128356,6 +130107,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.483Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -128375,6 +130132,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:09.441Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.485Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -128400,6 +130163,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.487Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -128419,6 +130188,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:09.482Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.487Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -128444,6 +130219,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.498Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -128463,6 +130244,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:09.536Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.500Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -128488,6 +130275,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.500Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -128507,6 +130300,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:09.552Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.515Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -128532,6 +130331,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.515Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -128551,6 +130356,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:09.699Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.516Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -128576,6 +130387,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.516Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -128595,6 +130412,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:09.723Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.533Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -128620,6 +130443,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.533Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -128639,6 +130468,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:09.827Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.534Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -128664,6 +130499,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.541Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -128683,6 +130524,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:09.834Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.547Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -128708,6 +130555,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.549Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -128727,6 +130580,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:09.857Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.561Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -128752,6 +130611,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.563Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -128771,6 +130636,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:10.027Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.564Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -128796,6 +130667,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.568Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -128815,6 +130692,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:10.046Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.575Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -128840,6 +130723,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.578Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -128859,6 +130748,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:10.128Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.583Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -128884,6 +130779,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.592Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -128903,6 +130804,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:10.148Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.594Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -128928,6 +130835,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.596Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -128947,6 +130860,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:10.188Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.604Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -128994,6 +130913,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.609Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -129013,6 +130938,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:10.367Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.611Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -129038,6 +130969,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.612Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -129057,6 +130994,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:10.455Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.619Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -129082,6 +131025,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.625Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -129101,6 +131050,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:10.492Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.630Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -129126,6 +131081,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.633Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -129145,6 +131106,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:10.638Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.639Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -129170,6 +131137,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.646Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -129189,6 +131162,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:10.714Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.647Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -129214,6 +131193,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.652Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -129233,6 +131218,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:10.732Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.658Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -129258,6 +131249,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.661Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -129280,6 +131277,12 @@
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.665Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
         }
       ]
     },
@@ -129299,6 +131302,12 @@
       "attempts": [
         {
           "attemptedAt": "2026-09-07T12:41:10.843Z",
+          "outcome": "transient_failure",
+          "category": "unreachable",
+          "detail": "HTTP 429"
+        },
+        {
+          "attemptedAt": "2026-09-11T06:50:16.668Z",
           "outcome": "transient_failure",
           "category": "unreachable",
           "detail": "HTTP 429"
@@ -137423,6 +139432,21 @@
       "promotedAt": "2026-09-07T13:53:19.660Z"
     },
     {
+      "sourceKey": "workable:intas",
+      "sourceUrl": "https://apply.workable.com/intas/",
+      "ats": "workable",
+      "token": "intas",
+      "discoveredFrom": [
+        {
+          "channel": "search",
+          "reference": "hiring-signal:Intas"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
       "sourceKey": "workable:integrant",
       "sourceUrl": "https://apply.workable.com/integrant/",
       "ats": "workable",
@@ -138603,6 +140627,21 @@
         }
       ],
       "promotedAt": "2026-09-07T13:53:20.168Z"
+    },
+    {
+      "sourceKey": "workable:jade",
+      "sourceUrl": "https://apply.workable.com/jade/",
+      "ats": "workable",
+      "token": "jade",
+      "discoveredFrom": [
+        {
+          "channel": "search",
+          "reference": "hiring-signal:Jade Global"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
     },
     {
       "sourceKey": "workable:jadeclass-education",
@@ -140814,6 +142853,21 @@
         }
       ],
       "promotedAt": "2026-09-07T13:53:21.088Z"
+    },
+    {
+      "sourceKey": "workable:kotak-mahindra",
+      "sourceUrl": "https://apply.workable.com/kotak-mahindra/",
+      "ats": "workable",
+      "token": "kotak-mahindra",
+      "discoveredFrom": [
+        {
+          "channel": "search",
+          "reference": "hiring-signal:Kotak Mahindra Bank"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
     },
     {
       "sourceKey": "workable:koyoloans",
@@ -144306,6 +146360,21 @@
       ]
     },
     {
+      "sourceKey": "workable:marriott",
+      "sourceUrl": "https://apply.workable.com/marriott/",
+      "ats": "workable",
+      "token": "marriott",
+      "discoveredFrom": [
+        {
+          "channel": "search",
+          "reference": "hiring-signal:Marriott"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
       "sourceKey": "workable:marshmallow",
       "sourceUrl": "https://apply.workable.com/marshmallow/",
       "ats": "workable",
@@ -147568,6 +149637,21 @@
           "detail": "HTTP 429"
         }
       ]
+    },
+    {
+      "sourceKey": "workable:naukripay",
+      "sourceUrl": "https://apply.workable.com/naukripay/",
+      "ats": "workable",
+      "token": "naukripay",
+      "discoveredFrom": [
+        {
+          "channel": "search",
+          "reference": "hiring-signal:Naukripay"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
     },
     {
       "sourceKey": "workable:nautilus-solar-energy",
@@ -153827,6 +155911,21 @@
       ]
     },
     {
+      "sourceKey": "workable:pricewaterhousecoopers",
+      "sourceUrl": "https://apply.workable.com/pricewaterhousecoopers/",
+      "ats": "workable",
+      "token": "pricewaterhousecoopers",
+      "discoveredFrom": [
+        {
+          "channel": "search",
+          "reference": "hiring-signal:PricewaterhouseCoopers"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
       "sourceKey": "workable:pride-phc-services",
       "sourceUrl": "https://apply.workable.com/pride-phc-services/",
       "ats": "workable",
@@ -154155,6 +156254,21 @@
           "detail": "HTTP 429"
         }
       ]
+    },
+    {
+      "sourceKey": "workable:progressive-infotech",
+      "sourceUrl": "https://apply.workable.com/progressive-infotech/",
+      "ats": "workable",
+      "token": "progressive-infotech",
+      "discoveredFrom": [
+        {
+          "channel": "search",
+          "reference": "hiring-signal:Progressive Infotech"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
     },
     {
       "sourceKey": "workable:progressive-robotics",
@@ -155448,6 +157562,21 @@
       ]
     },
     {
+      "sourceKey": "workable:rama",
+      "sourceUrl": "https://apply.workable.com/rama/",
+      "ats": "workable",
+      "token": "rama",
+      "discoveredFrom": [
+        {
+          "channel": "search",
+          "reference": "hiring-signal:Rama Medicare"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
       "sourceKey": "workable:rangewell",
       "sourceUrl": "https://apply.workable.com/rangewell/",
       "ats": "workable",
@@ -156070,6 +158199,21 @@
           "detail": "HTTP 429"
         }
       ]
+    },
+    {
+      "sourceKey": "workable:reflections",
+      "sourceUrl": "https://apply.workable.com/reflections/",
+      "ats": "workable",
+      "token": "reflections",
+      "discoveredFrom": [
+        {
+          "channel": "search",
+          "reference": "hiring-signal:Reflections Info Systems"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
     },
     {
       "sourceKey": "workable:regen-network",
@@ -166767,6 +168911,21 @@
       ]
     },
     {
+      "sourceKey": "workable:thr-consultants",
+      "sourceUrl": "https://apply.workable.com/thr-consultants/",
+      "ats": "workable",
+      "token": "thr-consultants",
+      "discoveredFrom": [
+        {
+          "channel": "search",
+          "reference": "hiring-signal:THR Consultants"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
       "sourceKey": "workable:thrivemetrics",
       "sourceUrl": "https://apply.workable.com/thrivemetrics/",
       "ats": "workable",
@@ -166787,6 +168946,21 @@
           "detail": "HTTP 429"
         }
       ]
+    },
+    {
+      "sourceKey": "workable:thyrocare",
+      "sourceUrl": "https://apply.workable.com/thyrocare/",
+      "ats": "workable",
+      "token": "thyrocare",
+      "discoveredFrom": [
+        {
+          "channel": "search",
+          "reference": "hiring-signal:Thyrocare"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
     },
     {
       "sourceKey": "workable:tickpick",
@@ -167051,6 +169225,21 @@
           "detail": "HTTP 429"
         }
       ]
+    },
+    {
+      "sourceKey": "workable:tjx",
+      "sourceUrl": "https://apply.workable.com/tjx/",
+      "ats": "workable",
+      "token": "tjx",
+      "discoveredFrom": [
+        {
+          "channel": "search",
+          "reference": "hiring-signal:Tjx"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
     },
     {
       "sourceKey": "workable:tmgm",
@@ -167799,6 +169988,21 @@
           "detail": "HTTP 429"
         }
       ]
+    },
+    {
+      "sourceKey": "workable:trigent-software",
+      "sourceUrl": "https://apply.workable.com/trigent-software/",
+      "ats": "workable",
+      "token": "trigent-software",
+      "discoveredFrom": [
+        {
+          "channel": "search",
+          "reference": "hiring-signal:Trigent Software Private Limited"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
     },
     {
       "sourceKey": "workable:trinnylondon",
@@ -173168,6 +175372,21 @@
           "detail": "HTTP 429"
         }
       ]
+    },
+    {
+      "sourceKey": "workable:wsp",
+      "sourceUrl": "https://apply.workable.com/wsp/",
+      "ats": "workable",
+      "token": "wsp",
+      "discoveredFrom": [
+        {
+          "channel": "search",
+          "reference": "hiring-signal:WSP USA"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
     },
     {
       "sourceKey": "workable:wwc",
