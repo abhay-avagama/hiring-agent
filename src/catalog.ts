@@ -1,5 +1,5 @@
 import { CASCADE_MINIMUM, CASCADE_WINDOWS, type Company, type Job, type JobAge, type JobSummary, type SearchQuery, type SearchWindow } from "./types.ts";
-import { providerSpec, type JsonGet } from "./providers.ts";
+import { decodeEntities, providerSpec, type JsonGet } from "./providers.ts";
 import { crawlSite, sitePostingsToJobs } from "./jobposting-site.ts";
 import { classifyJob, isEligibleForCountry, normalizeLocation } from "./locations.ts";
 
@@ -518,10 +518,7 @@ function stripHtml(value: string): string {
     .replace(/<br\s*\/?\s*>/gi, "\n")
     .replace(/<\/p>/gi, "\n\n")
     .replace(/<[^>]+>/g, "")
-    .replace(/&nbsp;/g, " ")
-    .replace(/&amp;/g, "&")
-    .replace(/&lt;/g, "<")
-    .replace(/&gt;/g, ">")
+    .replace(/&[#a-z0-9]+;/gi, (entity) => decodeEntities(entity))
     .replace(/\n{3,}/g, "\n\n")
     .trim();
 }

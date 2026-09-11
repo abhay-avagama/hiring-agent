@@ -14,6 +14,16 @@ test("reads the years a posting asks for and ignores employer history", () => {
     ["worldwide. With more than 135 years of financial experience and over 20,000 staff", null],
     ["Our firm has 15 years of experience serving clients. You have 3+ years of experience in audit.", { min: 3 }],
     ["Candidates aged 21-35 years may apply. No experience needed.", null],
+    ["Required Qualifications:\n\n4&#43; years of Software Engineering experience, or equivalent", { min: 4 }],
+    ["Minimum 5- 7 years experiences in automation equipment design", { min: 5, max: 7 }],
+    ["We are looking for Experienced person (minimum 15+ years) with deep knowledge of repo", { min: 15 }],
+    ["Required Qualifications: 4+ years of customer service, loan administration, or equivalent experience", { min: 4 }],
+    ["Experience & Qualifications 10 years+ of experience in brand, graphic, or packaging design", { min: 10 }],
+    ["Inter CMA/Inter CA/MBA and/or 5+ year’s of costing and accounting experience", { min: 5 }],
+    ["Minimum Education BSc/B. Pharma 3 +Yrs of experience.", { min: 3 }],
+    ["With 60 years of experience across industries and a vast network", null],
+    ["Complementary Health screening for 35 yrs. and above", null],
+    ["We are looking for someone with 5+ years of experience in payments.", { min: 5 }],
     ["", null],
   ];
   for (const [text, expected] of cases) expect([text, statedExperience(text)]).toEqual([text, expected]);

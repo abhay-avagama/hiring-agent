@@ -294,10 +294,20 @@ function validToken(value: string | undefined): string | null {
   return value && /^[A-Za-z0-9][A-Za-z0-9._-]*$/.test(value) && !RESERVED_TOKENS.has(value.toLowerCase()) ? value : null;
 }
 
+const NAMED_ENTITIES: Record<string, string> = { nbsp: " ", amp: "&", lt: "<", gt: ">", quot: '"', apos: "'", ndash: "–", mdash: "—", lsquo: "‘", rsquo: "’", ldquo: "“", rdquo: "”", bull: "•", hellip: "…" };
+/** Decode HTML entities in one pass (Workday sends "4&#43; years"), so "&amp;#43;" stays "&#43;" instead of becoming "+". */
+export function decodeEntities(value: string): string {
+  return value.replace(/&(#\d{1,7}|#x[0-9a-f]{1,6}|[a-z]{2,8});/gi, (entity, code: string) => {
+    if (code[0] !== "#") return NAMED_ENTITIES[code.toLowerCase()] ?? entity;
+    const point = code[1] === "x" || code[1] === "X" ? parseInt(code.slice(2), 16) : Number(code.slice(1));
+    return point > 0 && point <= 0x10ffff ? String.fromCodePoint(point) : entity;
+  });
+}
+
 export function plainText(value: string): string {
   return value
     .replace(/<br\s*\/?\s*>/gi, "\n").replace(/<\/(p|li|div|h[1-6])>/gi, "\n").replace(/<[^>]+>/g, "")
-    .replace(/&nbsp;/g, " ").replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"').replace(/&#39;/g, "'")
+    .replace(/&[#a-z0-9]+;/gi, (entity) => decodeEntities(entity))
     .replace(/[ \t]+\n/g, "\n").replace(/\n{3,}/g, "\n\n").trim();
 }
 

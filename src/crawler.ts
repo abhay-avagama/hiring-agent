@@ -159,7 +159,10 @@ export function createCrawler(options: CrawlerOptions): Crawler {
       await options.store.write({ version: 1, updatedAt: finishedAt, partitions, lastCrawl: report });
       if (options.onCrawled) {
         const crawled = selectedSources.filter((source) => metrics.get(source.slug)!.status === "succeeded");
-        await Promise.all(crawled.map((source) => Promise.resolve().then(() => options.onCrawled!(source, partitions[source.slug]!)).catch(() => undefined)));
+        // Four at a time: sending a thousand reports at once made the largest ones time out while the aggregator queued them.
+        let next = 0;
+        const send = async () => { while (next < crawled.length) { const source = crawled[next++]!; await Promise.resolve().then(() => options.onCrawled!(source, partitions[source.slug]!)).catch(() => undefined); } };
+        await Promise.all(Array.from({ length: Math.min(4, crawled.length) }, send));
       }
       return report;
     },

@@ -1,5 +1,5 @@
 import { classifyJob } from "./locations.ts";
-import { countryLabel } from "./providers.ts";
+import { countryLabel, decodeEntities } from "./providers.ts";
 import { extractLinks, fetchSafePage, robotsAllows, type PageTransport, type ResolveHost } from "./safe-head.ts";
 import type { Job } from "./types.ts";
 
@@ -158,5 +158,5 @@ export function sitePostingsToJobs(company: { slug: string; name: string }, post
 function hash(value: string): string { let h = 2166136261; for (const ch of value) { h ^= ch.charCodeAt(0); h = Math.imul(h, 16777619) >>> 0; } return h.toString(16); }
 function text(value: unknown): string { return typeof value === "string" ? value.trim() : typeof value === "number" ? String(value) : ""; }
 function isoDate(value: unknown): string | undefined { const time = Date.parse(text(value)); return Number.isFinite(time) ? new Date(time).toISOString() : undefined; }
-function stripHtml(value: string): string { return value.replace(/<[^>]+>/g, " ").replace(/&nbsp;/g, " ").replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/\s+/g, " ").trim(); }
+function stripHtml(value: string): string { return decodeEntities(value.replace(/<[^>]+>/g, " ")).replace(/\s+/g, " ").trim(); }
 function isRecord(value: unknown): value is Record<string, unknown> { return typeof value === "object" && value !== null && !Array.isArray(value); }

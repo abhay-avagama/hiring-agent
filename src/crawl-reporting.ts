@@ -36,7 +36,8 @@ export function createCrawlReporter(options: { url: string; fetcher?: Fetch; tim
       method: "POST",
       headers: { "content-type": "application/json", "content-encoding": "gzip" },
       body: Bun.gzipSync(JSON.stringify(payload)),
-      signal: AbortSignal.timeout(options.timeoutMs ?? 10_000),
+      // Big employers send tens of megabytes and the aggregator ingests one report at a time; give them room.
+      signal: AbortSignal.timeout(options.timeoutMs ?? 120_000),
     });
     if (!response.ok) throw new Error(`Aggregator rejected crawl report: HTTP ${response.status}`);
   };
