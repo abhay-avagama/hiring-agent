@@ -1,5 +1,5 @@
 /** ATS boards plus "jobposting": a company's own career site read only through its schema.org JobPosting markup (token = careers URL). */
-export const ALL_PROVIDERS = ["greenhouse", "lever", "ashby", "workday", "recruitee", "smartrecruiters", "workable", "breezy", "freshteam", "keka", "zohorecruit", "jobposting"] as const;
+export const ALL_PROVIDERS = ["greenhouse", "lever", "ashby", "workday", "recruitee", "smartrecruiters", "workable", "breezy", "freshteam", "keka", "zohorecruit", "jobposting", "accenture", "infosys", "capgemini"] as const;
 export type Ats = (typeof ALL_PROVIDERS)[number];
 
 export interface DomainEvidence {

@@ -76,7 +76,7 @@
     }
   },
   "8451": {
-    "name": "84.51°",
+    "name": "84.51\u00b0",
     "ats": "greenhouse",
     "token": "8451",
     "sourceUrl": "https://job-boards.greenhouse.io/8451",
@@ -85,7 +85,7 @@
       "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
     },
     "verification": {
-      "observedCompanyName": "84.51°",
+      "observedCompanyName": "84.51\u00b0",
       "identityEvidence": "provider_board",
       "contentType": "application/json",
       "payloadVersion": "greenhouse-job-board:v1",
@@ -3064,25 +3064,6 @@
       "jobCount": 239,
       "checkedAt": "2026-09-07T12:01:30.515Z",
       "canonicalSourceUrl": "https://job-boards.greenhouse.io/accelschools"
-    }
-  },
-  "accenture": {
-    "name": "Accenture",
-    "ats": "workday",
-    "token": "accenture.wd103.myworkdayjobs.com/accenture/AccentureCareers",
-    "sourceUrl": "https://accenture.wd103.myworkdayjobs.com/en-US/AccentureCareers",
-    "discoveredFrom": {
-      "channel": "dataset",
-      "reference": "common-crawl-workday-host:accenture"
-    },
-    "verification": {
-      "observedCompanyName": "Accenture",
-      "identityEvidence": "provider_board",
-      "contentType": "application/json",
-      "payloadVersion": "workday-cxs:v1",
-      "jobCount": 2000,
-      "checkedAt": "2026-09-08T13:10:08.710Z",
-      "canonicalSourceUrl": "https://accenture.wd103.myworkdayjobs.com/en-US/AccentureCareers"
     }
   },
   "accenturefederalservices": {
@@ -10521,7 +10502,7 @@
     }
   },
   "alten-mexico-1": {
-    "name": "ALTEN MÉXICO",
+    "name": "ALTEN M\u00c9XICO",
     "ats": "workable",
     "token": "alten-mexico-1",
     "sourceUrl": "https://apply.workable.com/alten-mexico-1/",
@@ -10530,7 +10511,7 @@
       "reference": "https://index.commoncrawl.org/CC-MAIN-2026-34-index"
     },
     "verification": {
-      "observedCompanyName": "ALTEN MÉXICO",
+      "observedCompanyName": "ALTEN M\u00c9XICO",
       "identityEvidence": "provider_board",
       "contentType": "application/json; charset=utf-8",
       "payloadVersion": "workable-widget:v1",
@@ -12169,7 +12150,7 @@
     }
   },
   "amount": {
-    "name": "FIS® Amount™",
+    "name": "FIS\u00ae Amount\u2122",
     "ats": "greenhouse",
     "token": "amount",
     "sourceUrl": "https://job-boards.greenhouse.io/amount",
@@ -12178,7 +12159,7 @@
       "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
     },
     "verification": {
-      "observedCompanyName": "FIS® Amount™",
+      "observedCompanyName": "FIS\u00ae Amount\u2122",
       "identityEvidence": "provider_board",
       "contentType": "application/json",
       "payloadVersion": "greenhouse-job-board:v1",
@@ -14525,7 +14506,7 @@
     }
   },
   "apothekary": {
-    "name": "Apothékary",
+    "name": "Apoth\u00e9kary",
     "ats": "workable",
     "token": "apothekary",
     "sourceUrl": "https://apply.workable.com/apothekary/",
@@ -14534,7 +14515,7 @@
       "reference": "https://index.commoncrawl.org/CC-MAIN-2026-34-index"
     },
     "verification": {
-      "observedCompanyName": "Apothékary",
+      "observedCompanyName": "Apoth\u00e9kary",
       "identityEvidence": "provider_board",
       "contentType": "application/json; charset=utf-8",
       "payloadVersion": "workable-widget:v1",
@@ -15855,7 +15836,7 @@
     }
   },
   "arcoeducacao": {
-    "name": "Arco Educação",
+    "name": "Arco Educa\u00e7\u00e3o",
     "ats": "greenhouse",
     "token": "arcoeducacao",
     "sourceUrl": "https://job-boards.greenhouse.io/arcoeducacao",
@@ -15864,7 +15845,7 @@
       "reference": "https://index.commoncrawl.org/CC-MAIN-2026-30-index"
     },
     "verification": {
-      "observedCompanyName": "Arco Educação",
+      "observedCompanyName": "Arco Educa\u00e7\u00e3o",
       "identityEvidence": "provider_board",
       "contentType": "application/json",
       "payloadVersion": "greenhouse-job-board:v1",
@@ -23104,7 +23085,7 @@
     }
   },
   "baked-bros": {
-    "name": "Baked Bros™",
+    "name": "Baked Bros\u2122",
     "ats": "breezy",
     "token": "baked-bros",
     "sourceUrl": "https://baked-bros.breezy.hr",
@@ -23113,7 +23094,7 @@
       "reference": "https://index.commoncrawl.org/CC-MAIN-2026-34-index"
     },
     "verification": {
-      "observedCompanyName": "Baked Bros™",
+      "observedCompanyName": "Baked Bros\u2122",
       "identityEvidence": "provider_board",
       "contentType": "application/json; charset=utf-8",
       "payloadVersion": "breezy-positions:v1",
@@ -23873,7 +23854,7 @@
     }
   },
   "barriere": {
-    "name": "Barrière",
+    "name": "Barri\u00e8re",
     "ats": "smartrecruiters",
     "token": "Barriere",
     "sourceUrl": "https://jobs.smartrecruiters.com/Barriere",
@@ -23882,7 +23863,7 @@
       "reference": "https://index.commoncrawl.org/CC-MAIN-2026-34-index"
     },
     "verification": {
-      "observedCompanyName": "Barrière",
+      "observedCompanyName": "Barri\u00e8re",
       "identityEvidence": "provider_board",
       "contentType": "application/json; charset=utf-8",
       "payloadVersion": "smartrecruiters-postings:v1",
@@ -34969,7 +34950,7 @@
     }
   },
   "cadillacf1team": {
-    "name": "Cadillac Formula 1® Team",
+    "name": "Cadillac Formula 1\u00ae Team",
     "ats": "workable",
     "token": "cadillacf1team",
     "sourceUrl": "https://apply.workable.com/cadillacf1team/",
@@ -34978,7 +34959,7 @@
       "reference": "https://index.commoncrawl.org/CC-MAIN-2026-34-index"
     },
     "verification": {
-      "observedCompanyName": "Cadillac Formula 1® Team",
+      "observedCompanyName": "Cadillac Formula 1\u00ae Team",
       "identityEvidence": "provider_board",
       "contentType": "application/json; charset=utf-8",
       "payloadVersion": "workable-widget:v1",
@@ -38858,7 +38839,7 @@
     }
   },
   "cerfrancebroceliande": {
-    "name": "Cerfrance Brocéliande",
+    "name": "Cerfrance Broc\u00e9liande",
     "ats": "smartrecruiters",
     "token": "CerfranceBroceliande",
     "sourceUrl": "https://jobs.smartrecruiters.com/CerfranceBroceliande",
@@ -38867,7 +38848,7 @@
       "reference": "https://index.commoncrawl.org/CC-MAIN-2026-34-index"
     },
     "verification": {
-      "observedCompanyName": "Cerfrance Brocéliande",
+      "observedCompanyName": "Cerfrance Broc\u00e9liande",
       "identityEvidence": "provider_board",
       "contentType": "application/json; charset=utf-8",
       "payloadVersion": "smartrecruiters-postings:v1",
@@ -39010,7 +38991,7 @@
     }
   },
   "cfmontreal": {
-    "name": "CF Montréal",
+    "name": "CF Montr\u00e9al",
     "ats": "smartrecruiters",
     "token": "CFMontreal",
     "sourceUrl": "https://jobs.smartrecruiters.com/CFMontreal",
@@ -39019,7 +39000,7 @@
       "reference": "https://index.commoncrawl.org/CC-MAIN-2026-34-index"
     },
     "verification": {
-      "observedCompanyName": "CF Montréal",
+      "observedCompanyName": "CF Montr\u00e9al",
       "identityEvidence": "provider_board",
       "contentType": "application/json; charset=utf-8",
       "payloadVersion": "smartrecruiters-postings:v1",
@@ -40207,7 +40188,7 @@
     }
   },
   "chuva-inc": {
-    "name": "Galoá (Chuva Inc.)",
+    "name": "Galo\u00e1 (Chuva Inc.)",
     "ats": "workable",
     "token": "chuva-inc",
     "sourceUrl": "https://apply.workable.com/chuva-inc/",
@@ -40216,7 +40197,7 @@
       "reference": "https://index.commoncrawl.org/CC-MAIN-2026-34-index"
     },
     "verification": {
-      "observedCompanyName": "Galoá (Chuva Inc.)",
+      "observedCompanyName": "Galo\u00e1 (Chuva Inc.)",
       "identityEvidence": "provider_board",
       "contentType": "application/json; charset=utf-8",
       "payloadVersion": "workable-widget:v1",
@@ -43926,7 +43907,7 @@
     }
   },
   "commerzbank-poland": {
-    "name": "Commerzbank AG – Poland",
+    "name": "Commerzbank AG \u2013 Poland",
     "ats": "breezy",
     "token": "commerzbank-poland",
     "sourceUrl": "https://commerzbank-poland.breezy.hr",
@@ -43935,7 +43916,7 @@
       "reference": "https://index.commoncrawl.org/CC-MAIN-2026-34-index"
     },
     "verification": {
-      "observedCompanyName": "Commerzbank AG – Poland",
+      "observedCompanyName": "Commerzbank AG \u2013 Poland",
       "identityEvidence": "provider_board",
       "contentType": "application/json; charset=utf-8",
       "payloadVersion": "breezy-positions:v1",
@@ -56004,7 +55985,7 @@
     }
   },
   "epiktet": {
-    "name": "Kinougarde-Complétude",
+    "name": "Kinougarde-Compl\u00e9tude",
     "ats": "smartrecruiters",
     "token": "epiktet",
     "sourceUrl": "https://jobs.smartrecruiters.com/epiktet",
@@ -56013,7 +55994,7 @@
       "reference": "https://index.commoncrawl.org/CC-MAIN-2026-34-index"
     },
     "verification": {
-      "observedCompanyName": "Kinougarde-Complétude",
+      "observedCompanyName": "Kinougarde-Compl\u00e9tude",
       "identityEvidence": "provider_board",
       "contentType": "application/json; charset=utf-8",
       "payloadVersion": "smartrecruiters-postings:v1",
@@ -56517,7 +56498,7 @@
     }
   },
   "etablissementspublicspourlintegration": {
-    "name": "Etablissements publics pour l’intégration",
+    "name": "Etablissements publics pour l\u2019int\u00e9gration",
     "ats": "smartrecruiters",
     "token": "EtablissementsPublicsPourLIntegration",
     "sourceUrl": "https://jobs.smartrecruiters.com/EtablissementsPublicsPourLIntegration",
@@ -56526,7 +56507,7 @@
       "reference": "https://index.commoncrawl.org/CC-MAIN-2026-34-index"
     },
     "verification": {
-      "observedCompanyName": "Etablissements publics pour l’intégration",
+      "observedCompanyName": "Etablissements publics pour l\u2019int\u00e9gration",
       "identityEvidence": "provider_board",
       "contentType": "application/json; charset=utf-8",
       "payloadVersion": "smartrecruiters-postings:v1",
@@ -63241,7 +63222,7 @@
     }
   },
   "gek-terna": {
-    "name": "ΟΜΙΛΟΣ ΓΕΚ ΤΕΡΝΑ / GEK TERNA GROUP",
+    "name": "\u039f\u039c\u0399\u039b\u039f\u03a3 \u0393\u0395\u039a \u03a4\u0395\u03a1\u039d\u0391 / GEK TERNA GROUP",
     "ats": "workable",
     "token": "gek-terna",
     "sourceUrl": "https://apply.workable.com/gek-terna/",
@@ -63250,7 +63231,7 @@
       "reference": "https://index.commoncrawl.org/CC-MAIN-2026-34-index"
     },
     "verification": {
-      "observedCompanyName": "ΟΜΙΛΟΣ ΓΕΚ ΤΕΡΝΑ / GEK TERNA GROUP",
+      "observedCompanyName": "\u039f\u039c\u0399\u039b\u039f\u03a3 \u0393\u0395\u039a \u03a4\u0395\u03a1\u039d\u0391 / GEK TERNA GROUP",
       "identityEvidence": "provider_board",
       "contentType": "application/json; charset=utf-8",
       "payloadVersion": "workable-widget:v1",
@@ -63778,7 +63759,7 @@
     }
   },
   "geoprobe": {
-    "name": "Geoprobe Systems®",
+    "name": "Geoprobe Systems\u00ae",
     "ats": "workable",
     "token": "geoprobe",
     "sourceUrl": "https://apply.workable.com/geoprobe/",
@@ -63787,7 +63768,7 @@
       "reference": "https://index.commoncrawl.org/CC-MAIN-2026-34-index"
     },
     "verification": {
-      "observedCompanyName": "Geoprobe Systems®",
+      "observedCompanyName": "Geoprobe Systems\u00ae",
       "identityEvidence": "provider_board",
       "contentType": "application/json; charset=utf-8",
       "payloadVersion": "workable-widget:v1",
@@ -71964,7 +71945,7 @@
     }
   },
   "hopital-fribourgeois": {
-    "name": "Hôpital fribourgeois",
+    "name": "H\u00f4pital fribourgeois",
     "ats": "breezy",
     "token": "hopital-fribourgeois",
     "sourceUrl": "https://hopital-fribourgeois.breezy.hr",
@@ -71973,7 +71954,7 @@
       "reference": "https://index.commoncrawl.org/CC-MAIN-2026-34-index"
     },
     "verification": {
-      "observedCompanyName": "Hôpital fribourgeois",
+      "observedCompanyName": "H\u00f4pital fribourgeois",
       "identityEvidence": "provider_board",
       "contentType": "application/json; charset=utf-8",
       "payloadVersion": "breezy-positions:v1",
@@ -72882,7 +72863,7 @@
     }
   },
   "hug": {
-    "name": "Hôpitaux Universitaires de Genève",
+    "name": "H\u00f4pitaux Universitaires de Gen\u00e8ve",
     "ats": "smartrecruiters",
     "token": "HUG",
     "sourceUrl": "https://jobs.smartrecruiters.com/HUG",
@@ -72891,7 +72872,7 @@
       "reference": "https://index.commoncrawl.org/CC-MAIN-2026-34-index"
     },
     "verification": {
-      "observedCompanyName": "Hôpitaux Universitaires de Genève",
+      "observedCompanyName": "H\u00f4pitaux Universitaires de Gen\u00e8ve",
       "identityEvidence": "provider_board",
       "contentType": "application/json; charset=utf-8",
       "payloadVersion": "smartrecruiters-postings:v1",
@@ -74718,7 +74699,7 @@
     }
   },
   "il-gabbiano-societa-cooperativa-sociale-onlus": {
-    "name": "Il Gabbiano, Società Cooperativa Sociale - ONLUS",
+    "name": "Il Gabbiano, Societ\u00e0 Cooperativa Sociale - ONLUS",
     "ats": "breezy",
     "token": "il-gabbiano-societa-cooperativa-sociale-onlus",
     "sourceUrl": "https://il-gabbiano-societa-cooperativa-sociale-onlus.breezy.hr",
@@ -74727,7 +74708,7 @@
       "reference": "https://index.commoncrawl.org/CC-MAIN-2026-34-index"
     },
     "verification": {
-      "observedCompanyName": "Il Gabbiano, Società Cooperativa Sociale - ONLUS",
+      "observedCompanyName": "Il Gabbiano, Societ\u00e0 Cooperativa Sociale - ONLUS",
       "identityEvidence": "provider_board",
       "contentType": "application/json; charset=utf-8",
       "payloadVersion": "breezy-positions:v1",
@@ -83785,7 +83766,7 @@
     }
   },
   "lgihealthcaresolutionssanteinc": {
-    "name": "LGI Healthcare Solutions Santé Inc.",
+    "name": "LGI Healthcare Solutions Sant\u00e9 Inc.",
     "ats": "smartrecruiters",
     "token": "LGIHealthcareSolutionsSanteInc",
     "sourceUrl": "https://jobs.smartrecruiters.com/LGIHealthcareSolutionsSanteInc",
@@ -83794,7 +83775,7 @@
       "reference": "https://index.commoncrawl.org/CC-MAIN-2026-34-index"
     },
     "verification": {
-      "observedCompanyName": "LGI Healthcare Solutions Santé Inc.",
+      "observedCompanyName": "LGI Healthcare Solutions Sant\u00e9 Inc.",
       "identityEvidence": "provider_board",
       "contentType": "application/json; charset=utf-8",
       "payloadVersion": "smartrecruiters-postings:v1",
@@ -83937,7 +83918,7 @@
     }
   },
   "libraryofparliamentbibliothequeduparlement": {
-    "name": "Library of Parliament / Bibliothèque du Parlement",
+    "name": "Library of Parliament / Biblioth\u00e8que du Parlement",
     "ats": "smartrecruiters",
     "token": "LibraryOfParliamentBibliothequeDuParlement",
     "sourceUrl": "https://jobs.smartrecruiters.com/LibraryOfParliamentBibliothequeDuParlement",
@@ -83946,7 +83927,7 @@
       "reference": "https://index.commoncrawl.org/CC-MAIN-2026-34-index"
     },
     "verification": {
-      "observedCompanyName": "Library of Parliament / Bibliothèque du Parlement",
+      "observedCompanyName": "Library of Parliament / Biblioth\u00e8que du Parlement",
       "identityEvidence": "provider_board",
       "contentType": "application/json; charset=utf-8",
       "payloadVersion": "smartrecruiters-postings:v1",
@@ -86818,7 +86799,7 @@
     }
   },
   "mcdonaldsoesterreich": {
-    "name": "McDonald's Österreich",
+    "name": "McDonald's \u00d6sterreich",
     "ats": "smartrecruiters",
     "token": "McDonaldsOesterreich",
     "sourceUrl": "https://jobs.smartrecruiters.com/McDonaldsOesterreich",
@@ -86827,7 +86808,7 @@
       "reference": "https://index.commoncrawl.org/CC-MAIN-2026-34-index"
     },
     "verification": {
-      "observedCompanyName": "McDonald's Österreich",
+      "observedCompanyName": "McDonald's \u00d6sterreich",
       "identityEvidence": "provider_board",
       "contentType": "application/json; charset=utf-8",
       "payloadVersion": "smartrecruiters-postings:v1",
@@ -87383,7 +87364,7 @@
     }
   },
   "methode": {
-    "name": "Méthode Srl",
+    "name": "M\u00e9thode Srl",
     "ats": "breezy",
     "token": "methode",
     "sourceUrl": "https://methode.breezy.hr",
@@ -87392,7 +87373,7 @@
       "reference": "https://index.commoncrawl.org/CC-MAIN-2026-34-index"
     },
     "verification": {
-      "observedCompanyName": "Méthode Srl",
+      "observedCompanyName": "M\u00e9thode Srl",
       "identityEvidence": "provider_board",
       "contentType": "application/json; charset=utf-8",
       "payloadVersion": "breezy-positions:v1",
@@ -89950,7 +89931,7 @@
     }
   },
   "natureo": {
-    "name": "naturéO",
+    "name": "natur\u00e9O",
     "ats": "smartrecruiters",
     "token": "natureO",
     "sourceUrl": "https://jobs.smartrecruiters.com/natureO",
@@ -89959,7 +89940,7 @@
       "reference": "https://index.commoncrawl.org/CC-MAIN-2026-34-index"
     },
     "verification": {
-      "observedCompanyName": "naturéO",
+      "observedCompanyName": "natur\u00e9O",
       "identityEvidence": "provider_board",
       "contentType": "application/json; charset=utf-8",
       "payloadVersion": "smartrecruiters-postings:v1",
@@ -91650,7 +91631,7 @@
     }
   },
   "officeofthecommonwealthsattorneyforarlingtoncountyandthecityoffallschurch": {
-    "name": "Office of the Commonwealth’s Attorney for Arlington County and the City of Falls Church",
+    "name": "Office of the Commonwealth\u2019s Attorney for Arlington County and the City of Falls Church",
     "ats": "smartrecruiters",
     "token": "OfficeOfTheCommonwealthsAttorneyForArlingtonCountyAndTheCityOfFallsChurch",
     "sourceUrl": "https://jobs.smartrecruiters.com/OfficeOfTheCommonwealthsAttorneyForArlingtonCountyAndTheCityOfFallsChurch",
@@ -91659,7 +91640,7 @@
       "reference": "https://index.commoncrawl.org/CC-MAIN-2026-34-index"
     },
     "verification": {
-      "observedCompanyName": "Office of the Commonwealth’s Attorney for Arlington County and the City of Falls Church",
+      "observedCompanyName": "Office of the Commonwealth\u2019s Attorney for Arlington County and the City of Falls Church",
       "identityEvidence": "provider_board",
       "contentType": "application/json; charset=utf-8",
       "payloadVersion": "smartrecruiters-postings:v1",
@@ -94986,7 +94967,7 @@
     }
   },
   "reitmanscanadalteltd": {
-    "name": "Reitmans (Canada) Ltée/Ltd",
+    "name": "Reitmans (Canada) Lt\u00e9e/Ltd",
     "ats": "smartrecruiters",
     "token": "ReitmansCanadaLteLtd",
     "sourceUrl": "https://jobs.smartrecruiters.com/ReitmansCanadaLteLtd",
@@ -94995,7 +94976,7 @@
       "reference": "https://index.commoncrawl.org/CC-MAIN-2026-34-index"
     },
     "verification": {
-      "observedCompanyName": "Reitmans (Canada) Ltée/Ltd",
+      "observedCompanyName": "Reitmans (Canada) Lt\u00e9e/Ltd",
       "identityEvidence": "provider_board",
       "contentType": "application/json; charset=utf-8",
       "payloadVersion": "smartrecruiters-postings:v1",
@@ -95005,7 +94986,7 @@
     }
   },
   "relaischateaux": {
-    "name": "Relais & Châteaux",
+    "name": "Relais & Ch\u00e2teaux",
     "ats": "smartrecruiters",
     "token": "RelaisChateaux",
     "sourceUrl": "https://jobs.smartrecruiters.com/RelaisChateaux",
@@ -95014,7 +94995,7 @@
       "reference": "https://index.commoncrawl.org/CC-MAIN-2026-34-index"
     },
     "verification": {
-      "observedCompanyName": "Relais & Châteaux",
+      "observedCompanyName": "Relais & Ch\u00e2teaux",
       "identityEvidence": "provider_board",
       "contentType": "application/json; charset=utf-8",
       "payloadVersion": "smartrecruiters-postings:v1",
@@ -99138,7 +99119,7 @@
     }
   },
   "staubligroup": {
-    "name": "Stäubli",
+    "name": "St\u00e4ubli",
     "ats": "smartrecruiters",
     "token": "StaubliGroup",
     "sourceUrl": "https://jobs.smartrecruiters.com/StaubliGroup",
@@ -99147,7 +99128,7 @@
       "reference": "https://index.commoncrawl.org/CC-MAIN-2026-34-index"
     },
     "verification": {
-      "observedCompanyName": "Stäubli",
+      "observedCompanyName": "St\u00e4ubli",
       "identityEvidence": "provider_board",
       "contentType": "application/json; charset=utf-8",
       "payloadVersion": "smartrecruiters-postings:v1",
@@ -108102,6 +108083,98 @@
       "jobCount": 19,
       "checkedAt": "2026-09-08T09:37:45.626Z",
       "canonicalSourceUrl": "https://zypp.keka.com/careers"
+    }
+  },
+  "accenture-india": {
+    "name": "Accenture",
+    "ats": "accenture",
+    "token": "in-en",
+    "companyDomain": "accenture.com",
+    "sourceUrl": "https://www.accenture.com/in-en/careers/jobsearch",
+    "cohorts": [
+      "IN"
+    ],
+    "discoveredFrom": {
+      "channel": "career_page",
+      "reference": "https://www.accenture.com/in-en/careers/jobsearch"
+    },
+    "verification": {
+      "checkedAt": "2026-09-11T05:39:41.016030+00:00",
+      "canonicalSourceUrl": "https://www.accenture.com/in-en/careers/jobsearch",
+      "observedCompanyName": "Accenture",
+      "identityEvidence": "company_site",
+      "contentType": "application/json",
+      "payloadVersion": "accenture-findjobs:v1",
+      "jobCount": 20000
+    }
+  },
+  "infosys": {
+    "name": "Infosys",
+    "ats": "infosys",
+    "token": "1",
+    "companyDomain": "infosys.com",
+    "sourceUrl": "https://career.infosys.com/joblist",
+    "cohorts": [
+      "IN"
+    ],
+    "discoveredFrom": {
+      "channel": "career_page",
+      "reference": "https://career.infosys.com/joblist"
+    },
+    "verification": {
+      "checkedAt": "2026-09-11T05:39:41.016030+00:00",
+      "canonicalSourceUrl": "https://career.infosys.com/joblist",
+      "observedCompanyName": "Infosys",
+      "identityEvidence": "company_site",
+      "contentType": "application/json",
+      "payloadVersion": "infosys-careersearch:v1",
+      "jobCount": 1652
+    }
+  },
+  "infosys-bpm": {
+    "name": "Infosys BPM",
+    "ats": "infosys",
+    "token": "41",
+    "companyDomain": "infosysbpm.com",
+    "sourceUrl": "https://career.infosys.com/joblist",
+    "cohorts": [
+      "IN"
+    ],
+    "discoveredFrom": {
+      "channel": "career_page",
+      "reference": "https://career.infosys.com/joblist"
+    },
+    "verification": {
+      "checkedAt": "2026-09-11T05:39:41.016030+00:00",
+      "canonicalSourceUrl": "https://career.infosys.com/joblist",
+      "observedCompanyName": "Infosys BPM",
+      "identityEvidence": "company_site",
+      "contentType": "application/json",
+      "payloadVersion": "infosys-careersearch:v1",
+      "jobCount": 113
+    }
+  },
+  "capgemini-india": {
+    "name": "Capgemini",
+    "ats": "capgemini",
+    "token": "in-en",
+    "companyDomain": "capgemini.com",
+    "sourceUrl": "https://www.capgemini.com/in-en/careers/join-capgemini/job-search/",
+    "cohorts": [
+      "IN"
+    ],
+    "discoveredFrom": {
+      "channel": "career_page",
+      "reference": "https://www.capgemini.com/in-en/careers/join-capgemini/job-search/"
+    },
+    "verification": {
+      "checkedAt": "2026-09-11T05:39:41.016030+00:00",
+      "canonicalSourceUrl": "https://www.capgemini.com/in-en/careers/join-capgemini/job-search/",
+      "observedCompanyName": "Capgemini",
+      "identityEvidence": "company_site",
+      "contentType": "application/json",
+      "payloadVersion": "capgemini-jobstream:v1",
+      "jobCount": 922
     }
   }
 }

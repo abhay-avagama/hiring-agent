@@ -39,7 +39,7 @@ export interface CommonCrawlDiscoveryReport extends ReportMeta {
 
 const providerPatterns: Record<Ats, string[]> = {
   greenhouse: ["job-boards.greenhouse.io/*", "boards.greenhouse.io/*"], lever: ["jobs.lever.co/*"], ashby: ["jobs.ashbyhq.com/*"], workday: ["*.myworkdayjobs.com/*"], recruitee: ["*.recruitee.com/*"],
-  ...Object.fromEntries(PROVIDERS.map((spec) => [spec.ats, spec.crawlPatterns])) as Record<"smartrecruiters" | "workable" | "breezy" | "freshteam" | "keka" | "zohorecruit", string[]>,
+  ...Object.fromEntries(PROVIDERS.map((spec) => [spec.ats, spec.crawlPatterns])) as Record<"smartrecruiters" | "workable" | "breezy" | "freshteam" | "keka" | "zohorecruit" | "accenture" | "infosys" | "capgemini", string[]>,
   jobposting: [], // company sites are found by probing seeds, never by URL pattern
 };
 const patterns = Object.values(providerPatterns).flat();

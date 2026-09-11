@@ -320,8 +320,8 @@ async function fetchWorkdayJobs(company: Company, fetcher: Fetch, signal?: Abort
 
 /** JSON fetch with the catalog's retry and backoff, shaped for the table-driven providers. */
 function jsonGetter(fetcher: Fetch, companyName: string, signal?: AbortSignal, observer?: FetchJobsObserver): JsonGet {
-  return async (url, format = "json") => {
-    const response = await fetchWithRetry(fetcher, url, signal ? { signal } : undefined, companyName, observer);
+  return async (url, format = "json", init) => {
+    const response = await fetchWithRetry(fetcher, url, { ...(init ?? {}), ...(signal ? { signal } : {}) }, companyName, observer);
     if (!response.ok) { await response.body?.cancel().catch(() => undefined); throw new Error(`${companyName} job board returned HTTP ${response.status}`); }
     return format === "text" ? response.text() : response.json();
   };

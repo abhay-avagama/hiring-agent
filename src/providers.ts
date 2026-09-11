@@ -9,7 +9,9 @@ import type { Ats, Company, Job } from "./types.ts";
 
 type Rec = Record<string, unknown>;
 /** Fetches a URL and returns its parsed JSON body (or the raw text when asked); the caller supplies retry and pacing. */
-export type JsonGet = (url: string, format?: "json" | "text") => Promise<unknown>;
+/** POST bodies are for employer portals whose own search page posts its query; everything else is a plain GET. */
+export interface GetInit { method?: "GET" | "POST"; body?: string | FormData; headers?: Record<string, string> }
+export type JsonGet = (url: string, format?: "json" | "text", init?: GetInit) => Promise<unknown>;
 
 export interface ProviderSpec {
   ats: Ats;
@@ -261,7 +263,8 @@ const zohorecruit: ProviderSpec = {
 function tag(xml: string, name: string): string { return new RegExp(`<${name}(?:\\s[^>]*)?>([\\s\\S]*?)</${name}>`, "i").exec(xml)?.[1]?.trim() ?? ""; }
 function cdata(value: string): string { return value.replace(/^<!\[CDATA\[([\s\S]*?)\]\]>$/, "$1").trim(); }
 
-export const PROVIDERS: ReadonlyArray<ProviderSpec> = [smartrecruiters, workable, breezy, freshteam, keka, zohorecruit];
+import { PORTALS } from "./portals.ts";
+export const PROVIDERS: ReadonlyArray<ProviderSpec> = [smartrecruiters, workable, breezy, freshteam, keka, zohorecruit, ...PORTALS];
 
 export function providerSpec(ats: string): ProviderSpec | undefined {
   return PROVIDERS.find((spec) => spec.ats === ats);
@@ -303,6 +306,6 @@ function majority(values: string[]): string {
   for (const value of values) if (value) counts.set(value, (counts.get(value) ?? 0) + 1);
   return [...counts].sort((a, b) => b[1] - a[1])[0]?.[0] ?? "";
 }
-function str(value: unknown): string { return typeof value === "string" ? value.trim() : typeof value === "number" ? String(value) : ""; }
-function asRecords(value: unknown): Rec[] | null { return Array.isArray(value) && value.every(isRecord) ? value : null; }
-function isRecord(value: unknown): value is Rec { return typeof value === "object" && value !== null && !Array.isArray(value); }
+export function str(value: unknown): string { return typeof value === "string" ? value.trim() : typeof value === "number" ? String(value) : ""; }
+export function asRecords(value: unknown): Rec[] | null { return Array.isArray(value) && value.every(isRecord) ? value : null; }
+export function isRecord(value: unknown): value is Rec { return typeof value === "object" && value !== null && !Array.isArray(value); }
