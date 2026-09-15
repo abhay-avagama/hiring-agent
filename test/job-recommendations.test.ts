@@ -94,7 +94,7 @@ test("auto refreshes a stale snapshot once in the requested country scope and re
 
   const result = await recommender.recommend({ resume: { content: "Skills\nJava", format: "text" }, intent: { countries: ["IN"] } });
 
-  expect(scopes).toEqual([{ slugs: ["acme"] }]);
+  expect(scopes).toEqual([{ slugs: ["acme"], countries: ["IN"] }]);
   expect(result.matches.map((match) => match.job.id)).toEqual(["fresh"]);
   expect(result.refresh).toEqual({ policy: "auto", attempted: true, occurred: true, reason: "snapshot_stale", failures: [] });
   expect(result.snapshot).toEqual(expect.objectContaining({ refreshed: true, stale: false }));
@@ -253,7 +253,7 @@ test("eligible non-cohort partitions are included in both freshness and refresh 
   const result = await recommender.recommend({
     resume: { content: "Skills\nJava", format: "text" }, intent: { countries: ["IN"] }, refresh: { policy: "auto", minimumMatches: 1 },
   });
-  expect(scopes).toEqual([{ slugs: ["acme", "untagged"] }]);
+  expect(scopes).toEqual([{ slugs: ["acme", "untagged"], countries: ["IN"] }]);
   expect(result.snapshot.stale).toBe(false);
 });
 
@@ -269,7 +269,7 @@ test("multiple target countries refresh only their bounded cohort union", async 
   await recommender.recommend({
     resume: { content: "Skills\nJava", format: "text" }, intent: { countries: ["IN", "US"] }, refresh: { policy: "always" },
   });
-  expect(scopes).toEqual([{ slugs: ["acme", "us"] }]);
+  expect(scopes).toEqual([{ slugs: ["acme", "us"], countries: ["IN", "US"] }]);
 });
 
 test("a thrown refresh preserves usable local recommendations and reports the orchestration failure", async () => {

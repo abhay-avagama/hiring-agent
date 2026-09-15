@@ -2,7 +2,18 @@
 
 A free, candidate-safe job search for AI agents.
 
-Openings indexes public company job boards into a private index on your machine and exposes it to any MCP client. Your agent can find roles that fit a resume, explain the fit with evidence, and propose truthful resume improvements. There are no accounts, no API keys, no model calls, and no way to submit an application.
+Openings indexes public company job boards into a private index on your machine and exposes it to any MCP client. Your agent can find roles that fit a resume, explain the fit with evidence, and propose truthful resume improvements. Installed this way there are no accounts and no API keys; there are never model calls and never a way to submit an application.
+
+Two ways to run it, with different data rules:
+
+| | On your machine (this package) | Hosted connector at `openings.avagama.co/mcp` |
+|---|---|---|
+| Sign-in | None | Email code, so an account exists |
+| Job index | Built and stored on your machine | Ours, shared |
+| Resume | Parsed in memory for one request, never written to disk | Sent to our server, processed in memory for that request, then discarded |
+| What we receive | Crawl reports, plus anonymous usage events unless you turn them off | The same usage record, keyed to your account |
+
+Both are covered in [Sharing crawls and usage](#sharing-crawls-and-usage) and on the [privacy page](https://avagama.co/privacy/).
 
 - **Eleven providers plus company sites.** Greenhouse, Lever, Ashby, Workday, Recruitee, SmartRecruiters, Workable, Breezy, Freshteam, Keka, and Zoho Recruit, crawled from their public structured endpoints, plus employer career sites read only through the schema.org JobPosting markup they publish for search engines. No free-form HTML scraping.
 - **Verified sources only.** Every company in the catalog passed an identity check against its own board.
@@ -99,7 +110,11 @@ On startup the server makes one request to the npm registry to learn the latest 
 
 ## Privacy
 
-Job data comes straight from public ATS endpoints and is stored only on your machine. Your MCP client reads the resume file and passes its content to a tool; Openings never sees the path and never persists the content or anything derived from it. Every proposed change stays subject to your review.
+Job data comes straight from public ATS endpoints and is stored only on your machine. Your MCP client reads the resume file and passes its content to a tool; Openings never sees the path, and it never writes the resume to disk, logs it, or sends it anywhere.
+
+One thing derived from a resume does leave your machine while usage reporting is on, which is the default: the skill and title words the parser extracted, in the anonymous event described in [Sharing crawls and usage](#sharing-crawls-and-usage). Never the resume text, the quoted evidence, your name, or your contact details. `OPENINGS_USAGE=off` stops it, and an empty `OPENINGS_AGGREGATOR_URL` keeps everything local.
+
+Every proposed change stays subject to your review.
 
 ## Develop
 

@@ -44,7 +44,10 @@ export function createLocalJobs(options: LocalJobsOptions) {
 
   async function crawl(scope: CrawlScope = {}): Promise<CrawlReport> {
     const selected = selectSources(options.sources, scope);
-    return crawler.crawl(selected, { prune: !scope.country && !scope.countries && !scope.slugs });
+    // Workday's country passes cover the countries this crawl is for, on top of the configured ones.
+    const asked = [...(scope.countries ?? []), ...(scope.country ? [scope.country] : [])].map((code) => code.toUpperCase());
+    const workdayCountries = asked.length ? [...new Set([...(options.workdayCountries ?? []), ...asked])] : undefined;
+    return crawler.crawl(selected, { prune: !scope.country && !scope.countries && !scope.slugs, ...(workdayCountries ? { workdayCountries } : {}) });
   }
 
   async function ensureFresh(offline: boolean, staleDays: number): Promise<{ snapshot: JobSnapshot; refreshed: boolean }> {

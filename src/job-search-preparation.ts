@@ -38,7 +38,7 @@ export function createJobSearchPreparer(options: {
       }
       const pendingBefore = pendingSources(options.sources, snapshot, now(), freshnessMs);
       const selected = pendingBefore.filter((source) => !input.attempted.has(source.slug)).slice(0, batchSize).map((source) => source.slug);
-      const crawl = selected.length ? await options.crawl({ slugs: selected }) : undefined;
+      const crawl = selected.length ? await options.crawl({ slugs: selected, countries }) : undefined;
       if (crawl) snapshot = await options.store.read();
       if (!snapshot) throw new Error("Job search preparation did not produce a local snapshot");
 

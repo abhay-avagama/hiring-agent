@@ -224,3 +224,17 @@ test("required experience comes from the description, the last crawl, or one det
   expect(experience).toEqual({ inline: { min: 7 }, known: { min: 4 }, new: { min: 2, max: 5 }, silent: null, us: undefined, old: undefined });
   expect(described).toEqual(["workday:acme:new", "workday:acme:silent"]);
 });
+
+test("a crawl for a country adds it to Workday's supplementary passes", async () => {
+  let snapshot: JobSnapshot = { version: 1, updatedAt: "2026-09-14T00:00:00.000Z", partitions: {}, lastCrawl: { startedAt: "2026-09-14T00:00:00.000Z", finishedAt: "2026-09-14T00:00:00.000Z", selected: 0, succeeded: 0, failed: [] } };
+  const asked: Array<string[] | undefined> = [];
+  const crawler = createCrawler({
+    store: { read: async () => snapshot, write: async (next) => { snapshot = next; } },
+    workdayCountries: ["IN", "US"],
+    fetchJobs: async (_source, _signal, observer) => { asked.push(observer?.workdayCountries); return []; },
+  });
+  const source: Company = { slug: "acme", name: "Acme", ats: "workday", token: "acme.wd1.myworkdayjobs.com/acme/Careers" };
+  await crawler.crawl([source], { workdayCountries: ["IN", "US", "DE"] });
+  await crawler.crawl([source]);
+  expect(asked).toEqual([["IN", "US", "DE"], ["IN", "US"]]);
+});

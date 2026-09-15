@@ -211,7 +211,7 @@ function refreshReason(policy: RefreshPolicy, snapshot: JobSnapshot | null, matc
 }
 
 function refreshScope(intent: CandidateIntent, snapshot: JobSnapshot | null, sources: Company[]): CrawlScope {
-  return intent.countries?.length ? { slugs: relevantSourceSlugs(snapshot, intent, sources) } : {};
+  return intent.countries?.length ? { slugs: relevantSourceSlugs(snapshot, intent, sources), countries: intent.countries } : {};
 }
 
 function relevantSnapshot(snapshot: JobSnapshot, intent: CandidateIntent, sources: Company[]): JobSnapshot {

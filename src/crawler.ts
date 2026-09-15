@@ -30,7 +30,7 @@ interface CrawlerOptions {
 }
 
 export interface Crawler {
-  crawl(sources: Company[], settings?: { prune?: boolean }): Promise<CrawlReport>;
+  crawl(sources: Company[], settings?: { prune?: boolean; workdayCountries?: string[] }): Promise<CrawlReport>;
 }
 
 export function createCrawler(options: CrawlerOptions): Crawler {
@@ -124,7 +124,8 @@ export function createCrawler(options: CrawlerOptions): Crawler {
               const listed = await options.fetchJobs(source, controller.signal, {
                 onBackoff: ({ status, delayMs }) => { metric.backoffMs += delayMs; if (status === 429) metric.throttles += 1; },
                 workdayPageDelayMs: options.workdayPageDelayMs,
-                workdayCountries: options.workdayCountries,
+                // The countries this crawl asked for drive Workday's supplementary passes, not just the configured default.
+                workdayCountries: settings?.workdayCountries ?? options.workdayCountries,
               });
               const jobs = await withExperience(source, listed, partitionFor(partitions, source.slug)?.jobs);
               partitions[source.slug] = { fetchedAt: now().toISOString(), jobs };
