@@ -36,12 +36,23 @@ export class ResumeInputError extends Error {
   ) { super(message); }
 }
 
+/** A PDF or DOCX pasted as text: a file signature, or control characters no resume contains. */
+function looksBinary(content: string): boolean {
+  const head = content.slice(0, 2048);
+  if (/^%PDF-|^PK\u0003\u0004|^\{\\rtf/.test(content.trimStart())) return true;
+  const control = head.match(/[\u0000-\u0008\u000e-\u001f]/g)?.length ?? 0;
+  return control > 0 && control / Math.max(head.length, 1) > 0.01;
+}
+
 export function parseCandidateProfile(input: unknown): CandidateProfile {
   if (!isRecord(input) || typeof input.format !== "string" || typeof input.content !== "string") {
     throw new ResumeInputError("invalid_resume_input", "Resume must contain text or Markdown content");
   }
   if (input.format === "pdf_base64" || input.format === "docx_base64") {
     throw new ResumeInputError("unsupported_resume_format", `Resume format ${input.format} is not supported yet`, input.format, ["text", "markdown"]);
+  }
+  if (looksBinary(input.content)) {
+    throw new ResumeInputError("invalid_resume_input", "That looks like a file's raw bytes, not resume text. Export the resume as text, or paste the text itself.");
   }
   if (!(["text", "markdown"] as string[]).includes(input.format)) {
     throw new ResumeInputError("invalid_resume_input", "Resume must contain text or Markdown content");

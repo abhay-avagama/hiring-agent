@@ -48,11 +48,13 @@ export function createMcpHandler(tools: ToolHandler, options: { update?: () => U
         if (args !== undefined && !isRecord(args)) throw new Error("tools/call arguments must be an object");
         try {
           const result = await tools.call(name, args ?? {});
-          return { ...base, result: { content: [{ type: "text", text: JSON.stringify(withUpdate(result), null, 2) }], isError: false } };
+          const payload = withUpdate(result);
+          // Both shapes: text for models that read it, structuredContent for hosts that render it.
+          return { ...base, result: { content: [{ type: "text", text: JSON.stringify(payload, null, 2) }], structuredContent: payload, isError: false } };
         } catch (error) {
           const details = errorDetails(error);
-          const payload = { error: { message: error instanceof Error ? error.message : String(error), ...(details ?? {}) } };
-          return { ...base, result: { content: [{ type: "text", text: JSON.stringify(withUpdate(payload), null, 2) }], isError: true } };
+          const failure = withUpdate({ error: { message: error instanceof Error ? error.message : String(error), ...(details ?? {}) } });
+          return { ...base, result: { content: [{ type: "text", text: JSON.stringify(failure, null, 2) }], structuredContent: failure, isError: true } };
         }
       }
       if (request.method.startsWith("notifications/")) return null;

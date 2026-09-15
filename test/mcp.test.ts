@@ -17,7 +17,7 @@ test("MCP lists and calls candidate-safe job tools", async () => {
     id: 1, result: { tools: [expect.objectContaining({ name: "search_jobs" })] },
   }));
   expect(await handler({ jsonrpc: "2.0", id: 2, method: "tools/call", params: { name: "search_jobs", arguments: {} } })).toEqual(expect.objectContaining({
-    result: { content: [expect.objectContaining({ type: "text" })], isError: false },
+    result: { content: [expect.objectContaining({ type: "text" })], structuredContent: expect.objectContaining({ jobs: [{ id: "ashby:acme:1" }] }), isError: false },
   }));
 });
 

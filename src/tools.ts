@@ -11,7 +11,13 @@ export interface ToolDefinition {
   name: "prepare_job_search" | "get_job_coverage" | "recommend_jobs" | "analyze_job_fit" | "optimize_resume" | "search_jobs" | "get_job";
   description: string;
   inputSchema: Record<string, unknown>;
+  /** Every tool only reads: nothing here applies, submits, or writes on the candidate's behalf. */
+  annotations: { readOnlyHint: true; destructiveHint: false; idempotentHint: true; openWorldHint: boolean };
 }
+
+/** Tools that reach employer boards over the network are open-world; the rest read the local index. */
+const annotationsFor = (name: ToolDefinition["name"]): ToolDefinition["annotations"] =>
+  ({ readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: name === "prepare_job_search" || name === "recommend_jobs" || name === "get_job" });
 
 interface JobWorkflows {
   prepareJobSearch(input: unknown): Promise<PrepareJobSearchResult>;
@@ -22,7 +28,7 @@ interface JobWorkflows {
 }
 
 export function createToolHandler(catalog: Catalog, workflows: JobWorkflows, options: { onCall?(name: string, input: Record<string, unknown>, result: unknown): void } = {}) {
-  const definitions: ToolDefinition[] = [
+  const definitions: Array<Omit<ToolDefinition, "annotations">> = [
     {
       name: "prepare_job_search",
       description: "Initialize the local job index: the first call downloads the shared index of every verified source (thousands of employers) and returns ready; only missing or stale sources are crawled, in batches of at most 25. Report coverage from the result rather than calling again once nextAction is ready. This may use the network and write only job data under the local Openings data directory; it never processes a resume.",
@@ -119,7 +125,7 @@ export function createToolHandler(catalog: Catalog, workflows: JobWorkflows, opt
       description: "Get the full description and application URL for a job returned by recommend_jobs or search_jobs.",
       inputSchema: {
         type: "object",
-        properties: { id: { type: "string", description: "Stable job id returned by search_jobs" } },
+        properties: { id: { type: "string", description: "Stable job id returned by search_jobs or recommend_jobs (jobId is accepted too)" } },
         required: ["id"],
         additionalProperties: false,
       },
@@ -127,7 +133,7 @@ export function createToolHandler(catalog: Catalog, workflows: JobWorkflows, opt
   ];
 
   return {
-    list: () => definitions,
+    list: () => definitions.map((definition) => ({ ...definition, annotations: annotationsFor(definition.name) })),
     async call(name: string, input: Record<string, unknown>) {
       const result = await dispatch(name, input);
       try { options.onCall?.(name, input, result); } catch { /* usage reporting never affects a tool result */ }
@@ -163,9 +169,11 @@ export function createToolHandler(catalog: Catalog, workflows: JobWorkflows, opt
         };
       }
       if (name === "get_job") {
-        assertToolKeys(input, ["id"], "get_job");
-        if (typeof input.id !== "string" || !input.id) throw new Error("get_job requires a non-empty id");
-        return { job: await catalog.get(input.id) };
+        // analyze_job_fit and optimize_resume call it jobId, so accept either spelling rather than fail on a near miss.
+        assertToolKeys(input, ["id", "jobId"], "get_job");
+        const id = typeof input.id === "string" && input.id ? input.id : input.jobId;
+        if (typeof id !== "string" || !id) throw new Error("get_job requires a non-empty id");
+        return { job: await catalog.get(id) };
       }
       throw new Error(`Unknown tool: ${name}`);
   }

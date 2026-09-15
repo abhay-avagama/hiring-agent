@@ -1,6 +1,6 @@
 import { join } from "node:path";
 import type { SnapshotStore } from "./crawler.ts";
-import type { Company, SearchQuery } from "./types.ts";
+import type { Company, Job, SearchQuery } from "./types.ts";
 import { fetchJobDescription, fetchSourceJobs } from "./catalog.ts";
 import { createCrawlReporter, fetchSeedSnapshot, resolveAggregatorUrl } from "./crawl-reporting.ts";
 import { createUsageReporter, type UsageReporter } from "./usage.ts";
@@ -74,12 +74,24 @@ export function createHostedRuntime(options: { sources: Company[]; store: Snapsh
   const recommender = createJobRecommender({ sources: options.sources, store: options.store, crawl: noCrawl, now: options.now });
   const coverage = createJobCoverageReader({ sources: options.sources, store: options.store });
   const preparation = createJobSearchPreparer({ sources: options.sources, store: options.store, crawl: noCrawl, now: options.now, freshnessDays: 3650 });
-  const getSelectedJob = createSelectedJobLookup({ getSnapshotJob: async (id) => (await local.get(id, { offline: true, staleDays: 3650 })).job, getDetailedJob: async () => null });
+  // Workday and a few other boards keep descriptions off their listings, so the shared index has none: read one on demand.
+  async function withDescription(job: Job | null): Promise<Job | null> {
+    if (!job || job.description.trim()) return job;
+    const [ats, slug] = job.id.split(":", 3);
+    const company = options.sources.find((source) => source.ats === ats && source.slug === slug);
+    if (!company) return job;
+    try {
+      const description = await fetchJobDescription(company, job, globalThis.fetch);
+      return description.trim() ? { ...job, description } : job;
+    } catch { return job; } // the employer's board is unreachable; the summary is still useful
+  }
+  const snapshotJob = async (id: string) => (await local.get(id, { offline: true, staleDays: 3650 })).job;
+  const getSelectedJob = createSelectedJobLookup({ getSnapshotJob: snapshotJob, getDetailedJob: async (id) => withDescription(await snapshotJob(id)) });
   const analyzer = createJobFitAnalyzer({ getJob: getSelectedJob });
   const optimizer = createResumeOptimizer({ analyzeJobFit: analyzer.analyze });
   return {
     search: (query: SearchQuery) => local.search(query, { offline: true, staleDays: 3650 }),
-    get: (id: string) => local.get(id, { offline: true, staleDays: 3650 }),
+    get: async (id: string) => { const found = await local.get(id, { offline: true, staleDays: 3650 }); return { ...found, job: await withDescription(found.job) }; },
     prepareJobSearch: preparation.prepare, getJobCoverage: coverage.getCoverage, recommend: recommender.recommend, analyzeJobFit: analyzer.analyze, optimizeResume: optimizer.optimize,
   };
 }

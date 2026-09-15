@@ -287,3 +287,11 @@ test("candidate facts retain mechanically verifiable verbatim resume spans", () 
   fabricated.facts[0]!.value = "Rust";
   expect(validateCandidateProfileEvidence(fabricated)).toEqual({ valid: false, errors: expect.arrayContaining([expect.stringContaining("fact value is not identical to its evidence")]) });
 });
+
+
+test("a resume pasted as raw file bytes is refused with a usable message", () => {
+  for (const content of ["%PDF-1.7\n%\u00e2\u00e3\u00cf\u00d3\n1 0 obj<</Type/Catalog>>", "PK\u0003\u0004\u0014\u0000\u0006\u0000"]) {
+    expect(() => parseCandidateProfile({ content, format: "text" })).toThrow("looks like a file's raw bytes");
+  }
+  expect(() => parseCandidateProfile({ content: "Skills\nJava, Kafka\n\nExperience\nEngineer at Acme", format: "text" })).not.toThrow();
+});
