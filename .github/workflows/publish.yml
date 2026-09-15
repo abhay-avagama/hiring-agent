@@ -44,5 +44,5 @@ jobs:
         run: |
           version="$(node -p "require('./package.json').version")"
           if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then echo "release exists, skipping"; exit 0; fi
-          for i in 1 2 3 4 5 6; do curl -fsSL -o "openings-$version.tgz" "https://registry.npmjs.org/openings/-/openings-$version.tgz" && break || sleep 10; done
+          for i in $(seq 1 30); do curl -fsSL -o "openings-$version.tgz" "https://registry.npmjs.org/openings/-/openings-$version.tgz" && break || sleep 20; done
           gh release create "$GITHUB_REF_NAME" "openings-$version.tgz" --title "openings $version" --generate-notes --latest
