@@ -129,6 +129,8 @@ bun run src/cli.ts sources trace-careers .openings/career-seeds-subdomains.json
 
 ## Board-verified sources
 
+For discovery beyond the single-query URL ceiling, see [global catalog discovery](catalog-expansion.md). The new `sources discover-catalog` command supports pinned multi-index pagination, resumable checkpoints, and isolated verification exports. It defaults to an offline plan and never promotes sources or changes the shared catalog.
+
 Discovery finds far more boards than company datasets can identify. A board with no known company website can still be admitted on the provider's own identity:
 
 ```sh

@@ -1,4 +1,7 @@
 import { expect, test } from "bun:test";
+import { mkdtemp } from "node:fs/promises";
+import { join } from "node:path";
+import { tmpdir } from "node:os";
 
 test("CLI documents its read-only commands", async () => {
   const process = Bun.spawn(["bun", "run", "src/cli.ts", "--help"], { stdout: "pipe", stderr: "pipe" });
@@ -14,6 +17,7 @@ test("CLI documents its read-only commands", async () => {
   expect(output).toContain("sources discover-yc");
   expect(output).toContain("sources seed-companies-yc");
   expect(output).toContain("sources discover-common-crawl");
+  expect(output).toContain("sources discover-catalog");
   expect(output).toContain("sources trace-careers");
   expect(output).toContain("sources probe-jobposting");
   expect(output).toContain("sources prepare-recruitee-round");
@@ -25,6 +29,19 @@ test("CLI documents its read-only commands", async () => {
   expect(output).toContain("--offline");
   expect(output).toContain("--india");
   expect(output).not.toContain("apply");
+});
+
+test("catalog discovery CLI defaults to an offline plan and rejects unbounded inputs", async () => {
+  const state = join(await mkdtemp(join(tmpdir(), "catalog-cli-")), ".openings", "state.sqlite");
+  const args = ["bun", "run", "src/cli.ts", "sources", "discover-catalog", "--state", state, "--index", "CC-MAIN-2026-30", "--provider", "lever"];
+  const plan = Bun.spawn(args, { stdout: "pipe", stderr: "pipe" });
+  const report = JSON.parse(await new Response(plan.stdout).text());
+  expect(await plan.exited).toBe(0); expect(report.status).toBe("plan"); expect(report.requestsTotal).toBe(0);
+  for (const flag of [["--request-budget", "1001"], ["--index", "https://localhost/internal"], ["--delay-ms", "0"], ["--provider", "unknown"], ["--registry", "data/enrichment-leads.json"]]) {
+    const invalid = Bun.spawn([...args, ...flag], { stdout: "pipe", stderr: "pipe" });
+    await new Response(invalid.stderr).text();
+    expect(await invalid.exited).toBe(1);
+  }
 });
 
 test("CLI enforces the approved JobPosting probe phase caps before network work", async () => {

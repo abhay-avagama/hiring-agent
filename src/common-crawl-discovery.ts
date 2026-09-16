@@ -43,6 +43,7 @@ const providerPatterns: Record<Ats, string[]> = {
   jobposting: [], // company sites are found by probing seeds, never by URL pattern
 };
 const patterns = Object.values(providerPatterns).flat();
+export function commonCrawlPatterns(provider: Ats): readonly string[] { return providerPatterns[provider]; }
 const recordsPerPattern = 10_000;
 
 export async function discoverCommonCrawlSources(candidatesPath: string, reportPath: string, options: Options = {}): Promise<CommonCrawlDiscoveryReport> {

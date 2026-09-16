@@ -11,6 +11,8 @@ import { runSourceDiscovery, runYcSourceDiscovery } from "./source-discovery.ts"
 import { discoverAndPromote } from "./source-discovery-pipeline.ts";
 import { traceCareerSources } from "./career-tracing.ts";
 import { discoverCommonCrawlSources } from "./common-crawl-discovery.ts";
+import { discoverCatalog } from "./catalog-discovery.ts";
+import { parseArgs } from "node:util";
 import { generateYcCompanySeeds } from "./company-seeds.ts";
 import { exportSnapshot } from "./snapshot-export.ts";
 import { enrichSourcesFromCompanies } from "./source-enrichment.ts";
@@ -39,6 +41,7 @@ Usage:
   openings sources discover-yc --country CODE [--registry FILE] [--output FILE] [--catalog FILE] [--report FILE]
   openings sources seed-companies-yc --country CODE [--output FILE]
   openings sources discover-common-crawl [--country CODE] [--provider NAME] [--index-record-limit N] [--sample-token-limit N] [--exclude-token TOKEN] [--report-only] [--registry FILE] [--output FILE] [--report FILE] [--index-url URL]
+  openings sources discover-catalog --index CC-MAIN-YYYY-NN --provider NAME [repeat index/provider] --state .openings/campaign.sqlite [--execute] [--request-budget N] [--page-budget N] [--target-boards N] [--delay-ms N] [--catalog FILE] [--export .openings/leads.json]
   openings sources enrich COMPANIES.json [--companies FILE]... [--evidence-kind authoritative_dataset|company_registry] [--registry FILE] [--output FILE] [--report FILE]
   openings sources trace-careers COMPANIES.json [--country CODE] [--registry FILE] [--common-crawl-report FILE] [--search-key-env NAME] [--output FILE] [--catalog FILE] [--report FILE]
   openings sources probe-jobposting COMPANIES.md [--catalog FILE] [--report FILE] [--company-limit 10|20]
@@ -222,6 +225,22 @@ export async function run(args: string[]): Promise<number> {
       const promotion = await runSourceVerification(parsed.output, parsed.catalog, parsed);
       console.log(JSON.stringify({ discovery: compactCareerTraceReport(discovery), promotion }, null, 2));
       return 0;
+    }
+    if (rest[0] === "discover-catalog") {
+      const { values } = parseArgs({ args: rest.slice(1), strict: true, allowPositionals: false, options: {
+        index: { type: "string", multiple: true }, provider: { type: "string", multiple: true }, state: { type: "string" },
+        execute: { type: "boolean" }, "request-budget": { type: "string" }, "page-budget": { type: "string" },
+        "target-boards": { type: "string" }, "delay-ms": { type: "string" }, catalog: { type: "string" }, export: { type: "string" },
+      } });
+      if (!values.state) return fail("discover-catalog requires --state under .openings");
+      const report = await discoverCatalog({ state: values.state, indexes: values.index ?? [], providers: (values.provider ?? []) as Ats[], execute: values.execute,
+        requestBudget: values["request-budget"] === undefined ? undefined : Number(values["request-budget"]),
+        pageBudget: values["page-budget"] === undefined ? undefined : Number(values["page-budget"]),
+        targetBoards: values["target-boards"] === undefined ? undefined : Number(values["target-boards"]),
+        delayMs: values["delay-ms"] === undefined ? undefined : Number(values["delay-ms"]),
+        catalogPath: values.catalog ?? "data/companies.json", exportPath: values.export });
+      console.log(JSON.stringify(report, null, 2));
+      return ["error", "throttled", "cooling_down"].includes(report.status) ? 1 : 0;
     }
     if (rest[0] === "discover-common-crawl") {
       const parsed = parseCommonCrawlDiscovery(rest.slice(1));
