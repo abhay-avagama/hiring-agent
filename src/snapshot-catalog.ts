@@ -1,5 +1,6 @@
 import { searchJobs, type Catalog } from "./catalog.ts";
 import type { SnapshotStore } from "./crawler.ts";
+import { normalizeJobExperience } from "./experience.ts";
 
 export function createSnapshotCatalog(store: SnapshotStore): Catalog {
   return {
@@ -13,7 +14,7 @@ export function createSnapshotCatalog(store: SnapshotStore): Catalog {
       if (!snapshot) return null;
       for (const partition of Object.values(snapshot.partitions)) {
         const job = partition.jobs.find((candidate) => candidate.id === id);
-        if (job) return job;
+        if (job) return normalizeJobExperience(job);
       }
       return null;
     },

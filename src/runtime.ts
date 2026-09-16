@@ -5,6 +5,7 @@ import { fetchJobDescription, fetchSourceJobs } from "./catalog.ts";
 import { createCrawlReporter, fetchSeedSnapshot, resolveAggregatorUrl } from "./crawl-reporting.ts";
 import { createUsageReporter, type UsageReporter } from "./usage.ts";
 import { VERSION } from "./version.ts";
+import { normalizeJobExperience } from "./experience.ts";
 import { catalog as liveCatalog, companies } from "./index.ts";
 import { createLocalJobs } from "./local-jobs.ts";
 import { createJobRecommender } from "./job-recommendations.ts";
@@ -82,7 +83,7 @@ export function createHostedRuntime(options: { sources: Company[]; store: Snapsh
     if (!company) return job;
     try {
       const description = await fetchJobDescription(company, job, globalThis.fetch);
-      return description.trim() ? { ...job, description } : job;
+      return description.trim() ? normalizeJobExperience({ ...job, description }) : job;
     } catch { return job; } // the employer's board is unreachable; the summary is still useful
   }
   const snapshotJob = async (id: string) => (await local.get(id, { offline: true, staleDays: 3650 })).job;

@@ -4,12 +4,23 @@ import { FLOW_INSTRUCTIONS } from "../src/mcp.ts";
 import { createMcpHandler } from "../src/mcp.ts";
 import { createToolHandler } from "../src/tools.ts";
 import type { Job } from "../src/types.ts";
+import { EXPERIENCE_VERSION } from "../src/experience.ts";
 
 const now = Date.parse("2026-09-16T12:00:00Z");
 const job = (id: string, extra: Partial<Job> = {}): Job => ({
   id, company: "Example", title: "Backend Engineer", location: "India", remote: false, workMode: "onsite",
   eligibleCountries: ["IN"], excludedCountries: [], eligibleRegions: [], eligibilityConfidence: "explicit",
-  url: "https://example.test/" + id, description: "Build systems", updatedAt: "2026-09-15T12:00:00Z", ...extra,
+  url: "https://example.test/" + id, description: "", experienceVersion: EXPERIENCE_VERSION, updatedAt: "2026-09-15T12:00:00Z", ...extra,
+});
+
+test("MCP search returns corrected overall experience and does not admit a three-year candidate", async () => {
+  const unused = async (): Promise<never> => { throw new Error("not used"); };
+  const tools = createToolHandler({ search: async (query) => searchJobs([job("range", { experience: { min: 3 }, experienceVersion: undefined, description: "<p>5-8&#43; Years</p><p>Minimum of 3 years of experience in React development</p>" })], query, now), get: async () => null }, { prepareJobSearch: unused, getJobCoverage: unused, recommend: unused, analyzeJobFit: unused, optimizeResume: unused });
+  const handler = createMcpHandler(tools);
+  for (const years of [3, 5, 10]) {
+    const response = await handler({ jsonrpc: "2.0", id: years, method: "tools/call", params: { name: "search_jobs", arguments: { country: "IN", experienceYears: years } } });
+    expect(response).toEqual(expect.objectContaining({ result: expect.objectContaining({ structuredContent: expect.objectContaining({ jobs: years === 3 ? [] : [expect.objectContaining({ experience: { min: 5, max: 8, maxOpen: true } })] }) }) }));
+  }
 });
 
 test("pagination uses a stable id tie-breaker, full-window count and a terminal offset", () => {

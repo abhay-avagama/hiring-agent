@@ -1,5 +1,7 @@
 import type { CandidateProfile } from "./candidate-profile.ts";
 import type { Job } from "./types.ts";
+import { readExperience } from "./experience.ts";
+import { plainText } from "./providers.ts";
 
 export interface ScreeningRequirement {
   kind: "experience" | "education";
@@ -14,6 +16,12 @@ export function evaluateScreeningRequirements(profile: CandidateProfile, job: Jo
     ...experienceRequirements(profile, description),
     ...educationRequirements(profile, description),
   ];
+  const text = plainText(job.description);
+  const reading = readExperience(text);
+  if (reading && (isMandatory(text, reading.index, reading.quote) || (reading.priority === 2 && lastSectionKind(text.slice(0, reading.index)) !== "optional")) && !requirements.some((item) => item.kind === "experience" && Number(item.requirement.match(/\d+/)?.[0]) === reading.experience.min)) {
+    const inference = profile.inferences.find((value) => value.kind === "approximate_experience_years");
+    requirements.push({ kind: "experience", requirement: clean(reading.quote), status: !inference ? "unsupported" : inference.value >= reading.experience.min ? "supported" : "partial", factIds: inference?.derivedFromFactIds ?? [] });
+  }
   return [...new Map(requirements.map((item) => [`${item.kind}:${item.requirement.toLocaleLowerCase()}`, item])).values()];
 }
 

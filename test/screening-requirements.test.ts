@@ -3,6 +3,12 @@ import { parseCandidateProfile } from "../src/candidate-profile.ts";
 import { evaluateScreeningRequirements } from "../src/screening-requirements.ts";
 import type { Job } from "../src/types.ts";
 
+test("a standalone overall range is not replaced by a shorter skill-specific minimum", () => {
+  const profile = parseCandidateProfile({ content: "Experience\nEngineer — Example\nJan 2021 - Dec 2023", format: "text" });
+  const result = evaluateScreeningRequirements(profile, job("<p>5-8&#43; Years</p><p>Minimum of 3 years of experience in React development</p>"));
+  expect(result).toContainEqual(expect.objectContaining({ kind: "experience", requirement: "5-8+ Years", status: "partial" }));
+});
+
 test("field-specific degrees and experience minimums use explicit resume evidence", () => {
   const requirement = job("Requirements\nBachelor’s or master’s degree in computer science, Engineering, or related technical or business field. 8+ years of professional software engineering/development experience.");
   const qualified = parseCandidateProfile({ content: "Experience\nEngineer — Acme\nJan 2015 - Dec 2024\nEducation\nB.Tech in Computer Science", format: "text" });

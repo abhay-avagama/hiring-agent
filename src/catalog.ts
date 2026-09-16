@@ -2,7 +2,7 @@ import { CASCADE_MINIMUM, CASCADE_WINDOWS, type Company, type Job, type JobAge, 
 import { decodeEntities, providerSpec, type JsonGet } from "./providers.ts";
 import { crawlSite, sitePostingsToJobs } from "./jobposting-site.ts";
 import { classifyJob, isEligibleForCountry, normalizeLocation } from "./locations.ts";
-import { statedExperience } from "./experience.ts";
+import { experienceMatches, normalizeJobExperience } from "./experience.ts";
 
 type Fetch = (input: string | URL, init?: RequestInit) => Promise<Response>;
 
@@ -102,7 +102,7 @@ export function createCatalog(options: CatalogOptions): Catalog {
       let job = (await fetchJobs(company)).find((candidate) => candidate.id === id) ?? null;
       if (job && !job.description.trim()) job = { ...job, description: await fetchJobDescription(company, job, fetcher) };
       if (job && !job.description.trim()) throw new Error(`Full description unavailable for job: ${id}`);
-      return job;
+      return job ? normalizeJobExperience(job) : null;
     },
   };
 }
@@ -119,10 +119,10 @@ export function withinWindow(job: Pick<Job, "updatedAt">, days: number, now: num
 
 /** Keyword search newest first. Without maxAgeDays it walks 7, 14, 30, then everything until CASCADE_MINIMUM results appear; the window used rides on the result. */
 export function searchJobs(jobs: Job[], query: SearchQuery, now: number = Date.now()): SearchResult {
-  const matched = jobs.filter((job) => matches(job, query)).filter((job) => {
+  const matched = jobs.filter((job) => matches(job, query)).map(normalizeJobExperience).filter((job) => {
     if (query.experienceYears === undefined) return true;
-    const experience = job.experience === undefined ? statedExperience(job.description) : job.experience;
-    return experience ? query.experienceYears >= experience.min && (experience.max === undefined || query.experienceYears <= experience.max) : query.includeUnknownExperience === true;
+    const experience = job.experience;
+    return experience ? experienceMatches(experience, query.experienceYears) : query.includeUnknownExperience === true;
   });
   const run = (days: number) => matched.filter((job) => withinWindow(job, days, now)).sort((left, right) => postedTime(right) - postedTime(left) || (left.id < right.id ? -1 : left.id > right.id ? 1 : 0));
   const steps: SearchWindow["steps"] = [];
@@ -133,7 +133,7 @@ export function searchJobs(jobs: Job[], query: SearchQuery, now: number = Date.n
     if (found.length >= CASCADE_MINIMUM) break;
   }
   const offset = query.offset ?? 0, limit = query.limit ?? 50;
-  const result = found.slice(offset, offset + limit).map((job) => toSummary(query.experienceYears !== undefined && job.experience === undefined ? { ...job, experience: statedExperience(job.description) } : job, now)) as SearchResult;
+  const result = found.slice(offset, offset + limit).map((job) => toSummary(job, now)) as SearchResult;
   Object.defineProperty(result, "pagination", { value: { offset, limit, total: found.length, nextOffset: offset + limit < found.length ? offset + limit : null }, enumerable: false });
   Object.defineProperty(result, "window", { value: { daysUsed: steps[steps.length - 1]!.days, widened: steps.length > 1, steps } satisfies SearchWindow, enumerable: false });
   return result;

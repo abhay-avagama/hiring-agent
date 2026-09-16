@@ -1,5 +1,5 @@
 import type { FetchJobsObserver } from "./catalog.ts";
-import { statedExperience } from "./experience.ts";
+import { EXPERIENCE_VERSION, normalizeJobExperience } from "./experience.ts";
 import { partitionFor, type Company, type CrawlFailure, type CrawlReport, type CrawlSourceResult, type Job, type JobPartition, type JobSnapshot } from "./types.ts";
 
 export interface SnapshotStore {
@@ -49,23 +49,22 @@ export function createCrawler(options: CrawlerOptions): Crawler {
 
   /** Required experience for every job: from its description, the last crawl's reading, or a paced detail fetch for recent roles in describeCountries. */
   async function withExperience(source: Company, jobs: Job[], previous: Job[] | undefined): Promise<Job[]> {
-    const known = new Map((previous ?? []).filter((job) => job.experience !== undefined).map((job) => [job.id, job.experience]));
+    const known = new Map((previous ?? []).map(normalizeJobExperience).filter((job) => job.experienceVersion === EXPERIENCE_VERSION && job.experience !== undefined).map((job) => [job.id, job]));
     const since = now().getTime() - 30 * 86_400_000;
     const deadline = Date.now() + DESCRIBE_BUDGET_MS;
     let budget = DESCRIBE_LIMIT;
     const out: Job[] = [];
     for (const job of jobs) {
-      if (job.experience !== undefined) out.push(job);
-      else if (job.description.trim()) out.push({ ...job, experience: statedExperience(job.description) });
-      else if (known.has(job.id)) out.push({ ...job, experience: known.get(job.id) });
+      if (job.description.trim() || job.experienceVersion === EXPERIENCE_VERSION) out.push(normalizeJobExperience(job));
+      else if (known.has(job.id)) out.push({ ...job, description: known.get(job.id)!.description, experience: known.get(job.id)!.experience, experienceVersion: EXPERIENCE_VERSION });
       else if (options.describe && budget > 0 && Date.now() < deadline && job.eligibleCountries.some((code) => describeCountries.has(code)) && Date.parse(job.updatedAt ?? "") >= since) {
         budget -= 1;
         try {
           if (options.workdayPageDelayMs) await pacingSleep(options.workdayPageDelayMs);
           const description = await options.describe(source, job);
-          out.push(description.trim() ? { ...job, experience: statedExperience(description) } : job);
-        } catch { out.push(job); } // unread; the next crawl tries again
-      } else out.push(job);
+          out.push(normalizeJobExperience({ ...job, description }));
+        } catch { out.push(normalizeJobExperience(job)); } // unread; the next crawl tries again
+      } else out.push(normalizeJobExperience(job));
     }
     return out;
   }

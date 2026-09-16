@@ -10,12 +10,12 @@ test("selected-job lookup fetches only missing structured detail and reuses comp
     getSnapshotJob: async (id) => id === summary.id ? summary : null,
     getDetailedJob: async (id) => { detailCalls += 1; return id === detail.id ? detail : null; },
   });
-  expect(await lookup(summary.id)).toEqual(detail);
+  expect(await lookup(summary.id)).toEqual({ ...detail, experience: null, experienceVersion: 2 });
   expect(detailCalls).toBe(1);
 
   const complete = makeJob({ id: "greenhouse:acme:2", description: "Go is required." });
   const completeLookup = createSelectedJobLookup({ getSnapshotJob: async () => complete, getDetailedJob: async () => { throw new Error("detail fetch must not run"); } });
-  expect(await completeLookup(complete.id)).toEqual(complete);
+  expect(await completeLookup(complete.id)).toEqual({ ...complete, experience: null, experienceVersion: 2 });
 });
 
 function makeJob(overrides: Partial<Job> = {}): Job {

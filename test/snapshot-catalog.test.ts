@@ -18,5 +18,5 @@ test("snapshot catalog searches and retrieves jobs without network access", asyn
   expect(await catalog.search({ query: "backend", country: "DE" })).toEqual([
     expect.objectContaining({ id: job.id, title: job.title }),
   ]);
-  expect(await catalog.get(job.id)).toEqual(job);
+  expect(await catalog.get(job.id)).toEqual({ ...job, experience: null, experienceVersion: 2 });
 });

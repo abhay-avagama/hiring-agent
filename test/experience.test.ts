@@ -1,5 +1,28 @@
 import { expect, test } from "bun:test";
-import { experienceLabel, statedExperience, titleExperience } from "../src/experience.ts";
+import { EXPERIENCE_VERSION, experienceLabel, experienceMatches, normalizeJobExperience, statedExperience, titleExperience } from "../src/experience.ts";
+
+test("overall range wins over React-specific minimum, preserving an open upper end", () => {
+  const overall = "<p>Java, React JS, Full Stack Development</p><p>5-8&#43; Years</p>";
+  const skill = "<p>Minimum of 3 years of experience in React development</p>";
+  for (const description of [overall + skill, skill + overall, "3 years of React experience. Total experience: 5-8+ years"]) {
+    const experience = statedExperience(description)!;
+    expect(experience).toEqual({ min: 5, max: 8, maxOpen: true });
+    expect(experienceLabel(experience)).toBe("5–8+ yrs");
+    expect(experienceMatches(experience, 3)).toBe(false);
+    expect(experienceMatches(experience, 5)).toBe(true);
+    expect(experienceMatches(experience, 10)).toBe(true);
+  }
+  expect(statedExperience("5–8 years")).toEqual({ min: 5, max: 8 });
+  expect(experienceMatches({ min: 5, max: 8 }, 10)).toBe(false);
+  expect(statedExperience("Minimum 3 years of React experience. Minimum 5 years of development experience.")).toEqual({ min: 5 });
+  expect(statedExperience("Age: 5-8 years\nCompany established 8 years ago")).toBeNull();
+});
+
+test("outdated cached experience is recomputed or unknown, never silently reused", () => {
+  expect(normalizeJobExperience({ description: "5-8+ Years", experience: { min: 3 } })).toEqual({ description: "5-8+ Years", experience: { min: 5, max: 8, maxOpen: true }, experienceVersion: EXPERIENCE_VERSION });
+  expect(normalizeJobExperience({ description: "", experience: { min: 3 } })).toEqual({ description: "" });
+  expect(normalizeJobExperience({ description: "", experience: { min: 5 }, experienceVersion: EXPERIENCE_VERSION }).experience).toEqual({ min: 5 });
+});
 
 test("reads the years a posting asks for and ignores employer history", () => {
   const cases: Array<[string, ReturnType<typeof statedExperience>]> = [

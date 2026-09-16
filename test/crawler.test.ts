@@ -202,7 +202,7 @@ test("required experience comes from the description, the last crawl, or one det
   const listed = (id: string, extra: Partial<Job>): Job => ({ ...job(id, "Acme"), description: "", eligibleCountries: ["IN"], updatedAt: "2026-08-08", ...extra });
   let snapshot: JobSnapshot = {
     version: 1, updatedAt: "2026-08-09T00:00:00.000Z",
-    partitions: { acme: { fetchedAt: "2026-08-09T00:00:00.000Z", jobs: [{ ...listed("workday:acme:known", {}), experience: { min: 4 } }] } },
+    partitions: { acme: { fetchedAt: "2026-08-09T00:00:00.000Z", jobs: [{ ...listed("workday:acme:known", {}), description: "Minimum 4 years of experience", experience: { min: 4 } }] } },
     lastCrawl: { startedAt: "2026-08-09T00:00:00.000Z", finishedAt: "2026-08-09T00:00:00.000Z", selected: 1, succeeded: 1, failed: [] },
   };
   const store: SnapshotStore = { read: async () => snapshot, write: async (next) => { snapshot = next; } };
