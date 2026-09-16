@@ -274,8 +274,8 @@ describe("job catalog", () => {
     });
 
     expect(await catalog.search({ country: "IN", maxAgeDays: 0 })).toEqual([
-      expect.objectContaining({ id: "lever:acme:in" }),
       expect.objectContaining({ id: "lever:acme:apac" }),
+      expect.objectContaining({ id: "lever:acme:in" }),
       expect.objectContaining({ id: "lever:acme:state" }),
     ]);
   });
@@ -311,8 +311,8 @@ describe("job catalog", () => {
 
     expect((await catalog.search({ country: "DE" })).map((job) => job.id)).toEqual(["lever:acme:germany", "lever:acme:lowercase-de"]);
     expect((await catalog.search({ country: "IN", maxAgeDays: 0 })).map((job) => job.id)).toEqual([]);
-    expect((await catalog.search({ country: "US" })).map((job) => job.id)).toEqual(["lever:acme:us", "lever:acme:usa", "lever:acme:generic-global"]);
-    expect((await catalog.search({ country: "GE" })).map((job) => job.id)).toEqual(["lever:acme:country-georgia", "lever:acme:batumi", "lever:acme:remote-georgia"]);
+    expect((await catalog.search({ country: "US" })).map((job) => job.id)).toEqual(["lever:acme:generic-global", "lever:acme:us", "lever:acme:usa"]);
+    expect((await catalog.search({ country: "GE" })).map((job) => job.id)).toEqual(["lever:acme:batumi", "lever:acme:country-georgia", "lever:acme:remote-georgia"]);
   });
 });
 

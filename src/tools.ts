@@ -106,7 +106,7 @@ export function createToolHandler(catalog: Catalog, workflows: JobWorkflows, opt
     },
     {
       name: "search_jobs",
-      description: "Plain keyword search over the local job index, newest first, walking 7, 14, 30 days then everything until 5 results appear; the window used is returned. Use only when the person declines to share a resume or asks for a plain search; recommend_jobs ranks against a resume.",
+      description: "Search jobs immediately from role, country, location and optional stated experience. No resume required. Newest first; automatically widens 7, 14, 30 days then all dates until 5 matches. For another page reuse the same filters and returned window.daysUsed as maxAgeDays, with pagination.nextOffset. Resume-based ranking is optional via recommend_jobs.",
       inputSchema: {
         type: "object",
         properties: {
@@ -114,8 +114,11 @@ export function createToolHandler(catalog: Catalog, workflows: JobWorkflows, opt
           location: { type: "string", description: "Case-insensitive location substring" },
           country: { type: "string", pattern: "^[A-Za-z]{2}$", description: "Two-letter country code for job eligibility, such as IN or DE" },
           remote: { type: "boolean", description: "True for remote-only; false for non-remote-only" },
-          maxAgeDays: { type: "integer", minimum: 0, maximum: 365, description: "Only roles posted within this many days, newest first. Default 30 (undated roles kept, listed last); an explicit value also drops undated roles; 0 includes older roles" },
+          maxAgeDays: { type: "integer", minimum: 0, maximum: 365, description: "Omit to widen 7/14/30/all until 5 matches. Explicit positive values exclude undated roles; 0 includes all dates." },
           limit: { type: "integer", minimum: 1, maximum: 100, default: 50 },
+          offset: { type: "integer", minimum: 0, maximum: 1000000, default: 0 },
+          experienceYears: { type: "number", minimum: 0, maximum: 60, description: "Years of experience to compare with the posting's stated min/max range; not a qualification or fit verdict." },
+          includeUnknownExperience: { type: "boolean", default: false, description: "With experienceYears, also keep roles without a stated range, clearly unknown rather than matched." },
         },
         additionalProperties: false,
       },
@@ -148,7 +151,10 @@ export function createToolHandler(catalog: Catalog, workflows: JobWorkflows, opt
       if (name === "analyze_job_fit") return workflows.analyzeJobFit(input);
       if (name === "optimize_resume") return workflows.optimizeResume(input);
       if (name === "search_jobs") {
-        assertToolKeys(input, ["query", "location", "country", "remote", "maxAgeDays", "limit"], "search_jobs");
+        assertToolKeys(input, ["query", "location", "country", "remote", "maxAgeDays", "limit", "offset", "experienceYears", "includeUnknownExperience"], "search_jobs");
+        if (input.offset !== undefined && (!Number.isInteger(input.offset) || (input.offset as number) < 0 || (input.offset as number) > 1000000)) throw new Error("offset must be an integer between 0 and 1000000");
+        if (input.experienceYears !== undefined && (typeof input.experienceYears !== "number" || !Number.isFinite(input.experienceYears) || input.experienceYears < 0 || input.experienceYears > 60)) throw new Error("experienceYears must be a number between 0 and 60");
+        if (input.includeUnknownExperience !== undefined && typeof input.includeUnknownExperience !== "boolean") throw new Error("includeUnknownExperience must be a boolean");
         if (input.query !== undefined && typeof input.query !== "string") throw new Error("query must be a string");
         if (input.location !== undefined && typeof input.location !== "string") throw new Error("location must be a string");
         if (input.remote !== undefined && typeof input.remote !== "boolean") throw new Error("remote must be a boolean");
@@ -162,10 +168,13 @@ export function createToolHandler(catalog: Catalog, workflows: JobWorkflows, opt
         if (typeof input.remote === "boolean") query.remote = input.remote;
         if (typeof input.maxAgeDays === "number") query.maxAgeDays = input.maxAgeDays;
         if (typeof input.limit === "number") query.limit = input.limit;
+        if (typeof input.offset === "number") query.offset = input.offset;
+        if (typeof input.experienceYears === "number") query.experienceYears = input.experienceYears;
+        if (typeof input.includeUnknownExperience === "boolean") query.includeUnknownExperience = input.includeUnknownExperience;
         const jobs = await catalog.search(query) as SearchResult;
         return {
-          jobs, window: jobs.window,
-          guidance: "Unranked keyword matches. Present roles labelled older or stale as possibly still open, not as current. With a resume, recommend_jobs ranks roles by evidence and explains fit.",
+          jobs, window: jobs.window, pagination: jobs.pagination,
+          guidance: "Unranked keyword matches. Experience filters compare stated ranges only; unknown experience is not a match or a gap. Present older/stale roles as possibly still open, not current. Reuse window.daysUsed as maxAgeDays and pagination.nextOffset with unchanged filters for the next page. Pagination is over the current index, not a frozen snapshot; restart if the index refreshes. Resume-based matching is optional.",
         };
       }
       if (name === "get_job") {

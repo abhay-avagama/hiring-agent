@@ -116,6 +116,11 @@ export interface SearchQuery {
   /** Only jobs posted within this many days. Unset walks 7, 14, 30, then everything until 5 results appear; an explicit value is a single window that drops undated jobs; 0 includes everything. */
   maxAgeDays?: number;
   limit?: number;
+  /** Zero-based offset within the chosen date window; restart when the index changes. */
+  offset?: number;
+  /** Match stated experience ranges, not inferred seniority or a hiring guarantee. */
+  experienceYears?: number;
+  includeUnknownExperience?: boolean;
 }
 
 export interface CrawlFailure {
