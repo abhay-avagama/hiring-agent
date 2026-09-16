@@ -52,6 +52,16 @@ No discovery operation writes `data/companies.json`, `data/source-candidates.jso
 
 Offline tests exercise cross-index deduplication, full-page pagination, restart budgets, empty pages, persistent cooldowns, malformed/oversized responses, known-source exclusion, export preservation, CLI validation, and a synthetic **50,000 distinct-board** input. This is a scalability regression fixture, not 50,000 real discovered boards.
 
-No live discovery campaign, source verification, catalog expansion, or deployment has run as part of this implementation. The earlier 60-board recovery pilot remains unexecuted and is not the catalog expansion mechanism.
+The implementation itself was offline. The earlier 60-board recovery pilot remains unexecuted and is not the catalog expansion mechanism.
+
+### First approved live batch — 16 September 2026
+
+Approved scope: at most 100 requests across `CC-MAIN-2026-30` and `CC-MAIN-2026-34`, Greenhouse/Lever/Ashby only, isolated discovery, no verification or production mutation.
+
+Stopped on Common Crawl HTTP 504 after **16 requests** and **6 completed data pages**. The checkpoint contains **5,160 URL records**, **435 distinct board keys**, **377 already catalogued boards**, and **58 new leads**: Ashby 49, Greenhouse 8, Lever 1. These are unverified leads, not 58 new employers or indexed sources. The catalog remains 5,612 sources. All shared data files remained unchanged.
+
+The first run also exposed an empty-page response-format difference: CDX echoes a prefix without its trailing wildcard. Two requests encountered that 404, including one diagnostic request; both are included in the 16-request total. A failing synthetic replay was added, then the exact-pattern check was extended only to the same prefix with its trailing wildcard removed. Unrelated 404s still fail closed. Full tests: 313 pass, 355 skipped, zero failures; typecheck clean.
+
+Artifacts: `.openings/global-discovery.sqlite` (checkpoint), `.openings/global-discovery-run-2026-09-16.json` (partial-run report), `.openings/global-discovery-leads-2026-09-16.json` (58 isolated leads). The approved allowance has **84 requests and 74 data pages remaining**, not a fresh 100-request allowance. Resume uses those remaining budgets and the same checkpoint; any new export needs a new filename. No further requests were made after the 504.
 
 References checked 16 September 2026: [Common Crawl index server and load guidance](https://index.commoncrawl.org/), [documented CDX pagination](https://github.com/webrecorder/pywb/wiki/CDX-Server-API#pagination-api).

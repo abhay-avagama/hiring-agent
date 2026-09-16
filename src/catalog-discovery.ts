@@ -97,7 +97,9 @@ export async function discoverCatalog(options: Options, deps: Dependencies = {})
             const text = await boundedText(response);
             let message: unknown;
             try { const value = JSON.parse(text); message = value?.message ?? value?.error; } catch { /* Unknown 404s must not advance. */ }
-            if (typeof message === "string" && message.toLowerCase() === `No Captures found for: ${query.pattern}`.toLowerCase()) {
+            // CDX prefix queries may echo the prefix without its trailing wildcard.
+            const emptyMessages = [query.pattern, query.pattern.replace(/\*$/, "")].map(pattern => `No Captures found for: ${pattern}`.toLowerCase());
+            if (typeof message === "string" && emptyMessages.includes(message.toLowerCase())) {
               if (query.pages === null) db.prepare("UPDATE queries SET pages=0 WHERE id=?").run(query.id);
               else { db.prepare("UPDATE queries SET next_page=next_page+1 WHERE id=?").run(query.id); pagesThisRun++; }
               continue;

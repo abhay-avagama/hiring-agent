@@ -154,3 +154,17 @@ test("checkpoint names cannot alias an export lock or temporary artifact", async
   const state = (await statePath()).replace("campaign.sqlite", "leads.json.lock");
   await expect(discoverCatalog({ state, indexes, providers: ["lever"], exportPath: state.slice(0,-5) })).rejects.toThrow(".sqlite");
 });
+
+test("Common Crawl's normalized prefix in a no-captures reply does not stall pagination", async () => {
+  const state = await statePath();
+  const result = await discoverCatalog({ state, indexes: [indexes[0]!], providers: ["greenhouse"], execute: true }, {
+    sleep: async () => {}, fetch: async input => {
+      const u = new URL(input);
+      if (u.searchParams.has("showNumPages")) return Response.json({ pages: 2, pageSize: 1 });
+      if (u.searchParams.get("page") === "0") return Response.json({ message: `No Captures found for: ${u.searchParams.get("url")!.replace(/\*$/, "")}` }, { status: 404 });
+      return new Response(JSON.stringify({ url: "https://job-boards.greenhouse.io/acme/jobs/1" }));
+    },
+  });
+  expect(result.status).toBe("complete"); expect(result.boards).toBe(1);
+  expect(result.queries.every(q=>q.next_page===2)).toBe(true);
+});
