@@ -1,5 +1,6 @@
 import { CASCADE_MINIMUM, CASCADE_WINDOWS, type Company, type Job, type JobAge, type JobSummary, type SearchQuery, type SearchWindow } from "./types.ts";
 import { decodeEntities, providerSpec, type JsonGet } from "./providers.ts";
+import { matchesSearchTerms, searchHaystack, searchTerms } from "./text-match.ts";
 import { crawlSite, sitePostingsToJobs } from "./jobposting-site.ts";
 import { classifyJob, isEligibleForCountry, normalizeLocation } from "./locations.ts";
 import { experienceMatches, normalizeJobExperience } from "./experience.ts";
@@ -514,10 +515,11 @@ function normalizeRecruitee(company: Company, job: RecruiteeJob): Job {
 }
 
 function matches(job: Job, query: SearchQuery): boolean {
-  const terms = query.query?.trim().toLocaleLowerCase().split(/\s+/).filter(Boolean) ?? [];
+  const terms = searchTerms(query.query);
   const location = query.location ? normalizeLocation(query.location) : undefined;
-  const searchable = `${job.title} ${job.company}`.toLocaleLowerCase();
-  return (terms.length === 0 || terms.every((term) => searchable.includes(term)))
+  // Whole tokens only: a substring match once made "ios" find "Axio Biosolutions".
+  const searchable = searchHaystack(`${job.title} ${job.company}`);
+  return (terms.length === 0 || matchesSearchTerms(searchable, terms))
     && (!location || normalizeLocation(job.location).includes(location))
     && (!query.country || isEligibleForCountry(job, query.country))
     && (query.remote === undefined || job.remote === query.remote);

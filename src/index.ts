@@ -18,6 +18,7 @@ export const companies: Company[] = Object.entries(companyData).map(([slug, valu
 export const catalog = createCatalog({ companies });
 export { createCatalog } from "./catalog.ts";
 export { EXPERIENCE_VERSION, experienceLabel, experienceMatches, normalizeJobExperience, statedExperience, titleExperience, type Experience } from "./experience.ts";
+export { matchesSearchTerms, searchHaystack, searchTerms, searchTokens } from "./text-match.ts";
 export type { Catalog } from "./catalog.ts";
 export type { Ats, Company, CrawlReport, Job, JobPartition, JobSnapshot, JobSummary, SearchQuery } from "./types.ts";
 export { createCrawlReporter, fetchSeedSnapshot, resolveAggregatorUrl } from "./crawl-reporting.ts";

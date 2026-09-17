@@ -342,3 +342,22 @@ test("Workday relative posting labels become approximate dates and search filter
   const plenty = Array.from({ length: 6 }, (_, index) => ({ ...base, id: `p${index}`, title: "Fresh Engineer", updatedAt: "2026-09-06" }));
   expect(searchJobs([...jobs, ...plenty], { query: "engineer" }, now).window).toEqual({ daysUsed: 7, widened: false, steps: [{ days: 7, results: 7 }] });
 });
+
+test("search_jobs matches whole tokens, so a term never matches inside a longer word", async () => {
+  const { createCatalog } = await import("../src/catalog.ts");
+  const company = { slug: "acme", name: "Axio Biosolutions", ats: "greenhouse" as const, token: "acme" };
+  const job = (id: string, title: string, name = company.name) => ({
+    id, company: name, title, location: "Mumbai, India", remote: false, workMode: "onsite" as const,
+    eligibleCountries: ["IN"], excludedCountries: [], eligibleRegions: [], eligibilityConfidence: "explicit" as const,
+    url: `https://job-boards.greenhouse.io/acme/jobs/${id}`, description: "", updatedAt: new Date().toISOString().slice(0, 10),
+  });
+  const catalog = createCatalog({
+    companies: [company],
+    fetcher: async () => new Response(JSON.stringify({ jobs: [] }), { headers: { "content-type": "application/json" } }),
+  });
+  const all = [job("1", "Regional Sales Manager"), job("2", "Senior iOS Engineer", "Swiggy")];
+  const { searchJobs } = await import("../src/catalog.ts");
+  expect(searchJobs(all, { query: "ios", maxAgeDays: 0 }).map((row) => row.id)).toEqual(["2"]);
+  expect(searchJobs(all, { query: "sales", maxAgeDays: 0 }).map((row) => row.id)).toEqual(["1"]);
+  void catalog;
+});
