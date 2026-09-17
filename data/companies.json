@@ -108414,5 +108414,71 @@
       "checkedAt": "2026-09-17T10:47:14.367307Z",
       "canonicalSourceUrl": "https://eofh.fa.em2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/requisitions"
     }
+  },
+  "youtrip": {
+    "name": "YouTrip",
+    "ats": "workable",
+    "token": "youtrip",
+    "cohorts": [
+      "IN"
+    ],
+    "sourceUrl": "https://apply.workable.com/youtrip/",
+    "discoveredFrom": {
+      "channel": "market_signal",
+      "reference": "adzuna india mobile-role sample, 2026-09-17"
+    },
+    "verification": {
+      "observedCompanyName": "YouTrip",
+      "identityEvidence": "provider_board",
+      "contentType": "application/json",
+      "payloadVersion": "workable-jobs:v1",
+      "jobCount": 49,
+      "checkedAt": "2026-09-17T17:02:41.814291Z",
+      "canonicalSourceUrl": "https://apply.workable.com/youtrip/"
+    }
+  },
+  "quince": {
+    "name": "Quince",
+    "ats": "greenhouse",
+    "token": "quince",
+    "cohorts": [
+      "IN"
+    ],
+    "sourceUrl": "https://job-boards.greenhouse.io/quince",
+    "discoveredFrom": {
+      "channel": "market_signal",
+      "reference": "adzuna india mobile-role sample, 2026-09-17"
+    },
+    "verification": {
+      "observedCompanyName": "Quince",
+      "identityEvidence": "provider_board",
+      "contentType": "application/json",
+      "payloadVersion": "greenhouse-boards:v1",
+      "jobCount": 133,
+      "checkedAt": "2026-09-17T17:02:41.814291Z",
+      "canonicalSourceUrl": "https://job-boards.greenhouse.io/quince"
+    }
+  },
+  "opentable": {
+    "name": "OpenTable",
+    "ats": "greenhouse",
+    "token": "opentable",
+    "cohorts": [
+      "IN"
+    ],
+    "sourceUrl": "https://job-boards.greenhouse.io/opentable",
+    "discoveredFrom": {
+      "channel": "market_signal",
+      "reference": "adzuna india mobile-role sample, 2026-09-17"
+    },
+    "verification": {
+      "observedCompanyName": "OpenTable",
+      "identityEvidence": "provider_board",
+      "contentType": "application/json",
+      "payloadVersion": "greenhouse-boards:v1",
+      "jobCount": 107,
+      "checkedAt": "2026-09-17T17:02:41.814291Z",
+      "canonicalSourceUrl": "https://job-boards.greenhouse.io/opentable"
+    }
   }
 }
