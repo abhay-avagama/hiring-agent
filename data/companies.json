@@ -108393,28 +108393,6 @@
       "canonicalSourceUrl": "https://jpmc.fa.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions"
     }
   },
-  "exl": {
-    "name": "EXL",
-    "ats": "oraclecloud",
-    "token": "fa-ewjt-saasfaprod1.fa.ocs.oraclecloud.com/CX_2",
-    "cohorts": [
-      "IN"
-    ],
-    "sourceUrl": "https://fa-ewjt-saasfaprod1.fa.ocs.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_2/requisitions",
-    "discoveredFrom": {
-      "channel": "company_site",
-      "reference": "https://www.exlservice.com/careers"
-    },
-    "verification": {
-      "observedCompanyName": "EXL",
-      "identityEvidence": "company_page_link",
-      "contentType": "application/json",
-      "payloadVersion": "oracle-recruiting-ce:v1",
-      "jobCount": 3301,
-      "checkedAt": "2026-09-17T10:47:14.367307Z",
-      "canonicalSourceUrl": "https://fa-ewjt-saasfaprod1.fa.ocs.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_2/requisitions"
-    }
-  },
   "tatacapital": {
     "name": "Tata Capital",
     "ats": "oraclecloud",
@@ -108435,28 +108413,6 @@
       "jobCount": 5278,
       "checkedAt": "2026-09-17T10:47:14.367307Z",
       "canonicalSourceUrl": "https://eofh.fa.em2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/requisitions"
-    }
-  },
-  "marriott": {
-    "name": "Marriott International",
-    "ats": "oraclecloud",
-    "token": "ejwl.fa.us2.oraclecloud.com/CX",
-    "cohorts": [
-      "IN"
-    ],
-    "sourceUrl": "https://ejwl.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/requisitions",
-    "discoveredFrom": {
-      "channel": "company_site",
-      "reference": "https://careers.marriott.com/"
-    },
-    "verification": {
-      "observedCompanyName": "Marriott International",
-      "identityEvidence": "company_page_link",
-      "contentType": "application/json",
-      "payloadVersion": "oracle-recruiting-ce:v1",
-      "jobCount": 13693,
-      "checkedAt": "2026-09-17T10:47:14.367307Z",
-      "canonicalSourceUrl": "https://ejwl.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/requisitions"
     }
   }
 }
