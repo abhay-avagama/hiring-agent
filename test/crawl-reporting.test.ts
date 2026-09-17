@@ -96,7 +96,7 @@ test("an unreachable, hanging, or misconfigured aggregator never breaks setup", 
   const crawler = createCrawler({
     store, maxAttempts: 1,
     fetchJobs: async () => [job("greenhouse:acme:1")],
-    onCrawled: createCrawlReporter({ url: "https://aggregator.test", fetcher: hanging, timeoutMs: 50 }),
+    onCrawled: createCrawlReporter({ url: "https://aggregator.test", fetcher: hanging, timeoutMs: 50, sleep: async () => undefined }),
   });
   const report = await crawler.crawl([sources[0]!]);
   expect(report.succeeded).toBe(1);
@@ -112,4 +112,36 @@ test("an unreachable, hanging, or misconfigured aggregator never breaks setup", 
   const result = await preparer.prepare({ countries: ["IN"] });
   expect(crawls).toBe(1);
   expect(result.status).toBe("ready");
+});
+
+test("a report survives the aggregator being briefly unavailable, but a rejection is not retried", async () => {
+  const { createCrawlReporter } = await import("../src/crawl-reporting.ts");
+  const source = { slug: "acme", name: "Acme", ats: "greenhouse" as const, token: "acme" };
+  const partition = { fetchedAt: "2026-09-17T12:00:00.000Z", jobs: [] };
+  const waits: number[] = [];
+
+  let calls = 0;
+  const flaky = createCrawlReporter({
+    url: "http://aggregator.test", sleep: async (ms) => { waits.push(ms); },
+    fetcher: (async () => { calls += 1; if (calls < 3) throw new Error("connection refused"); return new Response("{}", { status: 200 }); }) as unknown as typeof fetch,
+  });
+  await flaky(source, partition);
+  expect(calls).toBe(3); // it kept the data rather than dropping it on the first refusal
+  expect(waits).toEqual([5_000, 10_000]);
+
+  let rejections = 0;
+  const rejected = createCrawlReporter({
+    url: "http://aggregator.test", sleep: async () => undefined,
+    fetcher: (async () => { rejections += 1; return new Response("no", { status: 400 }); }) as unknown as typeof fetch,
+  });
+  await expect(rejected(source, partition)).rejects.toThrow("HTTP 400");
+  expect(rejections).toBe(1); // a report the server refuses is not worth sending again
+
+  let outages = 0;
+  const down = createCrawlReporter({
+    url: "http://aggregator.test", sleep: async () => undefined,
+    fetcher: (async () => { outages += 1; return new Response("busy", { status: 503 }); }) as unknown as typeof fetch,
+  });
+  await expect(down(source, partition)).rejects.toThrow("HTTP 503");
+  expect(outages).toBe(3);
 });

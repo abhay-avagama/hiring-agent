@@ -27,19 +27,37 @@ export function resolveAggregatorUrl(value: string | undefined): string | undefi
 }
 
 /** Posts each successfully crawled partition to the aggregator. Only job data is sent, never resume content. */
-export function createCrawlReporter(options: { url: string; fetcher?: Fetch; timeoutMs?: number }) {
+export function createCrawlReporter(options: { url: string; fetcher?: Fetch; timeoutMs?: number; attempts?: number; sleep?: (ms: number) => Promise<void> }) {
   const fetcher = options.fetcher ?? globalThis.fetch;
   const target = endpoint(options.url, "v1/crawls");
+  const attempts = Math.max(1, options.attempts ?? 3);
+  const sleep = options.sleep ?? ((ms: number) => new Promise<void>((resolve) => setTimeout(resolve, ms)));
   return async (source: Company, partition: JobPartition): Promise<void> => {
     const payload: CrawlReportPayload = { version: 1, source: { slug: source.slug, ats: source.ats, token: source.token }, fetchedAt: partition.fetchedAt, jobs: partition.jobs };
-    const response = await fetcher(target, {
-      method: "POST",
-      headers: { "content-type": "application/json", "content-encoding": "gzip" },
-      body: Bun.gzipSync(JSON.stringify(payload)),
-      // Big employers send tens of megabytes and the aggregator ingests one report at a time; give them room.
-      signal: AbortSignal.timeout(options.timeoutMs ?? 120_000),
-    });
-    if (!response.ok) throw new Error(`Aggregator rejected crawl report: HTTP ${response.status}`);
+    const body = Bun.gzipSync(JSON.stringify(payload));
+    let last: Error | undefined;
+    // A crawl that ends while the aggregator is restarting used to lose its whole report in silence.
+    // Retry the failures worth retrying: a refused connection, a timeout, or the server being briefly unwell.
+    for (let attempt = 1; attempt <= attempts; attempt += 1) {
+      try {
+        const response = await fetcher(target, {
+          method: "POST",
+          headers: { "content-type": "application/json", "content-encoding": "gzip" },
+          body,
+          // Big employers send tens of megabytes and the aggregator ingests one report at a time; give them room.
+          signal: AbortSignal.timeout(options.timeoutMs ?? 120_000),
+        });
+        if (response.ok) return;
+        // A rejected report will be rejected again: the catalog disagrees, or the payload is too large.
+        if (response.status < 500) throw new Error(`Aggregator rejected crawl report: HTTP ${response.status}`);
+        last = new Error(`Aggregator returned HTTP ${response.status}`);
+      } catch (error) {
+        if (error instanceof Error && error.message.startsWith("Aggregator rejected")) throw error;
+        last = error instanceof Error ? error : new Error(String(error));
+      }
+      if (attempt < attempts) await sleep(attempt * 5_000);
+    }
+    throw last ?? new Error("Crawl report failed");
   };
 }
 
