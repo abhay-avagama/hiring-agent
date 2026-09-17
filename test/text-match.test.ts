@@ -34,28 +34,32 @@ test("plurals meet in the middle and every term must appear", () => {
   expect(matchesSearchTerms(searchHaystack("Anything"), searchTerms(""))).toBe(true);
 });
 
-test("word forms meet: a candidate typing engineer means Engineering too", () => {
-  // A coverage panel measured the cost of plural-only stemming: 598 results removed, of which roughly 42
-  // were genuine false matches. "engineering" alone absorbed "engineer" 514 times.
+test("word forms meet where they mean the same job, and not where they do not", () => {
+  // Measured, not guessed: plural-only stemming lost 556 real roles to word form, while stripping "er" and "ment"
+  // brought in 378 Business and Corporate Development titles for "developer" and Search Engine roles for "engineer".
   const cases: Array<[string, string, boolean]> = [
     ["Software Engineering Manager", "software engineer", true],
     ["Senior Software Engineer", "software engineering", true],
     ["Data Engineering Lead", "data engineer", true],
-    ["Development Manager", "developer", true],
-    ["Engineering Management", "manager", true],
-    ["Marketing Lead", "market", true],
+    ["Android Developers wanted", "android developer", true],
+    ["Marketing Lead", "marketing", true],
+    ["Business Development Manager", "java developer", false],
+    ["Java Development Lead, Vice President", "java developer", false],
+    ["Search Engine Optimization Specialist", "engineer", false],
+    ["Customer Success Manager", "custom", false],
     ["Data Analyst", "data engineer", false],
   ];
   for (const [title, query, expected] of cases) expect([title, query, matches(title, query)]).toEqual([title, query, expected]);
 });
 
-test("a job written as one word and as two is the same job", () => {
+test("a job written as one word and as two is the same job, without joining words that merely sit together", () => {
   const cases: Array<[string, string, boolean]> = [
     ["Fullstack Developer", "full stack", true],
     ["Full Stack Engineer", "fullstack", true],
     ["Backend Engineer", "back end", true],
-    ["DevOps Engineer", "dev ops", true],
     ["Front End Developer", "frontend", true],
+    ["DevOps Engineer", "dev ops", true],
+    ["Director, Clin Dev Ops", "devops", false], // Clinical Development Operations
   ];
   for (const [title, query, expected] of cases) expect([title, query, matches(title, query)]).toEqual([title, query, expected]);
 });
