@@ -108370,5 +108370,93 @@
       "payloadVersion": "amazon-jobs-search:v1",
       "jobCount": 2368
     }
+  },
+  "jpmorganchase": {
+    "name": "JPMorganChase",
+    "ats": "oraclecloud",
+    "token": "jpmc.fa.oraclecloud.com/CX_1",
+    "cohorts": [
+      "IN"
+    ],
+    "sourceUrl": "https://jpmc.fa.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions",
+    "discoveredFrom": {
+      "channel": "company_site",
+      "reference": "https://careers.jpmorgan.com/"
+    },
+    "verification": {
+      "observedCompanyName": "JPMorganChase",
+      "identityEvidence": "company_page_link",
+      "contentType": "application/json",
+      "payloadVersion": "oracle-recruiting-ce:v1",
+      "jobCount": 7447,
+      "checkedAt": "2026-09-17T10:47:14.367307Z",
+      "canonicalSourceUrl": "https://jpmc.fa.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions"
+    }
+  },
+  "exl": {
+    "name": "EXL",
+    "ats": "oraclecloud",
+    "token": "fa-ewjt-saasfaprod1.fa.ocs.oraclecloud.com/CX_2",
+    "cohorts": [
+      "IN"
+    ],
+    "sourceUrl": "https://fa-ewjt-saasfaprod1.fa.ocs.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_2/requisitions",
+    "discoveredFrom": {
+      "channel": "company_site",
+      "reference": "https://www.exlservice.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "EXL",
+      "identityEvidence": "company_page_link",
+      "contentType": "application/json",
+      "payloadVersion": "oracle-recruiting-ce:v1",
+      "jobCount": 3301,
+      "checkedAt": "2026-09-17T10:47:14.367307Z",
+      "canonicalSourceUrl": "https://fa-ewjt-saasfaprod1.fa.ocs.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_2/requisitions"
+    }
+  },
+  "tatacapital": {
+    "name": "Tata Capital",
+    "ats": "oraclecloud",
+    "token": "eofh.fa.em2.oraclecloud.com/CX",
+    "cohorts": [
+      "IN"
+    ],
+    "sourceUrl": "https://eofh.fa.em2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/requisitions",
+    "discoveredFrom": {
+      "channel": "company_site",
+      "reference": "https://www.tatacapital.com/careers.html"
+    },
+    "verification": {
+      "observedCompanyName": "Tata Capital",
+      "identityEvidence": "company_page_link",
+      "contentType": "application/json",
+      "payloadVersion": "oracle-recruiting-ce:v1",
+      "jobCount": 5278,
+      "checkedAt": "2026-09-17T10:47:14.367307Z",
+      "canonicalSourceUrl": "https://eofh.fa.em2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/requisitions"
+    }
+  },
+  "marriott": {
+    "name": "Marriott International",
+    "ats": "oraclecloud",
+    "token": "ejwl.fa.us2.oraclecloud.com/CX",
+    "cohorts": [
+      "IN"
+    ],
+    "sourceUrl": "https://ejwl.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/requisitions",
+    "discoveredFrom": {
+      "channel": "company_site",
+      "reference": "https://careers.marriott.com/"
+    },
+    "verification": {
+      "observedCompanyName": "Marriott International",
+      "identityEvidence": "company_page_link",
+      "contentType": "application/json",
+      "payloadVersion": "oracle-recruiting-ce:v1",
+      "jobCount": 13693,
+      "checkedAt": "2026-09-17T10:47:14.367307Z",
+      "canonicalSourceUrl": "https://ejwl.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/requisitions"
+    }
   }
 }

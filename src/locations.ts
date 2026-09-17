@@ -15,7 +15,7 @@ const INDIA_PLACES = [
 const INDIA_PATTERN = new RegExp(`\\b(${INDIA_PLACES.map(escapeRegExp).join("|")})\\b`, "i");
 const INDIA_INCLUSIVE_REGION_PATTERN = /\b(apac|asia|asia[ -]pacific|worldwide|anywhere|global)\b/i;
 const INDIA_EXCLUSION_PATTERN = /\b(not available|unavailable|excluding|except|cannot hire|can't hire|unable to hire|do not hire|does not hire)\b.{0,80}\b(india|apac|asia)\b|\b(india|apac|asia)\b.{0,40}\b(excluded|not eligible|not supported)\b/i;
-const INDIA_ELIGIBILITY_PATTERN = /\b(remote (?:in|from)|available (?:in|to)|open to|hiring (?:in|from)|candidates? (?:in|from)|applicants? (?:in|from)|work (?:in|from)|based in)\b.{0,80}\b(india|apac|asia)\b|\b(india|apac|asia)\b.{0,40}\b(remote|candidates?|applicants?|eligible|hiring)\b/i;
+const INDIA_ELIGIBILITY_PATTERN = /\b(remote (?:in|from)|available (?:in|to)|open to|hiring (?:in|from)|candidates? (?:in|from)|applicants? (?:in|from)|based in)\b.{0,80}\b(india|apac|asia)\b|\bwork (?:in|from)\s+(?:anywhere\s+in\s+)?(?:india|apac|asia)\b|\b(india|apac|asia)\b.{0,40}\b(remote|candidates?|applicants?|eligible|hiring)\b/i;
 
 export function normalizeLocation(value: string): string {
   const aliases: Record<string, string> = {
@@ -135,7 +135,7 @@ function detectEligibleCountries(description: string): string[] {
   for (const rule of countryRules()) {
     if (rule.eligibility.test(description)) matches.push(rule.code);
   }
-  if (/\b(open to|hiring|candidates?|applicants?|eligible|remote (?:in|from)|work (?:in|from)|based in|available (?:in|to))\b.{0,80}\bGeorgia\b/i.test(description)) matches.push("GE");
+  if (descriptionEligibilityPattern("\\bGeorgia\\b").test(description)) matches.push("GE");
   return matches;
 }
 
@@ -172,6 +172,10 @@ function countryMatchers(): Array<[string, string]> {
 }
 
 interface CountryRule { code: string; location: RegExp; codeLocation: RegExp; exclusion: RegExp; eligibility: RegExp }
+/** "Work in tandem with our India team" describes colleagues, not an applicant's work location. */
+function descriptionEligibilityPattern(country: string): RegExp {
+  return new RegExp(`\\b(open to|hiring|candidates?|applicants?|eligible|remote (?:in|from)|based in|available (?:in|to))\\b.{0,80}(?:${country})|\\bwork (?:in|from)\\s+(?:anywhere\\s+in\\s+)?(?:${country})`, "i");
+}
 let cachedCountryRules: CountryRule[] | undefined;
 function countryRules(): CountryRule[] {
   if (cachedCountryRules) return cachedCountryRules;
@@ -180,7 +184,7 @@ function countryRules(): CountryRule[] {
     location: new RegExp(country, "i"),
     codeLocation: new RegExp(`(?:^|[,(/-]\\s*)${code === "GB" ? "(?:GB|UK)" : code}(?=\\s*(?:$|[,)/-]))`, "i"),
     exclusion: new RegExp(`\\b(not available|unavailable|excluding|except|cannot hire|can't hire|unable to hire|do not hire|does not hire)\\b.{0,80}(?:${country})|(?:${country}).{0,40}\\b(excluded|not eligible|not supported)\\b`, "i"),
-    eligibility: new RegExp(`\\b(open to|hiring|candidates?|applicants?|eligible|remote (?:in|from)|work (?:in|from)|based in|available (?:in|to))\\b.{0,80}(?:${country})`, "i"),
+    eligibility: descriptionEligibilityPattern(country),
   }));
   return cachedCountryRules;
 }

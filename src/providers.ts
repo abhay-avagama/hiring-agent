@@ -186,6 +186,80 @@ const freshteam: ProviderSpec = {
 };
 
 /** Keka (India HRMS): the careers portal calls an unauthenticated embed API. Token is `tenant/orgId`; the org id sits in the portal shell. */
+/** Oracle Cloud Recruiting (the "CandidateExperience" career sites). Token: "<host>/<siteNumber>", e.g. "jpmc.fa.oraclecloud.com/CX_1". */
+const ORACLE_HOST = /^[a-z0-9-]+\.fa(?:\.[a-z0-9-]+)*\.oraclecloud\.com$/i;
+const ORACLE_PAGE = 200;
+/** Newest first, so a large employer costs a few pages: stop once a whole page predates this. */
+const ORACLE_MAX_AGE_DAYS = 45;
+// Enterprise tenants run to thousands of open roles; this bounds a crawl at 20 requests while covering the window we care about.
+const ORACLE_MAX_RECORDS = 4000;
+const oracleHost = (token: string) => token.split("/")[0] ?? "";
+const oracleSite = (token: string) => token.split("/")[1] ?? "CX_1";
+function oracleList(token: string, offset: number): string {
+  return `https://${oracleHost(token)}/hcmRestApi/resources/latest/recruitingCEJobRequisitions?onlyData=true&expand=requisitionList.secondaryLocations` +
+    `&finder=findReqs;siteNumber=${encodeURIComponent(oracleSite(token))},limit=${ORACLE_PAGE},offset=${offset},sortBy=POSTING_DATES_DESC`;
+}
+function oracleRequisitions(body: unknown): Rec[] | null {
+  if (!isRecord(body)) return null;
+  const items = asRecords(body.items) ?? [];
+  const list = items.flatMap((item) => asRecords(item.requisitionList) ?? []);
+  return items.length ? list : null;
+}
+
+const oraclecloud: ProviderSpec = {
+  ats: "oraclecloud",
+  label: "Oracle Cloud Recruiting",
+  hosts: ["oraclecloud.com"],
+  crawlPatterns: ["*.fa.oraclecloud.com/hcmUI/CandidateExperience*"],
+  resolve(url) {
+    if (!ORACLE_HOST.test(url.hostname)) return null;
+    const site = /\/sites\/([A-Za-z0-9_]{2,32})/.exec(url.pathname)?.[1] ?? url.searchParams.get("siteNumber");
+    return site && /^[A-Za-z0-9_]{2,32}$/.test(site) ? `${url.hostname.toLowerCase()}/${site}` : null;
+  },
+  canonicalUrl: (token) => `https://${oracleHost(token)}/hcmUI/CandidateExperience/en/sites/${oracleSite(token)}/requisitions`,
+  endpoint: (token) => oracleList(token, 0),
+  jobsFromBody: (body) => oracleRequisitions(body),
+  providerName: () => "",
+  payloadVersion: () => "oracle-recruiting-ce:v1",
+  async fetchAll(token, get) {
+    const records: Rec[] = [];
+    const cutoff = Date.now() - ORACLE_MAX_AGE_DAYS * 86_400_000;
+    for (let offset = 0; offset < ORACLE_MAX_RECORDS; offset += ORACLE_PAGE) {
+      const page = oracleRequisitions(await get(oracleList(token, offset))) ?? [];
+      records.push(...page);
+      if (page.length < ORACLE_PAGE) break;
+      // Sorted newest first: once a whole page is older than the window, later pages are older still.
+      const dates = page.map((job) => Date.parse(str(job.PostedDate))).filter((time) => Number.isFinite(time));
+      if (dates.length && Math.max(...dates) < cutoff) break;
+    }
+    return records;
+  },
+  normalize(company, job) {
+    const secondary = (asRecords(job.secondaryLocations) ?? []).map((place) => str(place.Name)).filter(Boolean);
+    const country = countryLabel(str(job.PrimaryLocationCountry));
+    const primary = str(job.PrimaryLocation);
+    // The country name is appended so eligibility reads it: Oracle gives the code separately from the label.
+    const location = [primary, ...secondary].filter(Boolean).join("; ") + (country && !new RegExp(`\\b${country}\\b`, "i").test(primary) ? `, ${country}` : "");
+    const workplace = str(job.WorkplaceType) || str(job.WorkplaceTypeCode);
+    const remote = /remote|work from home/i.test(`${workplace} ${location}`);
+    return classifyJob({
+      id: `oraclecloud:${company.slug}:${str(job.Id)}`, company: company.name, title: str(job.Title),
+      location: location || "Unspecified", remote, workMode: remote ? "remote" : "unknown",
+      eligibleCountries: [], excludedCountries: [], eligibleRegions: [], eligibilityConfidence: "unknown",
+      url: `https://${oracleHost(company.token)}/hcmUI/CandidateExperience/en/sites/${oracleSite(company.token)}/job/${encodeURIComponent(str(job.Id))}`,
+      ...(str(job.PostedDate) ? { updatedAt: str(job.PostedDate) } : {}),
+      description: "", // the listing carries only a teaser; detail() reads the advert
+    });
+  },
+  async detail(company, job, get) {
+    const id = job.id.split(":").pop() ?? "";
+    const body = await get(`https://${oracleHost(company.token)}/hcmRestApi/resources/latest/recruitingCEJobRequisitionDetails?expand=all&onlyData=true&finder=ById;Id="${encodeURIComponent(id)}",siteNumber=${encodeURIComponent(oracleSite(company.token))}`);
+    const item = (asRecords(isRecord(body) ? body.items : null) ?? [])[0];
+    if (!item) return "";
+    return plainText([str(item.ExternalDescriptionStr), str(item.ExternalResponsibilitiesStr), str(item.ExternalQualificationsStr)].filter(Boolean).join("\n\n"));
+  },
+};
+
 const keka: ProviderSpec = {
   ats: "keka",
   label: "Keka",
@@ -264,7 +338,7 @@ function tag(xml: string, name: string): string { return new RegExp(`<${name}(?:
 function cdata(value: string): string { return value.replace(/^<!\[CDATA\[([\s\S]*?)\]\]>$/, "$1").trim(); }
 
 import { PORTALS } from "./portals.ts";
-export const PROVIDERS: ReadonlyArray<ProviderSpec> = [smartrecruiters, workable, breezy, freshteam, keka, zohorecruit, ...PORTALS];
+export const PROVIDERS: ReadonlyArray<ProviderSpec> = [smartrecruiters, workable, breezy, freshteam, keka, zohorecruit, oraclecloud, ...PORTALS];
 
 export function providerSpec(ats: string): ProviderSpec | undefined {
   return PROVIDERS.find((spec) => spec.ats === ats);

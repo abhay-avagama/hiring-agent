@@ -19,6 +19,8 @@ interface Dependencies {
 }
 interface Query { id: number; index_id: string; provider: Ats; pattern: string; pages: number | null; next_page: number }
 interface Board { key: string; ats: Ats; token: string; url: string }
+interface GatewayRetry { url: string; failures: number; nextAt: number }
+interface FailureDetail { at: string; url: string; status: number; headers: Record<string, string>; bodyPreview: string }
 const MAX_BODY_BYTES = 8 * 1024 * 1024;
 const SCHEMA = 1;
 
@@ -82,16 +84,30 @@ export async function discoverCatalog(options: Options, deps: Dependencies = {})
         if (pagesThisRun >= pages) { status = "page_budget"; break; }
         const url = new URL(`https://index.commoncrawl.org/${query.index_id}-index`);
         url.search = new URLSearchParams({ url: query.pattern, output: "json", filter: "=status:200", fl: "url", pageSize: "1", ...(query.pages === null ? { showNumPages: "true" } : { page: String(query.next_page) }) }).toString();
+        const gatewayRetry: GatewayRetry | null = JSON.parse(get("gatewayRetry") ?? "null");
         // Persist request accounting before dispatch: a process crash cannot erase a consumed attempt.
-        await sleep(Math.max(delay, Number(get("lastRequestAt") ?? 0) + delay - now()));
+        const waitMs = Math.max(delay, Number(get("lastRequestAt") ?? 0) + delay - now(), gatewayRetry?.url === String(url) ? gatewayRetry.nextAt - now() : 0);
+        // Long Retry-After values yield control to the operator rather than holding a CLI open indefinitely.
+        if (waitMs > 60000) { status = "cooling_down"; break; }
+        await sleep(waitMs);
         put("lastRequestAt", now()); put("requests", Number(get("requests") ?? 0) + 1); requestsThisRun++;
         try {
           const response = await fetcher(url, { redirect: "error", signal: AbortSignal.timeout(30000), headers: { "user-agent": "OpeningsCatalogDiscovery/1.0" } });
+          if (response.status === 502 || response.status === 504) {
+            const failures = (gatewayRetry?.url === String(url) ? gatewayRetry.failures : 0) + 1;
+            const nextAt = Math.max(now() + 10000 * 2 ** (failures - 1), retryAfter(response, now()));
+            put("lastFailure", JSON.stringify(await failureDetail(response, url, now())));
+            if (failures >= 3) {
+              put("retryAt", Math.max(now() + 15 * 60000, nextAt)); put("gatewayRetry", "null");
+              error = `Common Crawl HTTP ${response.status}; gateway retry allowance exhausted`; status = "error"; break;
+            }
+            put("gatewayRetry", JSON.stringify({ url: String(url), failures, nextAt } satisfies GatewayRetry));
+            continue;
+          }
           if (response.status === 429 || response.status === 503) {
-            const header = response.headers.get("retry-after");
-            const retry = header && /^\d+$/.test(header) ? now() + Number(header) * 1000 : Date.parse(header ?? "");
-            put("retryAt", Math.max(now() + 15 * 60000, Number.isFinite(retry) ? retry : 0));
-            await response.body?.cancel(); status = "throttled"; break;
+            put("retryAt", Math.max(now() + 15 * 60000, retryAfter(response, now())));
+            put("lastFailure", JSON.stringify(await failureDetail(response, url, now())));
+            status = "throttled"; break;
           }
           if (response.status === 404) {
             const text = await boundedText(response);
@@ -102,11 +118,13 @@ export async function discoverCatalog(options: Options, deps: Dependencies = {})
             if (typeof message === "string" && emptyMessages.includes(message.toLowerCase())) {
               if (query.pages === null) db.prepare("UPDATE queries SET pages=0 WHERE id=?").run(query.id);
               else { db.prepare("UPDATE queries SET next_page=next_page+1 WHERE id=?").run(query.id); pagesThisRun++; }
+              put("gatewayRetry", "null");
               continue;
             }
+            put("lastFailure", JSON.stringify({ at: new Date(now()).toISOString(), url: String(url), status: 404, headers: diagnosticHeaders(response), bodyPreview: text.slice(0,2048) } satisfies FailureDetail));
             throw Error("Common Crawl HTTP 404");
           }
-          if (!response.ok) { await response.body?.cancel(); throw Error(`Common Crawl HTTP ${response.status}`); }
+          if (!response.ok) { put("lastFailure", JSON.stringify(await failureDetail(response, url, now()))); throw Error(`Common Crawl HTTP ${response.status}`); }
           const body = await boundedText(response);
           if (query.pages === null) {
             const info = JSON.parse(body);
@@ -133,6 +151,7 @@ export async function discoverCatalog(options: Options, deps: Dependencies = {})
             })();
             pagesThisRun++;
           }
+          put("gatewayRetry", "null");
         } catch (cause) { error = cause instanceof Error ? cause.message : String(cause); status = "error"; break; }
       }
       const boards = db.query<Board, []>("SELECT * FROM boards ORDER BY key").all();
@@ -149,12 +168,45 @@ export async function discoverCatalog(options: Options, deps: Dependencies = {})
       }
       return { status, error, state: options.state, indexes, providers, boards: boards.length, knownBoards: boards.filter(b => known.has(b.key)).length, newBoardLeads: boards.filter(b => !known.has(b.key)).length,
         records: Number(get("records") ?? 0), rejectedRecords: Number(get("rejected") ?? 0), requestsTotal: Number(get("requests") ?? 0), requestsThisRun, pagesThisRun,
-        retryAt: Number(get("retryAt") ?? 0) > now() ? new Date(Number(get("retryAt"))).toISOString() : undefined,
+        retryAt: nextRetryAt(get("retryAt"), get("gatewayRetry"), now()),
+        lastFailure: JSON.parse(get("lastFailure") ?? "null") as FailureDetail | null,
         limits: { requestBudget: requests, pageBudget: pages, targetBoards: target, delayMs: delay, maxResponseBytes: MAX_BODY_BYTES },
         queries: db.query<Query, []>("SELECT * FROM queries ORDER BY id").all(), exported,
         note: "Unverified discovery leads, not active boards or eligible employers. No catalog or shared registry was changed." };
     } finally { db.close(); }
   }, { operation: "catalog discovery" });
+}
+
+function retryAfter(response: Response, now: number): number {
+  const header = response.headers.get("retry-after");
+  const value = header && /^\d+$/.test(header) ? now + Number(header) * 1000 : Date.parse(header ?? "");
+  return Number.isFinite(value) && value <= 8640000000000000 ? value : 0;
+}
+function nextRetryAt(cooldown: string | undefined, gateway: string | undefined, now: number) {
+  const retry: GatewayRetry | null = JSON.parse(gateway ?? "null");
+  const value = Math.max(Number(cooldown ?? 0), retry?.nextAt ?? 0);
+  return value > now ? new Date(value).toISOString() : undefined;
+}
+function diagnosticHeaders(response: Response) {
+  return Object.fromEntries(["server", "via", "cf-ray", "x-request-id", "x-cache", "retry-after", "content-type"].flatMap(name => {
+    const value = response.headers.get(name); return value === null ? [] : [[name, value.slice(0,512)]];
+  }));
+}
+async function failureDetail(response: Response, url: URL, now: number): Promise<FailureDetail> {
+  const detail: FailureDetail = { at: new Date(now).toISOString(), url: String(url), status: response.status, headers: diagnosticHeaders(response), bodyPreview: "" };
+  const reader = response.body?.getReader(); if (!reader) return detail;
+  const chunks: Uint8Array[] = []; let bytes = 0;
+  try {
+    while (bytes < 2048) {
+      const chunk = await reader.read(); if (chunk.done) break;
+      const part = chunk.value.subarray(0, 2048-bytes); chunks.push(part); bytes += part.length;
+    }
+    const buffer = new Uint8Array(bytes); let offset = 0;
+    for (const chunk of chunks) { buffer.set(chunk, offset); offset += chunk.length; }
+    detail.bodyPreview = new TextDecoder().decode(buffer);
+  } catch { detail.bodyPreview = "[response body unavailable]"; }
+  finally { await reader.cancel().catch(() => {}); reader.releaseLock(); }
+  return detail;
 }
 
 function integer(value: number, min: number, max: number, name: string) {

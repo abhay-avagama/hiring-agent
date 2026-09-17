@@ -55,7 +55,9 @@ export async function verifyBoards(registryPath: string, catalogPath: string, op
     for (const lead of registry.leads) {
       if (!BOARD_TIER_PROVIDERS.has(lead.ats) || !resolveSource(lead.sourceUrl)) { skipped.unsupported += 1; continue; }
       if (knownSources.has(`${lead.ats}:${lead.token.toLowerCase()}`)) { skipped.inCatalog += 1; continue; }
-      if (looksLikeTestBoard(lead.token)) { skipped.unsupported += 1; continue; }
+      // Keka tokens contain tenant/UUID; the provider-issued routing UUID is not a company name.
+      const boardName = lead.ats === "keka" ? lead.token.split("/")[0]! : lead.token;
+      if (looksLikeTestBoard(boardName)) { skipped.unsupported += 1; continue; }
       if (coolingDown(lead, now(), cooldownMs)) { skipped.coolingDown += 1; continue; }
       eligible.push(lead);
     }

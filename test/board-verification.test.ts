@@ -3,8 +3,9 @@ import { mkdtemp, readFile, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { humanize, looksLikeTestBoard, verifyBoards } from "../src/board-verification.ts";
+import type { Ats } from "../src/types.ts";
 
-const lead = (ats: "greenhouse" | "lever" | "ashby" | "recruitee" | "workday", token: string, url: string, extra: Record<string, unknown> = {}) => ({
+const lead = (ats: Ats, token: string, url: string, extra: Record<string, unknown> = {}) => ({
   sourceKey: `${ats}:${token.toLowerCase()}`, sourceUrl: url, ats, token, discoveredFrom: [{ channel: "dataset", reference: "common-crawl" }], companyMatches: [], identityEvidence: [], attempts: [], ...extra,
 });
 
@@ -63,6 +64,26 @@ test("board-verified tier admits live boards on provider identity, skips known a
 test("humanize turns a board token into a display name", () => {
   expect(humanize("beta-labs")).toBe("Beta Labs");
   expect(humanize("acme")).toBe("Acme");
+});
+
+test("Keka routing UUIDs do not make genuine tenant names look like test boards", async () => {
+  const dir = await mkdtemp(join(tmpdir(), "boards-keka-"));
+  const registry = join(dir, "leads.json"); const catalog = join(dir, "companies.json");
+  const uuid = "12345678-1234-4234-8234-123456789abc";
+  await writeFile(registry, JSON.stringify({ version: 1, updatedAt: "2026-09-16T00:00:00Z", leads: [
+    lead("keka", `acme/${uuid}`, `https://acme.keka.com/careers/api/embedjobs/default/active/${uuid}`),
+    lead("keka", `test123456789/${uuid}`, `https://test123456789.keka.com/careers/api/embedjobs/default/active/${uuid}`),
+  ] }));
+  const calls: string[] = [];
+  const report = await verifyBoards(registry, catalog, { fetch: async (input) => {
+    calls.push(String(input));
+    return Response.json(String(input).includes("careerportalinfo") ? { name: "Acme" } : [{ id: "one", title: "Engineer" }]);
+  } });
+  expect(report.selected).toBe(1);
+  expect(report.verified).toBe(1);
+  expect(report.skipped.unsupported).toBe(1);
+  expect(calls.length).toBeGreaterThan(0);
+  expect(calls.every((url) => url.includes("acme.keka.com"))).toBe(true);
 });
 
 test("random-looking board tokens are treated as test boards, short brand tokens are not", () => {

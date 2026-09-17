@@ -55,3 +55,19 @@ The 4,436 same-company/title/location groups may include distinct valid requisit
 Plain search is explicitly resume-optional, accepts stated-experience filtering, and returns total/next-offset pagination with deterministic ID tie-breaking. Unknown experience is excluded by default only when an experience filter is requested; callers can include it explicitly. A stated range is not a hiring or fit guarantee. Pagination is not a frozen-snapshot cursor: keep the resolved date window and filters unchanged, and restart after refresh.
 
 This work does not deploy the hosted service, increase the corpus, add notifications, or change provider identity admission rules.
+
+## Follow-up: deployment and first quality slice
+
+On 16 September, the original MCP changes shipped as `openings@0.1.36` (package commit `464477f`). The website landing page (`c4dabeb`) and hosted search/connector (`bd56efb`) were deployed through the server runbook. The public search page returned HTTP 200; MCP still required authentication (HTTP 401 without a token). The installed package reported 0.1.36, optional-resume instructions, and the new experience/pagination fields. The aggregator's authenticated local integration test also passed against the published package. No production account or session was created for the smoke test.
+
+The separate, subsequent quality slice is **local and not part of that deployment**:
+
+- A synthetic classifier regression reproduced false India eligibility from “Work in tandem with our India and US Operations teams.” Work-location wording now requires an adjacent country, rather than jumping over collaboration prose. The saved Anteriad record replays as US-only; actual India work-location statements still pass. Other eligibility phrase families are unchanged, so this is not a claim that every description-based ambiguity is solved.
+- A synthetic Workday feed reproduced two `Regular` bullets becoming one job identity, and the India country-pass label transferring to an Australia job. One shared key now drives both normalization and country joins: a bullet is trusted only when corroborated by the URL requisition; otherwise use the URL suffix (or full path fallback). Existing URL-corroborated requisition IDs, including numeric posting variants, remain stable. Display-label changes do not establish identity.
+- Focused tests went from two failures to passing. The full suite reports 295 passing, 355 skipped, zero failures; typecheck is clean.
+
+No historical rows were rewritten. Once this quality slice is separately released, affected Workday sources need a bounded refresh: already-collapsed records cannot be reconstructed from the snapshot, and the old `Regular` key must not be silently aliased to one arbitrary requisition. Verify partition replacement and the shared store's current-job view before calling data repair complete.
+
+The live UX replay also surfaced a Workable role displayed in Lahore, Punjab, Pakistan under the India filter. This is a separate location-ambiguity investigation, not covered by the two fixes above; it is additional evidence against treating the headline India count as independently validated coverage.
+
+For the description-completeness slice, current crawler code fetches selected details to extract experience but retains only that extraction, not the fetched description. Measure detail availability and decide bounded retention/backfill behavior before launching requests. The audit does not authorize a full-index detail-fetch campaign.

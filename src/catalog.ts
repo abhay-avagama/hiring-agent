@@ -199,7 +199,15 @@ const WORKDAY_LISTING_CAP = 2000;
 const WORKDAY_COUNTRY_NAMES: Record<string, string[]> = { IN: ["india"], US: ["united states of america", "united states", "usa"] };
 /** Countries whose multi-location postings ("2 Locations") are labelled from the tenant's own country filter, not only on capped tenants. */
 const WORKDAY_LABEL_COUNTRIES = new Set(["IN"]);
-function workdayJobKey(job: WorkdayJob): string { return job.bulletFields?.[0] ?? job.externalPath; }
+function workdayJobKey(job: WorkdayJob): string {
+  // Bullets are tenant-defined display fields (e.g. "Regular"), not a requisition contract.
+  // Preserve existing requisition IDs only when the posting URL corroborates them.
+  const tail = job.externalPath.split("/").at(-1) ?? "";
+  const suffix = tail.includes("_") ? tail.slice(tail.lastIndexOf("_") + 1) : "";
+  const bullet = job.bulletFields?.[0]?.trim();
+  if (bullet && /\d/.test(bullet) && (suffix === bullet || (suffix.startsWith(`${bullet}-`) && /^\d+$/.test(suffix.slice(bullet.length + 1))))) return bullet;
+  return suffix && /^[a-z0-9.-]+$/i.test(suffix) && /\d/.test(suffix) ? suffix : job.externalPath;
+}
 
 export interface WorkdayCountryFacet { parameter: string; id: string; count: number }
 /**
@@ -378,7 +386,7 @@ export function abortableDelay(ms: number, signal?: AbortSignal): Promise<void> 
 
 function normalizeWorkday(company: Company, source: ReturnType<typeof parseWorkdayToken>, job: WorkdayJob): Job {
   const location = job.locationsText ?? "Unspecified";
-  const requisition = job.bulletFields?.[0] ?? job.externalPath.split("_").at(-1) ?? job.externalPath;
+  const requisition = workdayJobKey(job);
   return classifyJob({
     id: `workday:${company.slug}:${requisition}`,
     company: company.name,

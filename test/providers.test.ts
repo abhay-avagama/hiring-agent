@@ -116,3 +116,25 @@ test("Zoho Recruit portals resolve from the careers path and read the RSS feed o
   const spec = providerSpec("zohorecruit")!;
   expect(spec.providerName([], rss)).toBe("GATESOURCE HR");
 });
+
+test("Oracle Cloud Recruiting resolves a career site, pages newest first, and stops past the window", async () => {
+  const { resolveProviderSource, providerSpec } = await import("../src/providers.ts");
+  const resolved = resolveProviderSource("https://jpmc.fa.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions");
+  expect(resolved).toEqual(expect.objectContaining({ ats: "oraclecloud", token: "jpmc.fa.oraclecloud.com/CX_1" }));
+  const spec = providerSpec("oraclecloud")!;
+  const today = new Date().toISOString().slice(0, 10);
+  const old = new Date(Date.now() - 90 * 86_400_000).toISOString().slice(0, 10);
+  const page = (count: number, posted: string) => ({ items: [{ requisitionList: Array.from({ length: count }, (_, index) => ({ Id: `${posted}-${index}`, Title: "Engineer", PostedDate: posted, PrimaryLocation: "Mumbai, Maharashtra", PrimaryLocationCountry: "IN" })) }] });
+  const asked: string[] = [];
+  const get = async (url: string) => { asked.push(url); return asked.length === 1 ? page(200, today) : page(200, old); };
+  const jobs = await spec.fetchAll!("jpmc.fa.oraclecloud.com/CX_1", get as never);
+  expect(asked.length).toBe(2); // the second page is already outside the window, so it stops
+  expect(jobs.length).toBe(400);
+  expect(asked[0]).toContain("sortBy=POSTING_DATES_DESC");
+
+  const company = { slug: "jpmorganchase", name: "JPMorganChase", ats: "oraclecloud" as const, token: "jpmc.fa.oraclecloud.com/CX_1" };
+  const job = spec.normalize(company, { Id: "210791174", Title: "Quant Analytics Associate", PostedDate: today, PrimaryLocation: "Mumbai, Maharashtra", PrimaryLocationCountry: "IN", secondaryLocations: [] });
+  expect(job).toEqual(expect.objectContaining({ id: "oraclecloud:jpmorganchase:210791174", updatedAt: today, description: "" }));
+  expect(job.eligibleCountries).toContain("IN");
+  expect(job.url).toBe("https://jpmc.fa.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/job/210791174");
+});

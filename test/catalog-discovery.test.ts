@@ -7,6 +7,46 @@ import { readEnrichmentRegistry } from "../src/enrichment-registry.ts";
 
 async function statePath() { return join(await mkdtemp(join(tmpdir(), "catalog-discovery-")), ".openings", "campaign.sqlite"); }
 const indexes = ["CC-MAIN-2026-30", "CC-MAIN-2026-34"];
+test("temporary gateway failures retry the same page and count every request", async () => {
+  const state = await statePath(); let tries = 0, time = 0; const delays: number[] = [];
+  const result = await discoverCatalog({ state, indexes: [indexes[0]!], providers: ["lever"], execute: true }, {
+    now: () => time, sleep: async ms => { delays.push(ms); time += ms; }, fetch: async input => {
+      const u = new URL(input);
+      if (u.searchParams.has("showNumPages")) return Response.json({ pages: 1, pageSize: 1 });
+      expect(u.searchParams.get("page")).toBe("0");
+      if (++tries <= 2) return new Response("upstream timed out", { status: 504, headers: { server: "gateway-test", "set-cookie": "private" } });
+      return new Response(JSON.stringify({ url: "https://jobs.lever.co/acme/1" }));
+    },
+  });
+  expect(result.status).toBe("complete"); expect(result.requestsThisRun).toBe(4); expect(result.boards).toBe(1);
+  expect(delays.some(ms=>ms>=10000)).toBe(true); expect(delays.some(ms=>ms>=20000)).toBe(true);
+  expect(result.lastFailure?.headers).toEqual({ server: "gateway-test" });
+  expect(result.lastFailure?.bodyPreview).toBe("upstream timed out");
+});
+test("gateway retry allowance survives request-budget restarts and retains bounded diagnostics", async () => {
+  const state = await statePath(); let time = 0;
+  const options = { state, indexes: [indexes[0]!], providers: ["lever" as const], execute: true, requestBudget: 1 };
+  const deps = { now: () => time, sleep: async (ms: number) => { time += ms; }, fetch: async () => new Response("x".repeat(5000), { status: 502 }) };
+  expect((await discoverCatalog(options, deps)).status).toBe("request_budget");
+  expect((await discoverCatalog(options, deps)).status).toBe("request_budget");
+  const failed = await discoverCatalog(options, deps);
+  expect(failed.status).toBe("error"); expect(failed.requestsTotal).toBe(3);
+  expect(failed.queries[0]?.pages).toBeNull(); expect(failed.queries[0]?.next_page).toBe(0);
+  expect(failed.lastFailure?.bodyPreview.length).toBe(2048);
+  expect((await discoverCatalog(options, deps)).requestsThisRun).toBe(0);
+});
+test("long gateway Retry-After yields without another request and 503 never retries", async () => {
+  for (const status of [504, 503]) {
+    const state = await statePath(); let time = 0, calls = 0;
+    const options = { state, indexes: [indexes[0]!], providers: ["lever" as const], execute: true };
+    const deps = { now: () => time, sleep: async (ms: number) => { time += ms; }, fetch: async () => {
+      calls++; return new Response("busy", { status, headers: { "retry-after": "3600" } });
+    } };
+    expect((await discoverCatalog(options, deps)).status).toBe(status === 503 ? "throttled" : "cooling_down");
+    expect((await discoverCatalog(options, deps)).status).toBe("cooling_down");
+    expect(calls).toBe(1);
+  }
+});
 test("catalog discovery walks complete CDX pages and deduplicates boards across pinned indexes", async () => {
   const state = await statePath(); const calls: URL[] = [];
   const report = await discoverCatalog({ state, indexes, providers: ["lever"], execute: true, delayMs: 1000 }, {
