@@ -19,4 +19,12 @@ for (const path of ["package.json", "server.json", "gemini-extension.json"]) {
   await Bun.write(path, after);
   console.log(`${path} -> ${version}`);
 }
+// The constant every MCP client reads back as serverInfo.version, and the one the update check compares against
+// npm. It sat two releases behind and told people running the newest package that an update was available.
+const versionFile = "src/version.ts";
+const source = await Bun.file(versionFile).text();
+const updated = source.replace(/"\d+\.\d+\.\d+"/, `"${version}"`);
+if (updated === source && !source.includes(`"${version}"`)) throw new Error(`no version literal in ${versionFile}`);
+await Bun.write(versionFile, updated);
+console.log(`${versionFile} -> ${version}`);
 console.log(`\nnext: git commit -am "release: ${version}" && git tag v${version} && git push origin main v${version}`);
