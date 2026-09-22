@@ -1,6 +1,7 @@
 import { CASCADE_MINIMUM, CASCADE_WINDOWS, type Company, type Job, type JobAge, type JobSummary, type SearchQuery, type SearchWindow } from "./types.ts";
 import { decodeEntities, providerSpec, type JsonGet } from "./providers.ts";
 import { matchesSearchTerms, searchHaystack, searchTerms } from "./text-match.ts";
+import { extractSkills } from "./skills.ts";
 import { crawlSite, sitePostingsToJobs } from "./jobposting-site.ts";
 import { classifyJob, isEligibleForCountry, normalizeLocation } from "./locations.ts";
 import { experienceMatches, normalizeJobExperience } from "./experience.ts";
@@ -518,7 +519,9 @@ function matches(job: Job, query: SearchQuery): boolean {
   const terms = searchTerms(query.query);
   const location = query.location ? normalizeLocation(query.location) : undefined;
   // Whole tokens only: a substring match once made "ios" find "Axio Biosolutions".
-  const searchable = searchHaystack(`${job.title} ${job.company}`);
+  // A skill stated only in the description is what most searches are for, so the description's vocabulary
+  // terms join the title and employer. The hosted index sends them precomputed; a local crawl reads them here.
+  const searchable = searchHaystack(`${job.title} ${job.company} ${job.skills ?? extractSkills(job.description)}`);
   return (terms.length === 0 || matchesSearchTerms(searchable, terms))
     && (!location || normalizeLocation(job.location).includes(location))
     && (!query.country || isEligibleForCountry(job, query.country))

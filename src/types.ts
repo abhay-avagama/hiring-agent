@@ -102,6 +102,9 @@ export const CASCADE_MINIMUM = 5;
 
 export interface Job extends JobSummary {
   description: string;
+  /** Vocabulary terms read out of the description, so search finds a skill the title never mentions. Set by the
+   * hosted index, which carries these in place of the descriptions themselves; absent means read the description. */
+  skills?: string;
 }
 
 /** Partition lookup that ignores inherited properties, so a slug such as "constructor" never resolves to Object.prototype. */
