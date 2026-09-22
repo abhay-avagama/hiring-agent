@@ -1,0 +1,17 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "co.avagama/openings",
+  "title": "Openings",
+  "description": "Search jobs on verified employer job boards. Every link is the employer's own posting.",
+  "repository": {
+    "url": "https://github.com/abhay-avagama/hiring-agent",
+    "source": "github"
+  },
+  "version": "0.1.48",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://openings.avagama.co/mcp"
+    }
+  ]
+}
