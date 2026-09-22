@@ -1,5 +1,7 @@
 # Openings
 
+[![smithery badge](https://smithery.ai/badge/avagama/openings)](https://smithery.ai/servers/avagama/openings)
+
 A free, candidate-safe job search for AI agents.
 
 Openings indexes public company job boards into a private index on your machine and exposes it to any MCP client. Your agent can find roles that fit a resume, explain the fit with evidence, and propose truthful resume improvements. Installed this way there are no accounts and no API keys; there are never model calls and never a way to submit an application.
