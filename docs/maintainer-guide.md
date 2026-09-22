@@ -160,3 +160,19 @@ bun run expand:corpus -- --country IN --skip-trace --skip-verify --crawl-delay-m
 ```
 
 `--skip-trace`, `--skip-verify`, and `--skip-crawl` are explicit operator controls; skipped phases are reported in the JSON output.
+
+## Releasing
+
+Bump `version` in `package.json`, commit, then `git tag vX.Y.Z && git push origin vX.Y.Z`. The tag runs
+`.github/workflows/publish.yml`, which typechecks, runs the suite, publishes to npm by trusted publishing,
+publishes the hosted server to the MCP registry, and creates the GitHub release.
+
+The registry listing is `co.avagama/openings`, a remote entry pointing at `https://openings.avagama.co/mcp`.
+Two things about it are worth knowing:
+
+- The `version` in the committed `server.json` is cosmetic. The workflow overwrites it from the tag before
+  publishing, so the listing always matches the release without a second file to bump.
+- The namespace is proved by an Ed25519 key against a TXT record on the apex of `avagama.co`. CI signs with the
+  `MCP_PRIVATE_KEY` repository secret; the same key is at `~/.config/mcp-publisher/avagama.co.pem` for publishing
+  by hand. Losing it means generating a new key and replacing the DNS record. The registry step is skipped, not
+  failed, when the secret is absent, so a fork can still cut a release.

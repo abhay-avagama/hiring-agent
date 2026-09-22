@@ -38,6 +38,17 @@ jobs:
           if npm view "openings@$version" version >/dev/null 2>&1; then echo "published=true" >> "$GITHUB_OUTPUT"; echo "openings@$version already on npm, skipping"; fi
       - if: steps.check.outputs.published != 'true'
         run: npm publish --access public
+      # The MCP registry lists the hosted server at openings.avagama.co, and the listing carries a version of its
+      # own. Taking it from the tag keeps it level with npm without a second file to remember at release time.
+      - name: Publish the server to the MCP registry
+        env:
+          MCP_PRIVATE_KEY: ${{ secrets.MCP_PRIVATE_KEY }}
+        run: |
+          if [ -z "$MCP_PRIVATE_KEY" ]; then echo "no MCP_PRIVATE_KEY secret; skipping the registry publish"; exit 0; fi
+          curl -fsSL "https://github.com/modelcontextprotocol/registry/releases/latest/download/mcp-publisher_linux_amd64.tar.gz" | tar xz mcp-publisher
+          jq --arg v "${GITHUB_REF_NAME#v}" '.version = $v' server.json > server.tmp && mv server.tmp server.json
+          ./mcp-publisher login dns --domain avagama.co --private-key "$MCP_PRIVATE_KEY"
+          ./mcp-publisher publish
       - name: Create the GitHub release with the registry tarball
         env:
           GH_TOKEN: ${{ github.token }}
