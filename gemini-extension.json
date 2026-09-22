@@ -1,0 +1,11 @@
+{
+  "name": "openings",
+  "version": "0.1.48",
+  "description": "Search jobs on verified employer job boards. Every link is the employer's own posting.",
+  "mcpServers": {
+    "openings": {
+      "httpUrl": "https://openings.avagama.co/mcp",
+      "authProviderType": "dynamic_discovery"
+    }
+  }
+}
