@@ -45,26 +45,47 @@ export function createCrawler(options: CrawlerOptions): Crawler {
   const pacingSleep = options.pacingSleep ?? ((delayMs: number) => new Promise<void>((resolve) => setTimeout(resolve, delayMs)));
   let previousStart: number | undefined;
   let pacingGate = Promise.resolve();
-  const describeCountries = new Set(options.describeCountries ?? []);
+  /** Ordered, because the budget below is spent in this order: the first country named is served first. */
+  const describeOrder = options.describeCountries ?? [];
+  const describeCountries = new Set(describeOrder);
+  /** Where a job sits in the country priority; lower is sooner. Jobs outside the list are never fetched. */
+  function describeRank(job: Job): number {
+    let best = describeOrder.length;
+    for (const code of job.eligibleCountries) {
+      const rank = describeOrder.indexOf(code);
+      if (rank >= 0 && rank < best) best = rank;
+    }
+    return best;
+  }
 
   /** Required experience for every job: from its description, the last crawl's reading, or a paced detail fetch for recent roles in describeCountries. */
   async function withExperience(source: Company, jobs: Job[], previous: Job[] | undefined): Promise<Job[]> {
     const known = new Map((previous ?? []).map(normalizeJobExperience).filter((job) => job.experienceVersion === EXPERIENCE_VERSION && job.experience !== undefined).map((job) => [job.id, job]));
     const since = now().getTime() - 30 * 86_400_000;
-    const deadline = Date.now() + DESCRIBE_BUDGET_MS;
-    let budget = DESCRIBE_LIMIT;
     const out: Job[] = [];
+    const pending: number[] = [];
     for (const job of jobs) {
       if (job.description.trim() || job.experienceVersion === EXPERIENCE_VERSION) out.push(normalizeJobExperience(job));
       else if (known.has(job.id)) out.push({ ...job, description: known.get(job.id)!.description, experience: known.get(job.id)!.experience, experienceVersion: EXPERIENCE_VERSION });
-      else if (options.describe && budget > 0 && Date.now() < deadline && job.eligibleCountries.some((code) => describeCountries.has(code)) && Date.parse(job.updatedAt ?? "") >= since) {
-        budget -= 1;
-        try {
-          if (options.workdayPageDelayMs) await pacingSleep(options.workdayPageDelayMs);
-          const description = await options.describe(source, job);
-          out.push(normalizeJobExperience({ ...job, description }));
-        } catch { out.push(normalizeJobExperience(job)); } // unread; the next crawl tries again
-      } else out.push(normalizeJobExperience(job));
+      else {
+        if (options.describe && describeRank(job) < describeOrder.length && Date.parse(job.updatedAt ?? "") >= since) pending.push(out.length);
+        out.push(normalizeJobExperience(job));
+      }
+    }
+    // The budget is small and shared, so it is spent by country priority rather than in whatever order the board
+    // listed its jobs. Without this, an employer with 4 India roles among 11,581 American ones never reads the four.
+    // Ties keep the board's own order, which is newest first on every provider that dates its postings.
+    pending.sort((left, right) => describeRank(jobs[left]!) - describeRank(jobs[right]!) || left - right);
+    const deadline = Date.now() + DESCRIBE_BUDGET_MS;
+    let budget = DESCRIBE_LIMIT;
+    for (const index of pending) {
+      if (budget <= 0 || Date.now() >= deadline) break;
+      budget -= 1;
+      try {
+        if (options.workdayPageDelayMs) await pacingSleep(options.workdayPageDelayMs);
+        const description = await options.describe!(source, jobs[index]!);
+        out[index] = normalizeJobExperience({ ...jobs[index]!, description });
+      } catch { /* unread; the next crawl tries again */ }
     }
     return out;
   }

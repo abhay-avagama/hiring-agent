@@ -225,6 +225,33 @@ test("required experience comes from the description, the last crawl, or one det
   expect(described).toEqual(["workday:acme:new", "workday:acme:silent"]);
 });
 
+test("the describe budget is spent in country order, so a few India roles are not lost among thousands of American ones", async () => {
+  // The shape that made this necessary: an employer with 4 India roles and 11,581 American ones, and a budget
+  // of 150 spent in the order the board listed them. India is the first market; it is read first.
+  const listed = (id: string, countries: string[]): Job => ({ ...job(id, "Acme"), description: "", eligibleCountries: countries, updatedAt: "2026-08-08" });
+  let snapshot: JobSnapshot = {
+    version: 1, updatedAt: "2026-08-09T00:00:00.000Z", partitions: {},
+    lastCrawl: { startedAt: "2026-08-09T00:00:00.000Z", finishedAt: "2026-08-09T00:00:00.000Z", selected: 0, succeeded: 0, failed: [] },
+  };
+  const described: string[] = [];
+  const crawler = createCrawler({
+    store: { read: async () => snapshot, write: async (next) => { snapshot = next; } },
+    now: () => new Date("2026-08-10T10:00:00.000Z"), describeCountries: ["IN", "US"],
+    describe: async (_source, target) => { described.push(target.id); return "Experience: 2-5 years"; },
+    // The board lists the American roles first, which is exactly the order that used to decide the outcome.
+    fetchJobs: async () => [
+      ...Array.from({ length: 200 }, (_value, index) => listed(`workday:acme:us${index}`, ["US"])),
+      listed("workday:acme:in1", ["IN"]),
+      listed("workday:acme:in2", ["IN"]),
+    ],
+  });
+  await crawler.crawl([{ slug: "acme", name: "Acme", ats: "workday", token: "acme.wd1.myworkdayjobs.com/acme/Careers" }]);
+  expect(described.slice(0, 2)).toEqual(["workday:acme:in1", "workday:acme:in2"]);
+  expect(described.length).toBe(150); // the budget still bounds the work; it is only spent in a better order
+  const read = Object.fromEntries(snapshot.partitions.acme!.jobs.map((item) => [item.id.split(":")[2], item.experience !== undefined]));
+  expect([read.in1, read.in2]).toEqual([true, true]);
+});
+
 test("a crawl for a country adds it to Workday's supplementary passes", async () => {
   let snapshot: JobSnapshot = { version: 1, updatedAt: "2026-09-14T00:00:00.000Z", partitions: {}, lastCrawl: { startedAt: "2026-09-14T00:00:00.000Z", finishedAt: "2026-09-14T00:00:00.000Z", selected: 0, succeeded: 0, failed: [] } };
   const asked: Array<string[] | undefined> = [];
