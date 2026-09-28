@@ -225,6 +225,28 @@ test("required experience comes from the description, the last crawl, or one det
   expect(described).toEqual(["workday:acme:new", "workday:acme:silent"]);
 });
 
+test("lifting the age window reaches roles still listed but long posted, and those with no date at all", async () => {
+  // 72,461 Workday roles in the two markets are older than the nightly 30-day window: still live on the board,
+  // never readable. The catch-up pass lifts the window; the nightly crawl keeps it, to spend its budget on what is new.
+  const listed = (id: string, updatedAt?: string): Job => ({ ...job(id, "Acme"), description: "", eligibleCountries: ["US"], ...(updatedAt ? { updatedAt } : { updatedAt: undefined }) });
+  const jobs = [listed("workday:acme:new", "2026-08-08"), listed("workday:acme:old", "2026-01-05"), listed("workday:acme:undated")];
+  const run = async (describeMaxAgeDays?: number) => {
+    let snapshot: JobSnapshot = { version: 1, updatedAt: "2026-08-09T00:00:00.000Z", partitions: {}, lastCrawl: { startedAt: "", finishedAt: "", selected: 0, succeeded: 0, failed: [] } };
+    const described: string[] = [];
+    const crawler = createCrawler({
+      store: { read: async () => snapshot, write: async (next) => { snapshot = next; } },
+      now: () => new Date("2026-08-10T10:00:00.000Z"), describeCountries: ["US"],
+      ...(describeMaxAgeDays === undefined ? {} : { describeMaxAgeDays }),
+      describe: async (_source, target) => { described.push(target.id.split(":")[2]!); return "Experience: 2-5 years"; },
+      fetchJobs: async () => jobs,
+    });
+    await crawler.crawl([{ slug: "acme", name: "Acme", ats: "workday", token: "acme.wd1.myworkdayjobs.com/acme/Careers" }]);
+    return described.sort();
+  };
+  expect(await run()).toEqual(["new"]);            // the nightly default is unchanged
+  expect(await run(0)).toEqual(["new", "old", "undated"]); // 0 reads every live role, dated or not
+});
+
 test("a raised describe budget reaches an employer whose backlog is in the thousands", async () => {
   // CVS Health lists 12,451 undescribed American roles. At the nightly cap of 150 a run it would never finish,
   // so the catch-up pass raises the cap; the default stays small so no employer holds up the nightly crawl.

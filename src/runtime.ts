@@ -40,6 +40,7 @@ export function createRuntime(options: { dataDir?: string; concurrency?: number;
     // The description catch-up pass raises these; unset, the nightly crawl keeps the crawler's own small defaults.
     describeLimit: positiveEnv("OPENINGS_DESCRIBE_LIMIT"),
     describeBudgetMs: positiveEnv("OPENINGS_DESCRIBE_BUDGET_MS"),
+    describeMaxAgeDays: wholeEnv("OPENINGS_DESCRIBE_MAX_AGE_DAYS"),
     onCrawled,
   });
   const recommender = createJobRecommender({ sources: companies, store, crawl: local.crawl });
@@ -106,4 +107,12 @@ function positiveEnv(name: string): number | undefined {
   if (raw === undefined) return undefined;
   const value = Number(raw);
   return Number.isInteger(value) && value > 0 ? value : undefined;
+}
+
+/** A whole number from the environment, zero included, or undefined when unset or nonsense. */
+function wholeEnv(name: string): number | undefined {
+  const raw = process.env[name];
+  if (raw === undefined) return undefined;
+  const value = Number(raw);
+  return Number.isInteger(value) && value >= 0 ? value : undefined;
 }

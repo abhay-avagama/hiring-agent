@@ -19,6 +19,7 @@ interface LocalJobsOptions {
   describeCountries?: string[];
   describeLimit?: number;
   describeBudgetMs?: number;
+  describeMaxAgeDays?: number;
   now?: () => Date;
   onCrawled?(source: Company, partition: JobPartition): void | Promise<void>;
 }

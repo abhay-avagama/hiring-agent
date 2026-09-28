@@ -27,6 +27,10 @@ interface CrawlerOptions {
    * whose backlog is in the thousands, which 150 a night would never finish. */
   describeLimit?: number;
   describeBudgetMs?: number;
+  /** How old a posting may be and still be worth reading, in days. 0 reads any live role, whatever its date,
+   * including one whose board states no date at all. The nightly crawl keeps the 30-day default so it spends
+   * its small budget on what is new; the catch-up pass lifts it to reach roles still listed but long posted. */
+  describeMaxAgeDays?: number;
   pacingNow?: () => number;
   pacingSleep?: (delayMs: number) => Promise<void>;
   now?: () => Date;
@@ -66,14 +70,18 @@ export function createCrawler(options: CrawlerOptions): Crawler {
   /** Required experience for every job: from its description, the last crawl's reading, or a paced detail fetch for recent roles in describeCountries. */
   async function withExperience(source: Company, jobs: Job[], previous: Job[] | undefined): Promise<Job[]> {
     const known = new Map((previous ?? []).map(normalizeJobExperience).filter((job) => job.experienceVersion === EXPERIENCE_VERSION && job.experience !== undefined).map((job) => [job.id, job]));
-    const since = now().getTime() - 30 * 86_400_000;
+    const maxAgeDays = options.describeMaxAgeDays ?? DESCRIBE_MAX_AGE_DAYS;
+    const since = maxAgeDays > 0 ? now().getTime() - maxAgeDays * 86_400_000 : 0;
+    // An undated posting is still a live posting. Inside a window it cannot be placed, so it waits; with the
+    // window lifted there is no reason to leave it unread.
+    const recentEnough = (job: Job) => (maxAgeDays <= 0 ? true : Date.parse(job.updatedAt ?? "") >= since);
     const out: Job[] = [];
     const pending: number[] = [];
     for (const job of jobs) {
       if (job.description.trim() || job.experienceVersion === EXPERIENCE_VERSION) out.push(normalizeJobExperience(job));
       else if (known.has(job.id)) out.push({ ...job, description: known.get(job.id)!.description, experience: known.get(job.id)!.experience, experienceVersion: EXPERIENCE_VERSION });
       else {
-        if (options.describe && describeRank(job) < describeOrder.length && Date.parse(job.updatedAt ?? "") >= since) pending.push(out.length);
+        if (options.describe && describeRank(job) < describeOrder.length && recentEnough(job)) pending.push(out.length);
         out.push(normalizeJobExperience(job));
       }
     }
@@ -198,6 +206,7 @@ export function createCrawler(options: CrawlerOptions): Crawler {
 // ponytail: per-source caps keep one crawl bounded; a big backlog (first run) drains over a few nights.
 /** Defaults for the nightly crawl, where the point is to keep every source moving rather than finish any one. */
 const DESCRIBE_LIMIT = 150;
+const DESCRIBE_MAX_AGE_DAYS = 30;
 const DESCRIBE_BUDGET_MS = 180_000;
 
 function partitionTime(value: string | undefined): number {
