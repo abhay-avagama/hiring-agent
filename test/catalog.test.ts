@@ -1,5 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import { createCatalog, fetchSourceJobs } from "../src/catalog.ts";
+import type { Company } from "../src/types.ts";
 
 describe("job catalog", () => {
   test("searches Recruitee's public structured offer feed", async () => {
