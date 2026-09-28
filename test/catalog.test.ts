@@ -354,3 +354,21 @@ test("search_jobs matches whole tokens, so a term never matches inside a longer 
   expect(searchJobs(all, { query: "ios", maxAgeDays: 0 }).map((row) => row.id)).toEqual(["2"]);
   expect(searchJobs(all, { query: "sales", maxAgeDays: 0 }).map((row) => row.id)).toEqual(["1"]);
 });
+
+/** Lever spreads an advert over three fields; a board filling only some of them still has a full advert. */
+test("a Lever advert is read from all of its parts, not just the opening paragraph", async () => {
+  const posting = {
+    id: "1", text: "Backend Engineer", hostedUrl: "https://jobs.lever.co/acme/1",
+    categories: { location: "Bengaluru, India" }, createdAt: Date.parse("2026-09-01"),
+    descriptionPlain: "", // the shape that lost 4,021 postings at one board
+    lists: [{ text: "Requirements:", content: "<ul><li>Five years of Kubernetes</li><li>Terraform</li></ul>" }],
+    additionalPlain: "We interview in two rounds.",
+  };
+  const fetcher = async () => new Response(JSON.stringify([posting]), { headers: { "content-type": "application/json" } });
+  const lever: Company = { slug: "acme", name: "Acme", ats: "lever", token: "acme" };
+  const [job] = await fetchSourceJobs(lever, fetcher as never);
+  expect(job!.description).toContain("Requirements:");
+  expect(job!.description).toContain("Five years of Kubernetes");
+  expect(job!.description).toContain("We interview in two rounds.");
+  expect(job!.description).not.toContain("<li>");
+});

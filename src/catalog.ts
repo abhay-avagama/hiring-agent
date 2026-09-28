@@ -35,6 +35,9 @@ interface LeverJob {
   hostedUrl: string;
   categories?: { location?: string };
   descriptionPlain?: string;
+  /** The requirements and responsibilities, which Lever keeps apart from the opening paragraph. */
+  lists?: Array<{ text?: string; content?: string }>;
+  additionalPlain?: string;
   workplaceType?: string;
   createdAt?: number;
 }
@@ -458,6 +461,19 @@ function normalizeAshby(company: Company, job: AshbyJob): Job {
   });
 }
 
+/**
+ * Lever splits an advert across three fields and a board may fill any of them. Reading only the opening
+ * paragraph left more than half of Lever's roles with no description at all: one aggregator alone publishes
+ * 4,076 postings whose `descriptionPlain` is empty and whose requirements sit entirely in `lists`. Those
+ * requirements are also where the skills a candidate searches for are written, so this is the part that counts.
+ */
+function leverDescription(job: LeverJob): string {
+  const sections = [job.descriptionPlain ?? ""];
+  for (const list of job.lists ?? []) sections.push([list.text ?? "", stripHtml(list.content ?? "")].filter(Boolean).join("\n"));
+  sections.push(job.additionalPlain ?? "");
+  return sections.map((section) => section.trim()).filter(Boolean).join("\n\n");
+}
+
 function normalizeLever(company: Company, job: LeverJob): Job {
   const location = job.categories?.location ?? "Unspecified";
   return classifyJob({
@@ -473,7 +489,7 @@ function normalizeLever(company: Company, job: LeverJob): Job {
     eligibilityConfidence: "unknown",
     url: job.hostedUrl,
     updatedAt: job.createdAt ? new Date(job.createdAt).toISOString() : undefined,
-    description: job.descriptionPlain ?? "",
+    description: leverDescription(job),
   });
 }
 
