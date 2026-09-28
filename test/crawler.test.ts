@@ -225,6 +225,25 @@ test("required experience comes from the description, the last crawl, or one det
   expect(described).toEqual(["workday:acme:new", "workday:acme:silent"]);
 });
 
+test("a raised describe budget reaches an employer whose backlog is in the thousands", async () => {
+  // CVS Health lists 12,451 undescribed American roles. At the nightly cap of 150 a run it would never finish,
+  // so the catch-up pass raises the cap; the default stays small so no employer holds up the nightly crawl.
+  const listed = (id: string): Job => ({ ...job(id, "Acme"), description: "", eligibleCountries: ["US"], updatedAt: "2026-08-08" });
+  let snapshot: JobSnapshot = {
+    version: 1, updatedAt: "2026-08-09T00:00:00.000Z", partitions: {},
+    lastCrawl: { startedAt: "2026-08-09T00:00:00.000Z", finishedAt: "2026-08-09T00:00:00.000Z", selected: 0, succeeded: 0, failed: [] },
+  };
+  const described: string[] = [];
+  const crawler = createCrawler({
+    store: { read: async () => snapshot, write: async (next) => { snapshot = next; } },
+    now: () => new Date("2026-08-10T10:00:00.000Z"), describeCountries: ["US"], describeLimit: 400,
+    describe: async (_source, target) => { described.push(target.id); return "Experience: 2-5 years"; },
+    fetchJobs: async () => Array.from({ length: 600 }, (_value, index) => listed(`workday:acme:us${index}`)),
+  });
+  await crawler.crawl([{ slug: "acme", name: "Acme", ats: "workday", token: "acme.wd1.myworkdayjobs.com/acme/Careers" }]);
+  expect(described.length).toBe(400);
+});
+
 test("the describe budget is spent in country order, so a few India roles are not lost among thousands of American ones", async () => {
   // The shape that made this necessary: an employer with 4 India roles and 11,581 American ones, and a budget
   // of 150 spent in the order the board listed them. India is the first market; it is read first.

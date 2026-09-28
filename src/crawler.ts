@@ -22,6 +22,11 @@ interface CrawlerOptions {
   describe?(source: Company, job: Job): Promise<string>;
   /** Only roles open to these countries, posted in the last 30 days, get a description fetch. Empty: none do. */
   describeCountries?: string[];
+  /** How many descriptions one source may be asked for in a run, and how long that may take. The nightly crawl
+   * keeps both small so no employer holds up the pass; the description catch-up raises them to reach an employer
+   * whose backlog is in the thousands, which 150 a night would never finish. */
+  describeLimit?: number;
+  describeBudgetMs?: number;
   pacingNow?: () => number;
   pacingSleep?: (delayMs: number) => Promise<void>;
   now?: () => Date;
@@ -76,8 +81,8 @@ export function createCrawler(options: CrawlerOptions): Crawler {
     // listed its jobs. Without this, an employer with 4 India roles among 11,581 American ones never reads the four.
     // Ties keep the board's own order, which is newest first on every provider that dates its postings.
     pending.sort((left, right) => describeRank(jobs[left]!) - describeRank(jobs[right]!) || left - right);
-    const deadline = Date.now() + DESCRIBE_BUDGET_MS;
-    let budget = DESCRIBE_LIMIT;
+    const deadline = Date.now() + (options.describeBudgetMs ?? DESCRIBE_BUDGET_MS);
+    let budget = options.describeLimit ?? DESCRIBE_LIMIT;
     for (const index of pending) {
       if (budget <= 0 || Date.now() >= deadline) break;
       budget -= 1;
@@ -191,6 +196,7 @@ export function createCrawler(options: CrawlerOptions): Crawler {
 }
 
 // ponytail: per-source caps keep one crawl bounded; a big backlog (first run) drains over a few nights.
+/** Defaults for the nightly crawl, where the point is to keep every source moving rather than finish any one. */
 const DESCRIBE_LIMIT = 150;
 const DESCRIBE_BUDGET_MS = 180_000;
 

@@ -17,6 +17,8 @@ interface LocalJobsOptions {
   workdayCountries?: string[];
   describe?(source: Company, job: Job): Promise<string>;
   describeCountries?: string[];
+  describeLimit?: number;
+  describeBudgetMs?: number;
   now?: () => Date;
   onCrawled?(source: Company, partition: JobPartition): void | Promise<void>;
 }

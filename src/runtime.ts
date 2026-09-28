@@ -37,6 +37,9 @@ export function createRuntime(options: { dataDir?: string; concurrency?: number;
     // Server crawls set OPENINGS_DESCRIBE_COUNTRIES (IN) to read required experience from Workday detail pages; installs skip the extra requests.
     describe: (source, job) => fetchJobDescription(source, job, globalThis.fetch),
     describeCountries: (process.env.OPENINGS_DESCRIBE_COUNTRIES ?? "").split(",").map((code) => code.trim().toUpperCase()).filter((code) => /^[A-Z]{2}$/.test(code)),
+    // The description catch-up pass raises these; unset, the nightly crawl keeps the crawler's own small defaults.
+    describeLimit: positiveEnv("OPENINGS_DESCRIBE_LIMIT"),
+    describeBudgetMs: positiveEnv("OPENINGS_DESCRIBE_BUDGET_MS"),
     onCrawled,
   });
   const recommender = createJobRecommender({ sources: companies, store, crawl: local.crawl });
@@ -95,4 +98,12 @@ export function createHostedRuntime(options: { sources: Company[]; store: Snapsh
     get: async (id: string) => { const found = await local.get(id, { offline: true, staleDays: 3650 }); return { ...found, job: await withDescription(found.job) }; },
     prepareJobSearch: preparation.prepare, getJobCoverage: coverage.getCoverage, recommend: recommender.recommend, analyzeJobFit: analyzer.analyze, optimizeResume: optimizer.optimize,
   };
+}
+
+/** A positive whole number from the environment, or undefined when unset or nonsense. */
+function positiveEnv(name: string): number | undefined {
+  const raw = process.env[name];
+  if (raw === undefined) return undefined;
+  const value = Number(raw);
+  return Number.isInteger(value) && value > 0 ? value : undefined;
 }
