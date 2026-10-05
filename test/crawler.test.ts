@@ -1,6 +1,7 @@
 import { expect, test } from "bun:test";
 import { createCrawler, type SnapshotStore } from "../src/crawler.ts";
 import type { Company, Job, JobSnapshot } from "../src/types.ts";
+import { EXPERIENCE_VERSION } from "../src/experience.ts";
 
 const job = (id: string, company: string): Job => ({
   id, company, title: "Engineer", location: "Remote", remote: true,
@@ -223,6 +224,29 @@ test("required experience comes from the description, the last crawl, or one det
   const experience = Object.fromEntries(snapshot.partitions.acme!.jobs.map((item) => [item.id.split(":")[2], item.experience]));
   expect(experience).toEqual({ inline: { min: 7 }, known: { min: 4 }, new: { min: 2, max: 5 }, silent: null, us: undefined, old: undefined });
   expect(described).toEqual(["workday:acme:new", "workday:acme:silent"]);
+});
+
+test("a server crawl reports descriptions but does not keep a second copy of them", async () => {
+  // The file this writes reached 1.3 GB on the server and parsing it needed more memory than the box had, which
+  // killed the crawl for seven nights. The aggregator it reports to already stores every description.
+  const listed = { ...job("greenhouse:acme:1", "Acme"), description: "", eligibleCountries: ["IN"], updatedAt: "2026-08-08" };
+  let snapshot: JobSnapshot = { version: 1, updatedAt: "2026-08-09T00:00:00.000Z", partitions: {}, lastCrawl: { startedAt: "", finishedAt: "", selected: 0, succeeded: 0, failed: [] } };
+  const reported: string[] = [];
+  const crawler = createCrawler({
+    store: { read: async () => snapshot, write: async (next) => { snapshot = next; } },
+    now: () => new Date("2026-08-10T10:00:00.000Z"), describeCountries: ["IN"], retainDescriptions: false,
+    describe: async () => "Minimum 4 years of experience",
+    fetchJobs: async () => [listed],
+    onCrawled: (_source, partition) => { reported.push(partition.jobs[0]!.description); },
+  });
+  await crawler.crawl([{ slug: "acme", name: "Acme", ats: "greenhouse", token: "acme" }]);
+  // The aggregator receives the text it needs...
+  expect(reported).toEqual(["Minimum 4 years of experience"]);
+  const kept = snapshot.partitions.acme!.jobs[0]!;
+  // ...and the copy on disk keeps only what stops the next crawl fetching it again.
+  expect(kept.description).toBe("");
+  expect(kept.experience).toEqual({ min: 4 });
+  expect(kept.experienceVersion).toBe(EXPERIENCE_VERSION);
 });
 
 test("lifting the age window reaches roles still listed but long posted, and those with no date at all", async () => {

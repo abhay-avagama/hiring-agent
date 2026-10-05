@@ -20,6 +20,7 @@ interface LocalJobsOptions {
   describeLimit?: number;
   describeBudgetMs?: number;
   describeMaxAgeDays?: number;
+  retainDescriptions?: boolean;
   now?: () => Date;
   onCrawled?(source: Company, partition: JobPartition): void | Promise<void>;
 }

@@ -31,6 +31,14 @@ interface CrawlerOptions {
    * including one whose board states no date at all. The nightly crawl keeps the 30-day default so it spends
    * its small budget on what is new; the catch-up pass lifts it to reach roles still listed but long posted. */
   describeMaxAgeDays?: number;
+  /**
+   * Whether the snapshot written to disk keeps the description text. A local install needs it: the snapshot is
+   * its only copy. A server crawl reports every source to an aggregator that stores them, so keeping a second
+   * copy only costs memory — on one box the file reached 1.3 GB and parsing it needed more RAM than the machine
+   * had, which killed the crawl for seven nights. The experience read out of each description is always kept,
+   * so a role already read is never fetched twice.
+   */
+  retainDescriptions?: boolean;
   pacingNow?: () => number;
   pacingSleep?: (delayMs: number) => Promise<void>;
   now?: () => Date;
@@ -190,7 +198,9 @@ export function createCrawler(options: CrawlerOptions): Crawler {
         cached: considered - eligibleSources.length, deferred: eligibleSources.length - selectedSources.length,
         succeeded, failed: finalFailures, sources: selectedSources.map((source) => metrics.get(source.slug)!),
       };
-      await options.store.write({ version: 1, updatedAt: finishedAt, partitions, lastCrawl: report });
+      // Reporting below still sends the full partitions; only the copy kept on disk is lightened.
+      const stored = options.retainDescriptions === false ? withoutDescriptions(partitions) : partitions;
+      await options.store.write({ version: 1, updatedAt: finishedAt, partitions: stored, lastCrawl: report });
       if (options.onCrawled) {
         const crawled = selectedSources.filter((source) => metrics.get(source.slug)!.status === "succeeded");
         // Four at a time: sending a thousand reports at once made the largest ones time out while the aggregator queued them.
@@ -204,6 +214,18 @@ export function createCrawler(options: CrawlerOptions): Crawler {
 }
 
 // ponytail: per-source caps keep one crawl bounded; a big backlog (first run) drains over a few nights.
+/**
+ * The same partitions with the description text left out. Everything the next crawl needs to avoid re-reading a
+ * description — the experience and its version — is kept, so this costs nothing but the bytes.
+ */
+function withoutDescriptions(partitions: JobSnapshot["partitions"]): JobSnapshot["partitions"] {
+  const out: JobSnapshot["partitions"] = {};
+  for (const [slug, partition] of Object.entries(partitions)) {
+    out[slug] = { ...partition, jobs: partition.jobs.map((job) => (job.description ? { ...job, description: "" } : job)) };
+  }
+  return out;
+}
+
 /** Defaults for the nightly crawl, where the point is to keep every source moving rather than finish any one. */
 const DESCRIBE_LIMIT = 150;
 const DESCRIBE_MAX_AGE_DAYS = 30;

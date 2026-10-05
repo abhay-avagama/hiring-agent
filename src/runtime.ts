@@ -41,6 +41,8 @@ export function createRuntime(options: { dataDir?: string; concurrency?: number;
     describeLimit: positiveEnv("OPENINGS_DESCRIBE_LIMIT"),
     describeBudgetMs: positiveEnv("OPENINGS_DESCRIBE_BUDGET_MS"),
     describeMaxAgeDays: wholeEnv("OPENINGS_DESCRIBE_MAX_AGE_DAYS"),
+    // Server crawls set this off: the aggregator they report to is the system of record for descriptions.
+    retainDescriptions: process.env.OPENINGS_RETAIN_DESCRIPTIONS !== "off",
     onCrawled,
   });
   const recommender = createJobRecommender({ sources: companies, store, crawl: local.crawl });
