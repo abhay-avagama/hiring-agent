@@ -1,6 +1,6 @@
 {
   "name": "openings",
-  "version": "0.1.56",
+  "version": "0.1.57",
   "description": "Search jobs on verified employer job boards. Every link is the employer's own posting.",
   "mcpServers": {
     "openings": {
