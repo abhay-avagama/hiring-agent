@@ -41,6 +41,7 @@ export type { CountryJobCoverage, JobCoverageSummary } from "./job-coverage.ts";
 export { createHostedRuntime } from "./runtime.ts";
 export type { SnapshotStore } from "./crawler.ts";
 export { createToolHandler, SCOPES, scopeForTool, type Scope } from "./tools.ts";
+export { describeWatchProfile, matchWatch, toWatchProfile, type WatchableJob, type WatchMatch, type WatchProfile } from "./watch-profile.ts";
 export { createMcpHandler, FLOW_INSTRUCTIONS } from "./mcp.ts";
 export type { UpdateNotice } from "./update-check.ts";
 export { VERSION } from "./version.ts";

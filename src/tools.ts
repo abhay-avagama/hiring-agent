@@ -8,7 +8,8 @@ import type { JobCoverageSummary } from "./job-coverage.ts";
 import type { PrepareJobSearchResult } from "./job-search-preparation.ts";
 
 export interface ToolDefinition {
-  name: "prepare_job_search" | "get_job_coverage" | "recommend_jobs" | "analyze_job_fit" | "optimize_resume" | "search_jobs" | "get_job";
+  name: "prepare_job_search" | "get_job_coverage" | "recommend_jobs" | "analyze_job_fit" | "optimize_resume" | "search_jobs" | "get_job"
+    | "watch_jobs" | "list_watches" | "check_watch" | "stop_watch";
   /** Human-readable name for a consent screen or tool picker, where a snake_case identifier reads poorly. */
   title: string;
   description: string;
@@ -18,12 +19,16 @@ export interface ToolDefinition {
   outputSchema: Record<string, unknown>;
   /** Nothing here applies, submits, or writes on the candidate's behalf. Preparation is the one tool that writes
    * at all: it caches the job index on disk, so claiming readOnlyHint for it would be untrue. */
-  annotations: { readOnlyHint: boolean; destructiveHint: false; idempotentHint: true; openWorldHint: boolean };
+  annotations: { readOnlyHint: boolean; destructiveHint: boolean; idempotentHint: true; openWorldHint: boolean };
 }
 
 /** Tools that reach employer boards over the network are open-world; the rest read the local index. */
+const WRITES = new Set<ToolDefinition["name"]>(["prepare_job_search", "watch_jobs", "stop_watch"]);
+/** Monitors need somewhere to persist, which a local install does not have. The host says whether it offers them. */
+const WATCH_TOOLS = new Set<ToolDefinition["name"]>(["watch_jobs", "list_watches", "check_watch", "stop_watch"]);
 const annotationsFor = (name: ToolDefinition["name"]): ToolDefinition["annotations"] =>
-  ({ readOnlyHint: name !== "prepare_job_search", destructiveHint: false, idempotentHint: true, openWorldHint: name === "prepare_job_search" || name === "recommend_jobs" || name === "get_job" });
+  ({ readOnlyHint: !WRITES.has(name), destructiveHint: name === "stop_watch", idempotentHint: true,
+     openWorldHint: name === "prepare_job_search" || name === "recommend_jobs" || name === "get_job" });
 
 interface JobWorkflows {
   prepareJobSearch(input: unknown): Promise<PrepareJobSearchResult>;
@@ -31,6 +36,13 @@ interface JobWorkflows {
   recommend(input: unknown): Promise<RecommendJobsResult>;
   analyzeJobFit(input: unknown): Promise<AnalyzeJobFitResult>;
   optimizeResume(input: unknown): Promise<OptimizeResumeResult>;
+  /** Monitors. Absent where the host does not offer them, in which case the four tools are not listed at all. */
+  watches?: {
+    create(input: unknown): Promise<unknown>;
+    list(): Promise<unknown>;
+    check(input: unknown): Promise<unknown>;
+    stop(input: unknown): Promise<unknown>;
+  };
 }
 
 /**
@@ -44,6 +56,10 @@ export type Scope = (typeof SCOPES)[keyof typeof SCOPES];
 const TOOL_SCOPE: Record<ToolDefinition["name"], Scope> = {
   prepare_job_search: SCOPES.jobs, get_job_coverage: SCOPES.jobs, search_jobs: SCOPES.jobs, get_job: SCOPES.jobs,
   recommend_jobs: SCOPES.resume, analyze_job_fit: SCOPES.resume, optimize_resume: SCOPES.resume,
+  // Creating or changing a monitor reads a resume. Reading one back does not, so an agent can poll a monitor
+  // with a job-search token and never hold resume access at all.
+  watch_jobs: SCOPES.resume, stop_watch: SCOPES.resume,
+  list_watches: SCOPES.jobs, check_watch: SCOPES.jobs,
 };
 
 /** The scope a tool needs, for a caller that wants to explain the boundary rather than discover it by refusal. */
@@ -223,6 +239,65 @@ export function createToolHandler(catalog: Catalog, workflows: JobWorkflows, opt
       }, ["jobs", "window", "pagination"]),
     },
     {
+      name: "watch_jobs",
+      title: "Watch for roles that fit",
+      description: "Create a standing monitor from a resume, so new roles that fit are found without asking again. What is kept is the search the resume produced, never the resume: the skills, titles, seniority and years that matching uses, which the result shows back in plain words so the candidate can read, change or stop it. Use it when someone wants to be told about new roles over time; use recommend_jobs for a one-off ranking right now.",
+      inputSchema: {
+        type: "object",
+        properties: {
+          resume: resumeSchema(),
+          intent: intentSchema(),
+          email: { type: "string", description: "Where to send new matches. Omit to create a monitor the assistant checks with check_watch instead of one that emails" },
+          label: { type: "string", description: "A short name for this monitor, so a person with several can tell them apart" },
+        },
+        required: ["resume"], additionalProperties: false,
+      },
+      outputSchema: output({
+        id: { type: "string", description: "Pass this to check_watch or stop_watch" },
+        holding: { type: "string", description: "What is stored, in plain words. Read it back to the candidate: it is the whole privacy claim" },
+        profile: { type: "object", additionalProperties: true, description: "The stored search itself, which contains no resume text" },
+        matchesNow: { type: "array", items: { type: "object", additionalProperties: true }, description: "Roles matching today, so the monitor is useful immediately" },
+        emailing: { type: "boolean", description: "Whether new matches will be emailed; false means the assistant must call check_watch" },
+      }, ["id", "holding"]),
+    },
+    {
+      name: "list_watches",
+      title: "List monitors",
+      description: "Every monitor on this account, with what each one holds and when it last found something. Reads no resume.",
+      inputSchema: { type: "object", properties: {}, additionalProperties: false },
+      outputSchema: output({ watches: { type: "array", items: { type: "object", additionalProperties: true } } }, ["watches"]),
+    },
+    {
+      name: "check_watch",
+      title: "What is new for a monitor",
+      description: "Roles matching a monitor that it has not reported before, newest first, each with the reason it matched. Reads no resume, so an assistant can poll a monitor without ever holding resume access. Calling it marks those roles as seen, so the next call returns only what is new after that.",
+      inputSchema: {
+        type: "object",
+        properties: {
+          id: { type: "string", minLength: 1, description: "The monitor id from watch_jobs or list_watches" },
+          limit: { type: "integer", minimum: 1, maximum: 50, default: 20, description: "How many new roles to return" },
+          peek: { type: "boolean", default: false, description: "True to look without marking anything as seen" },
+        },
+        required: ["id"], additionalProperties: false,
+      },
+      outputSchema: output({
+        matches: { type: "array", items: { type: "object", additionalProperties: true }, description: "Each carries the job, why it matched, and the employer's own posting URL" },
+        checkedAt: { type: "string" },
+        newSince: { type: "string", description: "Roles are new relative to this moment, not to when they were posted" },
+      }, ["matches"]),
+    },
+    {
+      name: "stop_watch",
+      title: "Stop a monitor",
+      description: "Delete a monitor and everything stored with it, including the record of what it has already reported. Nothing is kept.",
+      inputSchema: {
+        type: "object",
+        properties: { id: { type: "string", minLength: 1, description: "The monitor id" } },
+        required: ["id"], additionalProperties: false,
+      },
+      outputSchema: output({ stopped: { type: "boolean" }, deleted: { type: "string", description: "What was removed" } }, ["stopped"]),
+    },
+    {
       name: "get_job",
       title: "Get job details",
       description: "Get the full description and application URL for a job returned by recommend_jobs or search_jobs.",
@@ -238,7 +313,7 @@ export function createToolHandler(catalog: Catalog, workflows: JobWorkflows, opt
 
   return {
     // A client sees only what it may call. Listing a tool it would be refused teaches it to try and fail.
-    list: () => definitions.filter((definition) => allowed(definition.name))
+    list: () => definitions.filter((definition) => allowed(definition.name) && (workflows.watches !== undefined || !WATCH_TOOLS.has(definition.name)))
       .map((definition) => ({ ...definition, annotations: annotationsFor(definition.name) })),
     async call(name: string, input: Record<string, unknown>) {
       const needed = TOOL_SCOPE[name as ToolDefinition["name"]];
@@ -251,9 +326,18 @@ export function createToolHandler(catalog: Catalog, workflows: JobWorkflows, opt
     },
   };
 
+  const requireWatches = () => {
+    if (!workflows.watches) throw new Error("Monitors are only available on the hosted server, where there is an account to attach one to.");
+    return workflows.watches;
+  };
+
   async function dispatch(name: string, input: Record<string, unknown>): Promise<unknown> {
       if (name === "prepare_job_search") return workflows.prepareJobSearch(input);
       if (name === "get_job_coverage") return workflows.getJobCoverage(input);
+      if (name === "watch_jobs") return requireWatches().create(input);
+      if (name === "list_watches") return requireWatches().list();
+      if (name === "check_watch") return requireWatches().check(input);
+      if (name === "stop_watch") return requireWatches().stop(input);
       if (name === "recommend_jobs") return workflows.recommend(input);
       if (name === "analyze_job_fit") return workflows.analyzeJobFit(input);
       if (name === "optimize_resume") return workflows.optimizeResume(input);
