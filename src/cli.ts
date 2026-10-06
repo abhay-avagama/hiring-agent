@@ -1,7 +1,7 @@
 #!/usr/bin/env bun
 import { ALL_PROVIDERS, type Ats } from "./types.ts";
 import { readFile } from "node:fs/promises";
-import { relative, resolve } from "node:path";
+import { join, relative, resolve } from "node:path";
 import { createRuntime } from "./runtime.ts";
 import { atomicJson } from "./atomic-file.ts";
 import { verifyBoards } from "./board-verification.ts";
@@ -11,6 +11,9 @@ import { runSourceDiscovery, runYcSourceDiscovery } from "./source-discovery.ts"
 import { discoverAndPromote } from "./source-discovery-pipeline.ts";
 import { traceCareerSources } from "./career-tracing.ts";
 import { discoverCommonCrawlSources } from "./common-crawl-discovery.ts";
+import { createLocalWatches } from "./local-watches.ts";
+import { notifyDesktop } from "./desktop-notify.ts";
+import type { CandidateProfile } from "./candidate-profile.ts";
 import { discoverCatalog } from "./catalog-discovery.ts";
 import { parseArgs } from "node:util";
 import { generateYcCompanySeeds } from "./company-seeds.ts";
@@ -31,6 +34,9 @@ import { mergeAttemptedRoundLeads, prepareRecruiteeRoundArtifacts } from "./recr
 const HELP = `Openings — search public company job boards
 
 Usage:
+  openings watch add RESUME.txt [--label NAME] [--country IN,US]   watch for roles that fit, on this machine
+  openings watch list | check ID [--peek] | stop ID
+  openings watch run [--country IN,US] [--no-refresh]              what a scheduler calls: refresh, match, notify
   openings crawl [--workday-countries IN,US] [--country CODE | --companies FILE] [--concurrency N] [--source-cache-hours N] [--source-limit N] [--delay-ms N] [--workday-page-delay-ms N] [--timeout-ms N] [--data-dir PATH]
   openings snapshot export [--input FILE] [--output-dir PATH]
   openings coverage report --country CODE [--snapshot FILE] [--catalog FILE] [--candidates FILE] [--registry FILE] [--output FILE] [--as-of ISO]
@@ -108,6 +114,58 @@ export async function run(args: string[]): Promise<number> {
     if (typeof parsed === "string") return fail(parsed);
     console.log(JSON.stringify(await exportSnapshot(parsed.input, parsed.outputDir), null, 2));
     return 0;
+  }
+
+  if (command === "watch") {
+    const sub = rest[0];
+    /** The value after a flag, or undefined. Local to this command; the other commands parse their own. */
+    const argValue = (args: string[], flag: string) => {
+      const at = args.indexOf(flag);
+      return at >= 0 && args[at + 1] && !args[at + 1]!.startsWith("--") ? args[at + 1] : undefined;
+    };
+    const dataDir = argValue(rest, "--data-dir") ?? process.env.OPENINGS_DATA_DIR ?? join(process.cwd(), ".openings");
+    const runtime = createRuntime({ dataDir });
+    const watches = createLocalWatches({
+      dataDir,
+      // Whatever the local index already holds; a monitor never fetches on its own behalf.
+      jobs: async () => (await runtime.search({ maxAgeDays: 0, limit: 200_000 }, { offline: true, staleDays: 3650 })).jobs.map((job) => ({
+        id: job.id, title: job.title, company: job.company, location: job.location, remote: job.remote,
+        countries: job.eligibleCountries ?? [], skills: (job as { skills?: string }).skills ?? "",
+        ...(job.experience === undefined || job.experience === null ? {} : { experience: job.experience }),
+      })),
+      profileFromResume: async (input) => (await runtime.recommend({ ...(input as object), limit: 1 }) as { profile: CandidateProfile }).profile,
+      notify: async (title, body) => { await notifyDesktop(title, body); },
+    });
+    if (sub === "add") {
+      const file = rest[1];
+      if (!file || file.startsWith("--")) return fail("watch add needs a resume file: openings watch add RESUME.txt [--label NAME] [--country IN]");
+      const content = await Bun.file(file).text();
+      const countries = (argValue(rest, "--country") ?? "").split(",").map((c) => c.trim().toUpperCase()).filter(Boolean);
+      const result = await watches.create({ resume: { content, format: file.toLowerCase().endsWith(".md") ? "markdown" : "text" },
+        intent: countries.length ? { countries } : {}, label: argValue(rest, "--label") });
+      console.log(JSON.stringify(result, null, 2));
+      return 0;
+    }
+    if (sub === "list") { console.log(JSON.stringify(await watches.list(), null, 2)); return 0; }
+    if (sub === "check") {
+      const id = rest[1];
+      if (!id || id.startsWith("--")) return fail("watch check needs a monitor id; `openings watch list` shows them");
+      console.log(JSON.stringify(await watches.check({ id, peek: rest.includes("--peek") }), null, 2));
+      return 0;
+    }
+    if (sub === "stop") {
+      const id = rest[1];
+      if (!id) return fail("watch stop needs a monitor id");
+      console.log(JSON.stringify(await watches.stop({ id }), null, 2));
+      return 0;
+    }
+    if (sub === "run") {
+      // What a scheduler calls. Refresh first so the monitor is reading today's index, then tell the desktop.
+      if (!rest.includes("--no-refresh")) await runtime.prepareJobSearch({ countries: (argValue(rest, "--country") ?? "IN,US").split(",") }).catch(() => undefined);
+      console.log(JSON.stringify(await watches.sweep(), null, 2));
+      return 0;
+    }
+    return fail("watch takes add, list, check, stop or run");
   }
 
   if (command === "coverage") {
