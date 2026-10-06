@@ -33,7 +33,35 @@ interface JobWorkflows {
   optimizeResume(input: unknown): Promise<OptimizeResumeResult>;
 }
 
-export function createToolHandler(catalog: Catalog, workflows: JobWorkflows, options: { onCall?(name: string, input: Record<string, unknown>, result: unknown): void } = {}) {
+/**
+ * What a token is allowed to reach. The split is on what the tool touches, not on what it changes: four tools read
+ * job data and nothing else, three parse a candidate's resume. A client that only wants job search should be able
+ * to say so and be held to it, which is the promise we already make in prose and could not enforce.
+ */
+export const SCOPES = { jobs: "jobs.read", resume: "resume.analyze" } as const;
+export type Scope = (typeof SCOPES)[keyof typeof SCOPES];
+
+const TOOL_SCOPE: Record<ToolDefinition["name"], Scope> = {
+  prepare_job_search: SCOPES.jobs, get_job_coverage: SCOPES.jobs, search_jobs: SCOPES.jobs, get_job: SCOPES.jobs,
+  recommend_jobs: SCOPES.resume, analyze_job_fit: SCOPES.resume, optimize_resume: SCOPES.resume,
+};
+
+/** The scope a tool needs, for a caller that wants to explain the boundary rather than discover it by refusal. */
+export function scopeForTool(name: string): Scope | undefined {
+  return TOOL_SCOPE[name as ToolDefinition["name"]];
+}
+
+export function createToolHandler(catalog: Catalog, workflows: JobWorkflows, options: {
+  onCall?(name: string, input: Record<string, unknown>, result: unknown): void;
+  /**
+   * Scopes this token was granted. Undefined means every tool, which is deliberate: tokens issued before the
+   * split carry no scope claim, and refusing them would break every client that already works. Only a token
+   * that states its scopes is held to them.
+   */
+  scopes?: readonly string[];
+} = {}) {
+  const granted = options.scopes === undefined ? undefined : new Set(options.scopes);
+  const allowed = (name: ToolDefinition["name"]) => granted === undefined || granted.has(TOOL_SCOPE[name]);
   const definitions: Array<Omit<ToolDefinition, "annotations">> = [
     {
       name: "prepare_job_search",
@@ -209,8 +237,14 @@ export function createToolHandler(catalog: Catalog, workflows: JobWorkflows, opt
   ];
 
   return {
-    list: () => definitions.map((definition) => ({ ...definition, annotations: annotationsFor(definition.name) })),
+    // A client sees only what it may call. Listing a tool it would be refused teaches it to try and fail.
+    list: () => definitions.filter((definition) => allowed(definition.name))
+      .map((definition) => ({ ...definition, annotations: annotationsFor(definition.name) })),
     async call(name: string, input: Record<string, unknown>) {
+      const needed = TOOL_SCOPE[name as ToolDefinition["name"]];
+      if (needed && !allowed(name as ToolDefinition["name"])) {
+        throw new Error(`${name} needs the ${needed} scope, which this connection was not granted. Reconnect and allow it.`);
+      }
       const result = await dispatch(name, input);
       try { options.onCall?.(name, input, result); } catch { /* usage reporting never affects a tool result */ }
       return result;
