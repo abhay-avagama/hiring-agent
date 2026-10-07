@@ -41,3 +41,21 @@ test("Indian state codes beside a named India are states, not countries", () => 
   }
   expect(classifyJob(job("Lomé, TG")).eligibleCountries).toEqual(["TG"]);
 });
+
+test("Workday's US-STATE-CITY shape is the United States, not India", () => {
+  // "US-IN-FT WAYNE" is Fort Wayne, Indiana. The leading "US" was read as the state code, which is not one, so
+  // the state was never seen and a bare "IN" further along the string filed the role under India.
+  for (const location of ["US-IN-FT WAYNE-150A ~ 1010 Production Rd ~ BLDG 150A", "US-IN-Crane",
+                          "US-IN-Fort Wayne", "US - CA - San Jose", "US-DE-Wilmington", "US-GA-Atlanta"]) {
+    const countries = classifyJob(job(location)).eligibleCountries;
+    expect(countries).toContain("US");
+    expect(countries).not.toContain("IN");
+  }
+});
+
+test("genuinely Indian locations are still India", () => {
+  for (const location of ["Bengaluru, Karnataka, India", "Hyderabad, TG, India", "Pune, Mahārāshtra, IN",
+                          "IN - Bangalore", "Noida, UP, IN", "Chennai, IN"]) {
+    expect(classifyJob(job(location)).eligibleCountries).toContain("IN");
+  }
+});

@@ -106,6 +106,12 @@ const US_STATE_CODES = new Set(["AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", 
 const US_CITY_STATE = /,\s*([A-Z]{2})(?=\s*(?:$|,|\d{5}|\(|\/|-))/g;
 /** Workday's "ST-CITY, street" and "ST - City" shapes, e.g. "IN-INDIANAPOLIS, 220 VIRGINIA AVE" or "IN - Indianapolis". */
 const US_STATE_PREFIX = /^([A-Z]{2})\s*-\s*(?=[A-Za-z])/;
+/**
+ * Workday also writes the country in front of the state: "US-IN-FT WAYNE-150A ~ 1010 Production Rd".
+ * US_STATE_PREFIX reads the leading "US" as the state, finds it is not one, and gives up, so Fort Wayne
+ * was filed under India on the strength of a bare "IN" further along the string.
+ */
+const US_COUNTRY_STATE_PREFIX = /^US\s*-\s*([A-Z]{2})\s*-\s*(?=[A-Za-z0-9])/;
 
 function detectCountries(location: string): string[] {
   const byName: string[] = [];
@@ -117,7 +123,7 @@ function detectCountries(location: string): string[] {
   // "Indianapolis, IN" is Indiana, not India: a bare code in the US "City, ST" position is a state unless a country name
   // or a known Indian place says otherwise.
   // Case matters: "Berlin, de" is a lowercase country code, "Gary, IN" is a state.
-  const prefix = US_STATE_PREFIX.exec(location)?.[1];
+  const prefix = US_COUNTRY_STATE_PREFIX.exec(location)?.[1] ?? US_STATE_PREFIX.exec(location)?.[1];
   const stateCodes = [...[...location.matchAll(US_CITY_STATE)].map((match) => match[1]!), ...(prefix ? [prefix] : [])].filter((code) => US_STATE_CODES.has(code));
   if (stateCodes.length && byName.length === 0 && !INDIA_PATTERN.test(location)) {
     return [...new Set(["US", ...byCode.filter((code) => !US_STATE_CODES.has(code))])];
