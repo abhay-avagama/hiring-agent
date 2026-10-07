@@ -67,3 +67,66 @@ test("Recruitee discovery is one bounded report-only fetch with deterministic to
   expect(report.sampleShortfall).toBe(0);
   expect(report.registryPath).toBeUndefined();
 });
+
+test("a region with no captures is an empty pattern, not a failed run", async () => {
+  const directory = await mkdtemp(join(tmpdir(), "openings-cc-404-"));
+  const candidatesPath = join(directory, "candidates.json");
+  const reportPath = join(directory, "report.json");
+  await writeFile(candidatesPath, JSON.stringify([]));
+
+  // Oracle spreads tenants over Fusion regions and several hold nothing. Aborting on the first empty one threw
+  // away every region that had already answered, which is how Oracle ended up with no discovered tenants at all.
+  const report = await discoverCommonCrawlSources(candidatesPath, reportPath, {
+    provider: "oraclecloud", registryPath: join(directory, "leads.json"), retryDelayMs: 0,
+    fetch: async (input) => {
+      const url = String(input);
+      if (url.endsWith("collinfo.json")) return Response.json([{ id: "CC-MAIN-TEST", "cdx-api": "https://index.test/CC-MAIN-TEST-index" }]);
+      if (url.includes("us2.oraclecloud.com")) {
+        return new Response(JSON.stringify({ url: "https://ebuu.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/job/1" }) + "\n");
+      }
+      return new Response("not found", { status: 404 });   // every other region is empty
+    },
+  });
+
+  expect(report.emptyPatterns.length).toBeGreaterThan(0);
+  expect(report.leads.map((lead) => lead.token)).toContain("ebuu.fa.us2.oraclecloud.com/CX");
+});
+
+test("Oracle discovery asks the index one region at a time", async () => {
+  const { commonCrawlPatterns } = await import("../src/common-crawl-discovery.ts");
+  const patterns = commonCrawlPatterns("oraclecloud");
+  expect(patterns.length).toBeGreaterThan(1);
+  // The single host-wide pattern with a deep path suffix answered 504 every time it was tried.
+  expect(patterns).not.toContain("*.fa.oraclecloud.com/hcmUI/CandidateExperience*");
+  for (const pattern of patterns) expect(pattern).toMatch(/^\*\.fa\.[a-z0-9]+\.oraclecloud\.com\/\*$/);
+});
+
+test("one refused pattern does not discard the patterns that answered", async () => {
+  const directory = await mkdtemp(join(tmpdir(), "openings-cc-partial-"));
+  const candidatesPath = join(directory, "candidates.json");
+  await writeFile(candidatesPath, JSON.stringify([]));
+  // A sparse pattern asked for too many records times out. Throwing there lost every region already swept.
+  const report = await discoverCommonCrawlSources(candidatesPath, join(directory, "report.json"), {
+    provider: "oraclecloud", registryPath: join(directory, "leads.json"), retryDelayMs: 0,
+    fetch: async (input) => {
+      const url = String(input);
+      if (url.endsWith("collinfo.json")) return Response.json([{ id: "T", "cdx-api": "https://index.test/T-index" }]);
+      if (url.includes("us2.oraclecloud.com")) return new Response(JSON.stringify({ url: "https://ebuu.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/job/1" }) + "\n");
+      return new Response("gateway timeout", { status: 504 });
+    },
+  });
+  expect(report.failedPatterns.length).toBeGreaterThan(0);
+  expect(report.leads.map((lead) => lead.token)).toContain("ebuu.fa.us2.oraclecloud.com/CX");
+});
+
+test("a sweep where every pattern is refused is an error, not a quiet zero", async () => {
+  const directory = await mkdtemp(join(tmpdir(), "openings-cc-allfail-"));
+  const candidatesPath = join(directory, "candidates.json");
+  await writeFile(candidatesPath, JSON.stringify([]));
+  await expect(discoverCommonCrawlSources(candidatesPath, join(directory, "report.json"), {
+    provider: "oraclecloud", registryPath: join(directory, "leads.json"), retryDelayMs: 0,
+    fetch: async (input) => String(input).endsWith("collinfo.json")
+      ? Response.json([{ id: "T", "cdx-api": "https://index.test/T-index" }])
+      : new Response("gateway timeout", { status: 504 }),
+  })).rejects.toThrow(/refused every pattern/);
+});

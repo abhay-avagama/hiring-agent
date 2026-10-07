@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-10-07T09:40:33.317Z",
+  "updatedAt": "2026-10-07T14:27:57.798Z",
   "leads": [
     {
       "sourceKey": "ashby:0g",
@@ -89321,6 +89321,4911 @@
         }
       ],
       "promotedAt": "2026-09-08T13:07:50.611Z"
+    },
+    {
+      "sourceKey": "oraclecloud:bun.fa.em2.oraclecloud.com/cx_2001",
+      "sourceUrl": "https://bun.fa.em2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_2001/requisitions",
+      "ats": "oraclecloud",
+      "token": "bun.fa.em2.oraclecloud.com/CX_2001",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:cbct.fa.em2.oraclecloud.com/gallifordtrycareers",
+      "sourceUrl": "https://cbct.fa.em2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/gallifordtrycareers/requisitions",
+      "ats": "oraclecloud",
+      "token": "cbct.fa.em2.oraclecloud.com/gallifordtrycareers",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:cbdt.fa.us2.oraclecloud.com/worthingtonsteelcareers",
+      "sourceUrl": "https://cbdt.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/WorthingtonSteelCareers/requisitions",
+      "ats": "oraclecloud",
+      "token": "cbdt.fa.us2.oraclecloud.com/WorthingtonSteelCareers",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:cbha.fa.us2.oraclecloud.com/cx_1",
+      "sourceUrl": "https://cbha.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions",
+      "ats": "oraclecloud",
+      "token": "cbha.fa.us2.oraclecloud.com/CX_1",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eabw.fa.us2.oraclecloud.com/cx_1",
+      "sourceUrl": "https://eabw.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions",
+      "ats": "oraclecloud",
+      "token": "eabw.fa.us2.oraclecloud.com/CX_1",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ebcs.fa.em2.oraclecloud.com/cx_1",
+      "sourceUrl": "https://ebcs.fa.em2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions",
+      "ats": "oraclecloud",
+      "token": "ebcs.fa.em2.oraclecloud.com/CX_1",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ebct.fa.us2.oraclecloud.com/cx_3002",
+      "sourceUrl": "https://ebct.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_3002/requisitions",
+      "ats": "oraclecloud",
+      "token": "ebct.fa.us2.oraclecloud.com/CX_3002",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ebet.fa.em3.oraclecloud.com/mk",
+      "sourceUrl": "https://ebet.fa.em3.oraclecloud.com/hcmUI/CandidateExperience/en/sites/MK/requisitions",
+      "ats": "oraclecloud",
+      "token": "ebet.fa.em3.oraclecloud.com/MK",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ebez.fa.us2.oraclecloud.com/cx_1",
+      "sourceUrl": "https://ebez.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions",
+      "ats": "oraclecloud",
+      "token": "ebez.fa.us2.oraclecloud.com/CX_1",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ebfi.fa.em2.oraclecloud.com/cx_1001",
+      "sourceUrl": "https://ebfi.fa.em2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/requisitions",
+      "ats": "oraclecloud",
+      "token": "ebfi.fa.em2.oraclecloud.com/CX_1001",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ebfr.fa.us2.oraclecloud.com/jobs",
+      "sourceUrl": "https://ebfr.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/jobs/requisitions",
+      "ats": "oraclecloud",
+      "token": "ebfr.fa.us2.oraclecloud.com/jobs",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ebgj.fa.us2.oraclecloud.com/pella",
+      "sourceUrl": "https://ebgj.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/pella/requisitions",
+      "ats": "oraclecloud",
+      "token": "ebgj.fa.us2.oraclecloud.com/pella",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ebhz.fa.us2.oraclecloud.com/onity",
+      "sourceUrl": "https://ebhz.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/Onity/requisitions",
+      "ats": "oraclecloud",
+      "token": "ebhz.fa.us2.oraclecloud.com/Onity",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ebpm.fa.us2.oraclecloud.com/cx_1",
+      "sourceUrl": "https://ebpm.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions",
+      "ats": "oraclecloud",
+      "token": "ebpm.fa.us2.oraclecloud.com/CX_1",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ebpy.fa.em2.oraclecloud.com/cx_1",
+      "sourceUrl": "https://ebpy.fa.em2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions",
+      "ats": "oraclecloud",
+      "token": "ebpy.fa.em2.oraclecloud.com/CX_1",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ebqb.fa.us2.oraclecloud.com/bdoentrylevelcareers",
+      "sourceUrl": "https://ebqb.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/BDOEntryLevelCareers/requisitions",
+      "ats": "oraclecloud",
+      "token": "ebqb.fa.us2.oraclecloud.com/BDOEntryLevelCareers",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ebqb.fa.us2.oraclecloud.com/bdoexperiencedcareers",
+      "sourceUrl": "https://ebqb.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/BDOExperiencedCareers/requisitions",
+      "ats": "oraclecloud",
+      "token": "ebqb.fa.us2.oraclecloud.com/BDOExperiencedCareers",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ebqb.fa.us2.oraclecloud.com/cx_1",
+      "sourceUrl": "https://ebqb.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions",
+      "ats": "oraclecloud",
+      "token": "ebqb.fa.us2.oraclecloud.com/CX_1",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ebtg.fa.us2.oraclecloud.com/career",
+      "sourceUrl": "https://ebtg.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/Career/requisitions",
+      "ats": "oraclecloud",
+      "token": "ebtg.fa.us2.oraclecloud.com/Career",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ebtw.fa.us2.oraclecloud.com/cx_4",
+      "sourceUrl": "https://ebtw.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_4/requisitions",
+      "ats": "oraclecloud",
+      "token": "ebtw.fa.us2.oraclecloud.com/CX_4",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ebud.fa.us2.oraclecloud.com/cx_1",
+      "sourceUrl": "https://ebud.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions",
+      "ats": "oraclecloud",
+      "token": "ebud.fa.us2.oraclecloud.com/CX_1",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ebuu.fa.ap1.oraclecloud.com/cx",
+      "sourceUrl": "https://ebuu.fa.ap1.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/requisitions",
+      "ats": "oraclecloud",
+      "token": "ebuu.fa.ap1.oraclecloud.com/CX",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ebuz.fa.em2.oraclecloud.com/cx",
+      "sourceUrl": "https://ebuz.fa.em2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/requisitions",
+      "ats": "oraclecloud",
+      "token": "ebuz.fa.em2.oraclecloud.com/CX",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ebwb.fa.us2.oraclecloud.com/cx",
+      "sourceUrl": "https://ebwb.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/requisitions",
+      "ats": "oraclecloud",
+      "token": "ebwb.fa.us2.oraclecloud.com/CX",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ebwg.fa.us2.oraclecloud.com/cx",
+      "sourceUrl": "https://ebwg.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/requisitions",
+      "ats": "oraclecloud",
+      "token": "ebwg.fa.us2.oraclecloud.com/CX",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ebwh.fa.us2.oraclecloud.com/cx_1001",
+      "sourceUrl": "https://ebwh.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/requisitions",
+      "ats": "oraclecloud",
+      "token": "ebwh.fa.us2.oraclecloud.com/CX_1001",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ebwh.fa.us2.oraclecloud.com/cx_1002",
+      "sourceUrl": "https://ebwh.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1002/requisitions",
+      "ats": "oraclecloud",
+      "token": "ebwh.fa.us2.oraclecloud.com/CX_1002",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ebwh.fa.us2.oraclecloud.com/cx_4001",
+      "sourceUrl": "https://ebwh.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_4001/requisitions",
+      "ats": "oraclecloud",
+      "token": "ebwh.fa.us2.oraclecloud.com/CX_4001",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ebwv.fa.us2.oraclecloud.com/cx_1",
+      "sourceUrl": "https://ebwv.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions",
+      "ats": "oraclecloud",
+      "token": "ebwv.fa.us2.oraclecloud.com/CX_1",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ebxr.fa.us2.oraclecloud.com/cx_1",
+      "sourceUrl": "https://ebxr.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions",
+      "ats": "oraclecloud",
+      "token": "ebxr.fa.us2.oraclecloud.com/CX_1",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ebxs.fa.us2.oraclecloud.com/cx_2",
+      "sourceUrl": "https://ebxs.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_2/requisitions",
+      "ats": "oraclecloud",
+      "token": "ebxs.fa.us2.oraclecloud.com/CX_2",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ebyf.fa.us2.oraclecloud.com/cx_1001",
+      "sourceUrl": "https://ebyf.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/requisitions",
+      "ats": "oraclecloud",
+      "token": "ebyf.fa.us2.oraclecloud.com/CX_1001",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ebza.fa.em2.oraclecloud.com/cx_1001",
+      "sourceUrl": "https://ebza.fa.em2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/requisitions",
+      "ats": "oraclecloud",
+      "token": "ebza.fa.em2.oraclecloud.com/CX_1001",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ecau.fa.em2.oraclecloud.com/cx",
+      "sourceUrl": "https://ecau.fa.em2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/requisitions",
+      "ats": "oraclecloud",
+      "token": "ecau.fa.em2.oraclecloud.com/CX",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ecer.fa.em2.oraclecloud.com/cx_1",
+      "sourceUrl": "https://ecer.fa.em2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions",
+      "ats": "oraclecloud",
+      "token": "ecer.fa.em2.oraclecloud.com/CX_1",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ecge.fa.us2.oraclecloud.com/cx_1003",
+      "sourceUrl": "https://ecge.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1003/requisitions",
+      "ats": "oraclecloud",
+      "token": "ecge.fa.us2.oraclecloud.com/CX_1003",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:echs.fa.us2.oraclecloud.com/presbyterianmedicalservices",
+      "sourceUrl": "https://echs.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/PresbyterianMedicalServices/requisitions",
+      "ats": "oraclecloud",
+      "token": "echs.fa.us2.oraclecloud.com/PresbyterianMedicalServices",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eckb.fa.us2.oraclecloud.com/cx_1001",
+      "sourceUrl": "https://eckb.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/requisitions",
+      "ats": "oraclecloud",
+      "token": "eckb.fa.us2.oraclecloud.com/CX_1001",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eckb.fa.us2.oraclecloud.com/cx_1007",
+      "sourceUrl": "https://eckb.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1007/requisitions",
+      "ats": "oraclecloud",
+      "token": "eckb.fa.us2.oraclecloud.com/CX_1007",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eckb.fa.us2.oraclecloud.com/cx_1020",
+      "sourceUrl": "https://eckb.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1020/requisitions",
+      "ats": "oraclecloud",
+      "token": "eckb.fa.us2.oraclecloud.com/CX_1020",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eckb.fa.us2.oraclecloud.com/cx_1024",
+      "sourceUrl": "https://eckb.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1024/requisitions",
+      "ats": "oraclecloud",
+      "token": "eckb.fa.us2.oraclecloud.com/CX_1024",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eckx.fa.em2.oraclecloud.com/mhracareers",
+      "sourceUrl": "https://eckx.fa.em2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/MHRACareers/requisitions",
+      "ats": "oraclecloud",
+      "token": "eckx.fa.em2.oraclecloud.com/MHRACareers",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ecnf.fa.us2.oraclecloud.com/cx",
+      "sourceUrl": "https://ecnf.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/requisitions",
+      "ats": "oraclecloud",
+      "token": "ecnf.fa.us2.oraclecloud.com/CX",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ecqf.fa.em2.oraclecloud.com/ipsoscareers",
+      "sourceUrl": "https://ecqf.fa.em2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/IpsosCareers/requisitions",
+      "ats": "oraclecloud",
+      "token": "ecqf.fa.em2.oraclecloud.com/IpsosCareers",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ecsr.fa.us2.oraclecloud.com/cx_1",
+      "sourceUrl": "https://ecsr.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions",
+      "ats": "oraclecloud",
+      "token": "ecsr.fa.us2.oraclecloud.com/CX_1",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ectf.fa.us2.oraclecloud.com/cx_1",
+      "sourceUrl": "https://ectf.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions",
+      "ats": "oraclecloud",
+      "token": "ectf.fa.us2.oraclecloud.com/CX_1",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ecum.fa.em2.oraclecloud.com/cx_2",
+      "sourceUrl": "https://ecum.fa.em2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_2/requisitions",
+      "ats": "oraclecloud",
+      "token": "ecum.fa.em2.oraclecloud.com/CX_2",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ecvu.fa.us2.oraclecloud.com/sunflowercareers",
+      "sourceUrl": "https://ecvu.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/SunflowerCareers/requisitions",
+      "ats": "oraclecloud",
+      "token": "ecvu.fa.us2.oraclecloud.com/SunflowerCareers",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ecvz.fa.us2.oraclecloud.com/cx_1",
+      "sourceUrl": "https://ecvz.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions",
+      "ats": "oraclecloud",
+      "token": "ecvz.fa.us2.oraclecloud.com/CX_1",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ecwl.fa.us2.oraclecloud.com/cx",
+      "sourceUrl": "https://ecwl.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/requisitions",
+      "ats": "oraclecloud",
+      "token": "ecwl.fa.us2.oraclecloud.com/CX",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ecwr.fa.us2.oraclecloud.com/work4estes",
+      "sourceUrl": "https://ecwr.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/work4estes/requisitions",
+      "ats": "oraclecloud",
+      "token": "ecwr.fa.us2.oraclecloud.com/work4estes",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ecwz.fa.em3.oraclecloud.com/wmp",
+      "sourceUrl": "https://ecwz.fa.em3.oraclecloud.com/hcmUI/CandidateExperience/en/sites/WMP/requisitions",
+      "ats": "oraclecloud",
+      "token": "ecwz.fa.em3.oraclecloud.com/WMP",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ecyq.fa.em2.oraclecloud.com/cx_1",
+      "sourceUrl": "https://ecyq.fa.em2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions",
+      "ats": "oraclecloud",
+      "token": "ecyq.fa.em2.oraclecloud.com/CX_1",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eczd.fa.us2.oraclecloud.com/cx_1",
+      "sourceUrl": "https://eczd.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions",
+      "ats": "oraclecloud",
+      "token": "eczd.fa.us2.oraclecloud.com/CX_1",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eczy.fa.us2.oraclecloud.com/cx_1",
+      "sourceUrl": "https://eczy.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions",
+      "ats": "oraclecloud",
+      "token": "eczy.fa.us2.oraclecloud.com/CX_1",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:edbz.fa.us2.oraclecloud.com/cx",
+      "sourceUrl": "https://edbz.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/requisitions",
+      "ats": "oraclecloud",
+      "token": "edbz.fa.us2.oraclecloud.com/CX",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:edel.fa.us2.oraclecloud.com/cx_2001",
+      "sourceUrl": "https://edel.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_2001/requisitions",
+      "ats": "oraclecloud",
+      "token": "edel.fa.us2.oraclecloud.com/CX_2001",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ediu.fa.em2.oraclecloud.com/cx_1013",
+      "sourceUrl": "https://ediu.fa.em2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1013/requisitions",
+      "ats": "oraclecloud",
+      "token": "ediu.fa.em2.oraclecloud.com/CX_1013",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:edix.fa.us2.oraclecloud.com/cx_1",
+      "sourceUrl": "https://edix.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions",
+      "ats": "oraclecloud",
+      "token": "edix.fa.us2.oraclecloud.com/CX_1",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:edmn.fa.us2.oraclecloud.com/cx_1",
+      "sourceUrl": "https://edmn.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions",
+      "ats": "oraclecloud",
+      "token": "edmn.fa.us2.oraclecloud.com/CX_1",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:edmn.fa.us2.oraclecloud.com/cx_8001",
+      "sourceUrl": "https://edmn.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_8001/requisitions",
+      "ats": "oraclecloud",
+      "token": "edmn.fa.us2.oraclecloud.com/CX_8001",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:edox.fa.ap1.oraclecloud.com/cx_3001",
+      "sourceUrl": "https://edox.fa.ap1.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_3001/requisitions",
+      "ats": "oraclecloud",
+      "token": "edox.fa.ap1.oraclecloud.com/CX_3001",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:edqv.fa.us2.oraclecloud.com/cx",
+      "sourceUrl": "https://edqv.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/requisitions",
+      "ats": "oraclecloud",
+      "token": "edqv.fa.us2.oraclecloud.com/CX",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:edss.fa.ap1.oraclecloud.com/cx_1001",
+      "sourceUrl": "https://edss.fa.ap1.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/requisitions",
+      "ats": "oraclecloud",
+      "token": "edss.fa.ap1.oraclecloud.com/CX_1001",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:edsv.fa.us2.oraclecloud.com/cx_1",
+      "sourceUrl": "https://edsv.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions",
+      "ats": "oraclecloud",
+      "token": "edsv.fa.us2.oraclecloud.com/CX_1",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:edsv.fa.us2.oraclecloud.com/cx_1001",
+      "sourceUrl": "https://edsv.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/requisitions",
+      "ats": "oraclecloud",
+      "token": "edsv.fa.us2.oraclecloud.com/CX_1001",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:edte.fa.em2.oraclecloud.com/cx_1",
+      "sourceUrl": "https://edte.fa.em2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions",
+      "ats": "oraclecloud",
+      "token": "edte.fa.em2.oraclecloud.com/CX_1",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eduu.fa.us2.oraclecloud.com/cx_1",
+      "sourceUrl": "https://eduu.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions",
+      "ats": "oraclecloud",
+      "token": "eduu.fa.us2.oraclecloud.com/CX_1",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:edyo.fa.us2.oraclecloud.com/cx",
+      "sourceUrl": "https://edyo.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/requisitions",
+      "ats": "oraclecloud",
+      "token": "edyo.fa.us2.oraclecloud.com/CX",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:edyo.fa.us2.oraclecloud.com/cx_1001",
+      "sourceUrl": "https://edyo.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/requisitions",
+      "ats": "oraclecloud",
+      "token": "edyo.fa.us2.oraclecloud.com/CX_1001",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:edyy.fa.us2.oraclecloud.com/cx_13015",
+      "sourceUrl": "https://edyy.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_13015/requisitions",
+      "ats": "oraclecloud",
+      "token": "edyy.fa.us2.oraclecloud.com/CX_13015",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:edyy.fa.us2.oraclecloud.com/cx_2002",
+      "sourceUrl": "https://edyy.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_2002/requisitions",
+      "ats": "oraclecloud",
+      "token": "edyy.fa.us2.oraclecloud.com/CX_2002",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:edyy.fa.us2.oraclecloud.com/cx_2007",
+      "sourceUrl": "https://edyy.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_2007/requisitions",
+      "ats": "oraclecloud",
+      "token": "edyy.fa.us2.oraclecloud.com/CX_2007",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:edzz.fa.em3.oraclecloud.com/cx_6001",
+      "sourceUrl": "https://edzz.fa.em3.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_6001/requisitions",
+      "ats": "oraclecloud",
+      "token": "edzz.fa.em3.oraclecloud.com/CX_6001",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eedu.fa.em3.oraclecloud.com/cx_1003",
+      "sourceUrl": "https://eedu.fa.em3.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1003/requisitions",
+      "ats": "oraclecloud",
+      "token": "eedu.fa.em3.oraclecloud.com/CX_1003",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eedu.fa.em3.oraclecloud.com/cx_3001",
+      "sourceUrl": "https://eedu.fa.em3.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_3001/requisitions",
+      "ats": "oraclecloud",
+      "token": "eedu.fa.em3.oraclecloud.com/CX_3001",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eeho.fa.us2.oraclecloud.com/cx_45001",
+      "sourceUrl": "https://eeho.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_45001/requisitions",
+      "ats": "oraclecloud",
+      "token": "eeho.fa.us2.oraclecloud.com/CX_45001",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eeho.fa.us2.oraclecloud.com/jobsearch",
+      "sourceUrl": "https://eeho.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/jobsearch/requisitions",
+      "ats": "oraclecloud",
+      "token": "eeho.fa.us2.oraclecloud.com/jobsearch",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eeik.fa.us2.oraclecloud.com/cx_1",
+      "sourceUrl": "https://eeik.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions",
+      "ats": "oraclecloud",
+      "token": "eeik.fa.us2.oraclecloud.com/CX_1",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eeim.fa.us2.oraclecloud.com/cmem",
+      "sourceUrl": "https://eeim.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CMEM/requisitions",
+      "ats": "oraclecloud",
+      "token": "eeim.fa.us2.oraclecloud.com/CMEM",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eenp.fa.em3.oraclecloud.com/cx_1",
+      "sourceUrl": "https://eenp.fa.em3.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions",
+      "ats": "oraclecloud",
+      "token": "eenp.fa.em3.oraclecloud.com/CX_1",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eeof.fa.us6.oraclecloud.com/king",
+      "sourceUrl": "https://eeof.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/King/requisitions",
+      "ats": "oraclecloud",
+      "token": "eeof.fa.us6.oraclecloud.com/King",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eetz.fa.us6.oraclecloud.com/cx_2001",
+      "sourceUrl": "https://eetz.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_2001/requisitions",
+      "ats": "oraclecloud",
+      "token": "eetz.fa.us6.oraclecloud.com/CX_2001",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eeug.fa.us6.oraclecloud.com/cx",
+      "sourceUrl": "https://eeug.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/requisitions",
+      "ats": "oraclecloud",
+      "token": "eeug.fa.us6.oraclecloud.com/CX",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eevd.fa.us6.oraclecloud.com/cx",
+      "sourceUrl": "https://eevd.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/requisitions",
+      "ats": "oraclecloud",
+      "token": "eevd.fa.us6.oraclecloud.com/CX",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eevd.fa.us6.oraclecloud.com/cx_1",
+      "sourceUrl": "https://eevd.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions",
+      "ats": "oraclecloud",
+      "token": "eevd.fa.us6.oraclecloud.com/CX_1",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eevd.fa.us6.oraclecloud.com/cx_1001",
+      "sourceUrl": "https://eevd.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/requisitions",
+      "ats": "oraclecloud",
+      "token": "eevd.fa.us6.oraclecloud.com/CX_1001",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eevd.fa.us6.oraclecloud.com/cx_11",
+      "sourceUrl": "https://eevd.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_11/requisitions",
+      "ats": "oraclecloud",
+      "token": "eevd.fa.us6.oraclecloud.com/CX_11",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eevd.fa.us6.oraclecloud.com/cx_11007",
+      "sourceUrl": "https://eevd.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_11007/requisitions",
+      "ats": "oraclecloud",
+      "token": "eevd.fa.us6.oraclecloud.com/CX_11007",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eevd.fa.us6.oraclecloud.com/cx_13",
+      "sourceUrl": "https://eevd.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_13/requisitions",
+      "ats": "oraclecloud",
+      "token": "eevd.fa.us6.oraclecloud.com/CX_13",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eevd.fa.us6.oraclecloud.com/cx_15",
+      "sourceUrl": "https://eevd.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_15/requisitions",
+      "ats": "oraclecloud",
+      "token": "eevd.fa.us6.oraclecloud.com/CX_15",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eevd.fa.us6.oraclecloud.com/cx_2",
+      "sourceUrl": "https://eevd.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_2/requisitions",
+      "ats": "oraclecloud",
+      "token": "eevd.fa.us6.oraclecloud.com/CX_2",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eevd.fa.us6.oraclecloud.com/cx_20",
+      "sourceUrl": "https://eevd.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_20/requisitions",
+      "ats": "oraclecloud",
+      "token": "eevd.fa.us6.oraclecloud.com/CX_20",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eevd.fa.us6.oraclecloud.com/cx_6",
+      "sourceUrl": "https://eevd.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_6/requisitions",
+      "ats": "oraclecloud",
+      "token": "eevd.fa.us6.oraclecloud.com/CX_6",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eevd.fa.us6.oraclecloud.com/cx_8",
+      "sourceUrl": "https://eevd.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_8/requisitions",
+      "ats": "oraclecloud",
+      "token": "eevd.fa.us6.oraclecloud.com/CX_8",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eevd.fa.us6.oraclecloud.com/cx_9",
+      "sourceUrl": "https://eevd.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_9/requisitions",
+      "ats": "oraclecloud",
+      "token": "eevd.fa.us6.oraclecloud.com/CX_9",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eevd.fa.us6.oraclecloud.com/htv",
+      "sourceUrl": "https://eevd.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/HTV/requisitions",
+      "ats": "oraclecloud",
+      "token": "eevd.fa.us6.oraclecloud.com/HTV",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eewl.fa.us6.oraclecloud.com/cx",
+      "sourceUrl": "https://eewl.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/requisitions",
+      "ats": "oraclecloud",
+      "token": "eewl.fa.us6.oraclecloud.com/CX",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eewl.fa.us6.oraclecloud.com/cx_1",
+      "sourceUrl": "https://eewl.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions",
+      "ats": "oraclecloud",
+      "token": "eewl.fa.us6.oraclecloud.com/CX_1",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eewl.fa.us6.oraclecloud.com/cx_1001",
+      "sourceUrl": "https://eewl.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/requisitions",
+      "ats": "oraclecloud",
+      "token": "eewl.fa.us6.oraclecloud.com/CX_1001",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eewl.fa.us6.oraclecloud.com/cx_1004",
+      "sourceUrl": "https://eewl.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1004/requisitions",
+      "ats": "oraclecloud",
+      "token": "eewl.fa.us6.oraclecloud.com/CX_1004",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eexh.fa.em3.oraclecloud.com/cx_1",
+      "sourceUrl": "https://eexh.fa.em3.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions",
+      "ats": "oraclecloud",
+      "token": "eexh.fa.em3.oraclecloud.com/CX_1",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eexs.fa.us2.oraclecloud.com/aldersly",
+      "sourceUrl": "https://eexs.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/Aldersly/requisitions",
+      "ats": "oraclecloud",
+      "token": "eexs.fa.us2.oraclecloud.com/Aldersly",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eexs.fa.us2.oraclecloud.com/allcommunityjobs",
+      "sourceUrl": "https://eexs.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/allcommunityjobs/requisitions",
+      "ats": "oraclecloud",
+      "token": "eexs.fa.us2.oraclecloud.com/allcommunityjobs",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eexs.fa.us2.oraclecloud.com/alljobs",
+      "sourceUrl": "https://eexs.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/AllJobs/requisitions",
+      "ats": "oraclecloud",
+      "token": "eexs.fa.us2.oraclecloud.com/AllJobs",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eexs.fa.us2.oraclecloud.com/bayshoreonhiltonhead",
+      "sourceUrl": "https://eexs.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/BayshoreonHiltonHead/requisitions",
+      "ats": "oraclecloud",
+      "token": "eexs.fa.us2.oraclecloud.com/BayshoreonHiltonHead",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eexs.fa.us2.oraclecloud.com/clarendaleatbellevueplace",
+      "sourceUrl": "https://eexs.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/ClarendaleatBellevuePlace/requisitions",
+      "ats": "oraclecloud",
+      "token": "eexs.fa.us2.oraclecloud.com/ClarendaleatBellevuePlace",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eexs.fa.us2.oraclecloud.com/clarendaleofaddison",
+      "sourceUrl": "https://eexs.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/ClarendaleofAddison/requisitions",
+      "ats": "oraclecloud",
+      "token": "eexs.fa.us2.oraclecloud.com/ClarendaleofAddison",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eexs.fa.us2.oraclecloud.com/clarendaleofmokena",
+      "sourceUrl": "https://eexs.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/ClarendaleofMokena/requisitions",
+      "ats": "oraclecloud",
+      "token": "eexs.fa.us2.oraclecloud.com/ClarendaleofMokena",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eexs.fa.us2.oraclecloud.com/clarendaleofstpeters",
+      "sourceUrl": "https://eexs.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/ClarendaleofStPeters/requisitions",
+      "ats": "oraclecloud",
+      "token": "eexs.fa.us2.oraclecloud.com/ClarendaleofStPeters",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eexs.fa.us2.oraclecloud.com/heritageatbrentwood",
+      "sourceUrl": "https://eexs.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/HeritageatBrentwood/requisitions",
+      "ats": "oraclecloud",
+      "token": "eexs.fa.us2.oraclecloud.com/HeritageatBrentwood",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eexs.fa.us2.oraclecloud.com/lauralparke",
+      "sourceUrl": "https://eexs.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/LauralParke/requisitions",
+      "ats": "oraclecloud",
+      "token": "eexs.fa.us2.oraclecloud.com/LauralParke",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eexs.fa.us2.oraclecloud.com/thelodgeofnorthbrook",
+      "sourceUrl": "https://eexs.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/TheLodgeofNorthbrook/requisitions",
+      "ats": "oraclecloud",
+      "token": "eexs.fa.us2.oraclecloud.com/TheLodgeofNorthbrook",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eexs.fa.us2.oraclecloud.com/therooseveltatsaltcreek",
+      "sourceUrl": "https://eexs.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/TheRooseveltatSaltCreek/requisitions",
+      "ats": "oraclecloud",
+      "token": "eexs.fa.us2.oraclecloud.com/TheRooseveltatSaltCreek",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eexs.fa.us2.oraclecloud.com/windsoratcelebration",
+      "sourceUrl": "https://eexs.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/WindsoratCelebration/requisitions",
+      "ats": "oraclecloud",
+      "token": "eexs.fa.us2.oraclecloud.com/WindsoratCelebration",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:efan.fa.em3.oraclecloud.com/cx_1",
+      "sourceUrl": "https://efan.fa.em3.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions",
+      "ats": "oraclecloud",
+      "token": "efan.fa.em3.oraclecloud.com/CX_1",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:efcs.fa.em3.oraclecloud.com/cx_1",
+      "sourceUrl": "https://efcs.fa.em3.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions",
+      "ats": "oraclecloud",
+      "token": "efcs.fa.em3.oraclecloud.com/CX_1",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:efet.fa.us2.oraclecloud.com/cx_1009",
+      "sourceUrl": "https://efet.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1009/requisitions",
+      "ats": "oraclecloud",
+      "token": "efet.fa.us2.oraclecloud.com/CX_1009",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:effb.fa.em3.oraclecloud.com/kingscareerportal",
+      "sourceUrl": "https://effb.fa.em3.oraclecloud.com/hcmUI/CandidateExperience/en/sites/KingsCareerPortal/requisitions",
+      "ats": "oraclecloud",
+      "token": "effb.fa.em3.oraclecloud.com/KingsCareerPortal",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:effe.fa.em3.oraclecloud.com/cx_1001",
+      "sourceUrl": "https://effe.fa.em3.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/requisitions",
+      "ats": "oraclecloud",
+      "token": "effe.fa.em3.oraclecloud.com/CX_1001",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:efff.fa.us6.oraclecloud.com/cx_1",
+      "sourceUrl": "https://efff.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions",
+      "ats": "oraclecloud",
+      "token": "efff.fa.us6.oraclecloud.com/CX_1",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:effy.fa.us6.oraclecloud.com/cx",
+      "sourceUrl": "https://effy.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/requisitions",
+      "ats": "oraclecloud",
+      "token": "effy.fa.us6.oraclecloud.com/CX",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:efhc.fa.ca2.oraclecloud.com/cx_1",
+      "sourceUrl": "https://efhc.fa.ca2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions",
+      "ats": "oraclecloud",
+      "token": "efhc.fa.ca2.oraclecloud.com/CX_1",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:efhi.fa.em3.oraclecloud.com/cx_1",
+      "sourceUrl": "https://efhi.fa.em3.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions",
+      "ats": "oraclecloud",
+      "token": "efhi.fa.em3.oraclecloud.com/CX_1",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:efpb.fa.em3.oraclecloud.com/cx_1003",
+      "sourceUrl": "https://efpb.fa.em3.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1003/requisitions",
+      "ats": "oraclecloud",
+      "token": "efpb.fa.em3.oraclecloud.com/CX_1003",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:efpv.fa.us6.oraclecloud.com/cx_1",
+      "sourceUrl": "https://efpv.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions",
+      "ats": "oraclecloud",
+      "token": "efpv.fa.us6.oraclecloud.com/CX_1",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:efqq.fa.us6.oraclecloud.com/cx_1008",
+      "sourceUrl": "https://efqq.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1008/requisitions",
+      "ats": "oraclecloud",
+      "token": "efqq.fa.us6.oraclecloud.com/CX_1008",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:efsp.fa.us6.oraclecloud.com/cx",
+      "sourceUrl": "https://efsp.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/requisitions",
+      "ats": "oraclecloud",
+      "token": "efsp.fa.us6.oraclecloud.com/CX",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:efuq.fa.us6.oraclecloud.com/cx_1001",
+      "sourceUrl": "https://efuq.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/requisitions",
+      "ats": "oraclecloud",
+      "token": "efuq.fa.us6.oraclecloud.com/CX_1001",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:efuq.fa.us6.oraclecloud.com/hiltongrandvacations",
+      "sourceUrl": "https://efuq.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/HiltonGrandVacations/requisitions",
+      "ats": "oraclecloud",
+      "token": "efuq.fa.us6.oraclecloud.com/HiltonGrandVacations",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:efur.fa.em3.oraclecloud.com/cx_1",
+      "sourceUrl": "https://efur.fa.em3.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions",
+      "ats": "oraclecloud",
+      "token": "efur.fa.em3.oraclecloud.com/CX_1",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:efuy.fa.em3.oraclecloud.com/cx_1",
+      "sourceUrl": "https://efuy.fa.em3.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions",
+      "ats": "oraclecloud",
+      "token": "efuy.fa.em3.oraclecloud.com/CX_1",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:efyb.fa.us6.oraclecloud.com/cx",
+      "sourceUrl": "https://efyb.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/requisitions",
+      "ats": "oraclecloud",
+      "token": "efyb.fa.us6.oraclecloud.com/CX",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:efzu.fa.em2.oraclecloud.com/cx_2001",
+      "sourceUrl": "https://efzu.fa.em2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_2001/requisitions",
+      "ats": "oraclecloud",
+      "token": "efzu.fa.em2.oraclecloud.com/CX_2001",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:egay.fa.us6.oraclecloud.com/cx_4001",
+      "sourceUrl": "https://egay.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_4001/requisitions",
+      "ats": "oraclecloud",
+      "token": "egay.fa.us6.oraclecloud.com/CX_4001",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:egcu.fa.us6.oraclecloud.com/cx",
+      "sourceUrl": "https://egcu.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/requisitions",
+      "ats": "oraclecloud",
+      "token": "egcu.fa.us6.oraclecloud.com/CX",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:egjd.fa.us6.oraclecloud.com/cx",
+      "sourceUrl": "https://egjd.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/requisitions",
+      "ats": "oraclecloud",
+      "token": "egjd.fa.us6.oraclecloud.com/CX",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:egjd.fa.us6.oraclecloud.com/step",
+      "sourceUrl": "https://egjd.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/STEP/requisitions",
+      "ats": "oraclecloud",
+      "token": "egjd.fa.us6.oraclecloud.com/STEP",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:egln.fa.us2.oraclecloud.com/cx",
+      "sourceUrl": "https://egln.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/requisitions",
+      "ats": "oraclecloud",
+      "token": "egln.fa.us2.oraclecloud.com/CX",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eglz.fa.us2.oraclecloud.com/cx",
+      "sourceUrl": "https://eglz.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/requisitions",
+      "ats": "oraclecloud",
+      "token": "eglz.fa.us2.oraclecloud.com/CX",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:egmh.fa.us6.oraclecloud.com/cx_1",
+      "sourceUrl": "https://egmh.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions",
+      "ats": "oraclecloud",
+      "token": "egmh.fa.us6.oraclecloud.com/CX_1",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:egmk.fa.us6.oraclecloud.com/cx",
+      "sourceUrl": "https://egmk.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/requisitions",
+      "ats": "oraclecloud",
+      "token": "egmk.fa.us6.oraclecloud.com/CX",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:egmk.fa.us6.oraclecloud.com/cx_2001",
+      "sourceUrl": "https://egmk.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_2001/requisitions",
+      "ats": "oraclecloud",
+      "token": "egmk.fa.us6.oraclecloud.com/CX_2001",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:egmk.fa.us6.oraclecloud.com/cx_2005",
+      "sourceUrl": "https://egmk.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_2005/requisitions",
+      "ats": "oraclecloud",
+      "token": "egmk.fa.us6.oraclecloud.com/CX_2005",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:egmn.fa.us2.oraclecloud.com/cx_1",
+      "sourceUrl": "https://egmn.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions",
+      "ats": "oraclecloud",
+      "token": "egmn.fa.us2.oraclecloud.com/CX_1",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:egmn.fa.us2.oraclecloud.com/harmonic",
+      "sourceUrl": "https://egmn.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/Harmonic/requisitions",
+      "ats": "oraclecloud",
+      "token": "egmn.fa.us2.oraclecloud.com/Harmonic",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:egnx.fa.us2.oraclecloud.com/cx",
+      "sourceUrl": "https://egnx.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/requisitions",
+      "ats": "oraclecloud",
+      "token": "egnx.fa.us2.oraclecloud.com/CX",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:egoh.fa.us2.oraclecloud.com/cx_1001",
+      "sourceUrl": "https://egoh.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/requisitions",
+      "ats": "oraclecloud",
+      "token": "egoh.fa.us2.oraclecloud.com/CX_1001",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:egpy.fa.us2.oraclecloud.com/joinabt",
+      "sourceUrl": "https://egpy.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/JoinAbt/requisitions",
+      "ats": "oraclecloud",
+      "token": "egpy.fa.us2.oraclecloud.com/JoinAbt",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:egqw.fa.us2.oraclecloud.com/cx_13",
+      "sourceUrl": "https://egqw.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_13/requisitions",
+      "ats": "oraclecloud",
+      "token": "egqw.fa.us2.oraclecloud.com/CX_13",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:egsd.fa.us2.oraclecloud.com/cx",
+      "sourceUrl": "https://egsd.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/requisitions",
+      "ats": "oraclecloud",
+      "token": "egsd.fa.us2.oraclecloud.com/CX",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:egst.fa.em3.oraclecloud.com/cx",
+      "sourceUrl": "https://egst.fa.em3.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/requisitions",
+      "ats": "oraclecloud",
+      "token": "egst.fa.em3.oraclecloud.com/CX",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:egua.fa.us2.oraclecloud.com/cx_1",
+      "sourceUrl": "https://egua.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions",
+      "ats": "oraclecloud",
+      "token": "egua.fa.us2.oraclecloud.com/CX_1",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:egud.fa.us2.oraclecloud.com/cx_1",
+      "sourceUrl": "https://egud.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions",
+      "ats": "oraclecloud",
+      "token": "egud.fa.us2.oraclecloud.com/CX_1",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:egvv.fa.us6.oraclecloud.com/cx",
+      "sourceUrl": "https://egvv.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/requisitions",
+      "ats": "oraclecloud",
+      "token": "egvv.fa.us6.oraclecloud.com/CX",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ehac.fa.us6.oraclecloud.com/cx_1",
+      "sourceUrl": "https://ehac.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions",
+      "ats": "oraclecloud",
+      "token": "ehac.fa.us6.oraclecloud.com/CX_1",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ehff.fa.em2.oraclecloud.com/cx_2001",
+      "sourceUrl": "https://ehff.fa.em2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_2001/requisitions",
+      "ats": "oraclecloud",
+      "token": "ehff.fa.em2.oraclecloud.com/CX_2001",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ehgv.fa.em2.oraclecloud.com/cx_1",
+      "sourceUrl": "https://ehgv.fa.em2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions",
+      "ats": "oraclecloud",
+      "token": "ehgv.fa.em2.oraclecloud.com/CX_1",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ehif.fa.em2.oraclecloud.com/cx_1",
+      "sourceUrl": "https://ehif.fa.em2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions",
+      "ats": "oraclecloud",
+      "token": "ehif.fa.em2.oraclecloud.com/CX_1",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ehjc.fa.em2.oraclecloud.com/cx_17",
+      "sourceUrl": "https://ehjc.fa.em2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_17/requisitions",
+      "ats": "oraclecloud",
+      "token": "ehjc.fa.em2.oraclecloud.com/CX_17",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ehjd.fa.em2.oraclecloud.com/fabcareers",
+      "sourceUrl": "https://ehjd.fa.em2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/fabCareers/requisitions",
+      "ats": "oraclecloud",
+      "token": "ehjd.fa.em2.oraclecloud.com/fabCareers",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ehkf.fa.em2.oraclecloud.com/cx_3003",
+      "sourceUrl": "https://ehkf.fa.em2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_3003/requisitions",
+      "ats": "oraclecloud",
+      "token": "ehkf.fa.em2.oraclecloud.com/CX_3003",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ehkn.fa.ca2.oraclecloud.com/cx_1001",
+      "sourceUrl": "https://ehkn.fa.ca2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/requisitions",
+      "ats": "oraclecloud",
+      "token": "ehkn.fa.ca2.oraclecloud.com/CX_1001",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ehle.fa.em2.oraclecloud.com/cx_1",
+      "sourceUrl": "https://ehle.fa.em2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions",
+      "ats": "oraclecloud",
+      "token": "ehle.fa.em2.oraclecloud.com/CX_1",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ehlj.fa.us6.oraclecloud.com/cx_3001",
+      "sourceUrl": "https://ehlj.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_3001/requisitions",
+      "ats": "oraclecloud",
+      "token": "ehlj.fa.us6.oraclecloud.com/CX_3001",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ehpv.fa.em2.oraclecloud.com/cx",
+      "sourceUrl": "https://ehpv.fa.em2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/requisitions",
+      "ats": "oraclecloud",
+      "token": "ehpv.fa.em2.oraclecloud.com/CX",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ehpv.fa.em2.oraclecloud.com/cx_1",
+      "sourceUrl": "https://ehpv.fa.em2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions",
+      "ats": "oraclecloud",
+      "token": "ehpv.fa.em2.oraclecloud.com/CX_1",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ehpv.fa.em2.oraclecloud.com/weonecareers",
+      "sourceUrl": "https://ehpv.fa.em2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/WeOneCareers/requisitions",
+      "ats": "oraclecloud",
+      "token": "ehpv.fa.em2.oraclecloud.com/WeOneCareers",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ehtc.fa.ca2.oraclecloud.com/cx_1",
+      "sourceUrl": "https://ehtc.fa.ca2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions",
+      "ats": "oraclecloud",
+      "token": "ehtc.fa.ca2.oraclecloud.com/CX_1",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ehth.fa.em2.oraclecloud.com/cx_2001",
+      "sourceUrl": "https://ehth.fa.em2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_2001/requisitions",
+      "ats": "oraclecloud",
+      "token": "ehth.fa.em2.oraclecloud.com/CX_2001",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ehtl.fa.us6.oraclecloud.com/cx",
+      "sourceUrl": "https://ehtl.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/requisitions",
+      "ats": "oraclecloud",
+      "token": "ehtl.fa.us6.oraclecloud.com/CX",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ehtl.fa.us6.oraclecloud.com/cx_2",
+      "sourceUrl": "https://ehtl.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_2/requisitions",
+      "ats": "oraclecloud",
+      "token": "ehtl.fa.us6.oraclecloud.com/CX_2",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ehtv.fa.em2.oraclecloud.com/cx_1",
+      "sourceUrl": "https://ehtv.fa.em2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions",
+      "ats": "oraclecloud",
+      "token": "ehtv.fa.em2.oraclecloud.com/CX_1",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eibd.fa.em2.oraclecloud.com/cx_1",
+      "sourceUrl": "https://eibd.fa.em2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions",
+      "ats": "oraclecloud",
+      "token": "eibd.fa.em2.oraclecloud.com/CX_1",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eiby.fa.em2.oraclecloud.com/cx_1",
+      "sourceUrl": "https://eiby.fa.em2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions",
+      "ats": "oraclecloud",
+      "token": "eiby.fa.em2.oraclecloud.com/CX_1",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eiby.fa.em2.oraclecloud.com/cx_1001",
+      "sourceUrl": "https://eiby.fa.em2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/requisitions",
+      "ats": "oraclecloud",
+      "token": "eiby.fa.em2.oraclecloud.com/CX_1001",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eieb.fa.us6.oraclecloud.com/cx_1001",
+      "sourceUrl": "https://eieb.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/requisitions",
+      "ats": "oraclecloud",
+      "token": "eieb.fa.us6.oraclecloud.com/CX_1001",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eigx.fa.us6.oraclecloud.com/cx",
+      "sourceUrl": "https://eigx.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/requisitions",
+      "ats": "oraclecloud",
+      "token": "eigx.fa.us6.oraclecloud.com/CX",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eigx.fa.us6.oraclecloud.com/cx_1",
+      "sourceUrl": "https://eigx.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions",
+      "ats": "oraclecloud",
+      "token": "eigx.fa.us6.oraclecloud.com/CX_1",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eihe.fa.ca2.oraclecloud.com/cx_1",
+      "sourceUrl": "https://eihe.fa.ca2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions",
+      "ats": "oraclecloud",
+      "token": "eihe.fa.ca2.oraclecloud.com/CX_1",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eiht.fa.em2.oraclecloud.com/cx_1",
+      "sourceUrl": "https://eiht.fa.em2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions",
+      "ats": "oraclecloud",
+      "token": "eiht.fa.em2.oraclecloud.com/CX_1",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eimy.fa.us6.oraclecloud.com/cx_1",
+      "sourceUrl": "https://eimy.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions",
+      "ats": "oraclecloud",
+      "token": "eimy.fa.us6.oraclecloud.com/CX_1",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eiox.fa.em2.oraclecloud.com/cx_1",
+      "sourceUrl": "https://eiox.fa.em2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions",
+      "ats": "oraclecloud",
+      "token": "eiox.fa.em2.oraclecloud.com/CX_1",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eipb.fa.em2.oraclecloud.com/cx_5",
+      "sourceUrl": "https://eipb.fa.em2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_5/requisitions",
+      "ats": "oraclecloud",
+      "token": "eipb.fa.em2.oraclecloud.com/CX_5",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eipp.fa.us6.oraclecloud.com/pmhcareers",
+      "sourceUrl": "https://eipp.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/PMHCareers/requisitions",
+      "ats": "oraclecloud",
+      "token": "eipp.fa.us6.oraclecloud.com/PMHCareers",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eism.fa.em2.oraclecloud.com/cx",
+      "sourceUrl": "https://eism.fa.em2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/requisitions",
+      "ats": "oraclecloud",
+      "token": "eism.fa.em2.oraclecloud.com/CX",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eism.fa.em2.oraclecloud.com/lcc",
+      "sourceUrl": "https://eism.fa.em2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/lcc/requisitions",
+      "ats": "oraclecloud",
+      "token": "eism.fa.em2.oraclecloud.com/lcc",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eism.fa.em2.oraclecloud.com/ncc",
+      "sourceUrl": "https://eism.fa.em2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/ncc/requisitions",
+      "ats": "oraclecloud",
+      "token": "eism.fa.em2.oraclecloud.com/ncc",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eizj.fa.em2.oraclecloud.com/cx",
+      "sourceUrl": "https://eizj.fa.em2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/requisitions",
+      "ats": "oraclecloud",
+      "token": "eizj.fa.em2.oraclecloud.com/CX",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eizm.fa.em2.oraclecloud.com/cx_2",
+      "sourceUrl": "https://eizm.fa.em2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_2/requisitions",
+      "ats": "oraclecloud",
+      "token": "eizm.fa.em2.oraclecloud.com/CX_2",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ejcu.fa.us6.oraclecloud.com/cx_1033",
+      "sourceUrl": "https://ejcu.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1033/requisitions",
+      "ats": "oraclecloud",
+      "token": "ejcu.fa.us6.oraclecloud.com/CX_1033",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ejee.fa.us6.oraclecloud.com/cx",
+      "sourceUrl": "https://ejee.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/requisitions",
+      "ats": "oraclecloud",
+      "token": "ejee.fa.us6.oraclecloud.com/CX",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ejee.fa.us6.oraclecloud.com/cx_1",
+      "sourceUrl": "https://ejee.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions",
+      "ats": "oraclecloud",
+      "token": "ejee.fa.us6.oraclecloud.com/CX_1",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ejfg.fa.us6.oraclecloud.com/cx_2001",
+      "sourceUrl": "https://ejfg.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_2001/requisitions",
+      "ats": "oraclecloud",
+      "token": "ejfg.fa.us6.oraclecloud.com/CX_2001",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ejfh.fa.us6.oraclecloud.com/stationcasinos",
+      "sourceUrl": "https://ejfh.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/StationCasinos/requisitions",
+      "ats": "oraclecloud",
+      "token": "ejfh.fa.us6.oraclecloud.com/StationCasinos",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ejgk.fa.em2.oraclecloud.com/cx_3",
+      "sourceUrl": "https://ejgk.fa.em2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_3/requisitions",
+      "ats": "oraclecloud",
+      "token": "ejgk.fa.em2.oraclecloud.com/CX_3",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ejgk.fa.em2.oraclecloud.com/cx_3001",
+      "sourceUrl": "https://ejgk.fa.em2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_3001/requisitions",
+      "ats": "oraclecloud",
+      "token": "ejgk.fa.em2.oraclecloud.com/CX_3001",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ejgl.fa.ap1.oraclecloud.com/uow",
+      "sourceUrl": "https://ejgl.fa.ap1.oraclecloud.com/hcmUI/CandidateExperience/en/sites/UOW/requisitions",
+      "ats": "oraclecloud",
+      "token": "ejgl.fa.ap1.oraclecloud.com/UOW",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ejgl.fa.ap1.oraclecloud.com/uowca",
+      "sourceUrl": "https://ejgl.fa.ap1.oraclecloud.com/hcmUI/CandidateExperience/en/sites/UOWCA/requisitions",
+      "ats": "oraclecloud",
+      "token": "ejgl.fa.ap1.oraclecloud.com/UOWCA",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ejgo.fa.em2.oraclecloud.com/cx_4",
+      "sourceUrl": "https://ejgo.fa.em2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_4/requisitions",
+      "ats": "oraclecloud",
+      "token": "ejgo.fa.em2.oraclecloud.com/CX_4",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ejgo.fa.em2.oraclecloud.com/farrans",
+      "sourceUrl": "https://ejgo.fa.em2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/Farrans/requisitions",
+      "ats": "oraclecloud",
+      "token": "ejgo.fa.em2.oraclecloud.com/Farrans",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ejhp.fa.us6.oraclecloud.com/cx_2",
+      "sourceUrl": "https://ejhp.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_2/requisitions",
+      "ats": "oraclecloud",
+      "token": "ejhp.fa.us6.oraclecloud.com/CX_2",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ejia.fa.us6.oraclecloud.com/cx_1001",
+      "sourceUrl": "https://ejia.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/requisitions",
+      "ats": "oraclecloud",
+      "token": "ejia.fa.us6.oraclecloud.com/CX_1001",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ejif.fa.us6.oraclecloud.com/cx_1",
+      "sourceUrl": "https://ejif.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions",
+      "ats": "oraclecloud",
+      "token": "ejif.fa.us6.oraclecloud.com/CX_1",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ejis.fa.us6.oraclecloud.com/cx",
+      "sourceUrl": "https://ejis.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/requisitions",
+      "ats": "oraclecloud",
+      "token": "ejis.fa.us6.oraclecloud.com/CX",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ejjc.fa.us6.oraclecloud.com/cx",
+      "sourceUrl": "https://ejjc.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/requisitions",
+      "ats": "oraclecloud",
+      "token": "ejjc.fa.us6.oraclecloud.com/CX",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ejnh.fa.em2.oraclecloud.com/cx_1",
+      "sourceUrl": "https://ejnh.fa.em2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions",
+      "ats": "oraclecloud",
+      "token": "ejnh.fa.em2.oraclecloud.com/CX_1",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ejnv.fa.em2.oraclecloud.com/cx_1",
+      "sourceUrl": "https://ejnv.fa.em2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions",
+      "ats": "oraclecloud",
+      "token": "ejnv.fa.em2.oraclecloud.com/CX_1",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ejov.fa.ca2.oraclecloud.com/cx",
+      "sourceUrl": "https://ejov.fa.ca2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/requisitions",
+      "ats": "oraclecloud",
+      "token": "ejov.fa.ca2.oraclecloud.com/CX",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ejox.fa.ap1.oraclecloud.com/cx_10",
+      "sourceUrl": "https://ejox.fa.ap1.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_10/requisitions",
+      "ats": "oraclecloud",
+      "token": "ejox.fa.ap1.oraclecloud.com/CX_10",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ejox.fa.ap1.oraclecloud.com/cx_2",
+      "sourceUrl": "https://ejox.fa.ap1.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_2/requisitions",
+      "ats": "oraclecloud",
+      "token": "ejox.fa.ap1.oraclecloud.com/CX_2",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ejox.fa.ap1.oraclecloud.com/cx_4",
+      "sourceUrl": "https://ejox.fa.ap1.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_4/requisitions",
+      "ats": "oraclecloud",
+      "token": "ejox.fa.ap1.oraclecloud.com/CX_4",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ejox.fa.ap1.oraclecloud.com/cx_7",
+      "sourceUrl": "https://ejox.fa.ap1.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_7/requisitions",
+      "ats": "oraclecloud",
+      "token": "ejox.fa.ap1.oraclecloud.com/CX_7",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ejpi.fa.em2.oraclecloud.com/cx_7007",
+      "sourceUrl": "https://ejpi.fa.em2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_7007/requisitions",
+      "ats": "oraclecloud",
+      "token": "ejpi.fa.em2.oraclecloud.com/CX_7007",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ejpi.fa.em2.oraclecloud.com/cx_8005",
+      "sourceUrl": "https://ejpi.fa.em2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_8005/requisitions",
+      "ats": "oraclecloud",
+      "token": "ejpi.fa.em2.oraclecloud.com/CX_8005",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ejqe.fa.em2.oraclecloud.com/cx_1",
+      "sourceUrl": "https://ejqe.fa.em2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions",
+      "ats": "oraclecloud",
+      "token": "ejqe.fa.em2.oraclecloud.com/CX_1",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ejql.fa.us6.oraclecloud.com/cx",
+      "sourceUrl": "https://ejql.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/requisitions",
+      "ats": "oraclecloud",
+      "token": "ejql.fa.us6.oraclecloud.com/CX",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ejrd.fa.us6.oraclecloud.com/cx_4",
+      "sourceUrl": "https://ejrd.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_4/requisitions",
+      "ats": "oraclecloud",
+      "token": "ejrd.fa.us6.oraclecloud.com/CX_4",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ejta.fa.us6.oraclecloud.com/cx_2001",
+      "sourceUrl": "https://ejta.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_2001/requisitions",
+      "ats": "oraclecloud",
+      "token": "ejta.fa.us6.oraclecloud.com/CX_2001",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ejti.fa.em3.oraclecloud.com/wmbc",
+      "sourceUrl": "https://ejti.fa.em3.oraclecloud.com/hcmUI/CandidateExperience/en/sites/WMBC/requisitions",
+      "ats": "oraclecloud",
+      "token": "ejti.fa.em3.oraclecloud.com/WMBC",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ejuu.fa.em2.oraclecloud.com/cx_1",
+      "sourceUrl": "https://ejuu.fa.em2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions",
+      "ats": "oraclecloud",
+      "token": "ejuu.fa.em2.oraclecloud.com/CX_1",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ejwe.fa.em2.oraclecloud.com/cx_1",
+      "sourceUrl": "https://ejwe.fa.em2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions",
+      "ats": "oraclecloud",
+      "token": "ejwe.fa.em2.oraclecloud.com/CX_1",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ejwt.fa.em2.oraclecloud.com/cx",
+      "sourceUrl": "https://ejwt.fa.em2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/requisitions",
+      "ats": "oraclecloud",
+      "token": "ejwt.fa.em2.oraclecloud.com/CX",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ejxf.fa.ap2.oraclecloud.com/cx_1",
+      "sourceUrl": "https://ejxf.fa.ap2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions",
+      "ats": "oraclecloud",
+      "token": "ejxf.fa.ap2.oraclecloud.com/CX_1",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ejye.fa.ap1.oraclecloud.com/cx_1",
+      "sourceUrl": "https://ejye.fa.ap1.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions",
+      "ats": "oraclecloud",
+      "token": "ejye.fa.ap1.oraclecloud.com/CX_1",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ekcf.fa.us6.oraclecloud.com/cx_1",
+      "sourceUrl": "https://ekcf.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions",
+      "ats": "oraclecloud",
+      "token": "ekcf.fa.us6.oraclecloud.com/CX_1",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ekcm.fa.us6.oraclecloud.com/cx",
+      "sourceUrl": "https://ekcm.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/requisitions",
+      "ats": "oraclecloud",
+      "token": "ekcm.fa.us6.oraclecloud.com/CX",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ekeq.fa.em2.oraclecloud.com/cx_3001",
+      "sourceUrl": "https://ekeq.fa.em2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_3001/requisitions",
+      "ats": "oraclecloud",
+      "token": "ekeq.fa.em2.oraclecloud.com/CX_3001",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ekez.fa.em2.oraclecloud.com/cx",
+      "sourceUrl": "https://ekez.fa.em2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/requisitions",
+      "ats": "oraclecloud",
+      "token": "ekez.fa.em2.oraclecloud.com/CX",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ekfu.fa.ap1.oraclecloud.com/cx_1001",
+      "sourceUrl": "https://ekfu.fa.ap1.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/requisitions",
+      "ats": "oraclecloud",
+      "token": "ekfu.fa.ap1.oraclecloud.com/CX_1001",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ekgn.fa.us6.oraclecloud.com/cx_2001",
+      "sourceUrl": "https://ekgn.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_2001/requisitions",
+      "ats": "oraclecloud",
+      "token": "ekgn.fa.us6.oraclecloud.com/CX_2001",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ekgz.fa.us6.oraclecloud.com/darlingii",
+      "sourceUrl": "https://ekgz.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/DarlingII/requisitions",
+      "ats": "oraclecloud",
+      "token": "ekgz.fa.us6.oraclecloud.com/DarlingII",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ekiz.fa.em2.oraclecloud.com/cx",
+      "sourceUrl": "https://ekiz.fa.em2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/requisitions",
+      "ats": "oraclecloud",
+      "token": "ekiz.fa.em2.oraclecloud.com/CX",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ekjx.fa.em2.oraclecloud.com/cx_1",
+      "sourceUrl": "https://ekjx.fa.em2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions",
+      "ats": "oraclecloud",
+      "token": "ekjx.fa.em2.oraclecloud.com/CX_1",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ekkf.fa.em2.oraclecloud.com/cx",
+      "sourceUrl": "https://ekkf.fa.em2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/requisitions",
+      "ats": "oraclecloud",
+      "token": "ekkf.fa.em2.oraclecloud.com/CX",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ekkk.fa.us6.oraclecloud.com/cx_1",
+      "sourceUrl": "https://ekkk.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions",
+      "ats": "oraclecloud",
+      "token": "ekkk.fa.us6.oraclecloud.com/CX_1",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ekkz.fa.em2.oraclecloud.com/cx_5001",
+      "sourceUrl": "https://ekkz.fa.em2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_5001/requisitions",
+      "ats": "oraclecloud",
+      "token": "ekkz.fa.em2.oraclecloud.com/CX_5001",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eklv.fa.ca3.oraclecloud.com/cx_2001",
+      "sourceUrl": "https://eklv.fa.ca3.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_2001/requisitions",
+      "ats": "oraclecloud",
+      "token": "eklv.fa.ca3.oraclecloud.com/CX_2001",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ekmu.fa.em3.oraclecloud.com/cx_6009",
+      "sourceUrl": "https://ekmu.fa.em3.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_6009/requisitions",
+      "ats": "oraclecloud",
+      "token": "ekmu.fa.em3.oraclecloud.com/CX_6009",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ekov.fa.em3.oraclecloud.com/cx_2001",
+      "sourceUrl": "https://ekov.fa.em3.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_2001/requisitions",
+      "ats": "oraclecloud",
+      "token": "ekov.fa.em3.oraclecloud.com/CX_2001",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ekqz.fa.em2.oraclecloud.com/cx_1001",
+      "sourceUrl": "https://ekqz.fa.em2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/requisitions",
+      "ats": "oraclecloud",
+      "token": "ekqz.fa.em2.oraclecloud.com/CX_1001",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ektz.fa.us6.oraclecloud.com/cx",
+      "sourceUrl": "https://ektz.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/requisitions",
+      "ats": "oraclecloud",
+      "token": "ektz.fa.us6.oraclecloud.com/CX",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ekug.fa.us6.oraclecloud.com/cx_1001",
+      "sourceUrl": "https://ekug.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/requisitions",
+      "ats": "oraclecloud",
+      "token": "ekug.fa.us6.oraclecloud.com/CX_1001",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ekug.fa.us6.oraclecloud.com/cx_2001",
+      "sourceUrl": "https://ekug.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_2001/requisitions",
+      "ats": "oraclecloud",
+      "token": "ekug.fa.us6.oraclecloud.com/CX_2001",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ekug.fa.us6.oraclecloud.com/cx_3001",
+      "sourceUrl": "https://ekug.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_3001/requisitions",
+      "ats": "oraclecloud",
+      "token": "ekug.fa.us6.oraclecloud.com/CX_3001",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ekum.fa.em2.oraclecloud.com/cx_2019",
+      "sourceUrl": "https://ekum.fa.em2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_2019/requisitions",
+      "ats": "oraclecloud",
+      "token": "ekum.fa.em2.oraclecloud.com/CX_2019",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ekxm.fa.ap1.oraclecloud.com/cx",
+      "sourceUrl": "https://ekxm.fa.ap1.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/requisitions",
+      "ats": "oraclecloud",
+      "token": "ekxm.fa.ap1.oraclecloud.com/CX",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ekzo.fa.em2.oraclecloud.com/cx",
+      "sourceUrl": "https://ekzo.fa.em2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/requisitions",
+      "ats": "oraclecloud",
+      "token": "ekzo.fa.em2.oraclecloud.com/CX",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:elfy.fa.em3.oraclecloud.com/cx",
+      "sourceUrl": "https://elfy.fa.em3.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/requisitions",
+      "ats": "oraclecloud",
+      "token": "elfy.fa.em3.oraclecloud.com/CX",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:elgl.fa.ap1.oraclecloud.com/cx_2004",
+      "sourceUrl": "https://elgl.fa.ap1.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_2004/requisitions",
+      "ats": "oraclecloud",
+      "token": "elgl.fa.ap1.oraclecloud.com/CX_2004",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:elhs.fa.ap1.oraclecloud.com/cx",
+      "sourceUrl": "https://elhs.fa.ap1.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/requisitions",
+      "ats": "oraclecloud",
+      "token": "elhs.fa.ap1.oraclecloud.com/CX",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:elij.fa.em2.oraclecloud.com/cx",
+      "sourceUrl": "https://elij.fa.em2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/requisitions",
+      "ats": "oraclecloud",
+      "token": "elij.fa.em2.oraclecloud.com/CX",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:elus.fa.em2.oraclecloud.com/cx_1001",
+      "sourceUrl": "https://elus.fa.em2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/requisitions",
+      "ats": "oraclecloud",
+      "token": "elus.fa.em2.oraclecloud.com/CX_1001",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:elvh.fa.em2.oraclecloud.com/cx_2001",
+      "sourceUrl": "https://elvh.fa.em2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_2001/requisitions",
+      "ats": "oraclecloud",
+      "token": "elvh.fa.em2.oraclecloud.com/CX_2001",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:elvk.fa.ca3.oraclecloud.com/cx_1001",
+      "sourceUrl": "https://elvk.fa.ca3.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/requisitions",
+      "ats": "oraclecloud",
+      "token": "elvk.fa.ca3.oraclecloud.com/CX_1001",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:elxw.fa.em3.oraclecloud.com/cx_1001",
+      "sourceUrl": "https://elxw.fa.em3.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/requisitions",
+      "ats": "oraclecloud",
+      "token": "elxw.fa.em3.oraclecloud.com/CX_1001",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:elxw.fa.em3.oraclecloud.com/cx_1004",
+      "sourceUrl": "https://elxw.fa.em3.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1004/requisitions",
+      "ats": "oraclecloud",
+      "token": "elxw.fa.em3.oraclecloud.com/CX_1004",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:elyq.fa.em3.oraclecloud.com/cx",
+      "sourceUrl": "https://elyq.fa.em3.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/requisitions",
+      "ats": "oraclecloud",
+      "token": "elyq.fa.em3.oraclecloud.com/CX",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:elyx.fa.em2.oraclecloud.com/careers",
+      "sourceUrl": "https://elyx.fa.em2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/careers/requisitions",
+      "ats": "oraclecloud",
+      "token": "elyx.fa.em2.oraclecloud.com/careers",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:emdm.fa.ap1.oraclecloud.com/cx_4001",
+      "sourceUrl": "https://emdm.fa.ap1.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_4001/requisitions",
+      "ats": "oraclecloud",
+      "token": "emdm.fa.ap1.oraclecloud.com/CX_4001",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:emfg.fa.em4.oraclecloud.com/cx_1001",
+      "sourceUrl": "https://emfg.fa.em4.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/requisitions",
+      "ats": "oraclecloud",
+      "token": "emfg.fa.em4.oraclecloud.com/CX_1001",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:emfg.fa.em4.oraclecloud.com/cx_4001",
+      "sourceUrl": "https://emfg.fa.em4.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_4001/requisitions",
+      "ats": "oraclecloud",
+      "token": "emfg.fa.em4.oraclecloud.com/CX_4001",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:emgi.fa.ca3.oraclecloud.com/cx_1001",
+      "sourceUrl": "https://emgi.fa.ca3.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/requisitions",
+      "ats": "oraclecloud",
+      "token": "emgi.fa.ca3.oraclecloud.com/CX_1001",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:emhm-test.fa.em2.oraclecloud.com/cx_1001",
+      "sourceUrl": "https://emhm-test.fa.em2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/requisitions",
+      "ats": "oraclecloud",
+      "token": "emhm-test.fa.em2.oraclecloud.com/CX_1001",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:emhm.fa.em2.oraclecloud.com/cx_1001",
+      "sourceUrl": "https://emhm.fa.em2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/requisitions",
+      "ats": "oraclecloud",
+      "token": "emhm.fa.em2.oraclecloud.com/CX_1001",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:emit.fa.ca3.oraclecloud.com/cx_1004",
+      "sourceUrl": "https://emit.fa.ca3.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1004/requisitions",
+      "ats": "oraclecloud",
+      "token": "emit.fa.ca3.oraclecloud.com/CX_1004",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:emit.fa.ca3.oraclecloud.com/cx_2001",
+      "sourceUrl": "https://emit.fa.ca3.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_2001/requisitions",
+      "ats": "oraclecloud",
+      "token": "emit.fa.ca3.oraclecloud.com/CX_2001",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:emje.fa.us6.oraclecloud.com/cx_1001",
+      "sourceUrl": "https://emje.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/requisitions",
+      "ats": "oraclecloud",
+      "token": "emje.fa.us6.oraclecloud.com/CX_1001",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:emje.fa.us6.oraclecloud.com/southerncompanyjobs",
+      "sourceUrl": "https://emje.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/SouthernCompanyJobs/requisitions",
+      "ats": "oraclecloud",
+      "token": "emje.fa.us6.oraclecloud.com/SouthernCompanyJobs",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:emqm.fa.us6.oraclecloud.com/grupoarcorgl",
+      "sourceUrl": "https://emqm.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/grupoarcorgl/requisitions",
+      "ats": "oraclecloud",
+      "token": "emqm.fa.us6.oraclecloud.com/grupoarcorgl",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:emrb.fa.em3.oraclecloud.com/cx_2001",
+      "sourceUrl": "https://emrb.fa.em3.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_2001/requisitions",
+      "ats": "oraclecloud",
+      "token": "emrb.fa.em3.oraclecloud.com/CX_2001",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:encd.fa.em3.oraclecloud.com/cx_6005",
+      "sourceUrl": "https://encd.fa.em3.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_6005/requisitions",
+      "ats": "oraclecloud",
+      "token": "encd.fa.em3.oraclecloud.com/CX_6005",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:enhi.fa.em3.oraclecloud.com/ncicareers",
+      "sourceUrl": "https://enhi.fa.em3.oraclecloud.com/hcmUI/CandidateExperience/en/sites/NCICareers/requisitions",
+      "ats": "oraclecloud",
+      "token": "enhi.fa.em3.oraclecloud.com/NCICareers",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:enlc.fa.ap1.oraclecloud.com/cx_1001",
+      "sourceUrl": "https://enlc.fa.ap1.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/requisitions",
+      "ats": "oraclecloud",
+      "token": "enlc.fa.ap1.oraclecloud.com/CX_1001",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:enpf.fa.ap1.oraclecloud.com/cx",
+      "sourceUrl": "https://enpf.fa.ap1.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/requisitions",
+      "ats": "oraclecloud",
+      "token": "enpf.fa.ap1.oraclecloud.com/CX",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:enzj.fa.em3.oraclecloud.com/cx",
+      "sourceUrl": "https://enzj.fa.em3.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/requisitions",
+      "ats": "oraclecloud",
+      "token": "enzj.fa.em3.oraclecloud.com/CX",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eobe.fa.em2.oraclecloud.com/cx_1001",
+      "sourceUrl": "https://eobe.fa.em2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/requisitions",
+      "ats": "oraclecloud",
+      "token": "eobe.fa.em2.oraclecloud.com/CX_1001",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eoce.fa.em3.oraclecloud.com/cx_1004",
+      "sourceUrl": "https://eoce.fa.em3.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1004/requisitions",
+      "ats": "oraclecloud",
+      "token": "eoce.fa.em3.oraclecloud.com/CX_1004",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eoct.fa.em2.oraclecloud.com/cx_2005",
+      "sourceUrl": "https://eoct.fa.em2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_2005/requisitions",
+      "ats": "oraclecloud",
+      "token": "eoct.fa.em2.oraclecloud.com/CX_2005",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eodq.fa.us6.oraclecloud.com/cx",
+      "sourceUrl": "https://eodq.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/requisitions",
+      "ats": "oraclecloud",
+      "token": "eodq.fa.us6.oraclecloud.com/CX",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eoee.fa.us6.oraclecloud.com/cx_1001",
+      "sourceUrl": "https://eoee.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/requisitions",
+      "ats": "oraclecloud",
+      "token": "eoee.fa.us6.oraclecloud.com/CX_1001",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eofb.fa.em3.oraclecloud.com/cx_3001",
+      "sourceUrl": "https://eofb.fa.em3.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_3001/requisitions",
+      "ats": "oraclecloud",
+      "token": "eofb.fa.em3.oraclecloud.com/CX_3001",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eofb.fa.em3.oraclecloud.com/cx_4001",
+      "sourceUrl": "https://eofb.fa.em3.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_4001/requisitions",
+      "ats": "oraclecloud",
+      "token": "eofb.fa.em3.oraclecloud.com/CX_4001",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eofd-test.fa.us6.oraclecloud.com/cx_1001",
+      "sourceUrl": "https://eofd-test.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/requisitions",
+      "ats": "oraclecloud",
+      "token": "eofd-test.fa.us6.oraclecloud.com/CX_1001",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eofd.fa.us6.oraclecloud.com/cx_1001",
+      "sourceUrl": "https://eofd.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/requisitions",
+      "ats": "oraclecloud",
+      "token": "eofd.fa.us6.oraclecloud.com/CX_1001",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eofh.fa.em2.oraclecloud.com/cx_3001",
+      "sourceUrl": "https://eofh.fa.em2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_3001/requisitions",
+      "ats": "oraclecloud",
+      "token": "eofh.fa.em2.oraclecloud.com/CX_3001",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eoin.fa.em3.oraclecloud.com/cx_2002",
+      "sourceUrl": "https://eoin.fa.em3.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_2002/requisitions",
+      "ats": "oraclecloud",
+      "token": "eoin.fa.em3.oraclecloud.com/CX_2002",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eoin.fa.em3.oraclecloud.com/cx_3001",
+      "sourceUrl": "https://eoin.fa.em3.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_3001/requisitions",
+      "ats": "oraclecloud",
+      "token": "eoin.fa.em3.oraclecloud.com/CX_3001",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eoiq.fa.ap1.oraclecloud.com/cx",
+      "sourceUrl": "https://eoiq.fa.ap1.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/requisitions",
+      "ats": "oraclecloud",
+      "token": "eoiq.fa.ap1.oraclecloud.com/CX",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eozs.fa.us6.oraclecloud.com/cx_1001",
+      "sourceUrl": "https://eozs.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/requisitions",
+      "ats": "oraclecloud",
+      "token": "eozs.fa.us6.oraclecloud.com/CX_1001",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eozs.fa.us6.oraclecloud.com/cx_11",
+      "sourceUrl": "https://eozs.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_11/requisitions",
+      "ats": "oraclecloud",
+      "token": "eozs.fa.us6.oraclecloud.com/CX_11",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eozs.fa.us6.oraclecloud.com/cx_15",
+      "sourceUrl": "https://eozs.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_15/requisitions",
+      "ats": "oraclecloud",
+      "token": "eozs.fa.us6.oraclecloud.com/CX_15",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eozs.fa.us6.oraclecloud.com/cx_2",
+      "sourceUrl": "https://eozs.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_2/requisitions",
+      "ats": "oraclecloud",
+      "token": "eozs.fa.us6.oraclecloud.com/CX_2",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eozs.fa.us6.oraclecloud.com/cx_23",
+      "sourceUrl": "https://eozs.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_23/requisitions",
+      "ats": "oraclecloud",
+      "token": "eozs.fa.us6.oraclecloud.com/CX_23",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eozs.fa.us6.oraclecloud.com/cx_34",
+      "sourceUrl": "https://eozs.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_34/requisitions",
+      "ats": "oraclecloud",
+      "token": "eozs.fa.us6.oraclecloud.com/CX_34",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eozs.fa.us6.oraclecloud.com/cx_4",
+      "sourceUrl": "https://eozs.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_4/requisitions",
+      "ats": "oraclecloud",
+      "token": "eozs.fa.us6.oraclecloud.com/CX_4",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:epgv.fa.em3.oraclecloud.com/cx_2001",
+      "sourceUrl": "https://epgv.fa.em3.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_2001/requisitions",
+      "ats": "oraclecloud",
+      "token": "epgv.fa.em3.oraclecloud.com/CX_2001",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:ephv.fa.ap2.oraclecloud.com/cx_1001",
+      "sourceUrl": "https://ephv.fa.ap2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/requisitions",
+      "ats": "oraclecloud",
+      "token": "ephv.fa.ap2.oraclecloud.com/CX_1001",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:epih.fa.em2.oraclecloud.com/cx_1",
+      "sourceUrl": "https://epih.fa.em2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions",
+      "ats": "oraclecloud",
+      "token": "epih.fa.em2.oraclecloud.com/CX_1",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:epvw.fa.us6.oraclecloud.com/cx_1",
+      "sourceUrl": "https://epvw.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions",
+      "ats": "oraclecloud",
+      "token": "epvw.fa.us6.oraclecloud.com/CX_1",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:erey.fa.em3.oraclecloud.com/cx",
+      "sourceUrl": "https://erey.fa.em3.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/requisitions",
+      "ats": "oraclecloud",
+      "token": "erey.fa.em3.oraclecloud.com/CX",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:erey.fa.em3.oraclecloud.com/cx_1",
+      "sourceUrl": "https://erey.fa.em3.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions",
+      "ats": "oraclecloud",
+      "token": "erey.fa.em3.oraclecloud.com/CX_1",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:erym.fa.us6.oraclecloud.com/cx_1",
+      "sourceUrl": "https://erym.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions",
+      "ats": "oraclecloud",
+      "token": "erym.fa.us6.oraclecloud.com/CX_1",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:estm.fa.em2.oraclecloud.com/cx_1",
+      "sourceUrl": "https://estm.fa.em2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions",
+      "ats": "oraclecloud",
+      "token": "estm.fa.em2.oraclecloud.com/CX_1",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eswt.fa.us6.oraclecloud.com/cx_1001",
+      "sourceUrl": "https://eswt.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/requisitions",
+      "ats": "oraclecloud",
+      "token": "eswt.fa.us6.oraclecloud.com/CX_1001",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:eubt.fa.us6.oraclecloud.com/cx",
+      "sourceUrl": "https://eubt.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/requisitions",
+      "ats": "oraclecloud",
+      "token": "eubt.fa.us6.oraclecloud.com/CX",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:hccz.fa.em3.oraclecloud.com/cx_2",
+      "sourceUrl": "https://hccz.fa.em3.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_2/requisitions",
+      "ats": "oraclecloud",
+      "token": "hccz.fa.em3.oraclecloud.com/CX_2",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:hcmn.fa.ap1.oraclecloud.com/cx_1001",
+      "sourceUrl": "https://hcmn.fa.ap1.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/requisitions",
+      "ats": "oraclecloud",
+      "token": "hcmn.fa.ap1.oraclecloud.com/CX_1001",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:hcpd.fa.ca2.oraclecloud.com/careers",
+      "sourceUrl": "https://hcpd.fa.ca2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/Careers/requisitions",
+      "ats": "oraclecloud",
+      "token": "hcpd.fa.ca2.oraclecloud.com/Careers",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:hcut.fa.ap2.oraclecloud.com/cx_1",
+      "sourceUrl": "https://hcut.fa.ap2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions",
+      "ats": "oraclecloud",
+      "token": "hcut.fa.ap2.oraclecloud.com/CX_1",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:hdcs.fa.ap1.oraclecloud.com/cx_13009",
+      "sourceUrl": "https://hdcs.fa.ap1.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_13009/requisitions",
+      "ats": "oraclecloud",
+      "token": "hdcs.fa.ap1.oraclecloud.com/CX_13009",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:hdga.fa.em3.oraclecloud.com/lucyelectric",
+      "sourceUrl": "https://hdga.fa.em3.oraclecloud.com/hcmUI/CandidateExperience/en/sites/Lucyelectric/requisitions",
+      "ats": "oraclecloud",
+      "token": "hdga.fa.em3.oraclecloud.com/Lucyelectric",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:hdhe.fa.em3.oraclecloud.com/cx",
+      "sourceUrl": "https://hdhe.fa.em3.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/requisitions",
+      "ats": "oraclecloud",
+      "token": "hdhe.fa.em3.oraclecloud.com/CX",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:hdhf.fa.us6.oraclecloud.com/cx_2001",
+      "sourceUrl": "https://hdhf.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_2001/requisitions",
+      "ats": "oraclecloud",
+      "token": "hdhf.fa.us6.oraclecloud.com/CX_2001",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:hdhl.fa.us6.oraclecloud.com/cx_1",
+      "sourceUrl": "https://hdhl.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions",
+      "ats": "oraclecloud",
+      "token": "hdhl.fa.us6.oraclecloud.com/CX_1",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:hdin.fa.em3.oraclecloud.com/cx_10001",
+      "sourceUrl": "https://hdin.fa.em3.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_10001/requisitions",
+      "ats": "oraclecloud",
+      "token": "hdin.fa.em3.oraclecloud.com/CX_10001",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:hdix.fa.em3.oraclecloud.com/cx_1",
+      "sourceUrl": "https://hdix.fa.em3.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions",
+      "ats": "oraclecloud",
+      "token": "hdix.fa.em3.oraclecloud.com/CX_1",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:hdjm.fa.ca2.oraclecloud.com/alta",
+      "sourceUrl": "https://hdjm.fa.ca2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/Alta/requisitions",
+      "ats": "oraclecloud",
+      "token": "hdjm.fa.ca2.oraclecloud.com/Alta",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:hdjm.fa.ca2.oraclecloud.com/cx_2",
+      "sourceUrl": "https://hdjm.fa.ca2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_2/requisitions",
+      "ats": "oraclecloud",
+      "token": "hdjm.fa.ca2.oraclecloud.com/CX_2",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:hdjm.fa.ca2.oraclecloud.com/leachmancattle",
+      "sourceUrl": "https://hdjm.fa.ca2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/LeachmanCattle/requisitions",
+      "ats": "oraclecloud",
+      "token": "hdjm.fa.ca2.oraclecloud.com/LeachmanCattle",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:hdjm.fa.ca2.oraclecloud.com/transova",
+      "sourceUrl": "https://hdjm.fa.ca2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/TransOva/requisitions",
+      "ats": "oraclecloud",
+      "token": "hdjm.fa.ca2.oraclecloud.com/TransOva",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:hdkk.fa.us6.oraclecloud.com/cx_2001",
+      "sourceUrl": "https://hdkk.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_2001/requisitions",
+      "ats": "oraclecloud",
+      "token": "hdkk.fa.us6.oraclecloud.com/CX_2001",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:hdks.fa.ca2.oraclecloud.com/careers",
+      "sourceUrl": "https://hdks.fa.ca2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/Careers/requisitions",
+      "ats": "oraclecloud",
+      "token": "hdks.fa.ca2.oraclecloud.com/Careers",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:hdmm.fa.us6.oraclecloud.com/cx",
+      "sourceUrl": "https://hdmm.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/requisitions",
+      "ats": "oraclecloud",
+      "token": "hdmm.fa.us6.oraclecloud.com/CX",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:hdnn.fa.us6.oraclecloud.com/cx",
+      "sourceUrl": "https://hdnn.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/requisitions",
+      "ats": "oraclecloud",
+      "token": "hdnn.fa.us6.oraclecloud.com/CX",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:hdow.fa.us6.oraclecloud.com/cx_1001",
+      "sourceUrl": "https://hdow.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/requisitions",
+      "ats": "oraclecloud",
+      "token": "hdow.fa.us6.oraclecloud.com/CX_1001",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
+    },
+    {
+      "sourceKey": "oraclecloud:hdow.fa.us6.oraclecloud.com/cx_1003",
+      "sourceUrl": "https://hdow.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1003/requisitions",
+      "ats": "oraclecloud",
+      "token": "hdow.fa.us6.oraclecloud.com/CX_1003",
+      "discoveredFrom": [
+        {
+          "channel": "dataset",
+          "reference": "https://index.commoncrawl.org/CC-MAIN-2026-39-index"
+        }
+      ],
+      "companyMatches": [],
+      "identityEvidence": [],
+      "attempts": []
     },
     {
       "sourceKey": "recruitee:careersdeltacapita",

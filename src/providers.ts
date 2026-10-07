@@ -210,7 +210,15 @@ const oraclecloud: ProviderSpec = {
   ats: "oraclecloud",
   label: "Oracle Cloud Recruiting",
   hosts: ["oraclecloud.com"],
-  crawlPatterns: ["*.fa.oraclecloud.com/hcmUI/CandidateExperience*"],
+  // One pattern per Fusion region. A wildcard in the middle of the host plus a deep path suffix is more than
+  // the Common Crawl index will serve: "*.fa.oraclecloud.com/hcmUI/CandidateExperience*" answered 504 every
+  // time, which is why Oracle had no discovered tenants at all despite being supported. Per-region host
+  // patterns answer 200, and the CandidateExperience path is filtered from the returned URLs instead.
+  crawlPatterns: ["*.fa.us2.oraclecloud.com/*", "*.fa.us6.oraclecloud.com/*", "*.fa.us9.oraclecloud.com/*",
+                  "*.fa.em2.oraclecloud.com/*", "*.fa.em3.oraclecloud.com/*", "*.fa.em4.oraclecloud.com/*",
+                  "*.fa.ap1.oraclecloud.com/*", "*.fa.ap2.oraclecloud.com/*", "*.fa.ap3.oraclecloud.com/*",
+                  "*.fa.ca2.oraclecloud.com/*", "*.fa.ca3.oraclecloud.com/*", "*.fa.uk1.oraclecloud.com/*",
+                  "*.fa.sa1.oraclecloud.com/*"],
   resolve(url) {
     if (!ORACLE_HOST.test(url.hostname)) return null;
     const site = /\/sites\/([A-Za-z0-9_]{2,32})/.exec(url.pathname)?.[1] ?? url.searchParams.get("siteNumber");

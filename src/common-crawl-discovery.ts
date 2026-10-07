@@ -8,7 +8,9 @@ import type { Ats } from "./types.ts";
 import { assertArtifactFile } from "./artifact-path.ts";
 
 type Fetch = (input: string | URL, init?: RequestInit) => Promise<Response>;
-interface Options { country?: string; fetch?: Fetch; indexUrl?: string; registryPath?: string; provider?: Ats; indexRecordLimit?: number; sampleTokenLimit?: number; excludeTokens?: string[] }
+interface Options {
+  /** Backoff between index retries. Only set in tests, where real seconds are dead time. */
+  retryDelayMs?: number; country?: string; fetch?: Fetch; indexUrl?: string; registryPath?: string; provider?: Ats; indexRecordLimit?: number; sampleTokenLimit?: number; excludeTokens?: string[] }
 interface Lead { sourceUrl: string; ats: string; token: string; discoveredFrom: { channel: "dataset"; reference: string } }
 interface Collection { id?: unknown; "cdx-api"?: unknown }
 
@@ -26,6 +28,10 @@ export interface CommonCrawlDiscoveryReport extends ReportMeta {
   rejected: number;
   truncated: boolean;
   truncatedPatterns: string[];
+  /** Patterns the index had no captures for, so a later run can tell an empty region from a missing one. */
+  emptyPatterns: string[];
+  /** Patterns the index refused, with the status it gave. Reported rather than thrown, so one bad pattern cannot discard the sweep. */
+  failedPatterns: Array<{ pattern: string; status: number }>;
   candidatesPath: string;
   reportPath: string;
   registryPath?: string;
@@ -62,6 +68,8 @@ export async function discoverCommonCrawlSources(candidatesPath: string, reportP
   const seenUrls = new Set<string>();
   const rejections: Array<{ value: string; reason: string }> = [];
   const truncatedPatterns: string[] = [];
+  const emptyPatterns: string[] = [];
+  const failedPatterns: Array<{ pattern: string; status: number }> = [];
   let indexRecordsExamined = 0;
 
   for (const pattern of options.provider ? providerPatterns[options.provider] : patterns) {
@@ -75,10 +83,20 @@ export async function discoverCommonCrawlSources(candidatesPath: string, reportP
     let response = await fetcher(query);
     for (let attempt = 1; !response.ok && response.status >= 500 && attempt <= 3; attempt += 1) { // the index server sheds load with 502s; back off and retry
       await response.body?.cancel().catch(() => undefined);
-      await new Promise((resolve) => setTimeout(resolve, attempt * 5_000));
+      await new Promise((resolve) => setTimeout(resolve, attempt * (options.retryDelayMs ?? 5_000)));
       response = await fetcher(query);
     }
-    if (!response.ok) throw new Error(`Common Crawl index returned HTTP ${response.status} for ${pattern}`);
+    // The index answers 404 when a pattern matched nothing at all. That is an empty region, not a broken run.
+    if (response.status === 404) { await response.body?.cancel().catch(() => undefined); emptyPatterns.push(pattern); continue; }
+    // Anything else that survived the retries is this pattern's problem, not the run's. A sparse pattern asked
+    // for too many records times out (collapse and filter make the index do real work), and throwing there
+    // discarded every pattern that had already answered. A partial sweep is worth keeping; only a sweep where
+    // nothing at all succeeded is a failure.
+    if (!response.ok) {
+      await response.body?.cancel().catch(() => undefined);
+      failedPatterns.push({ pattern, status: response.status });
+      continue;
+    }
     const lines = (await response.text()).split(/\r?\n/).filter(Boolean).slice(0, indexRecordLimit);
     indexRecordsExamined += lines.length;
     if (lines.length >= indexRecordLimit) truncatedPatterns.push(pattern);
@@ -91,6 +109,12 @@ export async function discoverCommonCrawlSources(candidatesPath: string, reportP
       if (!source) { rejections.push({ value: value.url, reason: "unsupported_source" }); continue; }
       found.set(`${source.ats}:${source.token.toLowerCase()}`, source);
     }
+  }
+
+  // Every pattern refused is a broken sweep, not an empty one, and must not be reported as a quiet zero.
+  const attempted = options.provider ? providerPatterns[options.provider] : patterns;
+  if (failedPatterns.length === attempted.length && attempted.length > 0) {
+    throw new Error(`Common Crawl index refused every pattern: ${failedPatterns.map((f) => `${f.pattern} HTTP ${f.status}`).join(", ")}`);
   }
 
   const availableLeads: Lead[] = [];
@@ -113,7 +137,7 @@ export async function discoverCommonCrawlSources(candidatesPath: string, reportP
   const registry = options.registryPath ? await mergeEnrichmentLeads(options.registryPath, registryLeads) : { added: 0, bytes: undefined, lockHeldMs: undefined };
   const report: CommonCrawlDiscoveryReport = stampReport("common-crawl-discovery:1", 1, {
     country, provider: options.provider, index, indexRecordsExamined, sampleTokenLimit, sampleShortfall: sampleTokenLimit === undefined ? 0 : Math.max(0, sampleTokenLimit - leads.length), urlsSeen: seenUrls.size, sourcesFound: found.size, alreadyKnown, unresolved: leads.length, rejected: rejections.length,
-    truncated: truncatedPatterns.length > 0, truncatedPatterns,
+    truncated: truncatedPatterns.length > 0, truncatedPatterns, emptyPatterns, failedPatterns,
     candidatesPath, reportPath, registryPath: options.registryPath, registryAdded: registry.added, registryBytes: registry.bytes, registryLockHeldMs: registry.lockHeldMs, availableLeads, leads, rejections,
   });
   await atomicJson(reportPath, report);
