@@ -2,7 +2,7 @@ import { expect, test } from "bun:test";
 import { mkdtemp, readFile, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { humanize, looksLikeTestBoard, verifyBoards } from "../src/board-verification.ts";
+import { exclusionReason, humanize, looksLikeTestBoard, verifyBoards } from "../src/board-verification.ts";
 import type { Ats } from "../src/types.ts";
 
 const lead = (ats: Ats, token: string, url: string, extra: Record<string, unknown> = {}) => ({
@@ -37,7 +37,7 @@ test("board-verified tier admits live boards on provider identity, skips known a
   });
   expect(report.verified).toBe(3);
   expect(report.added).toEqual(["acme", "beta-labs", "globex"]);
-  expect(report.skipped).toEqual({ inCatalog: 1, coolingDown: 1, unsupported: 0, deferred: 0 });
+  expect(report.skipped).toEqual({ inCatalog: 1, coolingDown: 1, unsupported: 0, deferred: 0, excluded: 0 });
   expect(report.rejected.map((entry) => [entry.sourceKey, entry.reason])).toEqual([["lever:empty", "empty_board"], ["recruitee:gone", "invalid_payload"]]);
   expect(calls.some((url) => url.includes("known") || url.includes("cooling"))).toBe(false);
 
@@ -89,4 +89,41 @@ test("Keka routing UUIDs do not make genuine tenant names look like test boards"
 test("random-looking board tokens are treated as test boards, short brand tokens are not", () => {
   for (const token of ["12jlkfsk", "1456754456yhgbhfg", "5364856uhdfnvbkldfnbhrpkdfgbdvtyhro"]) expect(looksLikeTestBoard(token)).toBe(true);
   for (const token of ["2k", "8vc", "bvnk", "540", "103644278", "beta-labs", "1password", "84-51"]) expect(looksLikeTestBoard(token)).toBe(false);
+});
+
+test("an excluded source is never admitted, however it is rediscovered", async () => {
+  const dir = await mkdtemp(join(tmpdir(), "boards-excluded-"));
+  const registry = join(dir, "leads.json"); const catalog = join(dir, "companies.json");
+  // A staffing firm and a company already crawled on another ATS. Both were removed by hand once; without this
+  // guard the next verification run puts them straight back, which is how two employers excluded on terms
+  // grounds quietly returned before.
+  await writeFile(registry, JSON.stringify({ version: 1, updatedAt: "2026-10-07T00:00:00.000Z", leads: [
+    lead("workable", "pearltalent", "https://apply.workable.com/pearltalent/"),
+    lead("workable", "entaingroup", "https://apply.workable.com/entaingroup/"),
+    lead("workable", "live-one", "https://apply.workable.com/live-one/"),
+  ] }));
+  await writeFile(catalog, JSON.stringify({}));
+  const report = await verifyBoards(registry, catalog, {
+    now: () => new Date("2026-10-07T00:00:00.000Z"),
+    fetch: async (input) => {
+      // Every board answers with real roles, so only the exclusion can keep one out.
+      return Response.json({ name: "Live One", jobs: [{ id: "1", title: "Engineer" }] });
+    },
+  });
+  expect(report.skipped.excluded).toBe(2);
+  expect(report.added).toEqual(["live-one"]);
+  const written = JSON.parse(await readFile(catalog, "utf8"));
+  expect(Object.keys(written)).toEqual(["live-one"]);
+});
+
+test("every excluded entry states why it is excluded", async () => {
+  const data = JSON.parse(await readFile(new URL("../data/excluded.json", import.meta.url), "utf8"));
+  expect(data.entries.length).toBeGreaterThan(0);
+  for (const entry of data.entries) {
+    expect(typeof entry.ats).toBe("string");
+    expect(entry.token.length).toBeGreaterThan(0);
+    expect(["terms", "staffing", "duplicate"]).toContain(entry.reason);
+  }
+  expect(exclusionReason("oraclecloud", "ejwl.fa.us2.oraclecloud.com/CX")).toBe("terms");
+  expect(exclusionReason("workable", "a-company-we-happily-crawl")).toBeUndefined();
 });

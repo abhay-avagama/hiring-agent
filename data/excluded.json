@@ -1,0 +1,63 @@
+{
+  "version": 1,
+  "comment": "Sources that must never enter the catalog, and why. Verification consults this before admitting a board, so a decision taken once is not quietly undone by the next discovery run. Removing a row from data/companies.json does not survive: the lead stays in the registry and the next verification re-admits it.",
+  "entries": [
+    {
+      "ats": "oraclecloud",
+      "token": "ejwl.fa.us2.oraclecloud.com/CX",
+      "name": "Marriott International",
+      "reason": "terms",
+      "detail": "The terms page refuses our requests, and being unable to read a contract is not permission to act under it.",
+      "excludedAt": "2026-09-17"
+    },
+    {
+      "ats": "oraclecloud",
+      "token": "fa-ewjt-saasfaprod1.fa.ocs.oraclecloud.com/CX_2",
+      "name": "EXL",
+      "reason": "terms",
+      "detail": "Terms prohibit automated data gathering.",
+      "excludedAt": "2026-09-17"
+    },
+
+    {
+      "ats": "workable",
+      "token": "eramtalent-1",
+      "name": "Eram Talent",
+      "reason": "staffing",
+      "detail": "A recruiting firm's board lists other companies' vacancies, which is the opposite of the employer's own posting we promise.",
+      "excludedAt": "2026-10-07"
+    },
+    { "ats": "workable", "token": "flextal-staffing-llc", "name": "FlexTal Staffing LLC", "reason": "staffing", "excludedAt": "2026-10-07" },
+    { "ats": "workable", "token": "marathon-talent", "name": "Marathon Talent", "reason": "staffing", "excludedAt": "2026-10-07" },
+    { "ats": "workable", "token": "next-job-abroad", "name": "Next Job Abroad", "reason": "staffing", "excludedAt": "2026-10-07" },
+    { "ats": "workable", "token": "nobox-hr-outsourcing-solutions", "name": "Nobox Aviation Recruitment", "reason": "staffing", "excludedAt": "2026-10-07" },
+    { "ats": "workable", "token": "opendatajobs", "name": "OpenDataJobs", "reason": "staffing", "excludedAt": "2026-10-07" },
+    { "ats": "workable", "token": "osa", "name": "Outsourcing Advantage", "reason": "staffing", "excludedAt": "2026-10-07" },
+    { "ats": "workable", "token": "pairedrecruiting", "name": "Paired", "reason": "staffing", "excludedAt": "2026-10-07" },
+    { "ats": "workable", "token": "pearltalent", "name": "Pearl Talent", "reason": "staffing", "excludedAt": "2026-10-07" },
+    { "ats": "workable", "token": "remote-recruitment", "name": "Remote Recruitment", "reason": "staffing", "excludedAt": "2026-10-07" },
+    { "ats": "workable", "token": "remote-talent-cloud", "name": "Remote Talent Cloud", "reason": "staffing", "excludedAt": "2026-10-07" },
+    { "ats": "workable", "token": "remote-talent-latam", "name": "Remote Talent LATAM", "reason": "staffing", "excludedAt": "2026-10-07" },
+    { "ats": "workable", "token": "staffing-for-doctors", "name": "Staffing for Doctors", "reason": "staffing", "excludedAt": "2026-10-07" },
+    { "ats": "workable", "token": "talent-engine", "name": "Talent Engine", "reason": "staffing", "excludedAt": "2026-10-07" },
+    { "ats": "workable", "token": "uptalent-dot-i-o", "name": "Uptalent.io", "reason": "staffing", "excludedAt": "2026-10-07" },
+
+    {
+      "ats": "workable",
+      "token": "entaingroup",
+      "name": "Entain",
+      "reason": "duplicate",
+      "detail": "Already crawled on SmartRecruiters as `entain`. The same vacancy reached from two boards is two rows in search, which is the one thing the count of unique posts must not include.",
+      "excludedAt": "2026-10-07"
+    },
+    { "ats": "workable", "token": "rentokil-initial", "name": "Rentokil Initial", "reason": "duplicate", "detail": "Already crawled on SmartRecruiters as `rentokilinitial1`.", "excludedAt": "2026-10-07" },
+    {
+      "ats": "workday",
+      "token": "accenture.wd103.myworkdayjobs.com/accenture/AccentureCareers",
+      "name": "Accenture",
+      "reason": "duplicate",
+      "detail": "Accenture's India roles already arrive through the `accenture-india` portal, which is the single largest source in the catalog at 24,400 live roles. The global Workday board overlaps it.",
+      "excludedAt": "2026-10-07"
+    }
+  ]
+}

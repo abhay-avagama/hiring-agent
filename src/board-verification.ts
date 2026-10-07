@@ -1,3 +1,4 @@
+import excludedData from "../data/excluded.json" with { type: "json" };
 import { atomicJson } from "./atomic-file.ts";
 import { readEnrichmentRegistry, mergeEnrichmentLeads, type EnrichmentLead, type LeadAttempt } from "./enrichment-registry.ts";
 import { withFileLock } from "./file-lock.ts";
@@ -6,6 +7,22 @@ import { resolveSource } from "./source-verification.ts";
 import type { Ats, Company, SourceVerification } from "./types.ts";
 
 type Fetch = (input: string | URL, init?: RequestInit) => Promise<Response>;
+
+/**
+ * Sources that must never be admitted, by provider and token.
+ *
+ * Deleting a row from the catalog does not hold: the lead stays in the registry and the next verification run
+ * puts it straight back, which is how two employers excluded on terms grounds could have quietly returned. The
+ * reason travels with the entry so a later reader does not have to guess why.
+ */
+const EXCLUDED: ReadonlySet<string> = new Set(
+  excludedData.entries.map((entry) => `${entry.ats}:${entry.token.toLowerCase()}`),
+);
+
+/** Why a given source is excluded, for reporting. */
+export function exclusionReason(ats: string, token: string): string | undefined {
+  return excludedData.entries.find((entry) => entry.ats === ats && entry.token.toLowerCase() === token.toLowerCase())?.reason;
+}
 
 /** Providers whose public board is accepted as identity on its own. Workday boards are identified by tenant; their crawls are heavier but they carry the large employers. */
 export const BOARD_TIER_PROVIDERS: ReadonlySet<Ats> = new Set(["greenhouse", "lever", "ashby", "recruitee", "smartrecruiters", "workable", "breezy", "workday", "freshteam", "keka", "zohorecruit"]);
@@ -24,7 +41,7 @@ export interface BoardVerificationReport {
   generatedAt: string;
   considered: number;
   selected: number;
-  skipped: { inCatalog: number; coolingDown: number; unsupported: number; deferred: number };
+  skipped: { inCatalog: number; coolingDown: number; unsupported: number; deferred: number; excluded: number };
   verified: number;
   added: string[];
   rejected: Array<{ sourceKey: string; reason: "unreachable" | "invalid_payload" | "empty_board" | "duplicate_slug"; detail: string }>;
@@ -50,10 +67,11 @@ export async function verifyBoards(registryPath: string, catalogPath: string, op
     const catalog = await readCatalog(catalogPath);
     const registry = await readEnrichmentRegistry(registryPath);
     const knownSources = new Set(Object.values(catalog).map((entry) => `${entry.ats}:${entry.token.toLowerCase()}`));
-    const skipped = { inCatalog: 0, coolingDown: 0, unsupported: 0, deferred: 0 };
+    const skipped = { inCatalog: 0, coolingDown: 0, unsupported: 0, deferred: 0, excluded: 0 };
     const eligible: EnrichmentLead[] = [];
     for (const lead of registry.leads) {
       if (!BOARD_TIER_PROVIDERS.has(lead.ats) || !resolveSource(lead.sourceUrl)) { skipped.unsupported += 1; continue; }
+      if (EXCLUDED.has(`${lead.ats}:${lead.token.toLowerCase()}`)) { skipped.excluded += 1; continue; }
       if (knownSources.has(`${lead.ats}:${lead.token.toLowerCase()}`)) { skipped.inCatalog += 1; continue; }
       // Keka tokens contain tenant/UUID; the provider-issued routing UUID is not a company name.
       const boardName = lead.ats === "keka" ? lead.token.split("/")[0]! : lead.token;
