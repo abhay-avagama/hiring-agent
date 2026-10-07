@@ -7,7 +7,7 @@
     "url": "https://github.com/abhay-avagama/hiring-agent",
     "source": "github"
   },
-  "version": "0.1.62",
+  "version": "0.1.63",
   "remotes": [
     {
       "type": "streamable-http",
