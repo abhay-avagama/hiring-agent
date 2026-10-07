@@ -13,6 +13,7 @@
   "files": [
     "src/",
     "data/companies.json",
+    "data/excluded.json",
     "skills/openings/",
     ".codex-plugin/plugin.json",
     ".mcp.json",

@@ -49,3 +49,18 @@ test("packed artifact excludes private data and starts its MCP entrypoint", asyn
     await rm(temporary, { recursive: true, force: true });
   }
 });
+
+test("every data file the shipped source imports is itself shipped", async () => {
+  // data/excluded.json went out missing from 0.1.62: `files` lists data files one by one, and a new import in
+  // src/ does not add itself to that list. board-verification.ts then failed to resolve for anyone installing
+  // the package, which no test would have noticed because the repo checkout has the file either way.
+  const { readdir, readFile } = await import("node:fs/promises");
+  const sources = (await readdir(join(import.meta.dir, "..", "src"))).filter((name) => name.endsWith(".ts"));
+  const imported = new Set<string>();
+  for (const name of sources) {
+    const text = await readFile(join(import.meta.dir, "..", "src", name), "utf8");
+    for (const match of text.matchAll(/from\s+"\.\.\/(data\/[\w.-]+\.json)"/g)) imported.add(match[1]!);
+  }
+  expect(imported.size).toBeGreaterThan(0);
+  for (const file of imported) expect(packageJson.files).toContain(file);
+});
