@@ -27,8 +27,12 @@ export function resolveAggregatorUrl(value: string | undefined): string | undefi
 }
 
 /** Posts each successfully crawled partition to the aggregator. Only job data is sent, never resume content. */
-export function createCrawlReporter(options: { url: string; fetcher?: Fetch; timeoutMs?: number; attempts?: number; sleep?: (ms: number) => Promise<void> }) {
+export function createCrawlReporter(options: { url: string; fetcher?: Fetch; timeoutMs?: number; attempts?: number; secret?: string; sleep?: (ms: number) => Promise<void> }) {
   const fetcher = options.fetcher ?? globalThis.fetch;
+  // Without this the only thing standing between a stranger and an employer's listings is the slug, ats and
+  // token triple — all three of which are published in data/companies.json inside the npm tarball. An empty
+  // report for a real slug empties that employer from the site and answers 200.
+  const secret = options.secret ?? process.env.OPENINGS_INGEST_SECRET;
   const target = endpoint(options.url, "v1/crawls");
   const attempts = Math.max(1, options.attempts ?? 3);
   const sleep = options.sleep ?? ((ms: number) => new Promise<void>((resolve) => setTimeout(resolve, ms)));
@@ -42,7 +46,8 @@ export function createCrawlReporter(options: { url: string; fetcher?: Fetch; tim
       try {
         const response = await fetcher(target, {
           method: "POST",
-          headers: { "content-type": "application/json", "content-encoding": "gzip" },
+          headers: { "content-type": "application/json", "content-encoding": "gzip",
+                     ...(secret ? { authorization: `Bearer ${secret}` } : {}) },
           body,
           // Big employers send tens of megabytes and the aggregator ingests one report at a time; give them room.
           signal: AbortSignal.timeout(options.timeoutMs ?? 120_000),
