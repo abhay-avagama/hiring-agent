@@ -373,3 +373,21 @@ test("a Lever advert is read from all of its parts, not just the opening paragra
   expect(job!.description).toContain("We interview in two rounds.");
   expect(job!.description).not.toContain("<li>");
 });
+
+test("a Workday posting with no externalPath is skipped, not fatal to the whole tenant", async () => {
+  // Workday began returning postings with no externalPath on 13 October 2026. Every one threw inside
+  // workdayJobKey and took its whole tenant with it: 48 sources failed in a single afternoon, each reporting
+  // "undefined is not an object (evaluating 'job.externalPath.split')".
+  const company: Company = { slug: "globex", name: "Globex", ats: "workday", token: "globex.wd1.myworkdayjobs.com/globex/External" };
+  const payload = {
+    total: 3,
+    jobPostings: [
+      { title: "Engineer", externalPath: "/job/Bengaluru/Engineer_R-1", locationsText: "Bengaluru", postedOn: "Posted Today" },
+      { title: "Pathless", locationsText: "Bengaluru", postedOn: "Posted Today" },
+      { title: "Analyst", externalPath: "/job/Pune/Analyst_R-2", locationsText: "Pune", postedOn: "Posted Today" },
+    ],
+  };
+  const jobs = await fetchSourceJobs(company, (async () => Response.json(payload)) as unknown as typeof fetch);
+  expect(jobs.map((job) => job.title).sort()).toEqual(["Analyst", "Engineer"]);
+  for (const job of jobs) expect(job.url).toContain("myworkdayjobs.com");
+});

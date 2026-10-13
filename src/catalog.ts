@@ -258,14 +258,23 @@ async function fetchWorkdayJobs(company: Company, fetcher: Fetch, signal?: Abort
       previousPageStart = pacingNow();
     } finally { release(); }
   }
-  async function page(offset: number, appliedFacets: Record<string, string[]> = {}): Promise<{ total: number; jobs: WorkdayJob[]; facets?: unknown }> {
+  async function page(offset: number, appliedFacets: Record<string, string[]> = {}): Promise<{ total: number; jobs: WorkdayJob[]; facets?: unknown; unusable?: number }> {
     for (let attempt = 0; attempt < 3; attempt += 1) {
       await pacePageStart();
       const response = await fetcher(endpoint, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ appliedFacets, limit, offset, searchText: "" }), signal });
       if (response.ok) {
         const body = await response.json() as { total?: unknown; jobPostings?: unknown; facets?: unknown };
         if (!Number.isInteger(body.total) || !Array.isArray(body.jobPostings)) throw new Error(`${company.name} Workday source returned an invalid payload`);
-        return { total: body.total as number, jobs: body.jobPostings as WorkdayJob[], facets: body.facets };
+        // Workday began returning postings with no externalPath on 13 October, and every one of them threw
+        // inside workdayJobKey, taking the whole tenant down with it: 48 sources failed in an afternoon. A
+        // posting with no path cannot produce an apply link, so it is of no use here either way — but it is
+        // dropped loudly, because a provider quietly shedding postings is how a source empties itself.
+        const postings = (body.jobPostings as WorkdayJob[]).filter((job) => typeof job?.externalPath === "string" && job.externalPath.length > 0);
+        if (postings.length < body.jobPostings.length) {
+          console.error(`${company.name} Workday source: skipped ${body.jobPostings.length - postings.length} posting(s) with no externalPath`);
+        }
+        return { total: body.total as number, jobs: postings, facets: body.facets,
+                 unusable: (body.jobPostings as unknown[]).length - postings.length };
       }
       if (!isTransientStatus(response.status) || attempt === 2) { await response.body?.cancel().catch(() => undefined); throw new Error(`${company.name} job board returned HTTP ${response.status}`); }
       const delayMs = retryDelayMs(response, attempt);
@@ -279,6 +288,7 @@ async function fetchWorkdayJobs(company: Company, fetcher: Fetch, signal?: Abort
   if (first.total < first.jobs.length || first.total > 100_000) throw new Error(`${company.name} Workday source reported an invalid total`);
   const offsets = Array.from({ length: Math.ceil(first.total / limit) - 1 }, (_, index) => (index + 1) * limit);
   const pages = new Array<WorkdayJob[]>(offsets.length);
+  const pageUnusable: number[] = [];
   let cursor = 0;
   async function worker() {
     while (cursor < offsets.length) {
@@ -287,12 +297,17 @@ async function fetchWorkdayJobs(company: Company, fetcher: Fetch, signal?: Abort
       const result = await page(offset);
       if (result.jobs.length === 0 && offset < first.total) throw new Error(`${company.name} Workday source truncated at offset ${offset} of ${first.total}`);
       pages[index] = result.jobs;
+      pageUnusable[index] = result.unusable ?? 0;
     }
   }
   const workerCount = pageDelayMs > 0 ? 1 : Math.min(4, offsets.length);
   await Promise.all(Array.from({ length: workerCount }, worker));
-  const jobs = [first.jobs, ...pages].flat().slice(0, first.total);
-  if (jobs.length !== first.total) throw new Error(`${company.name} Workday source returned ${jobs.length} of ${first.total} jobs`);
+  // Postings Workday sent without a path were never usable, so they are not evidence of a truncated read.
+  // The check still fires for a genuinely short page, which is what stops a partial crawl emptying a tenant.
+  const unusable = (first.unusable ?? 0) + pages.reduce((sum, _, index) => sum + (pageUnusable[index] ?? 0), 0);
+  const expected = first.total - unusable;
+  const jobs = [first.jobs, ...pages].flat().slice(0, expected);
+  if (jobs.length !== expected) throw new Error(`${company.name} Workday source returned ${jobs.length} of ${expected} jobs`);
   // Two reasons to run a country pass with the tenant's own filter: past 2,000 postings the unfiltered listing stops,
   // and multi-location postings read "2 Locations" there, so their countries are invisible without the filter.
   const countryFacets = workdayCountryFacets(first.facets);
