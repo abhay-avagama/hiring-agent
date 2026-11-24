@@ -430,6 +430,10 @@ function jobSchema(description: string): Record<string, unknown> {
       postedDaysAgo: { type: "number" },
       experience: { type: ["object", "null"], description: "Years the posting itself states as { min, max }; null when it states none, absent when the description was not read", additionalProperties: true },
       eligibleCountries: { type: "array", items: { type: "string" }, description: "Two-letter codes the role is open to" },
+      role: { type: "string", description: "Role family read from the title, such as backend, data-science or sales; other when the title is not plain about it" },
+      seniority: { type: "string", enum: ["intern", "entry", "mid", "senior", "lead", "manager", "director"], description: "From the title, else from the posting's stated experience; absent when neither says" },
+      cities: { type: "array", items: { type: "string" }, description: "Canonical Indian cities the location names, such as Bengaluru for Bangalore" },
+      states: { type: "array", items: { type: "string" }, description: "Indian states those cities are in, or that the location names" },
     },
   };
 }

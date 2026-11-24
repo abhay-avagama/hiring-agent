@@ -1,3 +1,4 @@
+import type { JobRole, Seniority } from "./job-facets.ts";
 /** ATS boards plus "jobposting": a company's own career site read only through its schema.org JobPosting markup (token = careers URL). */
 export const ALL_PROVIDERS = ["greenhouse", "lever", "ashby", "workday", "recruitee", "smartrecruiters", "workable", "breezy", "freshteam", "keka", "zohorecruit", "oraclecloud", "jobposting", "accenture", "infosys", "capgemini", "amazon"] as const;
 export type Ats = (typeof ALL_PROVIDERS)[number];
@@ -92,6 +93,13 @@ export interface JobSummary {
   postedDaysAgo?: number;
   /** new = 7 days or less, older = 8 to 30, stale = beyond 30, undated = no posting date. Present it as such; a stale listing may still be open. */
   age?: JobAge;
+  /** Read from the title when a result is built: a role family, "other" when the title is not plain about it. */
+  role?: JobRole;
+  /** From the title, else from the stated experience; absent when neither says. */
+  seniority?: Seniority;
+  /** Canonical Indian cities and states the location names, for roles open in India. */
+  cities?: string[];
+  states?: string[];
 }
 
 export type JobAge = "new" | "older" | "stale" | "undated";

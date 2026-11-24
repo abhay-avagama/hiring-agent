@@ -5,6 +5,7 @@ import { extractSkills } from "./skills.ts";
 import { crawlSite, sitePostingsToJobs } from "./jobposting-site.ts";
 import { classifyJob, isEligibleForCountry, normalizeLocation } from "./locations.ts";
 import { experienceMatches, normalizeJobExperience } from "./experience.ts";
+import { jobFacets } from "./job-facets.ts";
 
 type Fetch = (input: string | URL, init?: RequestInit) => Promise<Response>;
 
@@ -561,7 +562,7 @@ function matches(job: Job, query: SearchQuery): boolean {
 
 function toSummary(job: Job, now: number = Date.now()): JobSummary {
   const { description: _description, ...summary } = job;
-  return { ...summary, ...jobAge(job, now) };
+  return { ...summary, ...jobAge(job, now), ...jobFacets(job) };
 }
 
 function stripHtml(value: string): string {
