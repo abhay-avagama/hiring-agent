@@ -31,8 +31,9 @@ test("short names and known aliases count as covered", () => {
     jll: { name: "JLL", postings: 11, firstSeen: "", lastSeen: "", cities: {}, categories: {} },
     pwc: { name: "PricewaterhouseCoopers", postings: 28, firstSeen: "", lastSeen: "", cities: {}, categories: {} },
     acme: { name: "Acme", postings: 2, firstSeen: "", lastSeen: "", cities: {}, categories: {} },
+    adci: { name: "ADCI HYD 13 SEZ", postings: 6, firstSeen: "", lastSeen: "", cities: {}, categories: {} },
   } };
-  const coverage = marketCoverage(state, { jll: { name: "Jll", token: "jll.wd1.myworkdayjobs.com/jll/jllcareers" }, pwc: { name: "Pwc", token: "pwc.wd3.myworkdayjobs.com/pwc/Global_Experienced_Careers" } });
-  expect(coverage.coveredEmployers).toBe(2);
+  const coverage = marketCoverage(state, { jll: { name: "Jll", token: "jll.wd1.myworkdayjobs.com/jll/jllcareers" }, pwc: { name: "Pwc", token: "pwc.wd3.myworkdayjobs.com/pwc/Global_Experienced_Careers" }, "amazon-india": { name: "Amazon", token: "IND" } });
+  expect(coverage.coveredEmployers).toBe(3);
   expect(coverage.uncovered.map((employer) => employer.name)).toEqual(["Acme"]);
 });

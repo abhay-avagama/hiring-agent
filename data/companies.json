@@ -135119,5 +135119,341 @@
       "checkedAt": "2026-10-07T09:40:13.370Z",
       "canonicalSourceUrl": "https://apply.workable.com/zyte/"
     }
+  },
+  "americanexpress": {
+    "name": "American Express",
+    "ats": "oraclecloud",
+    "token": "egug.fa.us2.oraclecloud.com/CX_1",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "americanexpress.com",
+    "sourceUrl": "https://egug.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions",
+    "discoveredFrom": {
+      "channel": "career_page",
+      "reference": "https://careers.americanexpress.com/en/sites/CX"
+    },
+    "domainEvidence": {
+      "kind": "company_page_link",
+      "reference": "https://careers.americanexpress.com/en/sites/CX"
+    },
+    "verification": {
+      "observedCompanyName": "American Express",
+      "providerLinksDomain": false,
+      "identityEvidence": "company_page_link",
+      "contentType": "application/vnd.oracle.adf.resourcecollection+json",
+      "payloadVersion": "oracle-recruiting-ce:v1",
+      "jobCount": 200,
+      "checkedAt": "2026-11-25T18:07:33.519Z",
+      "canonicalSourceUrl": "https://egug.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions"
+    }
+  },
+  "amneal": {
+    "name": "Amneal",
+    "ats": "oraclecloud",
+    "token": "hcfa.fa.us2.oraclecloud.com/CX_5001",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "amneal.com",
+    "sourceUrl": "https://hcfa.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_5001/requisitions",
+    "discoveredFrom": {
+      "channel": "career_page",
+      "reference": "https://india.amneal.com/careers/search-our-career-opportunities/"
+    },
+    "domainEvidence": {
+      "kind": "company_page_link",
+      "reference": "https://india.amneal.com/careers/search-our-career-opportunities/"
+    },
+    "verification": {
+      "observedCompanyName": "Amneal",
+      "providerLinksDomain": false,
+      "identityEvidence": "company_page_link",
+      "contentType": "application/vnd.oracle.adf.resourcecollection+json",
+      "payloadVersion": "oracle-recruiting-ce:v1",
+      "jobCount": 118,
+      "checkedAt": "2026-11-25T18:07:39.686Z",
+      "canonicalSourceUrl": "https://hcfa.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_5001/requisitions"
+    }
+  },
+  "caterpillar": {
+    "name": "Caterpillar",
+    "ats": "workday",
+    "token": "cat.wd5.myworkdayjobs.com/cat/CaterpillarCareers",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "caterpillar.com",
+    "sourceUrl": "https://cat.wd5.myworkdayjobs.com/en-US/CaterpillarCareers",
+    "discoveredFrom": {
+      "channel": "career_page",
+      "reference": "POST https://cat.wd5.myworkdayjobs.com/wday/cxs/cat/CaterpillarCareers/jobs"
+    },
+    "domainEvidence": {
+      "kind": "company_page_link",
+      "reference": "POST https://cat.wd5.myworkdayjobs.com/wday/cxs/cat/CaterpillarCareers/jobs"
+    },
+    "verification": {
+      "observedCompanyName": "cat",
+      "providerLinksDomain": false,
+      "identityEvidence": "provider_tenant",
+      "contentType": "application/json",
+      "payloadVersion": "workday-cxs:v1",
+      "jobCount": 1038,
+      "checkedAt": "2026-11-25T18:06:32.174Z",
+      "canonicalSourceUrl": "https://cat.wd5.myworkdayjobs.com/en-US/CaterpillarCareers"
+    }
+  },
+  "dbs": {
+    "name": "DBS Bank",
+    "ats": "workday",
+    "token": "dbs.wd3.myworkdayjobs.com/dbs/DBS_Careers",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "dbs.com",
+    "sourceUrl": "https://dbs.wd3.myworkdayjobs.com/en-US/DBS_Careers",
+    "discoveredFrom": {
+      "channel": "career_page",
+      "reference": "https://www.dbs.com/careers/jobs.page (links dbs.wd3.myworkdayjobs.com/DBS_Careers)"
+    },
+    "domainEvidence": {
+      "kind": "company_page_link",
+      "reference": "https://www.dbs.com/careers/jobs.page (links dbs.wd3.myworkdayjobs.com/DBS_Careers)"
+    },
+    "verification": {
+      "observedCompanyName": "dbs",
+      "providerLinksDomain": false,
+      "identityEvidence": "provider_tenant",
+      "contentType": "application/json",
+      "payloadVersion": "workday-cxs:v1",
+      "jobCount": 1501,
+      "checkedAt": "2026-11-25T18:06:30.213Z",
+      "canonicalSourceUrl": "https://dbs.wd3.myworkdayjobs.com/en-US/DBS_Careers"
+    }
+  },
+  "emerson": {
+    "name": "Emerson",
+    "ats": "oraclecloud",
+    "token": "hdjq.fa.us2.oraclecloud.com/CX_1",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "emerson.com",
+    "sourceUrl": "https://hdjq.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions",
+    "discoveredFrom": {
+      "channel": "career_page",
+      "reference": "https://www.emerson.com/en/corporate/careers"
+    },
+    "domainEvidence": {
+      "kind": "company_page_link",
+      "reference": "https://www.emerson.com/en/corporate/careers"
+    },
+    "verification": {
+      "observedCompanyName": "Emerson",
+      "providerLinksDomain": false,
+      "identityEvidence": "company_page_link",
+      "contentType": "application/vnd.oracle.adf.resourcecollection+json",
+      "payloadVersion": "oracle-recruiting-ce:v1",
+      "jobCount": 200,
+      "checkedAt": "2026-11-25T18:07:38.371Z",
+      "canonicalSourceUrl": "https://hdjq.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions"
+    }
+  },
+  "exlservice": {
+    "name": "EXL",
+    "ats": "oraclecloud",
+    "token": "fa-ewjt-saasfaprod1.fa.ocs.oraclecloud.com/CX_2",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "exlservice.com",
+    "sourceUrl": "https://fa-ewjt-saasfaprod1.fa.ocs.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_2/requisitions",
+    "discoveredFrom": {
+      "channel": "career_page",
+      "reference": "https://www.exlservice.com/careers"
+    },
+    "domainEvidence": {
+      "kind": "company_page_link",
+      "reference": "https://www.exlservice.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "EXL",
+      "providerLinksDomain": false,
+      "identityEvidence": "company_page_link",
+      "contentType": "application/vnd.oracle.adf.resourcecollection+json",
+      "payloadVersion": "oracle-recruiting-ce:v1",
+      "jobCount": 200,
+      "checkedAt": "2026-11-25T18:06:36.398Z",
+      "canonicalSourceUrl": "https://fa-ewjt-saasfaprod1.fa.ocs.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_2/requisitions"
+    }
+  },
+  "genpact": {
+    "name": "Genpact",
+    "ats": "workday",
+    "token": "genpact.wd108.myworkdayjobs.com/genpact/External_Careers",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "genpact.com",
+    "sourceUrl": "https://genpact.wd108.myworkdayjobs.com/en-US/External_Careers",
+    "discoveredFrom": {
+      "channel": "career_page",
+      "reference": "https://www.genpact.com/careers (links to genpact.wd108.myworkdayjobs.com/External_Careers)"
+    },
+    "domainEvidence": {
+      "kind": "company_page_link",
+      "reference": "https://www.genpact.com/careers (links to genpact.wd108.myworkdayjobs.com/External_Careers)"
+    },
+    "verification": {
+      "observedCompanyName": "genpact",
+      "providerLinksDomain": false,
+      "identityEvidence": "provider_tenant",
+      "contentType": "application/json",
+      "payloadVersion": "workday-cxs:v1",
+      "jobCount": 1701,
+      "checkedAt": "2026-11-25T18:06:24.865Z",
+      "canonicalSourceUrl": "https://genpact.wd108.myworkdayjobs.com/en-US/External_Careers"
+    }
+  },
+  "kotak": {
+    "name": "Kotak Mahindra Bank",
+    "ats": "oraclecloud",
+    "token": "hcbt.fa.em2.oraclecloud.com/CX",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "kotak.bank.in",
+    "sourceUrl": "https://hcbt.fa.em2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/requisitions",
+    "discoveredFrom": {
+      "channel": "career_page",
+      "reference": "https://www.kotak.bank.in/en/about-us/careers.html"
+    },
+    "domainEvidence": {
+      "kind": "company_page_link",
+      "reference": "https://www.kotak.bank.in/en/about-us/careers.html"
+    },
+    "verification": {
+      "observedCompanyName": "Kotak Mahindra Bank",
+      "providerLinksDomain": false,
+      "identityEvidence": "company_page_link",
+      "contentType": "application/vnd.oracle.adf.resourcecollection+json",
+      "payloadVersion": "oracle-recruiting-ce:v1",
+      "jobCount": 200,
+      "checkedAt": "2026-11-25T18:07:21.561Z",
+      "canonicalSourceUrl": "https://hcbt.fa.em2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/requisitions"
+    }
+  },
+  "kpmg": {
+    "name": "KPMG India",
+    "ats": "oraclecloud",
+    "token": "ejgk.fa.em2.oraclecloud.com/CX_3",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "kpmg.com",
+    "sourceUrl": "https://ejgk.fa.em2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_3/requisitions",
+    "discoveredFrom": {
+      "channel": "career_page",
+      "reference": "https://kpmg.com/in/en/careers.html"
+    },
+    "domainEvidence": {
+      "kind": "company_page_link",
+      "reference": "https://kpmg.com/in/en/careers.html"
+    },
+    "verification": {
+      "observedCompanyName": "KPMG India",
+      "providerLinksDomain": false,
+      "identityEvidence": "company_page_link",
+      "contentType": "application/vnd.oracle.adf.resourcecollection+json",
+      "payloadVersion": "oracle-recruiting-ce:v1",
+      "jobCount": 200,
+      "checkedAt": "2026-11-25T18:07:26.345Z",
+      "canonicalSourceUrl": "https://ejgk.fa.em2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_3/requisitions"
+    }
+  },
+  "oracle": {
+    "name": "Oracle",
+    "ats": "oraclecloud",
+    "token": "eeho.fa.us2.oraclecloud.com/CX_45001",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "oracle.com",
+    "sourceUrl": "https://eeho.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_45001/requisitions",
+    "discoveredFrom": {
+      "channel": "career_page",
+      "reference": "https://careers.oracle.com/en/sites/jobsearch"
+    },
+    "domainEvidence": {
+      "kind": "company_page_link",
+      "reference": "https://careers.oracle.com/en/sites/jobsearch"
+    },
+    "verification": {
+      "observedCompanyName": "Oracle",
+      "providerLinksDomain": false,
+      "identityEvidence": "company_page_link",
+      "contentType": "application/vnd.oracle.adf.resourcecollection+json",
+      "payloadVersion": "oracle-recruiting-ce:v1",
+      "jobCount": 200,
+      "checkedAt": "2026-11-25T18:07:37.184Z",
+      "canonicalSourceUrl": "https://eeho.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_45001/requisitions"
+    }
+  },
+  "piramalpharma": {
+    "name": "Piramal Pharma",
+    "ats": "workday",
+    "token": "piramalpharma.wd102.myworkdayjobs.com/piramalpharma/PIRAMAL_EXTERNAL_CAREERS",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "piramalpharma.com",
+    "sourceUrl": "https://piramalpharma.wd102.myworkdayjobs.com/en-US/PIRAMAL_EXTERNAL_CAREERS",
+    "discoveredFrom": {
+      "channel": "career_page",
+      "reference": "https://www.piramalpharma.com/careers (links piramalpharma.wd102.myworkdayjobs.com/PIRAMAL_EXTERNAL_CAREERS)"
+    },
+    "domainEvidence": {
+      "kind": "company_page_link",
+      "reference": "https://www.piramalpharma.com/careers (links piramalpharma.wd102.myworkdayjobs.com/PIRAMAL_EXTERNAL_CAREERS)"
+    },
+    "verification": {
+      "observedCompanyName": "piramalpharma",
+      "providerLinksDomain": false,
+      "identityEvidence": "provider_tenant",
+      "contentType": "application/json",
+      "payloadVersion": "workday-cxs:v1",
+      "jobCount": 263,
+      "checkedAt": "2026-11-25T18:06:32.751Z",
+      "canonicalSourceUrl": "https://piramalpharma.wd102.myworkdayjobs.com/en-US/PIRAMAL_EXTERNAL_CAREERS"
+    }
+  },
+  "zensar": {
+    "name": "Zensar Technologies",
+    "ats": "oraclecloud",
+    "token": "fa-etvl-saasfaprod1.fa.ocs.oraclecloud.com/CX_1",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "zensar.com",
+    "sourceUrl": "https://fa-etvl-saasfaprod1.fa.ocs.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions",
+    "discoveredFrom": {
+      "channel": "career_page",
+      "reference": "https://www.zensar.com/careers"
+    },
+    "domainEvidence": {
+      "kind": "company_page_link",
+      "reference": "https://www.zensar.com/careers"
+    },
+    "verification": {
+      "observedCompanyName": "Zensar Technologies",
+      "providerLinksDomain": false,
+      "identityEvidence": "company_page_link",
+      "contentType": "application/vnd.oracle.adf.resourcecollection+json",
+      "payloadVersion": "oracle-recruiting-ce:v1",
+      "jobCount": 200,
+      "checkedAt": "2026-11-25T18:07:29.170Z",
+      "canonicalSourceUrl": "https://fa-etvl-saasfaprod1.fa.ocs.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions"
+    }
   }
 }
