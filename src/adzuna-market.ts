@@ -82,7 +82,7 @@ function keysFor(name: string): string[] {
   return [...new Set([full, words.join(""), ...(ALIASES[full] ?? (base[0] ? ALIASES[base[0]] : undefined) ?? []), ...(base[0] && base[0].length >= 4 ? [base[0]] : [])].filter((key) => key.length >= 2))];
 }
 /** Employers our catalog knows under a provider tenant that looks nothing like the name Adzuna shows. */
-const ALIASES: Record<string, string[]> = { pricewaterhousecoopers: ["pwc"], deutschebank: ["db"], standardchartered: ["standard"], spglobal: ["spgi"], jonesianglasalle: ["jll"], merck: ["msd"], johnsonandjohnson: ["jj"], wellsfargo: ["wf"], northropgrumman: ["ngc"],
+const ALIASES: Record<string, string[]> = { pricewaterhousecoopers: ["pwc"], deutschebank: ["db"], standardchartered: ["standard"], spglobal: ["spgi"], jonesianglasalle: ["jll"], merck: ["msd"], johnsonandjohnson: ["jj"], wellsfargo: ["wf"], northropgrumman: ["ngc"], marshmclennan: ["mmc"],
   // Amazon India posts under its legal entities (ADCI - Karnataka, ASSPL - Maharashtra, ADSIPL - Telangana, ADCI HYD 13 SEZ).
   adci: ["amazon"], asspl: ["amazon"], adsipl: ["amazon"] };
 

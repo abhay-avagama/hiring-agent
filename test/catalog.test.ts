@@ -66,6 +66,14 @@ describe("job catalog", () => {
     expect(requests).toBe(2);
   });
 
+  test("a shared myworkdaysite.com host links each job under /recruiting/<tenant>/, the only path it serves", async () => {
+    const fetcher = async () => Response.json({ total: 1, jobPostings: [{ title: "Analyst", externalPath: "/job/Bengaluru-India/Analyst_R-1", locationsText: "Bengaluru, India", bulletFields: ["R-1"] }] });
+    const [shared] = await fetchSourceJobs({ slug: "wf", name: "Wells Fargo", ats: "workday", token: "wd1.myworkdaysite.com/wf/WellsFargoJobs" }, fetcher as never);
+    expect(shared?.url).toBe("https://wd1.myworkdaysite.com/en-US/recruiting/wf/WellsFargoJobs/job/Bengaluru-India/Analyst_R-1");
+    const [own] = await fetchSourceJobs({ slug: "acme", name: "Acme", ats: "workday", token: "acme.wd1.myworkdayjobs.com/acme/External" }, fetcher as never);
+    expect(own?.url).toBe("https://acme.wd1.myworkdayjobs.com/en-US/External/job/Bengaluru-India/Analyst_R-1");
+  });
+
   test("paces concurrent Workday pagination requests", async () => {
     let clock = 0;
     const starts: number[] = [];

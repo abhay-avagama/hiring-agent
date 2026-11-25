@@ -416,7 +416,7 @@ function normalizeWorkday(company: Company, source: ReturnType<typeof parseWorkd
     remote: /remote/i.test(location),
     workMode: /remote/i.test(location) ? "remote" : "unknown",
     eligibleCountries: [], excludedCountries: [], eligibleRegions: [], eligibilityConfidence: "unknown",
-    url: `https://${source.host}/en-US/${source.site}${job.externalPath}`,
+    url: `https://${source.host}${workdaySitePath(source)}${job.externalPath}`,
     ...(workdayPostedAt(job.postedOn) ? { updatedAt: workdayPostedAt(job.postedOn) } : {}),
     description: "",
   });
@@ -442,12 +442,17 @@ export async function fetchJobDescription(company: Company, job: Job, fetcher: F
 
 async function fetchWorkdayDescription(company: Company, jobUrl: string, fetcher: Fetch): Promise<string> {
   const source = parseWorkdayToken(company.token);
-  const path = new URL(jobUrl).pathname.replace(new RegExp(`^/en-US/${escapeRegExp(source.site)}`), "");
+  const path = new URL(jobUrl).pathname.replace(new RegExp(`^${escapeRegExp(workdaySitePath(source))}`), "");
   const response = await fetcher(`https://${source.host}/wday/cxs/${encodeURIComponent(source.tenant)}/${encodeURIComponent(source.site)}${path}`);
   if (!response.ok) throw new Error(`${company.name} job detail returned HTTP ${response.status}`);
   const body = await response.json() as { jobPostingInfo?: { jobDescription?: unknown } };
   if (typeof body.jobPostingInfo?.jobDescription !== "string") throw new Error(`${company.name} job detail returned an invalid payload`);
   return stripHtml(body.jobPostingInfo.jobDescription);
+}
+
+/** Shared myworkdaysite.com hosts serve a tenant's site under /recruiting/<tenant>/; the bare site path answers 500 there. */
+function workdaySitePath(source: { host: string; tenant: string; site: string }): string {
+  return source.host.endsWith(".myworkdaysite.com") ? `/en-US/recruiting/${source.tenant}/${source.site}` : `/en-US/${source.site}`;
 }
 
 function parseWorkdayToken(token: string): { host: string; tenant: string; site: string } {
