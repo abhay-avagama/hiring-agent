@@ -67,3 +67,13 @@ test("MCP serializes pagination and validates experience filters without resume 
   for (const experienceYears of [-1, 61, NaN, Infinity, "4"]) await expect(tools.call("search_jobs", { experienceYears })).rejects.toThrow("experienceYears must");
   await expect(tools.call("search_jobs", { includeUnknownExperience: "true" })).rejects.toThrow("includeUnknownExperience must");
 });
+
+test("when nothing matches as asked, remote then location are dropped, and the result says which", () => {
+  const jobs = [job("a", { title: "Scrum Master", location: "Pune, India", remote: false, updatedAt: "2026-09-15T00:00:00Z" })];
+  const loose = searchJobs(jobs, { query: "scrum master", country: "IN", location: "Mumbai", remote: true }, now);
+  expect(loose.map((found) => found.id)).toEqual(["a"]);
+  expect(loose.window?.relaxed).toEqual(["remote", "location"]);
+  const exact = searchJobs(jobs, { query: "scrum master", country: "IN", location: "Pune" }, now);
+  expect(exact.window?.relaxed).toBeUndefined();
+  expect(searchJobs(jobs, { query: "astronaut", country: "IN", remote: true }, now)).toHaveLength(0);
+});

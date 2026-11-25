@@ -18,7 +18,7 @@ export const companies: Company[] = Object.entries(companyData).map(([slug, valu
 export const catalog = createCatalog({ companies });
 export { createCatalog, searchJobs } from "./catalog.ts";
 export { EXPERIENCE_VERSION, experienceLabel, experienceMatches, normalizeJobExperience, statedExperience, titleExperience, type Experience } from "./experience.ts";
-export { matchesSearchTerms, searchHaystack, searchTerms, searchTokens } from "./text-match.ts";
+export { matchesSearchTerms, QUERY_TYPOS, searchHaystack, searchTerms, searchTokens } from "./text-match.ts";
 export { extractSkills } from "./skills.ts";
 export { indiaPlaces, jobFacets, JOB_ROLES, roleFamily, seniority, SENIORITIES, type JobFacets, type JobRole, type Seniority } from "./job-facets.ts";
 export type { Catalog } from "./catalog.ts";

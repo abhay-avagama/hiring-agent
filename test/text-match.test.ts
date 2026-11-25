@@ -70,3 +70,17 @@ test("reducing word forms does not bring the fragment matches back", () => {
   expect(matches("Salesforce Architect", "sales")).toBe(false);
   expect(matches("Flexera Software", "flex")).toBe(false);
 });
+
+test("the same job under another word, an abbreviation, or a misspelling is still found", () => {
+  // Real queries that found nothing on 26 Nov 2026 while matching roles were open.
+  expect(matches("Senior Angular Engineer", "Angular Developer")).toBe(true);
+  expect(matches("Technical Program Manager II", "TPM")).toBe(true);
+  expect(matches("Staff TPM, Payments", "technical program manager")).toBe(true);
+  expect(matches("Founding Product Manager", "Founding PM")).toBe(true);
+  expect(matches("Software Engineer", "Software enginner")).toBe(true);
+  expect(matches("Principal Engineering Lead", "Lead Principle Engineer")).toBe(true);
+  // An abbreviation needs its words together and in order.
+  expect(matches("Product Owner, Platform Manager", "PM")).toBe(false);
+  // Misspellings are read on the query only; a job's own text is never rewritten.
+  expect(searchHaystack("Enginner")).toBe(" enginner ");
+});

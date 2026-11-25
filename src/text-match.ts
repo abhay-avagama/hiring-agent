@@ -36,6 +36,23 @@ function stem(token: string): string {
  * "Clin Dev Ops" produced a DevOps match for Clinical Development Operations. */
 const SPLIT_ONLY = [["dev", "ops"], ["web", "ops"], ["fin", "tech"]].map(([left, right]) => ({ left: left!, right: right!, joined: `${left}${right}` }));
 
+/**
+ * Titles that mean the same job under another word. Indexed on the job side, so a query needs no rewriting and
+ * every surface (tools, website, in-page filter) agrees. Measured on 125 real queries (26 Nov 2026): "Angular
+ * Developer" found nothing in India while 105 "Angular Engineer" roles were open, and "TPM" found nothing at all.
+ */
+const EQUIVALENT: ReadonlyArray<readonly [string, string]> = [["developer", "engineer"], ["programmer", "developer"]];
+/** An abbreviation and the words it stands for: a job carrying either reading is indexed under both. */
+const ABBREVIATIONS: ReadonlyArray<readonly [string, string[]]> = [
+  ["tpm", ["technical", "program", "manager"]], ["pm", ["product", "manager"]], ["sde", ["software", "development", "engineer"]],
+  ["swe", ["software", "engineer"]], ["ml", ["machine", "learn"]], ["qa", ["quality", "assurance"]], ["hr", ["human", "resource"]],
+];
+/** Misspellings real candidates typed, read as the word they meant. Query side only; never applied to job text. */
+export const QUERY_TYPOS: Readonly<Record<string, string>> = {
+  enginner: "engineer", engeneer: "engineer", enginer: "engineer", engieer: "engineer", devloper: "developer", developper: "developer",
+  develpoer: "developer", principle: "principal", managment: "management", manger: "manager", analyist: "analyst", anaylst: "analyst",
+};
+
 const COMPOUNDS = [["full", "stack"], ["front", "end"], ["back", "end"], ["data", "base"], ["work", "flow"]].map(([left, right]) => ({ left: left!, right: right!, joined: `${left}${right}` }));
 
 export function searchTokens(text: string): string[] {
@@ -61,12 +78,19 @@ export function searchHaystack(text: string): string {
       if (tokens[index] === leftStem && tokens[index + 1] === rightStem) indexed.add(joinedStem);
     }
   }
+  for (const [left, right] of EQUIVALENT) { if (indexed.has(left)) indexed.add(right); else if (indexed.has(right)) indexed.add(left); }
+  for (const [short, words] of ABBREVIATIONS) {
+    const stems = words.map(stem);
+    if (indexed.has(short)) for (const word of stems) indexed.add(word);
+    // The words must be adjacent and in order: "Product Owner, Platform Manager" is not a PM.
+    else for (let index = 0; index + stems.length <= tokens.length; index += 1) if (stems.every((word, offset) => tokens[index + offset] === word)) { indexed.add(short); break; }
+  }
   return ` ${[...indexed].join(" ")} `;
 }
 
 /** The terms of a query; an empty query matches everything. */
 export function searchTerms(query: string | undefined, limit = 8): string[] {
-  return searchTokens(query ?? "").slice(0, limit);
+  return searchTokens(query ?? "").map((token) => QUERY_TYPOS[token] ?? token).slice(0, limit);
 }
 
 /** Every term must appear as a whole token. */

@@ -104,7 +104,11 @@ export interface JobSummary {
 
 export type JobAge = "new" | "older" | "stale" | "undated";
 /** The age windows a search or recommendation walked: 7 days, then 14, then 30, then everything, until at least CASCADE_MINIMUM results appeared. */
-export interface SearchWindow { daysUsed: number; widened: boolean; steps: Array<{ days: number; results: number }> }
+export interface SearchWindow {
+  daysUsed: number; widened: boolean; steps: Array<{ days: number; results: number }>;
+  /** Filters dropped because the search as asked found nothing at any age; the results are for the looser search. */
+  relaxed?: Array<"remote" | "location">;
+}
 export const CASCADE_WINDOWS = [7, 14, 30, 0] as const;
 export const CASCADE_MINIMUM = 5;
 

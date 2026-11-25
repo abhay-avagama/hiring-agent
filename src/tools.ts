@@ -365,7 +365,7 @@ export function createToolHandler(catalog: Catalog, workflows: JobWorkflows, opt
         const jobs = await catalog.search(query) as SearchResult;
         return {
           jobs, window: jobs.window, pagination: jobs.pagination,
-          guidance: "Unranked keyword matches. Experience filters compare stated ranges only; unknown experience is not a match or a gap. Present older/stale roles as possibly still open, not current. Reuse window.daysUsed as maxAgeDays and pagination.nextOffset with unchanged filters for the next page. Pagination is over the current index, not a frozen snapshot; restart if the index refreshes. Resume-based matching is optional.",
+          guidance: (jobs.window?.relaxed?.length ? `Nothing matched as asked, so these results drop the ${jobs.window.relaxed.join(" and ")} filter; tell the person that before listing them. ` : "") + "Unranked keyword matches. Experience filters compare stated ranges only; unknown experience is not a match or a gap. Present older/stale roles as possibly still open, not current. Reuse window.daysUsed as maxAgeDays and pagination.nextOffset with unchanged filters for the next page. Pagination is over the current index, not a frozen snapshot; restart if the index refreshes. Resume-based matching is optional.",
         };
       }
       if (name === "get_job") {

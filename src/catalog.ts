@@ -125,6 +125,24 @@ export function withinWindow(job: Pick<Job, "updatedAt">, days: number, now: num
 
 /** Keyword search newest first. Without maxAgeDays it walks 7, 14, 30, then everything until CASCADE_MINIMUM results appear; the window used rides on the result. */
 export function searchJobs(jobs: Job[], query: SearchQuery, now: number = Date.now()): SearchResult {
+  const result = searchOnce(jobs, query, now);
+  // Without words to anchor it, dropping a filter would answer "jobs in Berlin" with every job anywhere.
+  if ((result.pagination?.total ?? 0) > 0 || (query.offset ?? 0) > 0 || !searchTerms(query.query).length) return result;
+  // Nothing at any age. Stacked filters were the commonest cause in real searches (a title, India, Pune and
+  // remote together), so drop remote first, then the location, and say so rather than return an empty page.
+  // ponytail: two fixed steps; a query-term ladder (drop "senior", "founding") is the next rung if this falls short.
+  const relaxed: Array<"remote" | "location"> = [];
+  let looser = { ...query };
+  for (const filter of ["remote", "location"] as const) {
+    if (looser[filter] === undefined) continue;
+    const { [filter]: _dropped, ...rest } = looser; looser = rest; relaxed.push(filter);
+    const retry = searchOnce(jobs, looser, now, [...relaxed]);
+    if ((retry.pagination?.total ?? 0) > 0) return retry;
+  }
+  return result;
+}
+
+function searchOnce(jobs: Job[], query: SearchQuery, now: number, relaxed?: Array<"remote" | "location">): SearchResult {
   const matched = jobs.filter((job) => matches(job, query)).map(normalizeJobExperience).filter((job) => {
     if (query.experienceYears === undefined) return true;
     const experience = job.experience;
@@ -141,7 +159,7 @@ export function searchJobs(jobs: Job[], query: SearchQuery, now: number = Date.n
   const offset = query.offset ?? 0, limit = query.limit ?? 50;
   const result = found.slice(offset, offset + limit).map((job) => toSummary(job, now)) as SearchResult;
   Object.defineProperty(result, "pagination", { value: { offset, limit, total: found.length, nextOffset: offset + limit < found.length ? offset + limit : null }, enumerable: false });
-  Object.defineProperty(result, "window", { value: { daysUsed: steps[steps.length - 1]!.days, widened: steps.length > 1, steps } satisfies SearchWindow, enumerable: false });
+  Object.defineProperty(result, "window", { value: { daysUsed: steps[steps.length - 1]!.days, widened: steps.length > 1, steps, ...(relaxed ? { relaxed } : {}) } satisfies SearchWindow, enumerable: false });
   return result;
 }
 
