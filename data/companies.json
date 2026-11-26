@@ -11603,25 +11603,6 @@
       "canonicalSourceUrl": "https://jobs.ashbyhq.com/american-housing"
     }
   },
-  "american-logistics-authority": {
-    "name": "American Logistics Authority",
-    "ats": "breezy",
-    "token": "american-logistics-authority",
-    "sourceUrl": "https://american-logistics-authority.breezy.hr",
-    "discoveredFrom": {
-      "channel": "dataset",
-      "reference": "https://index.commoncrawl.org/CC-MAIN-2026-34-index"
-    },
-    "verification": {
-      "observedCompanyName": "American Logistics Authority",
-      "identityEvidence": "provider_board",
-      "contentType": "application/json; charset=utf-8",
-      "payloadVersion": "breezy-positions:v1",
-      "jobCount": 2760,
-      "checkedAt": "2026-09-07T12:39:23.526Z",
-      "canonicalSourceUrl": "https://american-logistics-authority.breezy.hr"
-    }
-  },
   "americanbatterytechnologycompany": {
     "name": "American Battery Technology Company",
     "ats": "workable",
@@ -55207,25 +55188,6 @@
       "jobCount": 4,
       "checkedAt": "2026-09-07T13:59:54.792Z",
       "canonicalSourceUrl": "https://jobs.ashbyhq.com/endeavorflow"
-    }
-  },
-  "endeavoritsolution": {
-    "name": "Endeavor IT Solution",
-    "ats": "smartrecruiters",
-    "token": "EndeavorITSolution",
-    "sourceUrl": "https://jobs.smartrecruiters.com/EndeavorITSolution",
-    "discoveredFrom": {
-      "channel": "dataset",
-      "reference": "https://index.commoncrawl.org/CC-MAIN-2026-34-index"
-    },
-    "verification": {
-      "observedCompanyName": "Endeavor IT Solution",
-      "identityEvidence": "provider_board",
-      "contentType": "application/json; charset=utf-8",
-      "payloadVersion": "smartrecruiters-postings:v1",
-      "jobCount": 100,
-      "checkedAt": "2026-09-07T12:40:13.941Z",
-      "canonicalSourceUrl": "https://jobs.smartrecruiters.com/EndeavorITSolution"
     }
   },
   "endex": {
@@ -135348,6 +135310,34 @@
       "jobCount": 168,
       "checkedAt": "2026-11-25T18:15:05.273957+00:00",
       "canonicalSourceUrl": "https://jobs.lever.co/brillio-2"
+    }
+  },
+  "emerson": {
+    "name": "Emerson",
+    "ats": "oraclecloud",
+    "token": "hdjq.fa.us2.oraclecloud.com/CX_1",
+    "cohorts": [
+      "IN"
+    ],
+    "companyDomain": "emerson.com",
+    "sourceUrl": "https://hdjq.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions",
+    "discoveredFrom": {
+      "channel": "career_page",
+      "reference": "https://www.emerson.com/en/corporate/careers"
+    },
+    "domainEvidence": {
+      "kind": "company_page_link",
+      "reference": "https://www.emerson.com/en/corporate/careers"
+    },
+    "verification": {
+      "observedCompanyName": "Emerson",
+      "providerLinksDomain": false,
+      "identityEvidence": "company_page_link",
+      "contentType": "application/vnd.oracle.adf.resourcecollection+json",
+      "payloadVersion": "oracle-recruiting-ce:v1",
+      "jobCount": 200,
+      "checkedAt": "2026-11-25T18:07:38.371Z",
+      "canonicalSourceUrl": "https://hdjq.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions"
     }
   }
 }

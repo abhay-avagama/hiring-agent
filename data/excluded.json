@@ -99,11 +99,19 @@
       "excludedAt": "2026-11-26"
     },
     {
-      "ats": "oraclecloud",
-      "token": "hdjq.fa.us2.oraclecloud.com/CX_1",
-      "name": "Emerson",
-      "reason": "terms",
-      "detail": "Terms bar robots sending more requests than a human can reasonably produce, and access other than through the interfaces Emerson provides. Withdrawn pending a decision; the feed is an interface they publish, so this may be revisited.",
+      "ats": "smartrecruiters",
+      "token": "EndeavorITSolution",
+      "name": "Endeavor IT Solution",
+      "reason": "staffing",
+      "detail": "About 2,000 near-identical 'Jobs for BE freshers!!' and walk-in posts: recruitment and training lead generation, not the employer's own roles.",
+      "excludedAt": "2026-11-26"
+    },
+    {
+      "ats": "breezy",
+      "token": "american-logistics-authority",
+      "name": "American Logistics Authority",
+      "reason": "staffing",
+      "detail": "The same CDL truck-driver advert posted in dozens of cities: a driver-recruiting lead generator, not an employer's own roles.",
       "excludedAt": "2026-11-26"
     },
     {
