@@ -19,6 +19,46 @@
       "excludedAt": "2026-11-26"
     },
     {
+      "ats": "workday",
+      "token": "wd1.myworkdaysite.com/wf/WellsFargoJobs",
+      "name": "Wells Fargo",
+      "reason": "duplicate",
+      "detail": "The same tenant and site as wf.wd1.myworkdayjobs.com/wf/WellsFargoJobs (slug wf), served on the shared host; crawling both lists every role twice.",
+      "excludedAt": "2026-11-26"
+    },
+    {
+      "ats": "lever",
+      "token": "jobgether",
+      "name": "Jobgether",
+      "reason": "staffing",
+      "detail": "A remote-job marketplace: its board reposts other companies' vacancies, not its own.",
+      "excludedAt": "2026-11-26"
+    },
+    {
+      "ats": "workable",
+      "token": "weekday-1",
+      "name": "Weekday AI",
+      "reason": "staffing",
+      "detail": "A recruiting marketplace hiring on behalf of client companies.",
+      "excludedAt": "2026-11-26"
+    },
+    {
+      "ats": "smartrecruiters",
+      "token": "WebleeTechnologies",
+      "name": "Weblee Technologies",
+      "reason": "staffing",
+      "detail": "A placement agency: thousands of near-identical 'PVT BANK JOB' posts across West Bengal towns, none its own roles.",
+      "excludedAt": "2026-11-26"
+    },
+    {
+      "ats": "freshteam",
+      "token": "simera-talent",
+      "name": "Simera Talent",
+      "reason": "staffing",
+      "detail": "A staffing firm: each client role is posted once per country code (Accounting Assistant AE, AR, BD...).",
+      "excludedAt": "2026-11-26"
+    },
+    {
       "ats": "oraclecloud",
       "token": "egug.fa.us2.oraclecloud.com/CX_1",
       "name": "American Express",

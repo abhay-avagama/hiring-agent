@@ -142,6 +142,18 @@ export function searchJobs(jobs: Job[], query: SearchQuery, now: number = Date.n
   return result;
 }
 
+/**
+ * Newest first, but an employer's first three matches come before anyone's fourth: a broad search for "engineer"
+ * in India filled its first page with one employer posting in bulk. Within an employer, and when only one employer
+ * matches, the order is untouched.
+ */
+const PER_EMPLOYER_RUN = 3;
+function mixEmployers(jobs: Job[]): Job[] {
+  const seen = new Map<string, number>();
+  return jobs.map((job, index) => { const nth = seen.get(job.company) ?? 0; seen.set(job.company, nth + 1); return { job, index, run: Math.floor(nth / PER_EMPLOYER_RUN) }; })
+    .sort((left, right) => left.run - right.run || left.index - right.index).map(({ job }) => job);
+}
+
 function searchOnce(jobs: Job[], query: SearchQuery, now: number, relaxed?: Array<"remote" | "location">): SearchResult {
   const matched = jobs.filter((job) => matches(job, query)).map(normalizeJobExperience).filter((job) => {
     if (query.experienceYears === undefined) return true;
@@ -156,6 +168,13 @@ function searchOnce(jobs: Job[], query: SearchQuery, now: number, relaxed?: Arra
     steps.push({ days, results: found.length });
     if (found.length >= CASCADE_MINIMUM) break;
   }
+  // A role named in the title outranks one that only mentions the words in its description: "product manager"
+  // once led with a collections associate whose advert happened to say both words.
+  const terms = searchTerms(query.query);
+  if (terms.length) {
+    const named = found.filter((job) => matchesSearchTerms(searchHaystack(`${job.title} ${job.company}`), terms));
+    found = named.length === found.length ? mixEmployers(found) : [...mixEmployers(named), ...mixEmployers(found.filter((job) => !named.includes(job)))];
+  } else found = mixEmployers(found);
   const offset = query.offset ?? 0, limit = query.limit ?? 50;
   const result = found.slice(offset, offset + limit).map((job) => toSummary(job, now)) as SearchResult;
   Object.defineProperty(result, "pagination", { value: { offset, limit, total: found.length, nextOffset: offset + limit < found.length ? offset + limit : null }, enumerable: false });

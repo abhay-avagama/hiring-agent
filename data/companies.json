@@ -79568,25 +79568,6 @@
       "canonicalSourceUrl": "https://jnd-inc.breezy.hr"
     }
   },
-  "jobgether": {
-    "name": "Jobgether",
-    "ats": "lever",
-    "token": "jobgether",
-    "sourceUrl": "https://jobs.lever.co/jobgether",
-    "discoveredFrom": {
-      "channel": "search",
-      "reference": "hiring-signal:Jobgether"
-    },
-    "verification": {
-      "observedCompanyName": "Jobgether",
-      "identityEvidence": "provider_board",
-      "contentType": "application/json; charset=utf-8",
-      "payloadVersion": "lever-postings:v0",
-      "jobCount": 4324,
-      "checkedAt": "2026-09-11T06:50:14.610Z",
-      "canonicalSourceUrl": "https://jobs.lever.co/jobgether"
-    }
-  },
   "jobhire": {
     "name": "Jobhire",
     "ats": "workable",
@@ -97797,25 +97778,6 @@
       "canonicalSourceUrl": "https://sim.wd3.myworkdayjobs.com/en-US/External"
     }
   },
-  "simera-talent": {
-    "name": "Simera Talent",
-    "ats": "freshteam",
-    "token": "simera-talent",
-    "sourceUrl": "https://simera-talent.freshteam.com/jobs",
-    "discoveredFrom": {
-      "channel": "dataset",
-      "reference": "https://index.commoncrawl.org/CC-MAIN-2026-34-index"
-    },
-    "verification": {
-      "observedCompanyName": "Simera Talent",
-      "identityEvidence": "provider_board",
-      "contentType": "application/json; charset=utf-8",
-      "payloadVersion": "freshteam-widget:v1",
-      "jobCount": 1000,
-      "checkedAt": "2026-09-07T14:00:01.070Z",
-      "canonicalSourceUrl": "https://simera-talent.freshteam.com/jobs"
-    }
-  },
   "simon": {
     "name": "Simon",
     "ats": "workday",
@@ -105365,25 +105327,6 @@
       "jobCount": 23,
       "checkedAt": "2026-09-08T09:51:19.319Z",
       "canonicalSourceUrl": "https://webklipper.keka.com/careers"
-    }
-  },
-  "webleetechnologies": {
-    "name": "Weblee Technologies",
-    "ats": "smartrecruiters",
-    "token": "WebleeTechnologies",
-    "sourceUrl": "https://jobs.smartrecruiters.com/WebleeTechnologies",
-    "discoveredFrom": {
-      "channel": "dataset",
-      "reference": "https://index.commoncrawl.org/CC-MAIN-2026-34-index"
-    },
-    "verification": {
-      "observedCompanyName": "Weblee Technologies",
-      "identityEvidence": "provider_board",
-      "contentType": "application/json; charset=utf-8",
-      "payloadVersion": "smartrecruiters-postings:v1",
-      "jobCount": 100,
-      "checkedAt": "2026-09-07T12:40:35.607Z",
-      "canonicalSourceUrl": "https://jobs.smartrecruiters.com/WebleeTechnologies"
     }
   },
   "wedogood": {
@@ -133809,25 +133752,6 @@
       "canonicalSourceUrl": "https://apply.workable.com/weconnectu-2/"
     }
   },
-  "weekday-1": {
-    "name": "Weekday AI",
-    "ats": "workable",
-    "token": "weekday-1",
-    "sourceUrl": "https://apply.workable.com/weekday-1/",
-    "discoveredFrom": {
-      "channel": "dataset",
-      "reference": "https://index.commoncrawl.org/CC-MAIN-2026-34-index"
-    },
-    "verification": {
-      "observedCompanyName": "Weekday AI",
-      "identityEvidence": "provider_board",
-      "contentType": "application/json; charset=utf-8",
-      "payloadVersion": "workable-widget:v1",
-      "jobCount": 1073,
-      "checkedAt": "2026-10-07T09:40:07.578Z",
-      "canonicalSourceUrl": "https://apply.workable.com/weekday-1/"
-    }
-  },
   "welcomepickups": {
     "name": "Welcome Pickups",
     "ats": "workable",
@@ -135358,28 +135282,6 @@
       "jobCount": 160,
       "checkedAt": "2026-11-25T18:15:05.273957+00:00",
       "canonicalSourceUrl": "https://ehpv.fa.em2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions"
-    }
-  },
-  "wellsfargo": {
-    "name": "Wells Fargo",
-    "ats": "workday",
-    "token": "wd1.myworkdaysite.com/wf/WellsFargoJobs",
-    "cohorts": [
-      "IN"
-    ],
-    "sourceUrl": "https://wd1.myworkdaysite.com/recruiting/wf/WellsFargoJobs",
-    "discoveredFrom": {
-      "channel": "career_page",
-      "reference": "POST"
-    },
-    "verification": {
-      "observedCompanyName": "Wells Fargo",
-      "identityEvidence": "company_site",
-      "contentType": "application/json",
-      "payloadVersion": "workday-cxs:v1",
-      "jobCount": 82,
-      "checkedAt": "2026-11-25T18:15:05.273957+00:00",
-      "canonicalSourceUrl": "https://wd1.myworkdaysite.com/recruiting/wf/WellsFargoJobs"
     }
   },
   "bankofamerica": {
