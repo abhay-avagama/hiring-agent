@@ -23,6 +23,8 @@ export const FLOW_INSTRUCTIONS = [
   "Freshness: results start with roles posted in the last 7 days and widen to 14, 30, then everything only when fewer than 5 appear; each result carries age (new, older, stale, undated) and postedDaysAgo. Say which window results came from and present older or stale roles as possibly still open, never as current.",
   "Experience: a job's experience field is the years its posting states ({ min, max }); null means the posting states none, and absent means it was not read. Quote it as the employer's requirement.",
   "Every match carries applyUrl, the employer's own posting; include it. When recommend_jobs reports no_matches, relay its explanation and nextMoves instead of searching silently.",
+  "The path a candidate walks, one step at a time; offer the next step, never run ahead: find roles (search_jobs, or recommend_jobs with a resume) → depth on one role (analyze_job_fit) → keep the ones worth applying to (save_job, status to_apply) → tailor the resume (optimize_resume) → the candidate applies on the employer's site, never through Openings → mark it (save_job, applied) → an interview call (save_job, interviewing, then prepare_interview; a job found elsewhere can be prepared from its pasted description). list_saved_jobs shows where every role stands. For new roles over time, offer create_alert with the search they just ran.",
+  "save_job, list_saved_jobs and create_alert need a signed-in account on the hosted server and are not listed elsewhere; do not mention them when they are not in your tool list.",
 ].join("\n");
 
 export function createMcpHandler(tools: ToolHandler, options: { update?: () => UpdateNotice | null } = {}) {

@@ -7,14 +7,14 @@ const handler = (scopes?: readonly string[]) => createToolHandler(stub, stub, sc
 test("a token with no scopes keeps every tool, so nothing issued before the split breaks", () => {
   // 78 refresh tokens were live when this shipped. A token that states no scopes is held to none.
   expect(handler().list().map((t) => t.name).sort()).toEqual(
-    ["analyze_job_fit", "check_watch", "get_job", "get_job_coverage", "list_watches", "optimize_resume", "prepare_interview",
-     "prepare_job_search", "recommend_jobs", "search_jobs", "stop_watch", "watch_jobs"]);
+    ["analyze_job_fit", "check_watch", "create_alert", "get_job", "get_job_coverage", "list_saved_jobs", "list_watches", "optimize_resume", "prepare_interview",
+     "prepare_job_search", "recommend_jobs", "save_job", "search_jobs", "stop_watch", "watch_jobs"]);
 });
 
 test("a job-search token never sees the tools that read a resume", () => {
   const names = handler([SCOPES.jobs]).list().map((t) => t.name).sort();
   // check_watch and list_watches read no resume, so a job-search token may poll a monitor it cannot create.
-  expect(names).toEqual(["check_watch", "get_job", "get_job_coverage", "list_watches", "prepare_job_search", "search_jobs"]);
+  expect(names).toEqual(["check_watch", "create_alert", "get_job", "get_job_coverage", "list_saved_jobs", "list_watches", "prepare_job_search", "save_job", "search_jobs"]);
   expect(names).not.toContain("recommend_jobs");
   expect(names).not.toContain("watch_jobs");
 });
@@ -42,5 +42,7 @@ test("monitors are not offered where there is nowhere to keep one", () => {
   const names = localOnly.list().map((t) => t.name);
   expect(names).not.toContain("watch_jobs");
   expect(names).not.toContain("check_watch");
+  expect(names).not.toContain("save_job"); // the apply list and alerts need an account too
+  expect(names).not.toContain("create_alert");
   expect(names).toContain("search_jobs");
 });

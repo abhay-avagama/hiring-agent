@@ -10,7 +10,7 @@ import type { PrepareJobSearchResult } from "./job-search-preparation.ts";
 
 export interface ToolDefinition {
   name: "prepare_job_search" | "get_job_coverage" | "recommend_jobs" | "analyze_job_fit" | "optimize_resume" | "prepare_interview" | "search_jobs" | "get_job"
-    | "watch_jobs" | "list_watches" | "check_watch" | "stop_watch";
+    | "watch_jobs" | "list_watches" | "check_watch" | "stop_watch" | "save_job" | "list_saved_jobs" | "create_alert";
   /** Human-readable name for a consent screen or tool picker, where a snake_case identifier reads poorly. */
   title: string;
   description: string;
@@ -24,11 +24,14 @@ export interface ToolDefinition {
 }
 
 /** Tools that reach employer boards over the network are open-world; the rest read the local index. */
-const WRITES = new Set<ToolDefinition["name"]>(["prepare_job_search", "watch_jobs", "stop_watch"]);
+const WRITES = new Set<ToolDefinition["name"]>(["prepare_job_search", "watch_jobs", "stop_watch", "save_job", "create_alert"]);
 /** Monitors need somewhere to persist, which a local install does not have. The host says whether it offers them. */
 const WATCH_TOOLS = new Set<ToolDefinition["name"]>(["watch_jobs", "list_watches", "check_watch", "stop_watch"]);
+/** The apply list and email alerts belong to an account, so only a host with accounts offers them. */
+const SAVED_TOOLS = new Set<ToolDefinition["name"]>(["save_job", "list_saved_jobs"]);
+const ALERT_TOOLS = new Set<ToolDefinition["name"]>(["create_alert"]);
 const annotationsFor = (name: ToolDefinition["name"]): ToolDefinition["annotations"] =>
-  ({ readOnlyHint: !WRITES.has(name), destructiveHint: name === "stop_watch", idempotentHint: true,
+  ({ readOnlyHint: !WRITES.has(name), destructiveHint: name === "stop_watch" || name === "save_job", idempotentHint: true,
      openWorldHint: name === "prepare_job_search" || name === "recommend_jobs" || name === "get_job" });
 
 interface JobWorkflows {
@@ -39,6 +42,10 @@ interface JobWorkflows {
   optimizeResume(input: unknown): Promise<OptimizeResumeResult>;
   prepareInterview(input: unknown): Promise<PrepareInterviewResult>;
   /** Monitors. Absent where the host does not offer them, in which case the four tools are not listed at all. */
+  /** The candidate's apply list. Absent where there is no account, in which case its tools are not listed. */
+  saved?: { save(input: unknown): Promise<unknown>; list(input: unknown): Promise<unknown> };
+  /** Saved-search email alerts to the account's own verified address. Absent where there is no account. */
+  alerts?: { create(input: unknown): Promise<unknown> };
   watches?: {
     create(input: unknown): Promise<unknown>;
     list(): Promise<unknown>;
@@ -62,6 +69,8 @@ const TOOL_SCOPE: Record<ToolDefinition["name"], Scope> = {
   // with a job-search token and never hold resume access at all.
   watch_jobs: SCOPES.resume, stop_watch: SCOPES.resume,
   list_watches: SCOPES.jobs, check_watch: SCOPES.jobs,
+  // Neither reads a resume: a saved job and an alert hold a job id or a search, nothing more.
+  save_job: SCOPES.jobs, list_saved_jobs: SCOPES.jobs, create_alert: SCOPES.jobs,
 };
 
 /** The scope a tool needs, for a caller that wants to explain the boundary rather than discover it by refusal. */
@@ -296,6 +305,51 @@ export function createToolHandler(catalog: Catalog, workflows: JobWorkflows, opt
       }, ["id", "holding"]),
     },
     {
+      name: "save_job",
+      title: "Save a job to the apply list",
+      description: "Add a job to the candidate's apply list, or change its status or note. Use it when the candidate wants to apply to a role later, after they apply (status applied), when they get an interview call (interviewing, then offer prepare_interview), and when a role is done with (closed). status remove deletes it from the list. Pass jobId for a job from Openings, or company, title and url for one found elsewhere. Saving never applies anywhere; the candidate applies on the employer's own site.",
+      inputSchema: {
+        type: "object",
+        properties: {
+          jobId: { type: "string", minLength: 1, description: "Stable job id from search_jobs or recommend_jobs" },
+          company: { type: "string", description: "For a job found outside Openings, with title and url" },
+          title: { type: "string" }, url: { type: "string", description: "The employer's posting" },
+          status: { type: "string", enum: ["to_apply", "applied", "interviewing", "offer", "closed", "remove"], description: "Default to_apply for a new job; remove deletes it" },
+          note: { type: "string", maxLength: 500, description: "A short note, such as a referral, a deadline or the interview date" },
+        },
+        additionalProperties: false,
+      },
+      outputSchema: output({ saved: { type: "object", additionalProperties: true, description: "The entry as stored, or null after remove" }, counts: { type: "object", additionalProperties: true, description: "How many jobs sit in each status" } }, ["counts"]),
+    },
+    {
+      name: "list_saved_jobs",
+      title: "Show the apply list",
+      description: "Show the candidate's apply list, newest change first, optionally one status only. Use it when the candidate asks what they have saved or applied to, or to pick what to do next: apply to to_apply roles, follow up on applied ones, prepare for interviewing ones.",
+      inputSchema: {
+        type: "object",
+        properties: { status: { type: "string", enum: ["to_apply", "applied", "interviewing", "offer", "closed"], description: "Only this status; omit for all" } },
+        additionalProperties: false,
+      },
+      outputSchema: output({ jobs: { type: "array", items: { type: "object", additionalProperties: true } }, counts: { type: "object", additionalProperties: true } }, ["jobs", "counts"]),
+    },
+    {
+      name: "create_alert",
+      title: "Email me new roles for a search",
+      description: "Save a search and email the candidate's signed-in address once a day with roles Openings discovers from now on that match it; roles already listed today are never sent. Every email has a one-click stop link. Use it when the candidate wants to hear about new roles without asking again. Same filters as search_jobs.",
+      inputSchema: {
+        type: "object",
+        properties: {
+          query: { type: "string", minLength: 1, description: "Role or skill words, as in search_jobs" },
+          country: { type: "string", pattern: "^[A-Za-z]{2}$", description: "Two-letter country code" },
+          location: { type: "string", description: "City" },
+          remote: { type: "boolean", description: "Remote roles only" },
+          experienceYears: { type: "number", minimum: 0, maximum: 60, description: "Years of experience to compare with stated ranges" },
+        },
+        required: ["query"], additionalProperties: false,
+      },
+      outputSchema: output({ alert: { type: "object", additionalProperties: true, description: "What will be sent, where, and how to stop it" } }, ["alert"]),
+    },
+    {
       name: "list_watches",
       title: "List monitors",
       description: "Every monitor on this account, with what each one holds and when it last found something. Reads no resume.",
@@ -348,7 +402,8 @@ export function createToolHandler(catalog: Catalog, workflows: JobWorkflows, opt
 
   return {
     // A client sees only what it may call. Listing a tool it would be refused teaches it to try and fail.
-    list: () => definitions.filter((definition) => allowed(definition.name) && (workflows.watches !== undefined || !WATCH_TOOLS.has(definition.name)))
+    list: () => definitions.filter((definition) => allowed(definition.name) && (workflows.watches !== undefined || !WATCH_TOOLS.has(definition.name))
+      && (workflows.saved !== undefined || !SAVED_TOOLS.has(definition.name)) && (workflows.alerts !== undefined || !ALERT_TOOLS.has(definition.name)))
       .map((definition) => ({ ...definition, annotations: annotationsFor(definition.name) })),
     async call(name: string, input: Record<string, unknown>) {
       const needed = TOOL_SCOPE[name as ToolDefinition["name"]];
@@ -369,6 +424,14 @@ export function createToolHandler(catalog: Catalog, workflows: JobWorkflows, opt
   async function dispatch(name: string, input: Record<string, unknown>): Promise<unknown> {
       if (name === "prepare_job_search") return workflows.prepareJobSearch(input);
       if (name === "get_job_coverage") return workflows.getJobCoverage(input);
+      if (name === "save_job" || name === "list_saved_jobs") {
+        if (!workflows.saved) throw new Error("The apply list needs an account: connect the hosted server at https://openings.avagama.co/mcp and sign in.");
+        return name === "save_job" ? workflows.saved.save(input) : workflows.saved.list(input);
+      }
+      if (name === "create_alert") {
+        if (!workflows.alerts) throw new Error("Email alerts need an account: connect the hosted server at https://openings.avagama.co/mcp and sign in.");
+        return workflows.alerts.create(input);
+      }
       if (name === "watch_jobs") return requireWatches().create(input);
       if (name === "list_watches") return requireWatches().list();
       if (name === "check_watch") return requireWatches().check(input);
