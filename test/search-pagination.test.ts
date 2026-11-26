@@ -78,11 +78,11 @@ test("when nothing matches as asked, remote then location are dropped, and the r
   expect(searchJobs(jobs, { query: "astronaut", country: "IN", remote: true }, now)).toHaveLength(0);
 });
 
-test("a page mixes employers: each one's first three come before anyone's fourth, newest first within", () => {
+test("a page mixes employers: each one's first two come before anyone's third, newest first within", () => {
   const day = (n: number) => `2026-09-${String(16 - n).padStart(2, "0")}T00:00:00Z`;
   const jobs = [
     ...[0, 1, 2, 3, 4].map((n) => job(`bulk-${n}`, { company: "Bulk Poster", updatedAt: day(0) })),
     job("other", { company: "Other Co", updatedAt: day(1) }),
   ];
-  expect(searchJobs(jobs, { query: "backend", country: "IN" }, now).map((found) => found.id)).toEqual(["bulk-0", "bulk-1", "bulk-2", "other", "bulk-3", "bulk-4"]);
+  expect(searchJobs(jobs, { query: "backend", country: "IN" }, now).map((found) => found.id)).toEqual(["bulk-0", "bulk-1", "other", "bulk-2", "bulk-3", "bulk-4"]);
 });

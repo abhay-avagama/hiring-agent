@@ -143,11 +143,11 @@ export function searchJobs(jobs: Job[], query: SearchQuery, now: number = Date.n
 }
 
 /**
- * Newest first, but an employer's first three matches come before anyone's fourth: a broad search for "engineer"
+ * Newest first, but an employer's first two matches come before anyone's third: a broad search for "engineer"
  * in India filled its first page with one employer posting in bulk. Within an employer, and when only one employer
  * matches, the order is untouched.
  */
-const PER_EMPLOYER_RUN = 3;
+const PER_EMPLOYER_RUN = 2;
 function mixEmployers(jobs: Job[]): Job[] {
   const seen = new Map<string, number>();
   return jobs.map((job, index) => { const nth = seen.get(job.company) ?? 0; seen.set(job.company, nth + 1); return { job, index, run: Math.floor(nth / PER_EMPLOYER_RUN) }; })
