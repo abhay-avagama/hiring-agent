@@ -76,7 +76,11 @@ export function createRuntime(options: { dataDir?: string; concurrency?: number;
  * (the aggregator's live index), nothing is crawled, and the sources are exactly those the store holds so
  * preparation reports ready at once. No usage reporter: the host meters by account instead.
  */
-export function createHostedRuntime(options: { sources: Company[]; store: SnapshotStore; now?: () => Date }) {
+export function createHostedRuntime(options: {
+  sources: Company[]; store: SnapshotStore; now?: () => Date;
+  /** The host's stored description for a job, when its in-memory index leaves descriptions out to save memory. */
+  description?: (id: string) => string | undefined;
+}) {
   const readOnly = async () => { throw new Error("The hosted index is read-only; it refreshes from the nightly crawl"); };
   const local = createLocalJobs({ sources: options.sources, store: options.store, fetchJobs: readOnly, now: options.now, sourceFreshnessMs: 0 });
   const noCrawl = async () => ({ startedAt: new Date().toISOString(), finishedAt: new Date().toISOString(), selected: 0, succeeded: 0, failed: [] });
@@ -86,6 +90,8 @@ export function createHostedRuntime(options: { sources: Company[]; store: Snapsh
   // Workday and a few other boards keep descriptions off their listings, so the shared index has none: read one on demand.
   async function withDescription(job: Job | null): Promise<Job | null> {
     if (!job || job.description.trim()) return job;
+    const stored = options.description?.(job.id);
+    if (stored?.trim()) return normalizeJobExperience({ ...job, description: stored });
     const [ats, slug] = job.id.split(":", 3);
     const company = options.sources.find((source) => source.ats === ats && source.slug === slug);
     if (!company) return job;

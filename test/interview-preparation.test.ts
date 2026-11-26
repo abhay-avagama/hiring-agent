@@ -67,3 +67,14 @@ test("a pasted job description prepares the same way, and finds the employer's b
   await expect(runtime.prepareInterview({ jobId: "x", job: { company: "A", title: "B", description }, resume })).rejects.toThrow("not both");
   await expect(runtime.prepareInterview({ job: { company: "A", title: "B", description: "Angular developer" }, resume })).rejects.toThrow("full job description");
 });
+
+test("the hosted runtime reads a job's description from the host when its index leaves descriptions out, so fit analysis has the requirements", async () => {
+  const { createHostedRuntime } = await import("../src/runtime.ts");
+  const listed = { ...job("8418847", "Software Engineer - Databricks", ""), id: "greenhouse:acme:8418847", description: "" };
+  const store = { read: async () => ({ version: 1 as const, updatedAt: "2026-11-26T00:00:00Z", partitions: { acme: { fetchedAt: "2026-11-26T00:00:00Z", jobs: [listed] } }, lastCrawl: { startedAt: "", finishedAt: "", selected: 0, succeeded: 0, failed: [] } }), write: async () => {} };
+  const stored = "What You Bring\n- Hands-on experience with AWS (S3, IAM, Glue)\n- Strong Python and SQL\n- Experience with orchestration tools such as Airflow\n- Hands-on experience with Databricks (Delta Lake, Spark)";
+  const runtime = createHostedRuntime({ sources: [{ slug: "acme", name: "Acme", ats: "greenhouse", token: "acme" }], store, description: (id) => id === listed.id ? stored : undefined });
+  expect((await runtime.get(listed.id)).job?.description).toBe(stored);
+  const fit = await runtime.analyzeJobFit({ jobId: listed.id, resume: { format: "text", content: "Skills\nPython, SQL, PySpark, Apache Airflow, AWS (S3, IAM, Glue), Docker" } });
+  expect(fit.supported.map((item) => item.requirement).sort()).toEqual(["AWS", "Airflow", "Python", "SQL", "Spark"]);
+});
