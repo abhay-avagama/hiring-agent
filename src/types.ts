@@ -55,7 +55,7 @@ export interface VerifiedCompany extends Company {
   verification: SourceVerification;
 }
 
-export type SourceRejectionReason = "invalid_candidate" | "unsupported_source" | "duplicate_source" | "duplicate_company" | "duplicate_slug" | "unreachable" | "invalid_payload" | "empty_board" | "identity_mismatch" | "no_country_jobs";
+export type SourceRejectionReason = "invalid_candidate" | "unsupported_source" | "duplicate_source" | "duplicate_company" | "duplicate_slug" | "unreachable" | "invalid_payload" | "empty_board" | "identity_mismatch" | "no_country_jobs" | "excluded";
 
 export interface RejectedSource extends SourceCandidate {
   reason: SourceRejectionReason;

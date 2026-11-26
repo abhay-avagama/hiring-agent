@@ -135260,34 +135260,6 @@
       "canonicalSourceUrl": "https://hdjq.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions"
     }
   },
-  "exlservice": {
-    "name": "EXL",
-    "ats": "oraclecloud",
-    "token": "fa-ewjt-saasfaprod1.fa.ocs.oraclecloud.com/CX_2",
-    "cohorts": [
-      "IN"
-    ],
-    "companyDomain": "exlservice.com",
-    "sourceUrl": "https://fa-ewjt-saasfaprod1.fa.ocs.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_2/requisitions",
-    "discoveredFrom": {
-      "channel": "career_page",
-      "reference": "https://www.exlservice.com/careers"
-    },
-    "domainEvidence": {
-      "kind": "company_page_link",
-      "reference": "https://www.exlservice.com/careers"
-    },
-    "verification": {
-      "observedCompanyName": "EXL",
-      "providerLinksDomain": false,
-      "identityEvidence": "company_page_link",
-      "contentType": "application/vnd.oracle.adf.resourcecollection+json",
-      "payloadVersion": "oracle-recruiting-ce:v1",
-      "jobCount": 200,
-      "checkedAt": "2026-11-25T18:06:36.398Z",
-      "canonicalSourceUrl": "https://fa-ewjt-saasfaprod1.fa.ocs.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_2/requisitions"
-    }
-  },
   "genpact": {
     "name": "Genpact",
     "ats": "workday",
@@ -135454,28 +135426,6 @@
       "jobCount": 200,
       "checkedAt": "2026-11-25T18:07:29.170Z",
       "canonicalSourceUrl": "https://fa-etvl-saasfaprod1.fa.ocs.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions"
-    }
-  },
-  "marriott": {
-    "name": "Marriott",
-    "ats": "oraclecloud",
-    "token": "ejwl.fa.us2.oraclecloud.com/MI_CS_1",
-    "cohorts": [
-      "IN"
-    ],
-    "sourceUrl": "https://ejwl.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/MI_CS_1/requisitions",
-    "discoveredFrom": {
-      "channel": "career_page",
-      "reference": "https://careers.marriott.com/jobs"
-    },
-    "verification": {
-      "observedCompanyName": "Marriott",
-      "identityEvidence": "company_site",
-      "contentType": "application/json",
-      "payloadVersion": "oracle-recruiting-ce:v1",
-      "jobCount": 1525,
-      "checkedAt": "2026-11-25T18:15:05.273957+00:00",
-      "canonicalSourceUrl": "https://ejwl.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/MI_CS_1/requisitions"
     }
   },
   "adani": {

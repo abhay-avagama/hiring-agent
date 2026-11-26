@@ -12,6 +12,14 @@
     },
     {
       "ats": "oraclecloud",
+      "token": "ejwl.fa.us2.oraclecloud.com/MI_CS_1",
+      "name": "Marriott International",
+      "reason": "terms",
+      "detail": "Same tenant as the CX site above, so the same terms decision. Added by hand in 0.1.66 under this site number and withdrawn in 0.1.67.",
+      "excludedAt": "2026-11-26"
+    },
+    {
+      "ats": "oraclecloud",
       "token": "fa-ewjt-saasfaprod1.fa.ocs.oraclecloud.com/CX_2",
       "name": "EXL",
       "reason": "terms",

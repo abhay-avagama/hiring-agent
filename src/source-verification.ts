@@ -4,6 +4,7 @@ import { abortableDelay, fetchSourceJobs, isTransientStatus, retryDelayMs } from
 import { isEligibleForCountry } from "./locations.ts";
 import { providerSpec, resolveProviderSource } from "./providers.ts";
 import { ALL_PROVIDERS } from "./types.ts";
+import excludedData from "../data/excluded.json" with { type: "json" };
 
 type Fetch = (input: string | URL, init?: RequestInit) => Promise<Response>;
 
@@ -50,6 +51,10 @@ export async function verifyCandidates(candidates: SourceCandidate[], options: V
       if (invalid) { rejected.push({ index, value: rejection(candidate, "invalid_candidate", invalid) }); continue; }
       const source = resolveSource(candidate.sourceUrl);
       if (!source) { rejected.push({ index, value: rejection(candidate, "unsupported_source", "URL is not a supported Greenhouse, Lever, Ashby, Workday, or Recruitee job source") }); continue; }
+      // A board excluded on terms or as a staffing firm stays out, however it is rediscovered: EXL and Marriott came
+      // back through this path in 0.1.66 because only board verification consulted the list.
+      const excluded = excludedData.entries.find((entry) => entry.ats === source.ats && entry.token.toLowerCase() === source.token.toLowerCase());
+      if (excluded) { rejected.push({ index, value: rejection(candidate, "excluded", `${excluded.name} is excluded (${excluded.reason}): ${excluded.detail}`) }); continue; }
       const sourceKey = `${source.ats}:${source.token.toLocaleLowerCase()}`;
       const companyKey = candidate.companyDomain.toLocaleLowerCase();
       const slug = candidate.slug ?? slugFromDomain(candidate.companyDomain);

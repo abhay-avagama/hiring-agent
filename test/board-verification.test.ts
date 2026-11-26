@@ -127,3 +127,13 @@ test("every excluded entry states why it is excluded", async () => {
   expect(exclusionReason("oraclecloud", "ejwl.fa.us2.oraclecloud.com/CX")).toBe("terms");
   expect(exclusionReason("workable", "a-company-we-happily-crawl")).toBeUndefined();
 });
+
+test("the shipped catalog holds no excluded board, and sources verify refuses one", async () => {
+  // 0.1.66 shipped EXL and Marriott, both excluded on terms: they came in through sources verify and a hand entry.
+  const catalog = JSON.parse(await readFile(new URL("../data/companies.json", import.meta.url), "utf8")) as Record<string, { ats: Ats; token: string }>;
+  const inCatalog = Object.entries(catalog).filter(([, source]) => exclusionReason(source.ats, source.token)).map(([slug]) => slug);
+  expect(inCatalog).toEqual([]);
+  const { verifyCandidates } = await import("../src/source-verification.ts");
+  const result = await verifyCandidates([{ companyName: "EXL", companyDomain: "exlservice.com", sourceUrl: "https://fa-ewjt-saasfaprod1.fa.ocs.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_2/requisitions", discoveredFrom: { channel: "career_page", reference: "https://www.exlservice.com/careers" } }], { fetch: async () => { throw new Error("must not be fetched"); } } as never);
+  expect(result.rejected.map((entry) => entry.reason)).toEqual(["excluded"]);
+});
