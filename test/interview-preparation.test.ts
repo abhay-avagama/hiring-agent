@@ -44,3 +44,26 @@ test("a resume skill named differently from the requirement still counts as evid
   expect(matchesExactSkillEvidence("sql", "PostgreSQL")).toBe(true);
   expect(matchesExactSkillEvidence("postgresql", "SQL")).toBe(false); // knowing SQL is not knowing PostgreSQL
 });
+
+test("a pasted job description prepares the same way, and finds the employer's board by name when Openings indexes it", async () => {
+  const { createHostedRuntime } = await import("../src/runtime.ts");
+  const board = [job("1", "Angular Developer", "angular typescript cypress"), job("2", "QA Engineer", "cypress typescript selenium")]
+    .map((item) => ({ ...item, id: item.id.replace("workday:acme", "greenhouse:acme") }));
+  const store = { read: async () => ({ version: 1 as const, updatedAt: "2026-11-26T00:00:00Z", partitions: { acme: { fetchedAt: "2026-11-26T00:00:00Z", jobs: board } }, lastCrawl: { startedAt: "", finishedAt: "", selected: 0, succeeded: 0, failed: [] } }), write: async () => {} };
+  const runtime = createHostedRuntime({ sources: [{ slug: "acme", name: "Acme Technologies Pvt. Ltd.", ats: "greenhouse", token: "acme" }], store });
+  const description = "We are hiring an Angular developer with 3+ years of experience in Angular, TypeScript and RxJS. You will build reusable components and data-heavy dashboards, write unit tests and Cypress end-to-end tests, and work with REST APIs. Experience with CI/CD is a plus.";
+  const resume = { content: "Experience\nAngular developer, 2021-2026\nSkills\nAngular, TypeScript", format: "text" as const };
+
+  const indexed = await runtime.prepareInterview({ job: { company: "Acme", title: "Senior Angular Developer", description }, resume });
+  expect(indexed.job.id).toBe("pasted:acme:senior-angular-developer");
+  expect(indexed.fit.supported.map((item) => item.requirement)).toContain("Angular");
+  expect([indexed.employer.indexed, indexed.employer.liveRoles]).toEqual([true, 2]);
+  expect(indexed.employer.relatedRoles.map((role) => role.title)).toEqual(["Angular Developer", "QA Engineer"]);
+
+  const elsewhere = await runtime.prepareInterview({ job: { company: "Apexon", title: "Angular Developer", description }, resume });
+  expect([elsewhere.employer.indexed, elsewhere.employer.liveRoles]).toEqual([false, 0]);
+  expect(elsewhere.brief.research.join(" ")).toContain("does not index Apexon");
+
+  await expect(runtime.prepareInterview({ jobId: "x", job: { company: "A", title: "B", description }, resume })).rejects.toThrow("not both");
+  await expect(runtime.prepareInterview({ job: { company: "A", title: "B", description: "Angular developer" }, resume })).rejects.toThrow("full job description");
+});

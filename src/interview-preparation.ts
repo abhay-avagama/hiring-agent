@@ -1,6 +1,7 @@
 import type { ResumeInput } from "./candidate-profile.ts";
 import type { AnalyzeJobFitResult } from "./job-fit-analysis.ts";
 import { assertKnownKeys, isRecord } from "./intent-validation.ts";
+import { normalizeJobExperience } from "./experience.ts";
 import { extractSkills, skillNames } from "./skills.ts";
 import type { Job } from "./types.ts";
 
@@ -9,10 +10,14 @@ import type { Job } from "./types.ts";
  * own live postings show) and a brief; the candidate's AI app does the public research and writes the guide, so
  * nothing here calls a model and the resume is read in memory only, as in analyze_job_fit.
  */
-export interface PrepareInterviewInput { jobId: string; resume: ResumeInput; interviewDate?: string; round?: string; minutes?: number }
+/** A job the candidate found elsewhere: the description they paste, with the employer and title. */
+export interface PastedJob { company: string; title: string; description: string; location?: string; url?: string }
+export interface PrepareInterviewInput { jobId?: string; job?: PastedJob; resume: ResumeInput; interviewDate?: string; round?: string; minutes?: number }
 export interface RelatedRole { id: string; title: string; location: string; postedDaysAgo?: number; sharedSkills: string[] }
 export interface EmployerSignals {
   company: string;
+  /** Whether Openings indexes this employer's board; when false the signals below are empty and research carries the load. */
+  indexed: boolean;
   /** Live roles on this employer's board in the Openings index. */
   liveRoles: number;
   /** Skills most often required across those roles: what the employer is building with right now. */
@@ -31,8 +36,9 @@ export interface PrepareInterviewResult {
   nextActions: string[];
 }
 export interface InterviewPreparerOptions {
-  analyzeJobFit(input: unknown): Promise<AnalyzeJobFitResult>;
-  /** Every live job on the board this job came from. */
+  /** Fit for a job in the index (by id), or for a pasted job when one is given. */
+  analyzeJobFit(input: unknown, pasted?: Job): Promise<AnalyzeJobFitResult>;
+  /** Every live job on the board this job came from, or on the board of the employer it names; empty when not indexed. */
   employerJobs(job: Job): Promise<Job[]>;
 }
 
@@ -44,7 +50,8 @@ export function createInterviewPreparer(options: InterviewPreparerOptions) {
   return {
     async prepare(value: unknown): Promise<PrepareInterviewResult> {
       const input = validateInput(value);
-      const analysis = await options.analyzeJobFit({ jobId: input.jobId, resume: input.resume });
+      const pasted = input.job && pastedJob(input.job);
+      const analysis = await options.analyzeJobFit({ jobId: pasted?.id ?? input.jobId, resume: input.resume }, pasted);
       const { job } = analysis;
       const employer = employerSignals(job, await options.employerJobs(job));
       const minutes = input.minutes ?? 90;
@@ -76,6 +83,7 @@ export function createInterviewPreparer(options: InterviewPreparerOptions) {
             `Research ${job.company} from public sources only: its own website, products and case studies, engineering blog, press releases and annual reports, and cite each source used`,
             "Do not present a client, product or project as confirmed unless a public source says so; allocation to a client is usually unknown before joining",
             "Do not use or claim leaked interview questions",
+            ...(employer.indexed ? [] : [`Openings does not index ${job.company}'s job board, so there are no employer signals: base the likely-project hypotheses on the description and cited public sources, and say so`]),
           ],
           rules: [
             "Never invent experience, numbers, versions, dates, stakeholders or outcomes; where the resume is silent, leave a blank for the candidate to fill",
@@ -124,6 +132,7 @@ function employerSignals(job: Job, jobs: Job[]): EmployerSignals {
   const top = <T extends string>(counts: Map<T, number>, limit: number) => [...counts].sort((left, right) => right[1] - left[1]).slice(0, limit);
   return {
     company: job.company,
+    indexed: jobs.length > 0,
     liveRoles: jobs.length,
     skills: top(skillCounts, 15).map(([skill, roles]) => ({ skill, roles })),
     locations: top(locationCounts, 5).map(([location, roles]) => ({ location, roles })),
@@ -131,15 +140,32 @@ function employerSignals(job: Job, jobs: Job[]): EmployerSignals {
   };
 }
 
+function pastedJob(job: PastedJob): Job {
+  const id = `pasted:${slug(job.company)}:${slug(job.title)}`;
+  return normalizeJobExperience({
+    id, company: job.company.trim(), title: job.title.trim(), location: job.location?.trim() ?? "", remote: false, workMode: "unknown",
+    eligibleCountries: [], excludedCountries: [], eligibleRegions: [], eligibilityConfidence: "unknown", url: job.url ?? "", description: job.description,
+  }) as Job;
+}
+const slug = (value: string) => value.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 60);
+
 function validateInput(value: unknown): PrepareInterviewInput {
   if (!isRecord(value)) throw invalid("input", "Interview preparation input must be an object");
-  assertKnownKeys(value, ["jobId", "resume", "interviewDate", "round", "minutes"], "input", invalid);
-  if (typeof value.jobId !== "string" || !value.jobId.trim()) throw invalid("jobId", "jobId must be a non-empty string");
+  assertKnownKeys(value, ["jobId", "job", "resume", "interviewDate", "round", "minutes"], "input", invalid);
+  if ((value.jobId === undefined) === (value.job === undefined)) throw invalid("jobId", "Give either jobId (a job from Openings) or job (a pasted description), not both");
+  if (value.jobId !== undefined && (typeof value.jobId !== "string" || !value.jobId.trim())) throw invalid("jobId", "jobId must be a non-empty string");
+  if (value.job !== undefined) {
+    if (!isRecord(value.job)) throw invalid("job", "job must be an object");
+    assertKnownKeys(value.job, ["company", "title", "description", "location", "url"], "job", invalid);
+    for (const field of ["company", "title", "description"] as const) if (typeof value.job[field] !== "string" || !(value.job[field] as string).trim()) throw invalid(`job.${field}`, `job.${field} must be a non-empty string`);
+    if ((value.job.description as string).trim().length < 200) throw invalid("job.description", "Paste the full job description; a few words are not enough to prepare from");
+    for (const field of ["location", "url"] as const) if (value.job[field] !== undefined && typeof value.job[field] !== "string") throw invalid(`job.${field}`, `job.${field} must be a string`);
+  }
   if (!isRecord(value.resume)) throw invalid("resume", "Resume input must be an object");
   assertKnownKeys(value.resume, ["content", "format"], "resume", invalid);
   if (value.minutes !== undefined && (typeof value.minutes !== "number" || value.minutes < 15 || value.minutes > 600)) throw invalid("minutes", "minutes must be between 15 and 600");
   for (const field of ["interviewDate", "round"] as const) if (value[field] !== undefined && typeof value[field] !== "string") throw invalid(field, `${field} must be a string`);
-  return { jobId: value.jobId, resume: value.resume as unknown as ResumeInput, interviewDate: value.interviewDate as string | undefined, round: value.round as string | undefined, minutes: value.minutes as number | undefined };
+  return { jobId: value.jobId as string | undefined, job: value.job as PastedJob | undefined, resume: value.resume as unknown as ResumeInput, interviewDate: value.interviewDate as string | undefined, round: value.round as string | undefined, minutes: value.minutes as number | undefined };
 }
 
 function invalid(field: string, message: string): InterviewPreparationError {

@@ -217,17 +217,26 @@ export function createToolHandler(catalog: Catalog, workflows: JobWorkflows, opt
     {
       name: "prepare_interview",
       title: "Prepare for an interview",
-      description: "Prepare a candidate for an interview at one job: returns the fit evidence (what the resume supports, what it does not, screening risks), what the employer's own live postings show (the skills they hire for most, and other open roles that share this role's skills, which point to the team or project), points the candidate must verify before claiming them, and a brief for writing the guide. Use it when the candidate has an interview for a job found with search_jobs or recommend_jobs. Then research the employer from public sources, cite them, and write the guide following brief.sections; never invent experience, numbers or versions. The resume is parsed in memory for this call and never stored.",
+      description: "Prepare a candidate for an interview at one job: returns the fit evidence (what the resume supports, what it does not, screening risks), what the employer's own live postings show (the skills they hire for most, and other open roles that share this role's skills, which point to the team or project), points the candidate must verify before claiming them, and a brief for writing the guide. Use it when the candidate has an interview: pass jobId for a job found with search_jobs or recommend_jobs, or job with the pasted description for a job found anywhere else. Then research the employer from public sources, cite them, and write the guide following brief.sections; never invent experience, numbers or versions. The resume is parsed in memory for this call and never stored.",
       inputSchema: {
         type: "object",
         properties: {
-          jobId: { type: "string", minLength: 1, description: "Stable job id from search_jobs or recommend_jobs" },
+          jobId: { type: "string", minLength: 1, description: "Stable job id from search_jobs or recommend_jobs. Give this or job, not both" },
+          job: {
+            type: "object", description: "A job found outside Openings: the full description the candidate pasted, with the employer and title. Give this or jobId, not both",
+            properties: {
+              company: { type: "string", minLength: 1 }, title: { type: "string", minLength: 1 },
+              description: { type: "string", minLength: 200, description: "The whole job description, as pasted" },
+              location: { type: "string" }, url: { type: "string" },
+            },
+            required: ["company", "title", "description"], additionalProperties: false,
+          },
           resume: resumeSchema(),
           interviewDate: { type: "string", description: "When the interview is, if the candidate said" },
           round: { type: "string", description: "Which round, if known: screening, technical, managerial, HR" },
           minutes: { type: "number", minimum: 15, maximum: 600, description: "Preparation time the candidate has; the plan scales to it (default 90)" },
         },
-        required: ["jobId", "resume"], additionalProperties: false,
+        required: ["resume"], additionalProperties: false,
       },
       outputSchema: output({
         job: jobSchema("The job being interviewed for, with its description"),

@@ -67,7 +67,7 @@ export function createRuntime(options: { dataDir?: string; concurrency?: number;
   });
   const analyzer = createJobFitAnalyzer({ getJob: getSelectedJob });
   const optimizer = createResumeOptimizer({ analyzeJobFit: analyzer.analyze });
-  const interviews = createInterviewPreparer({ analyzeJobFit: analyzer.analyze, employerJobs: boardJobs(store) });
+  const interviews = createInterviewPreparer({ analyzeJobFit: fitFor(analyzer), employerJobs: boardJobs(store, companies) });
   return { ...local, prepareJobSearch: preparation.prepare, getJobCoverage: coverage.getCoverage, recommend: recommender.recommend, analyzeJobFit: analyzer.analyze, optimizeResume: optimizer.optimize, prepareInterview: interviews.prepare, usage };
 }
 
@@ -98,7 +98,7 @@ export function createHostedRuntime(options: { sources: Company[]; store: Snapsh
   const getSelectedJob = createSelectedJobLookup({ getSnapshotJob: snapshotJob, getDetailedJob: async (id) => withDescription(await snapshotJob(id)) });
   const analyzer = createJobFitAnalyzer({ getJob: getSelectedJob });
   const optimizer = createResumeOptimizer({ analyzeJobFit: analyzer.analyze });
-  const interviews = createInterviewPreparer({ analyzeJobFit: analyzer.analyze, employerJobs: boardJobs(options.store) });
+  const interviews = createInterviewPreparer({ analyzeJobFit: fitFor(analyzer), employerJobs: boardJobs(options.store, options.sources) });
   return {
     search: (query: SearchQuery) => local.search(query, { offline: true, staleDays: 3650 }),
     get: async (id: string) => { const found = await local.get(id, { offline: true, staleDays: 3650 }); return { ...found, job: await withDescription(found.job) }; },
@@ -106,13 +106,27 @@ export function createHostedRuntime(options: { sources: Company[]; store: Snapsh
   };
 }
 
-/** Every job on the board a job came from: the partition named by the source slug in its id (ats:slug:...). */
-function boardJobs(store: SnapshotStore) {
+/**
+ * Every job on the board a job came from: the partition named by the source slug in its id (ats:slug:...). A pasted
+ * job has no board in its id, so its employer is looked up by name; one we do not index has no jobs.
+ */
+function boardJobs(store: SnapshotStore, sources: Company[]) {
+  const named = (value: string) => value.toLowerCase().replace(/\b(the|inc|ltd|limited|llc|pvt|private|corp|corporation|co|company|technologies|technology|solutions|systems|services|software|labs|group|global|international|india)\b|[^a-z0-9]/g, "");
   return async (job: Job): Promise<Job[]> => {
     const snapshot = await store.read();
-    const slug = job.id.split(":", 3)[1] ?? "";
-    return (snapshot && partitionFor(snapshot.partitions, slug)?.jobs) ?? [];
+    if (!snapshot) return [];
+    const fromId = job.id.startsWith("pasted:") ? undefined : job.id.split(":", 3)[1];
+    // An exact name wins; otherwise the loose name only when it picks one board, so "Access" never borrows "Access Services".
+    const exact = sources.find((source) => source.name.toLowerCase() === job.company.trim().toLowerCase());
+    const loose = named(job.company) ? sources.filter((source) => named(source.name) === named(job.company)) : [];
+    const slug = fromId ?? exact?.slug ?? (loose.length === 1 ? loose[0]!.slug : undefined);
+    return (slug && partitionFor(snapshot.partitions, slug)?.jobs) || [];
   };
+}
+
+/** Fit by id through the shared analyzer, or for a pasted job through one that knows only that job. */
+function fitFor(analyzer: ReturnType<typeof createJobFitAnalyzer>) {
+  return (input: unknown, pasted?: Job) => pasted ? createJobFitAnalyzer({ getJob: async () => pasted }).analyze(input) : analyzer.analyze(input);
 }
 
 /** A positive whole number from the environment, or undefined when unset or nonsense. */
