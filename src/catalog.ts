@@ -172,7 +172,7 @@ function searchOnce(jobs: Job[], query: SearchQuery, now: number, relaxed?: Arra
   // once led with a collections associate whose advert happened to say both words.
   const terms = searchTerms(query.query);
   if (terms.length) {
-    const named = found.filter((job) => matchesSearchTerms(searchHaystack(`${job.title} ${job.company}`), terms));
+    const named = found.filter((job) => matchesSearchTerms(haystackOf(job).title, terms));
     found = named.length === found.length ? mixEmployers(found) : [...mixEmployers(named), ...mixEmployers(found.filter((job) => !named.includes(job)))];
   } else found = mixEmployers(found);
   const offset = query.offset ?? 0, limit = query.limit ?? 50;
@@ -589,14 +589,28 @@ function normalizeRecruitee(company: Company, job: RecruiteeJob): Job {
   });
 }
 
+/**
+ * Each job's searchable text, built once and kept for as long as the job object lives. Every search used to
+ * rebuild it for all ~330k jobs in the hosted index, about a second a query before synonyms made it dearer.
+ * ponytail: keyed on the object, so a rebuilt snapshot simply starts a fresh cache and the old one is collected.
+ */
+const HAYSTACKS = new WeakMap<Job, { all: string; title: string }>();
+function haystackOf(job: Job): { all: string; title: string } {
+  let cached = HAYSTACKS.get(job);
+  if (!cached) {
+    cached = { all: searchHaystack(`${job.title} ${job.company} ${job.skills ?? extractSkills(job.description)}`), title: searchHaystack(`${job.title} ${job.company}`) };
+    HAYSTACKS.set(job, cached);
+  }
+  return cached;
+}
+
 function matches(job: Job, query: SearchQuery): boolean {
   const terms = searchTerms(query.query);
   const location = query.location ? normalizeLocation(query.location) : undefined;
   // Whole tokens only: a substring match once made "ios" find "Axio Biosolutions".
   // A skill stated only in the description is what most searches are for, so the description's vocabulary
   // terms join the title and employer. The hosted index sends them precomputed; a local crawl reads them here.
-  const searchable = searchHaystack(`${job.title} ${job.company} ${job.skills ?? extractSkills(job.description)}`);
-  return (terms.length === 0 || matchesSearchTerms(searchable, terms))
+  return (terms.length === 0 || matchesSearchTerms(haystackOf(job).all, terms))
     && (!location || normalizeLocation(job.location).includes(location))
     && (!query.country || isEligibleForCountry(job, query.country))
     && (query.remote === undefined || job.remote === query.remote);
