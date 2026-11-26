@@ -135120,34 +135120,6 @@
       "canonicalSourceUrl": "https://apply.workable.com/zyte/"
     }
   },
-  "americanexpress": {
-    "name": "American Express",
-    "ats": "oraclecloud",
-    "token": "egug.fa.us2.oraclecloud.com/CX_1",
-    "cohorts": [
-      "IN"
-    ],
-    "companyDomain": "americanexpress.com",
-    "sourceUrl": "https://egug.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions",
-    "discoveredFrom": {
-      "channel": "career_page",
-      "reference": "https://careers.americanexpress.com/en/sites/CX"
-    },
-    "domainEvidence": {
-      "kind": "company_page_link",
-      "reference": "https://careers.americanexpress.com/en/sites/CX"
-    },
-    "verification": {
-      "observedCompanyName": "American Express",
-      "providerLinksDomain": false,
-      "identityEvidence": "company_page_link",
-      "contentType": "application/vnd.oracle.adf.resourcecollection+json",
-      "payloadVersion": "oracle-recruiting-ce:v1",
-      "jobCount": 200,
-      "checkedAt": "2026-11-25T18:07:33.519Z",
-      "canonicalSourceUrl": "https://egug.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions"
-    }
-  },
   "amneal": {
     "name": "Amneal",
     "ats": "oraclecloud",
@@ -135176,34 +135148,6 @@
       "canonicalSourceUrl": "https://hcfa.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_5001/requisitions"
     }
   },
-  "caterpillar": {
-    "name": "Caterpillar",
-    "ats": "workday",
-    "token": "cat.wd5.myworkdayjobs.com/cat/CaterpillarCareers",
-    "cohorts": [
-      "IN"
-    ],
-    "companyDomain": "caterpillar.com",
-    "sourceUrl": "https://cat.wd5.myworkdayjobs.com/en-US/CaterpillarCareers",
-    "discoveredFrom": {
-      "channel": "career_page",
-      "reference": "POST https://cat.wd5.myworkdayjobs.com/wday/cxs/cat/CaterpillarCareers/jobs"
-    },
-    "domainEvidence": {
-      "kind": "company_page_link",
-      "reference": "POST https://cat.wd5.myworkdayjobs.com/wday/cxs/cat/CaterpillarCareers/jobs"
-    },
-    "verification": {
-      "observedCompanyName": "cat",
-      "providerLinksDomain": false,
-      "identityEvidence": "provider_tenant",
-      "contentType": "application/json",
-      "payloadVersion": "workday-cxs:v1",
-      "jobCount": 1038,
-      "checkedAt": "2026-11-25T18:06:32.174Z",
-      "canonicalSourceUrl": "https://cat.wd5.myworkdayjobs.com/en-US/CaterpillarCareers"
-    }
-  },
   "dbs": {
     "name": "DBS Bank",
     "ats": "workday",
@@ -135230,34 +135174,6 @@
       "jobCount": 1501,
       "checkedAt": "2026-11-25T18:06:30.213Z",
       "canonicalSourceUrl": "https://dbs.wd3.myworkdayjobs.com/en-US/DBS_Careers"
-    }
-  },
-  "emerson": {
-    "name": "Emerson",
-    "ats": "oraclecloud",
-    "token": "hdjq.fa.us2.oraclecloud.com/CX_1",
-    "cohorts": [
-      "IN"
-    ],
-    "companyDomain": "emerson.com",
-    "sourceUrl": "https://hdjq.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions",
-    "discoveredFrom": {
-      "channel": "career_page",
-      "reference": "https://www.emerson.com/en/corporate/careers"
-    },
-    "domainEvidence": {
-      "kind": "company_page_link",
-      "reference": "https://www.emerson.com/en/corporate/careers"
-    },
-    "verification": {
-      "observedCompanyName": "Emerson",
-      "providerLinksDomain": false,
-      "identityEvidence": "company_page_link",
-      "contentType": "application/vnd.oracle.adf.resourcecollection+json",
-      "payloadVersion": "oracle-recruiting-ce:v1",
-      "jobCount": 200,
-      "checkedAt": "2026-11-25T18:07:38.371Z",
-      "canonicalSourceUrl": "https://hdjq.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions"
     }
   },
   "genpact": {
@@ -135344,34 +135260,6 @@
       "canonicalSourceUrl": "https://ejgk.fa.em2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_3/requisitions"
     }
   },
-  "oracle": {
-    "name": "Oracle",
-    "ats": "oraclecloud",
-    "token": "eeho.fa.us2.oraclecloud.com/CX_45001",
-    "cohorts": [
-      "IN"
-    ],
-    "companyDomain": "oracle.com",
-    "sourceUrl": "https://eeho.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_45001/requisitions",
-    "discoveredFrom": {
-      "channel": "career_page",
-      "reference": "https://careers.oracle.com/en/sites/jobsearch"
-    },
-    "domainEvidence": {
-      "kind": "company_page_link",
-      "reference": "https://careers.oracle.com/en/sites/jobsearch"
-    },
-    "verification": {
-      "observedCompanyName": "Oracle",
-      "providerLinksDomain": false,
-      "identityEvidence": "company_page_link",
-      "contentType": "application/vnd.oracle.adf.resourcecollection+json",
-      "payloadVersion": "oracle-recruiting-ce:v1",
-      "jobCount": 200,
-      "checkedAt": "2026-11-25T18:07:37.184Z",
-      "canonicalSourceUrl": "https://eeho.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_45001/requisitions"
-    }
-  },
   "piramalpharma": {
     "name": "Piramal Pharma",
     "ats": "workday",
@@ -135448,50 +135336,6 @@
       "jobCount": 1098,
       "checkedAt": "2026-11-25T18:15:05.273957+00:00",
       "canonicalSourceUrl": "https://eibd.fa.em2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions"
-    }
-  },
-  "honeywell": {
-    "name": "Honeywell",
-    "ats": "oraclecloud",
-    "token": "ibqbjb.fa.ocs.oraclecloud.com/Honeywell",
-    "cohorts": [
-      "IN"
-    ],
-    "sourceUrl": "https://ibqbjb.fa.ocs.oraclecloud.com/hcmUI/CandidateExperience/en/sites/Honeywell/requisitions",
-    "discoveredFrom": {
-      "channel": "career_page",
-      "reference": "https://careers.honeywell.com/en/sites/Honeywell/jobs"
-    },
-    "verification": {
-      "observedCompanyName": "Honeywell",
-      "identityEvidence": "company_site",
-      "contentType": "application/json",
-      "payloadVersion": "oracle-recruiting-ce:v1",
-      "jobCount": 286,
-      "checkedAt": "2026-11-25T18:15:05.273957+00:00",
-      "canonicalSourceUrl": "https://ibqbjb.fa.ocs.oraclecloud.com/hcmUI/CandidateExperience/en/sites/Honeywell/requisitions"
-    }
-  },
-  "hilton": {
-    "name": "Hilton",
-    "ats": "oraclecloud",
-    "token": "efet.fa.us2.oraclecloud.com/CX_1",
-    "cohorts": [
-      "IN"
-    ],
-    "sourceUrl": "https://efet.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions",
-    "discoveredFrom": {
-      "channel": "career_page",
-      "reference": "https://jobs.hilton.com/us/en"
-    },
-    "verification": {
-      "observedCompanyName": "Hilton",
-      "identityEvidence": "company_site",
-      "contentType": "application/json",
-      "payloadVersion": "oracle-recruiting-ce:v1",
-      "jobCount": 442,
-      "checkedAt": "2026-11-25T18:15:05.273957+00:00",
-      "canonicalSourceUrl": "https://efet.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/requisitions"
     }
   },
   "dpworld": {

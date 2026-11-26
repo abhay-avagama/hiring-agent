@@ -20,6 +20,54 @@
     },
     {
       "ats": "oraclecloud",
+      "token": "egug.fa.us2.oraclecloud.com/CX_1",
+      "name": "American Express",
+      "reason": "terms",
+      "detail": "Terms: \"The use of automated agents (like artificial intelligence systems, bots, crawlers, and similar programmatic tools) to access or collect data from the Site for any purpose ... is strictly prohibited\"; the careers site links them.",
+      "excludedAt": "2026-11-26"
+    },
+    {
+      "ats": "oraclecloud",
+      "token": "eeho.fa.us2.oraclecloud.com/CX_45001",
+      "name": "Oracle",
+      "reason": "terms",
+      "detail": "Oracle Recruiting is subject to the Oracle.com Terms of Use: \"You agree not to use any robot, spider, scraper or other automated means to access the Site\".",
+      "excludedAt": "2026-11-26"
+    },
+    {
+      "ats": "oraclecloud",
+      "token": "ibqbjb.fa.ocs.oraclecloud.com/Honeywell",
+      "name": "Honeywell",
+      "reason": "terms",
+      "detail": "Terms linked from careers.honeywell.com: no \"robot, spider, or other automatic device, process, or means to access the Site for any purpose, including monitoring or copying any of the material\".",
+      "excludedAt": "2026-11-26"
+    },
+    {
+      "ats": "oraclecloud",
+      "token": "efet.fa.us2.oraclecloud.com/CX_1",
+      "name": "Hilton",
+      "reason": "terms",
+      "detail": "Site terms bar \"any robot, spider, other automatic device, or manual process to monitor or copy\" any site owned or operated by Hilton or its affiliates.",
+      "excludedAt": "2026-11-26"
+    },
+    {
+      "ats": "workday",
+      "token": "cat.wd5.myworkdayjobs.com/cat/CaterpillarCareers",
+      "name": "Caterpillar",
+      "reason": "terms",
+      "detail": "The careers site links no terms and caterpillar.com legal notices refused our requests (Akamai 403); terms we cannot read are not permission.",
+      "excludedAt": "2026-11-26"
+    },
+    {
+      "ats": "oraclecloud",
+      "token": "hdjq.fa.us2.oraclecloud.com/CX_1",
+      "name": "Emerson",
+      "reason": "terms",
+      "detail": "Terms bar robots sending more requests than a human can reasonably produce, and access other than through the interfaces Emerson provides. Withdrawn pending a decision; the feed is an interface they publish, so this may be revisited.",
+      "excludedAt": "2026-11-26"
+    },
+    {
+      "ats": "oraclecloud",
       "token": "fa-ewjt-saasfaprod1.fa.ocs.oraclecloud.com/CX_2",
       "name": "EXL",
       "reason": "terms",
