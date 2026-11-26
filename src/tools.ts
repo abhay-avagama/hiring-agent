@@ -2,13 +2,14 @@ import type { Catalog } from "./catalog.ts";
 import type { RecommendJobsResult } from "./job-recommendations.ts";
 import type { AnalyzeJobFitResult } from "./job-fit-analysis.ts";
 import type { OptimizeResumeResult } from "./resume-optimization.ts";
+import type { PrepareInterviewResult } from "./interview-preparation.ts";
 import type { SearchQuery } from "./types.ts";
 import type { SearchResult } from "./catalog.ts";
 import type { JobCoverageSummary } from "./job-coverage.ts";
 import type { PrepareJobSearchResult } from "./job-search-preparation.ts";
 
 export interface ToolDefinition {
-  name: "prepare_job_search" | "get_job_coverage" | "recommend_jobs" | "analyze_job_fit" | "optimize_resume" | "search_jobs" | "get_job"
+  name: "prepare_job_search" | "get_job_coverage" | "recommend_jobs" | "analyze_job_fit" | "optimize_resume" | "prepare_interview" | "search_jobs" | "get_job"
     | "watch_jobs" | "list_watches" | "check_watch" | "stop_watch";
   /** Human-readable name for a consent screen or tool picker, where a snake_case identifier reads poorly. */
   title: string;
@@ -36,6 +37,7 @@ interface JobWorkflows {
   recommend(input: unknown): Promise<RecommendJobsResult>;
   analyzeJobFit(input: unknown): Promise<AnalyzeJobFitResult>;
   optimizeResume(input: unknown): Promise<OptimizeResumeResult>;
+  prepareInterview(input: unknown): Promise<PrepareInterviewResult>;
   /** Monitors. Absent where the host does not offer them, in which case the four tools are not listed at all. */
   watches?: {
     create(input: unknown): Promise<unknown>;
@@ -55,7 +57,7 @@ export type Scope = (typeof SCOPES)[keyof typeof SCOPES];
 
 const TOOL_SCOPE: Record<ToolDefinition["name"], Scope> = {
   prepare_job_search: SCOPES.jobs, get_job_coverage: SCOPES.jobs, search_jobs: SCOPES.jobs, get_job: SCOPES.jobs,
-  recommend_jobs: SCOPES.resume, analyze_job_fit: SCOPES.resume, optimize_resume: SCOPES.resume,
+  recommend_jobs: SCOPES.resume, analyze_job_fit: SCOPES.resume, optimize_resume: SCOPES.resume, prepare_interview: SCOPES.resume,
   // Creating or changing a monitor reads a resume. Reading one back does not, so an agent can poll a monitor
   // with a job-search token and never hold resume access at all.
   watch_jobs: SCOPES.resume, stop_watch: SCOPES.resume,
@@ -213,6 +215,30 @@ export function createToolHandler(catalog: Catalog, workflows: JobWorkflows, opt
       }, ["output", "suggestions", "originalOverwritten"]),
     },
     {
+      name: "prepare_interview",
+      title: "Prepare for an interview",
+      description: "Prepare a candidate for an interview at one job: returns the fit evidence (what the resume supports, what it does not, screening risks), what the employer's own live postings show (the skills they hire for most, and other open roles that share this role's skills, which point to the team or project), points the candidate must verify before claiming them, and a brief for writing the guide. Use it when the candidate has an interview for a job found with search_jobs or recommend_jobs. Then research the employer from public sources, cite them, and write the guide following brief.sections; never invent experience, numbers or versions. The resume is parsed in memory for this call and never stored.",
+      inputSchema: {
+        type: "object",
+        properties: {
+          jobId: { type: "string", minLength: 1, description: "Stable job id from search_jobs or recommend_jobs" },
+          resume: resumeSchema(),
+          interviewDate: { type: "string", description: "When the interview is, if the candidate said" },
+          round: { type: "string", description: "Which round, if known: screening, technical, managerial, HR" },
+          minutes: { type: "number", minimum: 15, maximum: 600, description: "Preparation time the candidate has; the plan scales to it (default 90)" },
+        },
+        required: ["jobId", "resume"], additionalProperties: false,
+      },
+      outputSchema: output({
+        job: jobSchema("The job being interviewed for, with its description"),
+        fit: { type: "object", additionalProperties: true, description: "assessment, supported, partiallySupported, unsupported and screeningRisks, as in analyze_job_fit" },
+        employer: { type: "object", additionalProperties: true, description: "liveRoles, the most required skills, locations and relatedRoles from the employer's own board" },
+        verifyBeforeClaiming: { type: "array", items: { type: "string" }, description: "What the candidate must check in their own records before saying it" },
+        brief: { type: "object", additionalProperties: true, description: "plan (timed), sections (in order), research and rules for writing the guide" },
+        nextActions: { type: "array", items: { type: "string" } },
+      }, ["job", "fit", "employer", "brief"]),
+    },
+    {
       name: "search_jobs",
       title: "Search jobs",
       description: "Search jobs immediately from role, country, location and optional stated experience. No resume required. Newest first; automatically widens 7, 14, 30 days then all dates until 5 matches. For another page reuse the same filters and returned window.daysUsed as maxAgeDays, with pagination.nextOffset. Resume-based ranking is optional via recommend_jobs.",
@@ -341,6 +367,7 @@ export function createToolHandler(catalog: Catalog, workflows: JobWorkflows, opt
       if (name === "recommend_jobs") return workflows.recommend(input);
       if (name === "analyze_job_fit") return workflows.analyzeJobFit(input);
       if (name === "optimize_resume") return workflows.optimizeResume(input);
+      if (name === "prepare_interview") return workflows.prepareInterview(input);
       if (name === "search_jobs") {
         assertToolKeys(input, ["query", "location", "country", "remote", "maxAgeDays", "limit", "offset", "experienceYears", "includeUnknownExperience"], "search_jobs");
         if (input.offset !== undefined && (!Number.isInteger(input.offset) || (input.offset as number) < 0 || (input.offset as number) > 1000000)) throw new Error("offset must be an integer between 0 and 1000000");

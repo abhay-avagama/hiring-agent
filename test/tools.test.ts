@@ -31,9 +31,10 @@ describe("agent tools", () => {
       },
       analyzeJobFit: async () => ({ job: { id: "job" } }) as never,
       optimizeResume: async () => ({ output: "suggestions", suggestions: [] }) as never,
+      prepareInterview: async () => ({ brief: {} }) as never,
     });
 
-    expect(tools.list().map((tool) => tool.name)).toEqual(["prepare_job_search", "get_job_coverage", "recommend_jobs", "analyze_job_fit", "optimize_resume", "search_jobs", "get_job"]);
+    expect(tools.list().map((tool) => tool.name)).toEqual(["prepare_job_search", "get_job_coverage", "recommend_jobs", "analyze_job_fit", "optimize_resume", "prepare_interview", "search_jobs", "get_job"]);
     expect(await tools.call("prepare_job_search", { countries: ["IN"] })).toEqual(expect.objectContaining({ status: "ready", networkAttempted: false }));
     expect(preparationInput).toEqual({ countries: ["IN"] });
     expect(await tools.call("get_job_coverage", { countries: ["in"] })).toEqual(expect.objectContaining({

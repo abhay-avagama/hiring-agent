@@ -34,6 +34,8 @@ export type { JobRecommenderOptions, RecommendJobsInput, RecommendJobsResult, Re
 export { createJobFitAnalyzer, JobFitAnalysisError } from "./job-fit-analysis.ts";
 export type { AnalyzeJobFitInput, AnalyzeJobFitResult, JobFitAnalyzerOptions, JobFitAssessment, JobFitReason, PartiallySupportedRequirement } from "./job-fit-analysis.ts";
 export { createResumeOptimizer, ResumeOptimizationError } from "./resume-optimization.ts";
+export type { EmployerSignals, InterviewPreparerOptions, PrepareInterviewInput, PrepareInterviewResult, RelatedRole } from "./interview-preparation.ts";
+export { createInterviewPreparer, InterviewPreparationError } from "./interview-preparation.ts";
 export type { OptimizeResumeInput, OptimizeResumeResult, ResumeOptimizationOutput, ResumeOptimizerOptions, ResumeSuggestion } from "./resume-optimization.ts";
 export { createSelectedJobLookup } from "./selected-job-lookup.ts";
 export type { SelectedJobLookupOptions } from "./selected-job-lookup.ts";

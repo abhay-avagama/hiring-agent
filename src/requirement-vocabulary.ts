@@ -58,11 +58,20 @@ export function detectRequirementTerms(value: string): string[] {
   return requirementDefinitions.filter((definition) => matched.has(definition.canonical)).map((definition) => definition.display);
 }
 
+/**
+ * A resume skill that is the same thing as the requirement under another name, or plainly contains it. Evidence only:
+ * these never widen what is detected in a job description ("go" there needs its case-sensitive guard).
+ */
+const EVIDENCE_ALIASES: Record<string, string[]> = {
+  go: ["golang"], golang: ["go"], postgresql: ["postgres"],
+  sql: ["postgresql", "postgres", "mysql", "plsql", "pl/sql", "t-sql", "sql server", "oracle sql"],
+};
+
 export function matchesExactSkillEvidence(requirement: string, skill: string): boolean {
   const definition = definitionsByCanonical.get(requirement.toLocaleLowerCase());
   if (definition?.evidence !== "exact_skill") return false;
   const normalized = skill.trim().toLocaleLowerCase();
-  return [definition.canonical, definition.display, ...(definition.aliases ?? [])].some((value) => value.toLocaleLowerCase() === normalized);
+  return [definition.canonical, definition.display, ...(definition.aliases ?? []), ...(EVIDENCE_ALIASES[definition.canonical] ?? [])].some((value) => value.toLocaleLowerCase() === normalized);
 }
 
 export function requiresExactSkillEvidence(requirement: string): boolean {

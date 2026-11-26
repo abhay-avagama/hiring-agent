@@ -1,6 +1,6 @@
 import { join } from "node:path";
 import type { SnapshotStore } from "./crawler.ts";
-import type { Company, Job, SearchQuery } from "./types.ts";
+import { partitionFor, type Company, type Job, type SearchQuery } from "./types.ts";
 import { fetchJobDescription, fetchSourceJobs } from "./catalog.ts";
 import { createCrawlReporter, fetchSeedSnapshot, resolveAggregatorUrl } from "./crawl-reporting.ts";
 import { createUsageReporter, type UsageReporter } from "./usage.ts";
@@ -11,6 +11,7 @@ import { createLocalJobs } from "./local-jobs.ts";
 import { createJobRecommender } from "./job-recommendations.ts";
 import { createJobFitAnalyzer } from "./job-fit-analysis.ts";
 import { createResumeOptimizer } from "./resume-optimization.ts";
+import { createInterviewPreparer } from "./interview-preparation.ts";
 import { createSelectedJobLookup } from "./selected-job-lookup.ts";
 import { createFileSnapshotStore } from "./snapshot-store.ts";
 import { createJobCoverageReader } from "./job-coverage.ts";
@@ -66,7 +67,8 @@ export function createRuntime(options: { dataDir?: string; concurrency?: number;
   });
   const analyzer = createJobFitAnalyzer({ getJob: getSelectedJob });
   const optimizer = createResumeOptimizer({ analyzeJobFit: analyzer.analyze });
-  return { ...local, prepareJobSearch: preparation.prepare, getJobCoverage: coverage.getCoverage, recommend: recommender.recommend, analyzeJobFit: analyzer.analyze, optimizeResume: optimizer.optimize, usage };
+  const interviews = createInterviewPreparer({ analyzeJobFit: analyzer.analyze, employerJobs: boardJobs(store) });
+  return { ...local, prepareJobSearch: preparation.prepare, getJobCoverage: coverage.getCoverage, recommend: recommender.recommend, analyzeJobFit: analyzer.analyze, optimizeResume: optimizer.optimize, prepareInterview: interviews.prepare, usage };
 }
 
 /**
@@ -96,10 +98,20 @@ export function createHostedRuntime(options: { sources: Company[]; store: Snapsh
   const getSelectedJob = createSelectedJobLookup({ getSnapshotJob: snapshotJob, getDetailedJob: async (id) => withDescription(await snapshotJob(id)) });
   const analyzer = createJobFitAnalyzer({ getJob: getSelectedJob });
   const optimizer = createResumeOptimizer({ analyzeJobFit: analyzer.analyze });
+  const interviews = createInterviewPreparer({ analyzeJobFit: analyzer.analyze, employerJobs: boardJobs(options.store) });
   return {
     search: (query: SearchQuery) => local.search(query, { offline: true, staleDays: 3650 }),
     get: async (id: string) => { const found = await local.get(id, { offline: true, staleDays: 3650 }); return { ...found, job: await withDescription(found.job) }; },
-    prepareJobSearch: preparation.prepare, getJobCoverage: coverage.getCoverage, recommend: recommender.recommend, analyzeJobFit: analyzer.analyze, optimizeResume: optimizer.optimize,
+    prepareJobSearch: preparation.prepare, getJobCoverage: coverage.getCoverage, recommend: recommender.recommend, analyzeJobFit: analyzer.analyze, optimizeResume: optimizer.optimize, prepareInterview: interviews.prepare,
+  };
+}
+
+/** Every job on the board a job came from: the partition named by the source slug in its id (ats:slug:...). */
+function boardJobs(store: SnapshotStore) {
+  return async (job: Job): Promise<Job[]> => {
+    const snapshot = await store.read();
+    const slug = job.id.split(":", 3)[1] ?? "";
+    return (snapshot && partitionFor(snapshot.partitions, slug)?.jobs) ?? [];
   };
 }
 

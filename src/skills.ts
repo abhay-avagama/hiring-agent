@@ -60,6 +60,13 @@ const VOCABULARY = [
   "git", "figma",
 ] as const;
 
+/** Display names for a stored skills string: each vocabulary term whose stemmed words are all present. */
+const DISPLAY = VOCABULARY.filter((term) => !["postgres", "cicd", "pl sql"].includes(term)).map((term) => ({ term, tokens: searchTokens(term) }));
+export function skillNames(skills: string): string[] {
+  const present = new Set(skills.split(" ").filter(Boolean));
+  return DISPLAY.filter(({ tokens }) => tokens.length > 0 && tokens.every((token) => present.has(token))).map(({ term }) => term);
+}
+
 /** Vocabulary reduced to the same stemmed tokens the matcher produces, so stored terms and queries agree. */
 const UNIGRAMS = new Set<string>();
 const BIGRAMS = new Set<string>();
@@ -76,7 +83,7 @@ for (const term of VOCABULARY) {
 /** A term named once is a passing reference; a requirement is restated. The count was measured, not guessed. */
 const MENTIONS_REQUIRED = 2;
 
-export function extractSkills(text: string): string {
+export function extractSkills(text: string, minMentions = MENTIONS_REQUIRED): string {
   if (!text) return "";
   const tokens = searchTokens(text);
   const counts = new Map<string, number>();
@@ -88,6 +95,6 @@ export function extractSkills(text: string): string {
     if (next !== undefined && BIGRAMS.has(`${token} ${next}`)) { count(token); count(next); }
   }
   const hits: string[] = [];
-  for (const [term, seen] of counts) if (seen >= MENTIONS_REQUIRED) hits.push(term);
+  for (const [term, seen] of counts) if (seen >= minMentions) hits.push(term);
   return hits.join(" ");
 }

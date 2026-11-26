@@ -42,7 +42,7 @@ export function usageEventFor(tool: string, input: Record<string, unknown>, resu
     });
     Object.assign(event, profileFields(result));
     if (isRecord(result)) event.result = compact({ direct: count(result.direct), hidden: count(result.hidden), stretch: count(result.stretch) });
-  } else if (tool === "analyze_job_fit" || tool === "optimize_resume") {
+  } else if (tool === "analyze_job_fit" || tool === "optimize_resume" || tool === "prepare_interview") {
     if (typeof input.jobId === "string") event.jobIds = [input.jobId.slice(0, MAX_TEXT)];
     Object.assign(event, profileFields(result));
     if (tool === "optimize_resume" && typeof input.output === "string") event.result = { output: input.output.slice(0, 40) };

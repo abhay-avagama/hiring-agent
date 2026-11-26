@@ -32,6 +32,7 @@ test("get_job_coverage reports country scope through MCP without resume input", 
     recommend: async () => { throw new Error("recommend should not run"); },
     analyzeJobFit: async () => { throw new Error("analysis should not run"); },
     optimizeResume: async () => { throw new Error("optimization should not run"); },
+    prepareInterview: async () => { throw new Error("interview preparation should not run"); },
   }));
 
   const response = await handler({
@@ -65,6 +66,7 @@ test("prepare_job_search bootstraps coverage through MCP without resume input", 
     recommend: async () => { throw new Error("recommend should not run"); },
     analyzeJobFit: async () => { throw new Error("analysis should not run"); },
     optimizeResume: async () => { throw new Error("optimization should not run"); },
+    prepareInterview: async () => { throw new Error("interview preparation should not run"); },
   }));
 
   const response = await handler({
@@ -138,6 +140,7 @@ test("recommend_jobs runs parsing and matching through MCP while refresh never p
     getJobCoverage: async () => ({ snapshotUpdatedAt: snapshot.updatedAt, countries: [] }),
     analyzeJobFit: analyzer.analyze,
     optimizeResume: optimizer.optimize,
+    prepareInterview: async () => { throw new Error("interview preparation should not run"); },
   }));
   const response = await handler({
     jsonrpc: "2.0", id: 4, method: "tools/call",
@@ -187,7 +190,7 @@ test("analyze_job_fit runs selected-job evidence analysis through MCP without cr
   const analyzer = createJobFitAnalyzer({ getJob: async (id) => { lookups += 1; return id === job.id ? job : null; } });
   const catalog: Catalog = { search: async () => [], get: async () => null };
   const optimizer = createResumeOptimizer({ analyzeJobFit: analyzer.analyze });
-  const workflows = { prepareJobSearch: async () => ({ status: "ready" as const, nextAction: "ready" as const, networkAttempted: false, sources: { catalog: 0, indexed: 0, fresh: 0, stale: 0, missing: 0, pending: 0 }, coverage: { snapshotUpdatedAt: "2026-08-21T00:00:00.000Z", countries: [] } }), getJobCoverage: async () => ({ snapshotUpdatedAt: "2026-08-21T00:00:00.000Z", countries: [] }), recommend: async () => { throw new Error("recommend should not run"); }, analyzeJobFit: analyzer.analyze, optimizeResume: optimizer.optimize };
+  const workflows = { prepareJobSearch: async () => ({ status: "ready" as const, nextAction: "ready" as const, networkAttempted: false, sources: { catalog: 0, indexed: 0, fresh: 0, stale: 0, missing: 0, pending: 0 }, coverage: { snapshotUpdatedAt: "2026-08-21T00:00:00.000Z", countries: [] } }), getJobCoverage: async () => ({ snapshotUpdatedAt: "2026-08-21T00:00:00.000Z", countries: [] }), recommend: async () => { throw new Error("recommend should not run"); }, analyzeJobFit: analyzer.analyze, optimizeResume: optimizer.optimize, prepareInterview: async () => { throw new Error("interview preparation should not run"); } };
   const handler = createMcpHandler(createToolHandler(catalog, workflows));
   const response = await handler({
     jsonrpc: "2.0", id: 30, method: "tools/call",
@@ -218,7 +221,7 @@ test("optimize_resume returns a grounded revision through MCP without overwritin
   const analyzer = createJobFitAnalyzer({ getJob: async (id) => id === job.id ? job : null });
   const optimizer = createResumeOptimizer({ analyzeJobFit: analyzer.analyze });
   const catalog: Catalog = { search: async () => [], get: async () => null };
-  const workflows = { prepareJobSearch: async () => ({ status: "ready" as const, nextAction: "ready" as const, networkAttempted: false, sources: { catalog: 0, indexed: 0, fresh: 0, stale: 0, missing: 0, pending: 0 }, coverage: { snapshotUpdatedAt: "2026-08-21T00:00:00.000Z", countries: [] } }), getJobCoverage: async () => ({ snapshotUpdatedAt: "2026-08-21T00:00:00.000Z", countries: [] }), recommend: async () => { throw new Error("recommend should not run"); }, analyzeJobFit: analyzer.analyze, optimizeResume: optimizer.optimize };
+  const workflows = { prepareJobSearch: async () => ({ status: "ready" as const, nextAction: "ready" as const, networkAttempted: false, sources: { catalog: 0, indexed: 0, fresh: 0, stale: 0, missing: 0, pending: 0 }, coverage: { snapshotUpdatedAt: "2026-08-21T00:00:00.000Z", countries: [] } }), getJobCoverage: async () => ({ snapshotUpdatedAt: "2026-08-21T00:00:00.000Z", countries: [] }), recommend: async () => { throw new Error("recommend should not run"); }, analyzeJobFit: analyzer.analyze, optimizeResume: optimizer.optimize, prepareInterview: async () => { throw new Error("interview preparation should not run"); } };
   const handler = createMcpHandler(createToolHandler(catalog, workflows));
   const original = "Skills\nJava";
   const response = await handler({ jsonrpc: "2.0", id: 40, method: "tools/call", params: { name: "optimize_resume", arguments: { jobId: job.id, resume: { content: original, format: "text" }, output: "revised_markdown" } } });

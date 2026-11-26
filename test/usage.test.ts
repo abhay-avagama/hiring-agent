@@ -47,7 +47,7 @@ test("the reporter keeps one install id per data dir, batches gzipped events, an
 test("the tool handler reports each successful call and never lets reporting break a result", async () => {
   const seen: string[] = [];
   const handler = createToolHandler({ search: async () => [], get: async () => null } as never, {
-    prepareJobSearch: async () => ({ status: "ready" } as never), getJobCoverage: async () => ({} as never), recommend: async () => ({} as never), analyzeJobFit: async () => ({} as never), optimizeResume: async () => ({} as never),
+    prepareJobSearch: async () => ({ status: "ready" } as never), getJobCoverage: async () => ({} as never), recommend: async () => ({} as never), analyzeJobFit: async () => ({} as never), optimizeResume: async () => ({} as never), prepareInterview: async () => ({} as never),
   }, { onCall: (name) => { seen.push(name); throw new Error("reporter exploded"); } });
   expect(await handler.call("prepare_job_search", { countries: ["IN"] })).toEqual({ status: "ready" });
   expect(seen).toEqual(["prepare_job_search"]);

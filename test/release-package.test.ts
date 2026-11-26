@@ -44,7 +44,7 @@ test("packed artifact excludes private data and starts its MCP entrypoint", asyn
     expect(server.exitCode, server.stderr.toString()).toBe(0);
     const response = JSON.parse(server.stdout.toString()) as { result: { tools: Array<{ name: string }> } };
     expect(response.result.tools.map((tool) => tool.name)).toContain("prepare_job_search");
-    expect(response.result.tools).toHaveLength(7);
+    expect(response.result.tools).toHaveLength(8);
   } finally {
     await rm(temporary, { recursive: true, force: true });
   }

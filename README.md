@@ -63,6 +63,7 @@ The [job-seeker quickstart](docs/job-seeker-quickstart.md) has sample prompts, a
 | `recommend_jobs` | Ranks jobs against a resume and explicit intent. Returns direct, hidden, and stretch results with evidence. Performs at most one scoped refresh; `refresh.policy: "never"` guarantees no crawl. |
 | `analyze_job_fit` | Explains one job against verbatim resume evidence: supported, transferable, unsupported, and screening risks. |
 | `optimize_resume` | Proposes grounded suggestions, an additive diff, or revised Markdown. Never invents experience. |
+| `prepare_interview` | Prepares for an interview at one job: fit evidence, what the employer's own live postings show (most-required skills, related open roles), what to verify before claiming it, and a brief your AI app follows to research the employer and write the guide. |
 | `search_jobs` | Resume-free keyword, location, country, remote, and stated-experience search, newest first. `country` takes a two-letter code such as `IN`. Optional `experienceYears` compares stated min/max ranges, excluding unknowns unless `includeUnknownExperience: true`. Results include `pagination.total` and `pagination.nextOffset`; request the next page with that `offset`, unchanged filters, and `maxAgeDays` set to the returned `window.daysUsed`. Restart pagination after index refresh; this is not a frozen snapshot cursor. Without `maxAgeDays`, search widens through 7/14/30/all days until at least five results exist. |
 | `get_job` | Returns one job with its full description. |
 

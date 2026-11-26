@@ -15,7 +15,7 @@ const job = (id: string, extra: Partial<Job> = {}): Job => ({
 
 test("MCP search returns corrected overall experience and does not admit a three-year candidate", async () => {
   const unused = async (): Promise<never> => { throw new Error("not used"); };
-  const tools = createToolHandler({ search: async (query) => searchJobs([job("range", { experience: { min: 3 }, experienceVersion: undefined, description: "<p>5-8&#43; Years</p><p>Minimum of 3 years of experience in React development</p>" })], query, now), get: async () => null }, { prepareJobSearch: unused, getJobCoverage: unused, recommend: unused, analyzeJobFit: unused, optimizeResume: unused });
+  const tools = createToolHandler({ search: async (query) => searchJobs([job("range", { experience: { min: 3 }, experienceVersion: undefined, description: "<p>5-8&#43; Years</p><p>Minimum of 3 years of experience in React development</p>" })], query, now), get: async () => null }, { prepareJobSearch: unused, getJobCoverage: unused, recommend: unused, analyzeJobFit: unused, optimizeResume: unused, prepareInterview: unused });
   const handler = createMcpHandler(tools);
   for (const years of [3, 5, 10]) {
     const response = await handler({ jsonrpc: "2.0", id: years, method: "tools/call", params: { name: "search_jobs", arguments: { country: "IN", experienceYears: years } } });
@@ -55,7 +55,7 @@ test("MCP serializes pagination and validates experience filters without resume 
   const tools = createToolHandler({
     search: async (query) => searchJobs([job("a", { experience: { min: 3 } }), job("b", { experience: { min: 3 } }), job("c", { experience: { min: 8 } })], query, now),
     get: async () => null,
-  }, { prepareJobSearch: unexpected, getJobCoverage: unexpected, recommend: unexpected, analyzeJobFit: unexpected, optimizeResume: unexpected });
+  }, { prepareJobSearch: unexpected, getJobCoverage: unexpected, recommend: unexpected, analyzeJobFit: unexpected, optimizeResume: unexpected, prepareInterview: unexpected });
   const handler = createMcpHandler(tools);
   const response = await handler({ jsonrpc: "2.0", id: 1, method: "tools/call", params: { name: "search_jobs", arguments: { country: "IN", experienceYears: 4, limit: 1, offset: 1, maxAgeDays: 7 } } });
   expect(response).toEqual(expect.objectContaining({ result: expect.objectContaining({
