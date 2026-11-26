@@ -318,7 +318,7 @@ function keywordPercent(profile: CandidateProfile, job: Job, screening: Screenin
 const keywordStopWords = new Set(["engineer", "engineering", "developer", "development", "senior", "staff", "principal", "lead", "technology"]);
 
 function detectedRequirements(job: Job): string[] {
-  const positive = /\b(?:required?|must|need(?:ed)?|minimum|proficien(?:t|cy)|experience (?:in|with))\b/i;
+  const positive = /\b(?:required?|must|need(?:ed)?|minimum|proficien(?:t|cy)|experience (?:in|with)|strong|solid|hands-on|expertise (?:in|with)|skilled (?:in|with)|working knowledge)\b/i;
   const negative = /\b(?:no|not|without|optional|nice to have|preferred)\b/i;
   const clauses = nonOptionalSectionText(job.description).split(/[.!?\n;]+|\b(?:while|whereas|but)\b/i).flatMap((segment) =>
     positive.test(segment) && negative.test(segment) ? splitMixedRequirementClauses(segment, positive, negative) : [segment],
@@ -374,7 +374,7 @@ function structuredJobLines(value: string): string[] {
 
 function sectionHeading(value: string): "required" | "optional" | "other" | undefined {
   const heading = value.replace(/:$/, "").trim();
-  if (/^(?:what(?:'|’)s required|required qualifications?|requirements?|qualifications?|minimum qualifications?|essentials?|essential qualifications?|must haves?|your experience includes)$/i.test(heading)) return "required";
+  if (/^(?:what(?:'|’)s required|required qualifications?|requirements?|qualifications?|minimum qualifications?|basic qualifications?|essentials?|essential qualifications?|must haves?|your experience includes|what you(?:'|’)?(?:ll)? bring|what we(?:'|’)re looking for|what we look for|who you are|about you|you have|you(?:'|’)ll have|skills (?:and|&) (?:experience|qualifications)|requirements (?:and|&) qualifications)$/i.test(heading)) return "required";
   if (/^(?:preferred qualifications?|optional requirements?|nice to have)$/i.test(heading)) return "optional";
   if (/^(?:what you(?:'|’)ll do|responsibilities|we take care of our people|benefits|about .+)$/i.test(heading)) return "other";
   return undefined;

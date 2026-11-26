@@ -63,15 +63,19 @@ export function detectRequirementTerms(value: string): string[] {
  * these never widen what is detected in a job description ("go" there needs its case-sensitive guard).
  */
 const EVIDENCE_ALIASES: Record<string, string[]> = {
-  go: ["golang"], golang: ["go"], postgresql: ["postgres"],
+  go: ["golang"], golang: ["go"], postgresql: ["postgres"], spark: ["pyspark", "spark sql"], kubernetes: ["k8s"], "node.js": ["nodejs", "node"],
   sql: ["postgresql", "postgres", "mysql", "plsql", "pl/sql", "t-sql", "sql server", "oracle sql"],
 };
 
 export function matchesExactSkillEvidence(requirement: string, skill: string): boolean {
   const definition = definitionsByCanonical.get(requirement.toLocaleLowerCase());
   if (definition?.evidence !== "exact_skill") return false;
-  const normalized = skill.trim().toLocaleLowerCase();
-  return [definition.canonical, definition.display, ...(definition.aliases ?? []), ...(EVIDENCE_ALIASES[definition.canonical] ?? [])].some((value) => value.toLocaleLowerCase() === normalized);
+  const names = [definition.canonical, definition.display, ...(definition.aliases ?? []), ...(EVIDENCE_ALIASES[definition.canonical] ?? [])].map((value) => value.toLocaleLowerCase());
+  const normalized = skillCore(skill);
+  if (names.includes(normalized)) return true;
+  // "Apache Airflow", "AWS (S3, IAM)", "basic Terraform", "AWS Glue": the term as a whole word inside the skill.
+  // Not for Go, whose short name sits inside ordinary phrases ("go-to-market").
+  return definition.canonical !== "go" && names.some((name) => new RegExp(`(?:^|[\\s/])${escapeRegex(name)}(?:$|[\\s/])`).test(normalized));
 }
 
 export function requiresExactSkillEvidence(requirement: string): boolean {
@@ -118,3 +122,8 @@ function findOccurrences(value: string, term: string, definition: RequirementDef
 
 function escapeRegex(value: string): string { return value.replace(/[.*+?^${}()|[\]\\]/gu, "\\$&"); }
 function maskMatches(value: string, pattern: RegExp): string { return value.replace(pattern, (match) => " ".repeat(match.length)); }
+
+/** A resume skill without its bracketed detail, stray brackets left by comma splitting, or a level word in front. */
+function skillCore(skill: string): string {
+  return skill.toLocaleLowerCase().replace(/\([^)]*\)?|\)/g, " ").replace(/^\s*(?:basic|advanced|intermediate|strong|working knowledge of|familiar with|apache)\s+/, "").replace(/\s+/g, " ").trim();
+}
